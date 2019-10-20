@@ -10,8 +10,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="faculty-form">
-
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-faculty']); ?>
 
     <div class="box box-default">
         <div class="box-body">

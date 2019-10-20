@@ -10,6 +10,7 @@ $this->params['breadcrumbs'][] = ['label' => $faculty->full_name, 'url' => ['vie
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="faculty-update">
+    <h1><?= $this->title ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
