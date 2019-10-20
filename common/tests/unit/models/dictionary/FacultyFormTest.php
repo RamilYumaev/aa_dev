@@ -13,6 +13,16 @@ class FacultyFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+    public function _before()
+    {
+        $this->tester->haveFixtures([
+            'faculty' => [
+                'class' => FacultyFixture::className(),
+                'dataFile' => codecept_data_dir() . 'dictionary/faculty.php'
+            ]
+        ]);
+    }
+
     public function testValidationForm()
     {
         $model = new FacultyForm();
@@ -22,6 +32,15 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
         $model->full_name = "Suka";
         $this->assertTrue($model->validate(['full_name']));
+
+    }
+
+    public function testValidationFormUnique()
+    {
+        $form =  new FacultyForm();
+        $form->full_name ="Xegggg";
+        $this->assertFalse($form->validate());
+        $this->assertEquals('Такое наименование существует', $form->getFirstError('full_name'));
     }
 
     public function testNewSavingFaculty()

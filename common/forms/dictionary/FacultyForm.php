@@ -21,6 +21,7 @@ class FacultyForm  extends Model
     {
         return [
             ['full_name', 'required'],
+            ['full_name', 'unique', 'targetClass' => '\common\models\dictionary\Faculty', 'message' => 'Такое наименование существует'],
             ['full_name', 'string'],
         ];
     }
