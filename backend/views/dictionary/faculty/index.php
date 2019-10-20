@@ -12,9 +12,7 @@ $this->title = 'Faculty';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="faculty-index">
-
     <h1><?= $this->title ?></h1>
-
     <p>
         <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

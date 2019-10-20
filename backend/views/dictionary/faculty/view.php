@@ -10,8 +10,8 @@ $this->title = $faculty->full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Faculty', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= $this->title ?></h1>
 
+<h1><?= $this->title ?></h1>
 <div class="faculty-view">
     <p>
         <?= Html::a('Обновить', ['update', 'id' => $faculty->id], ['class' => 'btn btn-primary']) ?>
