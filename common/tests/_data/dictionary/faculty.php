@@ -1,2 +1,5 @@
 <?php
-return ["full_name" => "Xegggg"];
+return [
+    ["full_name" => "Xegggg"],
+    ["full_name" => "DDDDDD"]
+];
