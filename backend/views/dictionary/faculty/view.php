@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $page common\models\dictionary\Faculty */
 
 $this->title = $faculty->full_name;
-$this->params['breadcrumbs'][] = ['label' => 'Faculty', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $faculty->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить?',
                 'method' => 'post',
             ],
         ]) ?>

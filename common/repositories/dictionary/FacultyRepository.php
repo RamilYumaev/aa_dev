@@ -8,7 +8,7 @@ class FacultyRepository
     public function get($id): Faculty
     {
         if (!$faculty = Faculty::findOne($id)) {
-            throw new NotFoundException('Faculty is not found.');
+            throw new NotFoundException('Faculty не найдено.');
         }
         return $faculty;
     }
@@ -16,14 +16,14 @@ class FacultyRepository
     public function save(Faculty $faculty): void
     {
         if (!$faculty->save()) {
-            throw new \RuntimeException('Saving error.');
+            throw new \RuntimeException('Ошибка сохранения.');
         }
     }
 
     public function remove(Faculty $faculty): void
     {
         if (!$faculty->delete()) {
-            throw new \RuntimeException('Removing error.');
+            throw new \RuntimeException('Ошибка удаления.');
         }
     }
 

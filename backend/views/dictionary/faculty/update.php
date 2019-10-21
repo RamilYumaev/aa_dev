@@ -4,10 +4,10 @@
 /* @var $faculty common\models\dictionary\Faculty */
 /* @var $model common\forms\dictionary\FacultyForm */
 
-$this->title = 'Update Faculty: ' . $faculty->full_name;
-$this->params['breadcrumbs'][] = ['label' => 'Faculty', 'url' => ['index']];
+$this->title = 'Обновить факультет: ' . $faculty->full_name;
+$this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $faculty->full_name, 'url' => ['view', 'id' => $faculty->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div class="faculty-update">
     <h1><?= $this->title ?></h1>
