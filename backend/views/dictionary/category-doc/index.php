@@ -3,15 +3,17 @@
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\dictionary\CategoryDoc;
+use common\helpers\dictionary\CategoryDocHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\dictionary\FacultySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Факультеты';
+$this->title = 'Категории документов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="faculty-index">
+<div class="catDoc-index">
 
     <h1><?= $this->title ?></h1>
 
@@ -26,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                      'id',
-                     'full_name',
+                     'name',
+                    ['attribute' => 'type_id',
+                        'filter' => $searchModel->categoryTypeList(),
+                        'value' => function (CategoryDoc $model) {
+                            return CategoryDocHelper::categoryDocTypeName($model->type_id);
+                            },
+                    ],
                     ['class' => ActionColumn::class],
                 ]
             ]); ?>

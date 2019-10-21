@@ -23,7 +23,7 @@ class FacultyCest
     public function testIndex(FunctionalTester $I)
     {
         $I->amOnRoute('dictionary/faculty/index');
-        $I->see('Faculty', 'h1');
+        $I->see('Факультеты', 'h1');
         $I->seeLink('Cоздать');
         $I->click('Cоздать');
         $I->see('Создать', 'h1');
@@ -40,7 +40,7 @@ class FacultyCest
         $I->amOnRoute('dictionary/faculty/create');
         $I->see('Создать', 'h1');
         $I->submitForm($this->formId, []);
-        $I->seeValidationError('Полное название cannot be blank.');
+        $I->seeValidationError('Необходимо заполнить «Полное название».');
     }
 
     public function testUniqueError(FunctionalTester $I)
@@ -51,7 +51,7 @@ class FacultyCest
                 'FacultyForm[full_name]'  => 'Химический',
             ]
         );
-        $I->dontSee('Полное название cannot be blank.', '.help-block');
+        $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
         $I->see('Такое наименование существует', '.help-block');
     }
 
@@ -63,7 +63,7 @@ class FacultyCest
                 'FacultyForm[full_name]'  => 'Психология',
             ]
         );
-        $I->dontSee('Полное название cannot be blank.', '.help-block');
+        $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
         $I->dontSee('Такое наименование существует', '.help-block');
     }
 

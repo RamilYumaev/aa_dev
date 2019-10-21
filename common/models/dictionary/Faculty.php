@@ -30,7 +30,7 @@ class Faculty extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-             'id' => 'ИL',
+             'id' => 'ИД',
             'full_name' => 'Полное название',
         ];
     }
