@@ -2,8 +2,11 @@
 
 namespace common\tests\unit\models;
 
+use common\models\auth\User;
+use common\repositories\UserRepository;
+use common\services\auth\AuthService;
 use Yii;
-use common\models\LoginForm;
+use common\forms\auth\LoginForm;
 use common\fixtures\UserFixture;
 
 /**
@@ -36,31 +39,39 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'not_existing_password',
         ]);
 
-        expect('model should not login user', $model->login())->false();
-        expect('user should not be logged in', Yii::$app->user->isGuest)->true();
+        $this->assertTrue($model->validate());
+        expect('Вы не можете войти в систему', Yii::$app->user->isGuest)->true();
     }
 
     public function testLoginWrongPassword()
     {
+        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+        $serviceAuth = new AuthService($repoUser);
         $model = new LoginForm([
             'username' => 'bayer.hudson',
             'password' => 'wrong_password',
         ]);
 
-        expect('model should not login user', $model->login())->false();
-        expect('error message should be set', $model->errors)->hasKey('password');
-        expect('user should not be logged in', Yii::$app->user->isGuest)->true();
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage($serviceAuth->auth($model));
     }
 
     public function testLoginCorrect()
     {
+        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+        $serviceAuth = new AuthService($repoUser);
+
         $model = new LoginForm([
             'username' => 'bayer.hudson',
             'password' => 'password_0',
         ]);
 
-        expect('model should login user', $model->login())->true();
-        expect('error message should not be set', $model->errors)->hasntKey('password');
-        expect('user should be logged in', Yii::$app->user->isGuest)->false();
+        $user = $serviceAuth->auth($model);
+
+        expect('Вы вошли в систему', !Yii::$app->user->isGuest)->false();
+        $this->assertTrue($model->validate());
+        $this->assertIsObject($user);
+        $this->assertEquals($model->username, $user->username);
     }
 }
