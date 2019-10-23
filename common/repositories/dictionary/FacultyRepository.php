@@ -3,6 +3,7 @@ namespace common\repositories\dictionary;
 use common\models\dictionary\Faculty;
 
 
+
 class FacultyRepository
 {
     public function get($id): Faculty

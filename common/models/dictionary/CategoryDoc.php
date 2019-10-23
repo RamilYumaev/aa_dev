@@ -46,8 +46,8 @@ class CategoryDoc extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $faculty =  new static();
-        return $faculty->attributeLabels();
+        $catDoc =  new static();
+        return $catDoc->attributeLabels();
     }
 
 }
