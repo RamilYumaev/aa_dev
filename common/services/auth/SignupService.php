@@ -20,35 +20,28 @@ class SignupService
 
     public function __construct(
         UserRepository $users,
-        RoleManager $roles,
         TransactionManager $transaction
     )
     {
         $this->users = $users;
-        $this->roles = $roles;
         $this->transaction = $transaction;
     }
 
     public function signup(SignupForm $form): void
     {
         $this->transaction->wrap(function () use ($form) {
-            $user= $this->NewUser($form);
+            $user = $this->newUser($form);
             $this->users->save($user);
-            $this->roles->assign($user->id, Rbac::ROLE_USER);
+            $user->setAssignment(Rbac::ROLE_USER);
             $this->sendEmail($user);
         });
     }
 
-    public function NewUser(SignupForm $form): User
+    public function newUser(SignupForm $form): User
     {
-        $user = User::requestSignup(
-            $form->username,
-            $form->email,
-            $form->password
-        );
+        $user = User::requestSignup($form->username, $form->email, $form->password);
         return $user;
     }
-
 
     public function confirm ($token): void
     {

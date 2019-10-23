@@ -3,6 +3,7 @@
 namespace common\models\auth;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "auth_assignment".
@@ -21,6 +22,19 @@ class AuthAssignment extends \yii\db\ActiveRecord
         return 'auth_assignment';
     }
 
+    public static function create($role, $user_id)
+    {
+        $item = new static();
+        $item->user_id = $user_id;
+        $item->item_name = $role;
+        $item->created_at = time();
+        return $item;
+    }
+
+    public function isRoleUser($role): bool
+    {
+        return $this->item_name == $role;
+    }
 
     /**
      * {@inheritdoc}
