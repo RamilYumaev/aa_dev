@@ -23,6 +23,7 @@
         "dmstr/yii2-adminlte-asset": "^2.1",
         "kartik-v/yii2-widget-select2": "@dev",
         "yiisoft/yii2-jui": "^2.0",
+        "kartik-v/yii2-widget-datepicker": "@dev",
         "trntv/yii2-datetime-widget": "^1.1",
         "kartik-v/yii2-widget-datetimepicker": "dev-master",
         "mihaildev/yii2-ckeditor": "*",
@@ -38,7 +39,8 @@
         "himiklab/yii2-jqgrid-widget": "*",
         "xj/yii2-qrcode-widget": "^1.1",
         "mpdf/mpdf": "^7.1",
-        "picqer/php-barcode-generator": "^0.3.0"
+        "picqer/php-barcode-generator": "^0.3.0",
+        "kartik-v/yii2-field-range": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
