@@ -13,7 +13,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-    public $retypePassword;
+    public $password_repeat;
     public $verifyCode;
     public $agree;
 
@@ -25,21 +25,26 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => User::class, 'message' => 'Этот логин уже существует'],
+            ['username', 'unique', 'targetClass' => User::class, 'message' => 'Этот логин уже существует.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => User::class, 'message' => 'Этот адрес электронной почты уже существует'],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => 'Этот адрес электронной почты уже существует.'],
 
-            [['password','retypePassword'], 'required'],
-            [['password','retypePassword'], 'string', 'min' => 6],
-
+            [['password','password_repeat'], 'required'],
+            [['password','password_repeat'], 'string', 'min' => 6],
+            [
+                'password_repeat', 'compare', 'compareAttribute' => 'password',
+                'message' => "Пароли не совпадают.", 'skipOnEmpty' => false,
+                'when' => function ($model) {
+                    return $model->password !== null && $model->password !== '';
+                },
+            ],
             ['verifyCode', 'captcha'],
-            ['agree', 'required', 'requiredValue' => true, 'message' => 'Согласитесь, пожалуйста, с обработкой персональных данных, 
-            поставив соответствующую "галочку"'],
+            ['agree', 'required', 'requiredValue' => true, 'message' => 'Согласитесь, пожалуйста, с обработкой персональных данных, поставив соответствующую "галочку"'],
 
         ];
     }
@@ -50,7 +55,7 @@ class SignupForm extends Model
             'username' => 'Логин',
             'email' => 'Почта (e-mail)',
             'password' => 'Пароль',
-            'retypePassword' => 'Повторите пароль',
+            'password_repeat' => 'Повторите пароль',
             'verifyCode' => 'Введите код с картинки',
             'agree' => 'Я согласен (согласна) на обработку моих персональных данных',
         ];

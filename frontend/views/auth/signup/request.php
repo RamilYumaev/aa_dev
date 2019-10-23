@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <h4 class="login-box-msg">или заполните форму:</h4>
 
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
         <div class="form-group has-feedback">
             <?= $form->field($model, 'username') ?>
             <?= $form->field($model, 'email') ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
-            <?= $form->field($model, 'retypePassword')->passwordInput() ?>
+            <?= $form->field($model, 'password_repeat')->passwordInput() ?>
             <?= $form->field($model, 'agree')->checkbox([
                 'template' => "{beginWrapper}\n<div class=\"checkbox\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n</div>
         <a href=\"/uploads/consent.pdf\" target=\"_blank\">
