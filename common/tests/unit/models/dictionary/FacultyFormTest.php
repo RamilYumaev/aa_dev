@@ -12,7 +12,6 @@ class FacultyFormTest extends \Codeception\Test\Unit
      * @var \common\tests\UnitTester
      */
     protected $tester;
-
     public function _before()
     {
         $this->tester->haveFixtures([

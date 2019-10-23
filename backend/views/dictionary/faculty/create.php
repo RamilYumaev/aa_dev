@@ -8,11 +8,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="faculty-create">
-
     <h1><?= $this->title ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
 </div>
