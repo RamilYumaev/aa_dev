@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use kartik\date\DatePicker;
 use common\helpers\UserHelper;
 use common\models\auth\User;
-use yiister\adminlte\widgets\grid\GridView;
+use backend\widgets\adminlte\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\UserSearch */
@@ -15,8 +15,11 @@ use yiister\adminlte\widgets\grid\GridView;
 
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
+
+var_dump( \common\models\auth\AuthAssignment::getRoleName(28));
 ?>
 <div class="user-index">
+
 
     <p>
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>

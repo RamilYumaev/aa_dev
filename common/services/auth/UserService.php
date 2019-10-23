@@ -4,7 +4,8 @@
 namespace common\services\auth;
 
 
-use common\auth\rbac\Rbac;
+use common\forms\auth\UserCreateForm;
+use common\forms\auth\UserEditForm;
 use common\models\auth\User;
 use common\repositories\UserRepository;
 use common\transactions\TransactionManager;
@@ -42,8 +43,7 @@ class UserService
         $user = $this->repository->get($id);
         $user->edit(
             $form->username,
-            $form->email,
-            $form->phone
+            $form->email
         );
         $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
