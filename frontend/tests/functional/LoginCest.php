@@ -26,7 +26,7 @@ class LoginCest
 
     public function _before(FunctionalTester $I)
     {
-        $I->amOnRoute('site/login');
+        $I->amOnRoute('auth/auth/login');
     }
 
     protected function formParams($login, $password)
@@ -40,27 +40,33 @@ class LoginCest
     public function checkEmpty(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('', ''));
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
+        $I->seeValidationError('Необходимо заполнить «Логин или e-mail».');
+        $I->seeValidationError('Необходимо заполнить «Пароль».');
     }
 
     public function checkWrongPassword(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        $I->seeValidationError('Incorrect username or password.');
+        $I->see('Неверный логин или пароль. ');
     }
 
     public function checkInactiveAccount(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('test.test', 'Test1234'));
-        $I->seeValidationError('Incorrect username or password');
+        $I->see('Неверный логин или пароль. ');
     }
 
     public function checkValidLogin(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
+        $I->see('Выйти (erau)', 'form button[type=submit]');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
+    }
+
+    public function checkValidLogout(FunctionalTester $I)
+    {
+        $this->checkValidLogin($I);
+        $I->submitForm('form button[type=submit]', []);
     }
 }

@@ -31,17 +31,22 @@ class SignupService
 
     public function signup(SignupForm $form): void
     {
+        $this->transaction->wrap(function () use ($form) {
+            $user= $this->NewUser($form);
+            $this->users->save($user);
+            $this->roles->assign($user->id, Rbac::ROLE_USER);
+            $this->sendEmail($user);
+        });
+    }
+
+    public function NewUser(SignupForm $form): User
+    {
         $user = User::requestSignup(
             $form->username,
             $form->email,
             $form->password
         );
-
-        $this->transaction->wrap(function () use ($user) {
-            $this->users->save($user);
-            $this->roles->assign($user->id, Rbac::ROLE_USER);
-            $this->sendEmail($user);
-        });
+        return $user;
     }
 
 
@@ -61,7 +66,7 @@ class SignupService
      * @param User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    protected function sendEmail(User $user)
+    public function sendEmail(User $user)
     {
         return Yii::$app
             ->mailer
@@ -71,7 +76,7 @@ class SignupService
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
             ->setTo($user->email)
-            ->setSubject('Аккунт зарегистрирован!' . Yii::$app->name)
+            ->setSubject('Аккуант зарегистрирован!' . Yii::$app->name)
             ->send();
     }
 }

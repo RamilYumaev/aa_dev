@@ -13,6 +13,16 @@ class SignupController extends Controller
 
     private $service;
 
+    public function actions()
+    {
+        return [
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
     public function __construct($id, $module, SignupService $service, $config = [])
     {
         parent::__construct($id, $module, $config);

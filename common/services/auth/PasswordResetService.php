@@ -25,14 +25,18 @@ class PasswordResetService
 
     public function request(PasswordResetRequestForm $form): void
     {
-        $user = $this->users->getByEmail($form->email);
-        $user->requestPasswordReset();
-
-
-        $this->transaction->wrap(function () use ($user) {
+        $this->transaction->wrap(function () use ($form) {
+            $user = $this->requestPassword($form);
             $this->users->save($user);
             $this->sendEmail($user);
         });
+    }
+
+    public function requestPassword(PasswordResetRequestForm $form)
+    {
+        $user = $this->users->getByEmail($form->email);
+        $user->requestPasswordReset();
+        return $user;
     }
 
     public function validateToken($token): void
@@ -52,7 +56,7 @@ class PasswordResetService
         $this->users->save($user);
     }
 
-    protected function sendEmail($user)
+    public function sendEmail($user)
     {
         return Yii::$app
             ->mailer
