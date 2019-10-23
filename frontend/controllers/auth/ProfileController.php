@@ -26,7 +26,7 @@ class ProfileController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        
+
         $form = new ProfileForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
