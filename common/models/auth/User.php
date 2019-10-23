@@ -1,6 +1,7 @@
 <?php
 namespace common\models\auth;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -25,6 +26,20 @@ class User extends ActiveRecord
 {
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
+
+    private $assignment;
+
+    public function __construct($config = [])
+    {
+        $this->assignment = new AuthAssignment();
+        parent::__construct($config);
+    }
+
+    public function setAssignment($role){
+        $this->assignment->user_id = $this->id;
+        $this->assignment->item_name = $role;
+        $this->assignment->save();
+    }
 
     public static function create(string $username, string $email,  string $password): self
     {
@@ -99,6 +114,19 @@ class User extends ActiveRecord
         return $this->status === self::STATUS_ACTIVE;
     }
 
+//    public function addRbac($role): void
+//    {
+//        $items = $this->authAssignments;
+//        foreach ($items as $item) {
+//            if ($item->isRoleUser($role)) {
+//                throw new \DomainException('Item is already added.');
+//            }
+//        }
+//        $items[] = AuthAssignment::create($role);
+//        $this->authAssignments = $items;
+//    }
+
+
     /**
      * @inheritdoc
      */
@@ -113,9 +141,29 @@ class User extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
+//            [
+//                'class' => SaveRelationsBehavior::class,
+//               'relations' => ['authAssignments'],
+//            ],
         ];
     }
+
+//    public function transactions()
+//    {
+//        return [
+//            self::SCENARIO_DEFAULT => self::OP_ALL,
+//        ];
+//    }
+    /**
+     * @inheritdoc
+     */
+
+//    public function getAuthAssignments()
+//    {
+//        return $this->hasMany(AuthAssignment::class, ['user_id' => 'id']);
+//    }
+
     /**
      * Finds user by username
      *

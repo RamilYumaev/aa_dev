@@ -30,10 +30,9 @@ class SignupFormTest extends \Codeception\Test\Unit
     public function testCorrectSignup()
     {
         $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
-        $roleManager = $this->makeEmpty(RoleManager::class);
         $transaction = $this->makeEmpty(TransactionManager::class);
 
-        $serviceSignup = new SignupService($repoUser, $roleManager, $transaction);
+        $serviceSignup = new SignupService($repoUser, $transaction);
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
@@ -42,9 +41,12 @@ class SignupFormTest extends \Codeception\Test\Unit
             'verifyCode'=>'testme',
             'agree'=> true
         ]);
-        $this->assertNull($serviceSignup->signup($model));
+
+
         $user = $serviceSignup->NewUser($model);
         $serviceSignup->sendEmail($user);
+
+        $this->assertNull($serviceSignup->signup($model));
         $this->tester->seeEmailIsSent();
 
         $mail = $this->tester->grabLastSentEmail();

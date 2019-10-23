@@ -15,7 +15,7 @@ class SignupCest
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'user.php'
-            ]
+            ],
         ];
     }
 
@@ -67,26 +67,15 @@ class SignupCest
             'SignupForm[agree]'=> true
         ]);
 
-        $I->haveRecord('common\models\auth\User', [
-            'id' => 7,
-            'username' => 'test4.test',
-            'auth_key' => '4XXdVqi3rDpa_a6JH6zqVreFxUPcUPvJ',
-            //Test1234
-            'password_hash' => '$2y$13$d17z0w/wKC4LFwtzBcmx6up4jErQuandJqhzKGKczfWuiEhLBtQBK',
-            'email' => 'test4@mail.com',
+
+        $I->seeRecord('common\models\auth\User', [
+            'username' => 'tester43',
+            'email' => 'tester34email@example.com',
             'status' => '0',
-            'created_at' => '1548675330',
-            'updated_at' => '1548675330',
-            'verification_token' => 'already_used_token_1548675330',
-        ]);
-
-
-        $I->haveRecord('common\models\auth\AuthAssignment', [
-            'item_name' => 'user',
-            'user_id' => '7',
         ]);
 
         $I->seeEmailIsSent();
+
 
         $I->see('Спасибо за регистрацию. Пожалуйста, проверьте ваш почтовый ящик для проверки электронной почты.');
     }
