@@ -1,6 +1,6 @@
 <?php
 
-use shop\helpers\UserHelper;
+use common\helpers\UserHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;

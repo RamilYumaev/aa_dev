@@ -1,12 +1,13 @@
 <?php
 
 use backend\widgets\grid\RoleColumn;
-use kartik\date\DatePicker;
-use shop\entities\User\User;
-use shop\helpers\UserHelper;
+
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\date\DatePicker;
+use common\helpers\UserHelper;
+use common\models\auth\User;
+use yiister\adminlte\widgets\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\UserSearch */

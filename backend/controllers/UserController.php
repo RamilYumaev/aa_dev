@@ -1,6 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use common\forms\auth\UserCreateForm;
+use common\forms\auth\UserEditForm;
+use common\services\auth\UserService;
 use Yii;
 use common\models\auth\User;
 use backend\forms\UserSearch;
@@ -15,7 +18,7 @@ class UserController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, UserManageService $service, $config = [])
+    public function __construct($id, $module, UserService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
