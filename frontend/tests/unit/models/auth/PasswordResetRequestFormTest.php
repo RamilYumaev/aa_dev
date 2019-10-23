@@ -5,7 +5,6 @@ namespace frontend\tests\unit\models;
 use common\repositories\UserRepository;
 use common\services\auth\PasswordResetService;
 use common\transactions\TransactionManager;
-use Yii;
 use common\forms\auth\PasswordResetRequestForm;
 use common\fixtures\UserFixture as UserFixture;
 use common\models\User;
@@ -60,14 +59,16 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         $model->email = $userFixture['email'];
 
         $user = $this->serviceReset()->requestPassword($model);
-
-        expect_that($this->serviceReset()->sendEmail($user));
+        $this->serviceReset()->sendEmail($user);
+        $this->assertNull($this->serviceReset()->request($model));
 
         expect_that($user->password_reset_token);
 
         $emailMessage = $this->tester->grabLastSentEmail();
+
         expect($emailMessage)->isInstanceOf('yii\mail\MessageInterface');
-        expect($emailMessage->getTo())->hasKey($model->email);
-        expect($emailMessage->getFrom())->hasKey(Yii::$app->params['supportEmail']);
+        $this->assertArrayHasKey($model->email, $emailMessage->getTo());
+        $this->assertArrayHasKey(\Yii::$app->params['supportEmail'],  $emailMessage->getFrom());
+        $this->assertEquals($emailMessage->getSubject(),'Сброс пароля ' . \Yii::$app->name);
     }
 }

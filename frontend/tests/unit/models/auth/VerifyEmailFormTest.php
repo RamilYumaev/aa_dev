@@ -30,10 +30,9 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     private function serviceToken($token) {
         $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
-        $roleManager = $this->makeEmpty(RoleManager::class);
         $transaction = $this->makeEmpty(TransactionManager::class);
 
-        $serviceSignup = new SignupService($repoUser, $roleManager, $transaction);
+        $serviceSignup = new SignupService($repoUser, $transaction);
 
         $serviceSignup->confirm($token);
 
