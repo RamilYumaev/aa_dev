@@ -7,7 +7,7 @@ use frontend\tests\FunctionalTester;
 
 class ResendVerificationEmailCest
 {
-    protected $formId = '#resend-verification-email-form';
+    protected $formId = '#request-password-reset-form';
 
 
     /**
@@ -29,7 +29,7 @@ class ResendVerificationEmailCest
 
     public function _before(FunctionalTester $I)
     {
-        $I->amOnRoute('/site/resend-verification-email');
+        $I->amOnRoute('/auth/reset/request');
     }
 
     protected function formParams($email)
@@ -41,43 +41,47 @@ class ResendVerificationEmailCest
 
     public function checkPage(FunctionalTester $I)
     {
-        $I->see('Resend verification email', 'h1');
-        $I->see('Please fill out your email. A verification email will be sent there.');
+        $I->see('Request password reset', 'h1');
+        $I->see('Please fill out your email. A link to reset password will be sent there.');
     }
 
     public function checkEmptyField(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams(''));
-        $I->seeValidationError('Email cannot be blank.');
+        $I->seeValidationError('Необходимо заполнить «Email».');
     }
 
     public function checkWrongEmailFormat(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('abcd.com'));
-        $I->seeValidationError('Email is not a valid email address.');
+        $I->seeValidationError('Необходимо заполнить «Email».');
     }
 
     public function checkWrongEmail(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('wrong@email.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->seeValidationError('Необходимо заполнить «Email».');
     }
 
     public function checkAlreadyVerifiedEmail(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('test2@mail.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->seeValidationError('Необходимо заполнить «Email».');
     }
 
     public function checkSendSuccessfully(FunctionalTester $I)
     {
-        $I->submitForm($this->formId, $this->formParams('test@mail.com'));
-        $I->canSeeEmailIsSent();
-        $I->seeRecord('common\models\User', [
-            'email' => 'test@mail.com',
-            'username' => 'test.test',
-            'status' => \common\models\User::STATUS_INACTIVE
+        $I->submitForm($this->formId, [
+            'PasswordResetRequestForm[email]' => 'test2@mail.com',
         ]);
-        $I->see('Check your email for further instructions.');
+
+         $I->canSeeEmailIsSent();
+
+        $I->seeRecord('common\models\auth\User', [
+            'email' => 'test2@mail.com',
+            'username' => 'test2.test'
+        ]);
+
+        $I->see('Проверьте свою электронную почту для получения дальнейших инструкций.');
     }
 }
