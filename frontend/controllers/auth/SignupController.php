@@ -51,6 +51,10 @@ class SignupController extends Controller
      */
     public function actionRequest()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
