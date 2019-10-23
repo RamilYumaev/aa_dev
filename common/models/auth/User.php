@@ -2,6 +2,7 @@
 namespace common\models\auth;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -35,10 +36,15 @@ class User extends ActiveRecord
         parent::__construct($config);
     }
 
-    public function setAssignment($role){
-        $this->assignment->user_id = $this->id;
-        $this->assignment->item_name = $role;
-        $this->assignment->save();
+    public function setAssignment($addRole){
+
+        foreach (AuthAssignment::getRoleName($this->id) as $role){
+           if ($addRole !== $role) {
+               $this->assignment->user_id = $this->id;
+               $this->assignment->item_name = $addRole;
+               $this->assignment->save();
+           }
+        }
     }
 
     public static function create(string $username, string $email,  string $password): self
@@ -113,19 +119,6 @@ class User extends ActiveRecord
     {
         return $this->status === self::STATUS_ACTIVE;
     }
-
-//    public function addRbac($role): void
-//    {
-//        $items = $this->authAssignments;
-//        foreach ($items as $item) {
-//            if ($item->isRoleUser($role)) {
-//                throw new \DomainException('Item is already added.');
-//            }
-//        }
-//        $items[] = AuthAssignment::create($role);
-//        $this->authAssignments = $items;
-//    }
-
 
     /**
      * @inheritdoc

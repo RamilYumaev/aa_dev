@@ -2,6 +2,8 @@
 
 namespace backend\forms;
 
+use common\helpers\RoleHelper;
+use common\models\auth\AuthAssignment;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\auth\User;
@@ -51,7 +53,7 @@ class UserSearch extends Model
         ]);
 
         if (!empty($this->role)) {
-            $query->innerJoin('{{%auth_assignments}} a', 'a.user_id = u.id');
+            $query->innerJoin( AuthAssignment::tableName().' a', 'a.user_id = u.id');
             $query->andWhere(['a.item_name' => $this->role]);
         }
 
@@ -66,6 +68,6 @@ class UserSearch extends Model
 
     public function rolesList(): array
     {
-        return ArrayHelper::map(\Yii::$app->authManager->getRoles(), 'name', 'description');
+        return RoleHelper::roleList();
     }
 }
