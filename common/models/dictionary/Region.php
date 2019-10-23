@@ -4,7 +4,7 @@
 namespace common\models\dictionary;
 
 
-class Region extends yii\db\ActiveRecord
+class Region extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
