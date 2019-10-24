@@ -2,6 +2,7 @@
 
 namespace common\models\auth;
 
+use tests\SaveRelationsBehaviorTest;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -31,9 +32,17 @@ class AuthAssignment extends \yii\db\ActiveRecord
         return $item;
     }
 
-    public function isRoleUser($role): bool
+    public static function getRoleName($id)
     {
-        return $this->item_name == $role;
+        $db = self::find()->select('item_name')->where(['user_id'=> $id])->asArray()->all();
+        if (!$db) {
+            return [];
+        }
+        $roles = [];
+        foreach ($db as $item) {
+            $roles[$item['item_name']] = $item['item_name'];
+        }
+        return $roles;
     }
 
     /**

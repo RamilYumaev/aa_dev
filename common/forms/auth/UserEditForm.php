@@ -4,6 +4,8 @@
 namespace common\forms\auth;
 
 
+use common\helpers\RoleHelper;
+use common\models\auth\AuthAssignment;
 use common\models\auth\User;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -20,8 +22,8 @@ class UserEditForm extends Model
     {
         $this->username = $user->username;
         $this->email = $user->email;
-        $roles = \Yii::$app->authManager->getRolesByUser($user->id);
-        $this->role = $roles ? reset($roles)->name : null;
+        $roles = AuthAssignment::getRoleName($user->id);
+        $this->role = $roles ? reset($roles) : null;
         $this->_user = $user;
         parent::__construct($config);
     }
@@ -32,13 +34,12 @@ class UserEditForm extends Model
             [['username', 'email', 'role'], 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['phone', 'integer'],
             [['username', 'email'], 'unique', 'targetClass' => User::class, 'filter' => ['<>', 'id', $this->_user->id]],
         ];
     }
 
     public function rolesList(): array
     {
-        return ArrayHelper::map(\Yii::$app->authManager->getRoles(), 'name', 'description');
+        return RoleHelper::roleList();
     }
 }
