@@ -9,7 +9,7 @@ class SignupCest
 {
     protected $formId = '#form-signup';
 
-    public function  _fixtures()
+    public function _fixtures()
     {
         return [
             'user' => [
@@ -46,9 +46,9 @@ class SignupCest
                 'SignupForm[email]' => 'nicolas.dianna@hotmрail.com',
                 'SignupForm[password]' => 'some_password',
                 'SignupForm[password_repeat]' => 'some_password33',
-                'SignupForm[verifyCode]'=>'testme',
-                'SignupForm[agree]'=> true
-        ]
+                'SignupForm[verifyCode]' => 'testme',
+                'SignupForm[agree]' => true
+            ]
         );
         $I->dontSee('Необходимо заполнить «Логин».', '.help-block');
         $I->dontSee('Необходимо заполнить «Пароль».', '.help-block');
@@ -63,8 +63,8 @@ class SignupCest
             'SignupForm[email]' => 'tester34email@example.com',
             'SignupForm[password]' => 'some_password',
             'SignupForm[password_repeat]' => 'some_password',
-            'SignupForm[verifyCode]'=>'testme',
-            'SignupForm[agree]'=> true
+            'SignupForm[verifyCode]' => 'testme',
+            'SignupForm[agree]' => true
         ]);
 
 

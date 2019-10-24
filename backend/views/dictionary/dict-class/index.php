@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute' => 'name',
                         'value' => function (DictClass $model) {
                             return $model->getClassFullName();
-                            },
+                        },
                     ],
                     ['class' => ActionColumn::class],
                 ]

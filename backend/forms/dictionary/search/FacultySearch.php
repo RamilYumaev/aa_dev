@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\forms\dictionary\search;
 
 use backend\models\dictionary\Faculty;
@@ -49,7 +50,7 @@ class FacultySearch extends Model
 
     public function attributeLabels(): array
     {
-        return  Faculty::labels();
+        return Faculty::labels();
     }
 
 }

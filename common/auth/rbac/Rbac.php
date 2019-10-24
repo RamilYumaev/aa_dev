@@ -1,4 +1,5 @@
 <?php
+
 namespace common\auth\rbac;
 
 class Rbac

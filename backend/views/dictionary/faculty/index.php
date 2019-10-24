@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                     'id',
-                     'full_name',
+                    'id',
+                    'full_name',
                     ['class' => ActionColumn::class],
                 ]
             ]); ?>

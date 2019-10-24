@@ -27,8 +27,9 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         ]);
     }
 
-    private function serviceReset(){
-        $repoUser = $this->make(UserRepository::class,[ 'find' => new \common\models\auth\User] );
+    private function serviceReset()
+    {
+        $repoUser = $this->make(UserRepository::class, ['find' => new \common\models\auth\User]);
         $transaction = $this->makeEmpty(TransactionManager::class);
         $resetService = new PasswordResetService($repoUser, $transaction);
         return $resetService;
@@ -68,7 +69,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
         expect($emailMessage)->isInstanceOf('yii\mail\MessageInterface');
         $this->assertArrayHasKey($model->email, $emailMessage->getTo());
-        $this->assertArrayHasKey(\Yii::$app->params['supportEmail'],  $emailMessage->getFrom());
-        $this->assertEquals($emailMessage->getSubject(),'Сброс пароля ' . \Yii::$app->name);
+        $this->assertArrayHasKey(\Yii::$app->params['supportEmail'], $emailMessage->getFrom());
+        $this->assertEquals($emailMessage->getSubject(), 'Сброс пароля ' . \Yii::$app->name);
     }
 }

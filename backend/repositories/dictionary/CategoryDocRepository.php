@@ -1,7 +1,8 @@
 <?php
-namespace backend\repositories\dictionary;
-use backend\models\dictionary\CategoryDoc;
 
+namespace backend\repositories\dictionary;
+
+use backend\models\dictionary\CategoryDoc;
 
 
 class CategoryDocRepository

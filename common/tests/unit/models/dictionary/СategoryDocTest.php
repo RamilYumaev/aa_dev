@@ -34,12 +34,12 @@ class СategoryDocTest extends \Codeception\Test\Unit
         $this->assertFalse($model->validate(['type_id']));
 
         $model->name = "Документ 2";
-        $model->type_id =CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDoc::TYPEDOC;
         $this->assertTrue($model->validate(['name']));
         $this->assertTrue($model->validate(['type_id']));
 
         $model->name = "Документ 2";
-        $model->type_id ="cлово";
+        $model->type_id = "cлово";
         $this->assertTrue($model->validate(['name']));
         $this->assertFalse($model->validate(['type_id']));
 
@@ -49,14 +49,13 @@ class СategoryDocTest extends \Codeception\Test\Unit
         $this->assertFalse($model->validate(['type_id']));
 
 
-
     }
 
     public function testNewSaving()
     {
         $model = new CategoryDocForm();
         $model->name = "Документ 2";
-        $model->type_id =CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDoc::TYPEDOC;
 
         $repoCat = $this->makeEmpty(CategoryDocRepository::class);
 
@@ -76,7 +75,7 @@ class СategoryDocTest extends \Codeception\Test\Unit
 
         $model = new CategoryDocForm();
         $model->name = "Документ 3";
-        $model->type_id =CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDoc::TYPEDOC;
 
         $catDocModel = $serviceCatDoc->create($model);
         $this->assertEquals($model->name, $catDocModel->name);
@@ -89,16 +88,16 @@ class СategoryDocTest extends \Codeception\Test\Unit
         $serviceCatDoc = new CategoryDocService($repoCatDoc);
         $this->assertIsObject($serviceCatDoc);
 
-        $catDocOld = new CategoryDoc(["name"=> "Линк 4", "type_id"=> CategoryDoc::TYPELINK]);
+        $catDocOld = new CategoryDoc(["name" => "Линк 4", "type_id" => CategoryDoc::TYPELINK]);
 
-        $model =  new CategoryDocForm($catDocOld);
+        $model = new CategoryDocForm($catDocOld);
         $this->assertIsObject($model);
 
         $this->assertEquals($catDocOld->name, $model->name);
         $this->assertEquals($catDocOld->type_id, $model->type_id);
 
         $model->name = "Документ 3";
-        $model->type_id =CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDoc::TYPEDOC;
 
         $this->assertEquals('Документ 3', $model->name);
         $this->assertEquals(CategoryDoc::TYPEDOC, $model->type_id);

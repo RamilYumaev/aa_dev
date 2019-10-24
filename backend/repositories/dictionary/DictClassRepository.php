@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\repositories\dictionary;
 
 use backend\models\dictionary\DictClass;

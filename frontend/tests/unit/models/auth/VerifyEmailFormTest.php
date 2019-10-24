@@ -28,8 +28,9 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
         ]);
     }
 
-    private function serviceToken($token) {
-        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+    private function serviceToken($token)
+    {
+        $repoUser = $this->make(UserRepository::class, ['find' => new User]);
         $transaction = $this->makeEmpty(TransactionManager::class);
 
         $serviceSignup = new SignupService($repoUser, $transaction);
@@ -40,22 +41,21 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testVerifyWrongToken()
     {
-        $this->tester->expectException('yii\base\InvalidArgumentException', function() {
+        $this->tester->expectException('yii\base\InvalidArgumentException', function () {
             $this->serviceToken('');
         });
 
-        $this->tester->expectException(\DomainException::class, function() {
+        $this->tester->expectException(\DomainException::class, function () {
             $this->serviceToken('notexistingtoken_1391882543');
         });
     }
 
     public function testAlreadyActivatedToken()
     {
-        $this->tester->expectException(\DomainException::class, function() {
+        $this->tester->expectException(\DomainException::class, function () {
             $this->serviceToken('already_used_token_1548675330');
         });
     }
-
 
 
     public function testVerifyCorrectToken()

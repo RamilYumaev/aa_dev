@@ -1,17 +1,20 @@
 <?php
+
 namespace backend\forms\dictionary;
+
 use backend\models\dictionary\Faculty;
 use yii\base\Model;
 
-class FacultyForm  extends Model
+class FacultyForm extends Model
 {
-    public  $full_name;
+    public $full_name;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(Faculty $faculty = null, $config = [])
     {
-        if($faculty) {
+        if ($faculty) {
             $this->full_name = $faculty->full_name;
         }
         parent::__construct($config);
@@ -28,7 +31,7 @@ class FacultyForm  extends Model
 
     public function attributeLabels(): array
     {
-        return  Faculty::labels();
+        return Faculty::labels();
     }
 
 }

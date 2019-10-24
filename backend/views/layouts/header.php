@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
@@ -261,10 +262,10 @@ use yii\helpers\Html;
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                              <?=  Html::beginForm(['/auth/auth/logout'], 'post',['id' => 'logout'])
+                                <?= Html::beginForm(['/auth/auth/logout'], 'post', ['id' => 'logout'])
                                 . Html::submitButton(
-                                'Выйти',
-                                ['class' => 'btn btn-default btn-flat']
+                                    'Выйти',
+                                    ['class' => 'btn btn-default btn-flat']
                                 )
                                 . Html::endForm(); ?>
                         </li>

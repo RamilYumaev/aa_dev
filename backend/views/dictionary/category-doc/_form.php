@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <div class="box box-default">
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'type_id')->dropDownList($model->categoryTypeList(),["prompt"=>"Выберите тип категории"]) ?>
+            <?= $form->field($model, 'type_id')->dropDownList($model->categoryTypeList(), ["prompt" => "Выберите тип категории"]) ?>
         </div>
     </div>
 

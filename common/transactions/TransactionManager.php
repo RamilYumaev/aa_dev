@@ -1,4 +1,5 @@
 <?php
+
 namespace common\transactions;
 
 class TransactionManager

@@ -12,6 +12,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
      * @var \common\tests\UnitTester
      */
     protected $tester;
+
     public function _before()
     {
         $this->tester->haveFixtures([
@@ -36,15 +37,15 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
     public function testValidationFormUnique()
     {
-        $form =  new FacultyForm();
-        $form->full_name ="Xegggg";
+        $form = new FacultyForm();
+        $form->full_name = "Xegggg";
         $this->assertFalse($form->validate());
         $this->assertEquals('Такое наименование существует', $form->getFirstError('full_name'));
     }
 
     public function testNewSavingFaculty()
     {
-        $form =  new FacultyForm();
+        $form = new FacultyForm();
         $form->full_name = "Suka";
 
         $repoFaculty = $this->makeEmpty(FacultyRepository::class);
@@ -61,7 +62,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
         $repoFaculty = $this->makeEmpty(FacultyRepository::class);
         $serviceFaculty = new FacultyService($repoFaculty);
 
-        $form =  new FacultyForm();
+        $form = new FacultyForm();
         $form->full_name = "Suka";
 
         $facultyModel = $serviceFaculty->create($form);
@@ -74,7 +75,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
         $serviceFaculty = new FacultyService($repoFaculty);
         $this->assertIsObject($serviceFaculty);
 
-        $form =  new FacultyForm(new Faculty(["full_name" => "Suka"]));
+        $form = new FacultyForm(new Faculty(["full_name" => "Suka"]));
         $this->assertIsObject($form);
         $this->assertEquals('Suka', $form->full_name);
 

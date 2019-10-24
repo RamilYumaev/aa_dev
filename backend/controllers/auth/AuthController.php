@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers\auth;
 
 use common\auth\Identity;

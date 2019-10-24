@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'name',
                     [
                         'attribute' => 'type_id',
-                        'value' =>  CategoryDocHelper::categoryDocTypeName($catDoc->type_id),
+                        'value' => CategoryDocHelper::categoryDocTypeName($catDoc->type_id),
                         'format' => 'raw',
                     ],
                 ],

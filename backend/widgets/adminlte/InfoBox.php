@@ -88,7 +88,7 @@ class InfoBox extends Widget
         if ($this->progress !== null) {
             echo Html::tag(
                 'div',
-                Html::tag('div', '', ['class' => 'progress-bar', 'style' => 'width: ' . (int) $this->progress . '%']),
+                Html::tag('div', '', ['class' => 'progress-bar', 'style' => 'width: ' . (int)$this->progress . '%']),
                 ['class' => 'progress']
             );
         }

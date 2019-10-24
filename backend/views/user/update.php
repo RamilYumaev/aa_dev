@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $model shop\forms\manage\User\UserEditForm */
+
 /* @var $user shop\entities\User */
 
 use yii\bootstrap\ActiveForm;

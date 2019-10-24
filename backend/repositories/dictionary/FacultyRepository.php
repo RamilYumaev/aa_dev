@@ -1,7 +1,8 @@
 <?php
-namespace backend\repositories\dictionary;
-use backend\models\dictionary\Faculty;
 
+namespace backend\repositories\dictionary;
+
+use backend\models\dictionary\Faculty;
 
 
 class FacultyRepository

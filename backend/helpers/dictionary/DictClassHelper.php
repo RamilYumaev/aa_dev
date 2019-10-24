@@ -1,5 +1,6 @@
 <?php
-namespace  backend\helpers\dictionary;
+
+namespace backend\helpers\dictionary;
 
 use backend\models\dictionary\DictClass;
 use yii\helpers\ArrayHelper;

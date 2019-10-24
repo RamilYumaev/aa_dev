@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers\auth;
 
 use common\services\auth\PasswordResetService;

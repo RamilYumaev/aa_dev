@@ -14,9 +14,9 @@ class LoginCest
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
-     * @see \Codeception\Module\Yii2::_before()
-     * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
+     * @see \Codeception\Module\Yii2::loadFixtures()
+     * @see \Codeception\Module\Yii2::_before()
      */
 
     private $formId = '#login-form';
@@ -30,7 +30,7 @@ class LoginCest
             ]
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
@@ -40,7 +40,7 @@ class LoginCest
         $I->see('Вход');
     }
 
-    public function  testCreateInvalid(FunctionalTester $I)
+    public function testCreateInvalid(FunctionalTester $I)
     {
         $I->amOnRoute('/auth/auth/login');
         $I->submitForm($this->formId, []);
@@ -54,8 +54,8 @@ class LoginCest
         $I->amOnRoute('/auth/auth/login');
         $I->submitForm(
             $this->formId, [
-                'LoginForm[username]'  => '1213344',
-                'LoginForm[password]'  => 'u9398389498',
+                'LoginForm[username]' => '1213344',
+                'LoginForm[password]' => 'u9398389498',
             ]
         );
         $I->see('Неверный логин или пароль. ');
@@ -66,18 +66,19 @@ class LoginCest
     {
         $I->amOnRoute('/auth/auth/login');
         $I->submitForm($this->formId, [
-            'LoginForm[username]'  => 'erau',
-            'LoginForm[password]'  => 'password_0',
+            'LoginForm[username]' => 'erau',
+            'LoginForm[password]' => 'password_0',
         ]);
 
-        $I->see('Congratulations!','h1');
+        $I->see('Congratulations!', 'h1');
     }
 
-    public function  testLogOut(FunctionalTester $I) {
+    public function testLogOut(FunctionalTester $I)
+    {
         $this->testLogin($I);
         $I->see("Alexander Pierce");
         $I->click("Alexander Pierce");
-        $I->submitForm("#logout",[]);
+        $I->submitForm("#logout", []);
         $I->see("Вход");
     }
 

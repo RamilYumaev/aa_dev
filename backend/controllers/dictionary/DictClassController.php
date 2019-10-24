@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers\dictionary;
 
 
@@ -79,7 +80,7 @@ class DictClassController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
-                return  $this->redirect(['index']);
+                return $this->redirect(['index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

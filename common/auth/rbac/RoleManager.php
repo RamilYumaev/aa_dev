@@ -10,7 +10,7 @@ class RoleManager
 
     public function __construct(DbManager $manager)
     {
-        $this->manager =  $manager;
+        $this->manager = $manager;
     }
 
     public function assign($userId, $name): void

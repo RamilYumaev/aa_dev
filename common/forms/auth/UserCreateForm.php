@@ -7,7 +7,7 @@ use common\models\auth\User;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
-class UserCreateForm  extends Model
+class UserCreateForm extends Model
 {
     public $username;
     public $email;

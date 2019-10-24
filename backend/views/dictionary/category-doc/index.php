@@ -27,13 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                     'id',
-                     'name',
+                    'id',
+                    'name',
                     ['attribute' => 'type_id',
                         'filter' => $searchModel->categoryTypeList(),
                         'value' => function (CategoryDoc $model) {
                             return CategoryDocHelper::categoryDocTypeName($model->type_id);
-                            },
+                        },
                     ],
                     ['class' => ActionColumn::class],
                 ]

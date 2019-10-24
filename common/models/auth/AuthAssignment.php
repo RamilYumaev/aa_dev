@@ -34,7 +34,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
 
     public static function getRoleName($id)
     {
-        $db = self::find()->select('item_name')->where(['user_id'=> $id])->asArray()->all();
+        $db = self::find()->select('item_name')->where(['user_id' => $id])->asArray()->all();
         if (!$db) {
             return [];
         }

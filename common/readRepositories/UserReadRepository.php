@@ -1,4 +1,5 @@
 <?php
+
 namespace common\readRepositories;
 
 use common\models\auth\User;

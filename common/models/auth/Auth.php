@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models\auth;
 
 use Yii;

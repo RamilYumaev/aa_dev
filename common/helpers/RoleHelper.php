@@ -9,8 +9,9 @@ use yii\helpers\ArrayHelper;
 
 class RoleHelper
 {
-    public static function roleList() {
-        return  ArrayHelper::map(AuthItem::find()->all(), 'name', 'description');
+    public static function roleList()
+    {
+        return ArrayHelper::map(AuthItem::find()->all(), 'name', 'description');
     }
 
 }

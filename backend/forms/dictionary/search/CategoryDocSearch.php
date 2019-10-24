@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\forms\dictionary\search;
 
 use backend\helpers\dictionary\CategoryDocHelper;
@@ -52,7 +53,7 @@ class CategoryDocSearch extends Model
 
     public function attributeLabels(): array
     {
-        return  CategoryDoc::labels();
+        return CategoryDoc::labels();
     }
 
     public function categoryTypeList(): array

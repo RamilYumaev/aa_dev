@@ -20,26 +20,28 @@ class ProfileService
         $this->user = $user;
     }
 
-    public function createOrEdit(ProfileForm $form) {
+    public function createOrEdit(ProfileForm $form)
+    {
 
-        if(!$this->profile->getUserId())  {
-          $profile = $this->create($form);
-        }
-        else {
-          $profile = $this->edit($form);
+        if (!$this->profile->getUserId()) {
+            $profile = $this->create($form);
+        } else {
+            $profile = $this->edit($form);
         }
         $this->profile->save($profile);
     }
 
-    public function create(ProfileForm $form) {
+    public function create(ProfileForm $form)
+    {
         $profile = Profiles::create($form->last_name,
             $form->first_name, $form->patronymic,
             $form->phone, $form->country_id, $form->region_id);
         return $profile;
     }
 
-    public function edit(ProfileForm $form) {
-        $profile =  $this->profile->getUserId();
+    public function edit(ProfileForm $form)
+    {
+        $profile = $this->profile->getUserId();
         $profile->edit($form->last_name,
             $form->first_name, $form->patronymic,
             $form->phone, $form->country_id, $form->region_id);

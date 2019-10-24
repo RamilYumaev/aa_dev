@@ -45,7 +45,7 @@ class LoginFormTest extends \Codeception\Test\Unit
 
     public function testLoginWrongPassword()
     {
-        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+        $repoUser = $this->make(UserRepository::class, ['find' => new User]);
         $serviceAuth = new AuthService($repoUser);
         $model = new LoginForm([
             'username' => 'bayer.hudson',
@@ -59,7 +59,7 @@ class LoginFormTest extends \Codeception\Test\Unit
 
     public function testLoginCorrect()
     {
-        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+        $repoUser = $this->make(UserRepository::class, ['find' => new User]);
         $serviceAuth = new AuthService($repoUser);
 
         $model = new LoginForm([

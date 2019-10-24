@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\tests\unit\models\auth;
 
 use common\auth\rbac\RoleManager;
@@ -29,7 +30,7 @@ class SignupFormTest extends \Codeception\Test\Unit
 
     public function testCorrectSignup()
     {
-        $repoUser = $this->make(UserRepository::class,[ 'find' => new User] );
+        $repoUser = $this->make(UserRepository::class, ['find' => new User]);
         $transaction = $this->makeEmpty(TransactionManager::class);
 
         $serviceSignup = new SignupService($repoUser, $transaction);
@@ -38,8 +39,8 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'some_email@example.com',
             'password' => 'some_password',
             'password_repeat' => 'some_password',
-            'verifyCode'=>'testme',
-            'agree'=> true
+            'verifyCode' => 'testme',
+            'agree' => true
         ]);
 
 
@@ -53,8 +54,8 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         expect($mail)->isInstanceOf('yii\mail\MessageInterface');
         $this->assertArrayHasKey('some_email@example.com', $mail->getTo());
-        $this->assertArrayHasKey(\Yii::$app->params['supportEmail'],  $mail->getFrom());
-        $this->assertEquals($mail->getSubject(),'Аккуант зарегистрирован!' . \Yii::$app->name);
+        $this->assertArrayHasKey(\Yii::$app->params['supportEmail'], $mail->getFrom());
+        $this->assertEquals($mail->getSubject(), 'Аккуант зарегистрирован!' . \Yii::$app->name);
         expect($mail->toString())->stringContainsString($user->verification_token);
     }
 
@@ -65,8 +66,8 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'test2@mail.com',
             'password' => 'some_password',
             'password_repeat' => 'some_password',
-            'verifyCode'=>'testme',
-            'agree'=> true
+            'verifyCode' => 'testme',
+            'agree' => true
         ]);
         $this->assertFalse($model->validate());
         $this->assertNotNull($model->getErrors('username'));
@@ -83,8 +84,8 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'nicolas.dianna@hotmрail.com',
             'password' => 'some_password',
             'password_repeat' => 'some_password33',
-            'verifyCode'=>'testme',
-            'agree'=> true
+            'verifyCode' => 'testme',
+            'agree' => true
         ]);
         $this->assertFalse($model->validate());
         $this->assertNotNull($model->getErrors('password_repeat'));
@@ -99,8 +100,8 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'nicolas.dianna@hotmрail.com',
             'password' => 'some_password',
             'password_repeat' => 'some_password',
-            'verifyCode'=>'testme',
-            'agree'=> false
+            'verifyCode' => 'testme',
+            'agree' => false
         ]);
         $this->assertFalse($model->validate());
         $this->assertNotNull($model->getErrors('agree'));

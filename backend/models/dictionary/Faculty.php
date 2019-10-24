@@ -1,6 +1,6 @@
 <?php
 
-namespace  backend\models\dictionary;
+namespace backend\models\dictionary;
 
 class Faculty extends \yii\db\ActiveRecord
 {
@@ -14,32 +14,32 @@ class Faculty extends \yii\db\ActiveRecord
         return 'dict_faculty';
     }
 
-    public static function create (string $fullName) : self
+    public static function create(string $fullName): self
     {
-        $faculty =  new static();
+        $faculty = new static();
         $faculty->full_name = $fullName;
         return $faculty;
     }
 
-    public function edit(string $fullName) :void
+    public function edit(string $fullName): void
     {
         $this->full_name = $fullName;
     }
 
     /**
      * {@inheritdoc}
-     */
+     */cd
     public function attributeLabels()
     {
         return [
-             'id' => 'ИД',
+            'id' => 'ИД',
             'full_name' => 'Полное название',
         ];
     }
 
     public static function labels(): array
     {
-        $faculty =  new static();
+        $faculty = new static();
         return $faculty->attributeLabels();
     }
 }

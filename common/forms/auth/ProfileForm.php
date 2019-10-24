@@ -16,8 +16,8 @@ class ProfileForm extends Model
      */
     public function __construct($config = [])
     {
-        $profile = Profiles::findOne(['user_id'=> \Yii::$app->user->identity->getId()]);
-        if($profile) {
+        $profile = Profiles::findOne(['user_id' => \Yii::$app->user->identity->getId()]);
+        if ($profile) {
             $this->last_name = $profile->last_name;
             $this->first_name = $profile->first_name;
             $this->patronymic = $profile->patronymic;
@@ -37,7 +37,7 @@ class ProfileForm extends Model
             [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яА-Я\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],
             [['phone'], 'string', 'max' => 25],
-            ['phone', 'unique', 'targetClass' => Profiles::class,  'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
+            ['phone', 'unique', 'targetClass' => Profiles::class, 'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
             ['region_id', 'required', 'when' => function ($model) {
                 return $model->country_id == 46;
             },
@@ -49,7 +49,7 @@ class ProfileForm extends Model
 
     public function attributeLabels(): array
     {
-        return  Profiles::labels();
+        return Profiles::labels();
     }
 
 }

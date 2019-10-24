@@ -43,7 +43,7 @@ class SignupService
         return $user;
     }
 
-    public function confirm ($token): void
+    public function confirm($token): void
     {
         if (empty($token) || !is_string($token)) {
             throw new InvalidArgumentException('Verify email token cannot be blank.');

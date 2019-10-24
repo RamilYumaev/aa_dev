@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $model shop\forms\manage\User\UserCreateForm */
 
 use yii\bootstrap\ActiveForm;

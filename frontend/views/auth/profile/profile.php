@@ -10,7 +10,7 @@ use yii\widgets\MaskedInput;
 
 $this->title = 'Ваш профиль';
 $this->params['breadcrumbs'][] = $this->title;
-$userRegOlimpic =false;
+$userRegOlimpic = false;
 ?>
 <div class="container">
 

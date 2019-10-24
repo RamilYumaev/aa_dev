@@ -1,24 +1,28 @@
 <?php
+
 namespace backend\forms\dictionary;
+
 use backend\helpers\dictionary\CategoryDocHelper;
 use backend\models\dictionary\CategoryDoc;
 use yii\base\Model;
 
-class CategoryDocForm  extends Model
+class CategoryDocForm extends Model
 {
     public $name;
     public $type_id;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(CategoryDoc $categoryDoc = null, $config = [])
     {
-        if($categoryDoc) {
+        if ($categoryDoc) {
             $this->name = $categoryDoc->name;
             $this->type_id = $categoryDoc->type_id;
         }
         parent::__construct($config);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +38,7 @@ class CategoryDocForm  extends Model
 
     public function attributeLabels(): array
     {
-        return  CategoryDoc::labels();
+        return CategoryDoc::labels();
     }
 
     public function categoryTypeList(): array

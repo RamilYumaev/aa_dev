@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\services\dictionary;
 
 use backend\forms\dictionary\DictClassForm;
@@ -14,18 +15,21 @@ class DictClassService
         $this->repository = $repository;
     }
 
-    public function create(DictClassForm $form) {
+    public function create(DictClassForm $form)
+    {
         $model = DictClass::create($form);
         $this->repository->save($model);
     }
 
-    public function edit($id, DictClassForm $form) {
+    public function edit($id, DictClassForm $form)
+    {
         $model = $this->repository->get($id);
         $model->edit($form);
         $this->repository->save($model);
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $model = $this->repository->get($id);
         $this->repository->remove($model);
     }

@@ -1,4 +1,5 @@
 <?php namespace backend\tests\functional\dictionary;
+
 use backend\tests\FunctionalTester;
 use common\fixtures\dictionary\FacultyFixture;
 use yii\helpers\Url;
@@ -7,9 +8,9 @@ class FacultyCest
 {
     protected $formId = '#form-faculty';
 
-    public function  _fixtures()
+    public function _fixtures()
     {
-       return [
+        return [
             'faculty' => [
                 'class' => FacultyFixture::className(),
                 'dataFile' => codecept_data_dir() . 'dictionary/faculty.php'
@@ -35,7 +36,7 @@ class FacultyCest
         $I->see('Дефектологический', 'h1');
     }
 
-    public function  testCreateInvalid(FunctionalTester $I)
+    public function testCreateInvalid(FunctionalTester $I)
     {
         $I->amOnRoute('dictionary/faculty/create');
         $I->see('Создать', 'h1');
@@ -48,7 +49,7 @@ class FacultyCest
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm(
             $this->formId, [
-                'FacultyForm[full_name]'  => 'Химический',
+                'FacultyForm[full_name]' => 'Химический',
             ]
         );
         $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
@@ -60,7 +61,7 @@ class FacultyCest
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm(
             $this->formId, [
-                'FacultyForm[full_name]'  => 'Психология',
+                'FacultyForm[full_name]' => 'Психология',
             ]
         );
         $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
@@ -71,7 +72,7 @@ class FacultyCest
     {
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm($this->formId, [
-            'FacultyForm[full_name]'  => 'Психологии'
+            'FacultyForm[full_name]' => 'Психологии'
         ]);
 
         $I->seeRecord('common\models\dictionary\Faculty', [
@@ -84,7 +85,7 @@ class FacultyCest
     {
         $I->amOnPage(['dictionary/faculty/update', 'id' => 1]);
         $I->submitForm($this->formId, [
-            'FacultyForm[full_name]'  => 'Дефектологический и и'
+            'FacultyForm[full_name]' => 'Дефектологический и и'
         ]);
 
         $I->seeRecord('common\models\dictionary\Faculty', [

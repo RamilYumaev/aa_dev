@@ -13,9 +13,9 @@ class ResendVerificationEmailCest
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
-     * @see \Codeception\Module\Yii2::_before()
-     * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
+     * @see \Codeception\Module\Yii2::loadFixtures()
+     * @see \Codeception\Module\Yii2::_before()
      */
     public function _fixtures()
     {
@@ -75,7 +75,7 @@ class ResendVerificationEmailCest
             'PasswordResetRequestForm[email]' => 'test2@mail.com',
         ]);
 
-         $I->canSeeEmailIsSent();
+        $I->canSeeEmailIsSent();
 
         $I->seeRecord('common\models\auth\User', [
             'email' => 'test2@mail.com',

@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models\auth;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
@@ -22,7 +23,6 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-
 class User extends ActiveRecord
 {
     const STATUS_WAIT = 0;
@@ -36,18 +36,19 @@ class User extends ActiveRecord
         parent::__construct($config);
     }
 
-    public function setAssignment($addRole){
+    public function setAssignment($addRole)
+    {
 
-        foreach (AuthAssignment::getRoleName($this->id) as $role){
-           if ($addRole !== $role) {
-               $this->assignment->user_id = $this->id;
-               $this->assignment->item_name = $addRole;
-               $this->assignment->save();
-           }
+        foreach (AuthAssignment::getRoleName($this->id) as $role) {
+            if ($addRole !== $role) {
+                $this->assignment->user_id = $this->id;
+                $this->assignment->item_name = $addRole;
+                $this->assignment->save();
+            }
         }
     }
 
-    public static function create(string $username, string $email,  string $password): self
+    public static function create(string $username, string $email, string $password): self
     {
         $user = new User();
         $user->username = $username;
@@ -167,6 +168,7 @@ class User extends ActiveRecord
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
+
     /**
      * Finds user by password reset token
      *
@@ -196,7 +198,7 @@ class User extends ActiveRecord
         if (empty($token)) {
             return false;
         }
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -207,7 +209,8 @@ class User extends ActiveRecord
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -238,6 +241,7 @@ class User extends ActiveRecord
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
+
     /**
      * Generates new password reset token
      */
@@ -245,10 +249,12 @@ class User extends ActiveRecord
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
+
     public function generateEmailVerificationToken()
     {
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
+
     /**
      * Removes password reset token
      */

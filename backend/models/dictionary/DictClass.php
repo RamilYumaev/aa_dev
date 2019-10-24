@@ -1,10 +1,11 @@
 <?php
+
 namespace backend\models\dictionary;
 
 use backend\forms\dictionary\DictClassForm;
 use backend\helpers\dictionary\DictClassHelper;
 
-class DictClass  extends \yii\db\ActiveRecord
+class DictClass extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -12,14 +13,14 @@ class DictClass  extends \yii\db\ActiveRecord
     const SCHOOL = 1;
     const COLLEDGE = 2;
     const BACALAVR = 3;
-    const MAGISTR =4;
+    const MAGISTR = 4;
 
     public static function tableName()
     {
         return 'dict_class';
     }
 
-    public static function create (DictClassForm $form):self
+    public static function create(DictClassForm $form): self
     {
         $class = new static();
         $class->name = $form->name;
@@ -28,7 +29,7 @@ class DictClass  extends \yii\db\ActiveRecord
     }
 
 
-    public  function edit (DictClassForm $form): void
+    public function edit(DictClassForm $form): void
     {
         $this->name = $form->name;
         $this->type = $form->type;
@@ -37,7 +38,7 @@ class DictClass  extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels():array
+    public function attributeLabels(): array
     {
         return [
             'name' => 'Номер',
@@ -47,7 +48,7 @@ class DictClass  extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $class =  new static();
+        $class = new static();
         return $class->attributeLabels();
     }
 

@@ -1,6 +1,6 @@
 <?php
-namespace backend\services\dictionary;
 
+namespace backend\services\dictionary;
 
 
 use backend\forms\dictionary\CategoryDocForm;
@@ -16,19 +16,22 @@ class CategoryDocService
         $this->categoryDocRepository = $categoryDocRepository;
     }
 
-    public function create(CategoryDocForm $form) {
+    public function create(CategoryDocForm $form)
+    {
         $catDoc = CategoryDoc::create($form->name, $form->type_id);
         $this->categoryDocRepository->save($catDoc);
         return $catDoc;
     }
 
-    public function edit($id, CategoryDocForm $form) {
+    public function edit($id, CategoryDocForm $form)
+    {
         $catDoc = $this->categoryDocRepository->get($id);
         $catDoc->edit($form->name, $form->type_id);
         $this->categoryDocRepository->save($catDoc);
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $catDoc = $this->categoryDocRepository->get($id);
         $this->categoryDocRepository->remove($catDoc);
     }

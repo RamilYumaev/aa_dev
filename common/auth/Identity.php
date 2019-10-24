@@ -18,7 +18,7 @@ class Identity implements IdentityInterface
     public static function findIdentity($id)
     {
         $user = self::getRepository()->findActiveById($id);
-        return $user ? new self($user): null;
+        return $user ? new self($user) : null;
     }
 
 

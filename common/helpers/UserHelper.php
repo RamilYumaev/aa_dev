@@ -1,4 +1,5 @@
 <?php
+
 namespace common\helpers;
 
 use common\models\auth\User;

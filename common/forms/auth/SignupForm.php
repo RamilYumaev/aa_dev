@@ -1,4 +1,5 @@
 <?php
+
 namespace common\forms\auth;
 
 use common\models\auth\User;
@@ -7,7 +8,6 @@ use yii\base\Model;
 /**
  * Signup form
  */
-
 class SignupForm extends Model
 {
     public $username;
@@ -20,7 +20,7 @@ class SignupForm extends Model
     /**
      * @inheritdoc
      */
-    public function rules() :array
+    public function rules(): array
     {
         return [
             ['username', 'trim'],
@@ -34,8 +34,8 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => User::class, 'message' => 'Этот адрес электронной почты уже существует.'],
 
-            [['password','password_repeat'], 'required'],
-            [['password','password_repeat'], 'string', 'min' => 6],
+            [['password', 'password_repeat'], 'required'],
+            [['password', 'password_repeat'], 'string', 'min' => 6],
             [
                 'password_repeat', 'compare', 'compareAttribute' => 'password',
                 'message' => "Пароли не совпадают.", 'skipOnEmpty' => false,

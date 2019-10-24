@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers\dictionary;
 
 use backend\forms\dictionary\search\CategoryDocSearch;

@@ -1,21 +1,23 @@
 <?php
+
 namespace backend\forms\dictionary;
 
 use backend\helpers\dictionary\DictClassHelper;
 use backend\models\dictionary\DictClass;
 use yii\base\Model;
 
-class DictClassForm  extends Model
+class DictClassForm extends Model
 {
 
     public $name;
     public $type;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(DictClass $dictClass = null, $config = [])
     {
-        if($dictClass) {
+        if ($dictClass) {
             $this->name = $dictClass->name;
             $this->type = $dictClass->type;
         }
@@ -40,7 +42,7 @@ class DictClassForm  extends Model
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels() :array
+    public function attributeLabels(): array
     {
         return DictClass::labels();
     }

@@ -1,4 +1,5 @@
 <?php namespace backend\tests\functional\dictionary;
+
 use backend\tests\FunctionalTester;
 use common\fixtures\dictionary\CategoryDocFixture;
 use common\models\dictionary\CategoryDoc;
@@ -8,9 +9,9 @@ class CategoryDocCest
 {
     protected $formId = '#form-catDoc';
 
-    public function  _fixtures()
+    public function _fixtures()
     {
-       return [
+        return [
             'catDoc' => [
                 'class' => CategoryDocFixture::className(),
                 'dataFile' => codecept_data_dir() . 'dictionary/category-doc.php'
@@ -36,7 +37,7 @@ class CategoryDocCest
         $I->see('Документ 1', 'h1');
     }
 
-    public function  testCreateInvalid(FunctionalTester $I)
+    public function testCreateInvalid(FunctionalTester $I)
     {
         $I->amOnRoute('dictionary/category-doc/create');
         $I->see('Создать', 'h1');
@@ -50,8 +51,8 @@ class CategoryDocCest
         $I->amOnRoute('dictionary/category-doc/create');
         $I->submitForm(
             $this->formId, [
-                'CategoryDocForm[name]'  => 'Документ 5',
-                'CategoryDocForm[type_id]'  => CategoryDoc::TYPEDOC,
+                'CategoryDocForm[name]' => 'Документ 5',
+                'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
             ]
         );
         $I->dontSee('Необходимо заполнить «Тип категории».', '.help-block');
@@ -63,8 +64,8 @@ class CategoryDocCest
         $I->amOnRoute('dictionary/category-doc/create');
         $I->submitForm(
             $this->formId, [
-                'CategoryDocForm[name]'  => 'Документ 5',
-                'CategoryDocForm[type_id]'  => "словр"
+                'CategoryDocForm[name]' => 'Документ 5',
+                'CategoryDocForm[type_id]' => "словр"
             ]
         );
         $I->dontSee('Необходимо заполнить «Название категории».', '.help-block');
@@ -76,8 +77,8 @@ class CategoryDocCest
         $I->amOnRoute('dictionary/category-doc/create');
         $I->submitForm(
             $this->formId, [
-                'CategoryDocForm[name]'  => 'Документ 5',
-                'CategoryDocForm[type_id]'  => 75
+                'CategoryDocForm[name]' => 'Документ 5',
+                'CategoryDocForm[type_id]' => 75
             ]
         );
         $I->dontSee('Необходимо заполнить «Название категории».', '.help-block');
@@ -85,18 +86,17 @@ class CategoryDocCest
     }
 
 
-
     public function testAdd(FunctionalTester $I)
     {
         $I->amOnRoute('dictionary/category-doc/create');
         $I->submitForm($this->formId, [
-            'CategoryDocForm[name]'  => 'Документ 5',
-            'CategoryDocForm[type_id]'  => CategoryDoc::TYPEDOC,
+            'CategoryDocForm[name]' => 'Документ 5',
+            'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
         ]);
 
         $I->seeRecord('common\models\dictionary\CategoryDoc', [
-            'name'  => 'Документ 5',
-            'type_id'  => CategoryDoc::TYPEDOC,
+            'name' => 'Документ 5',
+            'type_id' => CategoryDoc::TYPEDOC,
         ]);
         $I->see('Документ 5', 'h1');
     }
@@ -105,13 +105,13 @@ class CategoryDocCest
     {
         $I->amOnPage(['dictionary/category-doc/update', 'id' => 1]);
         $I->submitForm($this->formId, [
-            'CategoryDocForm[name]'  => 'Документ 6',
-            'CategoryDocForm[type_id]'  => CategoryDoc::TYPEDOC,
+            'CategoryDocForm[name]' => 'Документ 6',
+            'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
         ]);
 
         $I->seeRecord('common\models\dictionary\CategoryDoc', [
-            'name'  => 'Документ 6',
-            'type_id'  => CategoryDoc::TYPEDOC,
+            'name' => 'Документ 6',
+            'type_id' => CategoryDoc::TYPEDOC,
         ]);
         $I->see('Документ 6', 'h1');
     }
@@ -124,8 +124,8 @@ class CategoryDocCest
         $I->sendAjaxPostRequest(Url::to(['dictionary/category-doc/view', 'id' => 2]));
         $I->expectTo('Are you sure you want to delete this item?');
         $I->dontSeeRecord('common\models\dictionary\CategoryDoc', [
-            'name'  => 'Документ 6',
-            'type_id'  => CategoryDoc::TYPEDOC,
+            'name' => 'Документ 6',
+            'type_id' => CategoryDoc::TYPEDOC,
         ]);
     }
 }

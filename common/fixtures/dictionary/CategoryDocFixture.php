@@ -1,4 +1,5 @@
 <?php
+
 namespace common\fixtures\dictionary;
 
 use yii\test\ActiveFixture;

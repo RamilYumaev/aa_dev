@@ -14,7 +14,8 @@ class Profiles extends \yii\db\ActiveRecord
         return 'profiles';
     }
 
-    public static function create($last_name, $first_name, $patronymic, $phone, $country_id, $region_id) {
+    public static function create($last_name, $first_name, $patronymic, $phone, $country_id, $region_id)
+    {
         $profile = new static();
         $profile->last_name = $last_name;
         $profile->first_name = $first_name;
@@ -26,7 +27,8 @@ class Profiles extends \yii\db\ActiveRecord
         return $profile;
     }
 
-    public function edit($last_name, $first_name, $patronymic, $phone, $country_id, $region_id) {
+    public function edit($last_name, $first_name, $patronymic, $phone, $country_id, $region_id)
+    {
         $this->last_name = $last_name;
         $this->first_name = $first_name;
         $this->patronymic = $patronymic;
@@ -52,7 +54,7 @@ class Profiles extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $profile =  new static();
+        $profile = new static();
         return $profile->attributeLabels();
     }
 }

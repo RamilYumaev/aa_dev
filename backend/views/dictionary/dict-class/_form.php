@@ -13,8 +13,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['id' => 'form-сlass']); ?>
     <div class="box box-default">
         <div class="box-body">
-            <?= $form->field($model, 'name')->dropDownList($model->classes(), ["prompt"=>"Выберите номер"])  ?>
-            <?= $form->field($model, 'type')->dropDownList($model->typeList(),["prompt"=>"Выберите тип"]) ?>
+            <?= $form->field($model, 'name')->dropDownList($model->classes(), ["prompt" => "Выберите номер"]) ?>
+            <?= $form->field($model, 'type')->dropDownList($model->typeList(), ["prompt" => "Выберите тип"]) ?>
         </div>
     </div>
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace common\services\auth;
 
 use common\forms\auth\LoginForm;
@@ -20,7 +21,6 @@ class AuthService
         }
         return $user;
     }
-
 
 
 }

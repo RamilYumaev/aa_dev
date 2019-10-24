@@ -8,15 +8,15 @@ class ProfileRepository
 {
     public function get($id): Profiles
     {
-    if (!$profile = Profiles::findOne($id)) {
-        throw new NotFoundException('Profiles не найдено.');
-    }
-    return $profile;
+        if (!$profile = Profiles::findOne($id)) {
+            throw new NotFoundException('Profiles не найдено.');
+        }
+        return $profile;
     }
 
     public function getUserId(): ?Profiles
     {
-        $profile = Profiles::findOne(['user_id'=> \Yii::$app->user->identity->getId()]);
+        $profile = Profiles::findOne(['user_id' => \Yii::$app->user->identity->getId()]);
         return $profile;
     }
 

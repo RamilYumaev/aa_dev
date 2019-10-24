@@ -1,4 +1,5 @@
 <?php
+
 namespace common\repositories;
 
 use common\models\auth\User;
@@ -54,7 +55,7 @@ class UserRepository
 
     public function existsByPasswordResetToken(string $token): bool
     {
-        return (bool) User::findByPasswordResetToken($token);
+        return (bool)User::findByPasswordResetToken($token);
     }
 
 
