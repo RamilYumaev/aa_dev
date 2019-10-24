@@ -1,8 +1,8 @@
 <?php
-namespace backend\forms\dictionary;
+namespace backend\forms\dictionary\search;
 
-use common\helpers\dictionary\CategoryDocHelper;
-use common\models\dictionary\CategoryDoc;
+use backend\helpers\dictionary\CategoryDocHelper;
+use backend\models\dictionary\CategoryDoc;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 

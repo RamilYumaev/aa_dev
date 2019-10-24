@@ -1,6 +1,6 @@
 <?php
-namespace common\repositories\dictionary;
-use common\models\dictionary\Faculty;
+namespace backend\repositories\dictionary;
+use backend\models\dictionary\Faculty;
 
 
 

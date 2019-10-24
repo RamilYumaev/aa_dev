@@ -1,6 +1,6 @@
 <?php
-namespace common\helpers\dictionary;
-use common\models\dictionary\CategoryDoc;
+namespace backend\helpers\dictionary;
+use backend\models\dictionary\CategoryDoc;
 use yii\helpers\ArrayHelper;
 
 class CategoryDocHelper

@@ -1,8 +1,8 @@
 <?php
-namespace common\services\dictionary;
-use common\forms\dictionary\FacultyForm;
-use common\repositories\dictionary\FacultyRepository;
-use common\models\dictionary\Faculty;
+namespace backend\services\dictionary;
+use backend\forms\dictionary\FacultyForm;
+use backend\repositories\dictionary\FacultyRepository;
+use backend\models\dictionary\Faculty;
 
 
 class FacultyService

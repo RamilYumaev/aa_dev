@@ -1,13 +1,14 @@
 <?php
 namespace backend\controllers\dictionary;
 
-use backend\forms\dictionary\FacultySearch;
-use common\forms\dictionary\FacultyForm;
-use common\models\dictionary\Faculty;
-use common\services\dictionary\FacultyService;
+use backend\forms\dictionary\search\FacultySearch;
+use backend\forms\dictionary\FacultyForm;
+use backend\models\dictionary\Faculty;
+use backend\services\dictionary\FacultyService;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 class FacultyController extends Controller
 {
@@ -49,6 +50,7 @@ class FacultyController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {
         return $this->render('view', [
