@@ -1,11 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/forms/dictionary/CategoryDocForm.php
-
-namespace backend\forms\dictionary;
-
-=======
 namespace olympic\forms\dictionary;
->>>>>>> #10:olympic/forms/dictionary/CategoryDocForm.php
 use backend\helpers\dictionary\CategoryDocHelper;
 use backend\models\dictionary\CategoryDoc;
 use yii\base\Model;

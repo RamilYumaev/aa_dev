@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/forms/dictionary/search/CategoryDocSearch.php
-
-namespace backend\forms\dictionary\search;
-=======
 namespace olympic\forms\dictionary\search;
->>>>>>> #10:olympic/forms/dictionary/search/CategoryDocSearch.php
 
 use olympic\helpers\dictionary\CategoryDocHelper;
 use olympic\models\dictionary\CategoryDoc;

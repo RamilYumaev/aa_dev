@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/transactions/TransactionManager.php
-
-namespace common\transactions;
-=======
 namespace olympic\transactions;
->>>>>>> #10:olympic/transactions/TransactionManager.php
 
 class TransactionManager
 {

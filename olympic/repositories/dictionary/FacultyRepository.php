@@ -1,15 +1,8 @@
 <?php
-<<<<<<< HEAD:backend/repositories/dictionary/FacultyRepository.php
-
-namespace backend\repositories\dictionary;
-
-use backend\models\dictionary\Faculty;
-=======
 namespace olympic\repositories\dictionary;
 
 use olympic\models\dictionary\Faculty;
 use yii\web\NotFoundHttpException;
->>>>>>> #10:olympic/repositories/dictionary/FacultyRepository.php
 
 
 class FacultyRepository

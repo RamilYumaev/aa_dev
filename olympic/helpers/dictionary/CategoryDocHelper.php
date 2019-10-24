@@ -1,14 +1,7 @@
 <?php
-<<<<<<< HEAD:backend/helpers/dictionary/CategoryDocHelper.php
-
-namespace backend\helpers\dictionary;
-
-use backend\models\dictionary\CategoryDoc;
-=======
 namespace olympic\helpers\dictionary;
 use olympic\models\dictionary\CategoryDoc;
 use supplyhog\ClipboardJs\ClipboardJsAsset;
->>>>>>> #10:olympic/helpers/dictionary/CategoryDocHelper.php
 use yii\helpers\ArrayHelper;
 
 class CategoryDocHelper

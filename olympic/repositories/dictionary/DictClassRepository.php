@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/repositories/dictionary/DictClassRepository.php
-
-namespace backend\repositories\dictionary;
-=======
 namespace olympic\repositories\dictionary;
->>>>>>> #10:olympic/repositories/dictionary/DictClassRepository.php
 
 use olympic\models\dictionary\DictClass;
 use yii\web\NotFoundHttpException;

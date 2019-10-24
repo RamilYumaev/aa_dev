@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/helpers/UserHelper.php
-
-namespace common\helpers;
-=======
 namespace olympic\helpers\auth;
->>>>>>> #10:olympic/helpers/auth/UserHelper.php
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

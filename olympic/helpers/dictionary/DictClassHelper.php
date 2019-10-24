@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/helpers/dictionary/DictClassHelper.php
-
-namespace backend\helpers\dictionary;
-=======
 namespace  olympic\helpers\dictionary;
->>>>>>> #10:olympic/helpers/dictionary/DictClassHelper.php
 
 use olympic\models\dictionary\DictClass;
 use yii\helpers\ArrayHelper;
