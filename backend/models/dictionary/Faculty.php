@@ -4,6 +4,8 @@ namespace  backend\models\dictionary;
 
 class Faculty extends \yii\db\ActiveRecord
 {
+    //@TODO исправить название класса на DictFaculty
+
     /**
      * {@inheritdoc}
      */
