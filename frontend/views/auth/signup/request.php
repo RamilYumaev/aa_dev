@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
         Ознакомиться</a>\n{error}\n{endWrapper}\n{hint}",
             ]) ?>
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                       'captchaAction' => ['/auth/signup/captcha'],
                 'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
             ]) ?>
         </div>

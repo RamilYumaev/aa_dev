@@ -1,9 +1,9 @@
 <?php
 namespace frontend\controllers\auth;
 
-use common\services\auth\PasswordResetService;
-use common\forms\auth\ResetPasswordForm;
-use common\forms\auth\PasswordResetRequestForm;
+use olympic\services\auth\PasswordResetService;
+use olympic\forms\auth\ResetPasswordForm;
+use olympic\forms\auth\PasswordResetRequestForm;
 use yii\web\Controller;
 use Yii;
 

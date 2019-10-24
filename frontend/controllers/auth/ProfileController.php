@@ -3,8 +3,8 @@
 
 namespace frontend\controllers\auth;
 
-use common\forms\auth\ProfileForm;
-use common\services\auth\ProfileService;
+use olympic\forms\auth\ProfileForm;
+use olympic\services\auth\ProfileService;
 use yii\web\Controller;
 use Yii;
 

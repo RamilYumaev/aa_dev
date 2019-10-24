@@ -2,8 +2,8 @@
 namespace backend\controllers\auth;
 
 use common\auth\Identity;
-use common\forms\auth\LoginForm;
-use common\services\auth\AuthService;
+use olympic\forms\auth\LoginForm;
+use olympic\services\auth\AuthService;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;

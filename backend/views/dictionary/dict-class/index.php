@@ -3,7 +3,7 @@
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
-use backend\models\dictionary\DictClass;
+use olympic\models\dictionary\DictClass;
 
 $this->title = 'Классы/курсы';
 $this->params['breadcrumbs'][] = $this->title;

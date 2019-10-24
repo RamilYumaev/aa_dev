@@ -2,8 +2,8 @@
 namespace frontend\controllers\auth;
 
 use common\auth\Identity;
-use common\forms\auth\LoginForm;
-use common\services\auth\AuthService;
+use olympic\forms\auth\LoginForm;
+use olympic\services\auth\AuthService;
 use yii\web\Controller;
 use Yii;
 

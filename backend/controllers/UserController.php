@@ -1,12 +1,12 @@
 <?php
 namespace backend\controllers;
 
-use common\forms\auth\UserCreateForm;
-use common\forms\auth\UserEditForm;
-use common\services\auth\UserService;
+use olympic\forms\auth\UserCreateForm;
+use olympic\forms\auth\UserEditForm;
+use olympic\services\auth\UserService;
 use Yii;
-use common\models\auth\User;
-use backend\forms\UserSearch;
+use olympic\models\auth\User;
+use olympic\forms\auth\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

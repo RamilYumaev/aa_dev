@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use common\helpers\dictionary\CategoryDocHelper;
+use olympic\helpers\dictionary\CategoryDocHelper;
 
 /* @var $this yii\web\View */
 /* @var $catDoc common\models\dictionary\CategoryDoc */

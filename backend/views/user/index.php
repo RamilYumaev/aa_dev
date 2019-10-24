@@ -5,8 +5,8 @@ use backend\widgets\grid\RoleColumn;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
-use common\helpers\UserHelper;
-use common\models\auth\User;
+use olympic\helpers\auth\UserHelper;
+use olympic\models\auth\User;
 use backend\widgets\adminlte\grid\GridView;
 
 /* @var $this yii\web\View */
