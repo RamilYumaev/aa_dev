@@ -1,6 +1,6 @@
 <?php
-namespace common\forms\dictionary;
-use common\models\dictionary\Faculty;
+namespace backend\forms\dictionary;
+use backend\models\dictionary\Faculty;
 use yii\base\Model;
 
 class FacultyForm  extends Model

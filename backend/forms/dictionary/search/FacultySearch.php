@@ -1,7 +1,7 @@
 <?php
-namespace backend\forms\dictionary;
+namespace backend\forms\dictionary\search;
 
-use common\models\dictionary\Faculty;
+use backend\models\dictionary\Faculty;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 

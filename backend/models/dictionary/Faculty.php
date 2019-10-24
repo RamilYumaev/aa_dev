@@ -1,6 +1,6 @@
 <?php
 
-namespace  common\models\dictionary;
+namespace  backend\models\dictionary;
 
 class Faculty extends \yii\db\ActiveRecord
 {
