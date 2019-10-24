@@ -1,13 +1,14 @@
 <?php
 
-use common\helpers\UserHelper;
+use olympic\helpers\auth\UserHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;
 use yii\widgets\DetailView;
+use olympic\models\auth\AuthAssignment;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\auth\User */
+
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
@@ -41,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'label' => 'Role',
-                        'value' => implode(', ', \common\models\auth\AuthAssignment::getRoleName($model->id)),
+                        'value' => implode(', ', AuthAssignment::getRoleName($model->id)),
                         'format' => 'raw',
                     ],
                     'created_at:datetime',

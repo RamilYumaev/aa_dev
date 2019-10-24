@@ -3,9 +3,9 @@
 namespace backend\controllers\dictionary;
 
 
-use backend\forms\dictionary\DictClassForm;
-use backend\models\dictionary\DictClass;
-use backend\services\dictionary\DictClassService;
+use olympic\forms\dictionary\DictClassForm;
+use olympic\models\dictionary\DictClass;
+use olympic\services\dictionary\DictClassService;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;

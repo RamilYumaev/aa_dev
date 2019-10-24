@@ -2,8 +2,8 @@
 
 namespace frontend\controllers\auth;
 
-use common\forms\auth\SignupForm;
-use common\services\auth\SignupService;
+use olympic\forms\auth\SignupForm;
+use olympic\services\auth\SignupService;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;

@@ -2,10 +2,10 @@
 
 namespace backend\controllers\dictionary;
 
-use backend\forms\dictionary\search\FacultySearch;
-use backend\forms\dictionary\FacultyForm;
-use backend\models\dictionary\Faculty;
-use backend\services\dictionary\FacultyService;
+use olympic\forms\dictionary\search\FacultySearch;
+use olympic\forms\dictionary\FacultyForm;
+use olympic\models\dictionary\Faculty;
+use olympic\services\dictionary\FacultyService;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;

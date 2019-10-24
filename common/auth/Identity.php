@@ -2,8 +2,8 @@
 
 namespace common\auth;
 
-use common\models\auth\User;
-use common\readRepositories\UserReadRepository;
+use olympic\models\auth\User;
+use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
 
 class Identity implements IdentityInterface

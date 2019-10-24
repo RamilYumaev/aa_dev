@@ -3,8 +3,8 @@
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use common\models\dictionary\CategoryDoc;
-use common\helpers\dictionary\CategoryDocHelper;
+use olympic\models\dictionary\CategoryDoc;
+use olympic\helpers\dictionary\CategoryDocHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\dictionary\FacultySearch */

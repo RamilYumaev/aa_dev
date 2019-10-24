@@ -2,13 +2,11 @@
 
 namespace backend\widgets\grid;
 
-use common\auth\rbac\Rbac;
-use common\models\auth\AuthAssignment;
-use common\models\auth\AuthItem;
-use Yii;
+use olympic\helpers\auth\RoleHelper;
+use olympic\models\auth\AuthAssignment;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
-use yii\rbac\Item;
+
 
 class RoleColumn extends DataColumn
 {
@@ -22,7 +20,7 @@ class RoleColumn extends DataColumn
 
     private function getRoleLabel($role): string
     {
-        $class = $role == Rbac::ROLE_USER ? 'primary' : 'danger';
+        $class = $role == RoleHelper::ROLE_USER ? 'primary' : 'danger';
         return Html::tag('span', Html::encode($role), ['class' => 'label label-' . $class]);
     }
 }
