@@ -1,18 +1,11 @@
 <?php
-<<<<<<< HEAD:backend/forms/dictionary/FacultyForm.php
-
-namespace backend\forms\dictionary;
-
-use backend\models\dictionary\Faculty;
-=======
 namespace olympic\forms\dictionary;
 use olympic\models\dictionary\Faculty;
->>>>>>> #10:olympic/forms/dictionary/FacultyForm.php
 use yii\base\Model;
 
 class FacultyForm extends Model
 {
-    public $full_name;
+    public  $full_name;
 
     /**
      * {@inheritdoc}

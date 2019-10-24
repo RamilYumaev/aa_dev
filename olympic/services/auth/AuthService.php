@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/services/auth/AuthService.php
-
-namespace common\services\auth;
-=======
 namespace olympic\services\auth;
->>>>>>> #10:olympic/services/auth/AuthService.php
 
 use olympic\forms\auth\LoginForm;
 use olympic\models\auth\User;
@@ -27,9 +22,4 @@ class AuthService
         }
         return $user;
     }
-<<<<<<< HEAD:common/services/auth/AuthService.php
-
-
-=======
->>>>>>> #10:olympic/services/auth/AuthService.php
 }

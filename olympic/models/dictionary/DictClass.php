@@ -1,26 +1,11 @@
 <?php
-<<<<<<< HEAD:backend/models/dictionary/DictClass.php
-
-namespace backend\models\dictionary;
-=======
 namespace olympic\models\dictionary;
->>>>>>> #10:olympic/models/dictionary/DictClass.php
 
 use olympic\forms\dictionary\DictClassForm;
 use olympic\helpers\dictionary\DictClassHelper;
 
 class DictClass extends \yii\db\ActiveRecord
 {
-<<<<<<< HEAD:backend/models/dictionary/DictClass.php
-    /**
-     * {@inheritdoc}
-     */
-    const SCHOOL = 1;
-    const COLLEDGE = 2;
-    const BACALAVR = 3;
-    const MAGISTR = 4;
-=======
->>>>>>> #10:olympic/models/dictionary/DictClass.php
 
     public static function tableName()
     {

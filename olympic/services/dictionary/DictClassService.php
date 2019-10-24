@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/services/dictionary/DictClassService.php
-
-namespace backend\services\dictionary;
-=======
 namespace olympic\services\dictionary;
->>>>>>> #10:olympic/services/dictionary/DictClassService.php
 
 use olympic\forms\dictionary\DictClassForm;
 use olympic\models\dictionary\DictClass;

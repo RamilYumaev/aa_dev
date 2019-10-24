@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/models/auth/Auth.php
-
-namespace common\models\auth;
-=======
 namespace olympic\models\auth;
->>>>>>> #10:olympic/models/auth/Auth.php
 
 use Yii;
 

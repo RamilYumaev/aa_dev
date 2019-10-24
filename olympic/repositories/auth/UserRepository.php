@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/repositories/UserRepository.php
-
-namespace common\repositories;
-=======
 namespace olympic\repositories\auth;
->>>>>>> #10:olympic/repositories/auth/UserRepository.php
 
 use olympic\models\auth\User;
 
@@ -59,7 +54,7 @@ class UserRepository
 
     public function existsByPasswordResetToken(string $token): bool
     {
-        return (bool)User::findByPasswordResetToken($token);
+        return (bool) User::findByPasswordResetToken($token);
     }
 
 

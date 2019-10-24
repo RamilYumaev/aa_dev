@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:backend/forms/dictionary/search/FacultySearch.php
-
-namespace backend\forms\dictionary\search;
-=======
 namespace olympic\forms\dictionary\search;
->>>>>>> #10:olympic/forms/dictionary/search/FacultySearch.php
 
 use olympic\models\dictionary\Faculty;
 use yii\base\Model;

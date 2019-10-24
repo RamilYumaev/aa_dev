@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/forms/auth/SignupForm.php
-
-namespace common\forms\auth;
-=======
 namespace olympic\forms\auth;
->>>>>>> #10:olympic/forms/auth/SignupForm.php
 
 use olympic\models\auth\User;
 use yii\base\Model;

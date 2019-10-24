@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/readRepositories/UserReadRepository.php
-
-namespace common\readRepositories;
-=======
 namespace olympic\readRepositories;
->>>>>>> #10:olympic/readRepositories/UserReadRepository.php
 
 use olympic\helpers\auth\UserHelper;
 use olympic\models\auth\User;

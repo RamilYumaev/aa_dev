@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:common/models/auth/User.php
-
-namespace common\models\auth;
-=======
 namespace olympic\models\auth;
->>>>>>> #10:olympic/models/auth/User.php
 
 use olympic\forms\auth\SignupForm;
 use olympic\forms\auth\UserEditForm;
@@ -40,21 +35,6 @@ class User extends ActiveRecord
         parent::__construct($config);
     }
 
-<<<<<<< HEAD:common/models/auth/User.php
-    public function setAssignment($addRole)
-    {
-
-        foreach (AuthAssignment::getRoleName($this->id) as $role) {
-            if ($addRole !== $role) {
-                $this->assignment->user_id = $this->id;
-                $this->assignment->item_name = $addRole;
-                $this->assignment->save();
-            }
-        }
-    }
-
-    public static function create(string $username, string $email, string $password): self
-=======
     public function setAssignment($addRole){
         foreach (AuthAssignment::getRoleName($this->id) as $role){
            if ($addRole !== $role) {
@@ -72,7 +52,6 @@ class User extends ActiveRecord
     }
 
     public static function create(UserCreateForm $form): self
->>>>>>> #10:olympic/models/auth/User.php
     {
         $user = new static();
         $user->username = $form->username;
@@ -167,7 +146,6 @@ class User extends ActiveRecord
     {
         return static::findOne(['username' => $username, 'status' => UserHelper::STATUS_ACTIVE]);
     }
-
     /**
      * Finds user by password reset token
      *
