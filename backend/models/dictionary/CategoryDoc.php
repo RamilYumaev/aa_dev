@@ -1,7 +1,7 @@
 <?php
 
 
-namespace common\models\dictionary;
+namespace backend\models\dictionary;
 
 
 class CategoryDoc extends \yii\db\ActiveRecord

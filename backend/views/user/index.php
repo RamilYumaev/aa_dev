@@ -16,7 +16,6 @@ use backend\widgets\adminlte\grid\GridView;
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 
-var_dump( \common\models\auth\AuthAssignment::getRoleName(28));
 ?>
 <div class="user-index">
 

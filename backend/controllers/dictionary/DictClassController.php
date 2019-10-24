@@ -1,19 +1,21 @@
 <?php
 namespace backend\controllers\dictionary;
 
-use backend\forms\dictionary\search\CategoryDocSearch;
-use backend\forms\dictionary\CategoryDocForm;
-use backend\models\dictionary\CategoryDoc;
-use backend\services\dictionary\CategoryDocService;
+
+use backend\forms\dictionary\DictClassForm;
+use backend\models\dictionary\DictClass;
+use backend\services\dictionary\DictClassService;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
-class CategoryDocController extends Controller
+class DictClassController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, CategoryDocService $service, $config = [])
+    public function __construct($id, $module, DictClassService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -36,23 +38,12 @@ class CategoryDocController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CategoryDocSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $query = DictClass::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'catDoc' => $this->findModel($id),
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -61,11 +52,11 @@ class CategoryDocController extends Controller
      */
     public function actionCreate()
     {
-        $form = new CategoryDocForm();
+        $form = new DictClassForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $catDoc = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $catDoc->id]);
+                $this->service->create($form);
+                return $this->redirect(['index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -82,13 +73,13 @@ class CategoryDocController extends Controller
      */
     public function actionUpdate($id)
     {
-        $catDoc = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        $form = new CategoryDocForm($catDoc);
+        $form = new DictClassForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($catDoc->id, $form);
-                return $this->redirect(['view', 'id' => $catDoc->id]);
+                $this->service->edit($model->id, $form);
+                return  $this->redirect(['index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -96,7 +87,7 @@ class CategoryDocController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'catDoc' => $catDoc,
+            'class' => $model,
         ]);
     }
 
@@ -104,9 +95,9 @@ class CategoryDocController extends Controller
      * @param integer $id
      * @return mixed
      */
-    protected function findModel($id): CategoryDoc
+    protected function findModel($id): DictClass
     {
-        if (($model = CategoryDoc::findOne($id)) !== null) {
+        if (($model = DictClass::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');

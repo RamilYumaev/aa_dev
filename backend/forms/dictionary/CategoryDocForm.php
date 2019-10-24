@@ -1,7 +1,7 @@
 <?php
-namespace common\forms\dictionary;
-use common\helpers\dictionary\CategoryDocHelper;
-use common\models\dictionary\CategoryDoc;
+namespace backend\forms\dictionary;
+use backend\helpers\dictionary\CategoryDocHelper;
+use backend\models\dictionary\CategoryDoc;
 use yii\base\Model;
 
 class CategoryDocForm  extends Model

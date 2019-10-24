@@ -1,11 +1,11 @@
 <?php
-namespace common\services\dictionary;
+namespace backend\services\dictionary;
 
 
 
-use common\forms\dictionary\CategoryDocForm;
-use common\models\dictionary\CategoryDoc;
-use common\repositories\dictionary\CategoryDocRepository;
+use backend\forms\dictionary\CategoryDocForm;
+use backend\models\dictionary\CategoryDoc;
+use backend\repositories\dictionary\CategoryDocRepository;
 
 class CategoryDocService
 {
