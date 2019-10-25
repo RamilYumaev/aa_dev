@@ -3,6 +3,8 @@
 namespace olympic\repositories\auth;
 
 use olympic\models\auth\Profiles;
+NotFoundException
+
 
 class ProfileRepository
 {
