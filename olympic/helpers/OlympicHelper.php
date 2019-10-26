@@ -4,6 +4,7 @@
 namespace olympic\helpers;
 
 
+use olympic\models\Olympic;
 use yii\helpers\ArrayHelper;
 
 class OlympicHelper
@@ -192,5 +193,15 @@ class OlympicHelper
     public static function prefillingName($key)
     {
         return ArrayHelper::getValue(self::prefilling(), $key);
+    }
+
+    public static function olimpicList(): array
+    {
+        return ArrayHelper::map(Olympic::find()->all(), "id", 'name');
+    }
+
+    public static function olimpicName($key): string
+    {
+        return ArrayHelper::getValue(self::olimpicList(), $key);
     }
 }

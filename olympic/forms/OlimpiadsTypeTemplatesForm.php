@@ -1,12 +1,12 @@
 <?php
 
 
-namespace dictionary\forms;
+namespace olympic\forms;
 
 
 use dictionary\helpers\DictSpecialTypeOlimpicHelper;
 use dictionary\helpers\TemplatesHelper;
-use dictionary\models\OlimpiadsTypeTemplates;
+use olympic\models\OlimpiadsTypeTemplates;
 use dictionary\models\Templates;
 use yii\base\Model;
 

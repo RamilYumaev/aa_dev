@@ -4,6 +4,7 @@
 namespace dictionary\helpers;
 
 
+use dictionary\models\DictCompetitiveGroup;
 use yii\helpers\ArrayHelper;
 
 class DictCompetitiveGroupHelper
@@ -96,6 +97,16 @@ class DictCompetitiveGroupHelper
     public static function specialRightName($key): string
     {
         return ArrayHelper::getValue(self::getSpecialRight(), $key);
+    }
+
+    public static function dictCompetitiveGroupList(): array
+    {
+        return ArrayHelper::map(DictCompetitiveGroup::find()->all(), "id", 'name');
+    }
+
+    public static function disciplineName($key): string
+    {
+        return ArrayHelper::getValue(self::disciplineList(), $key);
     }
 
 

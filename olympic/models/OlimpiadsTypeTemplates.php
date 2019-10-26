@@ -1,10 +1,10 @@
 <?php
 
 
-namespace dictionary\models;
+namespace olympic\models;
 
 
-use dictionary\forms\OlimpiadsTypeTemplatesForm;
+use olympic\forms\OlimpiadsTypeTemplatesForm;
 use yii\db\ActiveRecord;
 
 class OlimpiadsTypeTemplates extends ActiveRecord
