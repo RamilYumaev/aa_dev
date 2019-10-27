@@ -13,7 +13,7 @@ class DictCountryHelper
 {
     public static function countryList(): array
     {
-        return Country::find()->select(new Expression("name"))->orderBy(["name"=>SORT_ASC])->indexBy("id")->column();
+        return Country::find()->select(new Expression("name"))->orderBy(["name" => SORT_ASC])->indexBy("id")->column();
     }
 
     public static function countryName($key): string

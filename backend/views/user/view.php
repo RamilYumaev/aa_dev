@@ -1,6 +1,6 @@
 <?php
 
-use olympic\helpers\auth\UserHelper;
+use common\auth\helpers\UserHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;

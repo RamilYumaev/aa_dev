@@ -14,7 +14,7 @@ class UserFacultyForm extends Model
 
     public function __construct(UserFaculty $userFaculty = null, $config = [])
     {
-        if($userFaculty) {
+        if ($userFaculty) {
             $this->user_id = $userFaculty->user_id;
             $this->faculty_id = $userFaculty->faculty_id;
 
@@ -26,7 +26,7 @@ class UserFacultyForm extends Model
     {
         return [
             [['user_id'], 'required'],
-            ['user_id', 'unique', 'targetClass'=> UserFaculty::class,
+            ['user_id', 'unique', 'targetClass' => UserFaculty::class,
                 'message' => 'Этому пользователю уже назначен факультет'],
             ['faculty_id', 'integer'],
         ];

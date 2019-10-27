@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
                     ['class' => ActionColumn::class,
-                     'template'=>'{update} {delete}',
+                        'template' => '{update} {delete}',
                     ],
                 ]
             ]); ?>

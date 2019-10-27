@@ -7,8 +7,8 @@ namespace olympic\services\auth;
 use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
 use common\auth\models\User;
-use olympic\repositories\auth\UserRepository;
-use olympic\transactions\TransactionManager;
+use common\auth\repositories\UserRepository;
+use common\transactions\TransactionManager;
 
 class UserService
 {
@@ -16,7 +16,7 @@ class UserService
     private $transaction;
 
     public function __construct(
-        UserRepository $repository,
+        \common\auth\repositories\UserRepository $repository,
         TransactionManager $transaction
     )
     {

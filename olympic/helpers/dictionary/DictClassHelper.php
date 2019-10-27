@@ -1,5 +1,6 @@
 <?php
-namespace  olympic\helpers\dictionary;
+
+namespace olympic\helpers\dictionary;
 
 use olympic\models\dictionary\DictClass;
 use yii\helpers\ArrayHelper;
@@ -12,7 +13,7 @@ class DictClassHelper
     const SCHOOL = 1;
     const COLLEDGE = 2;
     const BACALAVR = 3;
-    const MAGISTR =4;
+    const MAGISTR = 4;
 
     public static function typeOfClass()
     {

@@ -2,6 +2,7 @@
 
 use backend\tests\FunctionalTester;
 use common\fixtures\dictionary\FacultyFixture;
+use dictionary\models\Faculty;
 use yii\helpers\Url;
 
 class FacultyCest
@@ -75,7 +76,7 @@ class FacultyCest
             'FacultyForm[full_name]' => 'Психологии'
         ]);
 
-        $I->seeRecord('common\models\dictionary\Faculty', [
+        $I->seeRecord(Faculty::class, [
             'full_name' => 'Психологии'
         ]);
         $I->see('Психологии', 'h1');
@@ -88,7 +89,7 @@ class FacultyCest
             'FacultyForm[full_name]' => 'Дефектологический и и'
         ]);
 
-        $I->seeRecord('common\models\dictionary\Faculty', [
+        $I->seeRecord(Faculty::class, [
             'full_name' => 'Дефектологический и и'
         ]);
 
@@ -102,7 +103,7 @@ class FacultyCest
         $I->amGoingTo('Удалить');
         $I->sendAjaxPostRequest(Url::to(['/dictionary/faculty/delete', 'id' => 3]));
         $I->expectTo('Are you sure you want to delete this item?');
-        $I->dontSeeRecord('common\models\dictionary\Faculty', [
+        $I->dontSeeRecord(Faculty::class, [
             'full_name' => 'Name For Deleting',
         ]);
     }

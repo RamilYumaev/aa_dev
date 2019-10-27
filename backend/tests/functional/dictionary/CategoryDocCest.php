@@ -2,7 +2,8 @@
 
 use backend\tests\FunctionalTester;
 use common\fixtures\dictionary\CategoryDocFixture;
-use common\models\dictionary\CategoryDoc;
+use dictionary\helpers\CategoryDocHelper;
+use \dictionary\models\CategoryDoc;
 use yii\helpers\Url;
 
 class CategoryDocCest
@@ -52,7 +53,7 @@ class CategoryDocCest
         $I->submitForm(
             $this->formId, [
                 'CategoryDocForm[name]' => 'Документ 5',
-                'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
+                'CategoryDocForm[type_id]' => CategoryDocHelper::TYPEDOC,
             ]
         );
         $I->dontSee('Необходимо заполнить «Тип категории».', '.help-block');
@@ -91,12 +92,12 @@ class CategoryDocCest
         $I->amOnRoute('dictionary/category-doc/create');
         $I->submitForm($this->formId, [
             'CategoryDocForm[name]' => 'Документ 5',
-            'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
+            'CategoryDocForm[type_id]' => CategoryDocHelper::TYPEDOC,
         ]);
 
-        $I->seeRecord('common\models\dictionary\CategoryDoc', [
+        $I->seeRecord('\dictionary\models\CategoryDoc', [
             'name' => 'Документ 5',
-            'type_id' => CategoryDoc::TYPEDOC,
+            'type_id' => CategoryDocHelper::TYPEDOC,
         ]);
         $I->see('Документ 5', 'h1');
     }
@@ -106,12 +107,12 @@ class CategoryDocCest
         $I->amOnPage(['dictionary/category-doc/update', 'id' => 1]);
         $I->submitForm($this->formId, [
             'CategoryDocForm[name]' => 'Документ 6',
-            'CategoryDocForm[type_id]' => CategoryDoc::TYPEDOC,
+            'CategoryDocForm[type_id]' => CategoryDocHelper::TYPEDOC,
         ]);
 
-        $I->seeRecord('common\models\dictionary\CategoryDoc', [
+        $I->seeRecord('\dictionary\models\CategoryDoc', [
             'name' => 'Документ 6',
-            'type_id' => CategoryDoc::TYPEDOC,
+            'type_id' => CategoryDocHelper::TYPEDOC,
         ]);
         $I->see('Документ 6', 'h1');
     }
@@ -123,9 +124,9 @@ class CategoryDocCest
         $I->amGoingTo('Удалить');
         $I->sendAjaxPostRequest(Url::to(['dictionary/category-doc/view', 'id' => 2]));
         $I->expectTo('Are you sure you want to delete this item?');
-        $I->dontSeeRecord('common\models\dictionary\CategoryDoc', [
+        $I->dontSeeRecord('\dictionary\models\CategoryDoc', [
             'name' => 'Документ 6',
-            'type_id' => CategoryDoc::TYPEDOC,
+            'type_id' => CategoryDocHelper::TYPEDOC,
         ]);
     }
 }

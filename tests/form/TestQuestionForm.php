@@ -31,7 +31,7 @@ class TestQuestionForm extends Model
     {
         return [
             [['type_id', 'title', 'mark', 'text'], 'required'],
-            ['title', 'unique', 'targetClass'=> TestQuestion::class, 'targetAttribute'=> ['title', 'text'], 'message' => 'Такой вопрос уже внесен в систему'],
+            ['title', 'unique', 'targetClass' => TestQuestion::class, 'targetAttribute' => ['title', 'text'], 'message' => 'Такой вопрос уже внесен в систему'],
 
             ['file_type_id', 'required', 'when' => function ($model) {
                 /** @var self $model */
@@ -60,8 +60,8 @@ class TestQuestionForm extends Model
             [['title'], 'string', 'max' => 255],
             [['text'], 'string'],
             ['optionsArray', 'validateOptionsArray'],
-            ['type_id', 'in', 'range' => TestQuestionHelper::allTypesVlid() , 'allowArray' => true],
-            ['file_type_id', 'in', 'range' =>TestQuestionHelper::allFileTypesValid(), 'allowArray' => true],
+            ['type_id', 'in', 'range' => TestQuestionHelper::allTypesVlid(), 'allowArray' => true],
+            ['file_type_id', 'in', 'range' => TestQuestionHelper::allFileTypesValid(), 'allowArray' => true],
         ];
     }
 
@@ -111,14 +111,15 @@ class TestQuestionForm extends Model
         }
     }
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
 
         return TestQuestion::labels();
     }
 
     public function testQuestionGroupList(): array
     {
-        return  TestQuestionGroupHelper::testQuestionGroupList();
+        return TestQuestionGroupHelper::testQuestionGroupList();
     }
 
     public function getAllTypes(): array
@@ -126,7 +127,7 @@ class TestQuestionForm extends Model
         return TestQuestionHelper::getAllTypes();
     }
 
-    public function  getAllFileTypes(): array
+    public function getAllFileTypes(): array
     {
         return TestQuestionHelper::getAllFileTypes();
     }

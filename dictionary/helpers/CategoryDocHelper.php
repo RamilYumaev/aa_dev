@@ -1,5 +1,7 @@
 <?php
+
 namespace dictionary\helpers;
+
 use dictionary\models\CategoryDoc;
 use supplyhog\ClipboardJs\ClipboardJsAsset;
 use yii\helpers\ArrayHelper;

@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 
 class ClassAndOlympic extends ActiveRecord
 {
-    public static function create ($class_id, $olympic_id)
+    public static function create($class_id, $olympic_id)
     {
         $classAndOlympic = new static();
         $classAndOlympic->class_id = $class_id;
@@ -16,7 +16,7 @@ class ClassAndOlympic extends ActiveRecord
         return $classAndOlympic;
     }
 
-    public function edit ($class_id, $olympic_id)
+    public function edit($class_id, $olympic_id)
     {
         $this->class_id = $class_id;
         $this->olympic_id = $olympic_id;

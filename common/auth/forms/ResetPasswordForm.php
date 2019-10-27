@@ -1,7 +1,7 @@
 <?php
 
 
-namespace olympic\forms\auth;
+namespace common\auth\forms;
 
 
 use yii\base\Model;

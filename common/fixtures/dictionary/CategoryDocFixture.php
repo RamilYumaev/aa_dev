@@ -6,5 +6,5 @@ use yii\test\ActiveFixture;
 
 class CategoryDocFixture extends ActiveFixture
 {
-    public $modelClass = 'common\models\dictionary\CategoryDoc';
+    public $modelClass = 'dictionary\models\CategoryDoc';
 }

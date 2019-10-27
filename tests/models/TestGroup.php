@@ -1,6 +1,7 @@
 <?php
 
 namespace tests\models;
+
 use yii\db\ActiveRecord;
 
 class TestGroup extends ActiveRecord
@@ -10,15 +11,15 @@ class TestGroup extends ActiveRecord
         return 'test_group';
     }
 
-    public static function create ($test_id, $question_group_id)
+    public static function create($test_id, $question_group_id)
     {
         $testGroup = new static();
         $testGroup->test_id = $test_id;
-        $testGroup->question_group_id= $question_group_id;
+        $testGroup->question_group_id = $question_group_id;
         return $testGroup;
     }
 
-    public function edit ($test_id, $question_group_id)
+    public function edit($test_id, $question_group_id)
     {
         $this->test_id = $test_id;
         $this->question_group_id = $question_group_id;

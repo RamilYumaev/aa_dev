@@ -20,8 +20,8 @@ class DictSpecialityHelper
 
     public static function specialityNameAndCodeList(): array
     {
-        return ArrayHelper::map(DictSpeciality::find()->asArray()->all(), "id", function (array  $model){
-            return $model['code']. " - ". $model['name'];
+        return ArrayHelper::map(DictSpeciality::find()->asArray()->all(), "id", function (array $model) {
+            return $model['code'] . " - " . $model['name'];
         });
     }
 

@@ -18,10 +18,10 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
 
-
-    public static function create( $speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
-                            $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-                            $link) {
+    public static function create($speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
+                                  $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
+                                  $link)
+    {
         $competitiveGroup = new static();
         $competitiveGroup->speciality_id = $speciality_id;
         $competitiveGroup->specialization_id = $specialization_id;
@@ -30,9 +30,9 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->financing_type_id = $financing_type_id;
         $competitiveGroup->faculty_id = $faculty_id;
         $competitiveGroup->kcp = $kcp;
-        $competitiveGroup->special_right_id= $special_right_id;
+        $competitiveGroup->special_right_id = $special_right_id;
         $competitiveGroup->passing_score = $passing_score;
-        $competitiveGroup->is_new_program= $is_new_program;
+        $competitiveGroup->is_new_program = $is_new_program;
         $competitiveGroup->only_pay_status = $only_pay_status;
         $competitiveGroup->competition_count = $competition_count;
         $competitiveGroup->education_duration = $education_duration;
@@ -40,19 +40,20 @@ class DictCompetitiveGroup extends ActiveRecord
         return $competitiveGroup;
     }
 
-    public function edit ($speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
-                          $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-                          $link) {
+    public function edit($speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
+                         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
+                         $link)
+    {
         $this->speciality_id = $speciality_id;
         $this->specialization_id = $specialization_id;
         $this->edu_level = $edu_level;
         $this->education_form_id = $education_form_id;
         $this->financing_type_id = $financing_type_id;
-        $this->faculty_id =$faculty_id;
+        $this->faculty_id = $faculty_id;
         $this->kcp = $kcp;
-        $this->special_right_id= $special_right_id;
+        $this->special_right_id = $special_right_id;
         $this->passing_score = $passing_score;
-        $this->is_new_program= $is_new_program;
+        $this->is_new_program = $is_new_program;
         $this->only_pay_status = $only_pay_status;
         $this->competition_count = $competition_count;
         $this->education_duration = $education_duration;

@@ -7,7 +7,7 @@ namespace dictionary\models;
 use dictionary\forms\DictSchoolsForm;
 use dictionary\forms\DictSpecialityForm;
 
-class DictSchools  extends \yii\db\ActiveRecord
+class DictSchools extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,8 @@ class DictSchools  extends \yii\db\ActiveRecord
         return 'dict_schools';
     }
 
-    public static function create(DictSchoolsForm $form) {
+    public static function create(DictSchoolsForm $form)
+    {
         $schools = new static();
         $schools->name = $form->name;
         $schools->country_id = $form->country_id;
@@ -25,7 +26,8 @@ class DictSchools  extends \yii\db\ActiveRecord
         return $schools;
     }
 
-    public function edit(DictSchoolsForm $form) {
+    public function edit(DictSchoolsForm $form)
+    {
         $this->name = $form->name;
         $this->country_id = $form->country_id;
         $this->region_id = $form->region_id;
@@ -46,7 +48,7 @@ class DictSchools  extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $schools =  new static();
+        $schools = new static();
         return $schools->attributeLabels();
     }
 

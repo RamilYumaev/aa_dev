@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\forms\search;
 
 use dictionary\helpers\DictCountryHelper;

@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
+
 /* @var $model olympic\forms\auth\ProfileForm */
 
 use yii\bootstrap\ActiveForm;

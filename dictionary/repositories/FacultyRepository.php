@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\repositories;
 
 use dictionary\models\Faculty;
@@ -10,7 +11,7 @@ class FacultyRepository
     public function get($id): Faculty
     {
         if (!$model = Faculty::findOne($id)) {
-            throw new NotFoundHttpException('Faculty не найдено.');
+            throw new \DomainException( 'Faculty не найдено.');
         }
         return $model;
     }

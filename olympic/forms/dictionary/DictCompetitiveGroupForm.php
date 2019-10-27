@@ -14,23 +14,23 @@ use yii\base\Model;
 class DictCompetitiveGroupForm extends Model
 {
 
-public $speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
-    $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-    $link;
+    public $speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
+        $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
+        $link;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
-        if($competitiveGroup) {
+        if ($competitiveGroup) {
             $this->speciality_id = $competitiveGroup->speciality_id;
             $this->specialization_id = $competitiveGroup->specialization_id;
             $this->edu_level = $competitiveGroup->edu_level;
             $this->education_form_id = $competitiveGroup->education_form_id;
             $this->financing_type_id = $competitiveGroup->financing_type_id;
-            $this->faculty_id =$competitiveGroup->faculty_id;
+            $this->faculty_id = $competitiveGroup->faculty_id;
             $this->kcp = $competitiveGroup->kcp;
-            $this->special_right_id= $competitiveGroup->special_right_id;
+            $this->special_right_id = $competitiveGroup->special_right_id;
             $this->passing_score = $competitiveGroup->passing_score;
-            $this->is_new_program= $competitiveGroup->is_new_program;
+            $this->is_new_program = $competitiveGroup->is_new_program;
             $this->only_pay_status = $competitiveGroup->only_pay_status;
             $this->competition_count = $competitiveGroup->competition_count;
             $this->education_duration = $competitiveGroup->education_duration;
@@ -38,6 +38,7 @@ public $speciality_id, $specialization_id, $edu_level, $education_form_id, $fina
         }
         parent::__construct($config);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -50,9 +51,9 @@ public $speciality_id, $specialization_id, $edu_level, $education_form_id, $fina
             [['education_duration'], 'safe'],
             [['link'], 'string', 'max' => 255],
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
-                'unique', 'targetClass'=> DictCompetitiveGroup::class,'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
+                'unique', 'targetClass' => DictCompetitiveGroup::class, 'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
                 'message' => 'Такое сочетание уже есть'],
-            ['special_right_id', 'in', 'range' =>DictCompetitiveGroupHelper::specialRight() , 'allowArray' => true],
+            ['special_right_id', 'in', 'range' => DictCompetitiveGroupHelper::specialRight(), 'allowArray' => true],
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],
             ['edu_level', 'in', 'range' => DictCompetitiveGroupHelper::eduLevels(), 'allowArray' => true],
             ['education_form_id', 'in', 'range' => DictCompetitiveGroupHelper::forms(), 'allowArray' => true],
@@ -67,7 +68,7 @@ public $speciality_id, $specialization_id, $edu_level, $education_form_id, $fina
 
     public function formList(): array
     {
-       return DictCompetitiveGroupHelper::getEduForms();
+        return DictCompetitiveGroupHelper::getEduForms();
     }
 
     public function financingTypesList(): array

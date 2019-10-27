@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\forms\auth;
 
 use yii\base\Model;

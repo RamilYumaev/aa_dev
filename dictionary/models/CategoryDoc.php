@@ -18,15 +18,15 @@ class CategoryDoc extends \yii\db\ActiveRecord
     }
 
 
-    public static function create (CategoryDocForm $form) : self
+    public static function create(CategoryDocForm $form): self
     {
-        $categoryDoc =  new static();
+        $categoryDoc = new static();
         $categoryDoc->name = $form->name;
         $categoryDoc->type_id = $form->type_id;
         return $categoryDoc;
     }
 
-    public function edit(CategoryDocForm $form) :void
+    public function edit(CategoryDocForm $form): void
     {
         $this->name = $form->name;
         $this->type_id = $form->type_id;
@@ -46,7 +46,7 @@ class CategoryDoc extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $categoryDoc =  new static();
+        $categoryDoc = new static();
         return $categoryDoc->attributeLabels();
     }
 

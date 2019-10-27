@@ -1,5 +1,7 @@
 <?php
+
 namespace olympic\helpers\dictionary;
+
 use olympic\models\dictionary\CategoryDoc;
 use supplyhog\ClipboardJs\ClipboardJsAsset;
 use yii\helpers\ArrayHelper;

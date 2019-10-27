@@ -6,7 +6,7 @@ namespace olympic\models\dictionary;
 
 use olympic\forms\dictionary\DictSpecialityForm;
 
-class DictSchools  extends \yii\db\ActiveRecord
+class DictSchools extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -16,14 +16,16 @@ class DictSchools  extends \yii\db\ActiveRecord
         return 'dict_schools';
     }
 
-    public static function create(DictSpecialityForm $form) {
+    public static function create(DictSpecialityForm $form)
+    {
         $schools = new static();
         $schools->country_id = $form->country_id;
         $schools->region_id = $form->region_id;
         return $schools;
     }
 
-    public function edit(DictSpecialityForm $form) {
+    public function edit(DictSpecialityForm $form)
+    {
         $this->name = $form->name;
         $this->country_id = $form->country_id;
         $this->region_id = $form->region_id;
@@ -44,7 +46,7 @@ class DictSchools  extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $schools =  new static();
+        $schools = new static();
         return $schools->attributeLabels();
     }
 

@@ -36,6 +36,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         $this->template_id = $template_id;
         $this->special_type = $special_type;
     }
+
     /**
      * {@inheritdoc}
      */

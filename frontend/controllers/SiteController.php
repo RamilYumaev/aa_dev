@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use yii\web\Controller;
+
 /**
  * Site controller
  */

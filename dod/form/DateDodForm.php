@@ -14,7 +14,7 @@ class DateDodForm extends Model
 
     public function __construct(DateDod $dateDod = null, $config = [])
     {
-        if($dateDod) {
+        if ($dateDod) {
             $this->date_time = $dateDod->date_time;
             $this->dod_id = $dateDod->dod_id;
         }
@@ -40,9 +40,6 @@ class DateDodForm extends Model
     {
         return DodHelper::dodList();
     }
-
-
-
 
 
 }

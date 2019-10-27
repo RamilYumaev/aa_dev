@@ -30,7 +30,7 @@ class DictSchoolsForm extends \yii\base\Model
         return [
             [['name', 'country_id'], 'required'],
             [['name'], 'string'],
-            ['name', 'unique', 'targetClass' => DictSchools::class, 'message'=> 'Такая учебная организация уже есть в справочнике'],
+            ['name', 'unique', 'targetClass' => DictSchools::class, 'message' => 'Такая учебная организация уже есть в справочнике'],
             [['country_id', 'region_id'], 'integer'],
             ['region_id', 'required', 'when' => function ($model) {
                 return $model->country_id == 46;
@@ -42,7 +42,7 @@ class DictSchoolsForm extends \yii\base\Model
 
     public function attributeLabels(): array
     {
-        return  DictSchools::labels();
+        return DictSchools::labels();
     }
 
     public function regionList(): array

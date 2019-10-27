@@ -2,8 +2,8 @@
 return [
     ["id" => 1,
         "name" => "Документ 1",
-        "type_id" => \common\models\dictionary\CategoryDoc::TYPEDOC],
+        "type_id" => \dictionary\helpers\CategoryDocHelper::TYPEDOC],
     ["id" => 2,
         "name" => "Линк 1",
-        "type_id" => \common\models\dictionary\CategoryDoc::TYPELINK]
+        "type_id" => \dictionary\helpers\CategoryDocHelper::TYPELINK]
 ];

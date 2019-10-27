@@ -3,6 +3,7 @@
 namespace olympic\repositories\auth;
 
 use olympic\models\auth\Profiles;
+
 NotFoundException
 
 
@@ -10,7 +11,8 @@ class ProfileRepository
 {
     public function get($id): Profiles
     {
-<<<<<<< HEAD:common/repositories/ProfileRepository.php
+        <<<<
+        <<< HEAD:common/repositories/ProfileRepository.php
         if (!$profile = Profiles::findOne($id)) {
             throw new NotFoundException('Profiles не найдено.');
         }

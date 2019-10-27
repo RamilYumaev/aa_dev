@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\forms;
 
 use dictionary\models\DictSpeciality;
@@ -10,7 +11,7 @@ class DictSpecialityForm extends Model
 
     public function __construct(DictSpeciality $speciality = null, $config = [])
     {
-        if($speciality) {
+        if ($speciality) {
             $this->name = $speciality->name;
             $this->code = $speciality->code;
         }
@@ -26,13 +27,13 @@ class DictSpecialityForm extends Model
             [['code', 'name'], 'required'],
             [['name'], 'string'],
             [['code'], 'string', 'max' => 8],
-            ['code', 'unique', 'targetClass' => 'backend\models\DictSpeciality','message' => 'Такой направление подготовки уже есть'],
+            ['code', 'unique', 'targetClass' => 'backend\models\DictSpeciality', 'message' => 'Такой направление подготовки уже есть'],
         ];
     }
 
     public function attributeLabels(): array
     {
-        return  DictSpeciality::labels();
+        return DictSpeciality::labels();
     }
 
 }

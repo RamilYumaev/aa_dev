@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\models;
 
 use dictionary\forms\DictClassForm;

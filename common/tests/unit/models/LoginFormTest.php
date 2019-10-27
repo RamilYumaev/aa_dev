@@ -3,7 +3,7 @@
 namespace common\tests\unit\models;
 
 use common\auth\models\User;
-use olympic\repositories\auth\UserRepository;
+use common\auth\repositories\UserRepository;
 use olympic\services\auth\AuthService;
 use Yii;
 use olympic\forms\auth\LoginForm;

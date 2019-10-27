@@ -8,7 +8,7 @@ class UserOlimpiads extends \yii\db\ActiveRecord
 {
 
 
-    public static  function create ($olympiads_id, $user_id)
+    public static function create($olympiads_id, $user_id)
     {
         $olimpicUser = new static();
         $olimpicUser->olympiads_id = $olympiads_id;

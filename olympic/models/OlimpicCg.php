@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 class OlimpicCg extends ActiveRecord
 {
 
-    public static  function create ($olimpic_id, $competitive_group_id)
+    public static function create($olimpic_id, $competitive_group_id)
     {
         $olimpicCg = new static();
         $olimpicCg->olimpic_id = $olimpic_id;

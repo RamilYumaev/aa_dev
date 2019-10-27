@@ -14,9 +14,9 @@ class OlimpiadsTypeTemplatesForm extends Model
 {
     public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $special_type;
 
-    public function __construct(OlimpiadsTypeTemplates $olimpiadsTypeTemplates = null,$config = [])
+    public function __construct(OlimpiadsTypeTemplates $olimpiadsTypeTemplates = null, $config = [])
     {
-        if ($olimpiadsTypeTemplates){
+        if ($olimpiadsTypeTemplates) {
             $this->number_of_tours = $olimpiadsTypeTemplates->number_of_tours;
             $this->form_of_passage = $olimpiadsTypeTemplates->form_of_passage;
             $this->edu_level_olimp = $olimpiadsTypeTemplates->edu_level_olimp;

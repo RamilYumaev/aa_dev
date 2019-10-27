@@ -1,5 +1,6 @@
 <?php
-namespace  tests\models;
+
+namespace tests\models;
 
 use tests\forms\TestForm;
 use yii\db\ActiveRecord;
@@ -11,8 +12,8 @@ class Test extends ActiveRecord
         return 'test';
     }
 
-    public static function create (TestForm $form, $olimpic_id,
-                                   $questionGroupsList)
+    public static function create(TestForm $form, $olimpic_id,
+                                  $questionGroupsList)
     {
         $test = new static();
         $test->olimpic_id = $olimpic_id;
@@ -25,8 +26,8 @@ class Test extends ActiveRecord
         return $test;
     }
 
-    public function edit (TestForm $form, $olimpic_id,
-                                   $questionGroupsList)
+    public function edit(TestForm $form, $olimpic_id,
+                         $questionGroupsList)
     {
         $this->olimpic_id = $olimpic_id;
         $this->status = $form->status;

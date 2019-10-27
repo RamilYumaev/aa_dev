@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\repositories\dictionary;
 
 use olympic\models\dictionary\CategoryDoc;

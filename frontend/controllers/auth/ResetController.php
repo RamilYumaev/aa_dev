@@ -2,9 +2,9 @@
 
 namespace frontend\controllers\auth;
 
-use olympic\services\auth\PasswordResetService;
-use olympic\forms\auth\ResetPasswordForm;
-use olympic\forms\auth\PasswordResetRequestForm;
+use common\auth\services\PasswordResetService;
+use common\auth\forms\ResetPasswordForm;
+use common\auth\forms\PasswordResetRequestForm;
 use yii\web\Controller;
 use Yii;
 
@@ -25,7 +25,7 @@ class ResetController extends Controller
      */
     public function actionRequest()
     {
-        $form = new PasswordResetRequestForm();
+        $form = new \common\auth\forms\PasswordResetRequestForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->request($form);
@@ -55,7 +55,7 @@ class ResetController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        $form = new ResetPasswordForm();
+        $form = new \common\auth\forms\ResetPasswordForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->reset($token, $form);

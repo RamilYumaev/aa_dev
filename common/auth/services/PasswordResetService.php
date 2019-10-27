@@ -1,12 +1,12 @@
 <?php
 
 
-namespace olympic\services\auth;
+namespace common\auth\services;
 
-use olympic\forms\auth\PasswordResetRequestForm;
-use olympic\forms\auth\ResetPasswordForm;
-use olympic\repositories\auth\UserRepository;
-use olympic\transactions\TransactionManager;
+use common\auth\forms\PasswordResetRequestForm;
+use common\auth\forms\ResetPasswordForm;
+use common\auth\repositories\UserRepository;
+use common\transactions\TransactionManager;
 use Yii;
 
 class PasswordResetService

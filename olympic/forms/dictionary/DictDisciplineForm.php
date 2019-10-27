@@ -13,12 +13,13 @@ class DictDisciplineForm extends Model
 
     public function __construct(DictDiscipline $discipline = null, $config = [])
     {
-        if($discipline) {
+        if ($discipline) {
             $this->name = $discipline->name;
             $this->links = $discipline->links;
         }
         parent::__construct($config);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -26,13 +27,13 @@ class DictDisciplineForm extends Model
     {
         return [
             [['name'], 'required'],
-            ['name', 'unique', 'targetClass' => 'backend\models\dictionary\DictDiscipline', 'message'=> 'Такая дисциплина уже есть в справочнике'],
+            ['name', 'unique', 'targetClass' => 'backend\models\dictionary\DictDiscipline', 'message' => 'Такая дисциплина уже есть в справочнике'],
             [['name', 'links'], 'string', 'max' => 255],
         ];
     }
 
     public function attributeLabels(): array
     {
-        return  DictDiscipline::labels();
+        return DictDiscipline::labels();
     }
 }

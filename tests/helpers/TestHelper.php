@@ -1,4 +1,5 @@
 <?php
+
 namespace tests\helpers;
 
 use yii\helpers\ArrayHelper;
@@ -11,7 +12,7 @@ class TestHelper
     public static function typeCalculateList()
     {
         return [self::BALL => 'проходной балл',
-        self::PERSENT => 'процент',];
+            self::PERSENT => 'процент',];
     }
 
     public static function typeCalculateName($key): string

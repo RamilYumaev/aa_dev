@@ -5,7 +5,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictSpecializationForm;
 
-class DictSpecialization  extends \yii\db\ActiveRecord
+class DictSpecialization extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -15,14 +15,16 @@ class DictSpecialization  extends \yii\db\ActiveRecord
         return 'dict_specialization';
     }
 
-    public static function create(DictSpecializationForm $form) {
+    public static function create(DictSpecializationForm $form)
+    {
         $specialization = new static();
         $specialization->name = $form->name;
         $specialization->speciality_id = $form->speciality_id;
         return $specialization;
     }
 
-    public function edit(DictSpecializationForm $form) {
+    public function edit(DictSpecializationForm $form)
+    {
         $this->name = $form->name;
         $this->speciality_id = $form->speciality_id;
     }
@@ -42,7 +44,7 @@ class DictSpecialization  extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $specialization =  new static();
+        $specialization = new static();
         return $specialization->attributeLabels();
     }
 }

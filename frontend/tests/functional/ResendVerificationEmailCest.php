@@ -77,7 +77,7 @@ class ResendVerificationEmailCest
 
         $I->canSeeEmailIsSent();
 
-        $I->seeRecord('common\models\auth\User', [
+        $I->seeRecord('common\auth\models\User', [
             'email' => 'test2@mail.com',
             'username' => 'test2.test'
         ]);

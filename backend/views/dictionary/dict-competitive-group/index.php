@@ -1,4 +1,5 @@
 <?php
+
 use olympic\helpers\dictionary\DictSpecializationHelper;
 use olympic\helpers\dictionary\DictFacultyHelper;
 use olympic\helpers\dictionary\DictSpecialityHelper;

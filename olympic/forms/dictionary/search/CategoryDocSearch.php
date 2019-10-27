@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\forms\dictionary\search;
 
 use olympic\helpers\dictionary\CategoryDocHelper;

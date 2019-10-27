@@ -14,7 +14,7 @@ class TestQuestionGroupForm extends Model
 
     public function __construct(TestQuestionGroup $questionGroup = null, $config = [])
     {
-        if($questionGroup){
+        if ($questionGroup) {
             $this->olimpic_id = $questionGroup->olimpic_id;
             $this->name = $questionGroup->name;
         }

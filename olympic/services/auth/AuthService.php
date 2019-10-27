@@ -1,9 +1,10 @@
 <?php
+
 namespace olympic\services\auth;
 
 use olympic\forms\auth\LoginForm;
 use common\auth\models\User;
-use olympic\repositories\auth\UserRepository;
+use common\auth\repositories\UserRepository;
 
 class AuthService
 {

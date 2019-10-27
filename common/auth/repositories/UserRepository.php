@@ -1,11 +1,12 @@
 <?php
-namespace olympic\repositories\auth;
+
+namespace common\auth\repositories;
 
 use common\auth\models\User;
 
 class UserRepository
 {
-    public function findByUsernameOrEmail($value): ?\common\auth\models\User
+    public function findByUsernameOrEmail($value): ?User
     {
         return \common\auth\models\User::find()->andWhere(['or', ['username' => $value], ['email' => $value]])->one();
     }
@@ -24,7 +25,7 @@ class UserRepository
         }
     }
 
-    private function getBy(array $condition): \common\auth\models\User
+    private function getBy(array $condition): User
     {
         if (!$user = \common\auth\models\User::find()->andWhere($condition)->limit(1)->one()) {
             throw new \DomainException('Такого пользователя нет.');
@@ -32,7 +33,7 @@ class UserRepository
         return $user;
     }
 
-    public function get($id): \common\auth\models\User
+    public function get($id): User
     {
         return $this->getBy(['id' => $id]);
     }
@@ -42,19 +43,19 @@ class UserRepository
         return $this->getBy(['verification_token' => $token]);
     }
 
-    public function getByEmail($email): \common\auth\models\User
+    public function getByEmail($email): User
     {
         return $this->getBy(['email' => $email]);
     }
 
-    public function getByPasswordResetToken($token): \common\auth\models\User
+    public function getByPasswordResetToken($token): User
     {
         return $this->getBy(['password_reset_token' => $token]);
     }
 
     public function existsByPasswordResetToken(string $token): bool
     {
-        return (bool) User::findByPasswordResetToken($token);
+        return (bool)User::findByPasswordResetToken($token);
     }
 
 

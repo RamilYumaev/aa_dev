@@ -13,7 +13,7 @@ class TestClass extends ActiveRecord
         return 'test_class';
     }
 
-    public static function create ($test_id, $class_id)
+    public static function create($test_id, $class_id)
     {
         $testClass = new static();
         $testClass->test_id = $test_id;
@@ -21,7 +21,7 @@ class TestClass extends ActiveRecord
         return $testClass;
     }
 
-    public function edit ($test_id, $class_id)
+    public function edit($test_id, $class_id)
     {
         $this->test_id = $test_id;
         $this->class_id = $class_id;

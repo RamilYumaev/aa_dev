@@ -9,10 +9,10 @@ use yii\db\ActiveRecord;
 class OlimpicNomination extends ActiveRecord
 {
 
-    public static function create ($olimpic_id, $name)
+    public static function create($olimpic_id, $name)
     {
         $nomination = new static();
-        $nomination->olimpic_id =$olimpic_id;
+        $nomination->olimpic_id = $olimpic_id;
         $nomination->name = $name;
         return $nomination;
     }

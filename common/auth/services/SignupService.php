@@ -1,14 +1,14 @@
 <?php
 
 
-namespace olympic\services\auth;
+namespace common\auth\services;
 
 use olympic\helpers\auth\RoleHelper;
 use Yii;
-use olympic\forms\auth\SignupForm;
+use common\auth\forms\SignupForm;
 use common\auth\models\User;
-use olympic\repositories\auth\UserRepository;
-use olympic\transactions\TransactionManager;
+use common\auth\repositories\UserRepository;
+use common\transactions\TransactionManager;
 use yii\base\InvalidArgumentException;
 
 class SignupService
@@ -17,7 +17,7 @@ class SignupService
     private $transaction;
 
     public function __construct(
-        UserRepository $users,
+        \common\auth\repositories\UserRepository $users,
         TransactionManager $transaction
     )
     {
@@ -25,7 +25,7 @@ class SignupService
         $this->transaction = $transaction;
     }
 
-    public function signup(SignupForm $form): void
+    public function signup(\common\auth\forms\SignupForm $form): void
     {
         $this->transaction->wrap(function () use ($form) {
             $user = $this->newUser($form);
@@ -35,7 +35,7 @@ class SignupService
         });
     }
 
-    public function newUser(SignupForm $form): \common\auth\models\User
+    public function newUser(\common\auth\forms\SignupForm $form): \common\auth\models\User
     {
         $user = \common\auth\models\User::requestSignup($form);
         return $user;
