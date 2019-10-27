@@ -2,11 +2,11 @@
 
 namespace common\tests\unit\models;
 
-use common\models\auth\User;
-use common\repositories\UserRepository;
-use common\services\auth\AuthService;
+use common\auth\models\User;
+use olympic\repositories\auth\UserRepository;
+use olympic\services\auth\AuthService;
 use Yii;
-use common\forms\auth\LoginForm;
+use olympic\forms\auth\LoginForm;
 use common\fixtures\UserFixture;
 
 /**

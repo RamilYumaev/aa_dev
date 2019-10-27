@@ -5,7 +5,7 @@ namespace olympic\forms;
 
 
 use olympic\helpers\OlympicHelper;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use olympic\models\Diploma;
 use olympic\models\Olympic;
 use yii\base\Model;

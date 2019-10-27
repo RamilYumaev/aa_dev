@@ -6,7 +6,7 @@ namespace olympic\forms\auth;
 
 use olympic\helpers\auth\RoleHelper;
 use olympic\models\auth\AuthAssignment;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use yii\base\Model;
 
 class UserEditForm extends Model
@@ -17,7 +17,7 @@ class UserEditForm extends Model
 
     public $_user;
 
-    public function __construct(User $user, $config = [])
+    public function __construct(\common\auth\models\User $user, $config = [])
     {
         $this->username = $user->username;
         $this->email = $user->email;
@@ -33,7 +33,7 @@ class UserEditForm extends Model
             [['username', 'email', 'role'], 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            [['username', 'email'], 'unique', 'targetClass' => User::class, 'filter' => ['<>', 'id', $this->_user->id]],
+            [['username', 'email'], 'unique', 'targetClass' => \common\auth\models\User::class, 'filter' => ['<>', 'id', $this->_user->id]],
         ];
     }
 

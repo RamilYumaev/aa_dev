@@ -6,7 +6,7 @@ namespace olympic\services\auth;
 
 use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use olympic\repositories\auth\UserRepository;
 use olympic\transactions\TransactionManager;
 
@@ -24,9 +24,9 @@ class UserService
         $this->transaction = $transaction;
     }
 
-    public function create(UserCreateForm $form): User
+    public function create(UserCreateForm $form): \common\auth\models\User
     {
-        $user = User::create($form);
+        $user = \common\auth\models\User::create($form);
         $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
             $user->setAssignment($form->role);

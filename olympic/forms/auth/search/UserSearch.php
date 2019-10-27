@@ -6,7 +6,7 @@ use olympic\helpers\auth\RoleHelper;
 use olympic\models\auth\AuthAssignment;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use olympic\models\auth\User;
+use common\auth\models\User;
 
 
 class UserSearch extends Model

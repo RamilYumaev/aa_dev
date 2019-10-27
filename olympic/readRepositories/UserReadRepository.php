@@ -2,7 +2,7 @@
 namespace olympic\readRepositories;
 
 use olympic\helpers\auth\UserHelper;
-use olympic\models\auth\User;
+use common\auth\models\User;
 
 class UserReadRepository
 {

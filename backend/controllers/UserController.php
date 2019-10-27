@@ -6,7 +6,7 @@ use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
 use olympic\services\auth\UserService;
 use Yii;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use olympic\forms\auth\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

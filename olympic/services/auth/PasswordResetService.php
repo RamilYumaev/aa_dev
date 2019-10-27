@@ -5,7 +5,7 @@ namespace olympic\services\auth;
 
 use olympic\forms\auth\PasswordResetRequestForm;
 use olympic\forms\auth\ResetPasswordForm;
-use olympic\repositories\UserRepository;
+use olympic\repositories\auth\UserRepository;
 use olympic\transactions\TransactionManager;
 use Yii;
 
