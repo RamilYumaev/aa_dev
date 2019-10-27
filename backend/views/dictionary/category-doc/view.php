@@ -2,16 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use olympic\helpers\dictionary\CategoryDocHelper;
+use dictionary\helpers\CategoryDocHelper;
 
 /* @var $this yii\web\View */
-/* @var $catDoc common\models\dictionary\CategoryDoc */
+/* @var $catDoc dictionary\models\CategoryDoc */
 
 $this->title = $catDoc->name;
 $this->params['breadcrumbs'][] = ['label' => 'Категории документов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= $this->title ?></h1>
+
 
 <div class="catDoc-view">
     <p>

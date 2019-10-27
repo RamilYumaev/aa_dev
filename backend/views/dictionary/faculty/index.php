@@ -5,14 +5,13 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\forms\dictionary\FacultySearch */
+/* @var $searchModel dictionary\forms\search\FacultySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Факультеты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="faculty-index">
-    <h1><?= $this->title ?></h1>
     <p>
         <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -31,4 +30,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-</div>
+

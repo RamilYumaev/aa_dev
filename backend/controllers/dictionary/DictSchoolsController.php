@@ -2,20 +2,21 @@
 
 namespace backend\controllers\dictionary;
 
-use dictionary\forms\search\FacultySearch;
-use dictionary\forms\FacultyForm;
-use dictionary\models\Faculty;
-use dictionary\services\FacultyService;
+
+use dictionary\forms\DictSchoolsForm;
+use dictionary\forms\search\DictSchoolsSearch;
+use dictionary\models\DictSchools;
+use dictionary\services\DictSchoolsService;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
-class FacultyController extends Controller
+class DictSchoolsController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, FacultyService $service, $config = [])
+    public function __construct($id, $module, DictSchoolsService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -38,7 +39,7 @@ class FacultyController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FacultySearch();
+        $searchModel = new DictSchoolsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,28 +49,15 @@ class FacultyController extends Controller
     }
 
     /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'faculty' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * @return mixed
      */
     public function actionCreate()
     {
-        $form = new FacultyForm();
+        $form = new DictSchoolsForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $faculty = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $faculty->id]);
+                $this->service->create($form);
+                return $this->redirect(['index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -87,13 +75,13 @@ class FacultyController extends Controller
      */
     public function actionUpdate($id)
     {
-        $faculty = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        $form = new FacultyForm($faculty);
+        $form = new DictSchoolsForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($faculty->id, $form);
-                return $this->redirect(['view', 'id' => $faculty->id]);
+                $this->service->edit($model->id, $form);
+                return $this->redirect(['index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -101,7 +89,7 @@ class FacultyController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'faculty' => $faculty,
+            'school' => $model,
         ]);
     }
 
@@ -110,9 +98,9 @@ class FacultyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): Faculty
+    protected function findModel($id): DictSchools
     {
-        if (($model = Faculty::findOne($id)) !== null) {
+        if (($model = DictSchools::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');

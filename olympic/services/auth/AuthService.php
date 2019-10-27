@@ -3,7 +3,7 @@ namespace olympic\services\auth;
 
 use olympic\forms\auth\LoginForm;
 use olympic\models\auth\User;
-use olympic\repositories\UserRepository;
+use olympic\repositories\auth\UserRepository;
 
 class AuthService
 {

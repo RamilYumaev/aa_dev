@@ -3,6 +3,8 @@
 
 namespace olympic\forms\auth;
 
+use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictRegionHelper;
 use olympic\models\auth\Profiles;
 use yii\base\Model;
 
@@ -31,7 +33,7 @@ class ProfileForm extends Model
     public function rules(): array
     {
         return [
-            [['last_name', 'first_name', 'phone'], 'required'],
+            [['last_name', 'first_name', 'phone', 'country_id'], 'required'],
             [['country_id', 'region_id'], 'integer'],
             [['last_name', 'first_name', 'patronymic'], 'string', 'min' => 1, 'max' => 255],
             [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яА-Я\-\s]+$/u',
@@ -50,6 +52,16 @@ class ProfileForm extends Model
     public function attributeLabels(): array
     {
         return Profiles::labels();
+    }
+
+    public function regionList(): array
+    {
+        return DictRegionHelper::regionList();
+    }
+
+    public function countryList(): array
+    {
+        return DictCountryHelper::countryList();
     }
 
 }

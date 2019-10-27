@@ -2,10 +2,9 @@
 
 namespace backend\controllers\dictionary;
 
-
-use olympic\forms\dictionary\DictClassForm;
-use olympic\models\dictionary\DictClass;
-use olympic\services\dictionary\DictClassService;
+use dictionary\forms\DictClassForm;
+use dictionary\models\DictClass;
+use dictionary\services\DictClassService;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
@@ -71,6 +70,7 @@ class DictClassController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -95,6 +95,7 @@ class DictClassController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     protected function findModel($id): DictClass
     {
