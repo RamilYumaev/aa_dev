@@ -35,7 +35,8 @@ class UserFaculty extends ActiveRecord
         ];
     }
 
-    public static function labels() {
+    public static function labels()
+    {
         $userFaculty = new static();
         return $userFaculty->attributeLabels();
     }

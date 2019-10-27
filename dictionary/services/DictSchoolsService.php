@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\services;
 
 use dictionary\forms\DictSchoolsForm;

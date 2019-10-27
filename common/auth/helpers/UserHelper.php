@@ -1,5 +1,6 @@
 <?php
-namespace olympic\helpers\auth;
+
+namespace common\auth\helpers;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

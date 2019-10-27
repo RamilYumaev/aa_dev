@@ -1,5 +1,6 @@
 <?php
-namespace olympic\forms\auth;
+
+namespace common\auth\forms;
 
 use common\auth\models\User;
 use yii\base\Model;
@@ -42,7 +43,7 @@ class SignupForm extends Model
                     return $model->password !== null && $model->password !== '';
                 },
             ],
-            ['verifyCode', 'captcha', 'captchaAction'=>'/auth/signup/captcha'],
+            ['verifyCode', 'captcha', 'captchaAction' => '/auth/signup/captcha'],
             ['agree', 'required', 'requiredValue' => true, 'message' => 'Согласитесь, пожалуйста, с обработкой персональных данных, поставив соответствующую "галочку"'],
 
         ];

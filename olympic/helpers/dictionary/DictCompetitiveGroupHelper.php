@@ -31,8 +31,8 @@ class DictCompetitiveGroupHelper
     public static function getEduForms(): array
     {
         return [self::EDU_FORM_OCH => 'очная',
-                self::EDU_FORM_OCH_ZAOCH => 'очно-заочная',
-                self::EDU_FORM_ZAOCH => 'заочная'];
+            self::EDU_FORM_OCH_ZAOCH => 'очно-заочная',
+            self::EDU_FORM_ZAOCH => 'заочная'];
     }
 
     public static function getFinancingTypes(): array
@@ -48,7 +48,7 @@ class DictCompetitiveGroupHelper
 
     public static function getSpecialRight(): array
     {
-        return [self::USUAL => 'Обычная', self::SPECIAL_RIGHT => 'Квота',  self::TARGET_PLACE => 'Целевое'];
+        return [self::USUAL => 'Обычная', self::SPECIAL_RIGHT => 'Квота', self::TARGET_PLACE => 'Целевое'];
     }
 
     public static function forms(): array
@@ -63,12 +63,12 @@ class DictCompetitiveGroupHelper
 
     public static function specialRight(): array
     {
-        return [self::USUAL, self::SPECIAL_RIGHT,  self::TARGET_PLACE];
+        return [self::USUAL, self::SPECIAL_RIGHT, self::TARGET_PLACE];
     }
 
     public static function eduLevels(): array
     {
-        return [self::EDUCATION_LEVEL_SPO , self::EDUCATION_LEVEL_BACHELOR,
+        return [self::EDUCATION_LEVEL_SPO, self::EDUCATION_LEVEL_BACHELOR,
             self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
@@ -97,8 +97,6 @@ class DictCompetitiveGroupHelper
     {
         return ArrayHelper::getValue(self::getSpecialRight(), $key);
     }
-
-
 
 
 }

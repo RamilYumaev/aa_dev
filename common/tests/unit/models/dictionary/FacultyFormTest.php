@@ -50,7 +50,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
         $repoFaculty = $this->makeEmpty(FacultyRepository::class);
 
-        $facultyModel = Faculty::create($form->full_name);
+        $facultyModel = Faculty::create($form);
         $this->returnSelf($facultyModel);
 
         $this->assertEquals('Suka', $facultyModel->full_name);

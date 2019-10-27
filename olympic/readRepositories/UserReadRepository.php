@@ -1,7 +1,8 @@
 <?php
+
 namespace olympic\readRepositories;
 
-use olympic\helpers\auth\UserHelper;
+use common\auth\helpers\UserHelper;
 use common\auth\models\User;
 
 class UserReadRepository

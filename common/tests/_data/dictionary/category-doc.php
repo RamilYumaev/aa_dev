@@ -1,7 +1,7 @@
 <?php
 return [
     ["name" => "Документ 1",
-        "type_id" => \common\models\dictionary\CategoryDoc::TYPEDOC],
+        "type_id" => \dictionary\helpers\CategoryDocHelper::TYPEDOC],
     ["name" => "Линк 1",
-        "type_id" => \common\models\dictionary\CategoryDoc::TYPELINK]
+        "type_id" => \dictionary\helpers\CategoryDocHelper::TYPELINK]
 ];

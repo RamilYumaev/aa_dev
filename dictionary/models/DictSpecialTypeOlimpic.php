@@ -18,14 +18,14 @@ class DictSpecialTypeOlimpic extends ActiveRecord
         return 'dict_special_type_olimpic';
     }
 
-    public static function create (DictSpecialTypeOlimpicForm $form) : self
+    public static function create(DictSpecialTypeOlimpicForm $form): self
     {
-        $specialTypeOlimpic =  new static();
+        $specialTypeOlimpic = new static();
         $specialTypeOlimpic->name = $form->name;
         return $specialTypeOlimpic;
     }
 
-    public function edit(DictSpecialTypeOlimpicForm $form) :void
+    public function edit(DictSpecialTypeOlimpicForm $form): void
     {
         $this->name = $form->name;
     }
@@ -46,7 +46,6 @@ class DictSpecialTypeOlimpic extends ActiveRecord
         $specialTypeOlimpic = new static();
         return $specialTypeOlimpic->attributeLabels();
     }
-
 
 
 }

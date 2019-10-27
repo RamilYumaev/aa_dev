@@ -16,17 +16,20 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return 'dict_discipline';
     }
 
-    public static function create(DictDisciplineForm $form) {
+    public static function create(DictDisciplineForm $form)
+    {
         $discipline = new static();
         $discipline->name = $form->name;
         $discipline->links = $form->links;
         return $discipline;
     }
 
-    public function edit(DictDisciplineForm $form) {
+    public function edit(DictDisciplineForm $form)
+    {
         $this->name = $form->name;
         $this->links = $form->links;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +44,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
 
     public static function labels(): array
     {
-        $discipline =  new static();
+        $discipline = new static();
         return $discipline->attributeLabels();
     }
 

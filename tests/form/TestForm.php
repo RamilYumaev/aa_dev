@@ -20,7 +20,7 @@ class TestForm extends Model
 
     public function __construct(Test $test = null, $config = [])
     {
-        if($test) {
+        if ($test) {
             $this->olimpic_id = $test->olimpic_id;
             $this->status = $test->status;
             $this->type_calculate_id = $test->type_calculate_id;
@@ -62,7 +62,6 @@ class TestForm extends Model
             $this->addError($attribute, 'Множество классов тестов в рамках одной олимпиады пересекаться не могут.');
         }
     }
-
 
 
     public function olimpicList(): array

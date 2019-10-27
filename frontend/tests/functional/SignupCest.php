@@ -68,7 +68,7 @@ class SignupCest
         ]);
 
 
-        $I->seeRecord('common\models\auth\User', [
+        $I->seeRecord('common\auth\models\User', [
             'username' => 'tester43',
             'email' => 'tester34email@example.com',
             'status' => '0',

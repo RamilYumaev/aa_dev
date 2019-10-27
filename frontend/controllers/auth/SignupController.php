@@ -2,8 +2,8 @@
 
 namespace frontend\controllers\auth;
 
-use olympic\forms\auth\SignupForm;
-use olympic\services\auth\SignupService;
+use common\auth\forms\SignupForm;
+use common\auth\services\SignupService;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
@@ -55,7 +55,7 @@ class SignupController extends Controller
             return $this->goHome();
         }
 
-        $form = new SignupForm();
+        $form = new \common\auth\forms\SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);

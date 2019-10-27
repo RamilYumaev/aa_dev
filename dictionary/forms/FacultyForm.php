@@ -1,11 +1,13 @@
 <?php
+
 namespace dictionary\forms;
+
 use dictionary\models\Faculty;
 use yii\base\Model;
 
 class FacultyForm extends Model
 {
-    public  $full_name;
+    public $full_name;
 
     /**
      * {@inheritdoc}
@@ -22,7 +24,7 @@ class FacultyForm extends Model
     {
         return [
             ['full_name', 'required'],
-            ['full_name', 'unique', 'targetClass' => '\common\models\Faculty', 'message' => 'Такое наименование существует'],
+            ['full_name', 'unique', 'targetClass' => '\dictionary\models\Faculty', 'message' => 'Такое наименование существует'],
             ['full_name', 'string'],
         ];
     }

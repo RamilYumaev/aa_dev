@@ -14,14 +14,14 @@ class DisciplineCompetitiveGroupForm extends Model
 
     public function __construct(DisciplineCompetitiveGroup $competitiveGroup, $config = [])
     {
-        if($competitiveGroup)
-        {
+        if ($competitiveGroup) {
             $this->discipline_id = $competitiveGroup->discipline_id;
             $this->competitive_group_id = $competitiveGroup->competitive_group_id;
             $this->priority = $competitiveGroup->priority;
         }
         parent::__construct($config);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -43,9 +43,8 @@ class DisciplineCompetitiveGroupForm extends Model
 
     public function disciplineList(): array
     {
-        return  DictDisciplineHelper::disciplineList();
+        return DictDisciplineHelper::disciplineList();
     }
-
 
 
 }

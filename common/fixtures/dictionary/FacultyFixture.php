@@ -6,5 +6,5 @@ use yii\test\ActiveFixture;
 
 class FacultyFixture extends ActiveFixture
 {
-    public $modelClass = 'common\models\dictionary\Faculty';
+    public $modelClass = 'dictionary\models\Faculty';
 }

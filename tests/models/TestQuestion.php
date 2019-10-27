@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 class TestQuestion extends ActiveRecord
 {
 
-    public static function create (TestQuestionForm $form, $group_id)
+    public static function create(TestQuestionForm $form, $group_id)
     {
         $testQue = new static();
         $testQue->type_id = $form->type_id;
@@ -23,7 +23,7 @@ class TestQuestion extends ActiveRecord
         return $testQue;
     }
 
-    public function edit (TestQuestionForm $form, $group_id)
+    public function edit(TestQuestionForm $form, $group_id)
     {
         $this->type_id = $form->type_id;
         $this->title = $form->title;
@@ -57,12 +57,11 @@ class TestQuestion extends ActiveRecord
         ];
     }
 
-    public static function labels ()
+    public static function labels()
     {
         $testQue = new static();
         $testQue->attributeLabels();
     }
-
 
 
 }

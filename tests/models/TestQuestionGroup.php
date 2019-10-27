@@ -12,7 +12,7 @@ class TestQuestionGroup extends ActiveRecord
         return 'test_question_group';
     }
 
-    public static function create ($olimpic_id, $name)
+    public static function create($olimpic_id, $name)
     {
         $testQuestionGroup = new static();
         $testQuestionGroup->olimpic_id = $olimpic_id;
@@ -20,7 +20,7 @@ class TestQuestionGroup extends ActiveRecord
         return $testQuestionGroup;
     }
 
-    public function edit ($olimpic_id, $name)
+    public function edit($olimpic_id, $name)
     {
         $this->olimpic_id = $olimpic_id;
         $this->name = $name;

@@ -43,7 +43,7 @@ class DictCompetitiveGroupSearch extends Model
         $query->andFilterWhere([
             'speciality_id' => $this->speciality_id,
             'specialization_id' => $this->specialization_id,
-            'faculty_id'=> $this->faculty_id
+            'faculty_id' => $this->faculty_id
         ]);
 
         return $dataProvider;
@@ -54,7 +54,7 @@ class DictCompetitiveGroupSearch extends Model
         return DictCompetitiveGroup::labels();
     }
 
-    public function  specialityCodeList(): array
+    public function specialityCodeList(): array
     {
         return DictSpecialityHelper::specialityCodeList();
     }

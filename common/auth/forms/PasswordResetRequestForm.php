@@ -1,10 +1,11 @@
 <?php
 
 
-namespace olympic\forms\auth;
+namespace common\auth\forms;
 
 
 use common\auth\models\User;
+use common\auth\helpers\UserHelper;
 use yii\base\Model;
 
 class PasswordResetRequestForm extends Model
@@ -19,7 +20,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => User::class,
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                'filter' => ['status' => UserHelper::STATUS_ACTIVE],
                 'message' => 'Нет пользователя с этим адресом электронной почты.'
             ],
         ];

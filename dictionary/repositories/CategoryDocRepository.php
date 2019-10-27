@@ -1,4 +1,5 @@
 <?php
+
 namespace dictionary\repositories;
 
 use dictionary\models\CategoryDoc;

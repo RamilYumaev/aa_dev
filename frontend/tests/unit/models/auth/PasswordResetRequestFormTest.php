@@ -2,12 +2,12 @@
 
 namespace frontend\tests\unit\models;
 
-use common\repositories\UserRepository;
-use common\services\auth\PasswordResetService;
+use common\auth\repositories\UserRepository;
+use common\auth\services\PasswordResetService;
 use common\transactions\TransactionManager;
-use common\forms\auth\PasswordResetRequestForm;
+use common\auth\forms\PasswordResetRequestForm;
 use common\fixtures\UserFixture as UserFixture;
-use common\models\User;
+use common\auth\models\User;
 
 class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 {
@@ -29,7 +29,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
 
     private function serviceReset()
     {
-        $repoUser = $this->make(UserRepository::class, ['find' => new \common\models\auth\User]);
+        $repoUser = $this->make(UserRepository::class, ['find' => new \common\auth\models\User]);
         $transaction = $this->makeEmpty(TransactionManager::class);
         $resetService = new PasswordResetService($repoUser, $transaction);
         return $resetService;

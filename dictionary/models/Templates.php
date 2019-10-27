@@ -13,7 +13,8 @@ class Templates extends ActiveRecord
         return 'templates';
     }
 
-    public static function create(TemplatesForm $form) {
+    public static function create(TemplatesForm $form)
+    {
         $templates = new static();
         $templates->type_id = $form->type_id;
         $templates->name = $form->name;
@@ -22,7 +23,8 @@ class Templates extends ActiveRecord
         return $templates;
     }
 
-    public function edit(TemplatesForm $form) {
+    public function edit(TemplatesForm $form)
+    {
         $this->type_id = $form->type_id;
         $this->name = $form->name;
         $this->name_for_user = $form->name_for_user;
@@ -36,12 +38,13 @@ class Templates extends ActiveRecord
             'type_id' => 'Тип шаблона',
             'name' => 'Название шаблона',
             'text' => 'Текст шаблона',
-            'name_for_user'=> 'Название для отображения на сайте',
+            'name_for_user' => 'Название для отображения на сайте',
 
         ];
     }
 
-    public static function labels(): array {
+    public static function labels(): array
+    {
         $templates = new static();
         return $templates->attributeLabels();
     }

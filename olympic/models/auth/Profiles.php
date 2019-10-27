@@ -15,7 +15,8 @@ class Profiles extends \yii\db\ActiveRecord
         return 'profiles';
     }
 
-    public static function create(ProfileForm $form) {
+    public static function create(ProfileForm $form)
+    {
         $profile = new static();
         $profile->last_name = $form->last_name;
         $profile->first_name = $form->first_name;
@@ -27,7 +28,8 @@ class Profiles extends \yii\db\ActiveRecord
         return $profile;
     }
 
-    public function edit(ProfileForm $form) {
+    public function edit(ProfileForm $form)
+    {
         $this->last_name = $form->last_name;
         $this->first_name = $form->first_name;
         $this->patronymic = $form->patronymic;

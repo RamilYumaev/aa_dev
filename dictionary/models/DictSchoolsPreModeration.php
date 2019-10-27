@@ -16,7 +16,8 @@ class DictSchoolsPreModeration extends \yii\db\ActiveRecord
         return 'dict_schools_pre_moderation';
     }
 
-    public static function create(DictSchoolsPreModerationForm $form) {
+    public static function create(DictSchoolsPreModerationForm $form)
+    {
         $preModeration = new static();
 
         $preModeration->name = $form->name;
@@ -27,7 +28,8 @@ class DictSchoolsPreModeration extends \yii\db\ActiveRecord
         return $preModeration;
     }
 
-    public function edit(DictSchoolsPreModerationForm $form) {
+    public function edit(DictSchoolsPreModerationForm $form)
+    {
         $this->name = $form->name;
         $this->dict_school_id = $form->dict_school_id;
         $this->country_id = $form->country_id;
@@ -47,7 +49,8 @@ class DictSchoolsPreModeration extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function labels() {
+    public static function labels()
+    {
         $preModeration = new static();
         return $preModeration->attributeLabels();
     }

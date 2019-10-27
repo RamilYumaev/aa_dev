@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\models\auth;
 
 use common\auth\models\User;

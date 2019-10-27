@@ -66,7 +66,7 @@ class OlympicHelper
 
     public static function typeOfTimeDistanceTourValid()
     {
-        return ['',  self::TIME_FIX, self::TIME_REG];
+        return ['', self::TIME_FIX, self::TIME_REG];
     }
 
     public static function numberOfTours()
@@ -81,7 +81,7 @@ class OlympicHelper
 
     public static function numberOfToursValid()
     {
-        return [ '', self::ONE_TOUR, self::TWO_TOUR, self::THREE_TOUR];
+        return ['', self::ONE_TOUR, self::TWO_TOUR, self::THREE_TOUR];
     }
 
     public static function listPosition()
@@ -96,7 +96,7 @@ class OlympicHelper
 
     public static function listPositionValid()
     {
-        return [ self::NULL_LIST_POSITION, self::FIRST_LIST_POSITION, self::SECOND_LIST_POSITION,
+        return [self::NULL_LIST_POSITION, self::FIRST_LIST_POSITION, self::SECOND_LIST_POSITION,
             self::THIRD_LIST_POSITION];
     }
 
@@ -114,7 +114,7 @@ class OlympicHelper
 
     public static function formOfPassageValid()
     {
-        return [ '', self::OCHNAYA_FORMA, self::ZAOCHNAYA_FORMA, self::OCHNO_ZAOCHNAYA_FORMA,
+        return ['', self::OCHNAYA_FORMA, self::ZAOCHNAYA_FORMA, self::OCHNO_ZAOCHNAYA_FORMA,
             self::ZAOCHNO_OCHO_ZAOCHNAYA, self::ZAOCHNO_ZAOCHNAYA];
     }
 
@@ -157,7 +157,7 @@ class OlympicHelper
 
     public static function prefillingValid()
     {
-        return [ self::PREFILING_BAS, self::PREFILING_PRE];
+        return [self::PREFILING_BAS, self::PREFILING_PRE];
     }
 
     public static function typeOfTimeDistanceTourName($key)

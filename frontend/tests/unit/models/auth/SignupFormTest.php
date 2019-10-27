@@ -4,10 +4,10 @@ namespace frontend\tests\unit\models\auth;
 
 use common\auth\rbac\RoleManager;
 use common\fixtures\UserFixture;
-use common\forms\auth\SignupForm;
-use common\models\auth\User;
-use common\repositories\UserRepository;
-use common\services\auth\SignupService;
+use common\auth\forms\SignupForm;
+use common\auth\models\User;
+use common\auth\repositories\UserRepository;
+use common\auth\services\SignupService;
 use common\transactions\TransactionManager;
 
 class SignupFormTest extends \Codeception\Test\Unit
@@ -30,7 +30,7 @@ class SignupFormTest extends \Codeception\Test\Unit
 
     public function testCorrectSignup()
     {
-        $repoUser = $this->make(UserRepository::class, ['find' => new User]);
+        $repoUser = $this->make(\common\auth\repositories\UserRepository::class, ['find' => new User]);
         $transaction = $this->makeEmpty(TransactionManager::class);
 
         $serviceSignup = new SignupService($repoUser, $transaction);

@@ -2,6 +2,7 @@
 
 
 namespace olympic\models;
+
 use olympic\forms\OlympicForm;
 
 class Olympic extends \yii\db\ActiveRecord
@@ -15,7 +16,7 @@ class Olympic extends \yii\db\ActiveRecord
         return 'olimpic';
     }
 
-    public static function create (OlympicForm $form, $chairman_id, $faculty_id)
+    public static function create(OlympicForm $form, $chairman_id, $faculty_id)
     {
         $olympic = new static();
         $olympic->name = $form->name;
@@ -129,7 +130,7 @@ class Olympic extends \yii\db\ActiveRecord
     public static function labels(): array
     {
         $olympic = new static();
-        return  $olympic->attributeLabels();
+        return $olympic->attributeLabels();
     }
 
     public static function minutePicker()

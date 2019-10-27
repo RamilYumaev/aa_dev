@@ -1,5 +1,6 @@
 <?php
-namespace olympic\transactions;
+
+namespace common\transactions;
 
 class TransactionManager
 {

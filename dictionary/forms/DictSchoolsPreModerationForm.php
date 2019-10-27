@@ -10,7 +10,7 @@ use dictionary\models\DictSchoolsPreModeration;
 use dictionary\models\Region;
 use yii\base\Model;
 
-class DictSchoolsPreModerationForm extends  Model
+class DictSchoolsPreModerationForm extends Model
 {
     public $name, $country_id, $dict_school_id, $region_id;
 
@@ -35,7 +35,7 @@ class DictSchoolsPreModerationForm extends  Model
         return [
             [['name', 'country_id'], 'required'],
             [['name'], 'string'],
-            ['name', 'unique',  'targetClass' => DictSchoolsPreModeration::class, 'message' => 'Такая учебная организация уже есть в справочнике'],
+            ['name', 'unique', 'targetClass' => DictSchoolsPreModeration::class, 'message' => 'Такая учебная организация уже есть в справочнике'],
             [['country_id', 'region_id', 'dict_school_id'], 'integer'],
             [['dict_school_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictSchools::class, 'targetAttribute' => ['dict_school_id' => 'id']],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::class, 'targetAttribute' => ['country_id' => 'id']],
@@ -45,9 +45,8 @@ class DictSchoolsPreModerationForm extends  Model
 
     public function attributeLabels(): array
     {
-        return  DictSchoolsPreModeration::labels();
+        return DictSchoolsPreModeration::labels();
     }
-
 
 
 }

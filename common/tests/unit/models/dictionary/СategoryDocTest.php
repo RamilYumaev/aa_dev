@@ -4,6 +4,7 @@
 use Codeception\Test\Unit;
 use common\fixtures\dictionary\CategoryDocFixture;
 use dictionary\forms\CategoryDocForm;
+use dictionary\helpers\CategoryDocHelper;
 use dictionary\models\CategoryDoc;
 use dictionary\repositories\CategoryDocRepository;
 use dictionary\services\CategoryDocService;
@@ -35,7 +36,7 @@ class CategoryDocTest extends Unit
         $this->assertFalse($model->validate(['type_id']));
 
         $model->name = "Документ 2";
-        $model->type_id = CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDocHelper::TYPEDOC;
         $this->assertTrue($model->validate(['name']));
         $this->assertTrue($model->validate(['type_id']));
 
@@ -56,11 +57,11 @@ class CategoryDocTest extends Unit
     {
         $model = new CategoryDocForm();
         $model->name = "Документ 2";
-        $model->type_id = CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDocHelper::TYPEDOC;
 
         $repoCat = $this->makeEmpty(CategoryDocRepository::class);
 
-        $catDocModel = CategoryDoc::create($model->name, $model->type_id);
+        $catDocModel = CategoryDoc::create($model);
         $this->returnSelf($catDocModel);
 
         $this->assertEquals($model->name, $catDocModel->name);
@@ -76,7 +77,7 @@ class CategoryDocTest extends Unit
 
         $model = new CategoryDocForm();
         $model->name = "Документ 3";
-        $model->type_id = CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDocHelper::TYPEDOC;
 
         $catDocModel = $serviceCatDoc->create($model);
         $this->assertEquals($model->name, $catDocModel->name);
@@ -89,7 +90,7 @@ class CategoryDocTest extends Unit
         $serviceCatDoc = new CategoryDocService($repoCatDoc);
         $this->assertIsObject($serviceCatDoc);
 
-        $catDocOld = new CategoryDoc(["name" => "Линк 4", "type_id" => CategoryDoc::TYPELINK]);
+        $catDocOld = new CategoryDoc(["name" => "Линк 4", "type_id" => CategoryDocHelper::TYPELINK]);
 
         $model = new CategoryDocForm($catDocOld);
         $this->assertIsObject($model);
@@ -98,10 +99,10 @@ class CategoryDocTest extends Unit
         $this->assertEquals($catDocOld->type_id, $model->type_id);
 
         $model->name = "Документ 3";
-        $model->type_id = CategoryDoc::TYPEDOC;
+        $model->type_id = CategoryDocHelper::TYPEDOC;
 
         $this->assertEquals('Документ 3', $model->name);
-        $this->assertEquals(CategoryDoc::TYPEDOC, $model->type_id);
+        $this->assertEquals(CategoryDocHelper::TYPEDOC, $model->type_id);
 
         $catDocUpdate = $serviceCatDoc->edit(1, $model);
 

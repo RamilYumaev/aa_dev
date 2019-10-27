@@ -14,7 +14,7 @@ class UserDod extends \yii\db\ActiveRecord
         return 'user_dod';
     }
 
-    public static  function create ($dod_id, $user_id)
+    public static function create($dod_id, $user_id)
     {
         $userDod = new static();
         $userDod->dod_id = $dod_id;

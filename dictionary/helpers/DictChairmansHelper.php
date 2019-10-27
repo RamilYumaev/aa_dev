@@ -11,8 +11,8 @@ class DictChairmansHelper
 {
     public static function chairmansFullNameList(): array
     {
-        return ArrayHelper::map(DictChairmans::find()->asArray()->all(), "id", function (array  $model){
-            return $model['last_name']." ".$model['first_name']." ".$model['patronymic'];
+        return ArrayHelper::map(DictChairmans::find()->asArray()->all(), "id", function (array $model) {
+            return $model['last_name'] . " " . $model['first_name'] . " " . $model['patronymic'];
         });
     }
 

@@ -29,7 +29,7 @@ class  Dod extends \yii\db\ActiveRecord
         return $dod;
     }
 
-    public function edit (DodForm $form, $faculty_id)
+    public function edit(DodForm $form, $faculty_id)
     {
         $this->name = $form->name;
         $this->type = $form->type;

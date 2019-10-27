@@ -4,7 +4,7 @@
 namespace olympic\forms\auth;
 
 
-class UserSchool  extends \yii\db\ActiveRecord
+class UserSchool extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}

@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\forms\dictionary;
 
 use olympic\helpers\dictionary\DictClassHelper;

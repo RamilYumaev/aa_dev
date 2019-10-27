@@ -16,8 +16,7 @@ class DiplomaForm extends Model
 
     public function __construct(Diploma $diploma = null, $config = [])
     {
-        if($diploma)
-        {
+        if ($diploma) {
             $this->user_id = $diploma->user_id;
             $this->olimpic_id = $diploma->olimpic_id;
             $this->reward_status_id = $diploma->reward_status_id;

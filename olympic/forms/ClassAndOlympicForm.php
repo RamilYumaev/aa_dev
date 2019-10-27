@@ -30,7 +30,7 @@ class ClassAndOlympicForm extends Model
         return [
             [['class_id', 'olympic_id'], 'required'],
             [['class_id', 'olympic_id'], 'integer'],
-            [['class_id', 'olympic_id'], 'unique', 'targetClass'=>ClassAndOlympic::class, 'targetAttribute' => ['class_id', 'olympic_id']],
+            [['class_id', 'olympic_id'], 'unique', 'targetClass' => ClassAndOlympic::class, 'targetAttribute' => ['class_id', 'olympic_id']],
             [['class_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictClass::class, 'targetAttribute' => ['class_id' => 'id']],
             [['olympic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Olympic::class, 'targetAttribute' => ['olympic_id' => 'id']],
         ];

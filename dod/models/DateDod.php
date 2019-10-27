@@ -41,5 +41,4 @@ class DateDod extends ActiveRecord
     }
 
 
-
 }

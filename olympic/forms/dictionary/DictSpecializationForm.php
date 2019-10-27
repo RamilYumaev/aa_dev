@@ -1,4 +1,5 @@
 <?php
+
 namespace olympic\forms\dictionary;
 
 use olympic\models\dictionary\DictSpecialization;
@@ -6,11 +7,11 @@ use yii\base\Model;
 
 class DictSpecializationForm extends Model
 {
-    public  $name, $speciality_id;
+    public $name, $speciality_id;
 
     public function __construct(DictSpecialization $specialization = null, $config = [])
     {
-        if($specialization) {
+        if ($specialization) {
             $this->name = $specialization->name;
             $this->speciality_id = $specialization->speciality_id;
         }
@@ -31,7 +32,7 @@ class DictSpecializationForm extends Model
 
     public function attributeLabels(): array
     {
-        return  DictSpecialization::labels();
+        return DictSpecialization::labels();
     }
 
 }

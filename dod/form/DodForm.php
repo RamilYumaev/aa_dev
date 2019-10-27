@@ -12,11 +12,11 @@ use yii\base\Model;
 
 class DodForm extends Model
 {
-    public $name, $type, $address,  $aud_number, $description,  $faculty_id, $edu_level, $slug, $photo_report;
+    public $name, $type, $address, $aud_number, $description, $faculty_id, $edu_level, $slug, $photo_report;
 
     public function __construct(Dod $dod = null, $config = [])
     {
-        if($dod){
+        if ($dod) {
             $this->name = $dod->name;
             $this->type = $dod->type;
             $this->address = $dod->address;
@@ -41,7 +41,7 @@ class DodForm extends Model
             [['type', 'faculty_id', 'edu_level'], 'integer'],
             [['slug', 'photo_report'], 'string', 'max' => 255],
             [['aud_number'], 'string', 'max' => 32],
-            [['faculty_id'], 'exist', 'skipOnError' => true, 'targetClass' =>  Faculty::class, 'targetAttribute' => ['faculty_id' => 'id']],
+            [['faculty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Faculty::class, 'targetAttribute' => ['faculty_id' => 'id']],
             ['edu_level', 'in', 'range' => DictCompetitiveGroupHelper::eduLevels(), 'allowArray' => true],
 
         ];

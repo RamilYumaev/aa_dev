@@ -14,7 +14,7 @@ class TemplatesForm extends Model
 
     public function __construct(Templates $templates = null, $config = [])
     {
-        if($templates) {
+        if ($templates) {
             $this->type_id = $templates->type_id;
             $this->name = $templates->name;
             $this->name_for_user = $templates->name_for_user;
@@ -29,7 +29,7 @@ class TemplatesForm extends Model
             [['type_id', 'name', 'text', 'name_for_user'], 'required'],
             ['type_id', 'integer'],
             [['text', 'name', 'name_for_user'], 'string'],
-            [['text'], 'unique', 'targetClass'=> Templates::class, 'targetAttribute' => ['type_id', 'text']],
+            [['text'], 'unique', 'targetClass' => Templates::class, 'targetAttribute' => ['type_id', 'text']],
             ['type_id', 'in', 'range' => TemplatesHelper::templatesType(), 'allowArray' => true],
         ];
     }
@@ -39,7 +39,8 @@ class TemplatesForm extends Model
         return Templates::labels();
     }
 
-    public function typeTemplatesList() {
+    public function typeTemplatesList()
+    {
         return TemplatesHelper::typeTemplatesList();
     }
 }

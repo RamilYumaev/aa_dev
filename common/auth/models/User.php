@@ -1,10 +1,11 @@
 <?php
+
 namespace common\auth\models;
 
-use olympic\forms\auth\SignupForm;
+use common\auth\forms\SignupForm;
 use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
-use olympic\helpers\auth\UserHelper;
+use common\auth\helpers\UserHelper;
 use olympic\models\auth\AuthAssignment;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -36,17 +37,19 @@ class User extends ActiveRecord
         parent::__construct($config);
     }
 
-    public function setAssignment($addRole){
-        foreach (AuthAssignment::getRoleName($this->id) as $role){
-           if ($addRole !== $role) {
-               $this->assignment->user_id = $this->id;
-               $this->assignment->item_name = $addRole;
-               $this->assignment->save();
-           }
+    public function setAssignment($addRole)
+    {
+        foreach (AuthAssignment::getRoleName($this->id) as $role) {
+            if ($addRole !== $role) {
+                $this->assignment->user_id = $this->id;
+                $this->assignment->item_name = $addRole;
+                $this->assignment->save();
+            }
         }
     }
 
-    public function setAssignmentFirst($addRole){
+    public function setAssignmentFirst($addRole)
+    {
         $this->assignment->user_id = $this->id;
         $this->assignment->item_name = $addRole;
         $this->assignment->save();
@@ -147,6 +150,7 @@ class User extends ActiveRecord
     {
         return static::findOne(['username' => $username, 'status' => UserHelper::STATUS_ACTIVE]);
     }
+
     /**
      * Finds user by password reset token
      *

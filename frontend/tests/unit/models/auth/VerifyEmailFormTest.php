@@ -4,9 +4,9 @@ namespace frontend\tests\unit\models;
 
 use common\auth\rbac\RoleManager;
 use common\fixtures\UserFixture;
-use common\models\auth\User;
-use common\repositories\UserRepository;
-use common\services\auth\SignupService;
+use common\auth\models\User;
+use common\auth\repositories\UserRepository;
+use common\auth\services\SignupService;
 use common\transactions\TransactionManager;
 use frontend\models\VerifyEmailForm;
 

@@ -17,7 +17,8 @@ class DictChairmans extends ActiveRecord
         return 'dict_chairmans';
     }
 
-    public static function create(DictChairmansForm $form) {
+    public static function create(DictChairmansForm $form)
+    {
         $dictChairmans = new static();
         $dictChairmans->last_name = $form->last_name;
         $dictChairmans->first_name = $form->first_name;
@@ -25,7 +26,8 @@ class DictChairmans extends ActiveRecord
         $dictChairmans->position = $form->position;
     }
 
-    public function edit (DictChairmansForm $form) {
+    public function edit(DictChairmansForm $form)
+    {
         $this->last_name = $form->last_name;
         $this->first_name = $form->first_name;
         $this->patronymic = $form->patronymic;
