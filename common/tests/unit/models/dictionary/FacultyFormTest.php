@@ -1,10 +1,10 @@
 <?php namespace common\tests\models\dictionary;
 
 use common\fixtures\dictionary\FacultyFixture;
-use common\forms\dictionary\FacultyForm;
-use common\models\dictionary\Faculty;
-use common\repositories\dictionary\FacultyRepository;
-use common\services\dictionary\FacultyService;
+use dictionary\forms\FacultyForm;
+use dictionary\models\Faculty;
+use dictionary\repositories\FacultyRepository;
+use dictionary\services\FacultyService;
 
 class FacultyFormTest extends \Codeception\Test\Unit
 {

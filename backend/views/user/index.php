@@ -6,7 +6,7 @@ use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
 use olympic\helpers\auth\UserHelper;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use backend\widgets\adminlte\grid\GridView;
 
 /* @var $this yii\web\View */

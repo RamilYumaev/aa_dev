@@ -2,7 +2,7 @@
 namespace olympic\services\auth;
 
 use olympic\forms\auth\LoginForm;
-use olympic\models\auth\User;
+use common\auth\models\User;
 use olympic\repositories\auth\UserRepository;
 
 class AuthService
@@ -14,7 +14,7 @@ class AuthService
         $this->repository = $repository;
     }
 
-    public function auth(LoginForm $form): User
+    public function auth(LoginForm $form): \common\auth\models\User
     {
         $user = $this->repository->findByUsernameOrEmail($form->username);
         if (!$user || !$user->isActive() || !$user->validatePassword($form->password)) {

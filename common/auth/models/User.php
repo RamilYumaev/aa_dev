@@ -1,10 +1,11 @@
 <?php
-namespace olympic\models\auth;
+namespace common\auth\models;
 
 use olympic\forms\auth\SignupForm;
 use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
 use olympic\helpers\auth\UserHelper;
+use olympic\models\auth\AuthAssignment;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

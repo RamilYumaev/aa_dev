@@ -3,7 +3,7 @@
 
 namespace olympic\forms\auth;
 
-use olympic\models\auth\User;
+use common\auth\models\User;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -20,7 +20,7 @@ class UserCreateForm extends Model
             [['username', 'email', 'role'], 'required'],
             ['email', 'email'],
             [['username', 'email'], 'string', 'max' => 255],
-            [['username', 'email'], 'unique', 'targetClass' => User::class],
+            [['username', 'email'], 'unique', 'targetClass' => \common\auth\models\User::class],
             ['password', 'string', 'min' => 6],
             ['phone', 'integer'],
         ];

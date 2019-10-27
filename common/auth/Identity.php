@@ -2,7 +2,7 @@
 
 namespace common\auth;
 
-use olympic\models\auth\User;
+use common\auth\models\User;
 use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
 

@@ -6,8 +6,8 @@ namespace olympic\services\auth;
 use olympic\helpers\auth\RoleHelper;
 use Yii;
 use olympic\forms\auth\SignupForm;
-use olympic\models\auth\User;
-use olympic\repositories\UserRepository;
+use common\auth\models\User;
+use olympic\repositories\auth\UserRepository;
 use olympic\transactions\TransactionManager;
 use yii\base\InvalidArgumentException;
 
@@ -35,9 +35,9 @@ class SignupService
         });
     }
 
-    public function newUser(SignupForm $form): User
+    public function newUser(SignupForm $form): \common\auth\models\User
     {
-        $user = User::requestSignup($form);
+        $user = \common\auth\models\User::requestSignup($form);
         return $user;
     }
 
@@ -54,10 +54,10 @@ class SignupService
 
     /**
      * Sends confirmation email to user
-     * @param User $user user model to with email should be send
+     * @param \common\auth\models\User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    public function sendEmail(User $user)
+    public function sendEmail(\common\auth\models\User $user)
     {
         return Yii::$app
             ->mailer

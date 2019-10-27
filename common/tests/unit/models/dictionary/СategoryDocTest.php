@@ -1,13 +1,14 @@
 <?php namespace common\tests\models\dictionary;
 
 
+use Codeception\Test\Unit;
 use common\fixtures\dictionary\CategoryDocFixture;
-use common\forms\dictionary\CategoryDocForm;
-use common\models\dictionary\CategoryDoc;
-use common\repositories\dictionary\CategoryDocRepository;
-use common\services\dictionary\CategoryDocService;
+use dictionary\forms\CategoryDocForm;
+use dictionary\models\CategoryDoc;
+use dictionary\repositories\CategoryDocRepository;
+use dictionary\services\CategoryDocService;
 
-class СategoryDocTest extends \Codeception\Test\Unit
+class CategoryDocTest extends Unit
 {
     /**
      * @var \common\tests\UnitTester
