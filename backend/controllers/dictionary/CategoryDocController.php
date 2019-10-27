@@ -2,10 +2,10 @@
 
 namespace backend\controllers\dictionary;
 
-use olympic\forms\dictionary\search\CategoryDocSearch;
-use olympic\forms\dictionary\CategoryDocForm;
-use olympic\models\dictionary\CategoryDoc;
-use olympic\services\dictionary\CategoryDocService;
+use dictionary\models\CategoryDoc;
+use dictionary\forms\CategoryDocForm;
+use dictionary\forms\search\CategoryDocSearch;
+use dictionary\services\CategoryDocService;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;

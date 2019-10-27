@@ -4,14 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $page common\models\dictionary\Faculty */
+/* @var $faculty dictionary\models\Faculty */
 
 $this->title = $faculty->full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<h1><?= $this->title ?></h1>
 <div class="faculty-view">
     <p>
         <?= Html::a('Обновить', ['update', 'id' => $faculty->id], ['class' => 'btn btn-primary']) ?>

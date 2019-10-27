@@ -1,10 +1,10 @@
 <?php
 
-use common\models\dictionary\Country;
-use common\models\dictionary\Region;
-use kartik\select2\Select2;
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model olympic\forms\auth\ProfileForm */
+
 use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\MaskedInput;
 
@@ -16,7 +16,6 @@ $userRegOlimpic = false;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'last_name')->textInput([!$userRegOlimpic ? '' : 'readOnly' => 'readOnly', 'maxlength' => true]) ?>
@@ -25,26 +24,12 @@ $userRegOlimpic = false;
 
     <?= $form->field($model, 'patronymic')->textInput([!$userRegOlimpic ? '' : 'readOnly' => 'readOnly', 'maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->widget(MaskedInput::className(), [
+    <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
         'mask' => '+7(999)999-99-99',]) ?>
 
-    <?= $form->field($model, 'country_id')->widget(Select2::className(), [
-        'data' => ArrayHelper::map(Country::find()->all(), 'id', 'name'),
-        'language' => 'ru',
-        'options' => ['placeholder' => 'Выберите страну, в которой проживаете'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+    <?= $form->field($model, 'country_id')->dropDownList($model->countryList()) ?>
 
-    <?= $form->field($model, 'region_id')->widget(Select2::className(), [
-        'data' => ArrayHelper::map(Region::find()->all(), 'id', 'name'),
-        'language' => 'ru',
-        'options' => ['placeholder' => 'Выберите регион'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+    <?= $form->field($model, 'country_id')->dropDownList($model->regionList()) ?>
 
     <?php if (!$userRegOlimpic) : ?>
 

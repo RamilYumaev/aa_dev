@@ -1,8 +1,8 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $faculty common\models\dictionary\Faculty */
-/* @var $model common\forms\dictionary\FacultyForm */
+/* @var $faculty dictionary\models\Faculty */
+/* @var $model dictionary\forms\FacultyForm */
 
 $this->title = 'Обновить факультет: ' . $faculty->full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['index']];
@@ -10,7 +10,6 @@ $this->params['breadcrumbs'][] = ['label' => $faculty->full_name, 'url' => ['vie
 $this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div class="faculty-update">
-    <h1><?= $this->title ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
