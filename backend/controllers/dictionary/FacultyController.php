@@ -92,8 +92,8 @@ class FacultyController extends Controller
         $form = new FacultyEditForm($faculty);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($faculty->id, $form);
-                return $this->redirect(['view', 'id' => $faculty->id]);
+                $this->service->edit($form);
+                return $this->redirect(['view', 'id' => $form->_faculty->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
