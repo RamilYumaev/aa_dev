@@ -50,7 +50,7 @@ class FacultyCest
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm(
             $this->formId, [
-                'FacultyForm[full_name]' => 'Химический',
+                'FacultyCreateForm[full_name]' => 'Химический',
             ]
         );
         $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
@@ -62,7 +62,7 @@ class FacultyCest
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm(
             $this->formId, [
-                'FacultyForm[full_name]' => 'Психология',
+                'FacultyCreateForm[full_name]' => 'Психология',
             ]
         );
         $I->dontSee('Необходимо заполнить «Полное название».', '.help-block');
@@ -73,7 +73,7 @@ class FacultyCest
     {
         $I->amOnRoute('dictionary/faculty/create');
         $I->submitForm($this->formId, [
-            'FacultyForm[full_name]' => 'Психологии'
+            'FacultyCreateForm[full_name]' => 'Психологии'
         ]);
 
         $I->seeRecord(Faculty::class, [
@@ -86,7 +86,7 @@ class FacultyCest
     {
         $I->amOnPage(['dictionary/faculty/update', 'id' => 1]);
         $I->submitForm($this->formId, [
-            'FacultyForm[full_name]' => 'Дефектологический и и'
+            'FacultyEditForm[full_name]' => 'Дефектологический и и'
         ]);
 
         $I->seeRecord(Faculty::class, [
