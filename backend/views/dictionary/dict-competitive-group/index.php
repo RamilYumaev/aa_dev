@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['class' => \yii\grid\SerialColumn::class],
                     ['attribute' => 'speciality_id',
                         'filter' => $searchModel->specialityCodeList(),
                         'value' => function ($model) {
