@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['class' => \yii\grid\SerialColumn::class],
                     'name',
                     ['attribute' => 'type_id',
                         'filter' => $searchModel->categoryTypeList(),

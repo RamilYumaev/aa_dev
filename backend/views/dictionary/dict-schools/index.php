@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['class' => \yii\grid\SerialColumn::class],
                     'name',
                     ['attribute' => 'country_id',
                         'filter' => $searchModel->countryList(),

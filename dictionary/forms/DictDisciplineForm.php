@@ -27,7 +27,7 @@ class DictDisciplineForm extends Model
     {
         return [
             [['name'], 'required'],
-            ['name', 'unique', 'targetClass' => 'backend\models\DictDiscipline', 'message' => 'Такая дисциплина уже есть в справочнике'],
+            ['name', 'unique', 'targetClass' => DictDiscipline::class, 'message' => 'Такая дисциплина уже есть в справочнике'],
             [['name', 'links'], 'string', 'max' => 255],
         ];
     }

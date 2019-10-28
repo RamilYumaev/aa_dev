@@ -1,17 +1,19 @@
 <?php
 
 use yii\grid\ActionColumn;
+use yii\grid\SerialColumn;
 use yii\helpers\Html;
-use backend\widgets\adminlte\grid\GridView;
-use dictionary\models\DictClass;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
+/* @var $searchModel dictionary\forms\search\DictDisciplineSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Классы/курсы';
+$this->title = 'Дисциплины';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
+
     <p>
         <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -20,19 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => \yii\grid\SerialColumn::class],
-                    ['attribute' => 'name',
-                        'value' => function (DictClass $model) {
-                            return $model->getClassFullName();
-                        },
-                    ],
+                    ['class' => SerialColumn::class],
+                    'name',
                     ['class' => ActionColumn::class,
-                        'template' => '{update} {delete}',
-                    ],
+                        'template'=>'{update} {delete}'],
                 ]
             ]); ?>
         </div>
     </div>
 </div>
-
