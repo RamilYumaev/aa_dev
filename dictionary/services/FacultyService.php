@@ -24,9 +24,9 @@ class FacultyService
         return $model;
     }
 
-    public function edit($id, FacultyEditForm $form)
+    public function edit(FacultyEditForm $form)
     {
-        $model = $this->repository->get($id);
+        $model = $this->repository->get($form->_faculty->id);
         $model->edit($form);
         $this->repository->save($model);
     }

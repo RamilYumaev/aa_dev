@@ -2,6 +2,7 @@
 
 use common\fixtures\dictionary\FacultyFixture;
 use dictionary\forms\FacultyCreateForm;
+use dictionary\forms\FacultyEditForm;
 use dictionary\models\Faculty;
 use dictionary\repositories\FacultyRepository;
 use dictionary\services\FacultyService;
@@ -75,14 +76,14 @@ class FacultyFormTest extends \Codeception\Test\Unit
         $serviceFaculty = new FacultyService($repoFaculty);
         $this->assertIsObject($serviceFaculty);
 
-        $form = new FacultyCreateForm(new Faculty(["full_name" => "Suka"]));
+        $form = new FacultyEditForm(new Faculty(["full_name" => "Suka"]));
         $this->assertIsObject($form);
         $this->assertEquals('Suka', $form->full_name);
 
         $form->full_name = "Suka Update";
         $this->assertEquals('Suka Update', $form->full_name);
 
-        $facultyUpdate = $serviceFaculty->edit(1, $form);
+        $facultyUpdate = $serviceFaculty->edit($form);
 
         $this->assertNull($facultyUpdate);
     }
