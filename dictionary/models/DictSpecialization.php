@@ -3,7 +3,8 @@
 
 namespace dictionary\models;
 
-use dictionary\forms\DictSpecializationForm;
+use dictionary\forms\DictSpecializationCreateForm;
+use dictionary\forms\DictSpecializationEditForm;
 
 class DictSpecialization extends \yii\db\ActiveRecord
 {
@@ -15,7 +16,7 @@ class DictSpecialization extends \yii\db\ActiveRecord
         return 'dict_specialization';
     }
 
-    public static function create(DictSpecializationForm $form)
+    public static function create(DictSpecializationCreateForm $form)
     {
         $specialization = new static();
         $specialization->name = $form->name;
@@ -23,7 +24,7 @@ class DictSpecialization extends \yii\db\ActiveRecord
         return $specialization;
     }
 
-    public function edit(DictSpecializationForm $form)
+    public function edit(DictSpecializationEditForm $form)
     {
         $this->name = $form->name;
         $this->speciality_id = $form->speciality_id;
@@ -36,9 +37,8 @@ class DictSpecialization extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Навзвание',
+            'name' => 'Название',
             'speciality_id' => 'Направление подготовки',
-            [['name'], 'unique', 'message' => 'Такая образовательная организация уже есть'],
         ];
     }
 
