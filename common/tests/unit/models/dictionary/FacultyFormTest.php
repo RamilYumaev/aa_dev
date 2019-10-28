@@ -1,7 +1,7 @@
 <?php namespace common\tests\models\dictionary;
 
 use common\fixtures\dictionary\FacultyFixture;
-use dictionary\forms\FacultyForm;
+use dictionary\forms\FacultyCreateForm;
 use dictionary\models\Faculty;
 use dictionary\repositories\FacultyRepository;
 use dictionary\services\FacultyService;
@@ -25,7 +25,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
     public function testValidationForm()
     {
-        $model = new FacultyForm();
+        $model = new FacultyCreateForm();
 
         $model->full_name = "";
         $this->assertFalse($model->validate(['full_name']));
@@ -37,7 +37,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
     public function testValidationFormUnique()
     {
-        $form = new FacultyForm();
+        $form = new FacultyCreateForm();
         $form->full_name = "Xegggg";
         $this->assertFalse($form->validate());
         $this->assertEquals('Такое наименование существует', $form->getFirstError('full_name'));
@@ -45,7 +45,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
 
     public function testNewSavingFaculty()
     {
-        $form = new FacultyForm();
+        $form = new FacultyCreateForm();
         $form->full_name = "Suka";
 
         $repoFaculty = $this->makeEmpty(FacultyRepository::class);
@@ -62,7 +62,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
         $repoFaculty = $this->makeEmpty(FacultyRepository::class);
         $serviceFaculty = new FacultyService($repoFaculty);
 
-        $form = new FacultyForm();
+        $form = new FacultyCreateForm();
         $form->full_name = "Suka";
 
         $facultyModel = $serviceFaculty->create($form);
@@ -75,7 +75,7 @@ class FacultyFormTest extends \Codeception\Test\Unit
         $serviceFaculty = new FacultyService($repoFaculty);
         $this->assertIsObject($serviceFaculty);
 
-        $form = new FacultyForm(new Faculty(["full_name" => "Suka"]));
+        $form = new FacultyCreateForm(new Faculty(["full_name" => "Suka"]));
         $this->assertIsObject($form);
         $this->assertEquals('Suka', $form->full_name);
 

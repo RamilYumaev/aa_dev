@@ -4,8 +4,9 @@
 namespace dictionary\models;
 
 
-use dictionary\forms\DictSchoolsForm;
-use dictionary\forms\DictSpecialityForm;
+use dictionary\forms\DictSchoolsCreateForm;
+use dictionary\forms\DictSchoolsEditForm;
+use dictionary\forms\DictSpecialityCreateForm;
 
 class DictSchools extends \yii\db\ActiveRecord
 {
@@ -17,7 +18,7 @@ class DictSchools extends \yii\db\ActiveRecord
         return 'dict_schools';
     }
 
-    public static function create(DictSchoolsForm $form)
+    public static function create(DictSchoolsCreateForm $form)
     {
         $schools = new static();
         $schools->name = $form->name;
@@ -26,7 +27,7 @@ class DictSchools extends \yii\db\ActiveRecord
         return $schools;
     }
 
-    public function edit(DictSchoolsForm $form)
+    public function edit(DictSchoolsEditForm $form)
     {
         $this->name = $form->name;
         $this->country_id = $form->country_id;

@@ -1,17 +1,19 @@
 <?php
 
 use yii\grid\ActionColumn;
+use yii\grid\SerialColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel dictionary\forms\search\FacultySearch */
+/* @var $searchModel dictionary\forms\search\DictSpecialitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Факультеты';
+$this->title = 'Направления подготовки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="faculty-index">
+<div>
+
     <p>
         <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -22,12 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => \yii\grid\SerialColumn::class],
-                    'full_name',
-                    ['class' => ActionColumn::class],
+                    ['class' => SerialColumn::class],
+                    'code',
+                    'name',
+                    ['class' => ActionColumn::class,
+                        'template'=>'{update} {delete}'],
                 ]
             ]); ?>
         </div>
     </div>
 </div>
-

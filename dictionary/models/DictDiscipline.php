@@ -4,7 +4,8 @@
 namespace dictionary\models;
 
 
-use dictionary\forms\DictDisciplineForm;
+use dictionary\forms\DictDisciplineCreateForm;
+use dictionary\forms\DictDisciplineEditForm;
 
 class DictDiscipline extends \yii\db\ActiveRecord
 {
@@ -16,7 +17,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return 'dict_discipline';
     }
 
-    public static function create(DictDisciplineForm $form)
+    public static function create(DictDisciplineCreateForm $form)
     {
         $discipline = new static();
         $discipline->name = $form->name;
@@ -24,7 +25,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return $discipline;
     }
 
-    public function edit(DictDisciplineForm $form)
+    public function edit(DictDisciplineEditForm $form)
     {
         $this->name = $form->name;
         $this->links = $form->links;

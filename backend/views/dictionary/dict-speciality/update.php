@@ -1,22 +1,23 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $discipline dictionary\models\DictDiscipline */
-/* @var $model dictionary\forms\DictDisciplineEditForm */
+/* @var $speciality dictionary\models\DictSpeciality */
+/* @var $model dictionary\forms\DictSpecialityEditForm*/
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Обновить: ' . $discipline->name;
-$this->params['breadcrumbs'][] = ['label' => 'Дисциплины', 'url' => ['index']];
+$this->title = 'Обновить: ' . $speciality->name;
+$this->params['breadcrumbs'][] = ['label' => 'Направления подготовки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'form-discipline']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-speciality']); ?>
     <div class="box box-default">
         <div class="box-body">
+            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'links')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 

@@ -2,7 +2,8 @@
 
 namespace dictionary\services;
 
-use dictionary\forms\FacultyForm;
+use dictionary\forms\FacultyCreateForm;
+use dictionary\forms\FacultyEditForm;
 use dictionary\repositories\FacultyRepository;
 use dictionary\models\Faculty;
 
@@ -16,14 +17,14 @@ class FacultyService
         $this->repository = $repository;
     }
 
-    public function create(FacultyForm $form)
+    public function create(FacultyCreateForm $form)
     {
         $model = Faculty::create($form);
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit($id, FacultyForm $form)
+    public function edit($id, FacultyEditForm $form)
     {
         $model = $this->repository->get($id);
         $model->edit($form);

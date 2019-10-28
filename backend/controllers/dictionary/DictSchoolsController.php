@@ -3,7 +3,8 @@
 namespace backend\controllers\dictionary;
 
 
-use dictionary\forms\DictSchoolsForm;
+use dictionary\forms\DictSchoolsCreateForm;
+use dictionary\forms\DictSchoolsEditForm;
 use dictionary\forms\search\DictSchoolsSearch;
 use dictionary\models\DictSchools;
 use dictionary\services\DictSchoolsService;
@@ -53,7 +54,7 @@ class DictSchoolsController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictSchoolsForm();
+        $form = new DictSchoolsCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -77,7 +78,7 @@ class DictSchoolsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $form = new DictSchoolsForm($model);
+        $form = new DictSchoolsEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);

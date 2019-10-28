@@ -2,7 +2,8 @@
 
 namespace dictionary\models;
 
-use dictionary\forms\DictSpecialityForm;
+use dictionary\forms\DictSpecialityCreateForm;
+use dictionary\forms\DictSpecialityEditForm;
 use yii\db\ActiveRecord;
 
 class DictSpeciality extends ActiveRecord
@@ -15,7 +16,7 @@ class DictSpeciality extends ActiveRecord
         return 'dict_speciality';
     }
 
-    public static function create(DictSpecialityForm $form)
+    public static function create(DictSpecialityCreateForm $form)
     {
         $speciality = new static();
         $speciality->name = $form->name;
@@ -23,7 +24,7 @@ class DictSpeciality extends ActiveRecord
         return $speciality;
     }
 
-    public function edit(DictSpecialityForm $form)
+    public function edit(DictSpecialityEditForm $form)
     {
         $this->name = $form->name;
         $this->code = $form->code;
