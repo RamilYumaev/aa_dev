@@ -2,8 +2,9 @@
 
 namespace backend\controllers\dictionary;
 
+use dictionary\forms\FacultyEditForm;
 use dictionary\forms\search\FacultySearch;
-use dictionary\forms\FacultyForm;
+use dictionary\forms\FacultyCreateForm;
 use dictionary\models\Faculty;
 use dictionary\services\FacultyService;
 use yii\web\Controller;
@@ -65,7 +66,7 @@ class FacultyController extends Controller
      */
     public function actionCreate()
     {
-        $form = new FacultyForm();
+        $form = new FacultyCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $faculty = $this->service->create($form);
@@ -88,8 +89,7 @@ class FacultyController extends Controller
     public function actionUpdate($id)
     {
         $faculty = $this->findModel($id);
-
-        $form = new FacultyForm($faculty);
+        $form = new FacultyEditForm($faculty);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($faculty->id, $form);

@@ -7,16 +7,12 @@ use dictionary\models\DictDiscipline;
 
 use yii\base\Model;
 
-class DictDisciplineForm extends Model
+class DictDisciplineCreateForm extends Model
 {
     public $name, $links;
 
-    public function __construct(DictDiscipline $discipline = null, $config = [])
+    public function __construct($config = [])
     {
-        if ($discipline) {
-            $this->name = $discipline->name;
-            $this->links = $discipline->links;
-        }
         parent::__construct($config);
     }
 

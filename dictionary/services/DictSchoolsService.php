@@ -2,7 +2,8 @@
 
 namespace dictionary\services;
 
-use dictionary\forms\DictSchoolsForm;
+use dictionary\forms\DictSchoolsCreateForm;
+use dictionary\forms\DictSchoolsEditForm;
 use dictionary\models\DictSchools;
 use dictionary\repositories\DictSchoolsRepository;
 
@@ -15,13 +16,13 @@ class DictSchoolsService
         $this->repository = $repository;
     }
 
-    public function create(DictSchoolsForm $form)
+    public function create(DictSchoolsCreateForm $form)
     {
         $model = DictSchools::create($form);
         $this->repository->save($model);
     }
 
-    public function edit($id, DictSchoolsForm $form)
+    public function edit($id, DictSchoolsEditForm $form)
     {
         $model = $this->repository->get($id);
         $model->edit($form);

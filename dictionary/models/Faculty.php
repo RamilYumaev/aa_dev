@@ -2,7 +2,8 @@
 
 namespace dictionary\models;
 
-use dictionary\forms\FacultyForm;
+use dictionary\forms\FacultyCreateForm;
+use dictionary\forms\FacultyEditForm;
 
 class Faculty extends \yii\db\ActiveRecord
 {
@@ -16,14 +17,14 @@ class Faculty extends \yii\db\ActiveRecord
         return 'dict_faculty';
     }
 
-    public static function create(FacultyForm $form): self
+    public static function create(FacultyCreateForm $form): self
     {
         $faculty = new static();
         $faculty->full_name = $form->full_name;
         return $faculty;
     }
 
-    public function edit(FacultyForm $form): void
+    public function edit(FacultyEditForm $form): void
     {
         $this->full_name = $form->full_name;
     }

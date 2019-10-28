@@ -1,20 +1,21 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model dictionary\forms\DictDisciplineForm */
+/* @var $model dictionary\forms\DictSpecialityCreateForm*/
 /* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'Создать';
+$this->params['breadcrumbs'][] = ['label' => 'Направления подготовки', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
 <div>
-
-    <?php $form = ActiveForm::begin(['id' => 'form-discipline']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-speciality']); ?>
     <div class="box box-default">
         <div class="box-body">
+            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'links')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 
@@ -23,5 +24,4 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

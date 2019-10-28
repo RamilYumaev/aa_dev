@@ -4,21 +4,21 @@
 namespace backend\controllers\dictionary;
 
 
-use dictionary\forms\DictDisciplineCreateForm;
-use dictionary\forms\DictDisciplineEditForm;
-use dictionary\forms\search\DictDisciplineSearch;
-use dictionary\models\DictDiscipline;
-use dictionary\services\DictDisciplineService;
+use dictionary\forms\DictSpecialityCreateForm;
+use dictionary\forms\DictSpecialityEditForm;
+use dictionary\forms\search\DictSpecialitySearch;
+use dictionary\models\DictSpeciality;
+use dictionary\services\DictSpecialityService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
 
-class DictDisciplineController extends Controller
+class DictSpecialityController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DictDisciplineService $service, $config = [])
+    public function __construct($id, $module, DictSpecialityService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -41,7 +41,7 @@ class DictDisciplineController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DictDisciplineSearch();
+        $searchModel = new DictSpecialitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -55,7 +55,7 @@ class DictDisciplineController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictDisciplineCreateForm();
+        $form = new DictSpecialityCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -79,7 +79,7 @@ class DictDisciplineController extends Controller
     {
         $model = $this->findModel($id);
 
-        $form = new DictDisciplineEditForm($model);
+        $form = new DictSpecialityEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -91,7 +91,7 @@ class DictDisciplineController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'discipline' => $model,
+            'speciality' => $model,
         ]);
     }
 
@@ -100,9 +100,9 @@ class DictDisciplineController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): DictDiscipline
+    protected function findModel($id): DictSpeciality
     {
-        if (($model = DictDiscipline::findOne($id)) !== null) {
+        if (($model = DictSpeciality::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');

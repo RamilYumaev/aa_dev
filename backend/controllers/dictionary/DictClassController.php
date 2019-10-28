@@ -2,7 +2,8 @@
 
 namespace backend\controllers\dictionary;
 
-use dictionary\forms\DictClassForm;
+use dictionary\forms\DictClassEditForm;
+use dictionary\forms\DictClassСreateForm;
 use dictionary\models\DictClass;
 use dictionary\services\DictClassService;
 use yii\data\ActiveDataProvider;
@@ -52,7 +53,7 @@ class DictClassController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictClassForm();
+        $form = new DictClassСreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -76,7 +77,7 @@ class DictClassController extends Controller
     {
         $model = $this->findModel($id);
 
-        $form = new DictClassForm($model);
+        $form = new DictClassEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);

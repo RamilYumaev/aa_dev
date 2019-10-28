@@ -5,16 +5,12 @@ namespace dictionary\forms;
 use dictionary\models\DictSpeciality;
 use yii\base\Model;
 
-class DictSpecialityForm extends Model
+class DictSpecialityCreateForm extends Model
 {
     public $code, $name;
 
-    public function __construct(DictSpeciality $speciality = null, $config = [])
+    public function __construct($config = [])
     {
-        if ($speciality) {
-            $this->name = $speciality->name;
-            $this->code = $speciality->code;
-        }
         parent::__construct($config);
     }
 
@@ -27,7 +23,7 @@ class DictSpecialityForm extends Model
             [['code', 'name'], 'required'],
             [['name'], 'string'],
             [['code'], 'string', 'max' => 8],
-            ['code', 'unique', 'targetClass' => 'backend\models\DictSpeciality', 'message' => 'Такой направление подготовки уже есть'],
+            ['code', 'unique', 'targetClass' => DictSpeciality::class, 'message' => 'Такой направление подготовки уже есть'],
         ];
     }
 
