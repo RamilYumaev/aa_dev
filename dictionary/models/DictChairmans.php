@@ -4,7 +4,8 @@
 namespace dictionary\models;
 
 
-use dictionary\forms\DictChairmansForm;
+use dictionary\forms\DictChairmansCreateForm;
+use dictionary\forms\DictChairmansEditForm;
 use yii\db\ActiveRecord;
 
 class DictChairmans extends ActiveRecord
@@ -17,16 +18,17 @@ class DictChairmans extends ActiveRecord
         return 'dict_chairmans';
     }
 
-    public static function create(DictChairmansForm $form)
+    public static function create(DictChairmansCreateForm $form)
     {
         $dictChairmans = new static();
         $dictChairmans->last_name = $form->last_name;
         $dictChairmans->first_name = $form->first_name;
         $dictChairmans->patronymic = $form->patronymic;
         $dictChairmans->position = $form->position;
+        return $dictChairmans;
     }
 
-    public function edit(DictChairmansForm $form)
+    public function edit(DictChairmansEditForm $form)
     {
         $this->last_name = $form->last_name;
         $this->first_name = $form->first_name;

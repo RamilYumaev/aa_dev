@@ -50,6 +50,18 @@ class DictCompetitiveGroupController extends Controller
     }
 
     /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'competitiveGroup' => $this->findModel($id),
+        ]);
+    }
+
+    /**
      * @return mixed
      */
     public function actionCreate()

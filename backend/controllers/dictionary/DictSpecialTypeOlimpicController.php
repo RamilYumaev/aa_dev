@@ -3,18 +3,21 @@
 
 namespace backend\controllers\dictionary;
 
-use dictionary\forms\DisciplineCompetitiveGroupForm;
-use dictionary\models\DisciplineCompetitiveGroup;
-use dictionary\services\DisciplineCompetitiveGroupService;
+use dictionary\forms\DictSpecialTypeOlimpicCreateForm;
+use dictionary\forms\DictSpecialTypeOlimpicEditForm;
+use dictionary\models\DictSpecialTypeOlimpic;
+use dictionary\services\DictSpecialTypeOlimpicService;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use Yii;
 
-class DisciplineCompetitiveGroupController extends Controller
+class DictSpecialTypeOlimpicController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DisciplineCompetitiveGroupService $service, $config = [])
+    public function __construct($id, $module, DictSpecialTypeOlimpicService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -35,19 +38,34 @@ class DisciplineCompetitiveGroupController extends Controller
     /**
      * @return mixed
      */
-    public function actionCreate($competitive_group_id)
+    public function actionIndex()
     {
-        $form = new DisciplineCompetitiveGroupForm($competitive_group_id);
+        $query = DictSpecialTypeOlimpic::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $form = new DictSpecialTypeOlimpicCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
-                return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=> $model->competitive_group_id]);
+                return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->renderAjax('create', [
+        return $this->render('create', [
             'model' => $form,
         ]);
     }
@@ -55,33 +73,35 @@ class DisciplineCompetitiveGroupController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new DisciplineCompetitiveGroupForm($model->competitive_group_id, $model);
+        $form = new DictSpecialTypeOlimpicEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($model->id, $form);
-                return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=>$form->competitive_group_id]);
+                $this->service->edit($form);
+                return $this->redirect(['view', 'id' => $form->_specialTypeOlimpic->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->renderAjax('update', [
+        return $this->render('update', [
             'model' => $form,
-            'disciplineCompetitiveGroup' => $model,
+            'template' => $model,
         ]);
     }
 
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    protected function findModel($id): DisciplineCompetitiveGroup
+    protected function findModel($id): DictSpecialTypeOlimpic
     {
-        if (($model = DisciplineCompetitiveGroup::findOne($id)) !== null) {
+        if (($model = DictSpecialTypeOlimpic::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -93,14 +113,13 @@ class DisciplineCompetitiveGroupController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
         try {
-            $this->service->remove($model->id);
+            $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=> $model->competitive_group_id]);
+        return $this->redirect(['index']);
     }
 
 }

@@ -1,16 +1,21 @@
 <?php
 
-use dictionary\models\DisciplineCompetitiveGroup;
+
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $competitive_group_id int */
 
+\backend\assets\ModalAsset::register($this)
 ?>
-
 <div class="box box-primary">
     <div class="box-body">
-        <?= \himiklab\yii2\ajaxedgrid\GridView::widget([
+        <?=Html::a('<span class="glyphicon glyphicon-trash"></span>', ['dictionary/discipline-competitive-group/create',
+                   'competitive_group_id' => $competitive_group_id],
+        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal',]) ?>
+
+        <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
@@ -20,11 +25,17 @@ use yii\helpers\Html;
                     },
                 ],
                 'priority',
+                ['class' => \yii\grid\ActionColumn::class,
+                    'controller' => 'dictionary/discipline-competitive-group',
+                    'template' => '{update} {delete}',
                 ],
-                'createRoute' => ['dictionary/discipline-competitive-group/create',
-                    'competitive_group_id' => $competitive_group_id],
-                'updateRoute' => ['dictionary/discipline-competitive-group/update'],
-                'deleteRoute'=> ['dictionary/discipline-competitive-group/delete'],
+            ]
         ]) ?>
     </div>
 </div>
+
+<?php Modal::begin(['id'=>'modal',  'header' => "Дисциплины"])?>
+<?php
+echo "<div id='modalContent'></div>";
+Modal::end()?>
+
