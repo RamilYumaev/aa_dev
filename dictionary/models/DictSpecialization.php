@@ -16,18 +16,18 @@ class DictSpecialization extends \yii\db\ActiveRecord
         return 'dict_specialization';
     }
 
-    public static function create(DictSpecializationCreateForm $form)
+    public static function create($name, $speciality_id)
     {
         $specialization = new static();
-        $specialization->name = $form->name;
-        $specialization->speciality_id = $form->speciality_id;
+        $specialization->name = $name;
+        $specialization->speciality_id = $speciality_id;
         return $specialization;
     }
 
-    public function edit(DictSpecializationEditForm $form)
+    public function edit($name, $speciality_id)
     {
-        $this->name = $form->name;
-        $this->speciality_id = $form->speciality_id;
+        $this->name = $name;
+        $this->speciality_id = $speciality_id;
     }
 
     /**

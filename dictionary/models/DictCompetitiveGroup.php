@@ -4,6 +4,8 @@
 namespace dictionary\models;
 
 
+use dictionary\forms\DictCompetitiveGroupCreateForm;
+use dictionary\forms\DictCompetitiveGroupEditForm;
 use yii\db\ActiveRecord;
 
 class DictCompetitiveGroup extends ActiveRecord
@@ -18,46 +20,42 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
 
-    public static function create($speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
-                                  $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-                                  $link)
+    public static function create(DictCompetitiveGroupCreateForm $form, $faculty_id, $speciality_id, $specialization_id)
     {
         $competitiveGroup = new static();
         $competitiveGroup->speciality_id = $speciality_id;
         $competitiveGroup->specialization_id = $specialization_id;
-        $competitiveGroup->edu_level = $edu_level;
-        $competitiveGroup->education_form_id = $education_form_id;
-        $competitiveGroup->financing_type_id = $financing_type_id;
+        $competitiveGroup->edu_level = $form->edu_level;
+        $competitiveGroup->education_form_id = $form->education_form_id;
+        $competitiveGroup->financing_type_id = $form->financing_type_id;
         $competitiveGroup->faculty_id = $faculty_id;
-        $competitiveGroup->kcp = $kcp;
-        $competitiveGroup->special_right_id = $special_right_id;
-        $competitiveGroup->passing_score = $passing_score;
-        $competitiveGroup->is_new_program = $is_new_program;
-        $competitiveGroup->only_pay_status = $only_pay_status;
-        $competitiveGroup->competition_count = $competition_count;
-        $competitiveGroup->education_duration = $education_duration;
-        $competitiveGroup->link = $link;
+        $competitiveGroup->kcp = $form->kcp;
+        $competitiveGroup->special_right_id = $form->special_right_id;
+        $competitiveGroup->passing_score = $form->passing_score;
+        $competitiveGroup->is_new_program = $form->is_new_program;
+        $competitiveGroup->only_pay_status = $form->only_pay_status;
+        $competitiveGroup->competition_count = $form->competition_count;
+        $competitiveGroup->education_duration = $form->education_duration;
+        $competitiveGroup->link = $form->link;
         return $competitiveGroup;
     }
 
-    public function edit($speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
-                         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-                         $link)
+    public function edit(DictCompetitiveGroupEditForm $form, $faculty_id, $speciality_id, $specialization_id)
     {
         $this->speciality_id = $speciality_id;
         $this->specialization_id = $specialization_id;
-        $this->edu_level = $edu_level;
-        $this->education_form_id = $education_form_id;
-        $this->financing_type_id = $financing_type_id;
+        $this->edu_level = $form->edu_level;
+        $this->education_form_id = $form->education_form_id;
+        $this->financing_type_id = $form->financing_type_id;
         $this->faculty_id = $faculty_id;
-        $this->kcp = $kcp;
-        $this->special_right_id = $special_right_id;
-        $this->passing_score = $passing_score;
-        $this->is_new_program = $is_new_program;
-        $this->only_pay_status = $only_pay_status;
-        $this->competition_count = $competition_count;
-        $this->education_duration = $education_duration;
-        $this->link = $link;
+        $this->kcp = $form->kcp;
+        $this->special_right_id = $form->special_right_id;
+        $this->passing_score = $form->passing_score;
+        $this->is_new_program = $form->is_new_program;
+        $this->only_pay_status = $form->only_pay_status;
+        $this->competition_count = $form->competition_count;
+        $this->education_duration = $form->education_duration;
+        $this->link = $form->link;
     }
 
     /**

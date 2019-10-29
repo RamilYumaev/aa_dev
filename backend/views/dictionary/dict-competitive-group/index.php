@@ -1,16 +1,18 @@
 <?php
 
-use olympic\helpers\dictionary\DictSpecializationHelper;
-use olympic\helpers\dictionary\DictFacultyHelper;
-use olympic\helpers\dictionary\DictSpecialityHelper;
+use dictionary\helpers\DictSpecializationHelper;
+use dictionary\helpers\DictFacultyHelper;
+use dictionary\helpers\DictSpecialityHelper;
 use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $searchModel dictionary\forms\search\DictCompetitiveGroupSearch*/
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Конкурсные группы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dict-coml-group-index">
-
-    <h1><?= $this->title ?></h1>
 
     <p>
         <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>

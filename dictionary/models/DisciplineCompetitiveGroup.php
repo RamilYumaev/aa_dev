@@ -19,6 +19,10 @@ class DisciplineCompetitiveGroup extends ActiveRecord
     public static function create($discipline_id, $competitive_group_id, $priority)
     {
         $competitiveGroup = new static();
+        if($competitiveGroup->isManyThree($competitive_group_id))
+        {
+            throw new \DomainException('Не больше трех дисциплин.');
+        }
         $competitiveGroup->discipline_id = $discipline_id;
         $competitiveGroup->competitive_group_id = $competitive_group_id;
         $competitiveGroup->priority = $priority;
@@ -31,6 +35,12 @@ class DisciplineCompetitiveGroup extends ActiveRecord
         $this->discipline_id = $discipline_id;
         $this->competitive_group_id = $competitive_group_id;
         $this->priority = $priority;
+    }
+
+    public function isManyThree($competitive_group_id) : bool
+    {
+        $count = self::find()->where(['competitive_group_id'=>$competitive_group_id])->count();
+        return $count >= 3;
     }
 
     /**

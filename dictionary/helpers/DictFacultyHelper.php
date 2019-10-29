@@ -14,7 +14,7 @@ class DictFacultyHelper
         return ArrayHelper::map(Faculty::find()->all(), "id", 'full_name');
     }
 
-    public static function facultyName($id): string
+    public static function facultyName($id): ?string
     {
         return ArrayHelper::getValue(self::facultyList(), $id);
     }

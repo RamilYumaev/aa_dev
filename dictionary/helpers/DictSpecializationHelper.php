@@ -14,7 +14,7 @@ class DictSpecializationHelper
         return ArrayHelper::map(DictSpecialization::find()->all(), "id", 'name');
     }
 
-    public static function specializationName($id): string
+    public static function specializationName($id): ?string
     {
         return ArrayHelper::getValue(self::specializationList(), $id);
     }
