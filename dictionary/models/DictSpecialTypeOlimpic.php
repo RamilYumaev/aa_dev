@@ -4,7 +4,8 @@
 namespace dictionary\models;
 
 
-use dictionary\forms\DictSpecialTypeOlimpicForm;
+use dictionary\forms\DictSpecialTypeOlimpicCreateForm;
+use dictionary\forms\DictSpecialTypeOlimpicEditForm;
 use yii\db\ActiveRecord;
 
 class DictSpecialTypeOlimpic extends ActiveRecord
@@ -18,14 +19,14 @@ class DictSpecialTypeOlimpic extends ActiveRecord
         return 'dict_special_type_olimpic';
     }
 
-    public static function create(DictSpecialTypeOlimpicForm $form): self
+    public static function create(DictSpecialTypeOlimpicCreateForm $form): self
     {
         $specialTypeOlimpic = new static();
         $specialTypeOlimpic->name = $form->name;
         return $specialTypeOlimpic;
     }
 
-    public function edit(DictSpecialTypeOlimpicForm $form): void
+    public function edit(DictSpecialTypeOlimpicEditForm $form): void
     {
         $this->name = $form->name;
     }

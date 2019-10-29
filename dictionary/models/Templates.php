@@ -3,7 +3,8 @@
 
 namespace dictionary\models;
 
-use dictionary\forms\TemplatesForm;
+use dictionary\forms\TemplatesCreateForm;
+use dictionary\forms\TemplatesEditForm;
 use yii\db\ActiveRecord;
 
 class Templates extends ActiveRecord
@@ -13,7 +14,7 @@ class Templates extends ActiveRecord
         return 'templates';
     }
 
-    public static function create(TemplatesForm $form)
+    public static function create(TemplatesCreateForm $form)
     {
         $templates = new static();
         $templates->type_id = $form->type_id;
@@ -23,7 +24,7 @@ class Templates extends ActiveRecord
         return $templates;
     }
 
-    public function edit(TemplatesForm $form)
+    public function edit(TemplatesEditForm $form)
     {
         $this->type_id = $form->type_id;
         $this->name = $form->name;

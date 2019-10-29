@@ -7,15 +7,12 @@ namespace dictionary\forms;
 use dictionary\models\DictSpecialTypeOlimpic;
 use yii\base\Model;
 
-class DictSpecialTypeOlimpicForm extends Model
+class DictSpecialTypeOlimpicCreateForm extends Model
 {
     public $name;
 
-    function __construct(DictSpecialTypeOlimpic $specialTypeOlimpic = null, $config = [])
+    function __construct($config = [])
     {
-        if ($specialTypeOlimpic) {
-            $this->name = $specialTypeOlimpic->name;
-        }
         parent::__construct($config);
     }
 

@@ -45,9 +45,7 @@ $this->params['breadcrumbs'][] = 'Обновить';
             <?= $form->field($model, 'education_duration')->textInput() ?>
         </div>
     </div>
-    <div>
-        <?= \backend\widgets\dictionary\DisciplineComplectiveWidget::widget(['competitive_group_id'=> $competitiveGroup->id]) ?>
-    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
