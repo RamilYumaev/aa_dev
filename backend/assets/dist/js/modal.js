@@ -1,8 +1,9 @@
 $("[data-toggle=\"modal\"]").click(function(e) {
     e.preventDefault();
     var url = $(this).attr("href");
-    $('#modal').modal('show')
-        .find('#modalContent').load(url);
+    var modalTitle = $(this).attr("data-modalTitle");
+    var modal = $('#modal').modal('show');
+        modal.find('#header-h4').text(modalTitle)
+        modal.find('#modalContent').load(url);
 });
-
 

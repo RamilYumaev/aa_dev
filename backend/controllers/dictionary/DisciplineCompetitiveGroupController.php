@@ -40,12 +40,12 @@ class DisciplineCompetitiveGroupController extends Controller
         $form = new DisciplineCompetitiveGroupForm($competitive_group_id);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->service->create($form);
-                return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=> $model->competitive_group_id]);
+              $this->service->create($form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect(['/dictionary/dict-competitive-group/view', 'id'=> $form->competitive_group_id]);
         }
         return $this->renderAjax('create', [
             'model' => $form,
@@ -63,7 +63,7 @@ class DisciplineCompetitiveGroupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
-                return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=>$form->competitive_group_id]);
+                return $this->redirect(['/dictionary/dict-competitive-group/view', 'id'=>$form->competitive_group_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -100,7 +100,7 @@ class DisciplineCompetitiveGroupController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['/dictionary/dict-competitive-group/update', 'id'=> $model->competitive_group_id]);
+        return $this->redirect(['/dictionary/dict-competitive-group/view', 'id'=> $model->competitive_group_id]);
     }
 
 }
