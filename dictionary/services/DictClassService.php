@@ -3,7 +3,7 @@
 namespace dictionary\services;
 
 use dictionary\forms\DictClassEditForm;
-use dictionary\forms\DictClassСreateForm;
+use dictionary\forms\DictClassCreateForm;
 use dictionary\models\DictClass;
 use dictionary\repositories\DictClassRepository;
 
@@ -16,7 +16,7 @@ class DictClassService
         $this->repository = $repository;
     }
 
-    public function create(DictClassСreateForm $form)
+    public function create(DictClassCreateForm $form)
     {
         $model = DictClass::create($form);
         $this->repository->save($model);

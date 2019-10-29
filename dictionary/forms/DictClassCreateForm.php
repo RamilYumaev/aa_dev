@@ -6,7 +6,7 @@ use dictionary\helpers\DictClassHelper;
 use dictionary\models\DictClass;
 use yii\base\Model;
 
-class DictClassСreateForm extends Model
+class DictClassCreateForm extends Model
 {
 
     public $name;

@@ -3,7 +3,7 @@
 namespace dictionary\models;
 
 use dictionary\forms\DictClassEditForm;
-use dictionary\forms\DictClassСreateForm;
+use dictionary\forms\DictClassCreateForm;
 use dictionary\helpers\DictClassHelper;
 
 class DictClass extends \yii\db\ActiveRecord
@@ -14,7 +14,7 @@ class DictClass extends \yii\db\ActiveRecord
         return 'dict_class';
     }
 
-    public static function create(DictClassСreateForm $form): self
+    public static function create(DictClassCreateForm $form): self
     {
         $class = new static();
         $class->name = $form->name;

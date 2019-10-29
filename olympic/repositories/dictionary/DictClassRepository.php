@@ -10,7 +10,7 @@ class DictClassRepository
     public function get($id): DictClass
     {
         if (!$model = DictClass::findOne($id)) {
-            throw new NotFoundHttpException('DictClass не найдено.');
+            throw new NotFoundHttpException('dictClass не найдено.');
         }
         return $model;
     }
