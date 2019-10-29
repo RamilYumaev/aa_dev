@@ -13,7 +13,7 @@ class DictSpecialityHelper
         return ArrayHelper::map(DictSpeciality::find()->all(), "id", 'code');
     }
 
-    public static function specialityCodeName($id): string
+    public static function specialityCodeName($id): ?string
     {
         return ArrayHelper::getValue(self::specialityCodeList(), $id);
     }
@@ -25,7 +25,7 @@ class DictSpecialityHelper
         });
     }
 
-    public static function specialityNameAndCode($id): string
+    public static function specialityNameAndCode($id): ?string
     {
         return ArrayHelper::getValue(self::specialityNameAndCodeList(), $id);
     }

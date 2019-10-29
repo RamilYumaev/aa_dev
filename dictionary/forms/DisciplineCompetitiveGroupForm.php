@@ -12,12 +12,14 @@ class DisciplineCompetitiveGroupForm extends Model
 {
     public $discipline_id, $competitive_group_id, $priority;
 
-    public function __construct(DisciplineCompetitiveGroup $competitiveGroup, $config = [])
+    public function __construct($competitive_group_id, DisciplineCompetitiveGroup $competitiveGroup = null, $config = [])
     {
         if ($competitiveGroup) {
             $this->discipline_id = $competitiveGroup->discipline_id;
             $this->competitive_group_id = $competitiveGroup->competitive_group_id;
             $this->priority = $competitiveGroup->priority;
+        } else {
+            $this->competitive_group_id = $competitive_group_id;
         }
         parent::__construct($config);
     }
@@ -44,6 +46,11 @@ class DisciplineCompetitiveGroupForm extends Model
     public function disciplineList(): array
     {
         return DictDisciplineHelper::disciplineList();
+    }
+
+    public function priorityList()
+    {
+        return ['1' => '1', '2' => '2', '3' => '3'];
     }
 
 
