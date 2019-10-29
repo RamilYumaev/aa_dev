@@ -9,11 +9,11 @@ use yii\bootstrap\Modal;
 
 \backend\assets\ModalAsset::register($this)
 ?>
-<div class="box box-primary">
+<div class="box box-primary ">
     <div class="box-body">
-        <?=Html::a('<span class="glyphicon glyphicon-trash"></span>', ['dictionary/discipline-competitive-group/create',
+        <?=Html::a('Добавить', ['dictionary/discipline-competitive-group/create',
                    'competitive_group_id' => $competitive_group_id],
-        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal',]) ?>
+        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить дисциплину', 'class'=>'btn btn-primary']) ?>
 
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
@@ -28,14 +28,18 @@ use yii\bootstrap\Modal;
                 ['class' => \yii\grid\ActionColumn::class,
                     'controller' => 'dictionary/discipline-competitive-group',
                     'template' => '{update} {delete}',
+                    'buttons' => [
+                        'update' => function ($url,$model) {
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-edit"></span>',
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать дисциплину', 'target' => '#modal']);
+                        },
+                    ]
                 ],
             ]
         ]) ?>
     </div>
 </div>
 
-<?php Modal::begin(['id'=>'modal',  'header' => "Дисциплины"])?>
-<?php
-echo "<div id='modalContent'></div>";
-Modal::end()?>
+
 

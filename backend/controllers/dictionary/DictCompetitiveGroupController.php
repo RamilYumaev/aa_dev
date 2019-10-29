@@ -70,7 +70,7 @@ class DictCompetitiveGroupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
-                return $this->redirect(['update', 'id'=> $model->id]);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -94,7 +94,7 @@ class DictCompetitiveGroupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
-                return $this->redirect(['index']);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

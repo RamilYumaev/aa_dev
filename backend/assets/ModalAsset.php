@@ -12,5 +12,8 @@ class ModalAsset extends AssetBundle
     public $js = [
          'js/modal.js',
     ];
+    public $depends = [
+        'yii\web\YiiAsset',
+    ];
 
 }

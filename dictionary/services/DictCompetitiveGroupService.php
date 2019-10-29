@@ -7,6 +7,7 @@ namespace dictionary\services;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use dictionary\repositories\DictSpecialityRepository;
 use dictionary\repositories\DictSpecializationRepository;
@@ -56,6 +57,7 @@ class DictCompetitiveGroupService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        DisciplineCompetitiveGroup::deleteAll(['competitive_group_id'=> $model->id]);
         $this->repository->remove($model);
     }
 
