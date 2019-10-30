@@ -45,7 +45,8 @@
     "xj/yii2-qrcode-widget": "^1.1",
     "mpdf/mpdf": "^7.1",
     "picqer/php-barcode-generator": "^0.3.0",
-    "kartik-v/yii2-field-range": "*"
+    "kartik-v/yii2-field-range": "*",
+    "yii-dream-team/yii2-upload-behavior": "^1.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

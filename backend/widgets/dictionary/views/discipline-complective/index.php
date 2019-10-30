@@ -2,7 +2,6 @@
 
 
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $competitive_group_id int */
