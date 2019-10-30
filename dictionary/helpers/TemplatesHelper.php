@@ -29,7 +29,7 @@ class TemplatesHelper
 
     public static function typeTemplateName($key): string
     {
-        return ArrayHelper::getValue(self::typeTemplates(), $key);
+        return ArrayHelper::getValue(self::typeTemplatesList(), $key);
     }
 
     public static function templatesList(): array

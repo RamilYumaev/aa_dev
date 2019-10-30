@@ -21,6 +21,9 @@ class DictChairmansService
     public function create(DictChairmansCreateForm $form)
     {
         $model = DictChairmans::create($form);
+        if ($form->photo) {
+            $model->setPhoto($form->photo);
+        }
         $this->repository->save($model);
         return $model;
     }
@@ -29,6 +32,9 @@ class DictChairmansService
     {
         $model = $this->repository->get($form->_dictChairmans->id);
         $model->edit($form);
+        if ($form->photo) {
+            $model->setPhoto($form->photo);
+        }
         $this->repository->save($model);
     }
 

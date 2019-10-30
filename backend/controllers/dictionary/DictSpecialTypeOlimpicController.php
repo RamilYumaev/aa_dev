@@ -7,11 +7,13 @@ use dictionary\forms\DictSpecialTypeOlimpicCreateForm;
 use dictionary\forms\DictSpecialTypeOlimpicEditForm;
 use dictionary\models\DictSpecialTypeOlimpic;
 use dictionary\services\DictSpecialTypeOlimpicService;
+use yii\bootstrap\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
+use yii\web\Response;
 
 class DictSpecialTypeOlimpicController extends Controller
 {
@@ -56,16 +58,20 @@ class DictSpecialTypeOlimpicController extends Controller
     public function actionCreate()
     {
         $form = new DictSpecialTypeOlimpicCreateForm();
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $model->id]);
+                $this->service->create($form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $form,
         ]);
     }
@@ -79,18 +85,22 @@ class DictSpecialTypeOlimpicController extends Controller
     {
         $model = $this->findModel($id);
         $form = new DictSpecialTypeOlimpicEditForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($form);
-                return $this->redirect(['view', 'id' => $form->_specialTypeOlimpic->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $form,
-            'template' => $model,
+            'specialTypeOlimpic' => $model,
         ]);
     }
 
@@ -119,7 +129,7 @@ class DictSpecialTypeOlimpicController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 }

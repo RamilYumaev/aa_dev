@@ -7,6 +7,8 @@ namespace dictionary\models;
 use dictionary\forms\DictChairmansCreateForm;
 use dictionary\forms\DictChairmansEditForm;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 class DictChairmans extends ActiveRecord
 {
@@ -46,8 +48,13 @@ class DictChairmans extends ActiveRecord
             'first_name' => 'Имя',
             'patronymic' => 'Отчество',
             'position' => 'Должность',
-            'fileSignature' => 'Файл подписи',
+            'photo' => 'Файл подписи',
         ];
+    }
+
+    public function setPhoto(UploadedFile $photo): void
+    {
+        $this->photo = $photo;
     }
 
     public static function labels(): array
@@ -69,28 +76,22 @@ class DictChairmans extends ActiveRecord
             ->column();
     }
 
-    // в сервисе
-
-    public function afterSave($insert, $changedAttributes)
+    public function behaviors(): array
     {
-
-        $this->fileSignature->saveAs(Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'signature' . DIRECTORY_SEPARATOR . $this->id . '.' . 'png');
-
-
-        parent::afterSave($insert, $changedAttributes);
-    }
-
-    public function afterDelete()
-    {
-        $this->deleteFile();
-
-        parent::afterDelete();
-    }
-
-    protected function deleteFile()
-    {
-        return array_map('unlink', glob(Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . 'signature' . DIRECTORY_SEPARATOR . $this->id . '.*'));
-
+        return [
+            [
+                'class' => ImageUploadBehavior::className(),
+                'attribute' => 'photo',
+                'createThumbsOnRequest' => true,
+                'filePath' => '@staticRoot/origin/chairmans/[[id]].[[extension]]',
+                'fileUrl' => '@static/origin/chairmans/[[id]].[[extension]]',
+                'thumbPath' => '@staticRoot/cache/chairmans/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl' => '@static/cache/chairmans/[[profile]]_[[id]].[[extension]]',
+                'thumbs' => [
+                    'admin' => ['width' => 100, 'height' => 70],
+                ],
+            ],
+        ];
     }
 
 }

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Председатели';
+$this->title = 'Специальные виды олимпиад';
 $this->params['breadcrumbs'][] = $this->title;
 
 \backend\assets\ModalAsset::register($this)
@@ -20,17 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
              <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-            'last_name',
-            'first_name',
-            'patronymic',
-            'position',
-                [
-                    'value' => function (\dictionary\models\DictChairmans $model) {
-                        return $model->photo ? Html::img($model->getThumbFileUrl('photo', 'admin')) : "Нет подписи";
-                    },
-                    'format' => 'raw',
-                    'contentOptions' => ['style' => 'width: 100px'],
-                ],
+            'name',
             ['class' => \yii\grid\ActionColumn::class,
                 'template' => '{update} {delete}',
                 'buttons' => [

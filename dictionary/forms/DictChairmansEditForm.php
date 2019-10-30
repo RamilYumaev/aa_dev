@@ -6,10 +6,11 @@ namespace dictionary\forms;
 
 use dictionary\models\DictChairmans;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 class DictChairmansEditForm extends Model
 {
-    public $last_name, $first_name, $patronymic, $position, $_dictChairmans, $fileSignature;
+    public $last_name, $first_name, $patronymic, $position, $_dictChairmans, $photo;
 
     /**
      * {@inheritdoc}
@@ -36,7 +37,7 @@ class DictChairmansEditForm extends Model
             [['first_name', 'patronymic', 'last_name', 'position'], 'string', 'max' => 255],
             ['last_name', 'unique', 'targetClass' => DictChairmans::class, 'filter' => ['<>', 'id', $this->_dictChairmans->id],
                 'targetAttribute' => ['last_name', 'first_name', 'patronymic', 'position']],
-            ['fileSignature', 'file', 'extensions' => 'png', 'maxSize' => 10 * 1024 * 1024],
+            ['photo', 'file', 'extensions' => 'png', 'maxSize' => 10 * 1024 * 1024],
         ];
     }
 
@@ -46,6 +47,15 @@ class DictChairmansEditForm extends Model
     public function attributeLabels(): array
     {
         return DictChairmans::labels();
+    }
+
+    public function beforeValidate(): bool
+    {
+        if (parent::beforeValidate()) {
+            $this->photo = UploadedFile::getInstance($this, 'photo');
+            return true;
+        }
+        return false;
     }
 
 }

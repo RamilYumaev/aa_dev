@@ -25,7 +25,7 @@ trait UnitTesterActions
      *     'posts' => PostsFixture::className(),
      *     'user' => [
      *         'class' => UserFixture::className(),
-     *         'dataFile' => '@tests/_data/models/user.php',
+     *         'dataFile' => '@testing/_data/models/user.php',
      *      ],
      * ]);
      * ```
