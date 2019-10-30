@@ -2,6 +2,8 @@
 
 
 use yii\helpers\Html;
+use dictionary\models\DisciplineCompetitiveGroup;
+use dictionary\helpers\DictDisciplineHelper;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $competitive_group_id int */
@@ -19,16 +21,16 @@ use yii\helpers\Html;
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
                 ['attribute' => 'discipline_id',
-                    'value' => function (\dictionary\models\DisciplineCompetitiveGroup $model) {
-                        return \dictionary\helpers\DictDisciplineHelper::disciplineName($model->discipline_id);
+                    'value' => function (DisciplineCompetitiveGroup $model) {
+                        return DictDisciplineHelper::disciplineName($model->discipline_id);
                     },
                 ],
                 'priority',
                 ['class' => \yii\grid\ActionColumn::class,
-                    'controller' => 'dictionary/discipline-competitive-group',
+                    'controller' => '/dictionary/discipline-competitive-group',
                     'template' => '{update} {delete}',
                     'buttons' => [
-                        'update' => function ($url,$model) {
+                        'update' => function ($url,DisciplineCompetitiveGroup $model) {
                             return Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
                                 $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать дисциплину', 'target' => '#modal']);
