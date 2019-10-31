@@ -6,11 +6,11 @@ namespace backend\assets;
 
 use yii\web\AssetBundle;
 
-class ModalAsset extends AssetBundle
+class OlympicCreateAsset extends AssetBundle
 {
-    public $sourcePath = '@backend/assets/dist/modal';
+    public $sourcePath = '@backend/assets/dist/olympic';
     public $js = [
-         'js/modal.js',
+         'js/create.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

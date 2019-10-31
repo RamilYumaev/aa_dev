@@ -18,6 +18,17 @@ class DictSpecialityHelper
         return ArrayHelper::getValue(self::specialityCodeList(), $id);
     }
 
+    public static function specialityNameList(): array
+    {
+        return ArrayHelper::map(DictSpeciality::find()->all(), "id", 'name');
+    }
+
+    public static function specialityName($id): ?string
+    {
+        return ArrayHelper::getValue(self::specialityNameList(), $id);
+    }
+
+
     public static function specialityNameAndCodeList(): array
     {
         return ArrayHelper::map(DictSpeciality::find()->asArray()->all(), "id", function (array $model) {

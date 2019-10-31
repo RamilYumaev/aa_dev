@@ -6,6 +6,7 @@ namespace dictionary\services;
 
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
@@ -61,4 +62,28 @@ class DictCompetitiveGroupService
         $this->repository->remove($model);
     }
 
+    public function getAllCg ($levelId)
+    {
+        $model = DictCompetitiveGroup::find();
+        if ($levelId == 1) {
+            $model = $model->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        } elseif ($levelId == 2) {
+            $model = $model->eduLevel( DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        } elseif ($levelId == 3) {
+            $model = $model->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        } else {
+            $model = $model->eduLevel( DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
+        }
+        $result = [];
+        foreach ($model->all() as $currentCg) {
+            $result[] = [
+                'id' => $currentCg->id,
+                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->edu_level,
+                    $currentCg->speciality_id,
+                    $currentCg->specialization_id,
+                    $currentCg->faculty_id, $currentCg->education_form_id),
+            ];
+        }
+        return $result;
+    }
 }

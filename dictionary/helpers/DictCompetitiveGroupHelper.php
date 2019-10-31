@@ -5,7 +5,9 @@ namespace dictionary\helpers;
 
 
 use dictionary\models\DictCompetitiveGroup;
+use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
 
 class DictCompetitiveGroupHelper
 {
@@ -45,6 +47,12 @@ class DictCompetitiveGroupHelper
     {
         return [self::EDUCATION_LEVEL_SPO => 'СПО', self::EDUCATION_LEVEL_BACHELOR => 'Бакалавриат',
             self::EDUCATION_LEVEL_MAGISTER => 'Магистратура', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'Аспирантура'];
+    }
+
+    public static function getEduLevelsAbbreviated(): array
+    {
+        return [self::EDUCATION_LEVEL_SPO => 'СПО', self::EDUCATION_LEVEL_BACHELOR => 'БАК',
+            self::EDUCATION_LEVEL_MAGISTER => 'МАГ', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'АСП'];
     }
 
     public static function getSpecialRight(): array
@@ -94,6 +102,11 @@ class DictCompetitiveGroupHelper
         return ArrayHelper::getValue(self::getEduLevels(), $key);
     }
 
+    public static function eduLevelAbbreviatedName($key): string
+    {
+        return ArrayHelper::getValue(self::getEduLevelsAbbreviated(), $key);
+    }
+
     public static function specialRightName($key): string
     {
         return ArrayHelper::getValue(self::getSpecialRight(), $key);
@@ -104,10 +117,18 @@ class DictCompetitiveGroupHelper
         return ArrayHelper::map(DictCompetitiveGroup::find()->all(), "id", 'name');
     }
 
-    public static function disciplineName($key): string
+    public static function getFullName($edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id)
     {
-        return ArrayHelper::getValue(self::disciplineList(), $key);
+        $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
+        $speciality = DictSpecialityHelper::specialityName($speciality_id);
+        $specialization = DictSpecializationHelper::specializationName($specialization_id);
+        $faculty = DictFacultyHelper::facultyName($faculty_id);
+        $form_edu = self::formName($education_form_id);
+
+        return $edu_level
+            . " / " . $faculty
+            . " / " . $speciality
+            . " / " . $specialization
+            . " / " . StringHelper::mb_ucfirst($form_edu);
     }
-
-
 }

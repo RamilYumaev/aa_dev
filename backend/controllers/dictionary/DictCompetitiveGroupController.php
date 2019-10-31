@@ -5,6 +5,7 @@ namespace backend\controllers\dictionary;
 
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\services\DictCompetitiveGroupService;
 use Yii;
@@ -12,6 +13,7 @@ use olympic\forms\dictionary\search\DictCompetitiveGroupSearch;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class DictCompetitiveGroupController extends Controller
 {
@@ -132,6 +134,12 @@ class DictCompetitiveGroupController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index']);
+    }
+
+    public function actionGetCg($levelId)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['result' => $this->service->getAllCg($levelId)];
     }
 
 }

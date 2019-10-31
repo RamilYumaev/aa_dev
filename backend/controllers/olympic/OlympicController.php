@@ -1,24 +1,24 @@
 <?php
+namespace backend\controllers\olympic;
 
-namespace backend\controllers\dictionary;
-
-use dictionary\forms\DictClassEditForm;
-use dictionary\forms\DictClassСreateForm;
-use dictionary\helpers\DictClassHelper;
-use dictionary\models\DictClass;
-use dictionary\services\DictClassService;
-use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
+use olympic\forms\OlympicCreateForm;
+use olympic\forms\OlympicEditForm;
+use olympic\forms\search\OlympicSearch;
+use olympic\models\Olympic;
 use Yii;
+use olympic\services\OlympicService;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class DictClassController extends Controller
+class OlympicController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DictClassService $service, $config = [])
+    public function __construct($id, $module, OlympicService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -41,12 +41,24 @@ class DictClassController extends Controller
      */
     public function actionIndex()
     {
-        $query = DictClass::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        $searchModel = new OlympicSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'olympic' => $this->findModel($id),
         ]);
     }
 
@@ -55,11 +67,11 @@ class DictClassController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictClassСreateForm();
+        $form = new OlympicCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form);
-                return $this->redirect(['index']);
+                $model = $this->service->create($form);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -79,11 +91,11 @@ class DictClassController extends Controller
     {
         $model = $this->findModel($id);
 
-        $form = new DictClassEditForm($model);
+        $form = new OlympicEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
-                return $this->redirect(['index']);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -91,7 +103,7 @@ class DictClassController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'class' => $model,
+            'olympic' => $model,
         ]);
     }
 
@@ -100,9 +112,9 @@ class DictClassController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): DictClass
+    protected function findModel($id): Olympic
     {
-        if (($model = DictClass::findOne($id)) !== null) {
+        if (($model = Olympic::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -122,18 +134,5 @@ class DictClassController extends Controller
         }
         return $this->redirect(['index']);
     }
-
-    /**
-     * @param $onlyHs
-     * @return array
-     */
-
-    public function actionGetClassOnType($onlyHs)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['class' => $this->service->allClassesAjax($onlyHs)];
-
-    }
-
 
 }

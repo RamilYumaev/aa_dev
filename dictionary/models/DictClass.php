@@ -5,6 +5,8 @@ namespace dictionary\models;
 use dictionary\forms\DictClassEditForm;
 use dictionary\forms\DictClassCreateForm;
 use dictionary\helpers\DictClassHelper;
+use dictionary\models\queries\DictClassQuery;
+use dictionary\models\queries\DictCompetitiveGroupQuery;
 
 class DictClass extends \yii\db\ActiveRecord
 {
@@ -50,5 +52,10 @@ class DictClass extends \yii\db\ActiveRecord
     {
         $type = DictClassHelper::typeOfClass();
         return $this->name . '-й ' . $type[$this->type];
+    }
+
+    public static function find(): DictClassQuery
+    {
+        return new DictClassQuery(static::class);
     }
 }

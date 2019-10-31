@@ -3,7 +3,8 @@
 
 namespace olympic\models;
 
-use olympic\forms\OlympicForm;
+use olympic\forms\OlympicCreateForm;
+use olympic\forms\OlympicEditForm;
 
 class Olympic extends \yii\db\ActiveRecord
 {
@@ -16,7 +17,7 @@ class Olympic extends \yii\db\ActiveRecord
         return 'olimpic';
     }
 
-    public static function create(OlympicForm $form, $chairman_id, $faculty_id)
+    public static function create(OlympicCreateForm $form, $chairman_id, $faculty_id)
     {
         $olympic = new static();
         $olympic->name = $form->name;
@@ -27,8 +28,6 @@ class Olympic extends \yii\db\ActiveRecord
         $olympic->date_time_finish_reg = $form->date_time_finish_reg;
         $olympic->genitive_name = $form->genitive_name;
         $olympic->faculty_id = $faculty_id;
-        $olympic->competitiveGroupsList = $form->competitiveGroupsList;
-        $olympic->classesList = $form->classesList;
         $olympic->time_of_distants_tour_type = $form->time_of_distants_tour_type;
         $olympic->form_of_passage = $form->form_of_passage;
         $olympic->time_of_tour = $form->time_of_tour;
@@ -39,7 +38,7 @@ class Olympic extends \yii\db\ActiveRecord
         $olympic->prefilling = $form->prefilling;
         $olympic->only_mpgu_students = $form->only_mpgu_students;
         $olympic->list_position = $form->list_position;
-        $olympic->current_status = $form->current_status;
+        $olympic->current_status = 0; //????
         $olympic->auto_sum = $form->auto_sum;
         $olympic->date_time_start_tour = $form->date_time_start_tour;
         $olympic->address = $form->address;
@@ -54,7 +53,7 @@ class Olympic extends \yii\db\ActiveRecord
         return $olympic;
     }
 
-    public function edit(OlympicForm $form, $chairman_id, $faculty_id)
+    public function edit(OlympicEditForm $form, $chairman_id, $faculty_id)
     {
         $this->name = $form->name;
         $this->chairman_id = $chairman_id;
@@ -64,8 +63,6 @@ class Olympic extends \yii\db\ActiveRecord
         $this->date_time_finish_reg = $form->date_time_finish_reg;
         $this->genitive_name = $form->genitive_name;
         $this->faculty_id = $faculty_id;
-        $this->competitiveGroupsList = $form->competitiveGroupsList;
-        $this->classesList = $form->classesList;
         $this->time_of_distants_tour_type = $form->time_of_distants_tour_type;
         $this->form_of_passage = $form->form_of_passage;
         $this->time_of_tour = $form->time_of_tour;
