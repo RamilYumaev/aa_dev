@@ -13,7 +13,7 @@ class OlimpicCg extends ActiveRecord
     {
         $olimpicCg = new static();
         $olimpicCg->olimpic_id = $olimpic_id;
-        $olimpic_id->competitive_group_id = $competitive_group_id;
+        $olimpicCg->competitive_group_id = $competitive_group_id;
 
         return $olimpicCg;
     }

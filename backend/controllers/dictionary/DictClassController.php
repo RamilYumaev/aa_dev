@@ -3,7 +3,8 @@
 namespace backend\controllers\dictionary;
 
 use dictionary\forms\DictClassEditForm;
-use dictionary\forms\DictClassCreateForm;
+use dictionary\forms\DictClassСreateForm;
+use dictionary\helpers\DictClassHelper;
 use dictionary\models\DictClass;
 use dictionary\services\DictClassService;
 use yii\data\ActiveDataProvider;
@@ -11,6 +12,7 @@ use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class DictClassController extends Controller
 {
@@ -119,6 +121,18 @@ class DictClassController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $onlyHs
+     * @return array
+     */
+
+    public function actionGetClassOnType($onlyHs)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['class' => $this->service->allClassesAjax($onlyHs)];
+
     }
 
 

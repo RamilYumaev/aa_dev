@@ -6,6 +6,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
+use dictionary\models\queries\DictCompetitiveGroupQuery;
 use yii\db\ActiveRecord;
 
 class DictCompetitiveGroup extends ActiveRecord
@@ -85,5 +86,10 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         $competitiveGroup = new static();
         return $competitiveGroup->attributeLabels();
+    }
+
+    public static function find(): DictCompetitiveGroupQuery
+    {
+        return new DictCompetitiveGroupQuery(static::class);
     }
 }

@@ -1,25 +1,24 @@
 <?php
+namespace backend\controllers\olympic;
 
-
-namespace backend\controllers\dictionary;
-
-use dictionary\forms\DictCompetitiveGroupCreateForm;
-use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
-use dictionary\services\DictCompetitiveGroupService;
+use olympic\forms\OlympicCreateForm;
+use olympic\forms\OlympicEditForm;
+use olympic\forms\search\OlympicSearch;
+use olympic\models\Olympic;
 use Yii;
-use olympic\forms\dictionary\search\DictCompetitiveGroupSearch;
+use olympic\services\OlympicService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class DictCompetitiveGroupController extends Controller
+class OlympicController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DictCompetitiveGroupService $service, $config = [])
+    public function __construct($id, $module, OlympicService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -42,7 +41,7 @@ class DictCompetitiveGroupController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DictCompetitiveGroupSearch();
+        $searchModel = new OlympicSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -59,7 +58,7 @@ class DictCompetitiveGroupController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'competitiveGroup' => $this->findModel($id),
+            'olympic' => $this->findModel($id),
         ]);
     }
 
@@ -68,7 +67,7 @@ class DictCompetitiveGroupController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictCompetitiveGroupCreateForm();
+        $form = new OlympicCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
@@ -92,7 +91,7 @@ class DictCompetitiveGroupController extends Controller
     {
         $model = $this->findModel($id);
 
-        $form = new DictCompetitiveGroupEditForm($model);
+        $form = new OlympicEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -104,7 +103,7 @@ class DictCompetitiveGroupController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'competitiveGroup' => $model,
+            'olympic' => $model,
         ]);
     }
 
@@ -113,9 +112,9 @@ class DictCompetitiveGroupController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): DictCompetitiveGroup
+    protected function findModel($id): Olympic
     {
-        if (($model = DictCompetitiveGroup::findOne($id)) !== null) {
+        if (($model = Olympic::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -134,12 +133,6 @@ class DictCompetitiveGroupController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index']);
-    }
-
-    public function actionGetCg($levelId)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['result' => $this->service->getAllCg($levelId)];
     }
 
 }

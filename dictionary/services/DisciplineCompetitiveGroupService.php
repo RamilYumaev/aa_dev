@@ -34,18 +34,18 @@ class DisciplineCompetitiveGroupService
         return $model;
     }
 
-    public function edit($id, DisciplineCompetitiveGroupForm $form)
+    public function edit(DisciplineCompetitiveGroupForm $form)
     {
-        $model = $this->repository->get($id);
+        $model = $this->repository->get($form->discipline_id, $form->competitive_group_id);
         $discipline = $this->disciplineRepository->get($form->discipline_id);
         $competitiveGroup = $this->competitiveGroupRepository->get($form->competitive_group_id);
         $model->edit($discipline->id, $competitiveGroup->id, $form->priority);
         $this->repository->save($model);
     }
 
-    public function remove($id)
+    public function remove($discipline_id, $competitive_group_id)
     {
-        $model = $this->repository->get($id);
+        $model = $this->repository->get($discipline_id, $competitive_group_id);
         $this->repository->remove($model);
     }
 
