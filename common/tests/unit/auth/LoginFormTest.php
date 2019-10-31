@@ -1,6 +1,6 @@
 <?php
 
-namespace common\tests\unit\models;
+namespace common\tests\unit\auth;
 
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;

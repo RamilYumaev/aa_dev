@@ -1,7 +1,7 @@
 <?php
 
 
-namespace olympic\forms;
+namespace testing\forms;
 
 
 class AddFinalMarkForm extends Model

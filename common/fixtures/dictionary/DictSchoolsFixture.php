@@ -2,10 +2,13 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DictDiscipline;
+use dictionary\models\DictSchools;
 use yii\test\ActiveFixture;
 
-class DictDisciplineFixture extends ActiveFixture
+class DictSchoolsFixture extends ActiveFixture
 {
-    public $modelClass = DictDiscipline::class;
+    public $modelClass = DictSchools::class;
+    public $depends = [
+        CountryFixture::class,
+        RegionFixture::class];
 }

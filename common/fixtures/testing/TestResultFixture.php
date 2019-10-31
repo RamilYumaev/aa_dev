@@ -2,10 +2,10 @@
 
 namespace common\fixtures\testing;
 
-use testing\models\TestQuestionGroup;
+use testing\models\TestResult;
 use yii\test\ActiveFixture;
 
-class TestQuestionGroupFixture extends ActiveFixture
+class TestResultFixture extends ActiveFixture
 {
-    public $modelClass = TestQuestionGroup::class;
+    public $modelClass = TestResult::class;
 }

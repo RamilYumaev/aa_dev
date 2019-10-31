@@ -1,11 +1,12 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\olympic;
 
-use olympic\models\OlimpicNomination;
+use olympic\models\Olympic;
 use yii\test\ActiveFixture;
 
-class OlimpicNominationFixture extends ActiveFixture
+class OlympicFixture extends ActiveFixture
 {
-    public $modelClass = OlimpicNomination::class;
+    public $modelClass = Olympic::class;
+    public $depends = [FacultyFixture::class, DictCompetitiveGroupFixture::class];
 }

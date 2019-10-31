@@ -27,4 +27,12 @@ class Country extends ActiveRecord
             'far_abroad' => 'Дальнее зарубежье',
         ];
     }
+
+    public function rules()
+    {
+        return [
+            ['name', 'required'],
+            [['cis', 'far_abroad'], 'boolean'],
+        ];
+    }
 }

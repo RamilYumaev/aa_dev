@@ -2,10 +2,11 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DictSpeciality;
+use dictionary\models\DictSpecialization;
 use yii\test\ActiveFixture;
 
-class DictSpecialityFixture extends ActiveFixture
+class DictSpecializationFixture extends ActiveFixture
 {
-    public $modelClass = DictSpeciality::class;
+    public $modelClass = DictSpecialization::class;
+    public $depends = DictSpecialityFixture::class;
 }

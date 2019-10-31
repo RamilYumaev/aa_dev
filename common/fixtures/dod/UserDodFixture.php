@@ -1,12 +1,14 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\dod;
 
+use common\fixtures\dictionary\DodFixture;
 use common\fixtures\UserFixture;
-use dod\models\Dod;
+use dod\models\UserDod;
 use yii\test\ActiveFixture;
 
-class DodFixture extends ActiveFixture
+class UserDodFixture extends ActiveFixture
 {
-    public $modelClass = Dod::class;
+    public $modelClass = UserDod::class;
+    public $depends = [UserFixture::class, DodFixture::class];
 }

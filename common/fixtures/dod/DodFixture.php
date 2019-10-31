@@ -1,12 +1,12 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\dod;
 
 use common\fixtures\UserFixture;
-use dod\models\DateDod;
+use dod\models\Dod;
 use yii\test\ActiveFixture;
 
-class DateDodFixture extends ActiveFixture
+class DodFixture extends ActiveFixture
 {
-    public $modelClass = DateDod::class;
+    public $modelClass = Dod::class;
 }

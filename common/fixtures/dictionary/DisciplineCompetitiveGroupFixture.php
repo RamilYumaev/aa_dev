@@ -2,10 +2,10 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DictSpecialTypeOlimpic;
+use dictionary\models\DisciplineCompetitiveGroup;
 use yii\test\ActiveFixture;
 
-class DictSpecialTypeOlimpicFixture extends ActiveFixture
+class DisciplineCompetitiveGroupFixture extends ActiveFixture
 {
-    public $modelClass = DictSpecialTypeOlimpic::class;
+    public $modelClass = DisciplineCompetitiveGroup::class;
 }

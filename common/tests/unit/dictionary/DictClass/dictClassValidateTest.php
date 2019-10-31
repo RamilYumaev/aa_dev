@@ -2,30 +2,11 @@
 
 use dictionary\forms\DictClassCreateForm;
 use dictionary\helpers\DictClassHelper;
-use common\fixtures\dictionary\DictClassFixture;
 
 
-class dictClassValidate extends \Codeception\Test\Unit
+class dictClassValidateTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \common\tests\UnitTester
-     */
-    protected $tester;
 
-    public function dataFixture()
-    {
-        $this->tester->haveFixtures([
-            'dictCLass' => [
-                'class' => DictClassFixture::class,
-                'dataFile' => codecept_data_dir() . 'dictionary/dict-class.php',
-            ]
-        ]);
-    }
-
-
-    protected function _after()
-    {
-    }
 
     // tests
     public function testValidateEmptyNameForm()
@@ -44,10 +25,5 @@ class dictClassValidate extends \Codeception\Test\Unit
         $model->type = "";
         $this->assertFalse($model->validate());
 
-    }
-
-    public function testWithFixture()
-    {
-        $this->tester->grabFixture('dictCLass');
     }
 }

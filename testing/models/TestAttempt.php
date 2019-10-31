@@ -1,7 +1,7 @@
 <?php
 
 
-namespace tests\models;
+namespace testing\models;
 
 
 use tests\helpers\TestQuestionHelper;
