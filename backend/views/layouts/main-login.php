@@ -18,7 +18,17 @@ dmstr\web\AdminLteAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="login-page">
+<style>
+    .mpgu-bg {
+        background-image: url("../../../img/logo.jpg");
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: #bcc1c0;
+    }
+</style>
+
+<body class="login-page mpgu-bg">
 
 <?php $this->beginBody() ?>
 
