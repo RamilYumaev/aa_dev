@@ -16,13 +16,6 @@ class ClassAndOlympic extends ActiveRecord
         return $classAndOlympic;
     }
 
-    public function edit($class_id, $olympic_id)
-    {
-        $this->class_id = $class_id;
-        $this->olympic_id = $olympic_id;
-    }
-
-
     /**
      * {@inheritdoc}
      */
