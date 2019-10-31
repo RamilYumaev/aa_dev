@@ -55,7 +55,7 @@ class DictClassController extends Controller
      */
     public function actionCreate()
     {
-        $form = new DictClassСreateForm();
+        $form = new DictClassCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);

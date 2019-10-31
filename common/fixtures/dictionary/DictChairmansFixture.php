@@ -2,10 +2,10 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\CategoryDoc;
+use dictionary\models\DictChairmans;
 use yii\test\ActiveFixture;
 
-class CategoryDocFixture extends ActiveFixture
+class DictChairmansFixture extends ActiveFixture
 {
-    public $modelClass = CategoryDoc::class;
+    public $modelClass = DictChairmans::class;
 }

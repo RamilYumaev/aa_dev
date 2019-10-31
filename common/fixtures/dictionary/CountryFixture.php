@@ -2,10 +2,10 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\CategoryDoc;
+use dictionary\models\Country;
 use yii\test\ActiveFixture;
 
-class CategoryDocFixture extends ActiveFixture
+class CountryFixture extends ActiveFixture
 {
-    public $modelClass = CategoryDoc::class;
+    public $modelClass = Country::class;
 }

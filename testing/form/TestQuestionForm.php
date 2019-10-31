@@ -1,7 +1,7 @@
 <?php
 
 
-namespace tests\forms;
+namespace testing\forms;
 
 
 use tests\helpers\TestQuestionGroupHelper;

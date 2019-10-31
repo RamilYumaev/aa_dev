@@ -1,13 +1,11 @@
 <?php
 
-namespace common\fixtures\olympic;
+namespace common\fixtures\testing;
 
-use common\fixtures\UserFixture;
-use olympic\models\UserOlimpiads;
+use testing\models\Test;
 use yii\test\ActiveFixture;
 
-class UserOlimpiadsFixture extends ActiveFixture
+class TestFixture extends ActiveFixture
 {
-    public $modelClass = UserOlimpiads::class;
-    public $depends = [UserFixture::class, OlympicFixture::class];
+    public $modelClass = Test::class;
 }

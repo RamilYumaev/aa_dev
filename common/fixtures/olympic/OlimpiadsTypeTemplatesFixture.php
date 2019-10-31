@@ -1,11 +1,12 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\olympic;
 
-use olympic\models\Diploma;
+use olympic\models\OlimpiadsTypeTemplates;
 use yii\test\ActiveFixture;
 
-class DiplomaFixture extends ActiveFixture
+class OlimpiadsTypeTemplatesFixture extends ActiveFixture
 {
-    public $modelClass = Diploma::class;
+    public $modelClass = OlimpiadsTypeTemplates::class;
+    public $depends = OlympicFixture::class;
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace tests\forms;
+namespace testing\forms;
 
 
 use olympic\helpers\OlympicHelper;

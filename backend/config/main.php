@@ -63,14 +63,14 @@ return [
             'errorAction' => 'site/error',
         ],
 
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];

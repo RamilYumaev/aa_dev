@@ -2,10 +2,10 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DictSpecialization;
+use dictionary\models\DictSpecialTypeOlimpic;
 use yii\test\ActiveFixture;
 
-class DictSpecializationFixture extends ActiveFixture
+class DictSpecialTypeOlimpicFixture extends ActiveFixture
 {
-    public $modelClass = DictSpecialization::class;
+    public $modelClass = DictSpecialTypeOlimpic::class;
 }

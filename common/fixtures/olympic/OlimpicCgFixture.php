@@ -1,11 +1,12 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\olympic;
 
-use olympic\models\OlimpiadsTypeTemplates;
+use olympic\models\OlimpicCg;
 use yii\test\ActiveFixture;
 
-class OlimpiadsTypeTemplatesFixture extends ActiveFixture
+class OlimpicCgFixture extends ActiveFixture
 {
-    public $modelClass = OlimpiadsTypeTemplates::class;
+    public $modelClass = OlimpicCg::class;
+    public $depends = [OlympicFixture::class, DictCompetitiveGroupFixture::class];
 }

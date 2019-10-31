@@ -2,10 +2,10 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DisciplineCompetitiveGroup;
+use dictionary\models\Region;
 use yii\test\ActiveFixture;
 
-class DisciplineCompetitiveGroupFixture extends ActiveFixture
+class RegionFixture extends ActiveFixture
 {
-    public $modelClass = DisciplineCompetitiveGroup::class;
+    public $modelClass = Region::class;
 }

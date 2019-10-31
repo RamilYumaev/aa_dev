@@ -2,10 +2,11 @@
 
 namespace common\fixtures\dictionary;
 
-use dictionary\models\DictSchools;
+use dictionary\models\DictSchoolsPreModeration;
 use yii\test\ActiveFixture;
 
-class DictSchoolsFixture extends ActiveFixture
+class DictSchoolsPreModerationFixture extends ActiveFixture
 {
-    public $modelClass = DictSchools::class;
+    public $modelClass = DictSchoolsPreModeration::class;
+    public $depends = DictSchoolsFixture::class;
 }

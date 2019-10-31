@@ -1,11 +1,13 @@
 <?php
 
-namespace common\fixtures\dictionary;
+namespace common\fixtures\olympic;
 
-use olympic\models\PersonalPresenceAttempt;
+use common\fixtures\UserFixture;
+use olympic\models\UserOlimpiads;
 use yii\test\ActiveFixture;
 
-class PersonalPresenceAttemptFixture extends ActiveFixture
+class UserOlimpiadsFixture extends ActiveFixture
 {
-    public $modelClass = PersonalPresenceAttempt::class;
+    public $modelClass = UserOlimpiads::class;
+    public $depends = [UserFixture::class, OlympicFixture::class];
 }

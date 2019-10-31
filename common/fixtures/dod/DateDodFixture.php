@@ -3,11 +3,11 @@
 namespace common\fixtures\dictionary;
 
 use common\fixtures\UserFixture;
-use olympic\models\UserOlimpiads;
+use dod\models\DateDod;
 use yii\test\ActiveFixture;
 
-class UserOlimpiadsFixture extends ActiveFixture
+class DateDodFixture extends ActiveFixture
 {
-    public $modelClass = UserOlimpiads::class;
-    public $depends = [UserFixture::class, OlympicFixture::class];
+    public $modelClass = DateDod::class;
+    public $depends = DodFixture::class;
 }
