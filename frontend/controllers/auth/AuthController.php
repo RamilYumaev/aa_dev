@@ -23,6 +23,7 @@ class AuthController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = "@frontend/views/layouts/loginRegister.php";
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

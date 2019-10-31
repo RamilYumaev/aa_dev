@@ -47,6 +47,7 @@ return [
             'rules' => [
                 "index" => "/",
                 "site" => "",
+                'auth/' => '/',
             ],
         ],
 

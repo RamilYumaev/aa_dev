@@ -4,22 +4,21 @@ array_merge(
     (Yii::$app->user->can('manager') ?
         [['label' => 'Справочники', 'url' => '#',
             'items' => array_merge([
-                ['label' => 'Шаблоны', 'url' => '/admin/templates'],
-                ['label' => 'Председатели', 'url' => '/faculty/dict-chairmans'],
-                ['label' => 'Классы/курсы', 'url' => '/faculty/dict-class'],
-                ['label' => 'Сопоставление шаблонов с олимпиадами', 'url' => '/admin/olimpiads-type-templates'],
-                ['label'=> 'Специальные виды олимпиад', 'url'=> '/admin/dict-special-type-olimpic'],
-                ['label'=> 'Назначить главных по факультетам', 'url'=> '/faculty/admin/index'],
-                ['label' => 'Институты/факультеты', 'url' => '/manager/dict-faculty'],
-                ['label' => 'Дни открытых дверей', 'url' => '/manager/dod'],
-                ['label' => 'Ведущие мастер-классов', 'url' => '/manager/masters'],
-                ['label' => 'Мастер-классы', 'url' => '/manager/master-class'],
-                ['label' => 'Направления подготовки', 'url' => '/manager/dict-speciality'],
-                ['label' => 'Образовательные программы', 'url' => '/manager/dict-specialization'],
-                ['label' => 'Вступительные испытания', 'url' => '/manager/dict-discipline'],
-                ['label' => 'Конкурсные группы', 'url' => '/manager/dict-competitive-group'],
-                ['label' => 'Классы/курсы', 'url' => '/faculty/dict-class'],
-                ['label' => 'Председатели', 'url' => '/faculty/dict-chairmans'],
+                ['label' => 'Шаблоны', 'url' => '/dictionary/templates'],
+                ['label' => 'Председатели', 'url' => '/dictionary/dict-chairmans'],
+                ['label' => 'Классы/курсы', 'url' => '/dictionary/dict-class'],
+                ['label' => 'Сопоставление шаблонов', 'url' => '/dictionary/olimpiads-type-templates'],
+                ['label' => 'Спец. виды олимпиад', 'url' => '/dictionary/dict-special-type-olimpic'],
+                ['label' => 'Назначить главных', 'url' => '/dictionary/faculty/index'],
+                ['label' => 'Институты/факультеты', 'url' => '/dictionary/dict-faculty'],
+                ['label' => 'Дни открытых дверей', 'url' => '/dictionary/dod'],
+                ['label' => 'Ведущие мастер-классов', 'url' => '/dictionary/masters'],
+                ['label' => 'Мастер-классы', 'url' => '/dictionary/master-class'],
+                ['label' => 'Направления подготовки', 'url' => '/dictionary/dict-speciality'],
+                ['label' => 'Образ. программы', 'url' => '/dictionary/dict-specialization'],
+                ['label' => 'Вступительные испытания', 'url' => '/dictionary/dict-discipline'],
+                ['label' => 'Конкурсные группы', 'url' => '/dictionary/dict-competitive-group'],
+                ['label' => 'Классы/курсы', 'url' => '/dictionary/dict-class'],
 
 
             ])]] : []),
@@ -29,8 +28,8 @@ array_merge(
             'items' => array_merge([
                 ['label' => 'Шаблоны', 'url' => '/sending/template'],
                 ['label' => 'Модерация рассылки', 'url' => '/sending/send'],
-                ['label'=> 'Опросы', 'url'=> '/sending/polls/'],
-                ['label'=> 'Варианты ответов на опросы', 'url'=> '/sending/dict-poll-answer/'],
+                ['label' => 'Опросы', 'url' => '/sending/polls/'],
+                ['label' => 'Варианты ответов', 'url' => '/sending/dict-poll-answer/'],
             ])]] : []),
 
 
@@ -63,8 +62,8 @@ array_merge(
     (Yii::$app->user->can('olymp_operator') ?
         [['label' => 'Олимпиады/конкурсы', 'url' => '#',
             'items' => array_merge([
-                ['label' => 'Перечень олимпиад/конкурсов', 'url' => '/faculty/olimpic'],
-                ['label' => 'Группы вопросов для тестов заочного тура', 'url' => '/test/question-group'],
+                ['label' => 'Перечень ', 'url' => '/faculty/olimpic'],
+                ['label' => 'Группы вопросов', 'url' => '/test/question-group'],
             ])]] : []),
 
 
@@ -72,9 +71,9 @@ array_merge(
         [['label' => 'Управление', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Шаблоны', 'url' => '/admin/templates'],
-                ['label' => 'Сопоставление шаблонов с олимпиадами', 'url' => '/admin/olimpiads-type-templates'],
-                ['label'=> 'Специальные виды олимпиад', 'url'=> '/admin/dict-special-type-olimpic'],
-                ['label'=> 'Назначить главных по факультетам', 'url'=> '/faculty/admin/index'],
+                ['label' => 'Сопоставление шаблонов', 'url' => '/admin/olimpiads-type-templates'],
+                ['label' => 'Спец. виды олимпиад', 'url' => '/admin/dict-special-type-olimpic'],
+                ['label' => 'Назначить главных', 'url' => '/faculty/admin/index'],
                 ['label' => 'Пользователи', 'url' => '/rbac/user'],
                 ['label' => 'Назначения', 'url' => '/rbac/assignment'],
                 ['label' => 'Роли', 'url' => '/rbac/role'],

@@ -23,9 +23,6 @@ $fieldOptions2 = [
 ?>
 
 <div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>Вход</a>
-    </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <?= Alert::widget() ?>

@@ -7,3 +7,4 @@ Yii::setAlias('@olympic', dirname(dirname(__DIR__)) . '/olympic');
 Yii::setAlias('@dictionary', dirname(dirname(__DIR__)) . '/dictionary');
 Yii::setAlias('@testing', dirname(dirname(__DIR__)) . '/testing');
 Yii::setAlias('@dod', dirname(dirname(__DIR__)) . '/dod');
+Yii::setAlias('@static', dirname(dirname(__DIR__)) . '/static');
