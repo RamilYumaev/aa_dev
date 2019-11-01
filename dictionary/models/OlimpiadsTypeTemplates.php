@@ -1,10 +1,10 @@
 <?php
 
 
-namespace olympic\models;
+namespace dictionary\models;
 
-
-use olympic\forms\OlimpiadsTypeTemplatesForm;
+use dictionary\forms\OlimpiadsTypeTemplatesCreateForm;
+use dictionary\forms\OlimpiadsTypeTemplatesEditForm;
 use yii\db\ActiveRecord;
 
 class OlimpiadsTypeTemplates extends ActiveRecord
@@ -17,7 +17,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         return 'olimpiads_type_templates';
     }
 
-    public static function create(OlimpiadsTypeTemplatesForm $form, $template_id, $special_type)
+    public static function create(OlimpiadsTypeTemplatesCreateForm $form, $template_id, $special_type)
     {
         $olimpiadsTypeTemplates = new static();
         $olimpiadsTypeTemplates->number_of_tours = $form->number_of_tours;
@@ -28,7 +28,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         return $olimpiadsTypeTemplates;
     }
 
-    public function edit(OlimpiadsTypeTemplatesForm $form, $template_id, $special_type)
+    public function edit(OlimpiadsTypeTemplatesEditForm $form, $template_id, $special_type)
     {
         $this->number_of_tours = $form->number_of_tours;
         $this->form_of_passage = $form->form_of_passage;

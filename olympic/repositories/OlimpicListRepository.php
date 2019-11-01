@@ -4,26 +4,27 @@
 namespace olympic\repositories;
 
 
-use olympic\models\Olympic;
+use olympic\models\OlimpicList;
 
-class OlympicRepository
+class OlimpicListRepository
 {
-    public function get($id): Olympic
+
+    public function get($id): OlimpicList
     {
-        if (!$model = Olympic::findOne($id)) {
+        if (!$model = OlimpicList::findOne($id)) {
             throw new \DomainException('Olympic не найдено.');
         }
         return $model;
     }
 
-    public function save(Olympic $model): void
+    public function save(OlimpicList $model): void
     {
         if (!$model->save()) {
             throw new \RuntimeException('Ошибка сохранения.');
         }
     }
 
-    public function remove(Olympic $model): void
+    public function remove(OlimpicList $model): void
     {
         if (!$model->delete()) {
             throw new \RuntimeException('Ошибка удаления.');

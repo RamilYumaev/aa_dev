@@ -1,22 +1,37 @@
 <?php
+
+
 namespace olympic\forms\search;
+
 
 use dictionary\helpers\DictFacultyHelper;
 use olympic\helpers\OlympicHelper;
+use olympic\models\OlimpicList;
 use olympic\models\Olympic;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class OlympicSearch extends Model
+class OlimpicListSearch extends Model
 {
-    public $name, $status;
+    public $name, $form_of_passage, $faculty_id, $year;
+    protected $_query;
 
     public function rules()
     {
         return [
-            [['status'], 'integer'],
+            [['form_of_passage', 'faculty_id', 'year'], 'integer'],
             [['name',], 'safe'],
         ];
+    }
+
+    public function __construct(Olympic $olympic = null, $config = [])
+    {
+        if ($olympic) {
+            $this->_query = OlimpicList::find()->where(['olimpic_id' => $olympic->id])->orderBy(['year'=>SORT_DESC]);
+        } else {
+            $this->_query = OlimpicList::find();
+        }
+        parent::__construct($config);
     }
 
     /**
@@ -25,7 +40,7 @@ class OlympicSearch extends Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Olympic::find();
+        $query = $this->_query;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -39,7 +54,9 @@ class OlympicSearch extends Model
         }
 
         $query->andFilterWhere([
-            'status' => $this->status,
+            'form_of_passage' => $this->form_of_passage,
+            'faculty_id' => $this->faculty_id,
+             'year' => $this->year
         ]);
 
         $query
@@ -52,4 +69,15 @@ class OlympicSearch extends Model
     {
         return Olympic::labels();
     }
+
+    public function formOfPassage()
+    {
+        return OlympicHelper::formOfPassage();
+    }
+
+    public function facultyList(): array
+    {
+        return DictFacultyHelper::facultyList();
+    }
+
 }

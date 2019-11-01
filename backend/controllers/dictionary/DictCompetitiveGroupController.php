@@ -5,11 +5,10 @@ namespace backend\controllers\dictionary;
 
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
-use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\services\DictCompetitiveGroupService;
 use Yii;
-use olympic\forms\dictionary\search\DictCompetitiveGroupSearch;
+use dictionary\forms\search\DictCompetitiveGroupSearch;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -1,25 +1,23 @@
 <?php
+
 namespace backend\controllers\olympic;
 
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\models\DictCompetitiveGroup;
-use olympic\forms\OlympicCreateForm;
-use olympic\forms\OlympicEditForm;
-use olympic\forms\search\OlympicSearch;
-use olympic\models\Olympic;
-use Yii;
-use olympic\services\OlympicService;
-use yii\bootstrap\ActiveForm;
+
+use olympic\forms\OlimpicListCreateForm;
+use olympic\forms\OlimpicListEditForm;
+use olympic\forms\search\OlimpicListSearch;
+use olympic\models\OlimpicList;
+use olympic\services\OlimpicListService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
+use Yii;
 
-class OlympicController extends Controller
+class OlimpicListController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, OlympicService $service, $config = [])
+    public function __construct($id, $module, OlimpicListService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -42,7 +40,7 @@ class OlympicController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new OlympicSearch();
+        $searchModel = new OlimpicListSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -64,26 +62,22 @@ class OlympicController extends Controller
     }
 
     /**
+     * @param integer $olimpic_id
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($olimpic_id)
     {
-        $form = new OlympicCreateForm();
-        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($form);
-        }
+        $form = new OlimpicListCreateForm($olimpic_id);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('create', [
+        return $this->render('create', [
             'model' => $form,
         ]);
     }
@@ -96,22 +90,18 @@ class OlympicController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new OlympicEditForm($model);
-        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($form);
-        }
+
+        $form = new OlimpicListEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($form);
-                return $this->redirect(['view', 'id' => $model->id]);
+                $this->service->edit($model->id, $form);
+                return $this->redirect(['view', 'id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('update', [
+        return $this->render('update', [
             'model' => $form,
             'olympic' => $model,
         ]);
@@ -122,9 +112,34 @@ class OlympicController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): Olympic
+
+    public function actionCopy($id)
     {
-        if (($model = Olympic::findOne($id)) !== null) {
+        $model = $this->findModel($id);
+        $form = new OlimpicListEditForm($model);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->copy($form);
+                return $this->redirect(['view', 'id'=> $model->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('update', [
+            'model' => $form,
+            'olympic' => $model,
+        ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id): OlimpicList
+    {
+        if (($model = OlimpicList::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -136,12 +151,16 @@ class OlympicController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
         try {
             $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index']);
+        return $this->redirect(['olympic/olympic/view', 'id' => $model->olimpic_id]);
     }
+
+
+
 }
