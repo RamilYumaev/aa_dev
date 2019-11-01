@@ -1,17 +1,17 @@
-var formOfPassage = $("div.field-olympiceditform-form_of_passage");
-var mpguStatus = $("div.field-olympiceditform-only_mpgu_students");
-var typeOfTime = $("div.field-olympiceditform-time_of_distants_tour");
-var hideTypeOfTime = $("div.field-olympiceditform-time_of_distants_tour_type");
-var hideTimeOfOchTour = $("div.field-olympiceditform-date_time_start_tour");
-var hideDateTimeStartOchTour = $("div.field-olympiceditform-date_time_start_tour");
-var hideAddress = $("div.field-olympiceditform-address");
-var hideTimeOchTur = $("div.field-olympiceditform-time_of_tour");
-var hideZaochRequired = $("div.field-olympiceditform-requiment_to_work_of_distance_tour");
-var hideOchRequired = $("div.field-olympiceditform-requiment_to_work");
-var hideZaochCriteria = $("div.field-olympiceditform-criteria_for_evaluating_dt");
-var hideOchCriteria = $("div.field-olympiceditform-criteria_for_evaluating");
+var formOfPassage = $("div.field-olimpiclisteditform-form_of_passage");
+var mpguStatus = $("div.field-olimpiclisteditform-only_mpgu_students");
+var typeOfTime = $("div.field-olimpiclisteditform-time_of_distants_tour");
+var hideTypeOfTime = $("div.field-olimpiclisteditform-time_of_distants_tour_type");
+var hideTimeOfOchTour = $("div.field-olimpiclisteditform-date_time_start_tour");
+var hideDateTimeStartOchTour = $("div.field-olimpiclisteditform-date_time_start_tour");
+var hideAddress = $("div.field-olimpiclisteditform-address");
+var hideTimeOchTur = $("div.field-olimpiclisteditform-time_of_tour");
+var hideZaochRequired = $("div.field-olimpiclisteditform-requiment_to_work_of_distance_tour");
+var hideOchRequired = $("div.field-olimpiclisteditform-requiment_to_work");
+var hideZaochCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating_dt");
+var hideOchCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating");
 
-$("#olympiceditform-form_of_passage").on("change init", function() {
+$("#olimpiclisteditform-form_of_passage").on("change init", function() {
     if(this.value == 1){
         hideTimeOfOchTour.show();
         hideDateTimeStartOchTour.show();
@@ -40,7 +40,7 @@ $("#olympiceditform-form_of_passage").on("change init", function() {
     }
 }).trigger("init");
 
-$("#olympiceditform-number_of_tours").on("change init", function() {
+$("#olimpiclisteditform-number_of_tours").on("change init", function() {
     if(this.value == 2){
         hideTimeOfOchTour.show();
         hideDateTimeStartOchTour.show();
@@ -65,10 +65,10 @@ $("#olympiceditform-number_of_tours").on("change init", function() {
     }
 });
 
-$("#olympiceditform-number_of_tours").on("change init", function() {
+$("#olimpiclisteditform-number_of_tours").on("change init", function() {
     if (this.value == 1 || this.value == 3) { //@todo сделать константой
         formOfPassage.show();
-        $("#olympiceditform-form_of_passage option[value='3']").remove();
+        $("#olimpiclisteditform-form_of_passage option[value='3']").remove();
     } else {
         formOfPassage.hide();
     }
@@ -76,7 +76,7 @@ $("#olympiceditform-number_of_tours").on("change init", function() {
 
 
 
-$("#olympiceditform-edu_level_olymp").on("change init", function() {
+$("#olimpiclisteditform-edu_level_olymp").on("change init", function() {
     if (this.value == 2) { //@todo сделать константой
         mpguStatus.show();
     } else {
@@ -84,7 +84,7 @@ $("#olympiceditform-edu_level_olymp").on("change init", function() {
     }
 }).trigger("init");
 
-$("#olympiceditform-time_of_distants_tour_type").on("change init", function() {
+$("#olimpiclisteditform-time_of_distants_tour_type").on("change init", function() {
     if (this.value == 1) { //@todo сделать константой
         typeOfTime.show();
     } else {
@@ -93,15 +93,15 @@ $("#olympiceditform-time_of_distants_tour_type").on("change init", function() {
 }).trigger("init");
 
 
-var levelSelect = $("#olympiceditform-edu_level_olymp");
+var levelSelect = $("#olimpiclisteditform-edu_level_olymp");
 var loadedCg = []; // Текущий список КГ
 var loadedClass = [];
-var clSelect = $("#olympiceditform-classeslist");
-var cGSelect = $("#olympiceditform-competitivegroupslist");
+var clSelect = $("#olimpiclisteditform-classeslist");
+var cGSelect = $("#olimpiclisteditform-competitivegroupslist");
 
 levelSelect.on("change init", function(){
     $.ajax({
-        url: "index.php?r=dictionary/dict-competitive-group/get-cg",
+        url: "/dictionary/dict-competitive-group/get-cg",
         method: "GET",
         dataType: "json",
         async: false,
@@ -128,7 +128,7 @@ levelSelect.on("change init", function(){
 
     });
     $.ajax({
-        url: "/index.php?r=dictionary/dict-class/get-class-on-type",
+        url: "/dictionary/dict-class/get-class-on-type",
         method: "GET",
         dataType: "json",
         async: false,

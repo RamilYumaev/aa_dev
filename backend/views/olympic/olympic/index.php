@@ -11,38 +11,32 @@ use yii\helpers\Html;
 
 $this->title = 'Олимпиады/конкурсы';
 $this->params['breadcrumbs'][] = $this->title;
+\backend\assets\ModalAsset::register($this)
 ?>
-<div class="dict-coml-group-index">
-
-    <p>
-        <?= Html::a('Cоздать', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <div class="box">
-        <div class="box-body">
-            <?= \backend\widgets\adminlte\grid\GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => \yii\grid\SerialColumn::class],
-                    'name',
-                    ['attribute' => 'form_of_passage',
-                        'filter' => $searchModel->formOfPassage(),
-                        'value' => function ($model) {
-                            return \olympic\helpers\OlympicHelper::formOfPassageName($model->form_of_passage);
-                        },
-                    ],
-                    ['attribute' => 'faculty_id',
-                        'filter' => $searchModel->facultyList(),
-                        'value' => function ($model) {
-                            return DictFacultyHelper::facultyName($model->faculty_id);
-                        },
-                    ],
-                    ['class' => \yii\grid\ActionColumn::class],
-                ]
-            ]); ?>
-        </div>
+<div class="box box-default">
+    <div class="box box-header">
+        <?=Html::a('Добавить', ['create',],
+            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
     </div>
-</div>
+    <div class="box-body">
+        <?= \backend\widgets\adminlte\grid\GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => \yii\grid\SerialColumn::class],
+                'name',
+                'status',
+                ['class' => \yii\grid\ActionColumn::class,
+                    'buttons' => [
+                        'update' => function ($url,$model) {
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-edit"></span>',
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'target' => '#modal']);
+                        },
+                    ]
+                ],
+            ]
+        ]); ?>
+    </div>
 </div>
 

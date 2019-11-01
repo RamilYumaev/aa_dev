@@ -10,7 +10,7 @@ array_merge(
                 ['label' => 'Сопоставление шаблонов', 'url' => '/dictionary/olimpiads-type-templates'],
                 ['label' => 'Спец. виды олимпиад', 'url' => '/dictionary/dict-special-type-olimpic'],
                 ['label' => 'Назначить главных', 'url' => '/dictionary/faculty/index'],
-                ['label' => 'Институты/факультеты', 'url' => '/dictionary/dict-faculty'],
+                ['label' => 'Институты/факультеты', 'url' => '/dictionary/faculty'],
                 ['label' => 'Дни открытых дверей', 'url' => '/dictionary/dod'],
                 ['label' => 'Ведущие мастер-классов', 'url' => '/dictionary/masters'],
                 ['label' => 'Мастер-классы', 'url' => '/dictionary/master-class'],
@@ -62,7 +62,7 @@ array_merge(
     (Yii::$app->user->can('olymp_operator') ?
         [['label' => 'Олимпиады/конкурсы', 'url' => '#',
             'items' => array_merge([
-                ['label' => 'Перечень ', 'url' => '/faculty/olimpic'],
+                ['label' => 'Перечень ', 'url' => '/olympic/olympic'],
                 ['label' => 'Группы вопросов', 'url' => '/test/question-group'],
             ])]] : []),
 

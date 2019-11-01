@@ -2,9 +2,9 @@
 
 namespace backend\controllers\dictionary;
 
+use dictionary\forms\DictClassCreateForm;
 use dictionary\forms\DictClassEditForm;
-use dictionary\forms\DictClassСreateForm;
-use dictionary\helpers\DictClassHelper;
+use dictionary\forms\DictChairmansCreateForm;
 use dictionary\models\DictClass;
 use dictionary\services\DictClassService;
 use yii\data\ActiveDataProvider;

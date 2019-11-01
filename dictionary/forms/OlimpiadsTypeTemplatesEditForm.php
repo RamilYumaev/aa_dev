@@ -1,28 +1,28 @@
 <?php
 
 
-namespace olympic\forms;
+namespace dictionary\forms;
 
 
 use dictionary\helpers\DictSpecialTypeOlimpicHelper;
 use dictionary\helpers\TemplatesHelper;
-use olympic\models\OlimpiadsTypeTemplates;
+use olympic\helpers\OlympicHelper;
+use dictionary\models\OlimpiadsTypeTemplates;
 use dictionary\models\Templates;
 use yii\base\Model;
 
-class OlimpiadsTypeTemplatesForm extends Model
+class OlimpiadsTypeTemplatesEditForm extends Model
 {
-    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $special_type;
+    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $special_type, $_olimpiadsTypeTemplates;
 
-    public function __construct(OlimpiadsTypeTemplates $olimpiadsTypeTemplates = null, $config = [])
+    public function __construct(OlimpiadsTypeTemplates $olimpiadsTypeTemplates, $config = [])
     {
-        if ($olimpiadsTypeTemplates) {
             $this->number_of_tours = $olimpiadsTypeTemplates->number_of_tours;
             $this->form_of_passage = $olimpiadsTypeTemplates->form_of_passage;
             $this->edu_level_olimp = $olimpiadsTypeTemplates->edu_level_olimp;
             $this->template_id = $olimpiadsTypeTemplates->template_id;
             $this->special_type = $olimpiadsTypeTemplates->special_type;
-        }
+            $this->_olimpiadsTypeTemplates = $olimpiadsTypeTemplates;
         parent::__construct($config);
     }
 
@@ -34,8 +34,12 @@ class OlimpiadsTypeTemplatesForm extends Model
         return [
             [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'required'],
             [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'special_type'], 'integer'],
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'unique', 'targetClass' => OlimpiadsTypeTemplates::class, 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id']],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'unique', 'targetClass' => OlimpiadsTypeTemplates::class,
+                 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id']],
             [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Templates::class, 'targetAttribute' => ['template_id' => 'id']],
+            ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
+            ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
+            ['edu_level_olimp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
         ];
     }
 
@@ -55,6 +59,21 @@ class OlimpiadsTypeTemplatesForm extends Model
     public function specialTypeOlimpicList(): array
     {
         return DictSpecialTypeOlimpicHelper::specialTypeOlimpicList();
+    }
+
+    public function numberOfTours()
+    {
+        return OlympicHelper::numberOfTours();
+    }
+
+    public function levelOlimp()
+    {
+        return OlympicHelper::levelOlimp();
+    }
+
+    public function formOfPassage()
+    {
+        return OlympicHelper::formOfPassage();
     }
 
 }
