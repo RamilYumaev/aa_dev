@@ -10,5 +10,6 @@ class DictSchoolsFixture extends ActiveFixture
     public $modelClass = DictSchools::class;
     public $depends = [
         CountryFixture::class,
-        RegionFixture::class];
+        RegionFixture::class
+    ];
 }
