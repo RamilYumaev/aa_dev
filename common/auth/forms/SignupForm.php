@@ -23,6 +23,7 @@ class SignupForm extends Model
     public function rules(): array
     {
         return [
+
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => User::class, 'message' => 'Этот логин уже существует.'],
@@ -52,10 +53,10 @@ class SignupForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'username' => 'Логин',
-            'email' => 'Почта (e-mail)',
-            'password' => 'Пароль',
-            'password_repeat' => 'Повторите пароль',
+            'username' => 'Придумайте логин для личного кабинета (это может быть ваш email)',
+            'email' => 'Адрес электронной почты:',
+            'password' => 'Придумайте пароль',
+            'password_repetition' => 'Повтор пароля',
             'verifyCode' => 'Введите код с картинки',
             'agree' => 'Я согласен (согласна) на обработку моих персональных данных',
         ];

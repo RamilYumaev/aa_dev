@@ -41,4 +41,11 @@ class DictClassHelper
         return ArrayHelper::getValue(self::typeOfClass(), $type_id);
     }
 
+    public static function classFullNameList(): array
+    {
+        return ArrayHelper::map(DictClass::find()->asArray()->all(), "id", function (array $model) {
+            return $model['name'] . "-й ". self::typeName($model['type']);
+        });
+    }
+
 }
