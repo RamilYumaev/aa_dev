@@ -3,6 +3,7 @@
 namespace backend\tests\functional;
 
 use backend\tests\FunctionalTester;
+use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\Url;
 
@@ -27,7 +28,11 @@ class LoginCest
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
+            ],
+            'profile' => [
+                'class' => ProfileFixture::class,
+                'dataFile' => codecept_data_dir() . 'profile_data.php'
+            ],
         ];
     }
 
@@ -76,8 +81,8 @@ class LoginCest
     public function testLogOut(FunctionalTester $I)
     {
         $this->testLogin($I);
-        $I->see("erau");
-        $I->click("erau");
+        $I->see("Юмаев Рамиль Анварович");
+        $I->click("Юмаев Рамиль Анварович");
         $I->submitForm("#logout", []);
         $I->see("Вход");
     }

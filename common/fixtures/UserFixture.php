@@ -3,8 +3,9 @@
 namespace common\fixtures;
 
 use yii\test\ActiveFixture;
+use common\auth\models\User;
 
 class UserFixture extends ActiveFixture
 {
-    public $modelClass = 'common\auth\models\User';
+    public $modelClass = User::class;
 }
