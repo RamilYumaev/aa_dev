@@ -659,13 +659,13 @@ input.break {
     height: 126px;
 }
 
-.mpgu-bg {
-    background-image: url("../img/logo1.jpg");
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: #bcc1c0;
-}
+/*.mpgu-bg {*/
+/*    background-image: url("../img/logo.jpg");*/
+/*    background-position: center center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    background-color: #bcc1c0;*/
+/*}*/
 
 .form-control {
     background-color: #ffffff;
