@@ -59,7 +59,7 @@ class DictChairmansValidateEditTest extends \Codeception\Test\Unit
 
     }
 
-    public function testUnique()
+    public function testValidateUnique()
     {
 
         $result = "Комбинация \"Харитонова\"-\"Ирина\"-\"Викторовна\"-\"Заведующая кафедрой романских";
