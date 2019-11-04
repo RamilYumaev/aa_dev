@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'name' => 'Личный кабинет поступающего в МПГУ',
     'basePath' => dirname(__DIR__),
     'aliases' => [
         '@staticRoot' => $params['staticPath'],
