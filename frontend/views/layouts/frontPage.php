@@ -56,7 +56,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right pr-30'],
         'items' => [
             Yii::$app->user->isGuest ?
-                ['label' => 'Олимпиады/конкурсы', 'url' => ['/site/olympiads']] : ['label' => ''],
+                ['label' => 'Олимпиады/конкурсы', 'url' => ['/olimpiads']] : ['label' => ''],
             Yii::$app->user->isGuest ?
                 ['label' => 'Дни открытых дверей', 'url' => ['site/dod']] : ['label' => ''],
             Yii::$app->user->isGuest ?
@@ -66,7 +66,7 @@ AppAsset::register($this);
 
             Yii::$app->user->isGuest ?
                 ['label' => 'Вход', 'url' => ['/auth/auth/login']] :
-                ['label' => 'выход (' . Yii::$app->user->identity->getUsername(). ')',
+                ['label' => 'Выход (' . Yii::$app->user->identity->getUsername(). ')',
                     'url' => ['/auth/auth/logout'], 'linkOptions' => ['data-method' => 'post']],
         ]
 

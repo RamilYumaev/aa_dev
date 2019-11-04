@@ -55,7 +55,7 @@ class SignupController extends Controller
             return $this->goHome();
         }
 
-        $form = new SignupForm(['scenario' => SignupForm::SCENARIO_REGISTER]);
+        $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);

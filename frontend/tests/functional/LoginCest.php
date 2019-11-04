@@ -59,14 +59,16 @@ class LoginCest
     public function checkValidLogin(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Выйти (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->see('Выход (erau)');
     }
 
     public function checkValidLogout(FunctionalTester $I)
     {
         $this->checkValidLogin($I);
-        $I->submitForm('form button[type=submit]', []);
+        // $I->submitForm('form button[type=submit]', []);
+        $I->click("Выход (erau)");
+        $I->canSeeLink('Регистрация');
+        $I->canSeeLink('Вход');
+        $I->amOnPage("/");
     }
 }
