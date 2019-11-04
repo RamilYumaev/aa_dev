@@ -50,8 +50,8 @@ class OlimpicListService
         $faculty = $this->facultyRepository->get($form->faculty_id);
         $chairman = $this->chairmansRepository->get($form->chairman_id);
         $olympic = $this->olympicRepository->get($form->olimpic_id);
-        $model = OlimpicList::create($form, $faculty->id, $chairman->id, $olympic->id);
-            $this->transaction->wrap(function () use ($model, $form) {
+        $model = OlimpicList::create($form, $chairman->id, $faculty->id,  $olympic->id);
+        $this->transaction->wrap(function () use ($model, $form) {
                 $this->repository->save($model);
                 if ($form->competitiveGroupsList) {
                     foreach ($form->competitiveGroupsList as $cg) {
@@ -78,7 +78,7 @@ class OlimpicListService
         $chairman = $this->chairmansRepository->get($form->chairman_id);
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
-        $model = OlimpicList::copy($form, $faculty->id, $chairman->id, $olympic->id);
+        $model = OlimpicList::copy($form, $chairman->id, $faculty->id,  $olympic->id);
         try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->repository->save($model);
@@ -110,7 +110,7 @@ class OlimpicListService
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = $this->repository->get($id);
 
-        $model->edit($form, $faculty->id, $chairman->id, $olympic->id);
+        $model->edit($form, $chairman->id, $faculty->id,  $olympic->id);
         try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->deleteRelation($model->id);

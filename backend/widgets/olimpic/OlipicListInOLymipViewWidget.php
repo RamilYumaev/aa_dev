@@ -14,9 +14,7 @@ class OlipicListInOLymipViewWidget extends Widget
      */
     public $view = 'olimpic-list-in-olymp-view/index';
 
-    /**
-     * @return string
-     */
+
     public function run()
     {
         $searchModel = new OlimpicListSearch($this->model);

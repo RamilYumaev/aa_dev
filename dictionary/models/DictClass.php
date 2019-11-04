@@ -7,6 +7,7 @@ use dictionary\forms\DictClassCreateForm;
 use dictionary\helpers\DictClassHelper;
 use dictionary\models\queries\DictClassQuery;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use yii\helpers\ArrayHelper;
 
 class DictClass extends \yii\db\ActiveRecord
 {
@@ -50,12 +51,12 @@ class DictClass extends \yii\db\ActiveRecord
 
     public function getClassFullName(): string
     {
-        $type = DictClassHelper::typeOfClass();
-        return $this->name . '-й ' . $type[$this->type];
+        return $this->name . '-й ' . DictClassHelper::typeName($this->type);
     }
 
     public static function find(): DictClassQuery
     {
         return new DictClassQuery(static::class);
     }
+
 }

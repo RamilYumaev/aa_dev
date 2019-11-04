@@ -13,6 +13,14 @@ class Olympic extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    private $_olimpicList;
+
+    public function __construct($config = [])
+    {
+        $this->_olimpicList = new OlimpicList();
+        parent::__construct($config);
+    }
+
     public static function tableName()
     {
         return 'olimpic';
@@ -86,6 +94,10 @@ class Olympic extends \yii\db\ActiveRecord
         $this->link = null;
         $this->certificate_id = null;
         $this->event_type = null;
+    }
+
+    public function getOlympicOneLast() {
+        return $this->_olimpicList->olympicRelation($this->id)->orderBy(['year' => SORT_DESC])->one();
     }
 
     /**

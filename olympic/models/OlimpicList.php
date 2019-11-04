@@ -5,6 +5,7 @@ namespace olympic\models;
 
 use olympic\forms\OlimpicListCreateForm;
 use olympic\forms\OlimpicListEditForm;
+use olympic\helpers\OlympicHelper;
 
 
 class OlimpicList extends \yii\db\ActiveRecord
@@ -173,14 +174,12 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $olympic->attributeLabels();
     }
 
-    public static function minutePicker()
-    {
-
-        $result = [];
-        for ($i = 0; $i <= 180; $i++) {
-            $result[$i] = $i;
-        }
-        return $result;
+    public function olympicRelation($id) {
+      return  self::find()->where(['olimpic_id' => $id]);
+    }
+    
+    public function getEduLevelStringInView () {
+        return $this->edu_level_olymp ? OlympicHelper::levelOlimpName($this->edu_level_olymp) : 'Данные обновляются.';
     }
 
 }
