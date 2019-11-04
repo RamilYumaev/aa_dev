@@ -8,5 +8,5 @@ use yii\test\ActiveFixture;
 class DictSpecializationFixture extends ActiveFixture
 {
     public $modelClass = DictSpecialization::class;
-    public $depends = DictSpecialityFixture::class;
+    public $depends = [DictSpecialityFixture::class];
 }

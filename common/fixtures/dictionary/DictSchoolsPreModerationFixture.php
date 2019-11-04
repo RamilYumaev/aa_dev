@@ -8,5 +8,5 @@ use yii\test\ActiveFixture;
 class DictSchoolsPreModerationFixture extends ActiveFixture
 {
     public $modelClass = DictSchoolsPreModeration::class;
-    public $depends = DictSchoolsFixture::class;
+    public $depends = [DictSchoolsFixture::class];
 }
