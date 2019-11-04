@@ -8,6 +8,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use common\widgets\Alert;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="login-box">
     <div class="login-box-body">
+        <?= Alert::widget() ?>
+
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
 
         <div class="login-logo">
@@ -50,9 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
         <div class="form-group has-feedback">
-            <?= $form->field($model, 'username')->label('Логин')->textInput(['class' => 'form-control']) ?>
+            <?= $form->field($model, 'username')->label('Логин')->textInput() ?>
 
-            <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control'])->label('Пароль') ?>
+            <?= $form->field($model, 'password')->passwordInput() ?>
 
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
 

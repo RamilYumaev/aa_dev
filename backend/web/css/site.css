@@ -21,6 +21,10 @@ body {
     padding-top: 20px;
 }
 
+.modal-content{
+    border-radius: 10px !important;
+}
+
 .jumbotron {
     text-align: center;
     background-color: transparent;

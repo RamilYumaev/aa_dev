@@ -76,8 +76,8 @@ class LoginCest
     public function testLogOut(FunctionalTester $I)
     {
         $this->testLogin($I);
-        $I->see("Alexander Pierce");
-        $I->click("Alexander Pierce");
+        $I->see("erau");
+        $I->click("erau");
         $I->submitForm("#logout", []);
         $I->see("Вход");
     }

@@ -13,19 +13,28 @@ class ProfileHelper
     public static function profileShortName($userId): string
     {
         $profile = self::findProfile($userId);
+        if($profile) {
+            return $profile->last_name . " "
+                . mb_substr($profile->first_name, 0, 1, 'utf-8') . "."
+                . mb_substr($profile->patronymic, 0, 1, 'utf-8') . ".";
+        }else {
+            return "";
+        }
 
-        return $profile->last_name . " "
-            . mb_substr($profile->first_name, 0, 1, 'utf-8') . "."
-            . mb_substr($profile->patronymic, 0, 1, 'utf-8') . ".";
     }
 
     public static function profileFullName($userId): string
     {
         $profile = self::findProfile($userId);
 
-        return $profile->last_name . " "
-            . $profile->first_name ." "
-            . $profile->patronymic;
+        if($profile){
+            return $profile->last_name . " "
+                . $profile->first_name ." "
+                . $profile->patronymic;
+        }else{
+            return " ";
+        }
+
     }
 
     public static function findProfile($userId)

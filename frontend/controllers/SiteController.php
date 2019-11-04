@@ -28,6 +28,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = "@frontend/views/layouts/frontPage.php";
         return $this->render('index');
     }
 

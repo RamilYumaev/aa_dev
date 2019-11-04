@@ -4,11 +4,11 @@
 
 /* @var $content string */
 
-use app\widgets\Alert;
+use common\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use app\assets\AppAsset;
+use frontend\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -42,7 +42,7 @@ AppAsset::register($this);
         'options' => array_merge(
             ['class' => 'navbar-inverse navbar-fixed-top mb-30'],
             $_SERVER['HTTP_HOST'] === 'sdo.mpgu.org' ? ['style' => 'background-color: #204462'] :
-                ($_SERVER['HTTP_HOST'] === 'olympic:8080' ? ['style' => 'background-color: #621414'] : ['style' => 'background-color: #24a22d'])),
+                ($_SERVER['HTTP_HOST'] === 'aa:8080' ? ['style' => 'background-color: #605ca8'] : ['style' => 'background-color: #24a22d'])),
 
     ]);
 
@@ -62,12 +62,12 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ?
                 ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']] : ['label' => ''],
             Yii::$app->user->isGuest ?
-                ['label' => 'Регистрация', 'url' => ['site/signup']] : ['label' => ''],
+                ['label' => 'Регистрация', 'url' => ['/auth/signup/request']] : ['label' => ''],
 
             Yii::$app->user->isGuest ?
-                ['label' => 'Вход', 'url' => ['site/login']] :
-                ['label' => 'выход (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                ['label' => 'Вход', 'url' => ['/auth/auth/login']] :
+                ['label' => 'выход (' . Yii::$app->user->identity->getUsername(). ')',
+                    'url' => ['/auth/auth/logout'], 'linkOptions' => ['data-method' => 'post']],
         ]
 
     ]);
@@ -75,7 +75,7 @@ AppAsset::register($this);
     ?>
 
     <?php if (Yii::$app->user->isGuest) {
-        echo Html::a(Html::img('@web/img/logo.jpg', ['width' => '100%', 'height' => '100%', 'class' => 'hidden-xs mt-30']), 'login');
+        echo Html::a(Html::img('@web/img/main_banner.jpg', ['width' => '100%', 'height' => '100%', 'class' => 'hidden-xs mt-30']), 'login');
     } ?>
 
     <div class="container mt-30">
@@ -84,7 +84,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
 
 
     <!-- VK Widget -->
