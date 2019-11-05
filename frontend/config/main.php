@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'name' => "Личный кабинет поступающего в МПГУ",
     'id' => 'app-frontend',
     'name' => 'Личный кабинет поступающего в МПГУ',
     'basePath' => dirname(__DIR__),
