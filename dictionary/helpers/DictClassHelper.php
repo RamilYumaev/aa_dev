@@ -25,6 +25,16 @@ class DictClassHelper
         ];
     }
 
+    public static function typeOfClassMany()
+    {
+        return [
+            self::SCHOOL => 'класс(ы) школы',
+            self::COLLEDGE => 'курс(ы) колледжа/техникума',
+            self::BACALAVR => 'курс(ы) бакалавриата',
+            self::MAGISTR => 'курс(ы) магистратуры',
+        ];
+    }
+
 
     public static function types(): array
     {
@@ -39,6 +49,11 @@ class DictClassHelper
     public static function typeName($type_id): string
     {
         return ArrayHelper::getValue(self::typeOfClass(), $type_id);
+    }
+
+    public static function typeManyName($type_id): string
+    {
+        return ArrayHelper::getValue(self::typeOfClassMany(), $type_id);
     }
 
     public static function classFullNameList(): array

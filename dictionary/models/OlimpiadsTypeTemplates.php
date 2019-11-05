@@ -5,6 +5,8 @@ namespace dictionary\models;
 
 use dictionary\forms\OlimpiadsTypeTemplatesCreateForm;
 use dictionary\forms\OlimpiadsTypeTemplatesEditForm;
+use dictionary\models\queries\DictClassQuery;
+use dictionary\models\queries\OlimpiadsTypeTemplatesQuery;
 use yii\db\ActiveRecord;
 
 class OlimpiadsTypeTemplates extends ActiveRecord
@@ -56,6 +58,11 @@ class OlimpiadsTypeTemplates extends ActiveRecord
     {
         $olimpiadsTypeTemplates = new static();
         return $olimpiadsTypeTemplates->attributeLabels();
+    }
+
+    public static function find(): OlimpiadsTypeTemplatesQuery
+    {
+        return new OlimpiadsTypeTemplatesQuery(static::class);
     }
 
 

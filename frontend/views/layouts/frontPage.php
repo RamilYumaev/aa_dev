@@ -84,7 +84,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru' or $_SERVER['HTTP_HOST'] === '127.0.0.1:8080')) : ?>
 
 
     <!-- VK Widget -->

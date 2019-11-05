@@ -3,9 +3,16 @@
 
 namespace olympic\models;
 
+use common\helpers\DateTimeCpuHelper;
+use dictionary\helpers\DictChairmansHelper;
+use dictionary\models\OlimpiadsTypeTemplates;
 use olympic\forms\OlimpicListCreateForm;
 use olympic\forms\OlimpicListEditForm;
+use dictionary\helpers\DictFacultyHelper;
+use olympic\helpers\ClassAndOlympicHelper;
+use olympic\helpers\OlimpicCgHelper;
 use olympic\helpers\OlympicHelper;
+use yii\helpers\Html;
 
 
 class OlimpicList extends \yii\db\ActiveRecord
@@ -13,9 +20,17 @@ class OlimpicList extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    private $_olmpicTypeTemplate;
+
     public static function tableName()
     {
         return 'olimpic_list';
+    }
+
+    public function __construct($config = [])
+    {
+        $this->_olmpicTypeTemplate = new OlimpiadsTypeTemplates();
+        parent::__construct($config);
     }
 
     public static function create(OlimpicListCreateForm $form, $chairman_id, $faculty_id, $olimpic_id)
@@ -178,8 +193,104 @@ class OlimpicList extends \yii\db\ActiveRecord
       return  self::find()->where(['olimpic_id' => $id]);
     }
     
-    public function getEduLevelStringInView () {
+    public function getEduLevelString () {
         return $this->edu_level_olymp ? OlympicHelper::levelOlimpName($this->edu_level_olymp) : 'Данные обновляются.';
+    }
+
+    public function getFacultyNameString () {
+        return "Учредитель: ".($this->faculty_id ?DictFacultyHelper::facultyName($this->faculty_id) : "Данные обновляются");
+    }
+
+    public function getNumberOftoursNameString () {
+        return "Количество туров: ".($this->number_of_tours ? OlympicHelper::numberOfToursName($this->number_of_tours) : 'Данные обновляются.');
+    }
+
+    public function getOnlyMpguStudentsString () {
+        return $this->only_mpgu_students ? 'Только для студентов МПГУ' : '';
+    }
+
+    public function getFormOfPassageString () {
+        return "Форма(ы) проведения: ". ($this->form_of_passage ? OlympicHelper::formOfPassageName($this->form_of_passage)  : 'Данные обновляются.');
+    }
+
+    public function getDateRegStartNameString () {
+        return Html::tag('strong','Дата и время начала регистрации на сайте: '). ($this->date_time_start_reg ?
+                    DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
+                    . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg)
+                    : 'Данные обновляются.');
+    }
+
+    public function getDateRegEndNameString () {
+        return Html::tag('strong','Дата и время завершения регистрации на сайте: '). ($this->date_time_finish_reg ?
+            DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)
+            . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg)
+            : 'Данные обновляются.');
+    }
+
+    public function getTimeOfDistantsTourNameString () {
+        return $this->time_of_distants_tour ?
+            Html::tag('strong','Продолжительность выполнения заданий заочного тура: ') . $this->time_of_distants_tour . ' мин.'
+            : '';
+    }
+
+    public function getTimeStartTourNameString () {
+        return $this->date_time_start_tour ?
+            Html::tag('strong','Дата и время проведения очного тура: ') .
+            DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour)
+            : '';
+    }
+
+    public function getAddressNameString () {
+        return $this->address ?
+            Html::tag('strong','Адрес проведения очного тура: ') .$this->address
+            : '';
+    }
+
+    public function getTimeOfTourNameString () {
+        return $this->time_of_tour ?
+            Html::tag('strong','Продолжительность очного тура: ') .$this->time_of_tour  . ' мин.'
+            : '';
+    }
+
+    public function getContentString () {
+        return $this->content ?
+            Html::tag('div',$this->content, ['claass'=>'mt-30'])
+            : '';
+    }
+
+    public function getIsOnRegisterOlympic() {
+        return $this->date_time_finish_reg >= date('Y-m-d H:i:s')
+            && $this->prefilling == false && $this->date_time_start_reg <= date('Y-m-d H:i:s');
+    }
+
+    public function replaceLabelsFromTemplate () {
+        return [
+            DictChairmansHelper::chairmansNameOne($this->chairman_id), //Фамилия И.О. председателя
+            $this->genitive_name,    //Название мероприятия в родительном падеже
+            ClassAndOlympicHelper::olympicClassString($this->id), //классы/курсы участников
+            DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
+            . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg),//дата и время начала регистрации
+            DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)
+            . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg),//дата и время завершения регистрации
+            ($this->time_of_distants_tour_type == OlympicHelper::TIME_FIX ?
+                'На выполнение заданий заочного (дистанционного) тура отводится ' . $this->time_of_distants_tour . ' минут'
+                : 'Выполнить задания необходимо до завершения периода регистрации на настоящее Мероприятие'), //пункт3
+            $this->date_time_start_tour ? DateTimeCpuHelper::getDateChpu($this->date_time_start_tour)
+                . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour) : '', //дата и время проведения очного тура
+            $this->address, //адрес проведения очного тура
+            $this->time_of_tour . ' минут', //продолжительность выполнения заданий очного тура в минутах
+            OlimpicCgHelper::cgOlympicCompetitiveGroupList($this->id), //выбранные конкурсные группы
+            OlympicHelper::showingWorkName($this->showing_works_and_appeal), // показ работ и апелляция
+            ($this->showing_works_and_appeal == OlympicHelper::SHOW_WORK_YES ?
+                'Апелляция проводится в соответствии с Положением об олимпиадах 
+                и иных интеллектуальных и творческих конкурсах, не используемых 
+                для получения особых прав и (или) преимуществ при поступлении 
+                на обучение, проводимых МПГУ, размещенном сайте http://sdo.mpgu.org.' : ''), //текст аппеляции
+            $this->requiment_to_work_of_distance_tour, //Требования к выполнению заданий заочного (дистанционного) тура
+            $this->criteria_for_evaluating_dt, //Критерии оценивания заданий заочного тура
+            $this->requiment_to_work,//Требования к выполнению заданий очного тура
+            $this->criteria_for_evaluating,//Требования к выполнению заданий очного тура
+        ];
     }
 
 }
