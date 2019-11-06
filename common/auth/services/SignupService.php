@@ -3,7 +3,6 @@
 
 namespace common\auth\services;
 
-use olympic\helpers\auth\RoleHelper;
 use Yii;
 use common\auth\forms\SignupForm;
 use common\auth\models\User;
@@ -17,7 +16,7 @@ class SignupService
     private $transaction;
 
     public function __construct(
-        \common\auth\repositories\UserRepository $users,
+        UserRepository $users,
         TransactionManager $transaction
     )
     {
@@ -25,19 +24,18 @@ class SignupService
         $this->transaction = $transaction;
     }
 
-    public function signup(\common\auth\forms\SignupForm $form): void
+    public function signup(SignupForm $form): void
     {
         $this->transaction->wrap(function () use ($form) {
             $user = $this->newUser($form);
             $this->users->save($user);
-            $user->setAssignmentFirst(RoleHelper::ROLE_USER);
             $this->sendEmail($user);
         });
     }
 
-    public function newUser(\common\auth\forms\SignupForm $form): \common\auth\models\User
+    public function newUser(SignupForm $form): User
     {
-        $user = \common\auth\models\User::requestSignup($form);
+        $user = User::requestSignup($form);
         return $user;
     }
 

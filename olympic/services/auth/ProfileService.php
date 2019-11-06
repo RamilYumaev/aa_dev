@@ -22,7 +22,6 @@ class ProfileService
 
     public function createOrEdit(ProfileForm $form)
     {
-
         if (!$this->profile->getUserId()) {
             $profile = $this->create($form);
         } else {
