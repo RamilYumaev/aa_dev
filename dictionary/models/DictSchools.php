@@ -7,6 +7,7 @@ namespace dictionary\models;
 use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
 use dictionary\forms\DictSpecialityCreateForm;
+use dictionary\models\queries\DictSchoolsQuery;
 
 class DictSchools extends \yii\db\ActiveRecord
 {
@@ -52,5 +53,11 @@ class DictSchools extends \yii\db\ActiveRecord
         $schools = new static();
         return $schools->attributeLabels();
     }
+
+    public static function find(): DictSchoolsQuery
+    {
+        return new DictSchoolsQuery(static::class);
+    }
+
 
 }

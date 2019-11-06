@@ -110,6 +110,30 @@ class FacultyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
+    public function actionUpdateModeration($id)
+    {
+        $faculty = $this->findModel($id);
+        $form = new FacultyEditForm($faculty);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->editModeration($form);
+                return $this->redirect(['view', 'id' => $form->_faculty->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('update-moderation', [
+            'model' => $form,
+            'faculty' => $faculty,
+        ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
     protected function findModel($id): Faculty
     {
         if (($model = Faculty::findOne($id)) !== null) {

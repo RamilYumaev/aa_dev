@@ -6,6 +6,8 @@ use dictionary\forms\FacultyCreateForm;
 use dictionary\forms\FacultyEditForm;
 use dictionary\repositories\FacultyRepository;
 use dictionary\models\Faculty;
+use olympic\models\Moderation;
+use yii\helpers\Json;
 
 
 class FacultyService
@@ -28,6 +30,18 @@ class FacultyService
     {
         $model = $this->repository->get($form->_faculty->id);
         $model->edit($form);
+        $moderation = new Moderation(['model'=> Faculty::class, 'record_id' => $model->id,
+            'before' => Json::encode($form->_faculty), 'after' => Json::encode($model)]);
+        $moderation->save();
+        //$this->repository->save($model);
+    }
+
+    public function editModeration(FacultyEditForm $form)
+    {
+        $model = $this->repository->get($form->_faculty->id);
+        $model->edit($form);
+        $moderation = Moderation::findOne(['record_id' => $model->id,]);
+        $moderation->delete();
         $this->repository->save($model);
     }
 
