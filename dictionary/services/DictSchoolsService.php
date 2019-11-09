@@ -18,14 +18,14 @@ class DictSchoolsService
 
     public function create(DictSchoolsCreateForm $form)
     {
-        $model = DictSchools::create($form);
+        $model = DictSchools::create($form->name, $form->country_id, $form->region_id);
         $this->repository->save($model);
     }
 
     public function edit($id, DictSchoolsEditForm $form)
     {
         $model = $this->repository->get($id);
-        $model->edit($form);
+        $model->edit($form->name, $form->country_id, $form->region_id);
         $this->repository->save($model);
     }
 

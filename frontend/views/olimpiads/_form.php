@@ -1,56 +1,63 @@
 <?php
 
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \olympic\forms\SignupOlympicForm */
+/* @var $model olympic\forms\SignupOlympicForm */
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\MaskedInput;
 use yii\captcha\Captcha;
-\frontend\assets\RegisterOlympicAsset::register($this);
+ \frontend\assets\RegisterOlympicAsset::register($this);
 ?>
-<?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'username') ?>
+<?php $form = ActiveForm::begin(['id'=> 'form-reg']); ?>
+    <?= $form->field($model->user, 'username') ?>
 
-    <?= $form->field($model, 'email') ?>
+    <?= $form->field($model->user, 'email') ?>
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
+    <?= $form->field($model->user, 'password')->passwordInput() ?>
 
-    <?= $form->field($model, 'password_repeat')->passwordInput() ?>
+    <?= $form->field($model->user, 'password_repeat')->passwordInput() ?>
 
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model->profile, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model->profile, 'first_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model->profile, 'patronymic')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
-    'mask' => '+7(999)999-99-99',]) ?>
+    <?= $form->field($model->profile, 'phone')->widget(MaskedInput::class, ['mask' => '+7(999)999-99-99']) ?>
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->countryList(), ['prompt'=> 'Выберите страну']) ?>
+    <?= $form->field($model->profile,  'country_id')->dropDownList($model->profile->countryList(), ['prompt'=> 'Выберите страну']) ?>
 
-    <?= $form->field($model, 'region_id')->dropDownList($model->regionList(), ['prompt'=> 'Выберите регион']) ?>
+    <?= $form->field($model->profile,  'region_id')->dropDownList($model->profile->regionList(), ['prompt'=> 'Выберите регион']) ?>
 
-    <?= $form->field($model, 'check_region_and_country_school')->checkbox(); ?>
+    <?= $form->field($model->schoolUser, 'check_region_and_country_school')->checkbox(); ?>
 
-    <?= $form->field($model, 'country_school')->dropDownList($model->countryList(), ['prompt'=> 'Выберите страну']) ?>
+    <?= $form->field($model->schoolUser, 'country_school')->dropDownList($model->schoolUser->countryList(), ['prompt'=> 'Выберите страну']) ?>
 
-    <?= $form->field($model, 'region_school')->dropDownList($model->regionList(), ['prompt'=> 'Выберите регион']) ?>
+    <?= $form->field($model->schoolUser, 'region_school')->dropDownList($model->schoolUser->regionList(), ['prompt'=> 'Выберите регион']) ?>
 
-    <?= $form->field($model, 'school_id')->dropDownList([''], ['prompt'=> 'Выберите учебную организацию']) ?>
+    <?= $form->field($model->schoolUser, 'school_id')->dropDownList([''], ['prompt'=> 'Выберите учебную организацию']) ?>
 
-    <?= $form->field($model, 'class_id')->dropDownList($model->classFullNameList()) ?>
+    <?= $form->field($model->schoolUser, 'check_new_school')->checkbox(); ?>
 
-    <?= $form->field($model, 'agree')->checkbox([
+    <?= $form->field($model->schoolUser, 'check_rename_school')->checkbox(); ?>
+
+    <?= $form->field($model->schoolUser, 'new_school')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model->schoolUser, 'class_id')->dropDownList($model->classFullNameList()) ?>
+
+    <?= $form->field($model->user, 'agree')->checkbox([
         'template' => "{beginWrapper}\n<div class=\"checkbox\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n</div>
                 <a href=\"/uploads/consent.pdf\" target=\"_blank\">
                 Ознакомиться</a>\n{error}\n{endWrapper}\n{hint}",
     ]) ?>
 
-    <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+    <?= $form->field($model->user, 'verifyCode')->widget(Captcha::className(), [
         'captchaAction' => ['/auth/signup/captcha'],
         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
     ]) ?>
+
+    <?= $form->field($model, 'idOlympic')->hiddenInput()->label('') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

@@ -1,14 +1,13 @@
 <?php
 
-
 namespace olympic\forms\auth;
 
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
 use olympic\models\auth\Profiles;
 use yii\base\Model;
-
-class ProfileForm extends Model
+use Yii;
+class ProfileCreateForm extends Model
 {
 
     public $last_name, $first_name, $patronymic, $phone, $country_id, $region_id;
@@ -18,15 +17,6 @@ class ProfileForm extends Model
      */
     public function __construct($config = [])
     {
-        $profile = Profiles::findOne(['user_id' => \Yii::$app->user->identity->getId()]);
-        if ($profile) {
-            $this->last_name = $profile->last_name;
-            $this->first_name = $profile->first_name;
-            $this->patronymic = $profile->patronymic;
-            $this->phone = $profile->phone;
-            $this->country_id = $profile->country_id;
-            $this->region_id = $profile->region_id;
-        }
         parent::__construct($config);
     }
 
@@ -42,9 +32,7 @@ class ProfileForm extends Model
             ['phone', 'unique', 'targetClass' => Profiles::class, 'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
             ['region_id', 'required', 'when' => function ($model) {
                 return $model->country_id == 46;
-            },
-                'whenClient' => 'function (attribute, value)
-                { return $("#profiles-country_id").val() == 46}'],
+            }, 'whenClient' => 'function (attribute, value) { return $("#profilecreateform-country_id").val() == 46}'],
             ['phone', 'match', 'pattern' => '/^\+7\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/', 'message' => 'неверный формат телефона!']
         ];
     }

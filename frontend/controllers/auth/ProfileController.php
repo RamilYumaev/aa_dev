@@ -3,7 +3,7 @@
 
 namespace frontend\controllers\auth;
 
-use olympic\forms\auth\ProfileForm;
+use olympic\forms\auth\ProfileEditForm;
 use olympic\services\auth\ProfileService;
 use yii\web\Controller;
 use Yii;
@@ -27,11 +27,11 @@ class ProfileController extends Controller
             return $this->goHome();
         }
 
-        $form = new ProfileForm();
+        $form = new ProfileEditForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->createOrEdit($form);
-                Yii::$app->session->setFlash('success', 'Успешно добален/обновлен.');
+                $this->service->edit($form);
+                Yii::$app->session->setFlash('success', 'Успешно обновлен.');
                 return $this->redirect(['profile']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

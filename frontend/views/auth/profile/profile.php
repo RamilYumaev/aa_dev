@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 
-/* @var $model olympic\forms\auth\ProfileForm */
+/* @var $model olympic\forms\auth\ProfileCreateForm */
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -12,6 +12,8 @@ use yii\widgets\MaskedInput;
 $this->title = 'Ваш профиль';
 $this->params['breadcrumbs'][] = $this->title;
 $userRegOlimpic = false;
+
+\frontend\assets\ProfileAsset::register($this);
 ?>
 <div class="container">
 
@@ -30,15 +32,13 @@ $userRegOlimpic = false;
 
     <?= $form->field($model, 'country_id')->dropDownList($model->countryList()) ?>
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->regionList()) ?>
+    <?= $form->field($model, 'region_id')->dropDownList($model->regionList()) ?>
 
-    <?php if (!$userRegOlimpic) : ?>
 
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
 
-    <?php endif; ?>
 
     <?php ActiveForm::end(); ?>
 

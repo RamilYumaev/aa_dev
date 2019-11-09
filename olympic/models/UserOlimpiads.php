@@ -25,4 +25,5 @@ class UserOlimpiads extends \yii\db\ActiveRecord
         return 'user_olimpiads';
     }
 
+
 }
