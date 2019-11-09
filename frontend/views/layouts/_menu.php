@@ -4,7 +4,7 @@ array_merge(
     (!Yii::$app->user->isGuest && !Yii::$app->user->can('olymp_operator') ?
         [['label' => 'Для поступающего', 'url' => '#',
             'items' => array_merge([
-                ['label' => 'Ваш профиль', 'url' => '/site/profile'],
+                ['label' => 'Ваш профиль', 'url' => '/auth/profile/profile'],
 //                ['label' => 'Записаться на мастер-класс', 'url' => '/site/master-classes'],
                 ['label' => 'Записаться на день открытых дверей', 'url' => '/site/dod'],
                 ['label' => 'Записаться на олимпиады', 'url' => '/site/olympiads'],

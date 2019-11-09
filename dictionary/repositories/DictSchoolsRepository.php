@@ -2,6 +2,8 @@
 
 namespace dictionary\repositories;
 
+use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictSchools;
 
 
@@ -13,6 +15,14 @@ class DictSchoolsRepository
             throw new \DomainException('DictSchools не найдено.');
         }
         return $model;
+    }
+
+    public function getFull($name, $country_id, $region_id)
+    {
+        $region = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
+        if (DictSchools::findOne(['name' => $name, 'country_id'=> $country_id, 'region_id'=>  $region])) {
+            throw new \DomainException('Такая учебная оргнаизация существует.');
+        }
     }
 
     public function save(DictSchools $model): void

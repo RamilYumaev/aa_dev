@@ -3,6 +3,7 @@
 
 namespace common\auth\services;
 
+use olympic\forms\SignupOlympicForm;
 use Yii;
 use common\auth\forms\SignupForm;
 use common\auth\models\User;
@@ -55,7 +56,7 @@ class SignupService
      * @param \common\auth\models\User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    public function sendEmail(\common\auth\models\User $user)
+    public function sendEmail(User $user)
     {
         return Yii::$app
             ->mailer

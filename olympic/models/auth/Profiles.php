@@ -3,7 +3,9 @@
 
 namespace olympic\models\auth;
 
-use olympic\forms\auth\ProfileForm;
+use dictionary\helpers\DictCountryHelper;
+use olympic\forms\auth\ProfileCreateForm;
+use olympic\forms\auth\ProfileEditForm;
 
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -15,7 +17,7 @@ class Profiles extends \yii\db\ActiveRecord
         return 'profiles';
     }
 
-    public static function create(ProfileForm $form)
+    public static function create(ProfileCreateForm $form, $user_id)
     {
         $profile = new static();
         $profile->last_name = $form->last_name;
@@ -23,19 +25,19 @@ class Profiles extends \yii\db\ActiveRecord
         $profile->patronymic = $form->patronymic;
         $profile->phone = $form->phone;
         $profile->country_id = $form->country_id;
-        $profile->region_id = $form->region_id;
-        $profile->user_id = \Yii::$app->user->identity->getId();
+        $profile->region_id = $form->country_id == DictCountryHelper::RUSSIA ? $form->region_id : null;
+        $profile->user_id = $user_id;
         return $profile;
     }
 
-    public function edit(ProfileForm $form)
+    public function edit(ProfileEditForm $form)
     {
         $this->last_name = $form->last_name;
         $this->first_name = $form->first_name;
         $this->patronymic = $form->patronymic;
         $this->phone = $form->phone;
         $this->country_id = $form->country_id;
-        $this->region_id = $form->region_id;
+        $this->region_id = $form->country_id == DictCountryHelper::RUSSIA ? $form->region_id : null;
     }
 
     /**
@@ -48,8 +50,8 @@ class Profiles extends \yii\db\ActiveRecord
             'first_name' => 'Имя:',
             'patronymic' => 'Отчество:',
             'phone' => 'Номер телефона:',
-            'country_id' => 'Укажите страну проживания',
-            'region_id' => 'Укажите субъект РФ',
+            'country_id' => 'Страна проживания',
+            'region_id' => 'Регион проживания',
         ];
     }
 
