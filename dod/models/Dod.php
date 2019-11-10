@@ -4,17 +4,19 @@
 namespace dod\models;
 
 
-use dod\forms\DodForm;
+use dod\forms\DodCreateForm;
+use dod\forms\DodEditForm;
 
 class  Dod extends \yii\db\ActiveRecord
 {
+
 
     public static function tableName()
     {
         return 'dod';
     }
 
-    public static function create(DodForm $form, $faculty_id)
+    public static function create(DodCreateForm $form, $faculty_id)
     {
         $dod = new static();
         $dod->name = $form->name;
@@ -29,7 +31,7 @@ class  Dod extends \yii\db\ActiveRecord
         return $dod;
     }
 
-    public function edit(DodForm $form, $faculty_id)
+    public function edit(DodEditForm $form, $faculty_id)
     {
         $this->name = $form->name;
         $this->type = $form->type;
@@ -59,53 +61,29 @@ class  Dod extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFaculty()
+    public static function labels(): array
     {
-        return $this->hasOne(DictFaculty::className(), ['id' => 'faculty_id']);
+        $dod = new static();
+        return $dod->attributeLabels();
     }
 
-    public function getDateDod()
-    {
-        return $this->hasMany(DateDod::className(), ['dod_id' => 'id']);
+    public function dodRelation($id) {
+        return  self::find()->where(['id' => $id]);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMasterClasses()
+    public function getAddressAndAudNumberString(): string
     {
-        return $this->hasMany(MasterClass::className(), ['dod_id' => 'id']);
+         return $this->addressString ." ".($this->aud_number ?? ', аудитория №' . $this->aud_number);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserDods()
+    public function getAddressString(): string
     {
-        return $this->hasMany(UserDod::className(), ['dod_id' => 'id']);
+        return  "Адрес:". $this->address;
     }
 
-    public static function isCommonDod($id, $eduLevel, $convert = true)
+    public function getAudNumberString(): string
     {
-        if ($convert) {
-            $dodDate = DateDod::find()->andWhere(['id' => $id])->one();
-            $dodId = $dodDate->dod_id ?? null;
-
-            return Dod::find()
-                ->andWhere(['id' => $dodId])
-                ->andWhere(['type' => true])
-                ->andWhere(['edu_level' => $eduLevel])
-                ->exists();
-        } else {
-            return Dod::find()
-                ->andWhere(['id' => $id])
-                ->andWhere(['type' => true])
-                ->andWhere(['edu_level' => $eduLevel])
-                ->exists();
-
-        }
+        return $this->aud_number ?? 'Аудитория №' . $this->aud_number;
     }
+
 }

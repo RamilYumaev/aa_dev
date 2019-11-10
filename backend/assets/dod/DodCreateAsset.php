@@ -1,14 +1,12 @@
 <?php
 
-
-namespace backend\assets;
-
+namespace backend\assets\dod;
 
 use yii\web\AssetBundle;
 
-class OlympicCreateAsset extends AssetBundle
+class DodCreateAsset extends AssetBundle
 {
-    public $sourcePath = '@backend/assets/dist/olympic';
+    public $sourcePath = '@backend/assets/dod/dist';
     public $js = [
          'js/create.js',
     ];

@@ -8,7 +8,7 @@ use dictionary\helpers\DictDisciplineHelper;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $competitive_group_id int */
 
-\backend\assets\ModalAsset::register($this)
+\backend\assets\modal\ModalAsset::register($this)
 ?>
 <div class="box box-primary ">
     <div class="box-body">
