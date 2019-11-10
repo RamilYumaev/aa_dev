@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 $this->title = "Просмотр";
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\backend\assets\ModalAsset::register($this);
+\backend\assets\modal\ModalAsset::register($this);
 ?>
 
     <div class="box box-default">

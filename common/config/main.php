@@ -1,12 +1,17 @@
 <?php
 return [
     'language' => 'ru-RU',
+    'timeZone' => 'Europe/Moscow',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'timeZone' => 'UTC',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

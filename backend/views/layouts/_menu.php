@@ -11,7 +11,7 @@ array_merge(
                 ['label' => 'Спец. виды олимпиад', 'url' => '/dictionary/dict-special-type-olimpic'],
                 ['label' => 'Назначить главных', 'url' => '/dictionary/faculty/index'],
                 ['label' => 'Институты/факультеты', 'url' => '/dictionary/faculty'],
-                ['label' => 'Дни открытых дверей', 'url' => '#'],
+                ['label' => 'Дни открытых дверей', 'url' => 'dod/dod'],
                 ['label' => 'Ведущие мастер-классов', 'url' => '/dictionary/masters'],
                 ['label' => 'Мастер-классы', 'url' => '/dictionary/master-class'],
                 ['label' => 'Направления подготовки', 'url' => '/dictionary/dict-speciality'],

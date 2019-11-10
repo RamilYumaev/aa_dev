@@ -15,7 +15,7 @@ $this->title = 'Обновить: ';
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = 'Обновить';
 
-\backend\assets\OlympicEditAsset::register($this);
+\backend\assets\olympic\DodEditAsset::register($this);
 
 ?>
 <div>

@@ -11,7 +11,7 @@ use dictionary\helpers\TemplatesHelper;
 $this->title = 'Сопоставление шаблонов различным типам олимпиад';
 $this->params['breadcrumbs'][] = $this->title;
 
-\backend\assets\ModalAsset::register($this)
+\backend\assets\modal\ModalAsset::register($this)
 ?>
 <div class="box box-default">
     <div class="box box-header">

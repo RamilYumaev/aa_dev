@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Председатели';
 $this->params['breadcrumbs'][] = $this->title;
 
-\backend\assets\ModalAsset::register($this)
+\backend\assets\modal\ModalAsset::register($this)
 ?>
 <div class="box box-default">
     <div class="box box-header">

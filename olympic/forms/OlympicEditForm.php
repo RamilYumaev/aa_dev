@@ -14,9 +14,9 @@ class OlympicEditForm extends Model
 
     public function __construct(Olympic $olympic, $config = [])
     {
-            $this->name = $olympic->name;
-            $this->status = $olympic->status;
-            $this->_olympic= $olympic;
+        $this->name = $olympic->name;
+        $this->status = $olympic->status;
+        $this->_olympic= $olympic;
         parent::__construct($config);
     }
 

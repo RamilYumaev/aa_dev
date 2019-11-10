@@ -1,13 +1,13 @@
 <?php
 
 
-namespace backend\assets;
+namespace backend\assets\dod;
 
 use yii\web\AssetBundle;
 
-class OlympicEditAsset extends AssetBundle
+class DodEditAsset extends AssetBundle
 {
-    public $sourcePath = '@backend/assets/dist/olympic';
+    public $sourcePath = '@backend/assets/dod/dist';
     public $js = [
          'js/edit.js',
     ];

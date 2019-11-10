@@ -15,7 +15,7 @@ $this->title = 'Создать';
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-\backend\assets\OlympicCreateAsset::register($this);
+\backend\assets\olympic\OlympicCreateAsset::register($this);
 ?>
 <div>
     <?php $form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]); ?>
