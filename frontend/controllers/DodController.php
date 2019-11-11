@@ -3,9 +3,9 @@
 
 namespace frontend\controllers;
 
-use olympic\forms\SignupOlympicForm;
-use olympic\readRepositories\OlimpicReadRepository;
-use olympic\services\OlympicRegisterUserService;
+use dod\forms\SignupDodForm;
+use dod\readRepositories\DateDodReadRepository;
+use dod\services\DodRegisterUserService;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -15,8 +15,8 @@ class DodController extends Controller
     private $repository;
     private $service;
 
-    public function __construct($id, $module, OlympicRegisterUserService $service,
-                                OlimpicReadRepository $repository, $config = [])
+    public function __construct($id, $module, DodRegisterUserService $service,
+                                DateDodReadRepository $repository, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->repository = $repository;
@@ -36,10 +36,13 @@ class DodController extends Controller
     * @return mixed
     * @throws NotFoundHttpException
     */
-    public function actionRegistrationOnOlimpiads($id)
+    public function actionRegistrationOnDod($id)
     {
-        $olympic = $this->findOlympic($id);
-        $form = new SignupOlympicForm($olympic);
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect('index');
+        }
+        $dod = $this->findOlympic($id);
+        $form = new SignupDodForm($dod);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
@@ -51,9 +54,8 @@ class DodController extends Controller
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-
-        return $this->render('registration-on-olimpiads', [
-            'olympic' => $olympic,
+        return $this->render('registration-on-dod', [
+            'dod'=> $dod,
             'model' => $form
         ]);
     }
@@ -73,22 +75,4 @@ class DodController extends Controller
         return $olympic;
     }
 
-
-
-
-    /*
-    * @param $id
-    * @return mixed
-    * @throws NotFoundHttpException
-    */
-    public function actionOlympicOld($id)
-    {
-        if (!$olympic = $this->repository->findOldOlympic($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
-        }
-
-        return $this->render('olympic-old', [
-            'olympic' => $olympic,
-        ]);
-    }
 }

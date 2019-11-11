@@ -34,6 +34,7 @@ $c = 0; $b = 6;
                     <p><?= $dod->dodOne->addressString ?></p>
                     <p><?= $dod->dodOne->audNumberString ?></p>
                     <?= $dod->dodOne->description ?>
+                    <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id'=> $dod->id]); ?>
                 </div>
             </div>
         <?php if ($c % 3 == 2): ?>
