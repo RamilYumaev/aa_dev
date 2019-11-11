@@ -3,7 +3,6 @@
 namespace dictionary\repositories;
 
 use dictionary\helpers\DictCountryHelper;
-use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictSchools;
 
 

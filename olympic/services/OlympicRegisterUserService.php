@@ -64,7 +64,7 @@ class OlympicRegisterUserService
             $profile = $this->newProfile($form->profile, $user->id);
             $this->profileRepository->save($profile);
 
-            $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->class_id, $user->id);
+            $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, $user->id);
             $this->userSchoolRepository->save($userSchool);
 
             $userOlympic = $this->newUserOlimpiads($form->_olympic->olympicOneLast->id, $user->id);
@@ -118,12 +118,12 @@ class OlympicRegisterUserService
              $userSchoolForm->check_rename_school &&
              $userSchoolForm->new_school) {
              $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school = $school->edit($userSchoolForm->new_school,$profileForm->conutry_id, $profileForm->region_id);
+             $school->edit($userSchoolForm->new_school, $profileForm->conutry_id, $profileForm->region_id);
          } elseif (!$userSchoolForm->check_region_and_country_school &&
              $userSchoolForm->check_rename_school &&
              $userSchoolForm->new_school) {
              $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school = $school->edit($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
+             $school->edit($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
          } else {
              $school = $this->schoolsRepository->get($userSchoolForm->school_id);
          }

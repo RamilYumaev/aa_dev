@@ -17,7 +17,7 @@ class ProfileRepository
     }
 
     public function getUserId(): ?Profiles
-    {
+     {
         $profile = Profiles::findOne(['user_id' => \Yii::$app->user->identity->getId()]);
         return $profile;
     }
