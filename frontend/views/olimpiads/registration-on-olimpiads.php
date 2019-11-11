@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use frontend\widgets\olympictemplates\OlympicTemplatesWidget;
-use frontend\widgets\olympicold\DodWidget;
+use frontend\widgets\olympicold\OlympicOldWidget;
 
 /* @var $this yii\web\View */
 /* @var $olympic olympic\models\Olympic */
@@ -35,9 +35,10 @@ $this->title = $olympic->name;
         </div>
         <div class="col-md-5">
             <div class="control-panel">
+
                 <?= OlympicTemplatesWidget::widget(['model' => $olympic->olympicOneLast]) ?>
                 <a href="/print/olimp-result?olimpId=1">Результаты олимпиады</a><br>
-                <?= DodWidget::widget(['model' => $olympic]) ?>
+                <?= OlympicOldWidget::widget(['model' => $olympic]) ?>
             </div>
             <p class><a href="olympiads">Посмотреть другие олимпиады &gt;</a></p>
         </div>

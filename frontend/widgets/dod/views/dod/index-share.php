@@ -12,6 +12,7 @@
                 <p><i><?= $dod->timeStartString ?></i></p>
                 <p><?= $dod->dodOne->addressAndAudNumberString ?></p>
                 <?= $dod->dodOne->description ?>
+                <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id'=> $dod->id]); ?>
             </div>
         </div>
     <?php endforeach; ?>
