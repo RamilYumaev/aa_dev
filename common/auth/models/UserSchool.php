@@ -3,6 +3,8 @@
 
 namespace common\auth\models;
 
+use common\helpers\UserSchoolHelper;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 class UserSchool extends ActiveRecord
@@ -22,6 +24,7 @@ class UserSchool extends ActiveRecord
         $userSchool ->user_id = $user_id;
         $userSchool ->school_id = $school_id;
         $userSchool ->class_id = $class_id;
+        $userSchool->edu_year = UserSchoolHelper::eduYear();
 
         return $userSchool;
     }
@@ -35,14 +38,8 @@ class UserSchool extends ActiveRecord
         return [
             'school_id' => 'Название учебной организации',
             'class_id' => 'Текущий класс (курс)',
+            'edu_year' => "Учебный год"
         ];
     }
-
-    public static function labels(): array
-    {
-        $userSchool = new static();
-        return $userSchool->attributeLabels();
-    }
-
 
 }

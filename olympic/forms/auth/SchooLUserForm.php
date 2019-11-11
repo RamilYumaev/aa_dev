@@ -3,9 +3,10 @@
 
 namespace olympic\forms\auth;
 
+use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
-use dictionary\models\DictSchools;
+
 use yii\base\Model;
 
 class SchooLUserForm extends  Model
@@ -78,6 +79,11 @@ class SchooLUserForm extends  Model
     public function countryList(): array
     {
         return DictCountryHelper::countryList();
+    }
+
+    public function classFullNameList(): array
+    {
+        return DictClassHelper::classFullNameList();
     }
     
 }

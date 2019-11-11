@@ -3,8 +3,6 @@
 
 namespace dod\models\queries;
 
-
-use dod\models\DateDod;
 use dod\models\Dod;
 
 class DateDodQuery extends \yii\db\ActiveQuery
