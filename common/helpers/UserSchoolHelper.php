@@ -6,7 +6,6 @@ namespace common\helpers;
 
 class UserSchoolHelper
 {
-
     public static function eduYear() : string
     {
         $date =  date("Y-m-d"); $year = date("Y");
