@@ -28,7 +28,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/olympiads.png')
-                    . '<br/>Записаться на олимпиады', 'olympiads');
+                    . '<br/>Записаться на олимпиады', '/olympiads');
             } ?>
 
         </div>
@@ -36,35 +36,35 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/dod.png')
-                    . '<br/>Записаться на Дни открытых дверей', 'dod');
+                    . '<br/>Записаться на Дни открытых дверей', '/dod');
             } ?>
 
         </div>
 
 
-        <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest) {
-                echo Html::a(Html::img('@web/img/cabinet/master-class.png')
-                    . '<br/>Записаться на мастер-классы', 'master-classes');
-            } ?>
+<!--        <div class="col-md-2" align="center">-->
+<!--            --><?php //if (!Yii::$app->user->isGuest) {
+//                echo Html::a(Html::img('@web/img/cabinet/master-class.png')
+//                    . '<br/>Записаться на мастер-классы', '/master-classes');
+//            } ?>
+<!---->
+<!--        </div>-->
 
-        </div>
+<!--        <div class="col-md-2" align="center">-->
+<!--            --><?php //if (!Yii::$app->user->isGuest) {
+//                echo Html::a(Html::img('@web/img/cabinet/bak_form.png')
+//                    . '<br/>Выбрать образовательную программу бакалавриата', '/external/bak-programs');
+//            } ?>
+<!---->
+<!--        </div>-->
 
-        <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest) {
-                echo Html::a(Html::img('@web/img/cabinet/bak_form.png')
-                    . '<br/>Выбрать образовательную программу бакалавриата', '/external/bak-programs');
-            } ?>
-
-        </div>
-
-        <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest) {
-                echo Html::a(Html::img('@web/img/cabinet/mag_form.png')
-                    . '<br/>Выбрать образовательную программу магистратуры', '/external/mag-programs');
-            } ?>
-
-        </div>
+<!--        <div class="col-md-2" align="center">-->
+<!--            --><?php //if (!Yii::$app->user->isGuest) {
+//                echo Html::a(Html::img('@web/img/cabinet/mag_form.png')
+//                    . '<br/>Выбрать образовательную программу магистратуры', '/external/mag-programs');
+//            } ?>
+<!---->
+<!--        </div>-->
 
     <?php endif; ?>
 
@@ -95,7 +95,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         за конкурсной ситуацией во время приемной кампании и многое другое</p>
     <p align="justify">Для начала пользования сервисами поступающего необходимо завести личный кабинет.</p>
 
-    <a class="btn btn-primary btn-lg mpgu-btn" href="signup" role="button">завести Личный
+    <a class="btn btn-primary btn-lg mpgu-btn" href="/auth/signup/request" role="button">завести Личный
         кабинет</a>
 
     <?php endif ?>
