@@ -21,14 +21,16 @@ function color($b){
 $c = 0; $b = 6;
 ?>
 <?php if ($model):?>
-    <h2 class="mt-60">Дни открытых дверей в институтах и факультетах МПГУ:</h2>
+<div class="mt-60">
+    <h2>Дни открытых дверей в институтах и факультетах МПГУ:</h2>
+</div>
     <?php foreach ($model as $dod) : ?>
         <?php if ($c % 3 == 0): ?>
             <div class="row">
         <?php endif; ?>
             <div class="col-md-4">
                 <div class="dod-panel <?php color($b) ?>">
-                    <h1 align="center"><?= $dod->dodOne->name ?></h1>
+                    <h3><?= $dod->dodOne->name ?></h3>
                     <p><i><?= $dod->dateStartString ?></i></p>
                     <p><i><?= $dod->timeStartString ?></i></p>
                     <p><?= $dod->dodOne->addressString ?></p>

@@ -147,12 +147,6 @@ a.desc:after {
     display: none !important;
 }
 
-.dod-panel {
-    min-height: 454px;
-    margin: 10px;
-    padding: 30px 20px 10px 20px !important;
-    color: #fff;
-}
 
 .dod-panel div a {
     text-decoration: underline;
@@ -296,38 +290,6 @@ a.desc:after {
     width: 100% !important;
 }
 
-.b-50 {
-    bottom: -50px !important;
-}
-
-.mb-50 {
-    margin-bottom: 50px;
-}
-
-.mt-30 {
-    margin-top: 30px;
-}
-
-.mb-30 {
-    margin-bottom: 30px;
-}
-
-.mt-50 {
-    margin-top: 50px;
-}
-
-.pb-50 {
-    padding-bottom: 50px;
-}
-
-.pr-30 {
-    padding-right: 30px;
-}
-
-.pl-60 {
-    padding-left: 60px;
-}
-
 .navbar {
     min-height: 10px !important;
     border: 0;
@@ -369,52 +331,9 @@ p, div, li {
     background-color: #204462 !important;
 }
 
-.ml-10 {
-    margin-left: 10px;
-}
-
-.ml-30 {
-    margin-left: 30px;
-}
-
-.ml-40 {
-    margin-left: 40px;
-}
-
-.ml-60 {
-    margin-left: 60px;
-}
-
-.mr-60 {
-    margin-right: 60px;
-}
 
 .jumbotron {
     padding-top: 0 !important;
-}
-
-.mt-60 {
-    margin-top: 60px;
-}
-
-.mb-50 {
-    margin-bottom: 50px;
-}
-
-.mb-46 {
-    margin-bottom: 46px;
-}
-
-.mt-60 {
-    margin-top: 60px;
-}
-
-.pt-60 {
-    padding-top: 60px;
-}
-
-.pl-30 {
-    padding-left: 30px;
 }
 
 .tifany {

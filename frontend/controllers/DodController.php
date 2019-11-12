@@ -60,19 +60,4 @@ class DodController extends Controller
         ]);
     }
 
-
-    /*
-   * @param $id
-   * @return mixed
-   * @throws NotFoundHttpException
-   */
-    protected function findOlympic($id)
-    {
-        if (!$olympic = $this->repository->find($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
-        }
-
-        return $olympic;
-    }
-
 }

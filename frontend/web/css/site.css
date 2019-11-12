@@ -155,7 +155,7 @@ a.desc:after {
 .dod-panel {
     min-height: 454px;
     margin: 10px;
-    padding: 30px 20px 10px 20px !important;
+    padding: 10px 20px 10px 20px !important;
     color: #fff;
 }
 
@@ -168,9 +168,11 @@ a.desc:after {
     width: 75%;
 }
 
-.dod-panel a {
-    text-decoration: underline;
-    color: #fff;
+.dod_share a, .dod-panel div a {
+    margin-top: 20px;
+    color: #381c62 !important;
+    background-color: #fff !important;
+    text-decoration: none;
 }
 
 /**/
@@ -222,13 +224,6 @@ a.desc:after {
     background-color: #381c62;
     color: #fff;
     padding: 30px;
-}
-
-.dod_share a, .dod-panel div a {
-    margin-top: 20px;
-    color: #381c62 !important;
-    background-color: #fff !important;
-    text-decoration: none;
 }
 
 .mt-80 {
@@ -408,10 +403,6 @@ p, div, li {
 
 .mb-46 {
     margin-bottom: 46px;
-}
-
-.mt-60 {
-    margin-top: 60px;
 }
 
 .pt-60 {
@@ -882,4 +873,8 @@ input.break {
 .v-a-b {
     vertical-align: bottom;
     min-height: 300px;
+}
+
+.breadcrumb{
+    margin-top: 30px;
 }
