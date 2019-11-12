@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
+use frontend\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -24,7 +24,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+    <?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
 
         <script src="https://vk.com/js/api/openapi.js?159" type="text/javascript"></script>
 

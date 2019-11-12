@@ -28,6 +28,8 @@ class OlimpiadsController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = "@frontend/views/layouts/olimpic.php";
+
         $dataProvider = $this->repository->getAll();
 
         return $this->render('index', [
