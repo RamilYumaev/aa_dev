@@ -51,6 +51,8 @@ class SignupController extends Controller
      */
     public function actionRequest()
     {
+        $this->layout = "@frontend/views/layouts/loginRegister.php";
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -59,7 +61,8 @@ class SignupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
-                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. Пожалуйста, проверьте ваш почтовый ящик для проверки электронной почты..');
+                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. 
+                Вам отправлено письмо. Для активации учетной записи, пожалуйста, следуйте инструкциям в письме.');
                 return $this->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

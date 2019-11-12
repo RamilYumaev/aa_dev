@@ -4,7 +4,7 @@
 
 /* @var $content string */
 
-use common\widgets\Alert;
+use dmstr\widgets\Alert;
 use yii\helpers\Html;
 
 use frontend\assets\AppAsset;
@@ -67,7 +67,7 @@ AppAsset::register($this);
 </footer>
 
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function (d, w, c) {

@@ -4,7 +4,7 @@
 
 /* @var $content string */
 
-use app\widgets\Alert;
+use dmstr\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -36,42 +36,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-//       'brandLabel' => Html::img('@web/img/logo.png', ['width'=> '35', 'height'=> '35', 'style'=> 'margin-bottom:10px']),
-//        'brandUrl' => Yii::$app->homeUrl,
-        'innerContainerOptions' => ['class' => 'container-fluid'],
-        'options' => array_merge(
-            ['class' => 'navbar-inverse navbar-fixed-top mb-30'],
-            $_SERVER['HTTP_HOST'] === 'sdo.mpgu.org' ? ['style' => 'background-color: #204462'] :
-                ($_SERVER['HTTP_HOST'] === 'olympic:8080' ? ['style' => 'background-color: #621414'] : ['style' => 'background-color: #24a22d'])),
-
-    ]);
-
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => require __DIR__ . '/_menu.php',
-    ]);
-
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right pr-30'],
-        'items' => [
-            Yii::$app->user->isGuest ?
-                ['label' => 'Олимпиады/конкурсы', 'url' => ['/site/olympiads']] : ['label' => ''],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Дни открытых дверей', 'url' => ['site/dod']] : ['label' => ''],
-//            Yii::$app->user->isGuest ?
-//                ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']] : ['label' => ''],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Регистрация', 'url' => ['site/signup']] : ['label' => ''],
-
-            Yii::$app->user->isGuest ?
-                ['label' => 'Вход', 'url' => ['site/login']] :
-                ['label' => 'выход (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
-        ]
-
-    ]);
-    NavBar::end();
+    require_once ('_menu.php');
     ?>
     <div class="pl-50 mt-30 gray">
         <?= Breadcrumbs::widget([
