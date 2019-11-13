@@ -52,4 +52,8 @@ class OlympicSearch extends Model
     {
         return Olympic::labels();
     }
+
+    public  function statusList() {
+        return OlympicHelper::statusList();
+    }
 }

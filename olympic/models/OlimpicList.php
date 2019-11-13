@@ -6,6 +6,7 @@ namespace olympic\models;
 use common\helpers\DateTimeCpuHelper;
 use dictionary\helpers\DictChairmansHelper;
 use dictionary\models\OlimpiadsTypeTemplates;
+use olympic\forms\OlimpicListCopyForm;
 use olympic\forms\OlimpicListCreateForm;
 use olympic\forms\OlimpicListEditForm;
 use dictionary\helpers\DictFacultyHelper;
@@ -71,7 +72,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $olympic;
     }
 
-    public static function copy(OlimpicListEditForm $form, $chairman_id, $faculty_id, $olimpic_id)
+    public static function copy(OlimpicListCopyForm $form, $chairman_id, $faculty_id, $olimpic_id)
     {
         $olympic = new static();
         $olympic->name = $form->name;
@@ -179,7 +180,8 @@ class OlimpicList extends \yii\db\ActiveRecord
             'list_position' => 'Позиция на странице олимпиад',
             'content' => 'Аннотация на главную страницу олимпиады',
             'required_documents' => 'Необходимые документы на очный тур',
-            'year' => 'Год'
+            'year' => 'Учебный год',
+            'certificate_id' => 'Выдается сертификат участнику очного тура',
         ];
     }
 

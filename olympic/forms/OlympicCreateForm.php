@@ -30,6 +30,7 @@ class OlympicCreateForm extends Model
             [['name'], 'required'],
             ['name', 'unique', 'targetClass' => Olympic::class, 'message' => 'Такое название олимпиады уже есть'],
             [['status',], 'integer'],
+            ['status', 'in', 'range' => OlympicHelper::statusListValid(), 'allowArray' => true],
         ];
     }
 
@@ -40,5 +41,11 @@ class OlympicCreateForm extends Model
     {
         return Olympic::labels();
     }
+
+
+    public  function statusList() {
+        return OlympicHelper::statusList();
+    }
+
 
 }

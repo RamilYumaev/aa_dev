@@ -3,6 +3,8 @@
 namespace olympic\readRepositories;
 
 
+use common\helpers\EduYearHelper;
+use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
 use olympic\models\Olympic;
 use yii\data\ActiveDataProvider;
@@ -24,9 +26,9 @@ class OlimpicReadRepository
     {
         $query = Olympic::find()->alias('o');
         $query->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id');
-        $query->orderBy(['ol.year' => SORT_DESC]);
         $query->select('o.name, o.id');
-        $query->where(['o.status' => 0]);
+        $query->where(['o.status' => OlympicHelper::ACTIVE]);
+        $query->where(['ol.year' => EduYearHelper::eduYear() ]);
         return $this->getProvider($query);
     }
 

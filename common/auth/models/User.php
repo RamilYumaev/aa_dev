@@ -55,11 +55,12 @@ class User extends ActiveRecord
         $this->assignment->save();
     }
 
-    public static function create(UserCreateForm $form): self
+    public static function create(UserCreateForm $form, $github = null): self
     {
         $user = new static();
         $user->username = $form->username;
         $user->email = $form->email;
+        $user->github = $github;
         $user->setPassword(!empty($form->password) ? $form->password : Yii::$app->security->generateRandomString());
         $user->created_at = time();
         $user->status = UserHelper::STATUS_ACTIVE;

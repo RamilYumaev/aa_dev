@@ -19,8 +19,8 @@ class OlimpicListSearch extends Model
     public function rules()
     {
         return [
-            [['form_of_passage', 'faculty_id', 'year'], 'integer'],
-            [['name',], 'safe'],
+            [['form_of_passage', 'faculty_id', ], 'integer'],
+            [['name','year'], 'safe'],
         ];
     }
 
@@ -56,11 +56,11 @@ class OlimpicListSearch extends Model
         $query->andFilterWhere([
             'form_of_passage' => $this->form_of_passage,
             'faculty_id' => $this->faculty_id,
-             'year' => $this->year
         ]);
 
         $query
-            ->andFilterWhere(['like', 'name', $this->name]);
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'year', $this->year]);
 
         return $dataProvider;
     }

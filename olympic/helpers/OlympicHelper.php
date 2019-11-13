@@ -55,6 +55,9 @@ class OlympicHelper
     const ZAOCH_FINISH = 1;
     const OCH_FINISH = 2;
 
+    const ACTIVE = 0;
+    const DRAFT = 1;
+
     public static function typeOfTimeDistanceTour()
     {
         return [
@@ -63,6 +66,23 @@ class OlympicHelper
             self::TIME_REG => 'Выполнить задания необходимо до завершения периода регистрации на настоящее Мероприятие',
         ];
     }
+
+    public static function statusList()
+    {
+        return [
+            self::ACTIVE => 'Активный',
+            self::DRAFT => 'Неактивный',
+        ];
+    }
+
+    public static function statusListValid()
+    {
+        return [
+            self::ACTIVE, self::DRAFT
+        ];
+    }
+
+
 
     public static function typeOfTimeDistanceTourValid()
     {
@@ -168,6 +188,11 @@ class OlympicHelper
     public static function numberOfToursName($key)
     {
         return ArrayHelper::getValue(self::numberOfTours(), $key);
+    }
+
+    public static function statusName($key)
+    {
+        return ArrayHelper::getValue(self::statusList(), $key);
     }
 
     public static function listPositionName($key)

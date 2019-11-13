@@ -3,6 +3,7 @@
 namespace frontend\controllers\auth;
 
 use common\auth\Identity;
+use frontend\components\AuthHandler;
 use olympic\forms\auth\LoginForm;
 use olympic\services\auth\AuthService;
 use yii\web\Controller;
@@ -16,6 +17,24 @@ class AuthController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actions()
+    {
+        return [
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
+        ];
+    }
+
+    public function onAuthSuccess($client)
+    {
+        (new AuthHandler($client))->handle();
     }
 
     /**

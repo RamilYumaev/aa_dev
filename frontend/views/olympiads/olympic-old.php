@@ -5,6 +5,7 @@ use frontend\widgets\olympictemplates\OlympicTemplatesWidget;
 /* @var $this yii\web\View */
 /* @var $olympic \olympic\models\OlimpicList */
 
+$url = \yii\helpers\Url::to(['/olympiads']);
 $this->title = $olympic->name. " - ". $olympic->year;
 ?>
 <div class="container-fluid">
@@ -31,7 +32,7 @@ $this->title = $olympic->name. " - ". $olympic->year;
             <div class="control-panel">
                 <?= OlympicTemplatesWidget::widget(['model' => $olympic]) ?>
             </div>
-            <p class><a href="olympiads">Посмотреть другие олимпиады &gt;</a></p>
+            <p class><a href="<?= Html::encode($url) ?>">Посмотреть другие олимпиады &gt;</a></p>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
 
 namespace common\auth\models;
 
-use common\helpers\UserSchoolHelper;
+use common\helpers\EduYearHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -24,7 +24,7 @@ class UserSchool extends ActiveRecord
         $userSchool ->user_id = $user_id;
         $userSchool ->school_id = $school_id;
         $userSchool ->class_id = $class_id;
-        $userSchool->edu_year = UserSchoolHelper::eduYear();
+        $userSchool->edu_year = EduYearHelper::eduYear();
 
         return $userSchool;
     }

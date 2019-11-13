@@ -8,11 +8,14 @@ use dictionary\repositories\DictChairmansRepository;
 use dictionary\repositories\DictClassRepository;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use dictionary\repositories\FacultyRepository;
+use olympic\forms\OlimpicListCopyForm;
 use olympic\forms\OlimpicListCreateForm;
 use olympic\forms\OlimpicListEditForm;
+use olympic\helpers\OlympicHelper;
 use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicCg;
 use olympic\models\OlimpicList;
+use olympic\models\Olympic;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlympicRepository;
 
@@ -47,10 +50,12 @@ class OlimpicListService
 
     public function create(OlimpicListCreateForm $form)
     {
-        $faculty = $this->facultyRepository->get($form->faculty_id);
-        $chairman = $this->chairmansRepository->get($form->chairman_id);
+        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+            $faculty = $this->facultyRepository->get($form->faculty_id);
+            $chairman = $this->chairmansRepository->get($form->chairman_id);
+        }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
-        $model = OlimpicList::create($form, $chairman->id, $faculty->id,  $olympic->id);
+        $model = OlimpicList::create($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
                 $this->repository->save($model);
                 if ($form->competitiveGroupsList) {
@@ -72,13 +77,15 @@ class OlimpicListService
         return $model;
     }
 
-    public function copy(OlimpicListEditForm $form)
+    public function copy(OlimpicListCopyForm $form)
     {
-        $faculty = $this->facultyRepository->get($form->faculty_id);
-        $chairman = $this->chairmansRepository->get($form->chairman_id);
+        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+            $faculty = $this->facultyRepository->get($form->faculty_id);
+            $chairman = $this->chairmansRepository->get($form->chairman_id);
+        }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
-        $model = OlimpicList::copy($form, $chairman->id, $faculty->id,  $olympic->id);
+        $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null,  $olympic->id);
         try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->repository->save($model);
@@ -105,12 +112,14 @@ class OlimpicListService
 
     public function edit($id, OlimpicListEditForm $form)
     {
-        $faculty = $this->facultyRepository->get($form->faculty_id);
-        $chairman = $this->chairmansRepository->get($form->chairman_id);
+        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+            $faculty = $this->facultyRepository->get($form->faculty_id);
+            $chairman = $this->chairmansRepository->get($form->chairman_id);
+        }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = $this->repository->get($id);
 
-        $model->edit($form, $chairman->id, $faculty->id,  $olympic->id);
+        $model->edit($form, $chairman->id ?? null, $faculty->id ?? null,   $olympic->id);
         try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->deleteRelation($model->id);

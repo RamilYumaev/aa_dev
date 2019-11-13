@@ -128,6 +128,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'showing_works_and_appeal')->dropDownList($model->showingWork()); ?>
 
+            <?= $form->field($model, 'certificate_id')->checkbox(); ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

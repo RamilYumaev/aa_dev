@@ -49,6 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <h2>Вход</h2>
         </div>
 
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['auth/auth/auth'],
+            'popupMode' => false,
+        ]) ?>
+
         <h4 class="login-box-msg">Для входа заполните, пожалуйста, форму:</h4>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>

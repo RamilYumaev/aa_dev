@@ -4,7 +4,9 @@
 namespace olympic\models;
 
 
-class SpecialTypeOlimpic
+use yii\db\ActiveRecord;
+
+class SpecialTypeOlimpic extends ActiveRecord
 {
     /**
      * {@inheritdoc}

@@ -22,7 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $olympic,
         'attributes' => [
             'name',
-            'status'
+            ['attribute' => 'status',
+                'value' => \olympic\helpers\OlympicHelper::statusName($olympic->status)
+                ]
         ],
     ]) ?>
         </div>

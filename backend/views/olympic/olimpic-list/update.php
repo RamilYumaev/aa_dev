@@ -15,7 +15,7 @@ $this->title = 'Обновить: ';
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = 'Обновить';
 
-\backend\assets\olympic\DodEditAsset::register($this);
+\backend\assets\olympic\OlympicEditAsset::register($this);
 
 ?>
 <div>
@@ -127,9 +127,9 @@ $this->params['breadcrumbs'][] = 'Обновить';
         'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash'])
     ]); ?>
 
-
     <?= $form->field($model, 'showing_works_and_appeal')->dropDownList($model->showingWork()); ?>
 
+            <?= $form->field($model, 'certificate_id')->checkbox(); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

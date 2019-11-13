@@ -14,7 +14,7 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right pr-30'],
     'items' => [
-        ['label' => 'Олимпиады/конкурсы', 'url' => ['/olimpiads']],
+        ['label' => 'Олимпиады/конкурсы', 'url' => ['/olympiads']],
         ['label' => 'Дни открытых дверей', 'url' => ['/dod']],
         // ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']],
         Yii::$app->user->isGuest ?

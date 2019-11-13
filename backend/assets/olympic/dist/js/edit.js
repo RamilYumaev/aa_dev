@@ -11,34 +11,6 @@ var hideOchRequired = $("div.field-olimpiclisteditform-requiment_to_work");
 var hideZaochCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating_dt");
 var hideOchCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating");
 
-$("#olimpiclisteditform-form_of_passage").on("change init", function() {
-    if(this.value == 1){
-        hideTimeOfOchTour.show();
-        hideDateTimeStartOchTour.show();
-        hideAddress.show();
-        hideTimeOchTur.show();
-        hideOchRequired.show();
-        hideOchCriteria.show();
-    }else{
-        hideTypeOfTime.hide();
-        hideTimeOfOchTour.hide();
-        hideDateTimeStartOchTour.hide();
-        hideAddress.hide();
-        typeOfTime.hide();
-        hideTimeOchTur.hide();
-        hideOchRequired.hide();
-        hideOchCriteria.hide();
-    };
-
-    if(this.value == 2){
-        hideZaochRequired.show();
-        hideZaochCriteria.show();
-        hideTypeOfTime.show();
-    }else{
-        hideZaochRequired.hide();
-        hideZaochCriteria.hide();
-    }
-}).trigger("init");
 
 $("#olimpiclisteditform-number_of_tours").on("change init", function() {
     if(this.value == 2){
@@ -65,15 +37,78 @@ $("#olimpiclisteditform-number_of_tours").on("change init", function() {
     }
 });
 
-$("#olimpiclisteditform-number_of_tours").on("change init", function() {
-    if (this.value == 1 || this.value == 3) { //@todo сделать константой
+function forms(value) {
+
+    var  $form1 = $("#olimpiclisteditform-form_of_passage option[value='1']");
+    var  $form2 = $("#olimpiclisteditform-form_of_passage option[value='2']");
+    var  $form3 = $("#olimpiclisteditform-form_of_passage option[value='3']");
+    var  $form4 = $("#olimpiclisteditform-form_of_passage option[value='4']");
+    var  $form5 = $("#olimpiclisteditform-form_of_passage option[value='5']");
+
+    if (value == 1) { //@todo сделать константой
         formOfPassage.show();
-        $("#olimpiclisteditform-form_of_passage option[value='3']").remove();
-    } else {
+        $form1.show();
+        $form2.show();
+        $form3.hide();
+        $form4.hide();
+        $form5.hide()
+    } else if (value == 2) {
+        formOfPassage.show();
+        $form3.show();
+        $form4.hide();
+        $form2.hide();
+        $form1.hide();
+        $form5.show()
+    } else if (value == 3) {
+        formOfPassage.show();
+        $form3.hide();
+        $form4.show();
+        $form2.hide();
+        $form1.hide();
+        $form5.hide()
+    }
+    else {
         formOfPassage.hide();
     }
+}
+
+$("#olimpiclisteditform-number_of_tours").on("init", function() {
+    forms(this.value)
 }).trigger("init");
 
+$("#olimpiclisteditform-number_of_tours").on("change", function() {
+    forms(this.value);
+    $("#olimpiclisteditform-form_of_passage").val("");
+});
+
+$("#olimpiclisteditform-form_of_passage").on("change init", function() {
+    if(this.value == 1){
+        hideTimeOfOchTour.show();
+        hideDateTimeStartOchTour.show();
+        hideAddress.show();
+        hideTimeOchTur.show();
+        hideOchRequired.show();
+        hideOchCriteria.show();
+    } else if (this.value == 2){
+        hideZaochRequired.show();
+        hideZaochCriteria.show();
+        hideTypeOfTime.show();
+        hideTimeOfOchTour.hide();
+        hideDateTimeStartOchTour.hide();
+        hideAddress.hide();
+    }else {
+        hideTypeOfTime.hide();
+        hideTimeOfOchTour.hide();
+        hideDateTimeStartOchTour.hide();
+        hideAddress.hide();
+        typeOfTime.hide();
+        hideTimeOchTur.hide();
+        hideOchRequired.hide();
+        hideOchCriteria.hide();
+        hideZaochRequired.hide();
+        hideZaochCriteria.hide();
+    }
+}).trigger("init");
 
 
 $("#olimpiclisteditform-edu_level_olymp").on("change init", function() {

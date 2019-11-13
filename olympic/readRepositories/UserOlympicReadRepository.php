@@ -1,5 +1,5 @@
 <?php
-namespace dod\readRepositories;
+namespace olympic\readRepositories;
 
 use olympic\models\UserOlimpiads;
 

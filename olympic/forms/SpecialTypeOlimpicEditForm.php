@@ -3,6 +3,7 @@
 
 namespace olympic\forms;
 
+use dictionary\helpers\DictSpecialTypeOlimpicHelper;
 use olympic\models\SpecialTypeOlimpic;
 use yii\base\Model;
 
@@ -10,7 +11,7 @@ class SpecialTypeOlimpicEditForm extends  Model
 {
     public $olimpic_id;
     public $special_type_id;
-    private $_specialTypeOlimpic;
+    public $_specialTypeOlimpic;
 
     public function __construct(SpecialTypeOlimpic $specialTypeOlimpic, $config = [])
     {
@@ -39,5 +40,10 @@ class SpecialTypeOlimpicEditForm extends  Model
     public function attributeLabels()
     {
         return SpecialTypeOlimpic::labels();
+    }
+
+    public  function specialTypeOlimpicList(): array
+    {
+       return DictSpecialTypeOlimpicHelper::specialTypeOlimpicList();
     }
 }
