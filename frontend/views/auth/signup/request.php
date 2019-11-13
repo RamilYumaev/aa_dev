@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="login-box">
 
+
     <div class="login-box-body">
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
 
@@ -21,10 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <h2>Регистрация</h2>
         </div><!-- /.login-logo -->
         <h4 class="login-box-msg">зарегистрируйтесь с помощью:</h4>
-        <? /* yii\authclient\widgets\AuthChoice::widget([
-            'baseAuthUrl' => ['site/auth'],
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['auth/auth/auth'],
             'popupMode' => false,
-        ]) */ ?>
+        ]) ?>
+
 
         <h4 class="login-box-msg">или заполните форму:</h4>
 

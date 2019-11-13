@@ -5,21 +5,19 @@ namespace olympic\forms;
 
 
 use olympic\helpers\OlympicHelper;
+use olympic\models\OlimpicList;
 use olympic\models\OlimpicNomination;
 use olympic\models\Olympic;
 use yii\base\Model;
 
-class OlimpicNominationForm extends Model
+class OlimpicNominationCreateForm extends Model
 {
     public $olimpic_id, $name;
 
 
-    public function __construct(OlimpicNomination $nomination = null, $config = [])
+    public function __construct(int $olimpic_id, $config = [])
     {
-        if ($nomination) {
-            $this->olimpic_id = $nomination->olimpic_id;
-            $this->name = $nomination->name;
-        }
+        $this->olimpic_id = $olimpic_id;
         parent::__construct($config);
     }
 
@@ -32,15 +30,10 @@ class OlimpicNominationForm extends Model
             [['olimpic_id', 'name'], 'required'],
             [['olimpic_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['olimpic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Olympic::class, 'targetAttribute' => ['olimpic_id' => 'id']],
+            ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'message' => 'Такая номинация олимпиады уже есть'],
+            [['olimpic_id'], 'exist', 'skipOnError' => true, 'targetClass' => OlimpicList::class, 'targetAttribute' => ['olimpic_id' => 'id']],
         ];
     }
-
-    public function olimpicList(): array
-    {
-        return OlympicHelper::olimpicList();
-    }
-
     /**
      * {@inheritdoc}
      */

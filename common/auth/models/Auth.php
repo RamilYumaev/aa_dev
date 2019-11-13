@@ -1,6 +1,6 @@
 <?php
 
-namespace olympic\models\auth;
+namespace common\auth\models;
 
 use common\auth\models\User;
 use Yii;
@@ -25,17 +25,12 @@ class Auth extends \yii\db\ActiveRecord
         return 'auth';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['user_id', 'source', 'source_id'], 'required'],
-            [['user_id'], 'integer'],
-            [['source', 'source_id'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-        ];
+    public static function create($user_id, $source, $source_id) {
+        $auth = new static();
+        $auth->user_id = $user_id;
+        $auth->source = $source;
+        $auth->source_id = $source_id;
+        return $auth;
     }
 
     /**
@@ -51,11 +46,4 @@ class Auth extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
 }

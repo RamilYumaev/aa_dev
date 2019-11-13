@@ -25,7 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
                 'name',
-                'status',
+                ['attribute' => 'status',
+                    'filter' => $searchModel->statusList(),
+                    'value' => function (\olympic\models\Olympic $model) {
+                        return \olympic\helpers\OlympicHelper::statusName($model->status);
+                    },
+                ],
                 ['class' => \yii\grid\ActionColumn::class,
                     'buttons' => [
                         'update' => function ($url,$model) {

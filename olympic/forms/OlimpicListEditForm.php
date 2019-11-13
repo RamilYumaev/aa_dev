@@ -4,6 +4,7 @@
 namespace olympic\forms;
 
 
+use common\helpers\EduYearHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictChairmans;
 use olympic\helpers\ClassAndOlympicHelper;
@@ -52,41 +53,41 @@ class OlimpicListEditForm extends Model
 
     public function __construct(OlimpicList $olympic, $config = [])
     {
-            $this->competitiveGroupsList= OlimpicCgHelper::cgOlympicList($olympic->id);
-            $this->classesList= ClassAndOlympicHelper::olympicClassList($olympic->id);
-            $this->name = $olympic->name;
-            $this->chairman_id = $olympic->chairman_id;
-            $this->number_of_tours = $olympic->number_of_tours;
-            $this->edu_level_olymp = $olympic->edu_level_olymp;
-            $this->date_time_start_reg = $olympic->date_time_start_reg;
-            $this->date_time_finish_reg = $olympic->date_time_finish_reg;
-            $this->genitive_name = $olympic->genitive_name;
-            $this->faculty_id = $olympic->faculty_id;
-            $this->time_of_distants_tour_type = $olympic->time_of_distants_tour_type;
-            $this->form_of_passage = $olympic->form_of_passage;
-            $this->time_of_tour = $olympic->time_of_tour;
-            $this->content = $olympic->content;
-            $this->required_documents = $olympic->required_documents;
-            $this->showing_works_and_appeal = $olympic->showing_works_and_appeal;
-            $this->time_of_distants_tour = $olympic->time_of_distants_tour;
-            $this->prefilling = $olympic->prefilling;
-            $this->only_mpgu_students = $olympic->only_mpgu_students;
-            $this->list_position = $olympic->list_position;
-            $this->current_status = $olympic->current_status;
-            $this->auto_sum = $olympic->auto_sum;
-            $this->date_time_start_tour = $olympic->date_time_start_tour;
-            $this->address = $olympic->address;
-            $this->requiment_to_work_of_distance_tour = $olympic->requiment_to_work_of_distance_tour;
-            $this->requiment_to_work = $olympic->requiment_to_work;
-            $this->criteria_for_evaluating_dt = $olympic->criteria_for_evaluating_dt;
-            $this->criteria_for_evaluating = $olympic->criteria_for_evaluating;
-            $this->promotion_text = $olympic->promotion_text;
-            $this->link = $olympic->link;
-            $this->certificate_id = $olympic->certificate_id;
-            $this->event_type = $olympic->event_type;
-            $this->olimpic_id = $olympic->olimpic_id;
-            $this->year = $olympic->year;
-            $this->_olympic = $olympic;
+        $this->competitiveGroupsList= OlimpicCgHelper::cgOlympicList($olympic->id);
+        $this->classesList= ClassAndOlympicHelper::olympicClassList($olympic->id);
+        $this->name = $olympic->name;
+        $this->chairman_id = $olympic->chairman_id;
+        $this->number_of_tours = $olympic->number_of_tours;
+        $this->edu_level_olymp = $olympic->edu_level_olymp;
+        $this->date_time_start_reg = $olympic->date_time_start_reg;
+        $this->date_time_finish_reg = $olympic->date_time_finish_reg;
+        $this->genitive_name = $olympic->genitive_name;
+        $this->faculty_id = $olympic->faculty_id;
+        $this->time_of_distants_tour_type = $olympic->time_of_distants_tour_type;
+        $this->form_of_passage = $olympic->form_of_passage;
+        $this->time_of_tour = $olympic->time_of_tour;
+        $this->content = $olympic->content;
+        $this->required_documents = $olympic->required_documents;
+        $this->showing_works_and_appeal = $olympic->showing_works_and_appeal;
+        $this->time_of_distants_tour = $olympic->time_of_distants_tour;
+        $this->prefilling = $olympic->prefilling;
+        $this->only_mpgu_students = $olympic->only_mpgu_students;
+        $this->list_position = $olympic->list_position;
+        $this->current_status = $olympic->current_status;
+        $this->auto_sum = $olympic->auto_sum;
+        $this->date_time_start_tour = $olympic->date_time_start_tour;
+        $this->address = $olympic->address;
+        $this->requiment_to_work_of_distance_tour = $olympic->requiment_to_work_of_distance_tour;
+        $this->requiment_to_work = $olympic->requiment_to_work;
+        $this->criteria_for_evaluating_dt = $olympic->criteria_for_evaluating_dt;
+        $this->criteria_for_evaluating = $olympic->criteria_for_evaluating;
+        $this->promotion_text = $olympic->promotion_text;
+        $this->link = $olympic->link;
+        $this->certificate_id = $olympic->certificate_id;
+        $this->event_type = $olympic->event_type;
+        $this->olimpic_id = $olympic->olimpic_id;
+        $this->year = $olympic->year;
+        $this->_olympic = $olympic;
         parent::__construct($config);
     }
 
@@ -101,7 +102,7 @@ class OlimpicListEditForm extends Model
                 'required', 'when' => function ($model) {
                 return $model->prefilling == 0;
             }, 'whenClient' => 'function(attribute, value){
-                    return $("#olimpiclisteditform-prefilling").val ==0}'],
+                    return $("#olimpiclisteditform-prefilling").val == 0}'],
 
             [['competitiveGroupsList', 'classesList'], 'required', 'when' => function ($model) {
                 return $model->edu_level_olymp == OlympicHelper::FOR_STUDENT
@@ -132,20 +133,20 @@ class OlimpicListEditForm extends Model
             ['time_of_tour', 'required', 'when' => function ($model) {
                 return $model->form_of_passage == OlympicHelper::OCHNAYA_FORMA;
             }, 'whenClient' => 'function(attribute, value){
-            return $("#form_of_passage").val() == 1; 
+            return $("#olimpiclisteditform-form_of_passage").val() == 1; 
             }'],
             [['content', 'required_documents'], 'string'],
-            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'filter' => ['<>', 'id', $this->_olympic->id], 'message' => 'Такое название олимпиады и год уже есть', 'targetAttribute' => ['name', 'year']],
+            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'filter' => ['<>', 'id', $this->_olympic->id], 'message' => 'Такое название олимпиады и учебный год уже есть', 'targetAttribute' => ['name', 'year']],
             [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id', 'olimpic_id',
-                'year', 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum'], 'integer'],
+                'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum'], 'integer'],
             [['date_time_start_reg', 'date_time_finish_reg', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'year',], 'string', 'max' => 255],
             [['chairman_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictChairmans::class, 'targetAttribute' => ['chairman_id' => 'id']],
             [['promotion_text', 'link'], 'string', 'max' => 255],
-            [['promotion_text'], 'required'],
+            [['name'], 'required'],
             ['prefilling', 'in', 'range' => OlympicHelper::prefillingValid(), 'allowArray' => true],
             ['edu_level_olymp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
             ['list_position', 'in', 'range' => OlympicHelper::listPositionValid(), 'allowArray' => true],
@@ -211,14 +212,7 @@ class OlimpicListEditForm extends Model
 
     public function years(): array
     {
-        $year = date("Y");
-        $year = $year - 1;
-        $result = [];
-        for ($i = 1; $i <= 3; $i++) {
-            $result[$year+$i] = $year+$i;
-
-        }
-        return $result;
+        return EduYearHelper::eduYearList();
     }
 
 

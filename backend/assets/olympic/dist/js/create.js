@@ -19,7 +19,15 @@ $("#olimpiclistcreateform-form_of_passage").on("change init", function() {
         hideTimeOchTur.show();
         hideOchRequired.show();
         hideOchCriteria.show();
-    }else{
+    }else if (this.value == 2){
+        hideZaochRequired.show();
+        hideZaochCriteria.show();
+        hideTypeOfTime.show();
+        hideTimeOfOchTour.hide();
+        hideDateTimeStartOchTour.hide();
+        hideAddress.hide();
+        typeOfTime.hide();
+    }else {
         hideTypeOfTime.hide();
         hideTimeOfOchTour.hide();
         hideDateTimeStartOchTour.hide();
@@ -28,13 +36,6 @@ $("#olimpiclistcreateform-form_of_passage").on("change init", function() {
         hideTimeOchTur.hide();
         hideOchRequired.hide();
         hideOchCriteria.hide();
-    };
-
-    if(this.value == 2){
-        hideZaochRequired.show();
-        hideZaochCriteria.show();
-        hideTypeOfTime.show();
-    }else{
         hideZaochRequired.hide();
         hideZaochCriteria.hide();
     }
@@ -66,10 +67,38 @@ $("#olimpiclistcreateform-number_of_tours").on("change init", function() {
 });
 
 $("#olimpiclistcreateform-number_of_tours").on("change init", function() {
-    if (this.value == 1 || this.value == 3) { //@todo сделать константой
+    var  $form1 = $("#olimpiclistcreateform-form_of_passage option[value='1']");
+    var  $form2 = $("#olimpiclistcreateform-form_of_passage option[value='2']");
+    var  $form3 = $("#olimpiclistcreateform-form_of_passage option[value='3']");
+    var  $form4 = $("#olimpiclistcreateform-form_of_passage option[value='4']");
+    var  $form5 = $("#olimpiclistcreateform-form_of_passage option[value='5']");
+
+    if (this.value == 1) { //@todo сделать константой
         formOfPassage.show();
-        $("#olimpiclistcreateform-form_of_passage option[value='3']").remove();
-    } else {
+        $("#olimpiclistcreateform-form_of_passage").val("");
+        $form1.show();
+        $form2.show();
+        $form3.hide();
+        $form4.hide();
+        $form5.hide()
+    } else if (this.value == 2) {
+        formOfPassage.show();
+        $("#olimpiclistcreateform-form_of_passage").val("");
+        $form3.show();
+        $form4.hide();
+        $form2.hide();
+        $form1.hide();
+        $form5.show()
+    } else if (this.value == 3) {
+        formOfPassage.show();
+        $("#olimpiclistcreateform-form_of_passage").val("");
+        $form3.hide();
+        $form4.show();
+        $form2.hide();
+        $form1.hide();
+        $form5.hide()
+    }
+    else {
         formOfPassage.hide();
     }
 }).trigger("init");

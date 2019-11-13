@@ -39,6 +39,11 @@ class SchoolsController extends Controller
             return $this->goHome();
         }
         $form = new SchooLUserCreateForm();
+
+        if (is_null($form->country_id)) {
+            Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную оргнизацию, необхдимо заполнить профиль.');
+            return $this->redirect(['auth/profile/profile']);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);

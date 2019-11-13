@@ -4,6 +4,7 @@
 namespace olympic\forms;
 
 
+use common\helpers\EduYearHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictChairmans;
 use dictionary\helpers\DictChairmansHelper;
@@ -61,7 +62,7 @@ class OlimpicListCreateForm extends Model
     public function rules()
     {
         return [
-            [['name', 'chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_time_start_reg',
+            [['chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_time_start_reg',
                 'date_time_finish_reg', 'year', 'genitive_name', 'faculty_id'],
                 'required', 'when' => function ($model) {
                 return $model->prefilling == 0;
@@ -97,21 +98,21 @@ class OlimpicListCreateForm extends Model
             ['time_of_tour', 'required', 'when' => function ($model) {
                 return $model->form_of_passage == OlympicHelper::OCHNAYA_FORMA;
             }, 'whenClient' => 'function(attribute, value){
-            return $("#form_of_passage").val() == 1; 
+            return $("#olimpiclistcreateform-form_of_passage").val() == 1; 
             }'],
             [['content', 'required_documents'], 'string'],
-            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и год уже есть',  'targetAttribute' => ['name', 'year']],
+            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть',  'targetAttribute' => ['name', 'year']],
             [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum', 'olimpic_id',
-                'year',], 'integer'],
+                ], 'integer'],
             [['date_time_start_reg', 'date_time_finish_reg', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name','year'], 'string', 'max' => 255],
             [['chairman_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictChairmans::class, 'targetAttribute' => ['chairman_id' => 'id']],
             [['promotion_text', 'link'], 'string', 'max' => 255],
-            [['promotion_text'], 'required'],
+            [['name'], 'required'],
             ['prefilling', 'in', 'range' => OlympicHelper::prefillingValid(), 'allowArray' => true],
             ['edu_level_olymp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
             ['list_position', 'in', 'range' => OlympicHelper::listPositionValid(), 'allowArray' => true],
@@ -177,13 +178,6 @@ class OlimpicListCreateForm extends Model
 
     public function years(): array
     {
-        $year = date("Y");
-        $year = $year - 1;
-        $result = [];
-        for ($i = 1; $i <= 3; $i++) {
-            $result[$year+$i] = $year+$i;
-
-        }
-        return $result;
+       return EduYearHelper::eduYearList();
     }
 }

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use olympic\helpers\ClassAndOlympicHelper;
 
-$url = Url::to(['registration-on-olimpiads', 'id' =>$model->id]);
+$url = Url::to(['registration-on-olympiads', 'id' =>$model->id]);
 
 ?>
 <div class="col-md-4">

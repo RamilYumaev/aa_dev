@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'form-olimpiads-type-templates', 'enableAjaxValidation' => true]); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-olympiads-type-templates', 'enableAjaxValidation' => true]); ?>
 
     <?= $form->field($model, 'number_of_tours')->dropDownList($model->numberOfTours()) ?>
 

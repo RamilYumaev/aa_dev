@@ -10,7 +10,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <div class="row mt-30">
     <div class="col-md-2" align="center">
         <?php if (!Yii::$app->user->isGuest) {
-            echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', 'profile');
+            echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/auth/profile/profile');
         } ?>
 
     </div>
@@ -20,7 +20,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/school.png')
-                    . '<br/>Ваша учебная организация', 'add-educational-org');
+                    . '<br/>Ваша учебная организация', '/schools');
             } ?>
 
         </div>

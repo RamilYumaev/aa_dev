@@ -63,16 +63,6 @@ function dataAjax(dataParams) {
     });
 }
 
-$('#schooluserform-check_new_school').on('change', function() {
-    // From the other examples
-    if (this.checked) {
-        newSch.show();
-        changeNewSchool();
-    } else {
-        newSch.hide();
-        changeNewSchool();
-    }
-});
 
 $('#schooluserform-check_rename_school').on('change', function() {
     if (this.checked) {
@@ -100,11 +90,7 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
         propCheck("#schooluserform-check_rename_school",'checked', false);
         var vaLCountry = $("#schoolusercreateform-country_id").val();
         var vaLRegion = $("#schoolusercreateform-region_id").val();
-        if (vaLRegion)  {
-            dataParams = {country_id : russia, region_id : vaLRegion}
-        }  else {
-            dataParams = {country_id : vaLCountry};
-        }
+        dataParams = {country_id: vaLCountry, region_id: vaLRegion ? vaLRegion : null};
         dataAjax(dataParams);
         school.show();
     } else {
@@ -120,6 +106,18 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
     }
 }).trigger('init');
 
+$('#schooluserform-check_new_school').on('change', function() {
+    // From the other examples
+    if (this.checked) {
+        console.log(112)
+        newSch.show();
+       // changeNewSchool();
+    } else {
+        console.log(113)
+        newSch.hide();
+      // changeNewSchool();
+    }
+});
 
 $("#schooluserform-school_id").on("change", function() {
     if (this.value == "") {

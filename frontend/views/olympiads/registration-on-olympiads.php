@@ -2,11 +2,14 @@
 use yii\helpers\Html;
 use frontend\widgets\olympictemplates\OlympicTemplatesWidget;
 use frontend\widgets\olympicold\OlympicOldWidget;
+use frontend\widgets\olympic\UserOlympicWidget;
 
 /* @var $this yii\web\View */
 /* @var $olympic olympic\models\Olympic */
 /* @var $model olympic\forms\SignupOlympicForm */
 
+
+$url = \yii\helpers\Url::to(['/olympiads']);
 $this->title = $olympic->name;
 ?>
 <div class="container-fluid">
@@ -35,12 +38,13 @@ $this->title = $olympic->name;
         </div>
         <div class="col-md-5">
             <div class="control-panel">
-
                 <?= OlympicTemplatesWidget::widget(['model' => $olympic->olympicOneLast]) ?>
-                <a href="/print/olimp-result?olimpId=1">Результаты олимпиады</a><br>
                 <?= OlympicOldWidget::widget(['model' => $olympic]) ?>
+                <?php if (!Yii::$app->user->isGuest && $olympic->olympicOneLast->isOnRegisterOlympic) :?>
+                    <?=  UserOlympicWidget::widget(['model' => $olympic->olympicOneLast]) ?>
+                <?php endif; ?>
             </div>
-            <p class><a href="olympiads">Посмотреть другие олимпиады &gt;</a></p>
+            <p class><a href="<?= Html::encode($url) ?>">Посмотреть другие олимпиады &gt;</a></p>
         </div>
     </div>
 </div>

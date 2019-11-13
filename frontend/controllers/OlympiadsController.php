@@ -10,7 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
 
-class OlimpiadsController extends Controller
+class OlympiadsController extends Controller
 {
     private $repository;
     private $service;
@@ -42,7 +42,7 @@ class OlimpiadsController extends Controller
     * @return mixed
     * @throws NotFoundHttpException
     */
-    public function actionRegistrationOnOlimpiads($id)
+    public function actionRegistrationOnOlympiads($id)
     {
         $olympic = $this->findOlympic($id);
         $form = new SignupOlympicForm($olympic);
@@ -58,7 +58,7 @@ class OlimpiadsController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
 
-        return $this->render('registration-on-olimpiads', [
+        return $this->render('registration-on-olympiads', [
             'olympic' => $olympic,
             'model' => $form
         ]);
