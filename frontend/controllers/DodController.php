@@ -41,7 +41,7 @@ class DodController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->redirect('index');
         }
-        $dod = $this->findOlympic($id);
+        $dod = $this->findDod($id);
         $form = new SignupDodForm($dod);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -55,9 +55,21 @@ class DodController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         return $this->render('registration-on-dod', [
-            'dod'=> $dod,
+            'dod' => $dod,
             'model' => $form
         ]);
     }
 
+    /*
+ * @param $id
+ * @return mixed
+ * @throws NotFoundHttpException
+ */
+    protected function findDod($id)
+    {
+        if (!$olympic = $this->repository->find($id)) {
+            new NotFoundHttpException('The requested page does not exist.');
+        }
+        return $olympic;
+    }
 }
