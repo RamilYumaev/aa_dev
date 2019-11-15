@@ -7,7 +7,7 @@ array_merge(
                 ['label' => 'Шаблоны', 'url' => '/dictionary/templates'],
                 ['label' => 'Председатели', 'url' => '/dictionary/dict-chairmans'],
                 ['label' => 'Классы/курсы', 'url' => '/dictionary/dict-class'],
-                ['label' => 'Сопоставление шаблонов', 'url' => '/dictionary/olympiads-type-templates'],
+                ['label' => 'Сопоставление шаблонов', 'url' => '/dictionary/olimpiads-type-templates'],
                 ['label' => 'Спец. виды олимпиад', 'url' => '/dictionary/dict-special-type-olimpic'],
                 ['label' => 'Назначить главных', 'url' => '/dictionary/faculty/index'],
                 ['label' => 'Институты/факультеты', 'url' => '/dictionary/faculty'],
