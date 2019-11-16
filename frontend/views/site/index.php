@@ -15,8 +15,6 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
     </div>
 
-    <?php if (!Yii::$app->user->can('olymp_operator')) : ?>
-
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/school.png')
@@ -66,24 +64,22 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <!---->
 <!--        </div>-->
 
-    <?php endif; ?>
-
 </div>
 
-<div class="row mt-50">
-    <div class="col-md-2 col-md-offset-4">
-        <?php if (Yii::$app->user->can('manager')) {
-            echo Html::a(Html::img('@web/img/cabinet/docs.png')
-                . '<br/>Документы приемной комиссии', 'site/documents');
-        } ?>
-    </div>
-    <div class="col-md-2">
-        <?php if (Yii::$app->user->can('manager')) {
-            echo Html::a(Html::img('@web/img/cabinet/links.png')
-                . '<br/>Ссылки на сторонние ресурсы', 'links');
-        } ?>
-    </div>
-</div>
+<!--<div class="row mt-50">-->
+<!--    <div class="col-md-2 col-md-offset-4">-->
+<!--        --><?php //if (Yii::$app->user->can('manager')) {
+//            echo Html::a(Html::img('@web/img/cabinet/docs.png')
+//                . '<br/>Документы приемной комиссии', 'site/documents');
+//        } ?>
+<!--    </div>-->
+<!--    <div class="col-md-2">-->
+<!--        --><?php //if (Yii::$app->user->can('manager')) {
+//            echo Html::a(Html::img('@web/img/cabinet/links.png')
+//                . '<br/>Ссылки на сторонние ресурсы', 'links');
+//        } ?>
+<!--    </div>-->
+<!--</div>-->
 
 
 <?php if (Yii::$app->user->isGuest): ?>
