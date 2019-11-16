@@ -12,7 +12,7 @@ use frontend\widgets\olympic\UserOlympicWidget;
 $url = \yii\helpers\Url::to(['/olympiads']);
 $this->title = $olympic->name;
 ?>
-<div class="container-fluid">
+<div class="container-fluid olimp bg<?= rand(1, 3) ?>">
     <p align="right"><?= $olympic->olympicOneLast->eduLevelString ?></p>
     <h1 align="center"><?= Html::encode($this->title) ?></h1>
     <div class="row">
