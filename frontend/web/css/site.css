@@ -804,7 +804,7 @@ input.break {
     background-color: #ce37d4;
 }
 
-.certificate-place{
+.certificate-place {
     background-color: #075376;
 }
 
@@ -875,6 +875,10 @@ input.break {
     min-height: 300px;
 }
 
-.breadcrumb{
+.breadcrumb {
     margin-top: 30px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
 }
