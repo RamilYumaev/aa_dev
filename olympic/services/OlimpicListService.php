@@ -86,7 +86,6 @@ class OlimpicListService
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
         $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null,  $olympic->id);
-        try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->repository->save($model);
                 if ($form->competitiveGroupsList) {
@@ -104,9 +103,6 @@ class OlimpicListService
                     }
                 }
             });
-        } catch (\Exception $e) {
-        }
-
         return $model;
     }
 
