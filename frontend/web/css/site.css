@@ -876,8 +876,15 @@ input.break {
 }
 
 .breadcrumb {
-    margin-top: 30px;
+    margin-top: 50px;
 }
+
+@media (min-width: 768px) {
+    .breadcrumb {
+        margin-top: 50px;
+    }
+}
+
 
 .mb-50 {
     margin-bottom: 50px;
