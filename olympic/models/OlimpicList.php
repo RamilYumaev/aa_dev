@@ -194,6 +194,10 @@ class OlimpicList extends \yii\db\ActiveRecord
     public function olympicRelation($id) {
       return  self::find()->where(['olimpic_id' => $id]);
     }
+
+    public function olympicListRelation($id) {
+        return  self::find()->where(['id' => $id]);
+    }
     
     public function getEduLevelString () {
         return $this->edu_level_olymp ? OlympicHelper::levelOlimpName($this->edu_level_olymp) : 'Данные обновляются.';

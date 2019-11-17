@@ -4,9 +4,11 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-\frontend\assets\AddSchoolAsset::register($this);
+\frontend\assets\UpdateSchoolAsset::register($this);
+$this->title = 'Учебные организации';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<div class="container">
 <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
 
     <?= $form->field($model->schoolUser, 'check_region_and_country_school')->checkbox(); ?>
@@ -34,5 +36,13 @@ use yii\helpers\Html;
 
     <?= $form->field($model,  'region_id')->hiddenInput()->label('') ?>
 
+    <?= $form->field($model->schoolUser,  'school')->hiddenInput()->label('') ?>
+
+    <?= $form->field($model->schoolUser,  'region_school')->hiddenInput()->label('') ?>
+
+    <?= $form->field($model->schoolUser,  'country_school')->hiddenInput()->label('') ?>
+
+
 <?php ActiveForm::end(); ?>
 
+</div>

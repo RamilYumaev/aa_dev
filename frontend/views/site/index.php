@@ -39,6 +39,8 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
         </div>
 
+    <
+
 
 <!--        <div class="col-md-2" align="center">-->
 <!--            --><?php //if (!Yii::$app->user->isGuest) {
@@ -80,6 +82,14 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 //        } ?>
 <!--    </div>-->
 <!--</div>-->
+
+<div class="row mt-50">
+    <div class="col-md-12">
+        <?php if (!Yii::$app->user->isGuest) : ?>
+            <?= \frontend\widgets\olympic\UserOlympicListWidget::widget(); ?>
+       <?php endif; ?>
+    </div>
+</div>
 
 
 <?php if (Yii::$app->user->isGuest): ?>

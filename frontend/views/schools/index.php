@@ -11,10 +11,16 @@ use common\auth\models\UserSchool;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\helpers\DictClassHelper;
 
+
 $this->title = 'Учебные организации';
 $this->params['breadcrumbs'][] = $this->title;
+$isOlympicUser = Yii::$app->user->identity->isUserOlympic();
 ?>
 <div class="container">
+    <?php if ($isOlympicUser) : ?>
+        <?= Yii::$app->session->setFlash('warning', 'Вы не сможете добавлять/редактировать учебные организации, 
+        так как у вас имеются записи олимпиады на '. \common\helpers\EduYearHelper::eduYear()) ?>
+    <?php endif; ?>
 <div class="row">
     <div class="col-md-7">
     <?= GridView::widget([
@@ -26,19 +32,26 @@ $this->params['breadcrumbs'][] = $this->title;
                             return DictSchoolsHelper::schoolName($model->school_id);
                         },
                     ],
-
                     ['attribute' => 'class_id',
                         'value' => function (UserSchool $model) {
                             return DictClassHelper::classFullName($model->class_id);
                         },
                     ],
                     'edu_year',
-//                    ['class' => ActionColumn::class,
-//                        'template' => '{update}',
-//                    ],
+                    ['class' => ActionColumn::class,
+                        'template' => '{update}',
+                    'buttons' => [
+                        'update' => function ($url, $model) {
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-edit"></span>',
+                                $url);
+                        },
+                    ]
                 ]
-            ]); ?>
+            ]
+    ]); ?>
     </div>
+
     <div class="col-md-5">
         <?= $this->render('_form', ['model' => $model]) ?>
     </div>

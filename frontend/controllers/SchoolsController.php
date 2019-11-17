@@ -6,8 +6,10 @@ namespace frontend\controllers;
 use common\auth\readRepositories\UserSchoolReadRepository;
 use dictionary\readRepositories\DictSchoolsReadRepository;
 use olympic\forms\auth\SchooLUserCreateForm;
+use olympic\forms\auth\SchooLUserEditForm;
 use olympic\services\UserSchoolService;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use Yii;
 
@@ -61,5 +63,63 @@ class SchoolsController extends Controller
             ['dataProvider' => $dataProvider,
             'model' => $form]);
 
+    }
+
+    /*
+      * @param $id
+      * @return mixed
+      * @throws NotFoundHttpException
+    */
+
+    public function actionUpdate($id) {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = $this->find($id);
+        $form = new SchooLUserCreateForm($model);
+
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                //$this->service->signup($form);
+                $this->redirect('index');
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        return $this->render('update',
+            ['model' => $form]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        try {
+            $this->service->remove($id, Yii::$app->user->id);
+            Yii::$app->session->setFlash('success', 'Успешно отменена');
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
+    /*
+      * @param $id
+      * @return mixed
+      * @throws NotFoundHttpException
+    */
+    protected function find($id)
+    {
+        if (($model = $this->userSchoolReadRepository->getUserSchool($id, Yii::$app->user->id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -67,7 +67,7 @@ class OlympicRegisterUserService
             $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, $user->id);
             $this->userSchoolRepository->save($userSchool);
 
-            $userOlympic = $this->newUserOlimpiads($form->_olympic->olympicOneLast->id, $user->id);
+            $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
             $this->userOlimpiadsRepository->save($userOlympic);
 
             $this->sendEmail($user);
