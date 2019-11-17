@@ -889,3 +889,7 @@ input.break {
 .mb-50 {
     margin-bottom: 50px;
 }
+
+.alert {
+    margin-bottom: 0 !important;
+}

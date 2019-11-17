@@ -46,7 +46,8 @@ class DodController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
-                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. Пожалуйста, проверьте ваш почтовый ящик для проверки электронной почты.');
+                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. 
+                Вам отправлено письмо. Для активации учетной записи, пожалуйста, следуйте инструкциям в письме.');
                 $this->redirect('index');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

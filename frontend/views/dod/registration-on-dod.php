@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $form->field($model, 'dateDodId')->hiddenInput()->label('') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Записаться и создать личный кабинет', ['class' => 'btn btn-success']) ?>
     </div>
 
 <?php ActiveForm::end(); ?>

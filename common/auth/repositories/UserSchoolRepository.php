@@ -4,6 +4,7 @@ namespace common\auth\repositories;
 
 use common\auth\models\UserSchool;
 use common\helpers\EduYearHelper;
+use yii\helpers\Html;
 
 class UserSchoolRepository
 {
@@ -18,7 +19,8 @@ class UserSchoolRepository
     public function getSchooLUser($user_id): UserSchool
     {
         if (!$model = UserSchool::findOne(['user_id' => $user_id, 'edu_year' => EduYearHelper::eduYear()])) {
-            throw new \DomainException('У вас нет записи учебной организации на '.EduYearHelper::eduYear(). ' уч. год!');
+            throw new \DomainException('Для записи на олимпиаду необходимо актуализировать информацию в разделе 
+            '.Html::a('"Ваша учебная организация"', '/schools').' на '.EduYearHelper::eduYear(). ' уч. год!');
         }
         return $model;
     }

@@ -36,7 +36,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    require_once ('_menu.php');
+    require_once('_menu.php');
     ?>
     <div class="pl-50 mt-30 gray">
         <?= Breadcrumbs::widget([
@@ -44,12 +44,12 @@ AppAsset::register($this);
         ]) ?>
     </div>
     <div class="container-fluid">
-        <?= Alert::widget() ?>
+            <?= Alert::widget() ?>
         <?= $content ?>
     </div>
 </div>
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+<?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or !$_SERVER['HTTP_HOST'] == 'st.3profi.ru')) : ?>
 
 
     <!-- VK Widget -->

@@ -33,15 +33,13 @@ AppAsset::register($this);
     require_once('_menu.php');
     ?>
 
-    <div class="container-fluid mb-50">
+    <div class="container-fluid mt-30">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
     </div>
-    <div class="container">
         <?= $content ?>
-    </div>
 </div>
 
 <footer class="footer">

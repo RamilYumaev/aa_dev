@@ -60,7 +60,7 @@ use yii\captcha\Captcha;
     <?= $form->field($model, 'idOlympic')->hiddenInput()->label('') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Записаться и создать личный кабинет', ['class' => 'btn btn-success']) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
