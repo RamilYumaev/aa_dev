@@ -14,6 +14,7 @@ use dictionary\helpers\DictClassHelper;
 $this->title = 'Учебные организации';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="container">
 <div class="row">
     <div class="col-md-7">
     <?= GridView::widget([
@@ -41,4 +42,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-5">
         <?= $this->render('_form', ['model' => $model]) ?>
     </div>
+</div>
 </div>
