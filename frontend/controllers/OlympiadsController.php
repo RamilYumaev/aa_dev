@@ -72,11 +72,10 @@ class OlympiadsController extends Controller
    */
     protected function findOlympic($id)
     {
-        if (!$olympic = $this->repository->find($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
+        if (($model = $this->repository->find($id)) !== null) {
+            return $model;
         }
-
-        return $olympic;
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 
@@ -90,7 +89,7 @@ class OlympiadsController extends Controller
     public function actionOlympicOld($id)
     {
         if (!$olympic = $this->repository->findOldOlympic($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
 
         return $this->render('olympic-old', [

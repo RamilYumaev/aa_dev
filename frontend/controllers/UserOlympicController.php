@@ -35,7 +35,7 @@ class UserOlympicController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionRegistration($id, $home)
+    public function actionRegistration($id)
     {
         $this->isGuest();
         try {
@@ -45,14 +45,14 @@ class UserOlympicController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['olympiads/registration-on-olympiads', 'id' => $home]);
+          return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id, $home)
+    public function actionDelete($id)
     {
         $this->isGuest();
         try {
@@ -62,7 +62,7 @@ class UserOlympicController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['olympiads/registration-on-olympiads', 'id' => $home]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     protected function isGuest() {

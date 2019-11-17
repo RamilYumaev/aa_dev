@@ -7,6 +7,7 @@ namespace dictionary\models;
 use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
 use dictionary\forms\DictSpecialityCreateForm;
+use dictionary\helpers\DictCountryHelper;
 use dictionary\models\queries\DictSchoolsQuery;
 
 class DictSchools extends \yii\db\ActiveRecord
@@ -24,7 +25,7 @@ class DictSchools extends \yii\db\ActiveRecord
         $schools = new static();
         $schools->name = $name;
         $schools->country_id = $country_id;
-        $schools->region_id = $region_id;
+        $schools->region_id =  $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
         return $schools;
     }
 
@@ -32,7 +33,7 @@ class DictSchools extends \yii\db\ActiveRecord
     {
         $this->name = $name;
         $this->country_id = $country_id;
-        $this->region_id = $region_id;
+        $this->region_id =  $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
     }
 
     /**

@@ -67,7 +67,7 @@ class AuthHandler
                         $auth = $this->newAuth($user->id, $id);
                         $this->authRepository->save($auth);
 
-                        $profile = Profiles::create(null, $user->id);
+                        $profile = Profiles::createDefault($user->id);
                         $this->profileRepository->save($profile);
 
                         Yii::$app->user->login(new Identity($user), 1);
