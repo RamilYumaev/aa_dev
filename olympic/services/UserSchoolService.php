@@ -31,16 +31,31 @@ class UserSchoolService
 
     public function signup(SchooLUserCreateForm $form): void
     {
-
-        $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, \Yii::$app->user->id);
+        $userSchool = $this->newUserSchool($form, $form->schoolUser->class_id, \Yii::$app->user->id);
         $this->userSchoolRepository->save($userSchool);
-
     }
 
-    public function newUserSchool($school_id, $class_id, $user_id): UserSchool
+    public function update($id, SchooLUserCreateForm $form): void
+    {
+        $userSchool = $this->updateUserSchool($id, $form, $form->schoolUser->class_id, \Yii::$app->user->id);
+        $this->userSchoolRepository->save($userSchool);
+    }
+
+    public function updateUserSchool($id, SchooLUserCreateForm $form, $class_id, $user_id): UserSchool
+    {
+        $usSchool = $this->userSchoolRepository->get($id, $user_id);
+        $class = $this->classRepository->get($class_id);
+        $school_id = $this->newOrRenameSchoolId($form);
+
+        $usSchool->edit($school_id, $class->id);
+        return $usSchool;
+    }
+
+    public function newUserSchool(SchooLUserCreateForm $form, $class_id, $user_id): UserSchool
     {
         $class = $this->classRepository->get($class_id);
         $this->userSchoolRepository->isSchooLUser($user_id);
+        $school_id = $this->newOrRenameSchoolId($form);
         $userSchool = UserSchool::create($school_id, $user_id, $class->id);
         return $userSchool;
     }
@@ -48,7 +63,6 @@ class UserSchoolService
      public  function newOrRenameSchoolId(SchooLUserCreateForm $form) : int
      {
          $userSchoolForm =  $form->schoolUser;
-
          if($userSchoolForm->check_region_and_country_school &&
              $userSchoolForm->check_new_school &&
              $userSchoolForm->new_school) {
@@ -76,10 +90,9 @@ class UserSchoolService
          return $school->id;
      }
 
-    public function remover($school_id, $class_id, $user_id): void
+    public function remove($id, $user_id): void
     {
-        $class = $this->classRepository->get($class_id);
-        $this->userSchoolRepository->isSchooLUser($user_id);
-        $userSchool = UserSchool::create($school_id, $user_id, $class->id);
+        $usSchool = $this->userSchoolRepository->get($id, $user_id);
+        $this->userSchoolRepository->remove($usSchool);
     }
 }

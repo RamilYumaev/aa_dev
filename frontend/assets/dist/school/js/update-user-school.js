@@ -13,10 +13,11 @@ chRenSch.hide();
 var vaLCountry = $("#schoolusercreateform-country_id").val();
 var vaLRegion = $("#schoolusercreateform-region_id").val();
 
-var vaLCountrySchool = $("#schooluserupdateform-country_school").val();
-var vaLRegionSchool = $("#schooluserupdateform-region_school").val();
+var vaLCountrySchool = $("#schooluserupdateform-country_school_h").val();
+var vaLRegionSchool = $("#schooluserupdateform-region_school_h").val();
 var vaLSchool = $("#schooluserupdateform-school").val();
 console.log(vaLSchool);
+console.log(vaLCountry);
 console.log(vaLRegion);
 
 console.log(vaLCountrySchool);
@@ -183,12 +184,11 @@ $("#schooluserupdateform-region_school").on("change", function() {
     }
 });
 
-if (vaLCountry == vaLCountrySchool  && vaLRegionSchool == vaLRegion) {
-
+if ((vaLCountry == russia1 && vaLCountrySchool== russia1)  && vaLRegionSchool == vaLRegion) {
     $("#schooluserupdateform-school_id").val(vaLSchool);
-
-} else if(vaLCountry == vaLCountrySchool  && vaLRegionSchool != vaLRegion) {
-
+} if ((vaLCountry ==  vaLCountrySchool)) {
+        $("#schooluserupdateform-school_id").val(vaLSchool);
+} else if(vaLCountry == vaLCountrySchool  && (vaLRegionSchool && vaLRegion)) {
     countrySch.show();
     $("#schooluserupdateform-country_school").val(vaLCountrySchool);
     regionSch.show();
@@ -198,18 +198,24 @@ if (vaLCountry == vaLCountrySchool  && vaLRegionSchool == vaLRegion) {
     school.show();
     $("#schooluserupdateform-school_id").val(vaLSchool);
     $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
-} else if(vaLCountry = vaLCountrySchool) {
-
+} else if(vaLCountrySchool ==  russia1  && (vaLRegionSchool)) {
     countrySch.show();
     $("#schooluserupdateform-country_school").val(vaLCountrySchool);
     regionSch.show();
-
     $("#schooluserupdateform-region_school").val(vaLRegionSchool);
-
     dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
     dataAjax(dataParams);
     school.show();
-
+    $("#schooluserupdateform-school_id").val(vaLSchool);
+    $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
+}
+else if(vaLCountry != vaLCountrySchool && vaLRegionSchool != vaLRegion) {
+    countrySch.show();
+    $("#schooluserupdateform-country_school").val(vaLCountrySchool);
+    regionSch.hide();
+    dataParams = {country_id: vaLCountrySchool, region_id: null};
+    dataAjax(dataParams);
+    school.show();
     $("#schooluserupdateform-school_id").val(vaLSchool);
     $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
 

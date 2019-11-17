@@ -27,20 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model->schoolUser, 'class_id')->dropDownList($model->schoolUser->classFullNameList()) ?>
 
-    <div class="form-group">
-        <?php if(!Yii::$app->user->identity->isUserOlympic()) : ?>
-    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?php endif;  ?>
-    </div>
     <?= $form->field($model,  'country_id')->hiddenInput()->label('') ?>
 
     <?= $form->field($model,  'region_id')->hiddenInput()->label('') ?>
 
     <?= $form->field($model->schoolUser,  'school')->hiddenInput()->label('') ?>
 
-    <?= $form->field($model->schoolUser,  'region_school')->hiddenInput()->label('') ?>
+    <?= $form->field($model->schoolUser,  'region_school_h')->hiddenInput()->label('') ?>
 
-    <?= $form->field($model->schoolUser,  'country_school')->hiddenInput()->label('') ?>
+    <?= $form->field($model->schoolUser,  'country_school_h')->hiddenInput()->label('') ?>
+
+    <div class="form-group">
+        <?php if(!Yii::$app->user->identity->isUserOlympic()) : ?>
+    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?php endif;  ?>
+    </div>
+
 
 
 <?php ActiveForm::end(); ?>

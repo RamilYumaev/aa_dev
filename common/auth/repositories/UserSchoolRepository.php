@@ -16,6 +16,15 @@ class UserSchoolRepository
         }
     }
 
+    public function get($id, $user_id): UserSchool
+    {
+        if (!$user =  UserSchool::findOne(['user_id' => $user_id, 'id'=> $id])) {
+            throw new \DomainException('Такой записи нет.');
+        }
+        return $user;
+    }
+
+
     public function getSchooLUser($user_id): UserSchool
     {
         if (!$model = UserSchool::findOne(['user_id' => $user_id, 'edu_year' => EduYearHelper::eduYear()])) {
