@@ -6,7 +6,6 @@ namespace frontend\controllers;
 use common\auth\readRepositories\UserSchoolReadRepository;
 use dictionary\readRepositories\DictSchoolsReadRepository;
 use olympic\forms\auth\SchooLUserCreateForm;
-use olympic\forms\auth\SchooLUserEditForm;
 use olympic\services\UserSchoolService;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,7 +34,6 @@ class SchoolsController extends Controller
         return ['result' => $this->repository->getAllSchools($region_id, $country_id)];
 
     }
-
     public function actionIndex() {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
