@@ -26,6 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= \backend\widgets\dictionary\DateDocWidget::widget(['competitive_group_id'=> $competitiveGroup->id]) ?>
+    <?= \backend\widgets\dictionary\DisciplineComplectiveWidget::widget(['competitive_group_id'=> $competitiveGroup->id]) ?>
 
 </div>

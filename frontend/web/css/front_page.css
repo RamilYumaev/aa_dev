@@ -680,7 +680,7 @@ input.break {
     cursor: pointer;
 }
 
-.login-box-body #w0 {
+.login-box-body #w0, .login-box-body #w1 {
     margin: 0 auto;
     width: 138px;
 }
@@ -727,7 +727,7 @@ input.break {
     background-color: #ce37d4;
 }
 
-.certificate-place{
+.certificate-place {
     background-color: #075376;
 }
 

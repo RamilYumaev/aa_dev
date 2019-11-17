@@ -29,7 +29,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    require_once ('_menu.php');
+    require_once('_menu.php');
     ?>
 
     <div class="container-fluid mb-50">
@@ -37,6 +37,8 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+    </div>
+    <div class="container">
         <?= $content ?>
     </div>
 </div>
