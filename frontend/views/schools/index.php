@@ -19,7 +19,7 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
 <div class="container">
     <?php if ($isOlympicUser) : ?>
         <?= Yii::$app->session->setFlash('warning', 'Вы не сможете добавлять/редактировать учебные организации, 
-        так как у вас имеются записи олимпиады на '. \common\helpers\EduYearHelper::eduYear()) ?>
+        так как Вы записаны на '. \common\helpers\EduYearHelper::eduYear()) ?>
     <?php endif; ?>
 <div class="row">
     <div class="col-md-7">
@@ -38,17 +38,22 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
                         },
                     ],
                     'edu_year',
-                    ['class' => ActionColumn::class,
-                        'template' => '{update}',
-                    'buttons' => [
-                        'update' => function ($url, $model) {
-                            return Html::a(
-                                '<span class="glyphicon glyphicon-edit"></span>',
-                                $url);
-                        },
-                    ]
+                     ['class' => \yii\grid\ActionColumn::class,
+                     'template' => '{update} {delete}',
+                        'buttons' =>[
+                            'delete' => function ($url, $model) use ($isOlympicUser) {
+                               return !$isOlympicUser &&
+                                   $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
+                                   \yii\helpers\Html::a("Удалить", $url, ['data' => ['confirm' => 'Вы действительно хотите удалить запись ?', 'method' => 'POST']]) : "";
+                            },
+                            'update' => function ($url, $model)  use ($isOlympicUser){
+                                return !$isOlympicUser &&
+                                    $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
+                                    \yii\helpers\Html::a("Редактировать", $url, ['data-method'=>'post']) : "";
+                            }
+                        ]
+                    ],
                 ]
-            ]
     ]); ?>
     </div>
 

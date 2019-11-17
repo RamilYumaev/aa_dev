@@ -75,4 +75,11 @@ class UserSchoolService
          $this->schoolsRepository->save($school);
          return $school->id;
      }
+
+    public function remover($school_id, $class_id, $user_id): void
+    {
+        $class = $this->classRepository->get($class_id);
+        $this->userSchoolRepository->isSchooLUser($user_id);
+        $userSchool = UserSchool::create($school_id, $user_id, $class->id);
+    }
 }

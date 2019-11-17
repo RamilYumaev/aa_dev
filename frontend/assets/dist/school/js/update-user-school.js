@@ -184,5 +184,33 @@ $("#schooluserupdateform-region_school").on("change", function() {
 });
 
 if (vaLCountry == vaLCountrySchool  && vaLRegionSchool == vaLRegion) {
+
     $("#schooluserupdateform-school_id").val(vaLSchool);
+
+} else if(vaLCountry == vaLCountrySchool  && vaLRegionSchool != vaLRegion) {
+
+    countrySch.show();
+    $("#schooluserupdateform-country_school").val(vaLCountrySchool);
+    regionSch.show();
+    $("#schooluserupdateform-region_school").val(vaLRegionSchool);
+    dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
+    dataAjax(dataParams);
+    school.show();
+    $("#schooluserupdateform-school_id").val(vaLSchool);
+    $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
+} else if(vaLCountry = vaLCountrySchool) {
+
+    countrySch.show();
+    $("#schooluserupdateform-country_school").val(vaLCountrySchool);
+    regionSch.show();
+
+    $("#schooluserupdateform-region_school").val(vaLRegionSchool);
+
+    dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
+    dataAjax(dataParams);
+    school.show();
+
+    $("#schooluserupdateform-school_id").val(vaLSchool);
+    $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
+
 }

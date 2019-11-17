@@ -120,8 +120,8 @@ class OlimpicListController extends Controller
         $form = new OlimpicListCopyForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->copy($form);
-                return $this->redirect(['view', 'id'=> $model->id]);
+                 $copy = $this->service->copy($form);
+                return $this->redirect(['view', 'id'=> $copy->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -149,6 +149,7 @@ class OlimpicListController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionDelete($id)
     {
