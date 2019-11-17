@@ -28,7 +28,7 @@ class OlimpicReadRepository
         $query->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id');
         $query->select('o.name, o.id');
         $query->where(['o.status' => OlympicHelper::ACTIVE]);
-        $query->where(['ol.year' => EduYearHelper::eduYear() ]);
+        $query->andWhere(['ol.year' => EduYearHelper::eduYear() ]);
         return $this->getProvider($query);
     }
 
@@ -37,7 +37,8 @@ class OlimpicReadRepository
         return Olympic::find()
             ->alias('o')
             ->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id')
-            ->where(['o.status' => 0, 'o.id'=> $id])
+            ->where(['o.status' => OlympicHelper::ACTIVE, 'o.id'=> $id])
+            ->andWhere(['ol.year' => EduYearHelper::eduYear() ])
             ->one();
     }
 

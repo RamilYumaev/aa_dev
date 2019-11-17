@@ -6,10 +6,18 @@ use olympic\models\UserOlimpiads;
 
 class UserOlimpiadsRepository
 {
-    public function get($olympic_id, $user_id): UserOlimpiads
+    public function get($id): UserOlimpiads
+    {
+        if (!$model = UserOlimpiads::findOne($id)) {
+            throw new \DomainException('UserDod не найдено.');
+        }
+        return $model;
+    }
+
+    public function getOlympic($olympic_id, $user_id): UserOlimpiads
     {
         if (!$model = UserOlimpiads::findOne(['olympiads_id' => $olympic_id, 'user_id' => $user_id])) {
-            throw new \DomainException('UserDod не найдено.');
+            throw new \DomainException('UserOlimpiads не найдено.');
         }
         return $model;
     }

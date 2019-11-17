@@ -3,6 +3,7 @@
 namespace common\auth;
 
 use common\auth\models\User;
+use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
 
@@ -21,10 +22,20 @@ class Identity implements IdentityInterface
         return $user ? new self($user) : null;
     }
 
-
     public function getId(): int
     {
         return $this->user->id;
+    }
+
+    public function isUser(): int
+    {
+        return $this->user->id;
+    }
+
+    public function isUserOlympic()
+    {
+        $userOlimpic = $this->getOlympicRepository()->isEduYear($this->user->id);
+        return $userOlimpic;
     }
 
     public function getUsername(): string
@@ -50,6 +61,12 @@ class Identity implements IdentityInterface
     {
         return \Yii::$container->get(UserReadRepository::class);
     }
+
+    private static function getOlympicRepository(): UserOlympicReadRepository
+    {
+        return \Yii::$container->get(UserOlympicReadRepository::class);
+    }
+
 
     /**
      * Finds an identity by the given token.

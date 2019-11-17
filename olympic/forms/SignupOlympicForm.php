@@ -14,6 +14,7 @@ class SignupOlympicForm extends CompositeForm
 {
     private $_olympic;
     public $idOlympic;
+
     public function __construct(Olympic $olympic, $config = [])
     {
         $this->_olympic = $olympic;

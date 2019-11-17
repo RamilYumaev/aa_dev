@@ -30,6 +30,19 @@ class Profiles extends \yii\db\ActiveRecord
         return $profile;
     }
 
+    public static function createDefault($user_id)
+    {
+        $profile = new static();
+        $profile->last_name = "";
+        $profile->first_name = "";
+        $profile->patronymic = "";
+        $profile->phone = "";
+        $profile->country_id = null;
+        $profile->region_id = null;
+        $profile->user_id = $user_id;
+        return $profile;
+    }
+
     public function edit(ProfileEditForm $form)
     {
         $this->last_name = $form->last_name;

@@ -14,6 +14,11 @@ class UserSchoolReadRepository
         return $this->getProvider($query);
     }
 
+    public function getUserSchool($id, $user_id)
+    {
+        $query = UserSchool::findOne(['id' => $id,'user_id' => $user_id]);
+        return $query;
+    }
 
     private function getProvider(\yii\db\ActiveQuery $query): \yii\data\ActiveDataProvider
     {

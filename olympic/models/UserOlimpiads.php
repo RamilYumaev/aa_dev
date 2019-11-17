@@ -6,7 +6,13 @@ namespace olympic\models;
 
 class UserOlimpiads extends \yii\db\ActiveRecord
 {
+    private $_olimpicList;
 
+    public function __construct($config = [])
+    {
+        $this->_olimpicList = new OlimpicList();
+        parent::__construct($config);
+    }
 
     public static function create($olympiads_id, $user_id)
     {
@@ -16,6 +22,11 @@ class UserOlimpiads extends \yii\db\ActiveRecord
 
         return $olimpicUser;
     }
+
+    public function getOlympicOne() {
+        return $this->_olimpicList->olympicListRelation($this->olympiads_id)->one();
+    }
+
 
     /**
      * {@inheritdoc}

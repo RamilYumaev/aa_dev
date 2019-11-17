@@ -34,8 +34,8 @@ class UserOlimpiadsService
         $this->repository->save($userOlympic);
     }
 
-    public function remove($olympic_id, $user_id) {
-        $userOlympic = $this->repository->get($olympic_id, $user_id);
+    public function remove($id) {
+        $userOlympic = $this->repository->get($id);
         $this->repository->remove($userOlympic);
     }
 

@@ -3,7 +3,8 @@
 
 namespace common\auth\services;
 
-use olympic\forms\SignupOlympicForm;
+use olympic\models\auth\Profiles;
+use olympic\repositories\auth\ProfileRepository;
 use Yii;
 use common\auth\forms\SignupForm;
 use common\auth\models\User;
@@ -15,14 +16,17 @@ class SignupService
 {
     private $users;
     private $transaction;
+    private $profileRepository;
 
     public function __construct(
         UserRepository $users,
-        TransactionManager $transaction
+        TransactionManager $transaction,
+        ProfileRepository $profileRepository
     )
     {
         $this->users = $users;
         $this->transaction = $transaction;
+        $this->profileRepository = $profileRepository;
     }
 
     public function signup(SignupForm $form): void
@@ -30,6 +34,10 @@ class SignupService
         $this->transaction->wrap(function () use ($form) {
             $user = $this->newUser($form);
             $this->users->save($user);
+
+            $profile = $this->newProfile($user->id);
+            $this->profileRepository->save($profile);
+
             $this->sendEmail($user);
         });
     }
@@ -38,6 +46,12 @@ class SignupService
     {
         $user = User::requestSignup($form);
         return $user;
+    }
+
+    public function newProfile($user_id): Profiles
+    {
+        $profile = Profiles::createDefault($user_id);
+        return $profile;
     }
 
     public function confirm($token): void
