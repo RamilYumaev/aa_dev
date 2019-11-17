@@ -29,6 +29,12 @@ class UserSchool extends ActiveRecord
         return $userSchool;
     }
 
+    public function edit($school_id, $class_id)
+    {
+        $this->school_id = $school_id;
+        $this->class_id = $class_id;
+    }
+
     /**
      * {@inheritdoc}
      */

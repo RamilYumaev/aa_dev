@@ -1,10 +1,6 @@
 <?php
 
-
 namespace frontend\components;
-
-
-
 
 use common\auth\Identity;
 use common\auth\models\Auth;
@@ -16,7 +12,6 @@ use olympic\forms\auth\UserCreateForm;
 use olympic\models\auth\Profiles;
 use olympic\repositories\auth\ProfileRepository;
 use yii\authclient\ClientInterface;
-use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use Yii;
 

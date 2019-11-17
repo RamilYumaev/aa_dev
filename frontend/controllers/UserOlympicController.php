@@ -56,7 +56,7 @@ class UserOlympicController extends Controller
     {
         $this->isGuest();
         try {
-            $this->service->remove($id, Yii::$app->user->id);
+            $this->service->remove($id);
             Yii::$app->session->setFlash('success', 'Успешно отменена');
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

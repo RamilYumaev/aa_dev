@@ -17,6 +17,8 @@ class SchoolUserUpdateForm extends  Model
     public $region_school;
     public $school_id;
     public $country_school;
+    public $region_school_h;
+    public $country_school_h;
     public $new_school;
     public $check_region_and_country_school;
     public $check_new_school;
@@ -30,8 +32,8 @@ class SchoolUserUpdateForm extends  Model
         $this->class_id = $userSchool->class_id;
         $this->school = $userSchool->school_id;
         $school = (new DictSchoolsRepository())->get($userSchool->school_id);
-        $this->country_school = $school->country_id;
-        $this->region_school = $school->region_id;
+        $this->country_school_h = $school->country_id;
+        $this->region_school_h = $school->region_id;
 
         parent::__construct($config);
     }
