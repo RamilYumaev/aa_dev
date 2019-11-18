@@ -78,7 +78,7 @@ class DictCompetitiveGroupService
         foreach ($model->all() as $currentCg) {
             $result[] = [
                 'id' => $currentCg->id,
-                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->edu_level,
+                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
                     $currentCg->speciality_id,
                     $currentCg->specialization_id,
                     $currentCg->faculty_id, $currentCg->education_form_id),

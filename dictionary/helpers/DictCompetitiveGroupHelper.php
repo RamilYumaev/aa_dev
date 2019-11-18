@@ -4,6 +4,7 @@
 namespace dictionary\helpers;
 
 
+use common\helpers\EduYearHelper;
 use dictionary\models\DictCompetitiveGroup;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
@@ -117,7 +118,7 @@ class DictCompetitiveGroupHelper
         return ArrayHelper::map(DictCompetitiveGroup::find()->all(), "id", 'name');
     }
 
-    public static function getFullName($edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id)
+    public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id)
     {
         $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
         $speciality = DictSpecialityHelper::specialityName($speciality_id);
@@ -125,7 +126,8 @@ class DictCompetitiveGroupHelper
         $faculty = DictFacultyHelper::facultyName($faculty_id);
         $form_edu = self::formName($education_form_id);
 
-        return $edu_level
+        return $year
+            . " / " .$edu_level
             . " / " . $faculty
             . " / " . $speciality
             . " / " . $specialization
