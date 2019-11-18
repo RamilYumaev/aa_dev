@@ -20,6 +20,12 @@ class ProfileEditForm extends Model
     public function __construct($config = [])
     {
         $user = Yii::$app->user->identity->getId();
+
+        if (!Profiles::findOne(['user_id' => $user])) {
+            $profile = Profiles::createDefault($user);
+            $profile->save();
+        }
+        
         $this->_profile = Profiles::findOne(['user_id' => $user]);
         $this->last_name = $this->_profile->last_name;
         $this->first_name = $this->_profile->first_name;
