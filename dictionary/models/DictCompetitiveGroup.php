@@ -38,6 +38,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->competition_count = $form->competition_count;
         $competitiveGroup->education_duration = $form->education_duration;
         $competitiveGroup->link = $form->link;
+        $competitiveGroup->year = $form->year;
         return $competitiveGroup;
     }
 
@@ -57,6 +58,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->competition_count = $form->competition_count;
         $this->education_duration = $form->education_duration;
         $this->link = $form->link;
+        $this->year = $form->year;
     }
 
     /**
@@ -79,6 +81,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'is_new_program' => 'Новая программа',
             'only_pay_status' => 'Только на платной основе',
             'education_duration' => 'Срок обучения',
+            'year'=> 'Учебный год',
         ];
     }
 

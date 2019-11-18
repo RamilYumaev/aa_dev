@@ -39,7 +39,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
         </div>
 
-    <
+
 
 
 <!--        <div class="col-md-2" align="center">-->

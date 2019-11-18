@@ -12,7 +12,7 @@
             'buttons' =>[
                 'delete' => function ($url, $model) {
                    return $model->olympicOne->year == \common\helpers\EduYearHelper::eduYear() ?
-                       \yii\helpers\Html::a("Снять запись", $url,  ['data' => ['confirm' => 'Вы действительно хотите отменить запись ?', 'method' => 'POST']]) : "";
+                       \yii\helpers\Html::a("Отменить запись", $url,  ['data' => ['confirm' => 'Вы действительно хотите отменить запись ?', 'method' => 'POST']]) : "";
                 }
             ]
         ],

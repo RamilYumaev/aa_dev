@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = 'Обновить';
     <div class="box box-default">
         <div class="box-body">
 
+            <?= $form->field($model, 'year')->dropDownList($model->yearList()) ?>
+
             <?= $form->field($model, 'speciality_id')->dropDownList($model->specialityNameAndCodeList(),['prompt'=> 'Выберите направление подготовки']) ?>
 
             <?= $form->field($model, 'specialization_id')->dropDownList($model->specializationList(), ['prompt'=> 'Выберите образовательную программу']) ?>

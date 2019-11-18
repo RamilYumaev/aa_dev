@@ -9,10 +9,10 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
-    'name'=> "АИС Абитуриент",
+    'name' => "АИС Абитуриент",
     'aliases' => [
         '@staticRoot' => $params['staticPath'],
-        '@static'   => $params['staticHostInfo'],
+        '@static' => $params['staticHostInfo'],
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -71,15 +71,17 @@ return [
             ],
         ],
 
+        'as access' => [
+            'class' => 'yii\filters\AccessControl',
+            'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['manager', 'olymp_operator', 'rbac']
+                ]
+            ]],
+
     ],
-    'as access' => [
-        'class' => 'yii\filters\AccessControl',
-        'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
-        'rules' => [
-            [
-                'allow' => true,
-                'roles' => ['manager', 'olymp_operator','rbac']
-            ]
-        ]],
+
     'params' => $params,
 ];

@@ -26,6 +26,7 @@ $fieldOptions2 = [
     <!-- /.login-logo -->
     <div class="login-box-body">
         <?= Alert::widget() ?>
+        <p align="center"><strong>АИС "Абитуриент"</strong></p>
         <p class="login-box-msg">Войдите в систему</p>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
