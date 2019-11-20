@@ -48,4 +48,43 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionClearCache()
+    {
+        $frontendAssets = Yii::getAlias("@frontend") . "/web/assets";
+        $backendAssets = Yii::getAlias("@backend") . "/web/assets";
+
+        $this->removeDir($frontendAssets);
+        $this->removeDir($backendAssets);
+
+        $this->makeDir($frontendAssets);
+        $this->makeDir($backendAssets);
+
+        return "Папки assets очищены";
+
+
+    }
+
+    private function removeDir($dir)
+    {
+        $files = array_diff(scandir($dir), ['..', '.']);
+
+        foreach ($files as $file) {
+            $path = $dir . "/" . $file;
+            if (is_dir($path)) {
+                $this->removeDir($path);
+            } else {
+                unlink($path);
+            }
+        }
+
+        if (!rmdir($dir)) {
+            die("Не удалось закончить операцию удаления!");
+        };
+    }
+
+    private function makeDir($dir)
+    {
+        mkdir($dir);
+    }
 }
