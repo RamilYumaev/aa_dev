@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use frontend\widgets\olympictemplates\OlympicTemplatesWidget;
 use frontend\widgets\olympicold\OlympicOldWidget;
+use frontend\widgets\olympic\OlympicResultWidget;
 use frontend\widgets\olympic\UserOlympicWidget;
 
 /* @var $this yii\web\View */
@@ -42,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-5">
             <div class="control-panel">
                 <?= OlympicTemplatesWidget::widget(['model' => $olympic->olympicOneLast]) ?>
+                <?= OlympicResultWidget::widget(['model' => $olympic->olympicOneLast]) ?>
                 <?= OlympicOldWidget::widget(['model' => $olympic]) ?>
                 <?php if (!Yii::$app->user->isGuest && $olympic->olympicOneLast->isOnRegisterOlympic) : ?>
                     <?= UserOlympicWidget::widget(['model' => $olympic->olympicOneLast]) ?>

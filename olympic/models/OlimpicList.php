@@ -299,4 +299,36 @@ class OlimpicList extends \yii\db\ActiveRecord
         ];
     }
 
+    public function isFormOfPassageInternal () {
+        return $this->form_of_passage == OlympicHelper::OCHNAYA_FORMA;
+    }
+
+    public function isFormOfPassageDistant () {
+        return $this->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA;
+    }
+
+    public function isFormOfPassageDistantInternal () {
+        return $this->form_of_passage == OlympicHelper::OCHNO_ZAOCHNAYA_FORMA;
+    }
+
+    public function isFormOfPassageDistantInternalDistant () {
+        return $this->form_of_passage == OlympicHelper::ZAOCHNO_OCHO_ZAOCHNAYA;
+    }
+
+    public function isFormOfPassageDistantDistant () {
+        return $this->form_of_passage == OlympicHelper::ZAOCHNO_ZAOCHNAYA;
+    }
+
+
+    public function isResultDistanceTour() {
+       return $this->current_status &&
+        ($this->isFormOfPassageDistant()
+            || $this->isFormOfPassageDistantInternal());
+    }
+
+    public function isResultEndTour() {
+        return $this->current_status == OlympicHelper::OCH_FINISH;
+    }
+
+
 }
