@@ -1,12 +1,18 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model \olympic\models\OlimpicList */
-/* @var $allTemplates \dictionary\models\OlimpiadsTypeTemplates */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
 use dictionary\helpers\TemplatesHelper;
-?>
+
+//$v = \dictionary\models\OlimpiadsTypeTemplates::find()->templatesOlympicTypeAllNoSpecial($model->number_of_tours,
+//    $model->form_of_passage,
+//    $model->edu_level_olymp, $model->year)->all();
+//   echo  ' dfd ';
+//    var_dump(\dictionary\models\OlimpiadsTypeTemplates::find()->templatesOlympicTypeAllSpecial($model->id,  $model->year)->count());
+
+    ?>
 
 <?php if ($allTemplates && !$model->prefilling) : ?>
 <div>

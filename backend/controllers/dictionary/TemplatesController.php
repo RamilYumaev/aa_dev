@@ -4,6 +4,7 @@
 namespace backend\controllers\dictionary;
 
 
+use dictionary\forms\TemplatesCopyForm;
 use dictionary\forms\TemplatesCreateForm;
 use dictionary\forms\TemplatesEditForm;
 use dictionary\forms\search\TemplatesSearch;
@@ -93,6 +94,31 @@ class TemplatesController extends Controller
             'template' => $model,
         ]);
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionCopy($id)
+    {
+        $model = $this->findModel($id);
+        $form = new TemplatesCopyForm($model);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->copy($form);
+                return $this->redirect(['index']);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('copy', [
+            'model' => $form,
+            'template' => $model,
+        ]);
+    }
+
 
     /**
      * @param integer $id

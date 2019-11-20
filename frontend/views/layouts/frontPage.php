@@ -22,7 +22,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+    <?php if (!($_SERVER['HTTP_HOST'] == '127.0.0.1:8080' or $_SERVER['HTTP_HOST'] == 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
 
         <script src="https://vk.com/js/api/openapi.js?159" type="text/javascript"></script>
 
@@ -47,8 +47,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru' or $_SERVER['HTTP_HOST'] === '127.0.0.1:8080')) : ?>
-
+<?php if (!( $_SERVER['HTTP_HOST'] == '127.0.0.1:8080' or $_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru' )): ?>
 
     <!-- VK Widget -->
     <div id="vk_community_messages"></div>
@@ -67,7 +66,7 @@ AppAsset::register($this);
 </footer>
 
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+<?php if (!($_SERVER['HTTP_HOST'] == '127.0.0.1:8080' or $_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function (d, w, c) {

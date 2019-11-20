@@ -12,6 +12,8 @@ use yii\widgets\ActiveForm;
 <div>
     <?php $form = ActiveForm::begin(['id' => 'form-olympiads-type-templates', 'enableAjaxValidation' => true]); ?>
 
+    <?= $form->field($model, 'year')->dropDownList($model->years()) ?>
+
     <?= $form->field($model, 'number_of_tours')->dropDownList($model->numberOfTours()) ?>
 
     <?= $form->field($model, 'form_of_passage')->dropDownList($model->formOfPassage()) ?>

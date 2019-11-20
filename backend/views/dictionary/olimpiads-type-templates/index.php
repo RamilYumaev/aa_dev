@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return TemplatesHelper::templatesName($model->template_id);
                     },
                 ],
+                'year',
             ['class' => \yii\grid\ActionColumn::class,
                 'template' => '{update} {delete}',
                 'buttons' => [

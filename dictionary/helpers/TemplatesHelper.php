@@ -34,7 +34,9 @@ class TemplatesHelper
 
     public static function templatesList(): array
     {
-        return ArrayHelper::map(Templates::find()->all(), "id", 'name');
+        return ArrayHelper::map(Templates::find()->orderBy(['year' => SORT_DESC])->asArray()->all(), "id", function (array $model){
+             return $model['name'] .' ('.$model['year'].')';
+        });
     }
 
     public static function templatesName($key): string

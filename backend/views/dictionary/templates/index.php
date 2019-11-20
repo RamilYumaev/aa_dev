@@ -30,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             return \dictionary\helpers\TemplatesHelper::typeTemplateName($model->type_id);
                         },
                     ],
+                    ['format' =>'raw',
+                            'value'=> function($model) {
+                         return Html::a("Копировать", ['copy', 'id'=> $model->id], ['class'=> 'btn btn-info']);
+                    }],
                     ['class' => ActionColumn::class,
                         'template'=>'{update} {delete}'],
                 ]
