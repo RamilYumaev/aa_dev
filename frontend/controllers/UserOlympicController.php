@@ -3,6 +3,7 @@
 
 namespace frontend\controllers;
 
+use frontend\components\UserNoEmail;
 use olympic\models\OlimpicList;
 use olympic\services\UserOlimpiadsService;
 use yii\filters\VerbFilter;
@@ -29,6 +30,11 @@ class UserOlympicController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
     }
 
     /**

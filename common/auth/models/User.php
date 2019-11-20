@@ -3,6 +3,7 @@
 namespace common\auth\models;
 
 use common\auth\forms\SignupForm;
+use common\auth\forms\UserEmailForm;
 use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
 use common\auth\helpers\UserHelper;
@@ -71,6 +72,13 @@ class User extends ActiveRecord
     public function edit(UserEditForm $form): void
     {
         $this->username = $form->username;
+        $this->email = $form->email;
+        $this->updated_at = time();
+    }
+
+
+    public function addEmail(UserEmailForm $form): void
+    {
         $this->email = $form->email;
         $this->updated_at = time();
     }

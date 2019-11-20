@@ -6,6 +6,7 @@ namespace frontend\controllers;
 use dod\forms\SignupDodForm;
 use dod\readRepositories\DateDodReadRepository;
 use dod\services\DodRegisterUserService;
+use frontend\components\UserNoEmail;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -22,6 +23,12 @@ class DodController extends Controller
         $this->repository = $repository;
         $this->service = $service;
     }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
+    }
+
 
     /**
      * @return mixed

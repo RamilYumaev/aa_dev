@@ -4,6 +4,7 @@
 namespace frontend\controllers;
 
 use dod\services\UserDodService;
+use frontend\components\UserNoEmail;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -28,6 +29,11 @@ class UserDodController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+       return (new UserNoEmail())->redirect();
     }
 
     /**

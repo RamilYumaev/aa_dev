@@ -43,6 +43,11 @@ class Identity implements IdentityInterface
         return $this->user->username;
     }
 
+    public function getEmail()
+    {
+        return $this->user->email;
+    }
+
     public function checkUserCredentials($username, $password): bool
     {
         if (!$user = self::getRepository()->findActiveByUsername($username)) {

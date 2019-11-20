@@ -3,6 +3,7 @@
 
 namespace frontend\controllers;
 
+use frontend\components\UserNoEmail;
 use olympic\forms\SignupOlympicForm;
 use olympic\readRepositories\OlimpicReadRepository;
 use olympic\services\OlympicRegisterUserService;
@@ -21,6 +22,11 @@ class OlympiadsController extends Controller
         parent::__construct($id, $module, $config);
         $this->repository = $repository;
         $this->service = $service;
+    }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
     }
 
     /**

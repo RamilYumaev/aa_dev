@@ -5,6 +5,7 @@ namespace frontend\controllers;
 
 use common\auth\readRepositories\UserSchoolReadRepository;
 use dictionary\readRepositories\DictSchoolsReadRepository;
+use frontend\components\UserNoEmail;
 use olympic\forms\auth\SchooLUserCreateForm;
 use olympic\services\UserSchoolService;
 use yii\web\Controller;
@@ -34,6 +35,13 @@ class SchoolsController extends Controller
         return ['result' => $this->repository->getAllSchools($region_id, $country_id)];
 
     }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
+    }
+
+
     public function actionIndex() {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
