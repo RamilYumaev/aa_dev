@@ -4,6 +4,7 @@
 namespace dictionary\services;
 
 
+use dictionary\forms\TemplatesCopyForm;
 use dictionary\forms\TemplatesCreateForm;
 use dictionary\forms\TemplatesEditForm;
 use dictionary\models\Templates;
@@ -21,6 +22,13 @@ class TemplatesService
     public function create(TemplatesCreateForm $form)
     {
         $model = Templates::create($form);
+        $this->repository->save($model);
+        return $model;
+    }
+
+    public function copy(TemplatesCopyForm $form)
+    {
+        $model = Templates::copy($form);
         $this->repository->save($model);
         return $model;
     }

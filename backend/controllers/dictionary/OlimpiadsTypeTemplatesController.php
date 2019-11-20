@@ -77,16 +77,13 @@ class OlimpiadsTypeTemplatesController extends Controller
     }
 
     /**
-     * @param $number_of_tours
-     * @param $form_of_passage
-     * @param $edu_level_olimp
-     * @param $template_id
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id);
+        $model = $this->findModel($id);
         $form = new OlimpiadsTypeTemplatesEditForm($model);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -94,7 +91,7 @@ class OlimpiadsTypeTemplatesController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($form, $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id);
+                $this->service->edit($form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -108,33 +105,26 @@ class OlimpiadsTypeTemplatesController extends Controller
     }
 
     /**
-     * @param $number_of_tours
-     * @param $form_of_passage
-     * @param $edu_level_olimp
-     * @param $template_id
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id): OlimpiadsTypeTemplates
+    private function findModel($id): OlimpiadsTypeTemplates
     {
-        if (($model = OlimpiadsTypeTemplates::findOne(['number_of_tours'=>$number_of_tours,
-                'form_of_passage'=>$form_of_passage, 'edu_level_olimp'=>$edu_level_olimp, 'template_id'=> $template_id])) !== null) {
+        if (($model = OlimpiadsTypeTemplates::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     /**
-     * @param $number_of_tours
-     * @param $form_of_passage
-     * @param $edu_level_olimp
-     * @param $template_id
+     * @param $id
      * @return mixed
      */
-    public function actionDelete($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id)
+    public function actionDelete($id)
     {
         try {
-            $this->service->remove($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id);
+            $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

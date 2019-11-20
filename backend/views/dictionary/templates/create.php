@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="box box-default">
         <div class="box-body">
+            <?= $form->field($model, 'year')->dropDownList($model->years()) ?>
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

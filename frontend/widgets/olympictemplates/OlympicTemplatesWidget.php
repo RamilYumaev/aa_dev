@@ -16,17 +16,23 @@ class OlympicTemplatesWidget extends Widget
      */
     public function run()
     {
-        $olympTypeTemplates = OlimpiadsTypeTemplates::find();
-        $olympTypeTemplatesSpecial = $olympTypeTemplates->templatesOlympicTypeAllSpecial($this->model->id);
-        if ($olympTypeTemplatesSpecial) {
-            $allTemplates = $olympTypeTemplatesSpecial;
+        if ($this->olympicTypeTemplatesSpecial()->exists()) {
+            $allTemplates = $this->olympicTypeTemplatesSpecial();
         } else {
-            $allTemplates = $olympTypeTemplates->templatesOlympicTypeAllNoSpecial($this->model->number_of_tours,
-                $this->model->form_of_passage, $this->model->edu_level_olymp);
+            $allTemplates = $this->olympicTypeTemplatesNoSpecial();
         }
         return $this->render($this->view, [
-             'allTemplates' => $allTemplates,
+             'allTemplates' => $allTemplates->all(),
               'model' => $this->model
         ]);
+    }
+
+    private function olympicTypeTemplatesNoSpecial() {
+        return OlimpiadsTypeTemplates::find()->templatesOlympicTypeAllNoSpecial($this->model->number_of_tours,
+            $this->model->form_of_passage, $this->model->edu_level_olymp, $this->model->year);
+    }
+
+    private function olympicTypeTemplatesSpecial() {
+        return OlimpiadsTypeTemplates::find()->templatesOlympicTypeAllSpecial($this->model->id, $this->model->year);
     }
 }

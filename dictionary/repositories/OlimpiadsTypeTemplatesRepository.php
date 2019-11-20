@@ -8,10 +8,9 @@ use dictionary\models\OlimpiadsTypeTemplates;
 
 class OlimpiadsTypeTemplatesRepository
 {
-    public function get($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id): OlimpiadsTypeTemplates
+    public function get($id): OlimpiadsTypeTemplates
     {
-        if (!$model = OlimpiadsTypeTemplates::findOne(['number_of_tours'=>$number_of_tours,
-            'form_of_passage'=>$form_of_passage, 'edu_level_olimp'=>$edu_level_olimp, 'template_id'=> $template_id])) {
+        if (!$model = OlimpiadsTypeTemplates::findOne($id)) {
             throw new \DomainException('OlimpiadsTypeTemplates не найдено.');
         }
         return $model;

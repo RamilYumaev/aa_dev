@@ -5,12 +5,12 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $template dictionary\models\Templates */
-/* @var $model dictionary\forms\TemplatesEditForm */
+/* @var $model dictionary\forms\TemplatesCopyForm */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Обновить: ' . $template->name;
+$this->title = 'Копировать: ' . $template->name;
 $this->params['breadcrumbs'][] = ['label' => 'Шаблоны', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Обновить';
+$this->params['breadcrumbs'][] = 'Копировать';
 ?>
 <div class="faculty-update">
     <?php $form = ActiveForm::begin(['id' => 'form-templates']); ?>

@@ -8,7 +8,6 @@ use dictionary\repositories\TemplatesRepository;
 use olympic\helpers\OlympicHelper;
 use olympic\models\PersonalPresenceAttempt;
 use olympic\repositories\OlimpicListRepository;
-use testing\models\Test;
 use testing\models\TestAttempt;
 use yii\web\HttpException;
 

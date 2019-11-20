@@ -27,25 +27,32 @@ class OlimpiadsTypeTemplatesService
     public function create(OlimpiadsTypeTemplatesCreateForm $form)
     {
         $templates = $this->templatesRepository->get($form->template_id);
-        $specialTypeOlimpic = $this->specialTypeOlimpicRepository->get($form->special_type);
-        $model = OlimpiadsTypeTemplates::create($form, $templates->id, $specialTypeOlimpic->id);
+        $specialTypeOlimpic  = $this->isSpecialTypeOlimpic($form->special_type);
+        $model = OlimpiadsTypeTemplates::create($form, $templates->id, $specialTypeOlimpic);
 
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit(OlimpiadsTypeTemplatesEditForm $form, $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id)
+    public function edit(OlimpiadsTypeTemplatesEditForm $form)
     {
         $templates = $this->templatesRepository->get($form->template_id);
-        $specialTypeOlimpic = $this->specialTypeOlimpicRepository->get($form->special_type);
-        $model = $this->repository->get($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id);
-        $model->edit($form, $templates->id, $specialTypeOlimpic->id);
+        $specialTypeOlimpic =  $this->isSpecialTypeOlimpic($form->special_type);
+        $model = $this->repository->get($form->_olimpiadsTypeTemplates->id);
+        $model->edit($form, $templates->id, $specialTypeOlimpic);
         $this->repository->save($model);
     }
 
-    public function remove($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id)
+    public function remove($id)
     {
-        $model = $this->repository->get($number_of_tours, $form_of_passage, $edu_level_olimp, $template_id);
+        $model = $this->repository->get($id);
         $this->repository->remove($model);
+    }
+
+    private function isSpecialTypeOlimpic ($specialType) {
+        if ($specialType) {
+            $specialTypeOlimpic = $this->specialTypeOlimpicRepository->get($specialType);
+        }
+          return $specialTypeOlimpic->id ?? null;
     }
 }

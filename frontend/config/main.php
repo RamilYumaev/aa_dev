@@ -47,7 +47,7 @@ return [
                     'scope' => 'email',
                 ],
 
-                'vkontakte' => $_SERVER['HTTP_HOST'] === 'olympic:8080' ? [
+                'vkontakte' => $_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == '127.0.0.1:8080' ? [
                     'class' => 'yii\authclient\clients\VKontakte',
                     'clientId' => '6840071',
                     'clientSecret' => 'kjKLyc2zgJB5k9pL80A9',

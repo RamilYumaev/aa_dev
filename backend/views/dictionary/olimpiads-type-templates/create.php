@@ -4,12 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model olympic\forms\OlimpiadsTypeTemplatesCreateForm */
+/* @var $model \dictionary\forms\OlimpiadsTypeTemplatesCreateForm */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
 <div>
     <?php $form = ActiveForm::begin(['id' => 'form-olympiads-type-templates', 'enableAjaxValidation' => true]); ?>
+
+    <?= $form->field($model, 'year')->dropDownList($model->years()) ?>
 
     <?= $form->field($model, 'number_of_tours')->dropDownList($model->numberOfTours()) ?>
 
