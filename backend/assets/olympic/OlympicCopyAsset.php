@@ -11,6 +11,10 @@ class OlympicCopyAsset extends AssetBundle
     public $js = [
          'js/copy.js',
     ];
+
+    public $publishOptions = [
+        'forceCopy'=>true,
+    ];
     public $depends = [
         'yii\web\YiiAsset',
     ];

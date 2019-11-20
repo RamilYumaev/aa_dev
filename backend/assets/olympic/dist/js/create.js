@@ -12,14 +12,14 @@ var hideZaochCriteria = $("div.field-olimpiclistcreateform-criteria_for_evaluati
 var hideOchCriteria = $("div.field-olimpiclistcreateform-criteria_for_evaluating");
 
 $("#olimpiclistcreateform-form_of_passage").on("change init", function() {
-    if(this.value == 1){
+    if(this.value == 1 ||   this.value == 3 ){
         hideTimeOfOchTour.show();
         hideDateTimeStartOchTour.show();
         hideAddress.show();
         hideTimeOchTur.show();
         hideOchRequired.show();
         hideOchCriteria.show();
-    }else if (this.value == 2){
+    }else if (this.value == 2 ||  this.value == 5 ){
         hideZaochRequired.show();
         hideZaochCriteria.show();
         hideTypeOfTime.show();

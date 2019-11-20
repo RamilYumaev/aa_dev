@@ -10,6 +10,11 @@ class OlympicCreateAsset extends AssetBundle
     public $js = [
          'js/create.js',
     ];
+
+    public $publishOptions = [
+        'forceCopy'=>true,
+    ];
+
     public $depends = [
         'yii\web\YiiAsset',
     ];
