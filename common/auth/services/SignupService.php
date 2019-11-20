@@ -3,6 +3,7 @@
 
 namespace common\auth\services;
 
+use common\auth\forms\UserEmailForm;
 use olympic\models\auth\Profiles;
 use olympic\repositories\auth\ProfileRepository;
 use Yii;
@@ -52,6 +53,13 @@ class SignupService
     {
         $profile = Profiles::createDefault($user_id);
         return $profile;
+    }
+
+    public function addEmail(UserEmailForm $form)
+    {
+        $user = $this->users->get(Yii::$app->user->identity->getId());
+        $user->addEmail($form);
+        $this->users->save($user);
     }
 
     public function confirm($token): void

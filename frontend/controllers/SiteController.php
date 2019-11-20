@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 
+use frontend\components\UserNoEmail;
 use yii\web\Controller;
+use Yii;
 
 /**
  * Site controller
@@ -19,6 +21,11 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
     }
 
     /**
