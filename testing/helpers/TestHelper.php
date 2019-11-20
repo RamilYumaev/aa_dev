@@ -2,6 +2,7 @@
 
 namespace testing\helpers;
 
+use testing\models\Test;
 use yii\helpers\ArrayHelper;
 
 class TestHelper
@@ -19,4 +20,13 @@ class TestHelper
     {
         return ArrayHelper::getValue(self::typeCalculateList(), $key);
     }
+
+    public static function testIdOlympic($olympicId) {
+        return Test::find()
+            ->select('id')
+            ->andWhere(['olimpic_id' => $olympicId])
+            ->column();
+    }
+
+
 }

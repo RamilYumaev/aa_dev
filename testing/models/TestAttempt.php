@@ -4,7 +4,7 @@
 namespace testing\models;
 
 
-use tests\helpers\TestQuestionHelper;
+use testing\models\queries\TestAttemptQuery;
 use yii\db\ActiveRecord;
 
 class TestAttempt extends ActiveRecord
@@ -41,6 +41,12 @@ class TestAttempt extends ActiveRecord
             'mark' => 'Результат',
         ];
     }
+
+    public static function find(): TestAttemptQuery
+    {
+        return new  TestAttemptQuery(static::class);
+    }
+
 
     /**
      * Пересчитываем результат.

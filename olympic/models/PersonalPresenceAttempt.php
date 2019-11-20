@@ -4,6 +4,8 @@
 namespace olympic\models;
 
 
+use olympic\models\queries\OlimpicQuery;
+use olympic\models\queries\PersonalPresenceAttemptQuery;
 use yii\db\ActiveRecord;
 
 class PersonalPresenceAttempt extends ActiveRecord
@@ -18,14 +20,12 @@ class PersonalPresenceAttempt extends ActiveRecord
         $attempt->mark = $mark;
         $attempt->reward_status = $reward_status;
         return $attempt;
-
     }
 
     public static function tableName()
     {
         return 'personal_presence_attempt';
     }
-
 
     /**
      * {@inheritdoc}
@@ -36,6 +36,12 @@ class PersonalPresenceAttempt extends ActiveRecord
             'mark' => 'Оценка',
         ];
     }
+
+    public static function find(): PersonalPresenceAttemptQuery
+    {
+        return new PersonalPresenceAttemptQuery(static::class);
+    }
+
 
 
 }

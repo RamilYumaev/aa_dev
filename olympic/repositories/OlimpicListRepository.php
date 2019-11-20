@@ -5,6 +5,7 @@ namespace olympic\repositories;
 
 
 use olympic\models\OlimpicList;
+use yii\web\HttpException;
 
 class OlimpicListRepository
 {
@@ -12,7 +13,7 @@ class OlimpicListRepository
     public function get($id): OlimpicList
     {
         if (!$model = OlimpicList::findOne($id)) {
-            throw new \DomainException('Olympic не найдено.');
+            throw new HttpException('403', "Нет такой олимпиады");
         }
         return $model;
     }

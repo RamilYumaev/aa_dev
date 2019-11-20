@@ -4,6 +4,9 @@
 namespace olympic\helpers;
 
 
+use olympic\helpers\auth\ProfileHelper;
+use yii\helpers\ArrayHelper;
+
 class PersonalPresenceAttemptHelper
 {
     /**
@@ -28,6 +31,12 @@ class PersonalPresenceAttemptHelper
         ];
     }
 
+    public static function nameOfPlacesOne($key)
+    {
+        return ArrayHelper::getValue(self::nameOfPlaces(), $key);
+    }
+
+
     public static function nameOfPlacesForCert()
     {
         return [
@@ -36,6 +45,20 @@ class PersonalPresenceAttemptHelper
             self::SECOND_PLACE => 'призером II степени',
             self::THIRD_PLACE => 'призером III степени',
         ];
+    }
+
+    public static function userOfPlacesForCert($user_id, $reward_status, $status_id) {
+        $result = ProfileHelper::profileFullName($user_id);
+        if ($reward_status) {
+            $result .= ' - <br/><strong>';
+            $result .=  self::nameOfPlacesOne($reward_status);
+            $result .= '</strong>';
+        } elseif ($status_id) {
+            $result .= '<strong>';
+            $result .= '- участник приглашен на очный тур';
+            $result .= '</strong>';
+        }
+        return $result;
     }
 
 }
