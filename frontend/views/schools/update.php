@@ -17,7 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model->schoolUser, 'region_school')->dropDownList($model->schoolUser->regionList(), ['prompt'=> 'Выберите регион']) ?>
 
-    <?= $form->field($model->schoolUser, 'school_id')->dropDownList([''], ['prompt'=> 'Выберите учебную организацию']) ?>
+    <?= $form->field($model->schoolUser, 'school_id')->widget(\kartik\select2\Select2::class, [
+        'data' => '',
+        'options' => ['placeholder' => 'Выберите учебную организацию'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);  ?>
 
     <?= $form->field($model->schoolUser, 'check_new_school')->checkbox(); ?>
 

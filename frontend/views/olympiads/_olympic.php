@@ -10,7 +10,6 @@ use olympic\helpers\ClassAndOlympicHelper;
 $url = Url::to(['registration-on-olympiads', 'id' => $model->id]);
 
 ?>
-<div class="container">
     <div class="col-md-4">
         <div class="simplePlace dashedBlue">
             <a href="<?= Html::encode($url) ?>">
@@ -21,4 +20,3 @@ $url = Url::to(['registration-on-olympiads', 'id' => $model->id]);
             </a>
         </div>
     </div>
-</div>
