@@ -14,6 +14,8 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            'dirMode' => '777',
+            'fileMode' => '777',
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

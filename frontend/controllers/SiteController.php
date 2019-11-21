@@ -85,6 +85,6 @@ class SiteController extends Controller
 
     private function makeDir($dir)
     {
-        mkdir($dir);
+        mkdir($dir, 0777, true);
     }
 }
