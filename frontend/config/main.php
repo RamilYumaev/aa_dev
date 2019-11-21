@@ -12,7 +12,7 @@ return [
     'basePath' => dirname(__DIR__),
     'aliases' => [
         '@staticRoot' => $params['staticPath'],
-        '@static'   => $params['staticHostInfo'],
+        '@static' => $params['staticHostInfo'],
     ],
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -47,17 +47,12 @@ return [
                     'scope' => 'email',
                 ],
 
-                'vkontakte' => $_SERVER['HTTP_HOST'] === 'olympic:8080' or $_SERVER['HTTP_HOST'] == '127.0.0.1:8080' ? [
+                'vkontakte' => [
                     'class' => 'yii\authclient\clients\VKontakte',
                     'clientId' => '6840071',
                     'clientSecret' => 'kjKLyc2zgJB5k9pL80A9',
                     'scope' => 'email',
-                ] : [
-                    'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' => '6774734',
-                    'clientSecret' => 'DnZyVThgj3x3bLbhdMUh',
-                    'scope' => 'email',
-                ],
+                ]
 
             ],
         ],
