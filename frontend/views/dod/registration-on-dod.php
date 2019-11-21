@@ -15,7 +15,7 @@ $this->title = "Регистрация на ". $dod->dodOne->name;
 $this->params['breadcrumbs'][] = ['label' => 'Дни открытых дверей', 'url' => ['/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div>
+<div class="container">
     <h1><?= Html::encode($this->title) ?></h1>
     <p><i><?= $dod->dateStartString ?></i></p>
     <p><i><?= $dod->timeStartString ?></i></p>
