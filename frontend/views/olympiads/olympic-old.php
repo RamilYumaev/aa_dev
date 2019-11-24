@@ -10,7 +10,7 @@ use frontend\widgets\olympic\OlympicResultWidget;
 $url = \yii\helpers\Url::to(['/olympiads']);
 $this->title = $olympic->name . " - " . $olympic->year;
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады и конкурсы', 'url' => $url];
-$this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olimpicName($olympic->olimpic_id),
+$this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic->olimpic_id),
     'url' => ['registration-on-olympiads', 'id' => $olympic->olimpic_id]];
 $this->params['breadcrumbs'][] = $olympic->year;
 ?>

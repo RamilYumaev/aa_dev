@@ -20,10 +20,10 @@ use mihaildev\elfinder\ElFinder;
                 <h4>Варианты ответов</h4>
             </div>
             <div class="box-body" id="answer-select-type-one-list">
-                <?php for ($index = 1; $index < 3; $index++):  ?>
+                <?php $a=1; for ($index = 0; $index < 2; $index++):  ?>
                     <div data-answer-index="<?= $index ?>" id="answer-select-type-one" >
                         <?= Html::beginTag('div', ['class' => 'form-group']) ?>
-                        <?= Html::label("Вариант ответа ". $index, ['class' => 'control-label']) ?>
+                        <?= Html::label("Вариант ответа ". $a++, ['class' => 'control-label']) ?>
                         <?= Html::textInput($model->formName() . '[selectAnswer][text][]', '', [
                             'class' => 'form-control',
                             'id' => 'selectanswer-text',
@@ -32,6 +32,7 @@ use mihaildev\elfinder\ElFinder;
                         <?= Html::beginTag('div', ['class' => 'form-group']) ?>
                         <?= Html::checkbox($model->formName() . '[selectAnswer][isCorrect][]', '', [
                             'id' => 'selectanswer-iscorrect',
+                            'value' => $index
                         ]) ?>
                         <?= Html::label("Правильный ответ ? ", ['class' => 'control-label']) ?>
                         <?= Html::endTag('div') ?>
