@@ -68,4 +68,14 @@ class DictClassHelper
         return ArrayHelper::getValue(self::classFullNameList(), $key);
     }
 
+    public static function dictClassAll($classList) {
+
+        return DictClass::find()->where(['in', 'id', $classList])->orderBy(['id' => SORT_ASC])->asArray()->all();
+    }
+
+    public static function dictClassTypeAll($classList) {
+
+        return DictClass::find()->select('type')->where(['in', 'id', $classList])->indexBy('type')->column();
+    }
+
 }

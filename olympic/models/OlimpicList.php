@@ -269,6 +269,14 @@ class OlimpicList extends \yii\db\ActiveRecord
             && $this->prefilling == false && $this->date_time_start_reg <= date('Y-m-d H:i:s');
     }
 
+    public function getIsDistanceTour() {
+        return ($this->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA ||
+            $this->form_of_passage == OlympicHelper::ZAOCHNO_OCHO_ZAOCHNAYA ||
+            $this->form_of_passage == OlympicHelper::ZAOCHNO_ZAOCHNAYA ||
+            $this->form_of_passage == OlympicHelper::OCHNO_ZAOCHNAYA_FORMA
+        );
+    }
+
     public function replaceLabelsFromTemplate () {
         return [
             DictChairmansHelper::chairmansNameOne($this->chairman_id), //Фамилия И.О. председателя

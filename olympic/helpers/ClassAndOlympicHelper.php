@@ -14,16 +14,16 @@ class ClassAndOlympicHelper
         return ClassAndOlympic::find()->select('class_id')->andWhere(['olympic_id'=> $id])->column();
     }
 
-    public static function olympicClassRegisterList($id) {
-        return ArrayHelper::map(self::dictClassAll($id),
+    public static function olympicClassLists($id) {
+        return ArrayHelper::map(DictClassHelper::dictClassAll(self::olympicClassList($id)),
             "id", function (array $model) {
             return $model['name'] . "-й ". DictClassHelper::typeName($model['type']);
         });
     }
 
     public static function olympicClassString($id) {
-        $classesOlympic = self::dictClassAll($id);
-        $typeClassOlympic = self::dictClassTypeAll($id);
+        $classesOlympic = DictClassHelper::dictClassAll(self::olympicClassList($id));
+        $typeClassOlympic = DictClassHelper::dictClassTypeAll(self::olympicClassList($id));
 
         $result = "";
         foreach ($typeClassOlympic as $type) {
@@ -39,14 +39,5 @@ class ClassAndOlympicHelper
         return rtrim ($result, ", ");
     }
 
-    protected static function dictClassAll($id) {
-
-        return DictClass::find()->where(['in', 'id', self::olympicClassList($id)])->orderBy(['id' => SORT_ASC])->asArray()->all();
-    }
-
-    protected static function dictClassTypeAll($id) {
-
-        return DictClass::find()->select('type')->where(['in', 'id', self::olympicClassList($id)])->indexBy('type')->column();
-    }
 
 }

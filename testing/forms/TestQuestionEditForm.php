@@ -4,26 +4,25 @@
 namespace testing\forms;
 
 
-use tests\helpers\TestQuestionGroupHelper;
-use tests\helpers\TestQuestionHelper;
-use tests\models\TestQuestion;
+use testing\helpers\TestQuestionGroupHelper;
+use testing\helpers\TestQuestionHelper;
+use testing\models\TestQuestion;
 use yii\base\Model;
 
-class TestQuestionForm extends Model
+class TestQuestionEditForm extends Model
 {
-    public $type_id, $title, $mark, $text, $file_type_id, $options, $group_id, $optionsArray;
+    public $type_id, $title, $mark, $text, $file_type_id, $options, $group_id, $_testQuestion, $optionsArray;
 
     public function __construct(TestQuestion $testQuestion = null, $config = [])
     {
-        if ($testQuestion) {
-            $this->type_id = $testQuestion->type_id;
-            $this->title = $testQuestion->title;
-            $this->mark = $testQuestion->mark;
-            $this->text = $testQuestion->text;
-            $this->file_type_id = $testQuestion->file_type_id;
-            $this->options = $testQuestion->options;
-            $this->group_id = $testQuestion->group_id;
-        }
+        $this->type_id = $testQuestion->type_id;
+        $this->title = $testQuestion->title;
+        $this->mark = $testQuestion->mark;
+        $this->text = $testQuestion->text;
+        $this->file_type_id = $testQuestion->file_type_id;
+        $this->options = $testQuestion->options;
+        $this->group_id = $testQuestion->group_id;
+        $this->_testQuestion = $testQuestion;
         parent::__construct($config);
     }
 
@@ -31,7 +30,7 @@ class TestQuestionForm extends Model
     {
         return [
             [['type_id', 'title', 'mark', 'text'], 'required'],
-            ['title', 'unique', 'targetClass' => TestQuestion::class, 'targetAttribute' => ['title', 'text'], 'message' => 'Такой вопрос уже внесен в систему'],
+            ['title', 'unique', 'targetClass' => TestQuestion::class, 'filter'=> ['<>', 'id', $this->_testQuestion->id ], 'targetAttribute' => ['title', 'text'], 'message' => 'Такой вопрос уже внесен в систему'],
 
             ['file_type_id', 'required', 'when' => function ($model) {
                 /** @var self $model */

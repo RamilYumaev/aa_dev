@@ -37,7 +37,7 @@ class SignupOlympicForm extends CompositeForm
 
     public function classFullNameList(): array
     {
-        return ClassAndOlympicHelper::olympicClassRegisterList($this->_olympic->olympicOneLast->id);
+        return ClassAndOlympicHelper::olympicClassLists($this->_olympic->olympicOneLast->id);
     }
 
     protected function internalForms(): array

@@ -30,3 +30,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 <?= \backend\widgets\olimpic\OlipicListInOLymipViewWidget::widget(['model'=> $olympic]) ?>
+
+<?= \backend\widgets\testing\TestQuestionGroupWidget::widget(['model'=> $olympic]) ?>

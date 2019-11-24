@@ -4,11 +4,21 @@
 namespace olympic\repositories;
 
 
+use common\helpers\EduYearHelper;
+use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicList;
 use yii\web\HttpException;
 
 class OlimpicListRepository
 {
+
+    public function getEduYear($id): OlimpicList
+    {
+        if (!$model = OlimpicList::findOne(['id' => $id, 'year' => EduYearHelper::eduYear() ])) {
+            throw new \DomainException('Данная олимпиада не имеет запись на '.EduYearHelper::eduYear(). ' учебынй год!');
+        }
+        return $model;
+    }
 
     public function get($id): OlimpicList
     {

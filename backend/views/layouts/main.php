@@ -62,7 +62,7 @@ if (Yii::$app->controller->action->id === 'login') {
 
     <?php $this->endBody() ?>
     </body>
-    <?php Modal::begin(['id'=>'modal',  'header' => "<h4 id='header-h4'></h4>"]);
+    <?php Modal::begin(['id'=>'modal', 'size'=> Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>"]);
     echo "<div id='modalContent'></div>";
     Modal::end()?>
     </html>
