@@ -12,7 +12,7 @@ use yii\captcha\Captcha;
 \frontend\assets\ProfileCreateAsset::register($this);
 
 $this->title = "Регистрация на ". $dod->dodOne->name;
-$this->params['breadcrumbs'][] = ['label' => 'Дни открытых дверей', 'url' => ['/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Дни открытых дверей', 'url' => ['/dod']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">

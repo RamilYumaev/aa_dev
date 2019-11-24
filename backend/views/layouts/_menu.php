@@ -61,10 +61,10 @@ array_merge(
         [['label' => 'Олимпиады/конкурсы', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Перечень ', 'url' => '/olympic/olympic'],
-                ['label' => 'Группы вопросов', 'url' => '/test/question-group'],
+      //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
             ])]] : []),
 
-    (Yii::$app->user->can('olymp_operator') ?
+    (Yii::$app->user->can('manager') ?
         [['label' => 'Дни открытых дверей', 'url' => '/dod/dod/',
     //        'items' => array_merge([['label' => 'Мастер-классы', 'url' => '/dictionary/master-class']]),
         ]] : []),
