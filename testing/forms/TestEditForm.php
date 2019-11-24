@@ -5,10 +5,10 @@ namespace testing\forms;
 
 
 use olympic\helpers\OlympicHelper;
-use tests\models\Test;
+use testing\models\Test;
 use yii\base\Model;
 
-class TestForm extends Model
+class TestEditForm  extends Model
 {
     public $olimpic_id,
         $status,
@@ -18,17 +18,15 @@ class TestForm extends Model
         $final_review,
         $questionGroupsList;
 
-    public function __construct(Test $test = null, $config = [])
+    public function __construct(Test $test, $config = [])
     {
-        if ($test) {
-            $this->olimpic_id = $test->olimpic_id;
-            $this->status = $test->status;
-            $this->type_calculate_id = $test->type_calculate_id;
-            $this->calculate_value = $test->calculate_value;
-            $this->introduction = $test->introduction;
-            $this->final_review = $test->final_review;
-            $this->questionGroupsList = $test->questionGroupsList;
-        }
+        $this->olimpic_id = $test->olimpic_id;
+        $this->status = $test->status;
+        $this->type_calculate_id = $test->type_calculate_id;
+        $this->calculate_value = $test->calculate_value;
+        $this->introduction = $test->introduction;
+        $this->final_review = $test->final_review;
+        $this->questionGroupsList = $test->questionGroupsList;
         parent::__construct($config);
     }
 

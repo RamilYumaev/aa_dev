@@ -21,7 +21,6 @@ $this->params['breadcrumbs'][] = 'Копировать';
 
 ?>
 <div>
-
     <?php $form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]); ?>
     <div class="box box-default">
         <div class="box-header">

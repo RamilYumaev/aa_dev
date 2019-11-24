@@ -4,6 +4,7 @@ namespace testing\helpers;
 
 use testing\models\Test;
 use yii\helpers\ArrayHelper;
+use olympic\helpers\OlympicListHelper;
 
 class TestHelper
 {
@@ -28,5 +29,14 @@ class TestHelper
             ->column();
     }
 
+
+
+    public static function testOlympicNameList(): array
+    {
+        return ArrayHelper::map(Test::find()->indexBy(['olimpic_id'])->asArray()->all(), "olimpic_id",
+            function (array $model) {
+                return  OlympicListHelper::olympicName($model['olimpic_id']);
+            });
+    }
 
 }

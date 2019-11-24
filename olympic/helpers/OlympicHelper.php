@@ -220,13 +220,13 @@ class OlympicHelper
         return ArrayHelper::getValue(self::prefilling(), $key);
     }
 
-    public static function olimpicList(): array
+    public static function olympicList(): array
     {
         return ArrayHelper::map(Olympic::find()->all(), "id", 'name');
     }
 
-    public static function olimpicName($key): string
+    public static function olympicName($key): string
     {
-        return ArrayHelper::getValue(self::olimpicList(), $key);
+        return ArrayHelper::getValue(self::olympicList(), $key);
     }
 }

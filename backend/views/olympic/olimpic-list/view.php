@@ -25,8 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'method' => 'post',
                     ],
                 ]) ?>
-            <p>
-            </p>
             </p>
         </div>
         <div class="box-body">
@@ -61,6 +59,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-6">
         <?= \backend\widgets\olimpic\SpecialTypeOlympicWidget::widget(['olympic_id' => $olympic->id]) ?>
         <?= \backend\widgets\olimpic\OlympicNominationWidget::widget(['olympic_id' => $olympic->id]) ?>
+        <?php if($olympic->isDistanceTour) : ?>
+        <?= \backend\widgets\testing\TestWidget::widget(['olympic_id' => $olympic->id]) ?>
+        <? endif; ?>
     </div>
 </div>
 

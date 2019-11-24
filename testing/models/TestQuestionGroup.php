@@ -3,6 +3,8 @@
 
 namespace testing\models;
 
+use testing\forms\TestQuestionGroupCreateForm;
+use testing\forms\TestQuestionGroupEditForm;
 use yii\db\ActiveRecord;
 
 class TestQuestionGroup extends ActiveRecord
@@ -12,18 +14,20 @@ class TestQuestionGroup extends ActiveRecord
         return 'test_question_group';
     }
 
-    public static function create($olimpic_id, $name)
+    public static function create($olimpic_id, TestQuestionGroupCreateForm $form)
     {
         $testQuestionGroup = new static();
         $testQuestionGroup->olimpic_id = $olimpic_id;
-        $testQuestionGroup->name = $name;
+        $testQuestionGroup->name = $form->name;
+        $testQuestionGroup->year = $form->year;
         return $testQuestionGroup;
     }
 
-    public function edit($olimpic_id, $name)
+    public function edit($olimpic_id, TestQuestionGroupEditForm $form)
     {
         $this->olimpic_id = $olimpic_id;
-        $this->name = $name;
+        $this->name = $form->name;
+        $this->year = $form->year;
     }
 
 
@@ -33,6 +37,7 @@ class TestQuestionGroup extends ActiveRecord
             'id' => 'ID',
             'olimpic_id' => 'Олимпиада',
             'name' => 'Имя',
+            'year' => 'Учебный год'
         ];
     }
 

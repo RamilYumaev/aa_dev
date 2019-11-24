@@ -4,6 +4,7 @@
 namespace testing\helpers;
 
 
+use testing\models\TestQuestion;
 use yii\helpers\ArrayHelper;
 
 class TestQuestionHelper
@@ -17,10 +18,17 @@ class TestQuestionHelper
     const TYPE_ANSWER_DETAILED = 4;
     const TYPE_FILE = 5;
     const TYPE_SELECT_ONE = 6;
+    const TYPE_CLOZE = 7;
 
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_TEXT = 2;
     const FILE_TYPE_MEDIA = 3;
+
+    const YES_ANSWER = 1;
+    const NO_ANSWEW  = 0;
+
+    const CLOZE_TEXT = 2;
+    const CLOZE_SELECT = 1;
 
     const FILE_VALIDATE_RULES = [
         self::FILE_TYPE_IMAGE => [
@@ -46,6 +54,7 @@ class TestQuestionHelper
             self::TYPE_ANSWER_SHORT => 'Краткий ответ',
             self::TYPE_ANSWER_DETAILED => 'Развернутый ответ',
             self::TYPE_FILE => 'Загрузка файла',
+            self::TYPE_CLOZE => 'Вложенные ответы',
         ];
     }
 
@@ -58,6 +67,22 @@ class TestQuestionHelper
         ];
     }
 
+    public static function getAllTypeCloze()
+    {
+        return [
+            self::CLOZE_SELECT => 'Список',
+            self::CLOZE_TEXT => 'Краткий ответ',
+        ];
+    }
+
+    public static function getAllStatusAnswer()
+    {
+        return [
+            self::NO_ANSWEW => 'Нет',
+            self::YES_ANSWER => 'Да',
+        ];
+    }
+
     public static function allTypesVlid()
     {
         return [
@@ -67,6 +92,7 @@ class TestQuestionHelper
             self::TYPE_ANSWER_SHORT,
             self::TYPE_ANSWER_DETAILED,
             self::TYPE_FILE,
+            self::TYPE_CLOZE
         ];
     }
 
@@ -88,4 +114,15 @@ class TestQuestionHelper
     {
         return ArrayHelper::getValue(self::getAllTypes(), $key);
     }
+
+    public static function questionGroupCount ($id)
+    {
+        return TestQuestion::find()->where(['group_id' => $id])->count();
+    }
+
+    public static function questionList($id)
+    {
+        return ArrayHelper::map(TestQuestion::find()->where(['group_id' => $id])->all(), 'id', 'title');
+    }
+
 }
