@@ -99,7 +99,7 @@ class User extends ActiveRecord
     public function confirmSignup(): void
     {
         if (!$this->isWait()) {
-            throw new \DomainException('Пользователь имеет статус "Активный"');
+            throw new \DomainException('Учетная запись уже подтверждена!');
         }
         $this->status = UserHelper::STATUS_ACTIVE;
     }
@@ -115,7 +115,7 @@ class User extends ActiveRecord
     public function resetPassword($password): void
     {
         if (empty($this->password_reset_token)) {
-            throw new \DomainException('Сброс пароля не требуется');
+            throw new \DomainException('Сброс пароля не запрашивался!');
         }
         $this->setPassword($password);
         $this->password_reset_token = null;
