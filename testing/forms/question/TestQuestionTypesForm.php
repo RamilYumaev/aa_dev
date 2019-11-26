@@ -3,32 +3,49 @@
 
 namespace testing\forms\question;
 use common\auth\forms\CompositeForm;
+use yii\base\InvalidConfigException;
 
 
 class TestQuestionTypesForm extends CompositeForm
 {
-    public $selectAnswer  = [];
+    public $answer;
+    public $id;
+    private $model;
+    private $type;
 
     public function __construct ($group_id, $type, $config = [])
     {
-        $this->question = new TestQuestionForm($group_id, $type);
-
+        $this->type = $type;
+        $this->id = "54789889545665845645645564546546456";
+        $this->model = new AnswerForm($this->type);
+        $this->question = new TestQuestionForm($group_id, $this->type);
+        $this->answer = [$this->model];
         parent::__construct($config);
     }
 
     public function rules() : array
     {
         return [
-            [['selectAnswer'], function($attribute, $params) {
-                if (!is_array($this->$attribute)) {
-                    $this->addError($attribute, "$attribute isn't an array!");
-                }
-            }],
+            [['id'], 'string'],
         ];
     }
 
     protected function internalForms(): array
     {
         return [ 'question'];
+    }
+
+    public function isArrayMoreAnswer() {
+        try {
+            $postData = \Yii::$app->request->post($this->model->formName());
+            if ($postData){
+                $this->answer = [];
+                foreach ($postData as $value) {
+                    $this->answer [] = new AnswerForm($this->type, $value);
+                }
+            }
+        } catch (InvalidConfigException $e) {
+        }
+        return $this->answer;
     }
 }
