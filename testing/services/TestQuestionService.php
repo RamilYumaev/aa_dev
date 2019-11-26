@@ -5,6 +5,7 @@ use common\transactions\TransactionManager;
 use testing\forms\question\TestQuestionForm;
 use testing\forms\question\TestQuestionTypesFileForm;
 use testing\forms\question\TestQuestionTypesForm;
+use testing\helpers\TestQuestionHelper;
 use testing\models\Answer;
 use testing\models\TestQuestion;
 use testing\repositories\AnswerRepository;
@@ -37,18 +38,45 @@ class TestQuestionService
 
         $this->transaction->wrap(function () use ($model, $form) {
             $this->repository->save($model);
-            $this->addAnswer($form, $model->id);
+            $this->addAnswer($form, $model->type_id, $model->id);
         });
         return $model;
     }
 
-    private function addAnswer(TestQuestionTypesForm $form, $quest_id) {
-         foreach ($form->selectAnswer['text'] as $index => $answer) {
-             $isCorrect = in_array($index, $form->selectAnswer['isCorrect']) ? 1 : 0;
-             $answerObject = Answer::create($quest_id, $answer, $isCorrect, null);
+    private function addAnswerSelect(TestQuestionTypesForm $form, $quest_id) {
+         foreach ($form->answer as $index => $answer) {
+             $answerObject = Answer::create($quest_id, $answer->name, $answer->is_correct, null);
              $this->answerRepository->save($answerObject);
          }
     }
+
+    private function addAnswerSort(TestQuestionTypesForm $form, $quest_id) {
+        foreach ($form->answer as $answer) {
+            $answerObject = Answer::create($quest_id, $answer->name, 1, null);
+            $this->answerRepository->save($answerObject);
+        }
+    }
+
+    private function addAnswerMatching(TestQuestionTypesForm $form, $quest_id) {
+        foreach ($form->answer as $answer) {
+            $isCorrect = $answer->name ? 1 : 0;
+            $answerObject = Answer::create($quest_id, $answer->name, $isCorrect, $answer->answer_match);
+            $this->answerRepository->save($answerObject);
+        }
+    }
+
+    private function addAnswer(TestQuestionTypesForm $form, $type_id, $quest_id) {
+        if ($type_id === TestQuestionHelper::TYPE_SELECT || $type_id ===  TestQuestionHelper::TYPE_SELECT_ONE) {
+            $this->addAnswerSelect($form, $quest_id);
+        } else if ($type_id === TestQuestionHelper::TYPE_ANSWER_SHORT) {
+            $this->addAnswerSort($form, $quest_id);
+        } else if ($type_id === TestQuestionHelper::TYPE_MATCHING) {
+            $this->addAnswerMatching($form, $quest_id);
+        }
+    }
+
+
+
 
     public function createQuestion(TestQuestionForm $form)
     {

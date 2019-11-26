@@ -23,6 +23,7 @@ use mihaildev\elfinder\ElFinder;
         ]); ?>
     </div>
     <div class='box-footer'>
+        <p id="error-message" style="color: red"></p>
         <?= Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success']) ?>
     </div>
 </div>

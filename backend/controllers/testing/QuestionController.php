@@ -8,6 +8,7 @@ use testing\forms\question\TestQuestionTypesFileForm;
 use testing\forms\question\TestQuestionTypesForm;
 use testing\helpers\TestQuestionHelper;
 use testing\services\TestQuestionService;
+use yii\base\Model;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -27,12 +28,15 @@ class QuestionController extends Controller
     {
         $form = new TestQuestionTypesForm($group_id, TestQuestionHelper::TYPE_SELECT);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->create($form);
-                return $this->redirect('index');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+            $form->answer = $form->isArrayMoreAnswer();
+            if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
+                try {
+                    $this->service->create($form);
+                    return $this->redirect('index');
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
         }
         return $this->render('type-select', ['model' => $form]);
@@ -41,13 +45,16 @@ class QuestionController extends Controller
     public function actionTypeSelectOne($group_id = null)
     {
         $form = new TestQuestionTypesForm($group_id, TestQuestionHelper::TYPE_SELECT_ONE);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->create($form);
-                return $this->redirect('index');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+        if ($form->load(Yii::$app->request->post())) {
+            $form->answer = $form->isArrayMoreAnswer();
+            if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
+                try {
+                    $this->service->create($form);
+                    return $this->redirect('index');
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
         }
         return $this->render('type-select-one', ['model' => $form]);
@@ -61,12 +68,15 @@ class QuestionController extends Controller
     {
         $form = new TestQuestionTypesForm($group_id, TestQuestionHelper::TYPE_ANSWER_SHORT);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->create($form);
-                return $this->redirect('index');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+            $form->answer = $form->isArrayMoreAnswer();
+            if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
+                try {
+                    $this->service->create($form);
+                    return $this->redirect('index');
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
         }
         return $this->render('type-answer-short', ['model' => $form]);
@@ -91,12 +101,15 @@ class QuestionController extends Controller
     {
         $form = new TestQuestionTypesForm($group_id, TestQuestionHelper::TYPE_MATCHING);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->create($form);
-                return $this->redirect('index');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+            $form->answer = $form->isArrayMoreAnswer();
+            if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
+                try {
+                    $this->service->create($form);
+                    return $this->redirect('index');
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
         }
         return $this->render('type-matching', ['model' => $form]);

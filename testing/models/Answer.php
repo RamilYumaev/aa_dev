@@ -45,4 +45,6 @@ class Answer extends ActiveRecord
         $test = new static();
         return $test->attributeLabels();
     }
+
+
 }

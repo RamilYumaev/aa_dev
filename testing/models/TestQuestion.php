@@ -3,8 +3,6 @@
 
 namespace testing\models;
 
-
-
 use testing\forms\question\TestQuestionForm;
 use testing\forms\TestQuestionEditForm;
 use yii\db\ActiveRecord;
@@ -58,6 +56,7 @@ class TestQuestion extends ActiveRecord
             'optionsArray' => 'Варианты',
         ];
     }
+
 
     public static function labels()
     {

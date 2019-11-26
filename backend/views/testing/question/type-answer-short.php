@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use wbraganca\dynamicform\DynamicFormWidget;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 
@@ -10,34 +11,54 @@ use mihaildev\elfinder\ElFinder;
 \backend\assets\questions\QuestionAnswerShortAsset::register($this);
 ?>
 <div class="row">
-<?php $form = ActiveForm::begin(['id' => 'form-question-answer-short']); ?>
-    <div class="col-md-7">
-        <?= $this->render('_form-question', ['model' => $model->question, 'form' => $form, 'id'=> 'save-answer-short']) ?>
-    </div>
-    <div class="col-md-5">
-        <div class="box">
-            <div class="box-header">
-                <h4>Варианты ответов</h4>
+    <div class="customer-form">
+        <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+        <div class="col-md-7">
+            <?= $this->render('_form-question', ['model' => $model->question, 'form' => $form, 'id'=> '']) ?>
+        </div>
+        <div class="col-md-5">
+            <div class="padding-v-md">
+                <div class="line line-dashed"></div>
             </div>
-            <div class="box-body" id="answer-short-list">
-                <?php for ($index = 1; $index < 2; $index++):  ?>
-                    <div data-answer-index="<?= $index ?>" id="answer-short" >
-                        <?= Html::beginTag('div', ['class' => 'form-group']) ?>
-                        <?= Html::label("Вариант ответа ". $index, ['class' => 'control-label']) ?>
-                        <?= Html::textInput($model->formName() . '[selectAnswer][isCorrect][]', '', [
-                            'class' => 'form-control',
-                            'id' => 'selectanswer-text',
-                        ]) ?>
-                        <?= Html::endTag('div') ?>
+            <?php DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 10, // the maximum times, an element can be cloned (default 999)
+                'min' => 1, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $model->answer[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'name',
+                    'is_correct',
+                ],
+            ]); ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-question"></i> Варианты
+                    <button type="button" class="pull-right add-item btn btn-success btn-xs"><i class="fa fa-plus"></i> Добавить еще вариант</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body container-items"><!-- widgetContainer -->
+                    <?php foreach ($model->answer as $index => $answer): ?>
+                    <div class="item panel panel-default"><!-- widgetBody -->
+                        <div class="panel-heading">
+                            <span class="panel-title-address">Вариант ответа: <?= ($index + 1) ?></span>
+                            <button type="button" class="pull-right remove-item btn btn-danger btn-xs"><i class="fa fa-minus"></i></button>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-body">
+                            <?= $form->field($answer, "[{$index}]name")->textInput(['maxlength' => true]) ?>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endfor; ?>
-            </div>
-            <div class="box-footer">
-                <p id="error-message" style="color: red"></p>
-                <?= Html::button("Добавить  вариант ответа", [ 'id'=> 'add-answer-short', 'class' => 'btn btn-danger']) ?>
+                </div>
+                <?php DynamicFormWidget::end(); ?>
             </div>
         </div>
+        <?= $form->field($model, "id")->hiddenInput()->label('') ?>
+        <?php ActiveForm::end(); ?>
     </div>
-
-<?php ActiveForm::end(); ?>
-    </div>
+</div>
