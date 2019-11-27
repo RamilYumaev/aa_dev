@@ -29,6 +29,7 @@ class OlimpicReadRepository
         $query->select('o.name, o.id');
         $query->where(['o.status' => OlympicHelper::ACTIVE]);
         $query->andWhere(['ol.year' => EduYearHelper::eduYear() ]);
+        $query->andWhere(['ol.prefilling' => false]);
         return $this->getProvider($query);
     }
 

@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Восстановление доступа';
+$this->title = 'Восстановление пароля';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">

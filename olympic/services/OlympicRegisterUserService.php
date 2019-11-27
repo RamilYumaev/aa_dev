@@ -147,7 +147,7 @@ class OlympicRegisterUserService
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
             ->setTo($user->email)
-            ->setSubject('Аккуант зарегистрирован!' . Yii::$app->name)
+            ->setSubject('Активация аккаунта. ' . Yii::$app->name)
             ->send();
     }
 
