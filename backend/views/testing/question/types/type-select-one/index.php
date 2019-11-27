@@ -1,23 +1,24 @@
 <?php
 use backend\widgets\adminlte\grid\GridView;
 use yii\grid\ActionColumn;
+use yii\helpers\Html;
 
-/* @var $this yii\web\View */
+/* @var $searchModel testing\forms\question\search\QuestionSearch */
 ?>
-<?= $this->render('_questions-type-link') ?>
+<?= $this->render('@backend/views/testing/question/_questions-type-link') ?>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
+            <div class="box-header">
+                <?=   Html::a('Создать', ['create'], [ 'class'=>'btn btn-success']); ?>
+            </div>
             <div class="box-body">
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
                     'columns' => [
                         ['class' => \yii\grid\SerialColumn::class],
                         'title',
-                        ['attribute' => 'type_id',
-                            'value' => function($model) {
-                    return \testing\helpers\TestQuestionHelper::typeName($model->type_id);
-                            }],
                         'text:raw',
                         ['class' => ActionColumn::class],
                     ]

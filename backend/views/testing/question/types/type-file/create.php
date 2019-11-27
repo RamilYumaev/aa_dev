@@ -16,7 +16,7 @@ use mihaildev\elfinder\ElFinder;
                 <?= $form->field($model, 'file_type_id')->dropDownList($model->groupFileTypesList())?>
             </div>
         </div>
-        <?= $this->render('_form-question', ['model' => $model->question, 'form' => $form,  'id' => '']) ?>
+        <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model->question, 'form' => $form,  'id' => '']) ?>
     </div>
 <?php ActiveForm::end(); ?>
 </div>

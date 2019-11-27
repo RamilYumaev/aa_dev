@@ -4,7 +4,7 @@
 namespace testing\models;
 
 use testing\forms\question\TestQuestionForm;
-use testing\forms\TestQuestionEditForm;
+use testing\forms\question\TestQuestionEditForm;
 use yii\db\ActiveRecord;
 
 class TestQuestion extends ActiveRecord
@@ -23,14 +23,11 @@ class TestQuestion extends ActiveRecord
         return $testQue;
     }
 
-    public function edit(TestQuestionEditForm $form, $group_id)
+    public function edit(TestQuestionEditForm $form,  $group_id, $file_type_id)
     {
-        $this->type_id = $form->type_id;
         $this->title = $form->title;
-        $this->mark = $form->mark;
         $this->text = $form->text;
-        $this->file_type_id = $form->file_type_id;
-        $this->options = $form->options;
+        $this->file_type_id = $file_type_id ?? null;
         $this->group_id = $group_id;
     }
 
