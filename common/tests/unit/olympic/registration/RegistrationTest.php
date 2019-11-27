@@ -20,6 +20,17 @@ class RegistrationTest extends \Codeception\Test\Unit
         ]);
     }
 
+    public function testSignUpForm()
+    {
+        $userForm = new \common\auth\forms\SignupForm();
+        $userForm->username = "ramil";
+        $userForm->email = "ramilka06@inbox.ru";
+        $userForm->password = "11111111";
+        $userForm->password_repeat = "11111111";
+        $userForm->agree = 1;
+
+    }
+
     public function testRegistration()
     {
         $userForm = new \common\auth\forms\SignupForm();
