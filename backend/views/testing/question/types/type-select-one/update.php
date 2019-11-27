@@ -1,21 +1,21 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
-use mihaildev\ckeditor\CKEditor;
-use mihaildev\elfinder\ElFinder;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model testing\forms\question\TestQuestionTypesForm */
+/* @var $model->question  testing\forms\question\TestQuestionForm */
+/* @var $model->answer  testing\forms\question\TestAnswerForm */
 
-\backend\assets\questions\QuestionMatchingAsset::register($this);
-
+\backend\assets\questions\QuestionSelectTypeOneAsset::register($this);
 ?>
 <div class="row">
     <div class="customer-form">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
         <div class="col-md-7">
-            <?= $this->render('_form-question', ['model' => $model->question, 'form' => $form, 'id'=> 'save-matching']) ?>
+            <?= $this->renderFile('@backend/views/testing/question/_form-question.php',
+                ['model' => $model->question, 'form' => $form, 'id'=> 'save-answer-select-type-one' ])?>
         </div>
         <div class="col-md-5">
             <div class="padding-v-md">
@@ -51,11 +51,12 @@ use mihaildev\elfinder\ElFinder;
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-body">
+                            <?= Html::activeHiddenInput($answer, "[{$index}]id"); ?>
                             <?= $form->field($answer, "[{$index}]name")->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($answer, "[{$index}]answer_match")->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($answer, "[{$index}]is_correct")->checkbox() ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
+                    <?php endforeach; ?>
                 </div>
                 <?php DynamicFormWidget::end(); ?>
             </div>
@@ -64,3 +65,4 @@ use mihaildev\elfinder\ElFinder;
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+

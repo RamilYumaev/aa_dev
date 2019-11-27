@@ -56,8 +56,8 @@ class TestQuestionGroupSearch extends Model
         ]);
 
         $query
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'year', $this->year]);
+        ->andFilterWhere(['like', 'name', $this->name])
+        ->andFilterWhere(['like', 'year', $this->year]);
 
         return $dataProvider;
     }

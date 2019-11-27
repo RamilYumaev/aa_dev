@@ -3,7 +3,10 @@
 
 namespace testing\forms\question;
 use common\auth\forms\CompositeForm;
+use testing\models\Answer;
+use testing\models\TestQuestion;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 
 
 class TestQuestionTypesForm extends CompositeForm
@@ -12,14 +15,23 @@ class TestQuestionTypesForm extends CompositeForm
     public $id;
     private $model;
     private $type;
+    public $oldIds;
 
-    public function __construct ($group_id, $type, $config = [])
+    public function __construct ($group_id, $type, TestQuestion $question = null, $config = [])
     {
         $this->type = $type;
         $this->id = "54789889545665845645645564546546456";
         $this->model = new AnswerForm($this->type);
-        $this->question = new TestQuestionForm($group_id, $this->type);
-        $this->answer = [$this->model];
+        if ($question) {
+            $this->question = new TestQuestionEditForm($question);
+            $modelAll = Answer::find()->where(['quest_id'=>$question->id])->all();
+            $this->oldIds = ArrayHelper::map($modelAll, 'id', 'id');
+            $this->answer = array_map(function ($answer) { return new AnswerForm($this->type, $answer);
+            }, $modelAll);
+        } else {
+            $this->question = new TestQuestionForm($group_id, $this->type);
+            $this->answer = [$this->model];
+        }
         parent::__construct($config);
     }
 
@@ -41,7 +53,7 @@ class TestQuestionTypesForm extends CompositeForm
             if ($postData){
                 $this->answer = [];
                 foreach ($postData as $value) {
-                    $this->answer [] = new AnswerForm($this->type, $value);
+                    $this->answer [] = new AnswerForm($this->type, null, $value);
                 }
             }
         } catch (InvalidConfigException $e) {
