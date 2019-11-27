@@ -15,7 +15,7 @@ class DictChairmansHelper
         });
     }
 
-    public static function chairmansFullNameOne($key): string
+    public static function chairmansFullNameOne($key): ? string
     {
         return ArrayHelper::getValue(self::chairmansFullNameList(), $key);
     }
@@ -29,7 +29,7 @@ class DictChairmansHelper
         });
     }
 
-    public static function chairmansNameOne($key): string
+    public static function chairmansNameOne($key): ? string
     {
         return ArrayHelper::getValue(self::chairmansNameList(), $key);
     }
