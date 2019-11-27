@@ -3,6 +3,7 @@
 
 namespace frontend\controllers;
 
+use common\helpers\FlashMessages;
 use dod\services\UserDodService;
 use frontend\components\UserNoEmail;
 use yii\filters\VerbFilter;
@@ -45,7 +46,7 @@ class UserDodController extends Controller
         $this->isGuest();
         try {
             $this->service->add($id, Yii::$app->user->id);
-            Yii::$app->session->setFlash('success', 'Спасибо за регистрацию.');
+            Yii::$app->session->setFlash('success', FlashMessages::get()["successDodRegistrationInsideCabinet"]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

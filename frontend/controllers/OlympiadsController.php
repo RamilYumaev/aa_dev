@@ -3,6 +3,7 @@
 
 namespace frontend\controllers;
 
+use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
 use olympic\forms\SignupOlympicForm;
 use olympic\readRepositories\OlimpicReadRepository;
@@ -56,8 +57,7 @@ class OlympiadsController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
-                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. 
-                Вам отправлено письмо. Для активации учетной записи, пожалуйста, следуйте инструкциям в письме.');
+                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
                 $this->redirect('index');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
