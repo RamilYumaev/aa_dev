@@ -3,6 +3,7 @@ namespace testing\services;
 
 use common\transactions\TransactionManager;
 use testing\forms\question\TestQuestionClozeForm;
+use testing\forms\question\TestQuestionClozeUpdateForm;
 use testing\forms\question\TestQuestionEditForm;
 use testing\forms\question\TestQuestionForm;
 use testing\forms\question\TestQuestionTypesFileForm;
@@ -69,11 +70,11 @@ class TestQuestionService
 
 
     private function addAnswerSelect(TestQuestionTypesForm $form, $quest_id) {
-         foreach ($form->answer as $index => $answer) {
-             $answerObject = Answer::create($quest_id, $answer->name, $answer->is_correct, null);
-             $this->answerRepository->save($answerObject);
-         }
+    foreach ($form->answer as $index => $answer) {
+        $answerObject = Answer::create($quest_id, $answer->name, $answer->is_correct, null);
+        $this->answerRepository->save($answerObject);
     }
+}
 
     private function updateAnswerSelect(TestQuestionTypesForm $form, $quest_id) {
         $deletedIDs = array_diff($form->oldIds, array_filter(ArrayHelper::map($form->answer, 'id', 'id')));
@@ -213,10 +214,54 @@ class TestQuestionService
                     }
                 }
             }
-
-
         });
         return $model;
+    }
+
+    public function updateTypeCloze(TestQuestionClozeUpdateForm $form)
+    {
+        $question = $this->repository->get($form->question->_question->id);
+        $group_id = $this->isGroupQuestionId($form->question->group_id);
+        $question->edit($form->question, $group_id, null);
+
+        $deletedQuestionPropIdsIDs = array_diff($form->oldQuestionPropIds, array_filter(ArrayHelper::map($form->questProp, 'id', 'id')));
+        $deletedAnswerClozeIds = array_diff($form->oldAnswerClozeIds, $form->answerClozeIds);
+        $this->transaction->wrap(function () use ($question, $form, $deletedQuestionPropIdsIDs, $deletedAnswerClozeIds) {
+            $this->repository->save($question);
+            if (!empty($deletedQuestionPropIdsIDs)) {
+                QuestionProposition::deleteAll(['id'=>$deletedQuestionPropIdsIDs]);
+            }
+            if (!empty($deletedAnswerClozeIds)) {
+                AnswerCloze::deleteAll(['id'=>$deletedAnswerClozeIds]);
+            }
+            if($form->questProp) {
+                foreach ($form->questProp as $index => $questProp) {
+                    if ($questProp->id) {
+                        $questPropModel  = $this->questionPropositionRepository->get($questProp->id);
+                        $questPropModel->edit($questProp->name, $questProp->is_start, $questProp->type);
+                    }else {
+                        $questPropModel = QuestionProposition::create($question->id, $questProp->name, $questProp->is_start, $questProp->type);
+                    }
+                    $this->questionPropositionRepository->save($questPropModel);
+                    if($questProp->type) {
+                        if (isset($form->answerCloze[$index]) && is_array($form->answerCloze[$index])) {
+                            foreach ($form->answerCloze[$index] as $answerCloze) {
+                                if ($answerCloze->name) {
+                                    $isCorrect = $questProp->type == TestQuestionHelper::CLOZE_TEXT ? 1 : $answerCloze->is_correct;
+                                    if ($answerCloze->id) {
+                                        $answerClozeModel = $this->answerClozeRepository->get($answerCloze->id);
+                                        $answerClozeModel->edit($answerCloze->name, $isCorrect);
+                                    }else {
+                                        $answerClozeModel = AnswerCloze::create($questPropModel->id, $answerCloze->name, $isCorrect);
+                                    }
+                                    $this->answerClozeRepository->save($answerClozeModel);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private function isGroupQuestionId($group_id) {

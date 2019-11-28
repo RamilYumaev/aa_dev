@@ -8,11 +8,17 @@ use yii\base\Model;
 
 class QuestionPropositionForm extends Model
 {
-    public $name, $is_start, $type, $typeQuestion;
+    public $name, $is_start, $type, $typeQuestion, $id;
 
-    public function __construct($type, $config = [])
+    public function __construct($type, QuestionProposition $questionProposition = null, $config = [])
     {
         $this->typeQuestion = $type;
+        if ($questionProposition) {
+            $this->id = $questionProposition->id;
+            $this->name = $questionProposition->name;
+            $this->is_start = $questionProposition->is_start;
+            $this->type = $questionProposition->type;
+        }
         parent::__construct($config);
     }
 

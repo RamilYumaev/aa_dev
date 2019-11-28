@@ -16,7 +16,7 @@ class TestQuestionClozeForm  extends CompositeForm
     private $modelAnswerCloze;
     private $type;
 
-    public function __construct ($group_id, $type, $config = [])
+    public function __construct ($group_id, $type,  $config = [])
     {
         $this->type = $type;
         $this->id = "54789889545665845645645564546546456";
