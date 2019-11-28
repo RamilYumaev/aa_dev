@@ -14,7 +14,8 @@ use yii\widgets\ActiveForm;
     <div class="customer-form">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
         <div class="col-md-7">
-            <?= $this->render('_form-question', ['model' => $model->question, 'form' => $form, 'id'=> 'save-answer-select-type']) ?>
+            <?= $this->renderFile('@backend/views/testing/question/_form-question.php',
+                ['model' => $model->question, 'form' => $form, 'id'=> 'save-answer-select-type' ])?>
         </div>
         <div class="col-md-5">
             <div class="padding-v-md">
@@ -50,11 +51,12 @@ use yii\widgets\ActiveForm;
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-body">
+                            <?= Html::activeHiddenInput($answer, "[{$index}]id"); ?>
                             <?= $form->field($answer, "[{$index}]name")->textInput(['maxlength' => true]) ?>
                             <?= $form->field($answer, "[{$index}]is_correct")->checkbox() ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
+                    <?php endforeach; ?>
                 </div>
                 <?php DynamicFormWidget::end(); ?>
             </div>

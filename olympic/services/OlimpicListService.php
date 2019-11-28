@@ -52,7 +52,7 @@ class OlimpicListService
     {
         $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
         $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
-
+      
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = OlimpicList::create($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
@@ -78,9 +78,10 @@ class OlimpicListService
 
     public function copy(OlimpicListCopyForm $form)
     {
+
         $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
         $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
-
+      
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
         $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
@@ -106,6 +107,7 @@ class OlimpicListService
 
     public function edit($id, OlimpicListEditForm $form)
     {
+
         $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
         $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
 
@@ -120,7 +122,7 @@ class OlimpicListService
                     foreach ($form->competitiveGroupsList as $cg) {
                         $competitiveGroup = $this->competitiveGroupRepository->get($cg);
                         $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
-                        $cgOlympic->save(false);
+                        $cgOlympic->save(false); //@TODO плохо отключать валидацию, надо исправить
                     }
                 }
                 if ($form->classesList) {

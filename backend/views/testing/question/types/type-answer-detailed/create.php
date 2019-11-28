@@ -11,7 +11,7 @@ use mihaildev\elfinder\ElFinder;
 <div class="row">
 <?php $form = ActiveForm::begin(['id' => 'form-question-answer-detailed']); ?>
     <div class="col-md-12">
-        <?= $this->render('_form-question', ['model' => $model, 'form' => $form,  'id' => '']) ?>
+        <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model, 'form' => $form,  'id' => '']) ?>
     </div>
 <?php ActiveForm::end(); ?>
 </div>

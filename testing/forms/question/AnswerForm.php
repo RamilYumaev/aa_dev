@@ -10,10 +10,17 @@ use yii\base\Model;
 class AnswerForm extends Model
 {
     public $name, $is_correct, $type, $answer_match;
+    public $id;
 
-    public function __construct($type, $config = [])
+    public function __construct($type, Answer $answer = null, $config = [])
     {
         $this->type = $type;
+        if ($answer) {
+            $this->id = $answer->id;
+            $this->name = $answer->name;
+            $this->is_correct = $answer->is_correct;
+            $this->answer_match = $answer->answer_match;
+        }
         parent::__construct($config);
     }
 

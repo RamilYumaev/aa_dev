@@ -48,10 +48,10 @@ class DictCompetitiveGroupEditForm extends Model
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year'], 'required'],
+            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
             [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status'], 'integer'],
             [['competition_count'], 'number'],
-            [['education_duration'], 'safe'],
+            [['education_duration'], 'double'],
             [['link'], 'string', 'max' => 255],
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
                 'unique', 'targetClass' => DictCompetitiveGroup::class,  'filter' => ['<>', 'id', $this->_competitiveGroup->id],  'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
