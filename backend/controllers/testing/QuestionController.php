@@ -1,24 +1,32 @@
 <?php
 
 
-namespace backend\controllers\testing\question;
+namespace backend\controllers\testing;
 
-use testing\models\TestQuestion;
+use testing\services\AnswersService;
 use testing\services\TestQuestionService;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use Yii;
 
 class QuestionController extends Controller
 {
 
+    private $service;
+
+    public function __construct($id, $module, AnswersService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
+
     public function actionIndex() {
-
-        $query = TestQuestion::find()->orderBy(['id'=> SORT_DESC]);
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        try {
+            $this->service->create();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->render('index');
     }
 
 }

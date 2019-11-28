@@ -57,6 +57,12 @@ class TypeClozeController extends Controller
         return $this->render('create', ['model' => $form]);
     }
 
+    public function actionView($id) {
+        return $this->render('view', [
+            'question' => $this->findModel($id)
+        ]);
+    }
+
     /**
      * @param integer $id
      * @return mixed
