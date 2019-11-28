@@ -4,6 +4,7 @@ use yii\grid\ActionColumn;
 use yii\helpers\Html;
 
 /* @var $searchModel testing\forms\question\search\QuestionSearch */
+$this->title = "с загрузкой файла";
 ?>
 <?= $this->render('@backend/views/testing/question/_questions-type-link') ?>
 <div class="row">

@@ -1,2 +1,2 @@
 <?php
-var_dump($model);
+var_dump($model); //@TODO надо бы убрать
