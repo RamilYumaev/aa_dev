@@ -22,11 +22,11 @@ class QuestionProposition extends ActiveRecord
         return $answer;
     }
 
-    public function edit($name, $isCorrect, $answerMatch)
+    public function edit($name, $is_start, $type)
     {
         $this->name = $name;
-        $this->is_start = $isCorrect;
-        $this->type = $answerMatch;
+        $this->is_start = $is_start;
+        $this->type = $type;
     }
 
     public function attributeLabels()
