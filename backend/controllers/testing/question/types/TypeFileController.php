@@ -65,6 +65,12 @@ class TypeFileController extends Controller
         return $this->render('update', ['model' => $form, 'question' => $model]);
     }
 
+    public function actionView($id) {
+        return $this->render('view', [
+            'question' => $this->findModel($id)
+        ]);
+    }
+
     /**
      * @param integer $id
      * @return mixed

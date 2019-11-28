@@ -59,6 +59,12 @@ class TypeMatchingController extends Controller
         return $this->render('update', ['model' => $form, 'question' => $model]);
     }
 
+    public function actionView($id) {
+        return $this->render('view', [
+            'question' => $this->findModel($id)
+        ]);
+    }
+
     public function actionIndex()
     {
         $searchModel = new QuestionSearch($this->type);

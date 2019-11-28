@@ -51,6 +51,12 @@ class TypeSelectOneController extends Controller
         ]);
     }
 
+    public function actionView($id) {
+        return $this->render('view', [
+            'question' => $this->findModel($id)
+        ]);
+    }
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
