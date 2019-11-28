@@ -1,7 +1,7 @@
 <?php
 
 
-namespace backend\controllers\testing\question;
+namespace backend\controllers\testing;
 
 use testing\models\TestQuestion;
 use testing\services\TestQuestionService;
