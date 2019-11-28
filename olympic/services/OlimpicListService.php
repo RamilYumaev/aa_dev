@@ -50,10 +50,10 @@ class OlimpicListService
 
     public function create(OlimpicListCreateForm $form)
     {
-        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+       // if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
             $faculty = $this->facultyRepository->get($form->faculty_id);
             $chairman = $this->chairmansRepository->get($form->chairman_id);
-        }
+     //   }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = OlimpicList::create($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
@@ -79,10 +79,10 @@ class OlimpicListService
 
     public function copy(OlimpicListCopyForm $form)
     {
-        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+       // if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
             $faculty = $this->facultyRepository->get($form->faculty_id);
             $chairman = $this->chairmansRepository->get($form->chairman_id);
-        }
+      //  }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
         $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null,  $olympic->id);
@@ -108,10 +108,10 @@ class OlimpicListService
 
     public function edit($id, OlimpicListEditForm $form)
     {
-        if ($form->prefilling == OlympicHelper::PREFILING_BAS) {
+      //  if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
             $faculty = $this->facultyRepository->get($form->faculty_id);
             $chairman = $this->chairmansRepository->get($form->chairman_id);
-        }
+      //  }
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = $this->repository->get($id);
 
@@ -123,7 +123,7 @@ class OlimpicListService
                     foreach ($form->competitiveGroupsList as $cg) {
                         $competitiveGroup = $this->competitiveGroupRepository->get($cg);
                         $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
-                        $cgOlympic->save(false);
+                        $cgOlympic->save(false); //@TODO плохо отключать валидацию, надо исправить
                     }
                 }
                 if ($form->classesList) {
