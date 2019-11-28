@@ -881,7 +881,11 @@ input.break {
 
 @media (min-width: 768px) {
     .breadcrumb {
-        margin-top: 50px;
+        margin-top: 30px;
+    }
+
+    h1 {
+        font-size: 12px !important;
     }
 }
 

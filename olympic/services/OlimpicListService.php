@@ -27,7 +27,7 @@ class OlimpicListService
     private $chairmansRepository;
     private $competitiveGroupRepository;
     private $transaction;
-    public  $classRepository;
+    public $classRepository;
 
     public function __construct(
         OlimpicListRepository $repository,
@@ -50,72 +50,71 @@ class OlimpicListService
 
     public function create(OlimpicListCreateForm $form)
     {
-       // if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
-            $faculty = $this->facultyRepository->get($form->faculty_id);
-            $chairman = $this->chairmansRepository->get($form->chairman_id);
-     //   }
+        $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
+        $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
+      
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = OlimpicList::create($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
-                $this->repository->save($model);
-                if ($form->competitiveGroupsList) {
-                    foreach ($form->competitiveGroupsList as $cg) {
-                        $competitiveGroup = $this->competitiveGroupRepository->get($cg);
-                        $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
-                        $cgOlympic->save(false);
-                    }
+            $this->repository->save($model);
+            if ($form->competitiveGroupsList) {
+                foreach ($form->competitiveGroupsList as $cg) {
+                    $competitiveGroup = $this->competitiveGroupRepository->get($cg);
+                    $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
+                    $cgOlympic->save(false);
                 }
-                if ($form->classesList) {
-                    foreach ($form->classesList as $class) {
-                        $dictClass = $this->classRepository->get($class);
-                        $classOlympic = ClassAndOlympic::create($dictClass->id, $model->id);
-                        $classOlympic->save(false);
-                    }
+            }
+            if ($form->classesList) {
+                foreach ($form->classesList as $class) {
+                    $dictClass = $this->classRepository->get($class);
+                    $classOlympic = ClassAndOlympic::create($dictClass->id, $model->id);
+                    $classOlympic->save(false);
                 }
-            });
+            }
+        });
 
         return $model;
     }
 
     public function copy(OlimpicListCopyForm $form)
     {
-       // if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
-            $faculty = $this->facultyRepository->get($form->faculty_id);
-            $chairman = $this->chairmansRepository->get($form->chairman_id);
-      //  }
+
+        $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
+        $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
+      
         $olympic = $this->olympicRepository->get($form->olimpic_id);
 
-        $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null,  $olympic->id);
-            $this->transaction->wrap(function () use ($model, $form) {
-                $this->repository->save($model);
-                if ($form->competitiveGroupsList) {
-                    foreach ($form->competitiveGroupsList as $cg) {
-                        $competitiveGroup = $this->competitiveGroupRepository->get($cg);
-                        $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
-                        $cgOlympic->save(false);
-                    }
+        $model = OlimpicList::copy($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
+        $this->transaction->wrap(function () use ($model, $form) {
+            $this->repository->save($model);
+            if ($form->competitiveGroupsList) {
+                foreach ($form->competitiveGroupsList as $cg) {
+                    $competitiveGroup = $this->competitiveGroupRepository->get($cg);
+                    $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
+                    $cgOlympic->save(false);
                 }
-                if ($form->classesList) {
-                    foreach ($form->classesList as $class) {
-                        $dictClass = $this->classRepository->get($class);
-                        $classOlympic = ClassAndOlympic::create($dictClass->id, $model->id);
-                        $classOlympic->save(false);
-                    }
+            }
+            if ($form->classesList) {
+                foreach ($form->classesList as $class) {
+                    $dictClass = $this->classRepository->get($class);
+                    $classOlympic = ClassAndOlympic::create($dictClass->id, $model->id);
+                    $classOlympic->save(false);
                 }
-            });
+            }
+        });
         return $model;
     }
 
     public function edit($id, OlimpicListEditForm $form)
     {
-      //  if ($form->prefilling == OlympicHelper::PREFILING_BAS) { //@TODO зачем это?
-            $faculty = $this->facultyRepository->get($form->faculty_id);
-            $chairman = $this->chairmansRepository->get($form->chairman_id);
-      //  }
+
+        $faculty = $form->faculty_id ? $this->facultyRepository->get($form->faculty_id) : null;
+        $chairman = $form->chairman_id ? $this->chairmansRepository->get($form->chairman_id) : null;
+
         $olympic = $this->olympicRepository->get($form->olimpic_id);
         $model = $this->repository->get($id);
 
-        $model->edit($form, $chairman->id ?? null, $faculty->id ?? null,   $olympic->id);
+        $model->edit($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
         try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->deleteRelation($model->id);
@@ -134,7 +133,7 @@ class OlimpicListService
                     }
                 }
 
-                 $this->repository->save($model);
+                $this->repository->save($model);
             });
         } catch (\Exception $e) {
         }
@@ -147,9 +146,10 @@ class OlimpicListService
         $this->repository->remove($model);
     }
 
-    private function deleteRelation($id) {
-        OlimpicCg::deleteAll(['olimpic_id'=> $id]);
-        ClassAndOlympic::deleteAll(['olympic_id'=> $id]);
+    private function deleteRelation($id)
+    {
+        OlimpicCg::deleteAll(['olimpic_id' => $id]);
+        ClassAndOlympic::deleteAll(['olympic_id' => $id]);
     }
 
 }

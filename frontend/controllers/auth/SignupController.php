@@ -5,6 +5,7 @@ namespace frontend\controllers\auth;
 use common\auth\forms\SignupForm;
 use common\auth\forms\UserEmailForm;
 use common\auth\services\SignupService;
+use common\helpers\FlashMessages;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
@@ -62,8 +63,7 @@ class SignupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
-                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. 
-                Вам отправлено письмо. Для активации учетной записи, пожалуйста, следуйте инструкциям в письме.');
+                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
                 return $this->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

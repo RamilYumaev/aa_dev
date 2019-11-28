@@ -83,7 +83,7 @@ class OlympiadsController extends Controller
         if (($model = $this->repository->find($id)) !== null) {
             return $model;
         }
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(FlashMessages::get()["notFoundHttpException"]);
     }
 
 
