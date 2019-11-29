@@ -54,12 +54,11 @@ class OlympicRegisterUserService
         $this->classRepository = $classRepository;
     }
 
-    public function signup(SignupOlympicForm $form): User
+    public function signup(SignupOlympicForm $form): void
     {
-        $user = $this->newUser($form->user);
+        $this->transaction->wrap(function () use ($form) {
 
-        $this->transaction->wrap(function () use ($user, $form) {
-
+            $user = $this->newUser($form->user);
             $this->userRepository->save($user);
 
             $profile = $this->newProfile($form->profile, $user->id);
@@ -71,9 +70,8 @@ class OlympicRegisterUserService
             $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
             $this->userOlimpiadsRepository->save($userOlympic);
 
+            $this->sendEmail($user);
         });
-
-        return $user;
     }
 
     public function newUser(SignupForm $form): User

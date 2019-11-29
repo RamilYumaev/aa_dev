@@ -39,7 +39,6 @@ class TypeClozeController extends Controller
 
     public function actionCreate($olympic_id,$group_id = null)
     {
-
         $form = new TestQuestionClozeForm($group_id, $this->type);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->questProp = $form->questPropMore();
@@ -60,11 +59,9 @@ class TypeClozeController extends Controller
         return $this->render('create', ['model' => $form]);
     }
 
-
     public function actionUpdate($id, $olympic_id)
     {
         $model = $this->findModel($id, $olympic_id);
-
         $form = new TestQuestionClozeUpdateForm(null, $this->type,$model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->questProp = $form->questPropMore();

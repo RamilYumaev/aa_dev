@@ -25,8 +25,9 @@ $b = 6;
 ?>
 <?php if ($model): ?>
 <div class="container">
-
-        <h1>Дни открытых дверей в институтах и факультетах МПГУ:</h1>
+    <div class="mt-60">
+        <h2>Дни открытых дверей в институтах и факультетах МПГУ:</h2>
+    </div>
     <?php foreach ($model as $dod) : ?>
         <?php if ($c % 3 == 0): ?>
             <div class="row">
