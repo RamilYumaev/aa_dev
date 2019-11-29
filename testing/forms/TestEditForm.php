@@ -4,7 +4,9 @@
 namespace testing\forms;
 
 
+use olympic\helpers\ClassAndOlympicHelper;
 use olympic\helpers\OlympicHelper;
+use testing\helpers\TestHelper;
 use testing\models\Test;
 use yii\base\Model;
 
@@ -15,8 +17,8 @@ class TestEditForm  extends Model
         $type_calculate_id,
         $calculate_value,
         $introduction,
-        $final_review,
-        $questionGroupsList;
+        $final_review, $classesList;
+
 
     public function __construct(Test $test, $config = [])
     {
@@ -26,7 +28,6 @@ class TestEditForm  extends Model
         $this->calculate_value = $test->calculate_value;
         $this->introduction = $test->introduction;
         $this->final_review = $test->final_review;
-        $this->questionGroupsList = $test->questionGroupsList;
         parent::__construct($config);
     }
 
@@ -37,34 +38,27 @@ class TestEditForm  extends Model
             [['olimpic_id', 'status', 'type_calculate_id', 'calculate_value'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
-            [['classesList'], 'validateClassesList'],
-            ['questionGroupsList', 'safe'],
         ];
     }
 
-    public function validateClassesList($attribute, $params)
+    public function classFullNameList(): array
     {
-        if ($this->hasErrors()) {
-            return;
-        }
-
-        $query = TestClass::find()
-            ->joinWith(['test'], false)
-            ->andWhere([self::tableName() . '.olimpic_id' => $this->olimpic_id])
-            ->andWhere(['in', 'class_id', $this->{$attribute}]);
-        if ($this->id) {
-            $query->andWhere(['<>', TestClass::tableName() . '.test_id', $this->id]);
-        }
-
-        if ($query->exists()) {
-            $this->addError($attribute, 'Множество классов тестов в рамках одной олимпиады пересекаться не могут.');
-        }
+        return ClassAndOlympicHelper::olympicClassLists($this->olimpic_id);
     }
 
-
-    public function olimpicList(): array
+    public function isFormOcnoZaochno(): bool
     {
-        return OlympicHelper::olimpicList();
+        return $this->_olympicList->form_of_passage == OlympicHelper::OCHNO_ZAOCHNAYA_FORMA;
+    }
+
+    public function attributeLabels()
+    {
+        return Test::labels();
+    }
+
+    public function typeCalculateList(): array
+    {
+        return TestHelper::typeCalculateList();
     }
 
 

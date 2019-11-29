@@ -20,14 +20,13 @@ use yii\helpers\Html;
                     return \testing\helpers\TestQuestionHelper::typeName($model->type_id);
                   },
                   'format' => 'raw',],
-                ['attribute' => 'text',
-                  'value' => 'text',
-                  'format' => 'raw'],
-                ['attribute' => 'file_type_id',
+                  'text:html',
+                ['attribute' => 'group_id',
                     'value' => function ($model) {
-                        return \testing\helpers\TestQuestionHelper::fileTypeName($model->file_type_id);
+                        return \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($model->group_id);
                     },
                     'format' => 'raw'],
+
             ],
         ]) ?>
     </div>

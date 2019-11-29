@@ -24,7 +24,7 @@ class TestQuestionGroupHelper
         });
     }
 
-    public static function testQuestionGroupName($key): string
+    public static function testQuestionGroupName($key): ?string
     {
         return ArrayHelper::getValue(self::testQuestionGroupList(), $key);
     }

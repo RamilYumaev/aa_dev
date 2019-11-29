@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 class TestQuestion extends ActiveRecord
 {
 
-    public static function create(TestQuestionForm $form, $group_id, $file_type_id, $options)
+    public static function create(TestQuestionForm $form, $group_id, $file_type_id, $options, $olympic_id)
     {
         $testQue = new static();
         $testQue->type_id = $form->type_id;
@@ -20,6 +20,7 @@ class TestQuestion extends ActiveRecord
         $testQue->file_type_id = $file_type_id ?? null;
         $testQue->options = $options;
         $testQue->group_id = $group_id;
+        $testQue->olympic_id = $olympic_id;
         return $testQue;
     }
 

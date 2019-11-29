@@ -8,22 +8,23 @@ use yii\helpers\Html;
 ?>
 <div class="box box-default">
     <div class="box box-header">
-        <h4>Группы вопросов данного теста</h4>
+        <h4>Вопросы данного теста</h4>
+        <?= Html::a('Добвить вопрос', ['/testing/question/types/type-select-one'], [ 'class'=>'btn btn-success']); ?>
+        <?= Html::a('Добавить группу', ['/testing/question/types/type-matching'], [ 'class'=>'btn btn-success']); ?>
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute' => 'question_group_id',
+                ['attribute' => 'test_group_id',
                   'value' => function ($model) {
-                    return \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($model->question_group_id);
+                    return $model->test_group_id;
                   }],
-                ['label'=> "Количество вопросов",
+                ['attribute' => 'question_id',
                     'value' => function ($model) {
-                        return \testing\helpers\TestAndQuestionsHelper::questionTestGroupCount($model->id);
+                        return $model->question_id;
                     }],
-                ['label'=> '',
-                    'format' => 'raw',
+                ['attribute' => 'mark',
                     'value' => function ($model) {
                         return Html::a(
                                 'Выбрать вопросы',['/testing/test-and-questions/create',

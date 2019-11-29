@@ -25,6 +25,12 @@ class OlympicListHelper
         return ArrayHelper::map(OlimpicList::find()->where(['year'=> EduYearHelper::eduYear() ])->all(), "id", 'name');
     }
 
+    public static function olympicOne($id): OlimpicList
+    {
+        return OlimpicList::findOne($id);
+    }
+
+
     public static function olympicAndYearList(): array
     {
         return ArrayHelper::map(OlimpicList::find()->asArray()->all(), "id", function (array $model) {

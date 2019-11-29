@@ -10,7 +10,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурс�
 $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\modal\ModalAsset::register($this);
 ?>
-
+<div class="row">
+    <div class="col-md-12">
     <div class="box box-default">
         <div class="box box-header">
         <p>
@@ -29,6 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
         </div>
     </div>
-<?= \backend\widgets\olimpic\OlipicListInOLymipViewWidget::widget(['model'=> $olympic]) ?>
+    </div>
+</div>
 
-<?= \backend\widgets\testing\TestQuestionGroupWidget::widget(['model'=> $olympic]) ?>
+<?= \backend\widgets\olimpic\OlipicListInOLymipViewWidget::widget(['model'=> $olympic]) ?>
+<div class="row">
+    <div class="col-md-12">
+        <?= $this->render('@backend/views/testing/question/_questions-type-link', ['olympic' => $olympic->id]) ?>
+    </div>
+    <div class="col-md-12">
+        <?= \backend\widgets\testing\TestQuestionGroupWidget::widget(['model'=> $olympic]) ?>
+    </div>
+
+    </div>
+</div>
+

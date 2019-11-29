@@ -34,7 +34,7 @@ class QuestionProposition extends ActiveRecord
         return [
             'id' => 'ID',
             'quest_id' => 'Вопрос',
-            'is_start' => 'Вложенный ответ в начеле предложения ?',
+            'is_start' => 'Вложенный ответ в начале предложения ?',
             'name' => 'Предложение',
             'type' => 'Тип вложенного ответа',
         ];

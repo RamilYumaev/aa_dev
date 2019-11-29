@@ -50,7 +50,7 @@ class TestQuestionClozeForm  extends CompositeForm
             if ($postData){
                 $this->questProp = [];
                 foreach ($postData as $value) {
-                    $this->questProp [] = new QuestionPropositionForm($this->type, $value);
+                    $this->questProp [] = new QuestionPropositionForm($this->type, null, $value);
                 }
             }
         } catch (InvalidConfigException $e) {
