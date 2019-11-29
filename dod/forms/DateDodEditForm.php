@@ -3,8 +3,6 @@
 
 namespace dod\forms;
 
-
-use dod\helpers\DodHelper;
 use dod\models\DateDod;
 use yii\base\Model;
 

@@ -22,15 +22,15 @@ class TypeMatchingController extends Controller
         $this->service = $service;
     }
 
-    public function actionCreate($group_id = null)
+    public function actionCreate($olympic_id, $group_id = null)
     {
         $form = new TestQuestionTypesForm($group_id, $this->type);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->answer = $form->isArrayMoreAnswer();
             if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
                 try {
-                    $this->service->create($form);
-                    return $this->redirect('index');
+                    $this->service->create($form, $olympic_id);
+                    return $this->redirect(['index', 'olympic_id' => $olympic_id]);
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());
@@ -40,16 +40,16 @@ class TypeMatchingController extends Controller
         return $this->render('create', ['model' => $form]);
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate($id, $olympic_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $olympic_id);
         $form = new TestQuestionTypesForm(null, $this->type, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->answer = $form->isArrayMoreAnswer();
             if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {
                 try {
                     $this->service->update($form);
-                    return $this->redirect('index');
+                    return $this->redirect(['index', 'olympic_id' => $olympic_id]);
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());
@@ -58,19 +58,19 @@ class TypeMatchingController extends Controller
         }
         return $this->render('update', ['model' => $form, 'question' => $model]);
     }
-
-    public function actionView($id) {
+    public function actionView($id, $olympic_id) {
         return $this->render('view', [
-            'question' => $this->findModel($id)
+            'question' => $this->findModel($id, $olympic_id)
         ]);
     }
 
-    public function actionIndex()
+    public function actionIndex($olympic_id)
     {
-        $searchModel = new QuestionSearch($this->type);
+        $searchModel = new QuestionSearch($olympic_id, $this->type);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'olympic_id' => $olympic_id,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -81,9 +81,9 @@ class TypeMatchingController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): TestQuestion
+    protected function findModel($id, $olympic_id): TestQuestion
     {
-        if (($model = TestQuestion::findOne(['id'=>$id, 'type_id' => $this->type])) !== null) {
+        if (($model = TestQuestion::findOne(['id'=>$id, 'type_id' => $this->type, 'olympic_id' => $olympic_id])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');

@@ -14,6 +14,7 @@ class TestQuestionTypesFileForm extends CompositeForm
     {
         if ($question) {
             $this->question = new TestQuestionEditForm($question);
+             $this->file_type_id = $question->file_type_id;
         } else {
             $this->question = new TestQuestionForm($group_id, $type);
         }

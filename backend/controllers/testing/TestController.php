@@ -3,10 +3,13 @@
 namespace backend\controllers\testing;
 use olympic\models\OlimpicList;
 use testing\forms\search\TestSearch;
+use testing\forms\TestAndQuestionsTableMarkForm;
 use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
 use testing\models\Test;
+use testing\models\TestAndQuestions;
 use testing\services\TestService;
+use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -57,8 +60,17 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $modelTestAndQuestions= TestAndQuestions::find()->where(['test_id'=> $model->id])->indexBy('id')->all();
+        $testAndQuestion = new TestAndQuestionsTableMarkForm($modelTestAndQuestions);
+        if (Model::loadMultiple($testAndQuestion->arrayMark, Yii::$app->request->post())) {
+
+            return $this->redirect(['view','id'=> $model->id]);
+        }
+
         return $this->render('view', [
-            'test' => $this->findModel($id),
+            'test' => $model,
+            'testAndQuestion' =>$testAndQuestion
         ]);
     }
 

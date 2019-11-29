@@ -41,7 +41,7 @@ class AnswerForm extends Model
                 $this->addError('name', 'Необходимо заполнить «Наименование».');
             }
             if ($this->type == TestQuestionHelper::TYPE_MATCHING && empty($this->answer_match)) {
-                $this->addError('answer_match', 'Необходимо заполнить «Сопаставление».');
+                $this->addError('answer_match', 'Необходимо заполнить «Сопоставление».');
             }
             return true;
         }
