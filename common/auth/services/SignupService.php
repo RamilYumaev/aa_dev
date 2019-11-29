@@ -4,7 +4,6 @@
 namespace common\auth\services;
 
 use common\auth\forms\UserEmailForm;
-use common\helpers\FlashMessages;
 use olympic\models\auth\Profiles;
 use olympic\repositories\auth\ProfileRepository;
 use Yii;
@@ -31,16 +30,17 @@ class SignupService
         $this->profileRepository = $profileRepository;
     }
 
-    public function signup(SignupForm $form): User
+    public function signup(SignupForm $form): void
     {
-        $user = $this->newUser($form);
-        $this->transaction->wrap(function () use ($user) {
+        $this->transaction->wrap(function () use ($form) {
+            $user = $this->newUser($form);
             $this->users->save($user);
+
             $profile = $this->newProfile($user->id);
             $this->profileRepository->save($profile);
-        });
 
-        return $user;
+            $this->sendEmail($user);
+        });
     }
 
     public function newUser(SignupForm $form): User
@@ -65,7 +65,7 @@ class SignupService
     public function confirm($token): void
     {
         if (empty($token) || !is_string($token)) {
-            throw new InvalidArgumentException(FlashMessages::get()["verify_email_token_cannot_be_blank"]);
+            throw new InvalidArgumentException('Verify email token cannot be blank.');
         }
         $user = $this->users->getByVerificationToken($token);
         $user->confirmSignup();

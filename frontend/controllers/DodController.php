@@ -3,7 +3,6 @@
 
 namespace frontend\controllers;
 
-use common\helpers\FlashMessages;
 use dod\forms\SignupDodForm;
 use dod\readRepositories\DateDodReadRepository;
 use dod\services\DodRegisterUserService;
@@ -54,7 +53,8 @@ class DodController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form);
-                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
+                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. 
+                Вам отправлено письмо. Для активации учетной записи, пожалуйста, следуйте инструкциям в письме.');
                 $this->redirect('index');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

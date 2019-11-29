@@ -35,7 +35,7 @@ class RegistrationOnOlympicCest
         $I->fillField("#profilecreateform-phone", "+7(991)313-27-63");
         $I->fillField("#profilecreateform-country_id", 46);
         $I->fillField("#profilecreateform-region_id", 77);
-        $I->fillField("#schooluserform-class_id", 1);
+        $I->fillField("#schooluserform-class_id", 7);
         $I->click('submit', '.btn-success');
         $I->see(FlashMessages::get()['successRegistration']);
 
