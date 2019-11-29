@@ -8,8 +8,8 @@ use mihaildev\elfinder\ElFinder;
 /* @var $model testing\forms\question\TestQuestionForm */
 /* @var  $id string '*/
 ?>
-<div class="box">
-    <div class="box-body">
+<div class="container">
+    <div class="row">
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'group_id')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите группу вопросов',],

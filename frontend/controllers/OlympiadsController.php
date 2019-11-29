@@ -56,14 +56,18 @@ class OlympiadsController extends Controller
         $form = new SignupOlympicForm($olympic);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->signup($form);
-                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
-                $this->redirect('index');
+                $user = $this->service->signup($form);
+                if ($this->service->sendEmail($user)) {
+                    Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
+                } else {
+                    Yii::$app->session->setFlash('error', FlashMessages::get()["registrationError"]);
+                }
+
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->goHome();
         }
 
         return $this->render('registration-on-olympiads', [
@@ -85,8 +89,6 @@ class OlympiadsController extends Controller
         }
         throw new NotFoundHttpException(FlashMessages::get()["notFoundHttpException"]);
     }
-
-
 
 
     /*

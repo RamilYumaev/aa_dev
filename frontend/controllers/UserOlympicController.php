@@ -3,12 +3,14 @@
 
 namespace frontend\controllers;
 
+use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
 use olympic\models\OlimpicList;
 use olympic\services\UserOlimpiadsService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
+use yii\web\HttpException;
 
 class UserOlympicController extends Controller
 {
@@ -46,7 +48,7 @@ class UserOlympicController extends Controller
         $this->isGuest();
         try {
             $this->service->add($id, Yii::$app->user->id);
-            Yii::$app->session->setFlash('success', 'Спасибо за регистрацию.');
+            Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -73,7 +75,7 @@ class UserOlympicController extends Controller
 
     protected function isGuest() {
         if (Yii::$app->user->isGuest) {
-            return $this->redirect(['dod/index']);
+            throw new HttpException("403", "Вы не авторизованы!");
         }
     }
 }

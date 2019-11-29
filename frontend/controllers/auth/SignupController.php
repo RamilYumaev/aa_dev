@@ -62,9 +62,14 @@ class SignupController extends Controller
         $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->signup($form);
-                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
-                return $this->goHome();
+                $user = $this->service->signup($form);
+                if($this->service->sendEmail($user)){
+                    Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
+                    return $this->goHome();
+                }else{
+                    Yii::$app->session->setFlash('error', FlashMessages::get()["registrationError"]);
+
+                };
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -112,7 +117,7 @@ class SignupController extends Controller
     {
         try {
             $this->service->confirm($token);
-            Yii::$app->session->setFlash('success', 'Ваш адрес электронной почты подтвержден.');
+            Yii::$app->session->setFlash('success', FlashMessages::get()["confirm_email"]);
             return $this->redirect(['auth/auth/login']);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

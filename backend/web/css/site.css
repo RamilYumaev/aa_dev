@@ -21,7 +21,7 @@ body {
     padding-top: 20px;
 }
 
-.modal-content{
+.modal-content {
     border-radius: 10px !important;
 }
 
@@ -122,4 +122,44 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.button {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 3px;
+    min-height: 70px;
+    text-align: center;
+}
+
+.button a {
+    color: #ffffff;
+}
+
+.button a:hover {
+    color: #acacaf;
+}
+
+.blue {
+    background-color: #0b72b8;
+}
+
+.orange {
+    background-color: #fb6f3e;
+}
+.green {
+    background-color: #007518;
+}
+.red {
+    background-color: #E31E24;
+}
+.pink{
+    background-color: #b84600;
+}
+
+.purple{
+    background-color: #8c13bd;
+}
+.dark-purple{
+    background-color: #605ca8;
 }
