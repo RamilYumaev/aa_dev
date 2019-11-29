@@ -13,10 +13,10 @@ use kartik\select2\Select2;
 <div>
     <?php $form = ActiveForm::begin(['id' => 'test-form']); ?>
 
-    <?= $form->field($model, 'questionList')->widget(Select2::class, [
-        'data' => $model->questionList(),
-        'options' => ['placeholder' => 'Выберите вопросы/задания ', 'multiple' => true],
-    ])->label('Классы') ?>
+    <?= $form->field($model, 'test_group_id')->widget(Select2::class, [
+        'data' => $model->questionGroupList(),
+        'options' => ['placeholder' => 'Выберите группу вопросов '],
+    ])->label('Группа вопросов') ?>
 
     <div class="form-group">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>

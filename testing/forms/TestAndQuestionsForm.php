@@ -2,38 +2,58 @@
 
 namespace testing\forms;
 
+use olympic\helpers\OlympicListHelper;
+use testing\helpers\TestQuestionGroupHelper;
 use testing\helpers\TestQuestionHelper;
+use testing\models\Test;
 use yii\base\Model;
 
 class TestAndQuestionsForm extends Model
 {
-    public $test_id, $test_group_id, $question_group_id, $questionList;
+    public $test_id, $test_group_id, $question_id;
+    private $olympic, $isGroup;
 
-    public function __construct($test_id, $test_group_id, $question_group_id, $config = [])
+    public function __construct(Test $test, $isGroup, $config = [])
     {
-        $this->test_group_id = $test_group_id;
-        $this->question_group_id = $question_group_id;
-        $this->test_id = $test_id;
+        $this->isGroup = $isGroup;
+        $this->test_id = $test->id;
+        $this->olympic = OlympicListHelper::olympicOne($test->olimpic_id);
+
         parent::__construct($config);
     }
 
     public function rules()
     {
         return [
-            [['test_id','test_group_id', 'question_group_id', 'questionList'], 'required'],
-            [['test_id', 'test_group_id'], 'integer'],
-            [['questionList'], 'safe'],
+            [['test_id'], 'required'],
+            [['test_id', 'test_group_id', 'question_id'], 'integer'],
         ];
     }
 
-    public function questionList(): array
+    public function beforeValidate()
     {
-        return TestQuestionHelper::questionList($this->question_group_id);
+        if (parent::beforevalidate()) {
+            if ($this->isGroup &&  empty($this->test_group_id)) {
+                $this->addError('name', 'Необходимо заполнить «Группу вопросов».');
+            }
+            if (!$this->isGroup &&  empty($this->question_id)) {
+                $this->addError('answer_match', 'Необходимо заполнить «Вопрос».');
+            }
+            return true;
+        }
+        return false;
     }
 
-    public function attributeLabels()
+
+    public function questionList(): array
     {
-        return ['questionList' => 'Вопросы, задания'];
+        return TestQuestionHelper::questionOlympicList($this->olympic->olimpic_id);
     }
+
+    public function questionGroupList(): array
+    {
+        return TestQuestionGroupHelper::testQuestionGroupOlympicList($this->olympic->olimpic_id);
+    }
+
 
 }

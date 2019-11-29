@@ -1,6 +1,4 @@
 <?php
-
-
 namespace testing\services;
 
 
@@ -33,20 +31,20 @@ class TestAndQuestionsService
         $this->transactionManager = $transactionManager;
     }
 
-    public function create(TestAndQuestionsForm $form): void
+    public function addQuestions(TestAndQuestionsForm $form): void
     {
         $test = $this->testRepository->get($form->test_id);
-        $test_group = $this->testGroupRepository->getIdAndTest($form->test_group_id, $test->id);
-        $this->transactionManager->wrap(function () use ($form, $test, $test_group) {
-            if($form->questionList) {
-                foreach ($form->questionList as $question) {
-                    $question = $this->questionRepository->getIdAndGroupId($question, $test_group->question_group_id);
-                    $this->repository->isTestGroupQuestionTest($test->id, $question->id, $test_group->id);
-                    $testAndQuestion = TestAndQuestions::create($test_group->id, $question->id, $test->id);
-                    $this->repository->save($testAndQuestion);
-                }
-            }
-        });
+        $question = $this->questionRepository->get($form->question_id);
+        $testAndQuestion = TestAndQuestions::create(null, $question->id, $test->id);
+        $this->repository->save($testAndQuestion);
+    }
+
+    public function addGroup(TestAndQuestionsForm $form): void
+    {
+        $test = $this->testRepository->get($form->test_id);
+        $test_group = $this->testGroupRepository->get($form->test_group_id);
+        $testAndQuestion = TestAndQuestions::create($test_group->id, null, $test->id);
+        $this->repository->save($testAndQuestion);
     }
 
     public function remove($id)

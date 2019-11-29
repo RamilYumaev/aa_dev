@@ -125,4 +125,21 @@ class TestQuestionHelper
         return ArrayHelper::map(TestQuestion::find()->where(['group_id' => $id])->all(), 'id', 'title');
     }
 
+    public static function questionTextList()
+    {
+        return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'text');
+    }
+
+
+    public static function questionTextName($id): ?string
+    {
+        return ArrayHelper::getValue(self::questionTextList(), $id);
+    }
+
+
+    public static function questionOlympicList($id)
+    {
+        return ArrayHelper::map(TestQuestion::find()->where(['olympic_id' => $id, 'group_id' => null])->all(), 'id', 'title');
+    }
+
 }

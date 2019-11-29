@@ -18,11 +18,6 @@ use kartik\select2\Select2;
         'options' => ['placeholder' => 'Выберите классы', 'multiple' => true],
     ])->label('Классы') ?>
 
-    <?= $form->field($model, 'questionGroupsList')->widget(Select2::class, [
-        'data' => $model->testQuestionGroupList(),
-        'options' => ['placeholder' => 'Выберите группы вопросов', 'multiple' => true],
-    ])->label('Группы вопросов') ?>
-
     <?php if ($model->isFormOcnoZaochno()) : ?>
         <?= $form->field($model, 'type_calculate_id')->dropDownList($model->typeCalculateList()); ?>
         <?= $form->field($model, 'calculate_value')->textInput(['enabled'=> true]) ?>

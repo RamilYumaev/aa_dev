@@ -20,10 +20,10 @@ class QuestionSearch extends Model
         ];
     }
 
-    public function __construct($type = null, $config = [])
+    public function __construct($olympic_id, $type = null, $config = [])
     {
         if ($type) {
-            $this->query = TestQuestion::find()->where(['type_id'=> $type]);
+            $this->query = TestQuestion::find()->where(['type_id'=> $type, 'olympic_id' => $olympic_id]);
         } else {
             $this->query = TestQuestion::find();
         }

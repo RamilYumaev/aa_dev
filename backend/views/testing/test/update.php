@@ -1,23 +1,40 @@
 <?php
+use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $testQuestionGroup testing\models\TestQuestionGroup */
-/* @var $model testing\forms\TestQuestionGroupEditForm /
+/* @var $testQuestionGroup testing\models\Test */
+/* @var $model testing\forms\TestEditForm /
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'form-test-question-group', 'enableAjaxValidation' => true]); ?>
+    <?php $form = ActiveForm::begin(['id' => 'test-form']); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'classesList')->widget(Select2::class, [
+        'data' => $model->classFullNameList(),
+        'options' => ['placeholder' => 'Выберите классы', 'multiple' => true],
+    ])->label('Классы') ?>
 
-    <?= $form->field($model, 'year')->dropDownList($model->years()) ?>
+
+
+
+    <?= $form->field($model, 'introduction')->widget(CKEditor::class, [
+        'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
+    ]); ?>
+
+    <?= $form->field($model, 'final_review')->widget(CKEditor::class, [
+        'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
+    ]); ?>
+
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
 </div>

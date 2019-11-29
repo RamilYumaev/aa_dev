@@ -2,6 +2,7 @@
 namespace testing\services;
 
 use common\transactions\TransactionManager;
+use olympic\repositories\OlympicRepository;
 use testing\forms\question\TestQuestionClozeForm;
 use testing\forms\question\TestQuestionClozeUpdateForm;
 use testing\forms\question\TestQuestionEditForm;
@@ -28,10 +29,12 @@ class TestQuestionService
     private $answerRepository;
     private $questionPropositionRepository;
     private $answerClozeRepository;
+    private $olympicRepository;
 
     public function __construct(TestQuestionRepository $repository,
                                 TestQuestionGroupRepository $groupRepository,
                                 TransactionManager $transaction,
+                                OlympicRepository $olympicRepository,
                                 QuestionPropositionRepository $questionPropositionRepository,
                                 AnswerRepository $answerRepository,
                                 AnswerClozeRepository $answerClozeRepository)
@@ -42,12 +45,14 @@ class TestQuestionService
         $this->answerRepository = $answerRepository;
         $this->questionPropositionRepository = $questionPropositionRepository;
         $this->answerClozeRepository = $answerClozeRepository;
+        $this->olympicRepository = $olympicRepository;
     }
 
-    public function create(TestQuestionTypesForm $form)
+    public function create(TestQuestionTypesForm $form, $olympic_id)
     {
+        $olympic = $this->olympicRepository->get($olympic_id);
         $group_id = $this->isGroupQuestionId($form->question->group_id);
-        $model = TestQuestion::create($form->question, $group_id, null, null);
+        $model = TestQuestion::create($form->question, $group_id, null, null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
             $this->repository->save($model);
             $this->addAnswer($form, $model->type_id, $model->id);
@@ -161,27 +166,29 @@ class TestQuestionService
     }
 
 
-    public function createQuestion(TestQuestionForm $form)
+    public function createQuestion(TestQuestionForm $form, $olympic_id)
     {
+        $olympic = $this->olympicRepository->get($olympic_id);
         $group_id = $this->isGroupQuestionId($form->group_id);
-        $model = TestQuestion::create($form, $group_id, null, null);
+        $model = TestQuestion::create($form, $group_id, null, null, $olympic->id);
         $this->repository->save($model);
         return $model;
     }
 
-    public function createTypeFile(TestQuestionTypesFileForm $form)
+    public function createTypeFile(TestQuestionTypesFileForm $form, $olympic_id)
     {
+        $olympic = $this->olympicRepository->get($olympic_id);
         $group_id = $this->isGroupQuestionId($form->question->group_id);
-        $model = TestQuestion::create($form->question, $group_id, $form->file_type_id, null);
+        $model = TestQuestion::create($form->question, $group_id, $form->file_type_id, null, $olympic->id);
         $this->repository->save($model);
         return $model;
     }
 
     public function updateQuestion(TestQuestionEditForm $form)
     {
-        $question = $this->repository->get($form->question->_question->id);
-        $group_id = $this->isGroupQuestionId($form->question->group_id);
-        $question->edit($form->question, $group_id, null);
+        $question = $this->repository->get($form->_question->id);
+        $group_id = $this->isGroupQuestionId($form->group_id);
+        $question->edit($form, $group_id, null);
         $this->repository->save($question);
     }
 
@@ -193,10 +200,11 @@ class TestQuestionService
         $this->repository->save($question);
     }
 
-    public function createTypeCloze(TestQuestionClozeForm $form)
+    public function createTypeCloze(TestQuestionClozeForm $form, $olympic_id)
     {
+        $olympic = $this->olympicRepository->get($olympic_id);
         $group_id = $this->isGroupQuestionId($form->question->group_id);
-        $model = TestQuestion::create($form->question, $group_id, null, null);
+        $model = TestQuestion::create($form->question, $group_id, null, null, $olympic->id);
         $this->transaction->wrap(function () use ($model, $form) {
             $this->repository->save($model);
             if($form->questProp) {

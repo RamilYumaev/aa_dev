@@ -1,25 +1,26 @@
 <?php
 namespace backend\widgets\testing;
 
-use testing\models\TestAndQuestions;
 use testing\models\TestGroup;
+use testing\models\TestQuestion;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
 
-class TestQuestionWidget extends Widget
+class QuestionOlympicWidget extends Widget
 {
-    public $test_id;
+    public $olympic_id;
     /**
      * @var string
      */
-    public $view = 'test-question/index';
+    public $view = 'question-olympic/index';
 
     public function run()
     {
-        $query = TestAndQuestions::find()->where([ 'test_id'=> $this->test_id]);
+        $query = TestQuestion::find()->where([ 'olympic_id'=> $this->olympic_id]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
+             'olympic_id' => $this->olympic_id
         ]);
     }
 }

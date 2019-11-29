@@ -5,12 +5,12 @@ use yii\helpers\Html;
 
 /* @var $searchModel testing\forms\question\search\QuestionSearch */
 ?>
-<?= $this->render('@backend/views/testing/question/_questions-type-link') ?>
+<?= $this->render('@backend/views/testing/question/_questions-type-link', ['olympic' => $olympic_id]) ?>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <?=   Html::a('Создать', ['create'], [ 'class'=>'btn btn-success']); ?>
+                <?=   Html::a('Создать', ['create', 'olympic_id' => $olympic_id], [ 'class'=>'btn btn-success']); ?>
             </div>
             <div class="box-body">
                 <?= GridView::widget([

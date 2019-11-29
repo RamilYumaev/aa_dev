@@ -40,10 +40,14 @@ class TestQuestionClozeUpdateForm extends CompositeForm
         if (!empty($modelAll)) {
             foreach ($modelAll as $index => $queProp) {
                 $answerClozeAll = AnswerCloze::find()->where(['quest_prop_id'=> $queProp->id])->all();
+                if ($answerClozeAll) {
                 $this->answerCloze[$index] = array_map(function ($answer) {
                     return new AnswerClozeForm($this->type, $answer);
                 }, $answerClozeAll);
                 $this->oldAnswer = ArrayHelper::merge(ArrayHelper::index($answerClozeAll, 'id'), $this->oldAnswer);
+            } else {
+                    $this->answerCloze[$index] =[new AnswerClozeForm($this->type)];
+                }
             }
         }
         $this->oldAnswerClozeIds = ArrayHelper::getColumn($this->oldAnswer, 'id');

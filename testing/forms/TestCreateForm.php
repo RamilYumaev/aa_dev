@@ -17,7 +17,6 @@ class TestCreateForm extends Model
         $calculate_value,
         $introduction,
         $final_review,
-        $questionGroupsList,
         $classesList;
     private $_olympicList;
 
@@ -36,18 +35,13 @@ class TestCreateForm extends Model
             [['olimpic_id', 'type_calculate_id', 'calculate_value'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
-            [['classesList', 'questionGroupsList'], 'safe'],
+            [['classesList'], 'safe'],
         ];
     }
 
     public function classFullNameList(): array
     {
         return ClassAndOlympicHelper::olympicClassLists($this->olimpic_id);
-    }
-
-    public function testQuestionGroupList(): array
-    {
-        return TestQuestionGroupHelper::testQuestionGroupOlympicList($this->_olympicList->olimpic_id);
     }
 
     public function isFormOcnoZaochno(): bool
