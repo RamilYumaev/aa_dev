@@ -54,18 +54,21 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="box-body">
     <table class="table">
-        <tr><th>Группа вопросов</th><th>Балл</th><th>Вопрос</th></tr>
-        <?php foreach($testAndQuestion->arrayMark as $i=>$item): ?>
+        <tr><th>#</th><th>Группа вопросов</th><th>Балл</th><th>Вопрос</th> <th></th></tr>
+        <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): ?>
             <tr>
+                <td><?= $a++; ?></td>
                 <td><?= \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($item->andQuestions->test_group_id) ?? null ?></td>
                 <td><?= $form->field($item,"[$i]mark")->label(false); ?></td>
                 <td><?=  \testing\helpers\TestQuestionHelper::questionTextName($item->andQuestions->question_id) ?? null  ?></td>
+                <td><?=   Html::a('Удалить', ['/testing/test-and-questions/delete', 'id' => $item->id], ['class' => 'btn btn-danger', 'data' => ['confirm' => 'Вы уверены, что хотите удалить?',
+                'method' => 'post']]) ?></td>
             </tr>
         <?php endforeach; ?>
     </table>
     </div>
     <div class="box-footer">
-    <?= Html::submitButton('Сохранить',['class'=>'btn btn-primary']); ?>
+    <?= $testAndQuestion->arrayMark ?  Html::submitButton('Сохранить',['class'=>'btn btn-primary']) : ""; ?>
     <?php ActiveForm::end(); ?>
 </div>
 </div>

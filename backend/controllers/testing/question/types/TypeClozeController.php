@@ -39,7 +39,7 @@ class TypeClozeController extends Controller
 
     public function actionCreate($olympic_id,$group_id = null)
     {
-        $form = new TestQuestionClozeForm($group_id, $this->type);
+        $form = new TestQuestionClozeForm($group_id, $this->type, $olympic_id);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->questProp = $form->questPropMore();
             if (Model::loadMultiple($form->questProp, Yii::$app->request->post())

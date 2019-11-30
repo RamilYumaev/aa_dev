@@ -18,6 +18,8 @@ class TestAndQuestionsTableMarkForm extends Model
         if ($andQuestions) {
         $this->arrayMark =  array_map(function ($quest) { return new TestAndQuestionsMarkForm($quest);
         },$andQuestions);
+        } else {
+            $this->arrayMark = [];
         }
 
         parent::__construct($config);

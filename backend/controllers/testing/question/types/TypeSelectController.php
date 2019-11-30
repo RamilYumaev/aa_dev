@@ -24,7 +24,7 @@ class TypeSelectController extends Controller
 
     public function actionCreate($olympic_id, $group_id = null)
     {
-        $form = new TestQuestionTypesForm($group_id, $this->type);
+        $form = new TestQuestionTypesForm($group_id, $this->type, null, $olympic_id);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $form->answer = $form->isArrayMoreAnswer();
             if (Model::loadMultiple($form->answer, Yii::$app->request->post()) && Model::validateMultiple($form->answer)) {

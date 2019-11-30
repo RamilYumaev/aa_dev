@@ -41,6 +41,6 @@ class TestQuestionEditForm extends Model
 
     public function groupQuestionsList()
     {
-        return TestQuestionGroupHelper::testQuestionGroupList();
+        return TestQuestionGroupHelper::testQuestionGroupOlympicList($this->_question->olympic_id);
     }
 }

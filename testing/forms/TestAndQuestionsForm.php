@@ -26,7 +26,8 @@ class TestAndQuestionsForm extends Model
     {
         return [
             [['test_id'], 'required'],
-            [['test_id', 'test_group_id', 'question_id'], 'integer'],
+            [['test_group_id', 'question_id'], 'safe'],
+            [['test_id', ], 'integer'],
         ];
     }
 

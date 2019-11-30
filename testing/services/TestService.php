@@ -4,6 +4,7 @@ namespace testing\services;
 use common\transactions\TransactionManager;
 use olympic\repositories\OlimpicListRepository;
 use testing\forms\TestCreateForm;
+use testing\forms\TestEditForm;
 use testing\models\Test;
 use testing\models\TestClass;
 use testing\models\TestGroup;
@@ -49,13 +50,6 @@ class TestService
                     $this->classRepository->save($classTest);
                 }
             }
-            if ($form->questionGroupsList) {
-                foreach($form->questionGroupsList as $questionGroup) {
-                    $this->testQuestionGroupRepository->getIdAndOlympic($questionGroup, $olympic->olimpic_id);
-                    $testGroup = TestGroup::create($model->id, $questionGroup);
-                    $this->groupRepository->save($testGroup);
-                }
-            }
         });
 
         return $model;
@@ -64,9 +58,19 @@ class TestService
     public function edit(TestEditForm $form)
     {
         $olympic = $this->olympicRepository->get($form->olimpic_id);
-        $model = $this->repository->get($form->_questionGroup->id);
-        $model->edit($olympic->id, $form);
-        $this->repository->save($model);
+        $model = $this->repository->get($form->test->id);
+        $this->transactionManager->wrap(function () use ($model, $form, $olympic) {
+            $model->edit($form, $olympic->id);
+            TestClass::deleteAll(['test_id' => $model->id]);
+            if ($form->classesList) {
+                foreach($form->classesList as $class) {
+                    $this->repository->isTestClass($olympic->id, $class);
+                    $classTest = TestClass::create($model->id, $class);
+                    $this->classRepository->save($classTest);
+                }
+            }
+            $this->repository->save($model);
+        });
     }
 
     public function remove($id)

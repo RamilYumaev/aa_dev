@@ -15,7 +15,7 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'test_group_id')->widget(Select2::class, [
         'data' => $model->questionGroupList(),
-        'options' => ['placeholder' => 'Выберите группу вопросов '],
+        'options' => ['placeholder' => 'Выберите группу вопросов ', 'multiple' => true],
     ])->label('Группа вопросов') ?>
 
     <div class="form-group">

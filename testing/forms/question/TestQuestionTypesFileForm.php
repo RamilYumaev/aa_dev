@@ -10,13 +10,13 @@ class TestQuestionTypesFileForm extends CompositeForm
 {
     public $file_type_id;
 
-    public function __construct ($group_id, $type, TestQuestion $question = null, $config = [])
+    public function __construct ($group_id, $type, TestQuestion $question = null, $olympic = null, $config = [])
     {
         if ($question) {
             $this->question = new TestQuestionEditForm($question);
              $this->file_type_id = $question->file_type_id;
         } else {
-            $this->question = new TestQuestionForm($group_id, $type);
+            $this->question = new TestQuestionForm($group_id, $type, $olympic);
         }
 
         parent::__construct($config);
