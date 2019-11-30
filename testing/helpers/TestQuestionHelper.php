@@ -125,6 +125,16 @@ class TestQuestionHelper
         return ArrayHelper::map(TestQuestion::find()->where(['group_id' => $id])->all(), 'id', 'title');
     }
 
+    public static function questionTypeList()
+    {
+        return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'type_id');
+    }
+
+    public static function questionType($id)
+    {
+        return ArrayHelper::getValue(self::questionTypeList(), $id);
+    }
+
     public static function questionTextList()
     {
         return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'text');
