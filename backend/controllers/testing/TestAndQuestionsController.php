@@ -7,6 +7,7 @@ namespace backend\controllers\testing;
 use testing\forms\TestAndQuestionsForm;
 use testing\repositories\TestRepository;
 use testing\services\TestAndQuestionsService;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\Response;
@@ -16,6 +17,18 @@ class TestAndQuestionsController extends Controller
 {
     private $service;
     private $testRepository;
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     public function __construct($id, $module, TestAndQuestionsService $service, TestRepository $testRepository, $config = [])
     {
@@ -72,5 +85,20 @@ class TestAndQuestionsController extends Controller
         return $this->renderAjax('add-group', [
             'model' => $form,
         ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }

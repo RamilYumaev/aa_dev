@@ -37,7 +37,7 @@ class TypeFileController extends Controller
 
     public function actionCreate($olympic_id,$group_id = null)
     {
-        $form = new TestQuestionTypesFileForm($group_id, $this->type);
+        $form = new TestQuestionTypesFileForm($group_id, $this->type, null, $olympic_id);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createTypeFile($form, $olympic_id);

@@ -8,6 +8,7 @@ use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
 use testing\models\Test;
 use testing\models\TestAndQuestions;
+use testing\services\TestAndQuestionsService;
 use testing\services\TestService;
 use yii\base\Model;
 use yii\bootstrap\ActiveForm;
@@ -20,11 +21,13 @@ use Yii;
 class TestController extends Controller
 {
     private $service;
+    private $testAndQuestionsService;
 
-    public function __construct($id, $module, TestService $service, $config = [])
+    public function __construct($id, $module, TestService $service, TestAndQuestionsService $testAndQuestionsService, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+        $this->testAndQuestionsService = $testAndQuestionsService;
     }
 
     public function behaviors(): array
@@ -64,8 +67,13 @@ class TestController extends Controller
         $modelTestAndQuestions= TestAndQuestions::find()->where(['test_id'=> $model->id])->indexBy('id')->all();
         $testAndQuestion = new TestAndQuestionsTableMarkForm($modelTestAndQuestions);
         if (Model::loadMultiple($testAndQuestion->arrayMark, Yii::$app->request->post())) {
-
-            return $this->redirect(['view','id'=> $model->id]);
+            try {
+                $this->testAndQuestionsService->addMark($testAndQuestion);
+                return $this->redirect(['view','id'=> $model->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('view', [

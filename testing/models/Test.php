@@ -3,6 +3,7 @@
 namespace testing\models;
 
 use testing\forms\TestCreateForm;
+use testing\forms\TestEditForm;
 use testing\forms\TestForm;
 use yii\db\ActiveRecord;
 
@@ -25,7 +26,7 @@ class Test extends ActiveRecord
         return $test;
     }
 
-    public function edit(TestCreateForm $form, $olimpic_id)
+    public function edit(TestEditForm $form, $olimpic_id)
     {
         $this->olimpic_id = $olimpic_id;
         $this->type_calculate_id = $form->type_calculate_id;

@@ -13,11 +13,14 @@ class TestAndQuestionsRepository
         return $model;
     }
 
-    public function isTestGroupQuestionTest($test_id, $question_id, $test_group_id): void
+    public function isTestGroupInTest($test_id,  $test_group_id)
     {
-        if ($model = TestAndQuestions::findOne(['test_id' => $test_id, 'question_id' => $question_id, 'test_group_id' => $test_group_id])) {
-            throw new \DomainException('Такой вопрос вопрос существует в данно тесте');
-        }
+        return TestAndQuestions::findOne(['test_id' => $test_id, 'test_group_id' => $test_group_id]);
+    }
+
+    public function isQuestionInTest($test_id, $question_id)
+    {
+       return  TestAndQuestions::findOne(['test_id' => $test_id, 'question_id' => $question_id]);
     }
 
     public function save(TestAndQuestions $model): void

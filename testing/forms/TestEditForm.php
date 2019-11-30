@@ -6,6 +6,7 @@ namespace testing\forms;
 
 use olympic\helpers\ClassAndOlympicHelper;
 use olympic\helpers\OlympicHelper;
+use testing\helpers\TestClassHelper;
 use testing\helpers\TestHelper;
 use testing\models\Test;
 use yii\base\Model;
@@ -13,6 +14,7 @@ use yii\base\Model;
 class TestEditForm  extends Model
 {
     public $olimpic_id,
+        $test,
         $status,
         $type_calculate_id,
         $calculate_value,
@@ -22,12 +24,14 @@ class TestEditForm  extends Model
 
     public function __construct(Test $test, $config = [])
     {
+        $this->classesList= TestClassHelper::testClassList($test->id);
         $this->olimpic_id = $test->olimpic_id;
         $this->status = $test->status;
         $this->type_calculate_id = $test->type_calculate_id;
         $this->calculate_value = $test->calculate_value;
         $this->introduction = $test->introduction;
         $this->final_review = $test->final_review;
+        $this->test = $test;
         parent::__construct($config);
     }
 

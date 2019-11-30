@@ -19,11 +19,9 @@ class TestAndQuestions extends ActiveRecord
         return $testAndQuestions;
     }
 
-    public function edit($test_group_id, $question_id, $test_id)
+    public function addMark($mark)
     {
-        $this->test_group_id = $test_group_id;
-        $this->question_id = $question_id;
-        $this->test_id = $test_id;
+        $this->mark = $mark;
     }
 
     public function attributeLabels()

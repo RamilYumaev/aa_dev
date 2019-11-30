@@ -17,7 +17,7 @@ class TestQuestionTypesForm extends CompositeForm
     private $type;
     public $oldIds;
 
-    public function __construct ($group_id, $type, TestQuestion $question = null, $config = [])
+    public function __construct ($group_id, $type, TestQuestion $question = null, $olympic = null,  $config = [])
     {
         $this->type = $type;
         $this->id = "54789889545665845645645564546546456";
@@ -29,7 +29,7 @@ class TestQuestionTypesForm extends CompositeForm
             $this->answer = array_map(function ($answer) { return new AnswerForm($this->type, $answer);
             }, $modelAll);
         } else {
-            $this->question = new TestQuestionForm($group_id, $this->type);
+            $this->question = new TestQuestionForm($group_id, $this->type, $olympic);
             $this->answer = [$this->model];
         }
         parent::__construct($config);

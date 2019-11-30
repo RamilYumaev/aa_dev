@@ -10,13 +10,15 @@ use yii\base\Model;
 class TestQuestionForm extends Model
 {
     public $type_id, $title, $text, $group_id;
+    private $olympic;
 
-    public function __construct($group_id, $type, $config = [])
+    public function __construct($group_id, $type, $olympic, $config = [])
     {
+        $this->olympic = $olympic;
         if ($group_id) {
             $this->group_id = $group_id;
         } else {
-            $this->group_id = 0;
+            $this->group_id = null;
         }
         $this->type_id = $type;
         parent::__construct($config);
@@ -40,6 +42,6 @@ class TestQuestionForm extends Model
 
     public function groupQuestionsList()
     {
-        return TestQuestionGroupHelper::testQuestionGroupList();
+        return TestQuestionGroupHelper::testQuestionGroupOlympicList($this->olympic);
     }
 }
