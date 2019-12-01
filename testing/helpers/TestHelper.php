@@ -11,6 +11,10 @@ class TestHelper
     const BALL = 1;
     const PERSENT = 2;
 
+    const ACTIVE = 1;
+    const DRAFT = 0;
+
+
     public static function typeCalculateList()
     {
         return [self::BALL => 'проходной балл',

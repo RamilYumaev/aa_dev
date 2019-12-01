@@ -18,10 +18,6 @@ use kartik\select2\Select2;
         'options' => ['placeholder' => 'Выберите классы', 'multiple' => true],
     ])->label('Классы') ?>
 
-    <?php if ($model->isFormOcnoZaochno()) : ?>
-        <?= $form->field($model, 'type_calculate_id')->dropDownList($model->typeCalculateList()); ?>
-        <?= $form->field($model, 'calculate_value')->textInput(['enabled'=> true]) ?>
-    <?php endif; ?>
 
     <?= $form->field($model, 'introduction')->widget(CKEditor::class, [
         'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),

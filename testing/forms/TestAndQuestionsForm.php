@@ -44,7 +44,7 @@ class TestAndQuestionsForm extends Model
         }
         return false;
     }
-
+    
 
     public function questionList(): array
     {
@@ -53,7 +53,7 @@ class TestAndQuestionsForm extends Model
 
     public function questionGroupList(): array
     {
-        return TestQuestionGroupHelper::testQuestionGroupOlympicList($this->olympic->olimpic_id);
+        return TestQuestionGroupHelper::testQuestionGroupOlympicInTestAndQuestionsList($this->olympic->olimpic_id);
     }
 
 
