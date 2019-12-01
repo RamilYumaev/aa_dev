@@ -163,6 +163,37 @@ class TestController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionStart($id)
+    {
+        try {
+            $this->service->start($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionEnd($id)
+    {
+        try {
+            $this->service->end($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
 
     /**
      * @param integer $id

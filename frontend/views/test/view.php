@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
 
+
 for ($i=1; $i <= $pages; ++$i) { ?>
     <?= Html::a('<span>'.$i.'</span>', ['view','id' => $test->id, 'page' => $i],['class' =>
         $i == Yii::$app->request->get('page') ? "btn btn-primary" :  "btn btn-success",  'data-toggle'=>'tooltip' ]); ?>
@@ -39,4 +40,5 @@ $form = ActiveForm::begin(['id' => 'edu']);?>
             <?= $this->render('@frontend/views/test/type/cloze', ['quent' => $quent]) ?>
         <?php endswitch; ?>
 <?php  endforeach; ?>
+<?= Html::submitButton("да") ?>
 <?php ActiveForm::end();?>

@@ -5,6 +5,7 @@ namespace testing\models;
 use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
 use testing\forms\TestForm;
+use testing\helpers\TestHelper;
 use yii\db\ActiveRecord;
 
 class Test extends ActiveRecord
@@ -18,9 +19,7 @@ class Test extends ActiveRecord
     {
         $test = new static();
         $test->olimpic_id = $olimpic_id;
-        $test->status = 0;
-        $test->type_calculate_id = $form->type_calculate_id;
-        $test->calculate_value = $form->calculate_value;
+        $test->status = TestHelper::DRAFT;
         $test->introduction = $form->introduction;
         $test->final_review = $form->final_review;
         return $test;
@@ -29,8 +28,6 @@ class Test extends ActiveRecord
     public function edit(TestEditForm $form, $olimpic_id)
     {
         $this->olimpic_id = $olimpic_id;
-        $this->type_calculate_id = $form->type_calculate_id;
-        $this->calculate_value = $form->calculate_value;
         $this->introduction = $form->introduction;
         $this->final_review = $form->final_review;
     }

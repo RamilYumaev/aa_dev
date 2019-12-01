@@ -15,9 +15,6 @@ class TestEditForm  extends Model
 {
     public $olimpic_id,
         $test,
-        $status,
-        $type_calculate_id,
-        $calculate_value,
         $introduction,
         $final_review, $classesList;
 
@@ -26,9 +23,6 @@ class TestEditForm  extends Model
     {
         $this->classesList= TestClassHelper::testClassList($test->id);
         $this->olimpic_id = $test->olimpic_id;
-        $this->status = $test->status;
-        $this->type_calculate_id = $test->type_calculate_id;
-        $this->calculate_value = $test->calculate_value;
         $this->introduction = $test->introduction;
         $this->final_review = $test->final_review;
         $this->test = $test;
@@ -39,7 +33,7 @@ class TestEditForm  extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id', 'status', 'type_calculate_id', 'calculate_value'], 'integer'],
+            [['olimpic_id'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
         ];
@@ -60,10 +54,6 @@ class TestEditForm  extends Model
         return Test::labels();
     }
 
-    public function typeCalculateList(): array
-    {
-        return TestHelper::typeCalculateList();
-    }
 
 
 }

@@ -13,8 +13,6 @@ use yii\base\Model;
 class TestCreateForm extends Model
 {
     public $olimpic_id,
-        $type_calculate_id,
-        $calculate_value,
         $introduction,
         $final_review,
         $classesList;
@@ -32,7 +30,7 @@ class TestCreateForm extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id', 'type_calculate_id', 'calculate_value'], 'integer'],
+            [['olimpic_id'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
             [['classesList'], 'safe'],
@@ -49,15 +47,9 @@ class TestCreateForm extends Model
         return $this->_olympicList->form_of_passage == OlympicHelper::OCHNO_ZAOCHNAYA_FORMA;
     }
 
-    public function attributeLabels()
+       public function attributeLabels()
     {
         return Test::labels();
     }
-
-    public function typeCalculateList(): array
-    {
-        return TestHelper::typeCalculateList();
-    }
-
 
 }

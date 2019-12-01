@@ -12,6 +12,7 @@ $this->title = "Просмотр";
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\modal\ModalAsset::register($this);
+
 ?>
 
     <div class="box box-default">
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['label' => "Сумма баллов",
                         'format'=>'raw',
-                        'value' =>  \testing\models\TestAndQuestions::find()->where(['test_id' => $test->id])->sum('mark'),
+                        'value' => \testing\helpers\TestAndQuestionsHelper::markSum($test->id),
                     ],
                 ],
             ]) ?>

@@ -23,7 +23,9 @@ use yii\helpers\Html;
                     }],
                 [
                     'value' => function($model) {
-                        return Html::a('Запустить тест','',  ['class'=>'btn btn-success']);
+                        return !$model->status ?
+                            Html::a('Запустить тест',['testing/test/start', 'id'=>$model->id],  ['class'=>'btn btn-success']) :
+                            Html::a('Остановить тест',['testing/test/end', 'id'=>$model->id],  ['class'=>'btn btn-danger']);
                     }, "format" => "raw"],
                 [
                     'value' => function($model) {

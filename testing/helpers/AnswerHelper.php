@@ -16,7 +16,7 @@ class AnswerHelper
 
     public static function answerMatchingList($que_id): array
     {
-        return ArrayHelper::map(Answer::find()->where(['quest_id'=>$que_id])->orderBy( new Expression('rand()'))->asArray()->all(), "id", 'answer_match');
+        return ArrayHelper::map(Answer::find()->where(['quest_id'=>$que_id])->orderBy( new Expression('rand()'))->asArray()->all(), "answer_match", 'answer_match');
     }
 
 }

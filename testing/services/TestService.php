@@ -1,10 +1,13 @@
 <?php
 namespace testing\services;
 
+use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
 use olympic\repositories\OlimpicListRepository;
 use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
+use testing\helpers\TestAndQuestionsHelper;
+use testing\helpers\TestHelper;
 use testing\models\Test;
 use testing\models\TestClass;
 use testing\models\TestGroup;
@@ -77,6 +80,32 @@ class TestService
     {
         $model = $this->repository->get($id);
         $this->repository->remove($model);
+    }
+
+    public function start($id)
+    {
+        $model = $this->repository->get($id);
+        if (!TestAndQuestionsHelper::countQuestions($model->id)) {
+            throw new \DomainException(FlashMessages::get()["countQuestions"]);
+        }
+        if (TestAndQuestionsHelper::countNullMarkQuestions($model->id)) {
+        throw new \DomainException(FlashMessages::get()["countNullMarkQuestions"]);
+        }
+
+        if (!TestAndQuestionsHelper::isMarkSumSuccess($model->id)) {
+            throw new \DomainException(FlashMessages::get()["sumMark"]);
+        }
+
+
+            $model->status = TestHelper::ACTIVE;
+        $this->repository->save($model);
+    }
+
+    public function end($id)
+    {
+        $model = $this->repository->get($id);
+        $model->status = TestHelper::DRAFT;
+        $this->repository->save($model);
     }
 
 }

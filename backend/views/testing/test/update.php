@@ -20,8 +20,6 @@ use yii\widgets\ActiveForm;
     ])->label('Классы') ?>
 
 
-
-
     <?= $form->field($model, 'introduction')->widget(CKEditor::class, [
         'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
     ]); ?>
