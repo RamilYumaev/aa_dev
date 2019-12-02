@@ -8,10 +8,10 @@ use testing\helpers\QuestionPropositionHelper;
     <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
     <?php foreach (QuestionPropositionHelper::questionPropositionList($quent->question_id) as $index => $item): ?>
     <?php if (QuestionPropositionHelper::type($index) == TestQuestionHelper::CLOZE_SELECT) :
-           $drop = Html::dropDownList("select-cloze[$index]", [], \testing\helpers\AnswerClozeHelper::answerMatchingList($index)); ?>
+           $drop = Html::dropDownList("AnswerAttempt[select-cloze][$index]", [], \testing\helpers\AnswerClozeHelper::answerMatchingList($index)); ?>
             <?= QuestionPropositionHelper::isStart($index) ?  $drop . $item :  $item . $drop ?>
     <?php elseif (QuestionPropositionHelper::type($index) == TestQuestionHelper::CLOZE_TEXT):
-             $input = Html::textInput("answer-cloze[$index]")?>
+             $input = Html::textInput("AnswerAttempt[answer-cloze][$index]")?>
             <?= QuestionPropositionHelper::isStart($index) ?  $input . $item :  $item . $input ?>
         <?php else:?>
            <?= $item ?>
