@@ -2,6 +2,7 @@
 namespace testing\repositories;
 
 use testing\models\TestAttempt;
+use Yii;
 
 class TestAttemptRepository
 {
@@ -11,6 +12,11 @@ class TestAttemptRepository
             throw new \DomainException( 'TestAttempt не найдено.');
         }
         return $model;
+    }
+
+    public function isAttempt($test_id): ? TestAttempt
+    {
+        return $model = TestAttempt::findOne(['test_id'=>$test_id, 'user_id'=> Yii::$app->user->identity->getId()]);
     }
 
     public function save(TestAttempt $model): void

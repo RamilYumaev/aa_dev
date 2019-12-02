@@ -9,14 +9,20 @@ use yii\widgets\ActiveForm;
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
 
-
-for ($i=1; $i <= $pages; ++$i) { ?>
+?>
+<div class="row">
+    <div class="col-md-12">
+        <center>
+<?php for ($i=1; $i <= $pages; ++$i) : ?>
     <?= Html::a('<span>'.$i.'</span>', ['view','id' => $test->id, 'page' => $i],['class' =>
         $i == Yii::$app->request->get('page') ? "btn btn-primary" :  "btn btn-success",  'data-toggle'=>'tooltip' ]); ?>
-<?php  }
-
-$form = ActiveForm::begin(['id' => 'edu']);?>
+<?php endfor; ?>
+        </center> </div></div>
+    <div class="row">
+    <div class="col-md-12">
+    <center>
 <?php foreach ($models as $quent): ?>
+    <?php $form = ActiveForm::begin(['id' => 'edu']);?>
     <?php switch (TestQuestionHelper::questionType($quent->question_id)):
         case TestQuestionHelper::TYPE_SELECT: ?>
             <?= $this->render('@frontend/views/test/type/select', ['quent' => $quent]) ?>
@@ -39,6 +45,14 @@ $form = ActiveForm::begin(['id' => 'edu']);?>
         <?php default: ?>
             <?= $this->render('@frontend/views/test/type/cloze', ['quent' => $quent]) ?>
         <?php endswitch; ?>
+        <?= Html::hiddenInput('AnswerAttempt[key]',  $quent->question_id) ?>
+        <?= Html::hiddenInput('AnswerAttempt[keyTqId]', $quent->tq_id) ?>
+        <p>
+         <?= Html::submitButton("Cохранить", ['class'=>'btn btn-success']) ?>  <?= Html::a("Зввершить", ['/test-attempt/end', 'test_id'=> $test->id],
+             ['data' => ['confirm' => 'Вы действительно хотите завершить ?', 'method' => 'POST'], 'class' =>'btn btn-primary'] )  ?>
+        </p>
+    <?php ActiveForm::end();?>
 <?php  endforeach; ?>
-<?= Html::submitButton("да") ?>
-<?php ActiveForm::end();?>
+    </center>
+    </div>
+    </div>

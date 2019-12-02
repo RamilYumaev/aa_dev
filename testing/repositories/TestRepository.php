@@ -1,6 +1,7 @@
 <?php
 namespace testing\repositories;
 
+use testing\helpers\TestHelper;
 use testing\models\Test;
 use testing\models\TestClass;
 
@@ -10,6 +11,14 @@ class TestRepository
     {
         if (!$model = Test::findOne($id)) {
             throw new \DomainException( 'Test не найдено.');
+        }
+        return $model;
+    }
+
+    public function isActive($id): Test
+    {
+        if (!$model = Test::findOne(['id' => $id, 'status' => TestHelper::ACTIVE])) {
+            throw new \DomainException( 'Такого теста не найдено.');
         }
         return $model;
     }

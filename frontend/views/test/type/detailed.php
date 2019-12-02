@@ -4,4 +4,4 @@ use testing\helpers\TestQuestionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
     <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-<?= Html::textarea('detailed')?>
+<?= Html::textarea('AnswerAttempt[detailed]')?>

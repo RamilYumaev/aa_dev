@@ -6,4 +6,4 @@ use testing\helpers\TestQuestionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
 <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-<?= Html::radioList('select-one', [], AnswerHelper::answerList($quent->question_id))?>
+<?= Html::radioList('AnswerAttempt[select-one]', [], AnswerHelper::answerList($quent->question_id))?>
