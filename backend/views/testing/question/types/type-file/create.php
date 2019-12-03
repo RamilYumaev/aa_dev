@@ -7,6 +7,15 @@ use mihaildev\elfinder\ElFinder;
 /* @var $this yii\web\View */
 /* @var $model testing\forms\question\TestQuestionTypesFileForm*/
 
+$this->title = 'Создать "Загрузка файла"';
+$olympic_id = Yii::$app->request->get('olympic_id');
+$this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['olympic/olympic/index']];
+$this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic_id),
+    'url' => ['olympic/olympic/view', 'id'=> $olympic_id]];
+$this->params['breadcrumbs'][] = ['label' => 'Банк вопросов "Загрузка файла"',
+    'url' => ['index', 'olympic_id'=> $olympic_id]];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="row">
 <?php $form = ActiveForm::begin(['id' => 'form-question-file']); ?>
