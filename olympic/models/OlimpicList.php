@@ -37,12 +37,13 @@ class OlimpicList extends \yii\db\ActiveRecord
     public static function create(OlimpicListCreateForm $form, $chairman_id, $faculty_id, $olimpic_id)
     {
         $olympic = new static();
+        $dates = explode(" - ", $form->date_range);
         $olympic->name = $form->name;
         $olympic->chairman_id = $chairman_id;
         $olympic->number_of_tours = $form->number_of_tours;
         $olympic->edu_level_olymp = $form->edu_level_olymp;
-        $olympic->date_time_start_reg = $form->date_time_start_reg;
-        $olympic->date_time_finish_reg = $form->date_time_finish_reg;
+        $olympic->date_time_start_reg = $dates[0];
+        $olympic->date_time_finish_reg =  $dates[1];
         $olympic->genitive_name = $form->genitive_name;
         $olympic->faculty_id = $faculty_id;
         $olympic->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -75,12 +76,13 @@ class OlimpicList extends \yii\db\ActiveRecord
     public static function copy(OlimpicListCopyForm $form, $chairman_id, $faculty_id, $olimpic_id)
     {
         $olympic = new static();
+        $dates = explode(" - ", $form->date_range);
         $olympic->name = $form->name;
         $olympic->chairman_id = $chairman_id;
         $olympic->number_of_tours = $form->number_of_tours;
         $olympic->edu_level_olymp = $form->edu_level_olymp;
-        $olympic->date_time_start_reg = $form->date_time_start_reg;
-        $olympic->date_time_finish_reg = $form->date_time_finish_reg;
+        $olympic->date_time_start_reg = $dates[0];
+        $olympic->date_time_finish_reg =  $dates[1];
         $olympic->genitive_name = $form->genitive_name;
         $olympic->faculty_id = $faculty_id;
         $olympic->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -113,11 +115,12 @@ class OlimpicList extends \yii\db\ActiveRecord
     public function edit(OlimpicListEditForm $form, $chairman_id, $faculty_id, $olimpic_id)
     {
         $this->name = $form->name;
+        $dates = explode(" - ", $form->date_range);
         $this->chairman_id = $chairman_id;
         $this->number_of_tours = $form->number_of_tours;
         $this->edu_level_olymp = $form->edu_level_olymp;
-        $this->date_time_start_reg = $form->date_time_start_reg;
-        $this->date_time_finish_reg = $form->date_time_finish_reg;
+        $this->date_time_start_reg = $dates[0];
+        $this->date_time_finish_reg =  $dates[1];
         $this->genitive_name = $form->genitive_name;
         $this->faculty_id = $faculty_id;
         $this->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -182,6 +185,7 @@ class OlimpicList extends \yii\db\ActiveRecord
             'required_documents' => 'Необходимые документы на очный тур',
             'year' => 'Учебный год',
             'certificate_id' => 'Выдается сертификат участнику очного тура',
+            'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации'
         ];
     }
 

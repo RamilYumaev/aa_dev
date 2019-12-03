@@ -19,8 +19,6 @@ class OlimpicListEditForm extends Model
         $chairman_id,
         $number_of_tours,
         $edu_level_olymp,
-        $date_time_start_reg,
-        $date_time_finish_reg,
         $genitive_name,
         $faculty_id,
         $competitiveGroupsList,
@@ -49,6 +47,7 @@ class OlimpicListEditForm extends Model
         $event_type,
         $olimpic_id,
         $year,
+        $date_range,
         $_olympic;
 
     public function __construct(OlimpicList $olympic, $config = [])
@@ -59,8 +58,7 @@ class OlimpicListEditForm extends Model
         $this->chairman_id = $olympic->chairman_id;
         $this->number_of_tours = $olympic->number_of_tours;
         $this->edu_level_olymp = $olympic->edu_level_olymp;
-        $this->date_time_start_reg = $olympic->date_time_start_reg;
-        $this->date_time_finish_reg = $olympic->date_time_finish_reg;
+        $this->date_range = $olympic->date_time_start_reg ." - ". $olympic->date_time_finish_reg;
         $this->genitive_name = $olympic->genitive_name;
         $this->faculty_id = $olympic->faculty_id;
         $this->time_of_distants_tour_type = $olympic->time_of_distants_tour_type;
@@ -97,8 +95,7 @@ class OlimpicListEditForm extends Model
     public function rules()
     {
         return [
-            [['name', 'chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_time_start_reg',
-                'date_time_finish_reg', 'year', 'genitive_name', 'faculty_id'],
+            [['name', 'chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_range', 'year', 'genitive_name', 'faculty_id'],
                 'required', 'when' => function ($model) {
                 return $model->prefilling == 0;
             }, 'whenClient' => 'function(attribute, value){
@@ -140,7 +137,7 @@ class OlimpicListEditForm extends Model
             [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id', 'olimpic_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum'], 'integer'],
-            [['date_time_start_reg', 'date_time_finish_reg', 'date_time_start_tour'], 'safe'],
+            [['date_range', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
             [['name', 'year',], 'string', 'max' => 255],
