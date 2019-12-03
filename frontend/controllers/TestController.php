@@ -7,20 +7,24 @@ namespace frontend\controllers;
 use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
 use testing\readRepositories\TestReadRepository;
+use testing\services\AttemptAnswerService;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use Yii;
 
 class TestController extends Controller
 {
     private $repository;
+    private $service;
 
     public function __construct($id, $module,
-                                TestReadRepository $repository, $config = [])
+                                TestReadRepository $repository, AttemptAnswerService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function beforeAction($action)
@@ -36,17 +40,23 @@ class TestController extends Controller
 
     public function actionView($id)
     {
-
-        if (\Yii::$app->request->post()) {
-            return $this->renderContent(Html::tag('pre',
-                VarDumper::dumpAsString(
-                    \Yii::$app->request->post()
-                )));
+        $pages = $this->repository->quentTestsCount($id);
+        $get =  Yii::$app->request->get('page');
+        if (\Yii::$app->request->post('AnswerAttempt')) {
+            try {
+                $attempt = $this->repository->isAttempt($id);
+                $this->service->addAnswer(\Yii::$app->request->post('AnswerAttempt'),$attempt->id);
+                return $this->redirect(['view', 'id'=> $id, "page"=> $get ? $get + 1 : 2 ]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
         }
         try {
             return $this->render('view', [
                 'test' => $this->find($id),
-                'pages' => $this->repository->quentTestsCount($id),
+                'pages' => $pages,
                 'models' => $this->repository->pageOffset($id),
             ]);
         } catch (NotFoundHttpException $e) {

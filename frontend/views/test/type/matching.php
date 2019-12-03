@@ -7,5 +7,5 @@ use testing\helpers\TestQuestionHelper;
 <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
 <?php foreach (AnswerHelper::answerList($quent->question_id) as $index => $name): ?>
     <p><?= $name ?>
-        <?= Html::dropDownList("matching[$index]", [], AnswerHelper::answerMatchingList($quent->question_id))?> </p>
+        <?= Html::dropDownList("AnswerAttempt[matching][$index]", [], AnswerHelper::answerMatchingList($quent->question_id))?> </p>
 <?php endforeach; ?>
