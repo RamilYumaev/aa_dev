@@ -46,6 +46,16 @@ $this->params['breadcrumbs'][] = 'Копировать';
 
     <?= $form->field($model, 'promotion_text')->textInput(['maxlength' => true]) ?>
 
+            <?= $form->field($model, 'date_range')->widget(\kartik\daterange\DateRangePicker::class, [
+                'convertFormat'=>true,
+                'pluginOptions'=>[
+                    "timePicker"=> true,
+                    "timePicker24Hour"=> true,
+                    'timePickerIncrement'=>15,
+                    'locale'=>['format'=>'Y-m-d H:i:s']
+                ]
+            ])?>
+
     <?= $form->field($model, 'required_documents')->textarea(['row' => 6]) ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
@@ -53,6 +63,8 @@ $this->params['breadcrumbs'][] = 'Копировать';
     <?= $form->field($model, 'edu_level_olymp')->dropDownList($model->levelOlimp()) ?>
 
     <?= $form->field($model, 'list_position')->dropDownList($model->listPosition()) ?>
+
+
 
     <?= $form->field($model, 'only_mpgu_students')->checkbox(); ?>
 
@@ -74,24 +86,7 @@ $this->params['breadcrumbs'][] = 'Копировать';
 
     <?= $form->field($model, 'form_of_passage')->dropDownList($model->formOfPassage()) ?>
 
-    <?php echo $form->field($model, 'date_time_start_reg')->widget(DateTimePicker::classname(), [
-        'options' => ['placeholder' => 'Введите дату и время ...'],
-        'pluginOptions' => [
-            'language' => 'ru',
-            'autoclose' => true,
-            'format' => 'yyyy.mm.dd hh:ii'
-        ]
-    ]);
-    ?>
 
-    <?php echo $form->field($model, 'date_time_finish_reg')->widget(DateTimePicker::classname(), [
-        'options' => ['placeholder' => 'Введите дату и время ...'],
-        'pluginOptions' => [
-            'autoclose' => true,
-            'format' => 'yyyy.mm.dd hh:ii'
-        ]
-    ]);
-    ?>
 
     <?= $form->field($model, 'time_of_distants_tour_type')->dropDownList($model->typeOfTimeDistanceTour()); ?>
 

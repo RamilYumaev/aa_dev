@@ -19,8 +19,6 @@ class OlimpicListCreateForm extends Model
         $chairman_id,
         $number_of_tours,
         $edu_level_olymp,
-        $date_time_start_reg,
-        $date_time_finish_reg,
         $genitive_name,
         $faculty_id,
         $competitiveGroupsList,
@@ -35,7 +33,7 @@ class OlimpicListCreateForm extends Model
         $prefilling,
         $only_mpgu_students,
         $list_position,
-        $current_status,
+        $date_range,
         $auto_sum,
         $date_time_start_tour,
         $address,
@@ -62,8 +60,7 @@ class OlimpicListCreateForm extends Model
     public function rules()
     {
         return [
-            [['chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_time_start_reg',
-                'date_time_finish_reg', 'year', 'genitive_name', 'faculty_id'],
+            [['chairman_id', 'number_of_tours', 'edu_level_olymp', 'date_range', 'year', 'genitive_name', 'faculty_id'],
                 'required', 'when' => function ($model) {
                 return $model->prefilling == 0;
             }, 'whenClient' => 'function(attribute, value){
@@ -106,7 +103,7 @@ class OlimpicListCreateForm extends Model
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum', 'olimpic_id',
                 ], 'integer'],
-            [['date_time_start_reg', 'date_time_finish_reg', 'date_time_start_tour'], 'safe'],
+            [['date_range', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
             [['name','year'], 'string', 'max' => 255],
