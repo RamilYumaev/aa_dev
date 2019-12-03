@@ -23,4 +23,16 @@ class AuthService
         }
         return $user;
     }
+
+    public function autRbac(LoginForm $form): \common\auth\models\User
+    {
+        $user = $this->repository->findByUsernameOrEmail($form->username);
+        if (!$user || !$user->isActive() || !$user->validatePassword($form->password)) {
+            throw new \DomainException('Неверный логин или пароль.');
+        }
+        if (!\Yii::$app->authManager->getPermissionsByUser($user->id)) {
+            throw new \DomainException('У вас нет прав для входа.');
+        }
+        return $user;
+    }
 }
