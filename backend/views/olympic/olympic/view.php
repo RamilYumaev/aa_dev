@@ -34,6 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?= \backend\widgets\olimpic\OlipicListInOLymipViewWidget::widget(['model'=> $olympic]) ?>
+
+<?php if (!$olympic->getOlympicOneLast()->isFormOfPassageInternal()): ?>
+
 <div class="row">
     <div class="col-md-12">
         <?= $this->render('@backend/views/testing/question/_questions-type-link', ['olympic' => $olympic->id]) ?>
@@ -45,3 +48,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+<?php endif; ?>
