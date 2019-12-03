@@ -170,8 +170,8 @@ class OlympicHelper
     public static function prefilling()
     {
         return [
-            self::PREFILING_BAS => 'основное',
-            self::PREFILING_PRE => 'предварительное',
+            self::PREFILING_BAS => 'Опубликовано',
+            self::PREFILING_PRE => 'Черновик',
         ];
     }
 

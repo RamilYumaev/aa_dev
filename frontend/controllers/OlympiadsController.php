@@ -58,12 +58,12 @@ class OlympiadsController extends Controller
             try {
                 $this->service->signup($form);
                 Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
-                $this->redirect('index');
+                return $this->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+
         }
 
         return $this->render('registration-on-olympiads', [

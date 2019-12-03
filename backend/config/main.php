@@ -71,17 +71,16 @@ return [
             ],
         ],
 
-        'as access' => [
-            'class' => 'yii\filters\AccessControl',
-            'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['manager', 'olymp_operator', 'rbac']
-                ]
-            ]],
-
     ],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['manager', 'olymp_operator', 'rbac']
+            ]
+        ]],
 
     'params' => $params,
 ];

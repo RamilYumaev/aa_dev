@@ -9,7 +9,7 @@ use yii\helpers\Html;
 <div class="box box-default">
     <div class="box box-header">
         <h4>Вопросы данного теста</h4>
-        <?= Html::a('Добвить вопрос', ['/testing/question/types/type-select-one'], [ 'class'=>'btn btn-success']); ?>
+        <?= Html::a('Добавить вопрос', ['/testing/question/types/type-select-one'], [ 'class'=>'btn btn-success']); ?>
         <?= Html::a('Добавить группу', ['/testing/question/types/type-matching'], [ 'class'=>'btn btn-success']); ?>
     </div>
     <div class="box-body">

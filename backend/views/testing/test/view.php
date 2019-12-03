@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box box-default">
     <?php $form = ActiveForm::begin(); ?>
     <div class="box box-header">
-        <?= Html::a('Добвить вопрос', ['/testing/test-and-questions/add-question',
+        <?= Html::a('Добавить вопрос', ['/testing/test-and-questions/add-question',
             'test_id'=>$test->id,], ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
             'data-modalTitle' =>'Добавить вопрос', 'target' => '#modal']); ?>
         <?= Html::a('Добавить группу вопросов', ['/testing/test-and-questions/add-group',
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-body">
     <table class="table">
         <tr><th>#</th><th>Группа вопросов</th><th>Балл</th><th>Вопрос</th> <th></th></tr>
-        <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): ?>
+        <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): //@TODO неизвестная переменная?>
             <tr>
                 <td><?= $a++; ?></td>
                 <td><?= \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($item->andQuestions->test_group_id) ?? null ?></td>
