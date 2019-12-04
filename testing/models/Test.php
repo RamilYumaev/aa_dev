@@ -51,4 +51,12 @@ class Test extends ActiveRecord
         return $test->attributeLabels();
     }
 
+    public function active() {
+        return $this->status == TestHelper::ACTIVE;
+    }
+
+    public function draft() {
+       return $this->status == TestHelper::DRAFT;
+    }
+
 }
