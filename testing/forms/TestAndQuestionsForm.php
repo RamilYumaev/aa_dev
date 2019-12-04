@@ -35,10 +35,10 @@ class TestAndQuestionsForm extends Model
     {
         if (parent::beforevalidate()) {
             if ($this->isGroup &&  empty($this->test_group_id)) {
-                $this->addError('name', 'Необходимо заполнить «Группу вопросов».');
+                $this->addError('test_group_id', 'Необходимо заполнить «Группу вопросов».');
             }
             if (!$this->isGroup &&  empty($this->question_id)) {
-                $this->addError('answer_match', 'Необходимо заполнить «Вопрос».');
+                $this->addError('question_id', 'Необходимо заполнить «Вопрос».');
             }
             return true;
         }

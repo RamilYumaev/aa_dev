@@ -27,8 +27,7 @@ class TestAndQuestionsMarkForm extends Model
     public function rules()
     {
         return [
-            [['mark'], 'required'],
-            [['mark'], 'integer'],
+            ['mark', 'number', 'min' => 1, 'max' => 100],
         ];
     }
 

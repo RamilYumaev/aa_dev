@@ -16,8 +16,8 @@ class TestAndQuestionsTableMarkForm extends Model
     public function __construct($andQuestions, $config = [])
     {
         if ($andQuestions) {
-        $this->arrayMark =  array_map(function ($quest) { return new TestAndQuestionsMarkForm($quest);
-        },$andQuestions);
+            $this->arrayMark =  array_map(function ($quest) {
+            return new TestAndQuestionsMarkForm($quest); }, $andQuestions);
         } else {
             $this->arrayMark = [];
         }

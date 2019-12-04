@@ -46,12 +46,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box box-default">
     <?php $form = ActiveForm::begin(); ?>
     <div class="box box-header">
+        <?php if($test->draft()) :?>
         <?= Html::a('Добавить вопрос', ['/testing/test-and-questions/add-question',
             'test_id'=>$test->id,], ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
             'data-modalTitle' =>'Добавить вопрос', 'target' => '#modal']); ?>
         <?= Html::a('Добавить группу вопросов', ['/testing/test-and-questions/add-group',
             'test_id'=>$test->id,], ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
             'data-modalTitle' =>'Добавить группу вопросов', 'target' => '#modal']); ?>
+        <?php endif; ?>
     </div>
     <div class="box-body">
     <table class="table">
@@ -60,16 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <tr>
                 <td><?= $a++; ?></td>
                 <td><?= \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($item->andQuestions->test_group_id) ?? null ?></td>
-                <td><?= $form->field($item,"[$i]mark")->label(false); ?></td>
+                <td><?= $test->draft() ? $form->field($item,"[$i]mark")->label(false) : $item->mark; ?></td>
                 <td><?=  \testing\helpers\TestQuestionHelper::questionTextName($item->andQuestions->question_id) ?? null  ?></td>
-                <td><?=   Html::a('Удалить', ['/testing/test-and-questions/delete', 'id' => $item->id], ['class' => 'btn btn-danger', 'data' => ['confirm' => 'Вы уверены, что хотите удалить?',
-                'method' => 'post']]) ?></td>
+                <td><?= $test->draft() ?   Html::a('Удалить', ['/testing/test-and-questions/delete', 'id' => $item->id], ['class' => 'btn btn-danger', 'data' => ['confirm' => 'Вы уверены, что хотите удалить?',
+                'method' => 'post']]) : ''?></td>
             </tr>
         <?php endforeach; ?>
     </table>
     </div>
     <div class="box-footer">
-    <?= $testAndQuestion->arrayMark ?  Html::submitButton('Сохранить',['class'=>'btn btn-primary']) : ""; ?>
+    <?= $testAndQuestion->arrayMark ?  $test->draft() ? Html::submitButton('Сохранить',['class'=>'btn btn-primary']) :"" : ""; ?>
     <?php ActiveForm::end(); ?>
 </div>
 </div>

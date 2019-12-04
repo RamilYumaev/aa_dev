@@ -96,8 +96,7 @@ class TestService
             throw new \DomainException(FlashMessages::get()["sumMark"]);
         }
 
-
-            $model->status = TestHelper::ACTIVE;
+        $model->status = TestHelper::ACTIVE;
         $this->repository->save($model);
     }
 

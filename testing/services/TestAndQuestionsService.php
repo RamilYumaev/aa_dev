@@ -38,6 +38,7 @@ class TestAndQuestionsService
         foreach ($form->question_id as $question_id) {
             $question = $this->questionRepository->get($question_id);
             if ($this->repository->isQuestionInTest($test->id, $question->id)) {
+                throw new \DomainException('Вопрос  "'. $question->title . '" уже используется');
                 continue;
             }
             $testAndQuestion = TestAndQuestions::create(null, $question->id, $test->id);
@@ -51,6 +52,7 @@ class TestAndQuestionsService
         foreach ($form->test_group_id as $test_group_id) {
             $test_group = $this->testGroupRepository->get($test_group_id);
             if ($this->repository->isTestGroupInTest($test->id, $test_group->id)) {
+                throw new \DomainException('Группа вопросов  "'. $test_group->name . '" уже используется');
                 continue;
             }
             $testAndQuestion = TestAndQuestions::create($test_group->id, null, $test->id);
