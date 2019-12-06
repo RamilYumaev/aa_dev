@@ -24,6 +24,7 @@ return [
             'identityClass' => 'common\auth\Identity',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl' => ['auth/auth/login'],
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
@@ -84,5 +85,15 @@ return [
         ],
 
     ],
+
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['olympiads/*', 'dod/*', 'auth/signup/request', 'site/index','auth/auth/login', 'auth/auth/auth', 'schools/*'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['@']
+            ]
+        ]],
     'params' => $params,
 ];
