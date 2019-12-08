@@ -46,7 +46,8 @@ class OlimpicListCreateForm extends Model
         $certificate_id,
         $olimpic_id,
         $year,
-        $event_type;
+        $event_type,
+        $percent_to_calculate;
 
     public function __construct($olimpic_id, $config = [])
     {
@@ -77,7 +78,7 @@ class OlimpicListCreateForm extends Model
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcreateform-form_of_passage").val() == 2; 
             }'],
-            ['time_of_distants_tour_type', 'required', 'when' => function ($model) {
+            [['time_of_distants_tour_type', 'percent_to_calculate'], 'required', 'when' => function ($model) {
                 return $model->number_of_tours == OlympicHelper::TWO_TOUR;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcreateform-number_of_tours").val() == 2; 
@@ -98,15 +99,15 @@ class OlimpicListCreateForm extends Model
             return $("#olimpiclistcreateform-form_of_passage").val() == 1; 
             }'],
             [['content', 'required_documents'], 'string'],
-            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть',  'targetAttribute' => ['name', 'year']],
+            [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть', 'targetAttribute' => ['name', 'year']],
             [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id',
-                'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum', 'olimpic_id',
-                ], 'integer'],
+                'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'auto_sum', 'olimpic_id',
+            ], 'integer'],
             [['date_range', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
-            [['name','year'], 'string', 'max' => 255],
+            [['name', 'year'], 'string', 'max' => 255],
             [['chairman_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictChairmans::class, 'targetAttribute' => ['chairman_id' => 'id']],
             [['promotion_text', 'link'], 'string', 'max' => 255],
             [['name'], 'required'],
@@ -117,6 +118,7 @@ class OlimpicListCreateForm extends Model
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['showing_works_and_appeal', 'in', 'range' => OlympicHelper::showingWorkValid(), 'allowArray' => true],
+            ['percent_to_calculate', 'integer', 'min' => 40, 'max' => 60],
         ];
     }
 
@@ -168,13 +170,14 @@ class OlimpicListCreateForm extends Model
         return DictChairmansHelper::chairmansFullNameList();
     }
 
-    public  function typeOfTimeDistanceTour() {
+    public function typeOfTimeDistanceTour()
+    {
 
         return OlympicHelper::typeOfTimeDistanceTour();
     }
 
     public function years(): array
     {
-       return EduYearHelper::eduYearList();
+        return EduYearHelper::eduYearList();
     }
 }

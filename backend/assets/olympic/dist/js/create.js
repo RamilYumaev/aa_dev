@@ -10,6 +10,7 @@ var hideZaochRequired = $("div.field-olimpiclistcreateform-requiment_to_work_of_
 var hideOchRequired = $("div.field-olimpiclistcreateform-requiment_to_work");
 var hideZaochCriteria = $("div.field-olimpiclistcreateform-criteria_for_evaluating_dt");
 var hideOchCriteria = $("div.field-olimpiclistcreateform-criteria_for_evaluating");
+var calculate = $("div.field-olimpiclistcreateform-percent_to_calculate");
 
 $("#olimpiclistcreateform-form_of_passage").on("change init", function() {
     if(this.value == 1 ||   this.value == 3 ){
@@ -52,6 +53,7 @@ $("#olimpiclistcreateform-number_of_tours").on("change init", function() {
         hideZaochRequired.show();
         hideZaochCriteria.show();
         hideTypeOfTime.show();
+        calculate.show();
     }else{
         hideTypeOfTime.hide();
         hideTimeOfOchTour.hide();
@@ -63,6 +65,7 @@ $("#olimpiclistcreateform-number_of_tours").on("change init", function() {
         hideOchCriteria.hide();
         hideZaochRequired.hide();
         hideZaochCriteria.hide();
+        calculate.hide();
     }
 });
 

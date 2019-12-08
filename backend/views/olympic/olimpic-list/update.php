@@ -124,7 +124,10 @@ $this->params['breadcrumbs'][] = 'Обновить';
 
             <?= $form->field($model, 'certificate_id')->checkbox(); ?>
 
-    <div class="form-group">
+    <?= $form->field($model, 'percent_to_calculate')->textInput(['type' => 'number', 'min'=>40, 'max'=>60]) ?>
+
+
+            <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
         </div>

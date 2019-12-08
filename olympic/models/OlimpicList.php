@@ -43,7 +43,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->number_of_tours = $form->number_of_tours;
         $olympic->edu_level_olymp = $form->edu_level_olymp;
         $olympic->date_time_start_reg = $dates[0];
-        $olympic->date_time_finish_reg =  $dates[1];
+        $olympic->date_time_finish_reg = $dates[1];
         $olympic->genitive_name = $form->genitive_name;
         $olympic->faculty_id = $faculty_id;
         $olympic->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -70,6 +70,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
+        $olympic->percent_to_calculate = $form->percent_to_calculate;
         return $olympic;
     }
 
@@ -82,7 +83,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->number_of_tours = $form->number_of_tours;
         $olympic->edu_level_olymp = $form->edu_level_olymp;
         $olympic->date_time_start_reg = $dates[0];
-        $olympic->date_time_finish_reg =  $dates[1];
+        $olympic->date_time_finish_reg = $dates[1];
         $olympic->genitive_name = $form->genitive_name;
         $olympic->faculty_id = $faculty_id;
         $olympic->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -109,6 +110,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
+        $olympic->percent_to_calculate = $form->percent_to_calculate;
         return $olympic;
     }
 
@@ -120,7 +122,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $this->number_of_tours = $form->number_of_tours;
         $this->edu_level_olymp = $form->edu_level_olymp;
         $this->date_time_start_reg = $dates[0];
-        $this->date_time_finish_reg =  $dates[1];
+        $this->date_time_finish_reg = $dates[1];
         $this->genitive_name = $form->genitive_name;
         $this->faculty_id = $faculty_id;
         $this->time_of_distants_tour_type = $form->time_of_distants_tour_type;
@@ -147,6 +149,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $this->event_type = $form->event_type;
         $this->olimpic_id = $olimpic_id;
         $this->year = $form->year;
+        $this->percent_to_calculate = $form->percent_to_calculate;
     }
 
     /**
@@ -185,7 +188,8 @@ class OlimpicList extends \yii\db\ActiveRecord
             'required_documents' => 'Необходимые документы на очный тур',
             'year' => 'Учебный год',
             'certificate_id' => 'Выдается сертификат участнику очного тура',
-            'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации'
+            'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации',
+            'percent_to_calculate' => 'Процент участников в следующий тур',
         ];
     }
 
@@ -195,86 +199,102 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $olympic->attributeLabels();
     }
 
-    public function olympicRelation($id) {
-      return  self::find()->where(['olimpic_id' => $id]);
+    public function olympicRelation($id)
+    {
+        return self::find()->where(['olimpic_id' => $id]);
     }
 
-    public function olympicListRelation($id) {
-        return  self::find()->where(['id' => $id]);
+    public function olympicListRelation($id)
+    {
+        return self::find()->where(['id' => $id]);
     }
-    
-    public function getEduLevelString () {
+
+    public function getEduLevelString()
+    {
         return $this->edu_level_olymp ? OlympicHelper::levelOlimpName($this->edu_level_olymp) : 'Данные обновляются.';
     }
 
-    public function getFacultyNameString () {
-        return "Учредитель: ".($this->faculty_id ?DictFacultyHelper::facultyName($this->faculty_id) : "Данные обновляются");
+    public function getFacultyNameString()
+    {
+        return "Учредитель: " . ($this->faculty_id ? DictFacultyHelper::facultyName($this->faculty_id) : "Данные обновляются");
     }
 
-    public function getNumberOftoursNameString () {
-        return "Количество туров: ".($this->number_of_tours ? OlympicHelper::numberOfToursName($this->number_of_tours) : 'Данные обновляются.');
+    public function getNumberOftoursNameString()
+    {
+        return "Количество туров: " . ($this->number_of_tours ? OlympicHelper::numberOfToursName($this->number_of_tours) : 'Данные обновляются.');
     }
 
-    public function getOnlyMpguStudentsString () {
+    public function getOnlyMpguStudentsString()
+    {
         return $this->only_mpgu_students ? 'Только для студентов МПГУ' : '';
     }
 
-    public function getFormOfPassageString () {
-        return "Форма(ы) проведения: ". ($this->form_of_passage ? OlympicHelper::formOfPassageName($this->form_of_passage)  : 'Данные обновляются.');
+    public function getFormOfPassageString()
+    {
+        return "Форма(ы) проведения: " . ($this->form_of_passage ? OlympicHelper::formOfPassageName($this->form_of_passage) : 'Данные обновляются.');
     }
 
-    public function getDateRegStartNameString () {
-        return Html::tag('strong','Дата и время начала регистрации на сайте: '). ($this->date_time_start_reg ?
-                    DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
-                    . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg)
-                    : 'Данные обновляются.');
+    public function getDateRegStartNameString()
+    {
+        return Html::tag('strong', 'Дата и время начала регистрации на сайте: ') . ($this->date_time_start_reg ?
+                DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
+                . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg)
+                : 'Данные обновляются.');
     }
 
-    public function getDateRegEndNameString () {
-        return Html::tag('strong','Дата и время завершения регистрации на сайте: '). ($this->date_time_finish_reg ?
-            DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)
-            . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg)
-            : 'Данные обновляются.');
+    public function getDateRegEndNameString()
+    {
+        return Html::tag('strong', 'Дата и время завершения регистрации на сайте: ') . ($this->date_time_finish_reg ?
+                DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)
+                . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg)
+                : 'Данные обновляются.');
     }
 
-    public function getTimeOfDistantsTourNameString () {
+    public function getTimeOfDistantsTourNameString()
+    {
         return $this->time_of_distants_tour ?
-            Html::tag('strong','Продолжительность выполнения заданий заочного тура: ') . $this->time_of_distants_tour . ' мин.'
+            Html::tag('strong', 'Продолжительность выполнения заданий заочного тура: ') . $this->time_of_distants_tour . ' мин.'
             : '';
     }
 
-    public function getTimeStartTourNameString () {
+    public function getTimeStartTourNameString()
+    {
         return $this->date_time_start_tour ?
-            Html::tag('strong','Дата и время проведения очного тура: ') .
+            Html::tag('strong', 'Дата и время проведения очного тура: ') .
             DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour)
             : '';
     }
 
-    public function getAddressNameString () {
+    public function getAddressNameString()
+    {
         return $this->address ?
-            Html::tag('strong','Адрес проведения очного тура: ') .$this->address
+            Html::tag('strong', 'Адрес проведения очного тура: ') . $this->address
             : '';
     }
 
-    public function getTimeOfTourNameString () {
+    public function getTimeOfTourNameString()
+    {
         return $this->time_of_tour ?
-            Html::tag('strong','Продолжительность очного тура: ') .$this->time_of_tour  . ' мин.'
+            Html::tag('strong', 'Продолжительность очного тура: ') . $this->time_of_tour . ' мин.'
             : '';
     }
 
-    public function getContentString () {
+    public function getContentString()
+    {
         return $this->content ?
-            Html::tag('div',$this->content, ['claass'=>'mt-30'])
+            Html::tag('div', $this->content, ['claass' => 'mt-30'])
             : '';
     }
 
-    public function getIsOnRegisterOlympic() {
-        $date =  date('Y-m-d H:i:s');
+    public function getIsOnRegisterOlympic()
+    {
+        $date = date('Y-m-d H:i:s');
         return $this->date_time_finish_reg >= $date
             && $this->prefilling == false && $this->date_time_start_reg <= $date;
     }
 
-    public function getIsDistanceTour() {
+    public function getIsDistanceTour()
+    {
         return ($this->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA ||
             $this->form_of_passage == OlympicHelper::ZAOCHNO_OCHO_ZAOCHNAYA ||
             $this->form_of_passage == OlympicHelper::ZAOCHNO_ZAOCHNAYA ||
@@ -282,7 +302,8 @@ class OlimpicList extends \yii\db\ActiveRecord
         );
     }
 
-    public function replaceLabelsFromTemplate () {
+    public function replaceLabelsFromTemplate()
+    {
         return [
             DictChairmansHelper::chairmansNameOne($this->chairman_id), //Фамилия И.О. председателя
             $this->genitive_name,    //Название мероприятия в родительном падеже
@@ -312,34 +333,41 @@ class OlimpicList extends \yii\db\ActiveRecord
         ];
     }
 
-    public function isFormOfPassageInternal () {
+    public function isFormOfPassageInternal()
+    {
         return $this->form_of_passage == OlympicHelper::OCHNAYA_FORMA;
     }
 
-    public function isFormOfPassageDistant () {
+    public function isFormOfPassageDistant()
+    {
         return $this->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA;
     }
 
-    public function isFormOfPassageDistantInternal () {
+    public function isFormOfPassageDistantInternal()
+    {
         return $this->form_of_passage == OlympicHelper::OCHNO_ZAOCHNAYA_FORMA;
     }
 
-    public function isFormOfPassageDistantInternalDistant () {
+    public function isFormOfPassageDistantInternalDistant()
+    {
         return $this->form_of_passage == OlympicHelper::ZAOCHNO_OCHO_ZAOCHNAYA;
     }
 
-    public function isFormOfPassageDistantDistant () {
+    public function isFormOfPassageDistantDistant()
+    {
         return $this->form_of_passage == OlympicHelper::ZAOCHNO_ZAOCHNAYA;
     }
 
 
-    public function isResultDistanceTour() {
-       return $this->current_status &&
-        ($this->isFormOfPassageDistant()
-            || $this->isFormOfPassageDistantInternal());
+    public function isResultDistanceTour()
+    {
+        return $this->current_status &&
+            ($this->isFormOfPassageDistant()
+                || $this->isFormOfPassageDistantInternal());
     }
 
-    public function isResultEndTour() {
+    public function isResultEndTour()
+    {
         return $this->current_status == OlympicHelper::OCH_FINISH;
     }
 
