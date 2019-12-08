@@ -46,15 +46,4 @@ class UserHelper
     {
         return User::find()->select('id')->column();
     }
-
-    public static function getEmailByUserId($userId): string
-    {
-        $user = User::find()->andWhere(['id' => $userId])->limit('1')->one();
-
-        if ($user) {
-            return $user->email;
-        }
-        return "Нет пользователя";
-
-    }
 }

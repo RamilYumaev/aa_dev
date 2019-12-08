@@ -43,7 +43,7 @@ class ProfileHelper
     public static function getAllUserFullNameWithEmail()
     {
         return Profiles::find()
-            ->select(new Expression("concat_ws(' ', last_name, first_name, patronymic, email)"))
+            ->select(new Expression("concat_ws(' ',last_name, first_name, patronymic, email)"))
             ->joinWith('user', false)
             ->indexBy("user_id")
             ->column();
