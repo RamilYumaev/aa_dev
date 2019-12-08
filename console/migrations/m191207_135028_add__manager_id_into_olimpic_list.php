@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m191207_135028_add__managerId_into_olimpic_list
  */
-class m191207_135028_add__managerId_into_olimpic_list extends Migration
+class m191207_135028_add__manager_id_into_olimpic_list extends Migration
 {
     /**
      * {@inheritdoc}

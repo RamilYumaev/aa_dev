@@ -45,6 +45,7 @@ class ProfileHelper
         return Profiles::find()
             ->select(new Expression("concat_ws(' ',last_name, first_name, patronymic, email)"))
             ->joinWith('user', false)
+            ->andWhere(['isManager' => true])
             ->indexBy("user_id")
             ->column();
     }
