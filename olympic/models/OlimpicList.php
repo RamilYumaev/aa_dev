@@ -330,6 +330,7 @@ class OlimpicList extends \yii\db\ActiveRecord
             $this->criteria_for_evaluating_dt, //Критерии оценивания заданий заочного тура
             $this->requiment_to_work,//Требования к выполнению заданий очного тура
             $this->criteria_for_evaluating,//Требования к выполнению заданий очного тура
+            $this->percent_to_calculate, // Процент прохождения в следующий тур
         ];
     }
 
