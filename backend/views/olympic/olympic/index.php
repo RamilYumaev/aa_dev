@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box box-default">
     <div class="box box-header">
         <?=Html::a('Добавить', ['create',],
-            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
+            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([

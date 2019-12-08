@@ -25,7 +25,6 @@ class AuthHandler
     private $profileRepository;
     private $authRepository;
     private $transactionManager;
-    private $transaction;
 
     public function __construct(ClientInterface $client)
     {
@@ -50,13 +49,13 @@ class AuthHandler
                 $this->updateUserInfo($user);
                 Yii::$app->user->login(new Identity($user), 1);
             } else { // signup
-                if ($email !== null && $this->userRepository->getByEmail($email)) {
+                if ($email !== null && $this->userRepository->getEmail($email)) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "Авторизация {client}. Пользователь с таким email уже существует.", ['client' => $this->client->getTitle()]),
                     ]);
                 } else {
-                    $this->transaction->wrap(function () use ($nickname, $email, $id) {
-                        $user = $this->newUser($nickname, $email);
+                    $this->transactionManager->wrap(function () use ($nickname, $email, $id) {
+                        $user = $this->newUser($nickname ?? $id, $email);
                         $this->userRepository->save($user);
 
                         $auth = $this->newAuth($user->id, $id);

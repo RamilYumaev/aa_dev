@@ -269,8 +269,9 @@ class OlimpicList extends \yii\db\ActiveRecord
     }
 
     public function getIsOnRegisterOlympic() {
-        return $this->date_time_finish_reg >= date('Y-m-d H:i:s')
-            && $this->prefilling == false && $this->date_time_start_reg <= date('Y-m-d H:i:s');
+        $date =  date('Y-m-d H:i:s');
+        return $this->date_time_finish_reg >= $date
+            && $this->prefilling == false && $this->date_time_start_reg <= $date;
     }
 
     public function getIsDistanceTour() {
