@@ -11,26 +11,24 @@ $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурс�
 $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\modal\ModalAsset::register($this);
 ?>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-default">
-                <div class="box box-header">
-                    <p>
-                        <?= Html::a('Обновить', ['update', 'id' => $olympic->id], ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' => 'Редактировать', 'target' => '#modal', 'class' => 'btn btn-primary']) ?>
-                    </p>
-                </div>
-                <div class="box-body">
-                    <?= DetailView::widget([
-                        'model' => $olympic,
-                        'attributes' => [
-                            'name',
-                            ['attribute' => 'status',
-                                'value' => \olympic\helpers\OlympicHelper::statusName($olympic->status)
-                            ]
-                        ],
-                    ]) ?>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-md-12">
+    <div class="box box-default">
+        <div class="box box-header">
+        <p>
+            <?= Html::a('Обновить', ['update', 'id' => $olympic->id], ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal', 'class' => 'btn btn-primary']) ?>
+        </p>
+        </div>
+        <div class="box-body">
+    <?= DetailView::widget([
+        'model' => $olympic,
+        'attributes' => [
+            'name',
+            ['attribute' => 'status',
+                'value' => \olympic\helpers\OlympicHelper::statusName($olympic->status)
+                ]
+        ],
+    ]) ?>
         </div>
     </div>
 

@@ -28,6 +28,16 @@ class OlimpicListRepository
         return $model;
     }
 
+    public function isFinishDateRegister($id): OlimpicList
+    {
+        if (!$model = OlimpicList::find()->andWhere(['id'=> $id ])
+            ->andWhere(['<','date_time_finish_reg', date('Y-m-d H:i:s')])
+            ->one()) {
+            throw new \DomainException('Результаты можно подводить после окончания регистрации или заочного тура!.');
+        }
+        return $model;
+    }
+
     public function save(OlimpicList $model): void
     {
         if (!$model->save()) {

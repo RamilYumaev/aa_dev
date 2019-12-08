@@ -48,6 +48,11 @@ class UserRepository
         return $this->getBy(['email' => $email]);
     }
 
+    public function getEmail($email): ?User
+    {
+        return  \common\auth\models\User::find()->andWhere(['email' => $email])->limit(1)->one();
+    }
+
     public function getByPasswordResetToken($token): User
     {
         return $this->getBy(['password_reset_token' => $token]);
