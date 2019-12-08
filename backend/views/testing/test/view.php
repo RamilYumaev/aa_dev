@@ -50,10 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if($test->draft()) :?>
         <?= Html::a('Добавить вопрос', ['/testing/test-and-questions/add-question',
             'test_id'=>$test->id,], ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
-            'data-modalTitle' =>'Добавить вопрос', 'target' => '#modal']); ?>
+            'data-modalTitle' =>'Добавить вопрос', 'data-target' => '#modal']); ?>
         <?= Html::a('Добавить группу вопросов', ['/testing/test-and-questions/add-group',
             'test_id'=>$test->id,], ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
-            'data-modalTitle' =>'Добавить группу вопросов', 'target' => '#modal']); ?>
+            'data-modalTitle' =>'Добавить группу вопросов', 'data-target' => '#modal']); ?>
         <?php endif; ?>
     </div>
     <div class="box-body">

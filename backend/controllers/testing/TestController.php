@@ -69,11 +69,11 @@ class TestController extends Controller
         if (Model::loadMultiple($testAndQuestion->arrayMark, Yii::$app->request->post())) {
             try {
                 $this->testAndQuestionsService->addMark($testAndQuestion);
-                return $this->redirect(['view','id'=> $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+               return $this->redirect(['view','id'=> $model->id]);
         }
 
         return $this->render('view', [
