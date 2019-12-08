@@ -6,6 +6,7 @@ namespace olympic\models\auth;
 use dictionary\helpers\DictCountryHelper;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
+use common\auth\models\User;
 
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -72,5 +73,10 @@ class Profiles extends \yii\db\ActiveRecord
     {
         $profile = new static();
         return $profile->attributeLabels();
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
