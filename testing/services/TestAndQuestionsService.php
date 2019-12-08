@@ -2,9 +2,11 @@
 namespace testing\services;
 
 
+use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
 use testing\forms\TestAndQuestionsForm;
 use testing\forms\TestAndQuestionsTableMarkForm;
+use testing\helpers\TestAndQuestionsHelper;
 use testing\models\TestAndQuestions;
 use testing\repositories\TestAndQuestionsRepository;
 use testing\repositories\TestQuestionGroupRepository;
@@ -62,17 +64,29 @@ class TestAndQuestionsService
 
     public function addMark(TestAndQuestionsTableMarkForm $form): void
     {
+        $markSum = array_sum(array_map(function($mark) { return $mark['mark']; }, $form->arrayMark));
+
+        if ($markSum > TestAndQuestionsHelper::MARK_SUM_TEST) {
+            throw new \DomainException(FlashMessages::get()["sumMushMark"]);
+        }
         foreach ($form->arrayMark as $mark) {
             $testAndQuestion = $this->repository->get($mark->id);
+            $this->isTestActive($testAndQuestion->test_id, FlashMessages::get()["activeTest"]);
             $testAndQuestion->addMark($mark->mark);
             $this->repository->save($testAndQuestion);
         }
     }
 
-
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        $this->isTestActive($model->test_id, FlashMessages::get()["activeTestActionDelete"]);
         $this->repository->remove($model);
+    }
+
+    private function isTestActive($test_id,  $message) {
+        if ($this->testRepository->get($test_id)->active()) {
+            throw new \DomainException($message);
+        }
     }
 }
