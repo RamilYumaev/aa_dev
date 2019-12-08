@@ -4,6 +4,7 @@ namespace common\auth\helpers;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use common\auth\models\User;
 
 class UserHelper
 {
@@ -39,5 +40,21 @@ class UserHelper
         return Html::tag('span', ArrayHelper::getValue(self::statusList(), $status), [
             'class' => $class,
         ]);
+    }
+
+    public static function getAllUserId(): array
+    {
+        return User::find()->select('id')->column();
+    }
+
+    public static function getEmailByUserId($userId): string
+    {
+        $user = User::find()->andWhere(['id' => $userId])->limit('1')->one();
+
+        if ($user) {
+            return $user->email;
+        }
+        return "Нет пользователя";
+
     }
 }

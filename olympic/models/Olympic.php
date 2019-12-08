@@ -31,6 +31,7 @@ class Olympic extends \yii\db\ActiveRecord
         $olympic = new static();
         $olympic->name = $form->name;
         $olympic->status = $form->status;
+        $olympic->managerId = $form->managerId;
         return $olympic;
     }
 
@@ -38,6 +39,8 @@ class Olympic extends \yii\db\ActiveRecord
     {
         $this->name = $form->name;
         $this->status = $form->status;
+        $this->managerId = $form->managerId;
+
     }
 
     public function getOlympicOneLast() {
@@ -52,6 +55,7 @@ class Olympic extends \yii\db\ActiveRecord
         return [
             'name' => 'Полное название мероприятия',
             'status' => 'Статус',
+            'managerId'=> 'Ответственное лицо за олимпиаду',
         ];
     }
 
