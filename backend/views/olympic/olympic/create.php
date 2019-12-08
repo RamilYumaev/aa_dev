@@ -19,6 +19,11 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'status')->dropDownList($model->statusList()) ?>
 
+    <?= $form->field($model, 'managerId')->widget(Select2::class, [
+            'data'=>\olympic\helpers\auth\ProfileHelper::getAllUserFullNameWithEmail(),
+            'options'=> ['placeholder'=>'Выберите пользователя'],
+    ])?>
+
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
