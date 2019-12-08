@@ -39,14 +39,11 @@ class AttemptAnswerService
         $keyTqId = $this->getKeyTqId($data);
         $mark = $this->isTypeData($data);
         $resultTest = $this->repository->get($attempt_id, $key, $keyTqId);
-        if($resultTest->result) {
-            throw new \DomainException( 'Вы ответили на данный вопрос.');
-        }else {
-            unset($data['key'], $data['keyTqId']);
-            $json = Json::encode($data);
-            $resultTest->edit($json, $mark);
-            $this->repository->save($resultTest);
-        }
+        unset($data['key'], $data['keyTqId']);
+        $json = Json::encode($data);
+        $resultTest->edit($json, $mark);
+        $this->repository->save($resultTest);
+
     }
 
     public function isTypeData($data) {

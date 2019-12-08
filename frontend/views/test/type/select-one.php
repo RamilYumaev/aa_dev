@@ -6,4 +6,5 @@ use testing\helpers\TestQuestionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
 <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-<?= Html::radioList('AnswerAttempt[select-one]', [], AnswerHelper::answerList($quent->question_id))?>
+<?php $a= yii\helpers\Json::decode($quent->result); ?>
+<?= Html::radioList('AnswerAttempt[select-one]' , $a ?? [] , AnswerHelper::answerList($quent->question_id))?>

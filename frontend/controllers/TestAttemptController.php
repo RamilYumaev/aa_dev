@@ -41,6 +41,7 @@ class TestAttemptController extends Controller
         $this->isGuest();
         try {
             $testAttempt = $this->service->create($test_id);
+
             return $this->redirect(['test/view', 'id' => $testAttempt->test_id]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
@@ -54,7 +55,8 @@ class TestAttemptController extends Controller
         $this->isGuest();
         try {
             $testAttempt = $this->service->end($test_id);
-            return $this->redirect(['test/view', 'id' => $testAttempt->test_id]);
+            Yii::$app->session->setFlash('info', "Ваш результат тестирования: ".$testAttempt->mark." балл(-а, -oв)");
+            return $this->redirect(['site/index']);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -64,7 +66,7 @@ class TestAttemptController extends Controller
 
     protected function isGuest() {
         if (Yii::$app->user->isGuest) {
-            return $this->redirect(['dod/index']);
+            return $this->redirect(['site/index']);
         }
     }
 }

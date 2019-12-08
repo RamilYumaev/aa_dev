@@ -26,11 +26,11 @@ class TestAttempt extends ActiveRecord
         $testAtt->start = date("Y-m-d H:i:s");
         $testAtt->end = null;
         return $testAtt;
-
     }
 
-    public function edit() {
+    public function edit($mark) {
         $this->end = date("Y-m-d H:i:s");
+        $this->mark = $mark;
     }
 
 //    public function rules()
