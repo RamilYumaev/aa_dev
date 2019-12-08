@@ -1,14 +1,11 @@
 <?php
-
-
 namespace olympic\models\queries;
-
 
 use common\auth\models\UserSchool;
 use olympic\helpers\PersonalPresenceAttemptHelper;
+use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
-use olympic\models\Olympic;
-
+use olympic\models\PersonalPresenceAttempt;
 
 class PersonalPresenceAttemptQuery  extends  \yii\db\ActiveQuery
 {
@@ -24,5 +21,37 @@ class PersonalPresenceAttemptQuery  extends  \yii\db\ActiveQuery
         ->andWhere(['ppa.presence_status' => PersonalPresenceAttemptHelper::PRESENCE])
         ->orderBy(['ppa.mark' => SORT_DESC]);
     }
+
+    public function presence()
+    {
+        return $this->andWhere([PersonalPresenceAttempt::tableName().'.presence_status' => PersonalPresenceAttemptHelper::PRESENCE]);
+    }
+
+    public function noAppearance()
+    {
+        return $this->andWhere([PersonalPresenceAttempt::tableName().'.presence_status' => PersonalPresenceAttemptHelper::NON_APPEARANCE]);
+    }
+
+    public function olympic($olympicId)
+    {
+        return $this->andWhere([PersonalPresenceAttempt::tableName().'.olimpic_id' => $olympicId]);
+    }
+
+
+    public function orderByDescMark()
+    {
+        return $this->orderBy([PersonalPresenceAttempt::tableName().'.mark'=> SORT_DESC]);
+    }
+
+    public function userPresence(OlimpicList $olimpicList)
+    {
+        return $this->alias(PersonalPresenceAttempt::tableName())
+            ->innerJoin(Profiles::tableName(). ' profile', 'profile.user_id = '.PersonalPresenceAttempt::tableName().'.user_id')
+            ->olympic($olimpicList->id)
+            ->presence()
+            ->orderBy(['profile.last_name' => SORT_ASC]);
+    }
+
+
 
 }

@@ -14,7 +14,7 @@ use dictionary\helpers\DictDisciplineHelper;
     <div class="box-body">
         <?=Html::a('Добавить', ['dictionary/discipline-competitive-group/create',
                    'competitive_group_id' => $competitive_group_id],
-        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить дисциплину', 'class'=>'btn btn-primary']) ?>
+        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить дисциплину', 'class'=>'btn btn-primary']) ?>
 
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,

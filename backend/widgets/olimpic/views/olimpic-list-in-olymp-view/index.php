@@ -35,6 +35,13 @@ use yii\helpers\Html;
                     ],
                     'year',
                     ['value' => function($model) {
+                        $url = 'olympic/personal-presence-attempt'.
+                            (\olympic\helpers\PersonalPresenceAttemptHelper::isPersonalAttemptOlympic($model->id) ? '/index' : '/create' );
+                        return Html::a('Ведомость', [
+                                $url,
+                            'olympic_id' => $model->id], ['class' => 'btn btn-warning']);
+                    }, 'format' => "raw"],
+                    ['value' => function($model) {
                         return Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info']);
                     }, 'format' => "raw"],
                     ['class' => \yii\grid\ActionColumn::class,

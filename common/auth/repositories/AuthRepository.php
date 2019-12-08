@@ -8,7 +8,7 @@ class AuthRepository
 {
     public function findBySourceAndSourceId($source, $id): ?Auth
     {
-        return Auth::find()->andWhere(['source' => $source, 'source_id' => $id])->one();
+        return Auth::findOne(['source' => $source, 'source_id' => $id]);
     }
 
     public function save(Auth $model): void

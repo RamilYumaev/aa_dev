@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $test testing\models\Test */
 
+
 $this->title = "Просмотр";
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

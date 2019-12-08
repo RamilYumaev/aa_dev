@@ -14,7 +14,7 @@ use dod\models\DateDod;
     <div class="box-body">
         <?=Html::a('Добавить дату', ['/dod/date-dod/create',
                    'dod_id' => $dod_id],
-        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить дату', 'class'=>'btn btn-primary']) ?>
+        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить дату', 'class'=>'btn btn-primary']) ?>
 
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,

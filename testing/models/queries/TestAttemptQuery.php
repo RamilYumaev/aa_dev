@@ -20,4 +20,15 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
             ->orderBy(['tta.mark' => SORT_DESC]);
     }
 
+    public function isNotNullStatus()
+    {
+      return  $this->andWhere(['<>', 'status_id', 0]);
+    }
+
+
+    public function inTestIdOlympic(OlimpicList $olimpicList)
+    {
+      return  $this->andWhere(['in', 'test_id', TestHelper::testIdOlympic($olimpicList->id)]);
+    }
+
 }

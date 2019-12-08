@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="box box-header">
         <h4>Группа вопросов</h4>
         <?=Html::a('Добавить', ['testing/test-question-group/create','olympic_id' => $olympic_id],
-            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
+            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([

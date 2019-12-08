@@ -5,6 +5,7 @@ namespace olympic\helpers;
 
 
 use olympic\helpers\auth\ProfileHelper;
+use olympic\models\PersonalPresenceAttempt;
 use yii\helpers\ArrayHelper;
 
 class PersonalPresenceAttemptHelper
@@ -14,7 +15,7 @@ class PersonalPresenceAttemptHelper
      */
 
     const PRESENCE = 1;
-    const NON_APPREARANCE = 0;
+    const NON_APPEARANCE = 0;
     const NOMINATION = 0;
     const FIRST_PLACE = 1;
     const SECOND_PLACE = 2;
@@ -28,6 +29,16 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE => 'Победитель',
             self::SECOND_PLACE => 'Призер II степени',
             self::THIRD_PLACE => 'Призер III степени',
+        ];
+    }
+
+    public static function nameOfPlacesArray()
+    {
+        return [
+            self::NOMINATION,
+            self::FIRST_PLACE,
+            self::SECOND_PLACE,
+            self::THIRD_PLACE,
         ];
     }
 
@@ -45,6 +56,10 @@ class PersonalPresenceAttemptHelper
             self::SECOND_PLACE => 'призером II степени',
             self::THIRD_PLACE => 'призером III степени',
         ];
+    }
+
+    public static function isPersonalAttemptOlympic($olimpId) {
+        return PersonalPresenceAttempt::find()->olympic($olimpId)->exists();
     }
 
     public static function userOfPlacesForCert($user_id, $reward_status, $status_id) {

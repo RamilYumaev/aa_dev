@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="box-body">
         <?=Html::a('Добавить', ['olympic/olimpic-nomination/create',
                    'olimpic_id' => $olympic_id],
-        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'target' => '#modal', 'data-modalTitle' =>'Добавить номинацию', 'class'=>'btn btn-primary']) ?>
+        ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить номинацию', 'class'=>'btn btn-primary']) ?>
 
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
