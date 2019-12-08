@@ -34,6 +34,9 @@ use yii\helpers\Html;
                         },
                     ],
                     'year',
+                    ['value' => function ($model) { return Html::a('Участники', [ 'olympic/user-olympic/index',
+                            'olympic_id' => $model->id], ['class' => 'btn btn-success']);
+                    }, 'format' => "raw"],
                     ['value' => function($model) {
                         $url = 'olympic/personal-presence-attempt'.
                             (\olympic\helpers\PersonalPresenceAttemptHelper::isPersonalAttemptOlympic($model->id) ? '/index' : '/create' );

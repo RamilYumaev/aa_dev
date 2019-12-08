@@ -5,4 +5,5 @@ use testing\helpers\TestQuestionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
     <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-<?= Html::textInput('AnswerAttempt[short]')?>
+<?php $a= yii\helpers\Json::decode($quent->result); ?>
+<?= Html::textInput('AnswerAttempt[short]', $a['short'] ?? "" )?>

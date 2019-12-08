@@ -12,12 +12,7 @@ use yii\widgets\ActiveForm;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <center>
-<?php for ($i=1; $i <= $pages; ++$i) : ?>
-    <?= Html::a('<span>'.$i.'</span>', ['view','id' => $test->id, 'page' => $i],['class' =>
-        $i == Yii::$app->request->get('page') ? "btn btn-primary" :  "btn btn-success",  'data-toggle'=>'tooltip' ]); ?>
-<?php endfor; ?>
-        </center> </div></div>
+        </div></div>
     <div class="row">
     <div class="col-md-12">
     <center>
@@ -48,11 +43,13 @@ use yii\widgets\ActiveForm;
         <?= Html::hiddenInput('AnswerAttempt[key]',  $quent->question_id) ?>
         <?= Html::hiddenInput('AnswerAttempt[keyTqId]', $quent->tq_id) ?>
         <p>
-         <?= Html::submitButton("Cохранить", ['class'=>'btn btn-success']) ?>  <?= Html::a("Зввершить", ['/test-attempt/end', 'test_id'=> $test->id],
-             ['data' => ['confirm' => 'Вы действительно хотите завершить ?', 'method' => 'POST'], 'class' =>'btn btn-primary'] )  ?>
+         <?= Html::submitButton("Далее", ['class'=>'btn btn-success']) ?>  <?= Html::a("Зввершить", ['/test-attempt/end', 'test_id'=> $test->id],
+             ['data' => ['confirm' => 'Вы действительно хотите завершить заочный тур?', 'method' => 'POST'], 'class' =>'btn btn-primary'] )  ?>
         </p>
     <?php ActiveForm::end();?>
 <?php  endforeach; ?>
+        <?= \yii\widgets\LinkPager::widget(['pagination' => $pages]); ?>
     </center>
     </div>
     </div>
+

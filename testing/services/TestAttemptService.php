@@ -71,7 +71,8 @@ class TestAttemptService
     public  function end($test_id) {
         $test  = $this->testRepository->isActive($test_id);
         $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
-        $testAttempt->edit();
+        $testResult  = TestResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
+        $testAttempt->edit($testResult);
         $this->testAttemptRepository->save($testAttempt);
         return $testAttempt;
     }

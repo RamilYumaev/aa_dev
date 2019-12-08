@@ -12,11 +12,18 @@ class TestReadRepository
 {
     public function find($id)
     {
-        return Test::findOne(['id' => $id, 'status' => TestHelper::ACTIVE]);
+        if(($test = Test::findOne(['id' => $id, 'status' => TestHelper::ACTIVE])) !== null) {
+            return $test;
+        }
+        throw new \DomainException( 'Тест не найден.');
     }
 
     public function quentTests($id) {
         $testAttempt = $this->isAttempt($id);
+        if (!is_null($testAttempt->end)) {
+            throw new \DomainException('Ваша попытка прохождения теста закончена');
+        }
+
         return TestResult::find()->where(['attempt_id'=>$testAttempt->id])->orderBy(['priority'=> SORT_ASC]);
     }
 
@@ -40,9 +47,10 @@ class TestReadRepository
     }
 
     public function isAttempt($id) {
-        if(!$testAttempt = TestAttempt::findOne(['user_id'=> \Yii::$app->user->identity->getId(), 'test_id'=> $this->find($id)->id])) {
-            throw new \DomainException( 'Тестирвание не найдено.');
+        if(($testAttempt = TestAttempt::findOne(['user_id'=> \Yii::$app->user->identity->getId(),
+            'test_id'=> $this->find($id)->id])) !== null) {
+            return $testAttempt;
         }
-        return $testAttempt;
+        throw new \DomainException( 'Тест не найден.');
     }
 }

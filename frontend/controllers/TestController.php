@@ -40,7 +40,7 @@ class TestController extends Controller
 
     public function actionView($id)
     {
-        $pages = $this->repository->quentTestsCount($id);
+
         $get =  Yii::$app->request->get('page');
         if (\Yii::$app->request->post('AnswerAttempt')) {
             try {
@@ -54,12 +54,16 @@ class TestController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         try {
+            $pages = $this->repository->pageCount($id);
             return $this->render('view', [
                 'test' => $this->find($id),
                 'pages' => $pages,
                 'models' => $this->repository->pageOffset($id),
             ]);
-        } catch (NotFoundHttpException $e) {
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect('/site/index');
         }
     }
     /*
