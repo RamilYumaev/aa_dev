@@ -16,6 +16,11 @@ class PersonalPresenceAttemptRepository
         return $model;
     }
 
+    public function getUser($olympic_id, $user_id): bool
+    {
+        PersonalPresenceAttempt::find()->olympic($olympic_id)->user($user_id)->exists();
+    }
+
     public function getOlympic($olympic_id): void
     {
         if (PersonalPresenceAttempt::find()->olympic($olympic_id)->exists()) {

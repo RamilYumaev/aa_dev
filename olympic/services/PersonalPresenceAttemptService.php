@@ -63,14 +63,16 @@ class PersonalPresenceAttemptService
 
     public function create($olympic_id) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
-        $this->repository->getOlympic($olympic->id);
         if ($olympic->isFormOfPassageInternal()) {
             $uo = UserOlimpiads::find()->select('user_id')->andWhere(['olympiads_id' => $olympic->id])->all();
             if (!$uo) {
                 throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
             }
             foreach ($uo as $u) {
-              $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
+                if ($this->repository->getUser($olympic->id, $u->user_id)){
+                    continue;
+                }
+                $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
               $this->repository->save($attempt);
             }
         }
