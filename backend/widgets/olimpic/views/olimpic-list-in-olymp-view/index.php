@@ -34,18 +34,15 @@ use yii\helpers\Html;
                         },
                     ],
                     'year',
-                    ['value' => function ($model) { return Html::a('Участники', [ 'olympic/user-olympic/index',
-                            'olympic_id' => $model->id], ['class' => 'btn btn-success']);
-                    }, 'format' => "raw"],
-                    ['value' => function($model) {
-                        $url = 'olympic/personal-presence-attempt'.
-                            (\olympic\helpers\PersonalPresenceAttemptHelper::isPersonalAttemptOlympic($model->id) ? '/index' : '/create' );
-                        return Html::a('Ведомость', [
-                                $url,
-                            'olympic_id' => $model->id], ['class' => 'btn btn-warning']);
-                    }, 'format' => "raw"],
-                    ['value' => function($model) {
-                        return Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info']);
+                    ['value' => function ($model) {
+                    $url = 'olympic/personal-presence-attempt'.
+                        (\olympic\helpers\PersonalPresenceAttemptHelper::isPersonalAttemptOlympic($model->id) ? '/index' : '/create' );
+                    return Html::a('Участники', [ 'olympic/user-olympic/index',
+                            'olympic_id' => $model->id], ['class' => 'btn btn-success btn-block'])."</br>".
+                        Html::a('Ведомость', [
+                            $url,
+                            'olympic_id' => $model->id], ['class' => 'btn btn-warning btn-block'])."</br>".
+                        Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info btn-block']);
                     }, 'format' => "raw"],
                     ['class' => \yii\grid\ActionColumn::class,
                         'controller' => 'olympic/olimpic-list'],

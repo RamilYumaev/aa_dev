@@ -30,7 +30,7 @@ use yii\helpers\Html;
                         'update' => function ($url, \olympic\models\SpecialTypeOlimpic $model) {
                             return Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
-                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать cпециальный вид олимпиады', 'target' => '#modal']);
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать cпециальный вид олимпиады', 'data-target' => '#modal']);
                         },
                     ]
                 ],

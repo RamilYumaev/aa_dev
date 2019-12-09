@@ -353,7 +353,7 @@ class PersonalPresenceAttemptController extends Controller
         $olympic = $this->findOlympic($olympic_id);
 
         if(!PersonalPresenceAttemptHelper::isPersonalAttemptOlympic($olympic->id))  {
-            throw new NotFoundHttpException('Ведомость еще не создана');
+            throw new NotFoundHttpException('Нет такой страницы');
         }
 
         return $olympic;

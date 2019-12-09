@@ -30,7 +30,7 @@ use yii\helpers\Html;
                                 'Выбрать вопросы',['/testing/test-and-questions/create',
                                     'test_id'=>$model->test_id, 'test_group_id'=> $model->id,
                                     'question_group_id'=> $model->question_group_id],
-                            ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal', 'data-modalTitle' =>'Добавить вопросы', 'target' => '#modal']);
+                            ['data-pjax' => 'w0', 'class' => 'btn btn-info', 'data-toggle' => 'modal', 'data-modalTitle' =>'Добавить вопросы', 'data-target' => '#modal']);
                         },
                 ],
                 ['label'=> '',
