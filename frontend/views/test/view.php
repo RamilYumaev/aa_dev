@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
              ['data' => ['confirm' => 'Вы действительно хотите завершить заочный тур?', 'method' => 'POST'], 'class' =>'btn btn-primary'] )  ?>
         </p>
     <?php ActiveForm::end();?>
-<?php  endforeach; ?>
+<?php  endforeach;?>
         <?= \yii\widgets\LinkPager::widget(['pagination' => $pages]); ?>
     </center>
     </div>

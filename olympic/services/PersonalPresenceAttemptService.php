@@ -7,10 +7,12 @@ use Mpdf\Tag\P;
 use olympic\helpers\OlympicHelper;
 use olympic\helpers\OlympicNominationHelper;
 use olympic\helpers\PersonalPresenceAttemptHelper;
+use olympic\models\Diploma;
 use olympic\models\OlimpicNomination;
 use olympic\models\Olympic;
 use olympic\models\PersonalPresenceAttempt;
 use olympic\models\UserOlimpiads;
+use olympic\repositories\DiplomaRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlimpicNominationRepository;
 use olympic\repositories\PersonalPresenceAttemptRepository;
@@ -21,13 +23,15 @@ class PersonalPresenceAttemptService
     private $repository;
     private $olimpicListRepository;
     private $olimpicNominationRepository;
+    private $diplomaRepository;
     public function __construct(PersonalPresenceAttemptRepository $repository,
                                 OlimpicListRepository $olimpicListRepository,
-                                OlimpicNominationRepository $olimpicNominationRepository)
+                                OlimpicNominationRepository $olimpicNominationRepository, DiplomaRepository $diplomaRepository)
     {
         $this->olimpicListRepository = $olimpicListRepository;
         $this->repository= $repository;
         $this->olimpicNominationRepository = $olimpicNominationRepository;
+        $this->diplomaRepository = $diplomaRepository;
     }
 
     public function createMark(AddFinalMarkTableForm $form) {
@@ -56,6 +60,14 @@ class PersonalPresenceAttemptService
             throw new \DomainException("Отметьте номминации");
         }
         else {
+            $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
+            if (!Diploma::find()->olympic($olympic->id)->exists()) {
+                foreach ($rewardUser as $eachUser) {
+                    $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
+                    $this->diplomaRepository->save($diploma);
+                }
+            }
+
            $olympic->current_status = OlympicHelper::OCH_FINISH;
            $this->olimpicListRepository->save($olympic);
         }
