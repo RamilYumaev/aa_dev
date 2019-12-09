@@ -33,7 +33,7 @@ use dod\models\DateDod;
                         'update' => function ($url,DateDod $model) {
                             return Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
-                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать дату', 'target' => '#modal']);
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать дату', 'data-target' => '#modal']);
                         },
                     ]
                 ],

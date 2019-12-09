@@ -26,7 +26,7 @@ use yii\helpers\Html;
                         'update' => function ($url, \olympic\models\OlimpicNomination $model) {
                             return Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
-                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать номинацию', 'target' => '#modal']);
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать номинацию', 'data-target' => '#modal']);
                         },
                     ]
                 ],

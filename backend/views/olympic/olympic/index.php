@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'update' => function ($url,$model) {
                             return Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
-                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'target' => '#modal']);
+                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal']);
                         },
                     ]
                 ],
