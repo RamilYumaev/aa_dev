@@ -58,6 +58,12 @@ class PersonalPresenceAttemptHelper
         ];
     }
 
+    public static function nameOfPlacesForCertOne($key)
+    {
+        return ArrayHelper::getValue(self::nameOfPlacesForCert(), $key);
+    }
+
+
     public static function isPersonalAttemptOlympic($olimpId) {
         return PersonalPresenceAttempt::find()->olympic($olimpId)->exists();
     }

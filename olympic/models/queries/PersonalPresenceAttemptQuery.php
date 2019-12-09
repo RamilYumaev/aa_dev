@@ -37,11 +37,15 @@ class PersonalPresenceAttemptQuery  extends  \yii\db\ActiveQuery
         return $this->andWhere([PersonalPresenceAttempt::tableName().'.olimpic_id' => $olympicId]);
     }
 
+    public function  isNotNullRewards() {
+        return $this->andWhere(['is not', PersonalPresenceAttempt::tableName().'.reward_status', null]);
+    }
+
     public function user($user_id)
     {
         return $this->andWhere([PersonalPresenceAttempt::tableName().'.user_id' => $user_id]);
-    }
 
+    }
 
     public function orderByDescMark()
     {
