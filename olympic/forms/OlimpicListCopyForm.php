@@ -4,51 +4,16 @@
 namespace olympic\forms;
 
 
-use common\helpers\EduYearHelper;
-use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictChairmans;
-use olympic\helpers\ClassAndOlympicHelper;
-use olympic\helpers\OlimpicCgHelper;
+use olympic\forms\traits\OlympicTrait;
 use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
 use yii\base\Model;
 
 class OlimpicListCopyForm extends Model
 {
-    public $name,
-        $chairman_id,
-        $number_of_tours,
-        $edu_level_olymp,
-        $genitive_name,
-        $faculty_id,
-        $competitiveGroupsList,
-        $classesList,
-        $time_of_distants_tour_type,
-        $form_of_passage,
-        $time_of_tour,
-        $content,
-        $required_documents,
-        $showing_works_and_appeal,
-        $time_of_distants_tour,
-        $prefilling,
-        $only_mpgu_students,
-        $list_position,
-        $current_status,
-        $auto_sum,
-        $date_time_start_tour,
-        $address,
-        $requiment_to_work_of_distance_tour,
-        $requiment_to_work,
-        $criteria_for_evaluating_dt,
-        $criteria_for_evaluating,
-        $promotion_text,
-        $link,
-        $certificate_id,
-        $event_type,
-        $olimpic_id,
-        $year,
-        $date_range,
-        $_olympic;
+    use OlympicTrait;
+
 
     public function __construct(OlimpicList $olympic, $config = [])
     {
@@ -64,7 +29,6 @@ class OlimpicListCopyForm extends Model
         $this->prefilling = $olympic->prefilling;
         $this->only_mpgu_students = $olympic->only_mpgu_students;
         $this->list_position = $olympic->list_position;
-        $this->current_status = $olympic->current_status;
         $this->auto_sum = $olympic->auto_sum;
         $this->address = $olympic->address;
         $this->requiment_to_work_of_distance_tour = $olympic->requiment_to_work_of_distance_tour;
@@ -127,7 +91,7 @@ class OlimpicListCopyForm extends Model
             [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть', 'targetAttribute' => ['name', 'year']],
             [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id', 'olimpic_id',
-                'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'current_status', 'auto_sum'], 'integer'],
+                'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'auto_sum'], 'integer'],
             [['date_range', 'date_time_start_tour'], 'safe'],
             [['competitiveGroupsList', 'classesList'], 'safe'],
             [['address', 'requiment_to_work_of_distance_tour', 'requiment_to_work', 'criteria_for_evaluating_dt', 'criteria_for_evaluating', 'genitive_name'], 'string'],
@@ -144,64 +108,4 @@ class OlimpicListCopyForm extends Model
             ['showing_works_and_appeal', 'in', 'range' => OlympicHelper::showingWorkValid(), 'allowArray' => true],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return OlimpicList::labels();
-    }
-
-    public function facultyList(): array
-    {
-        return DictFacultyHelper::facultyList();
-    }
-
-    public function numberOfTours()
-    {
-        return OlympicHelper::numberOfTours();
-    }
-
-    public function listPosition()
-    {
-        return OlympicHelper::listPosition();
-    }
-
-    public function formOfPassage()
-    {
-        return OlympicHelper::formOfPassage();
-    }
-
-    public function levelOlimp()
-    {
-        return OlympicHelper::levelOlimp();
-    }
-
-    public function showingWork()
-    {
-        return OlympicHelper::showingWork();
-    }
-
-    public function prefilling()
-    {
-        return OlympicHelper::prefilling();
-    }
-
-    public function chairmansFullNameList()
-    {
-        return \dictionary\helpers\DictChairmansHelper::chairmansFullNameList();
-    }
-
-    public  function typeOfTimeDistanceTour() {
-
-        return OlympicHelper::typeOfTimeDistanceTour();
-    }
-
-    public function years(): array
-    {
-        return EduYearHelper::eduYearList();
-    }
-
-
 }

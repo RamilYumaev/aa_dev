@@ -56,7 +56,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->prefilling = $form->prefilling;
         $olympic->only_mpgu_students = $form->only_mpgu_students;
         $olympic->list_position = $form->list_position;
-        $olympic->current_status = 0; //????
+        $olympic->current_status = 0;
         $olympic->auto_sum = $form->auto_sum;
         $olympic->date_time_start_tour = $form->date_time_start_tour;
         $olympic->address = $form->address;
@@ -95,7 +95,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->prefilling = $form->prefilling;
         $olympic->only_mpgu_students = $form->only_mpgu_students;
         $olympic->list_position = $form->list_position;
-        $olympic->current_status = 0; //????
+        $olympic->current_status = 0;
         $olympic->auto_sum = $form->auto_sum;
         $olympic->date_time_start_tour = $form->date_time_start_tour;
         $olympic->address = $form->address;
@@ -133,7 +133,6 @@ class OlimpicList extends \yii\db\ActiveRecord
         $this->prefilling = $form->prefilling;
         $this->only_mpgu_students = $form->only_mpgu_students;
         $this->list_position = $form->list_position;
-        $this->current_status = $form->current_status;
         $this->auto_sum = $form->auto_sum;
         $this->date_time_start_tour = $form->date_time_start_tour;
         $this->address = $form->address;
