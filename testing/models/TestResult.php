@@ -3,9 +3,12 @@
 namespace testing\models;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use yiidreamteam\upload\FileUploadBehavior;
 
 class TestResult extends ActiveRecord
 {
+
+
     public static function tableName()
     {
         return 'test_result';
@@ -21,15 +24,19 @@ class TestResult extends ActiveRecord
         return $result;
     }
 
-    public function setPhoto(UploadedFile $photo): void
+    public function setFile(UploadedFile $file): void
     {
-        $this->result = $photo;
+        $this->result = $file;
     }
 
     public function edit($result, $mark) {
         $this->updated = date("Y-m-d H:i:s");
         $this->result = $result;
         $this->mark = $mark;
+    }
+
+    public function getPath() {
+        return $this->attempt_id."/".$this->tq_id."/". $this->question_id;
     }
 
     public function attributeLabels()
@@ -41,6 +48,18 @@ class TestResult extends ActiveRecord
             'result' => 'Результат',
             'mark' => 'Оценка',
             'resultFile' => 'Файл с ответом',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => FileUploadBehavior::class,
+                'attribute' => 'result',
+                'filePath' => '@staticRoot/origin/result/[[attribute_question_id]].[[extension]]',
+                'fileUrl' => '@static/origin/result/[[attribute_question_id]].[[extension]]',
+            ],
         ];
     }
 

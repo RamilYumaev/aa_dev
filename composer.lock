@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7ed258ff0747525662bf3b9032ecbb9",
+    "content-hash": "a2a6254caed78513ca986278c2334af0",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -50,6 +50,51 @@
             "time": "2019-08-29T08:20:20+00:00"
         },
         {
+            "name": "aneeshikmat/yii2-time-down-counter",
+            "version": "v1.0.0-stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aneeshikmat/yii2-time-down-counter.git",
+                "reference": "860a381a15c2774b291023d712dbd76188ba051c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aneeshikmat/yii2-time-down-counter/zipball/860a381a15c2774b291023d712dbd76188ba051c",
+                "reference": "860a381a15c2774b291023d712dbd76188ba051c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-widget",
+            "autoload": {
+                "psr-4": {
+                    "aneeshikmat\\yii2\\Yii2TimerCountDown\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anees Hikmat",
+                    "email": "aneeshikmat@gmail.com"
+                }
+            ],
+            "description": "Widget for yii2, to start count down timer with a lot of options, This widget build dependence of timeDownCounter JS library",
+            "keywords": [
+                "counter",
+                "down",
+                "time",
+                "widget",
+                "yii2",
+                "yii2 countdown timer",
+                "yii2 timer"
+            ],
+            "time": "2018-08-12T21:43:58+00:00"
+        },
+        {
             "name": "bower-asset/bootstrap",
             "version": "v3.4.1",
             "source": {
@@ -76,7 +121,7 @@
             "version": "v1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zenorocha/clipboard.js.git",
+                "url": "git@github.com:zenorocha/clipboard.js.git",
                 "reference": "b6e6b80ab07eab03ce0d277515b3ed540773a330"
             },
             "dist": {
@@ -162,7 +207,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "git@github.com:RobinHerbots/Inputmask.git",
+                "url": "https://github.com/RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -737,6 +782,59 @@
             "time": "2019-05-12T10:42:15+00:00"
         },
         {
+            "name": "kartik-v/bootstrap-fileinput",
+            "version": "v5.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
+                "reference": "4a656ecf33088207834c7062db7cb61566648713"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/4a656ecf33088207834c7062db7cb61566648713",
+                "reference": "4a656ecf33088207834c7062db7cb61566648713",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\fileinput\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
+            "keywords": [
+                "ajax",
+                "bootstrap",
+                "delete",
+                "file",
+                "image",
+                "input",
+                "jquery",
+                "multiple",
+                "preview",
+                "progress",
+                "upload"
+            ],
+            "time": "2019-11-17T12:22:22+00:00"
+        },
+        {
             "name": "kartik-v/yii2-date-range",
             "version": "dev-master",
             "source": {
@@ -1162,6 +1260,61 @@
                 "yii2"
             ],
             "time": "2019-05-29T12:28:51+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-widget-fileinput",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
+                "reference": "7a66622a4077f86170aed338dce8778e7f6b5af9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/7a66622a4077f86170aed338dce8778e7f6b5af9",
+                "reference": "7a66622a4077f86170aed338dce8778e7f6b5af9",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/bootstrap-fileinput": ">=5.0.0",
+                "kartik-v/yii2-krajee-base": ">=2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\file\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced FileInput widget for Bootstrap 3.x & 4.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
+            "keywords": [
+                "extension",
+                "file",
+                "form",
+                "input",
+                "jquery",
+                "plugin",
+                "upload",
+                "widget",
+                "yii2"
+            ],
+            "time": "2019-10-07T11:05:21+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -1889,16 +2042,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.50",
+            "version": "2.1.51",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "ae1a24001af2727ef7ef4e8f32c7dc1b49709062"
+                "reference": "783709d6b97cafba586b0aa61e48b271407821fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/ae1a24001af2727ef7ef4e8f32c7dc1b49709062",
-                "reference": "ae1a24001af2727ef7ef4e8f32c7dc1b49709062",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/783709d6b97cafba586b0aa61e48b271407821fb",
+                "reference": "783709d6b97cafba586b0aa61e48b271407821fb",
                 "shasum": ""
             },
             "require": {
@@ -1943,7 +2096,7 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2019-08-20T14:15:16+00:00"
+            "time": "2019-12-08T03:03:51+00:00"
         },
         {
             "name": "supplyhog/yii2-clipboardjs",
@@ -3665,16 +3818,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.4.1",
+            "version": "6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "0895c932405407fd3a7368b6910c09a24d26db11"
+                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0895c932405407fd3a7368b6910c09a24d26db11",
-                "reference": "0895c932405407fd3a7368b6910c09a24d26db11",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
+                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
                 "shasum": ""
             },
             "require": {
@@ -3689,12 +3842,13 @@
                 "psr/log": "^1.1"
             },
             "suggest": {
+                "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.3-dev"
+                    "dev-master": "6.5-dev"
                 }
             },
             "autoload": {
@@ -3727,7 +3881,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-10-23T15:58:00+00:00"
+            "time": "2019-12-07T18:20:45+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -6752,7 +6906,8 @@
         "kartik-v/yii2-widget-timepicker": 20,
         "himiklab/yii2-common": 20,
         "kartik-v/yii2-sortable": 20,
-        "kartik-v/yii2-date-range": 20
+        "kartik-v/yii2-date-range": 20,
+        "kartik-v/yii2-widget-fileinput": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -1,7 +1,21 @@
 <?php
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
-/* @var $quent testing\models\TestAndQuestions */
+use kartik\file\FileInput;
+/* @var $quent testing\models\TestResult */
 ?>
-    <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-<?= Html::fileInput('AnswerAttempt[file]')?>
+<h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
+
+<?= $quent->getUploadedFileUrl('result')?>
+<?= FileInput::widget([
+    'name' => 'AnswerAttempt[file]',
+    'options'=> ['name' => 'AnswerAttempt[file]'],
+    'pluginOptions'=>[
+        'maxFileCount' => 1,
+        'allowedFileExtensions'=>TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
+                $quent->question_id)]['extensions'],
+        'maxFileSize' => [TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
+            $quent->question_id)]['maxSize']],
+    ],
+]);
+?>

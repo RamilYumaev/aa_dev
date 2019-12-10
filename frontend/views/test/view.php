@@ -10,14 +10,14 @@ use yii\widgets\ActiveForm;
 /* @var $test \testing\models\Test */
 
 ?>
-<div class="row">
-    <div class="col-md-12">
-        </div></div>
+    <div class="row">
+    <div class="col-md-12"><?= $this->render('_time')?></div>
     <div class="row">
     <div class="col-md-12">
     <center>
 <?php foreach ($models as $quent): ?>
-    <?php $form = ActiveForm::begin(['id' => 'edu']);?>
+    <?php $form = ActiveForm::begin(['id' => 'edu', 'options' => [
+        'enctype' => 'multipart/form-data']]);?>
     <?php switch (TestQuestionHelper::questionType($quent->question_id)):
         case TestQuestionHelper::TYPE_SELECT: ?>
             <?= $this->render('@frontend/views/test/type/select', ['quent' => $quent]) ?>

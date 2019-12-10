@@ -80,7 +80,7 @@ class DictChairmans extends ActiveRecord
     {
         return [
             [
-                'class' => ImageUploadBehavior::className(),
+                'class' => ImageUploadBehavior::class,
                 'attribute' => 'photo',
                 'createThumbsOnRequest' => true,
                 'filePath' => '@staticRoot/origin/chairmans/[[id]].[[extension]]',
