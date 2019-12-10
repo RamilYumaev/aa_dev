@@ -1,4 +1,9 @@
 <?php
+
+use  common\auth\helpers\UserSchoolHelper;
+use dictionary\helpers\DictSchoolsHelper;
+use dictionary\helpers\DictClassHelper;
+
 /* @var $this yii\web\View */
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,12 +29,34 @@ use olympic\helpers\auth\ProfileHelper; ?>
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
-                ['attribute' => "ФИО участника",
+                ['header' => "ФИО участника",
                     'value' => function ($model) {
                        return ProfileHelper::profileFullName($model->user_id);
                     }
                 ],
-                ]
+                ['header' => "Телефон",
+                    'value' => function ($model) {
+                        return ProfileHelper::findProfile($model->user_id)->phone;
+                    }
+                ],
+                ['header' => "e-mail",
+                    'value' => function ($model) {
+                        return \common\auth\helpers\UserHelper::getEmailUserId($model->user_id);
+                    }
+                ],
+                ['header' => "Учебная организация",
+                    'value' => function ($model) use($olympic) {
+                        return  DictSchoolsHelper::schoolName(UserSchoolHelper::userSchoolId($model->user_id, $olympic->year)) ??
+                            DictSchoolsHelper::preSchoolName(UserSchoolHelper::userSchoolId($model->user_id, $olympic->year));
+                    }
+                ],
+                ['header' => "Класс/курс",
+                    'value' => function ($model) use($olympic) {
+                        return DictClassHelper::classFullName(UserSchoolHelper::userClassId($model->user_id, $olympic->year));
+                    }
+                ],
+                ],
+
         ]); ?>
     </div>
 </div>
