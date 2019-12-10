@@ -4,9 +4,9 @@ use olympic\helpers\OlimpicCgHelper;
 use yii\helpers\Html;
 use xj\qrcode\QRcode;
 use xj\qrcode\widgets\Text;
-use  olympic\helpers\PersonalPresenceAttemptHelper;
-use  olympic\helpers\auth\ProfileHelper;
-use  common\auth\helpers\UserSchoolHelper;
+use olympic\helpers\PersonalPresenceAttemptHelper;
+use olympic\helpers\auth\ProfileHelper;
+use common\auth\helpers\UserSchoolHelper;
 use dictionary\helpers\DictSchoolsHelper;
 
 $profile = ProfileHelper::profileFullName($model->user_id);

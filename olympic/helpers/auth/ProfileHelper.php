@@ -49,8 +49,7 @@ class ProfileHelper
             ->column();
     }
 
-    public
-    static function findProfile($userId)
+    public static function findProfile($userId)
     {
         try {
             return Profiles::find()->andWhere(['user_id' => $userId])->limit('1')->one();
@@ -60,8 +59,7 @@ class ProfileHelper
         }
     }
 
-    public
-    static function findUserEmail($userId)
+    public static function findUserEmail($userId)
     {
         try {
             return User::find()->select('email')->andWhere(['id' => $userId])->indexBy('id')->column();
