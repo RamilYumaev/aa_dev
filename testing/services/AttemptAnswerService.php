@@ -12,6 +12,7 @@ use testing\repositories\TestQuestionRepository;
 use testing\repositories\TestRepository;
 use testing\repositories\TestResultRepository;
 use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 class AttemptAnswerService
 {
@@ -40,8 +41,12 @@ class AttemptAnswerService
         $mark = $this->isTypeData($data);
         $resultTest = $this->repository->get($attempt_id, $key, $keyTqId);
         unset($data['key'], $data['keyTqId']);
-        $json = Json::encode($data);
-        $resultTest->edit($json, $mark);
+        if (TestQuestionHelper::questionType($key) !== TestQuestionHelper::TYPE_FILE) {
+            $json = Json::encode($data);
+            $resultTest->edit($json, $mark);
+        }else {
+            $resultTest->setFile($this->getFile());
+        }
         $this->repository->save($resultTest);
 
     }
@@ -101,9 +106,10 @@ class AttemptAnswerService
                 $mark = $answer ? $tqId->mark  : 0;
                 break;
             case TestQuestionHelper::TYPE_FILE:
-                if(!$data['file']) {
+                if(!$this->getFile()) {
                     throw new \DomainException('Загружите файл');
                 }
+                $mark = null;
                 break;
         default:
             $dataAnswerCloze = $data['answer-cloze'];
@@ -139,6 +145,10 @@ class AttemptAnswerService
 
     private function getKeyTqId($data) {
         return $data['keyTqId'];
+    }
+
+    private function getFile() {
+       return UploadedFile::getInstanceByName('AnswerAttempt[file]');
     }
 
 }

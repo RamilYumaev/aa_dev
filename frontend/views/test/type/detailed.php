@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
-/* @var $quent testing\models\TestAndQuestions */
+/* @var $quent testing\models\TestResult */
 ?>
     <h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
 <?php $a= yii\helpers\Json::decode($quent->result); ?>

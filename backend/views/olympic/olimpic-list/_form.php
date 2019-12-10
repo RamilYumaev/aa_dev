@@ -75,8 +75,6 @@ use yii\helpers\Html;
 
 <?= $form->field($model, 'form_of_passage')->dropDownList($model->formOfPassage()) ?>
 
-
-
 <?= $form->field($model, 'time_of_distants_tour_type')->dropDownList($model->typeOfTimeDistanceTour()); ?>
 
 <?= $form->field($model, 'time_of_distants_tour')->textInput(['type' => 'number']) ?>
