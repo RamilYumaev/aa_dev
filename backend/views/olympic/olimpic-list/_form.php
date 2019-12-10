@@ -40,7 +40,7 @@ use yii\helpers\Html;
     'pluginOptions'=>[
         "timePicker"=> true,
         "timePicker24Hour"=> true,
-        'timePickerIncrement'=>15,
+        'timePickerIncrement'=>1,
         'locale'=>['format'=>'Y-m-d H:i:s']
     ]
 ])?>
