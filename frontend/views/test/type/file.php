@@ -17,5 +17,7 @@ use kartik\file\FileInput;
         'maxFileSize' => [TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
             $quent->question_id)]['maxSize']],
     ],
-]);
-?>
+]);?>
+<p><?=implode(", ", TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
+        $quent->question_id)]['extensions'])?> </p>
+

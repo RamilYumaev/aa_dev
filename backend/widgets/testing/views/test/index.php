@@ -27,14 +27,9 @@ use yii\helpers\Html;
                             Html::a('Запустить тест',['testing/test/start', 'id'=>$model->id],  ['class'=>'btn btn-success']) :
                             Html::a('Остановить тест',['testing/test/end', 'id'=>$model->id],  ['class'=>'btn btn-danger']);
                     }, "format" => "raw"],
-                [
-                    'value' => function($model) {
-                        return Html::a("Банк вопросов",['testing/test/view', 'id'=>$model->id], ['class'=>'btn btn-info']);
-                    },
-                    "format" => "raw"
-                    ],
+
                 ['class' => \yii\grid\ActionColumn::class,
-                    'template' => '{update} {delete}',
+                    'template' => '{update} {view} {delete}',
                     'controller' => 'testing/test',
                     'buttons' => [
                         'update' => function ($url,$model) {

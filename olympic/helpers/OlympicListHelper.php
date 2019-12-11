@@ -20,6 +20,16 @@ class OlympicListHelper
         return ArrayHelper::getValue(self::olympicList(), $key);
     }
 
+    public static function timeDistanceTour(): array
+    {
+        return ArrayHelper::map(OlimpicList::find()->all(), "id", 'time_of_distants_tour');
+    }
+
+    public static function timeDistanceTourData($key): ?string
+    {
+        return ArrayHelper::getValue(self::timeDistanceTour(), $key);
+    }
+
     public static function olympicListEduYear(): array
     {
         return ArrayHelper::map(OlimpicList::find()->where(['year'=> EduYearHelper::eduYear() ])->all(), "id", 'name');

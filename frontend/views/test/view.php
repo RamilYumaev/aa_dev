@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $pages integer */
+/* @var $time string */
 /* @var $models yii\data\ActiveDataProvider */
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
@@ -19,9 +20,11 @@ use yii\bootstrap\ActiveForm;
                     <div class="col-md-5 mt-10">
                         <?= \yii\widgets\LinkPager::widget(['pagination' => $pages]); ?>
                     </div>
+                    <?php if(\olympic\helpers\OlympicListHelper::timeDistanceTourData($test->olimpic_id)) : ?>
                     <div class="col-md-4 mt-20 fs-15">
-                        Оставшееся время:<br/><span class="pl-20"><?= $this->render('_time') ?></span>
+                        Оставшееся время:<br/><span class="pl-20"><?= $this->render('_time',['time'=> $time]) ?></span>
                     </div>
+                    <?php endif; ?>
                     <div class="col-md-3 mt-30">
                         <?= Html::a("Завершить заочный тур", ['/test-attempt/end', 'test_id' => $test->id],
                             ['data' => ['confirm' => 'Вы действительно хотите завершить заочный тур?', 'method' => 'POST'], 'class' => 'btn btn-primary']) ?>
