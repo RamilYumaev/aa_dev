@@ -36,4 +36,5 @@ $('#save-cloze').click(function (e) {
     } else {
         error.text(' Необходимо заполнить поля!');
     }
+
 });

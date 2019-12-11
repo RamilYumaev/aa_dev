@@ -1,4 +1,7 @@
-
+<?php
+\frontend\assets\modal\ModalAsset::register($this);
+use yii\bootstrap\Modal;
+?>
 <?= \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
@@ -8,9 +11,9 @@
         ['value' => function($model) {
            $class= \common\auth\helpers\UserSchoolHelper::userClassId(\Yii::$app->user->identity->getId(), \common\helpers\EduYearHelper::eduYear());
            $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($model->olympicOne->id, $class);
-          return  $test ? \yii\helpers\Html::a("Начать заочный тур", ['/test-attempt/start', 'test_id'=> $test],
-              ['data' => ['confirm' => 'Вы действительно хотите начать заочный тур ?', 'method' => 'POST'],
-                  'class' =>'btn btn-primary'] ): "";
+          return  $test ? \yii\helpers\Html::a('Начать заочный тур', ['/test/start','id' => $test],
+              ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle'
+              =>'Заочный тур', 'class'=>'btn btn-primary']): "";
         }, 'format'=>"raw" ],
         ['class' => \yii\grid\ActionColumn::class,
             'controller' => '/user-olympic',
@@ -26,4 +29,8 @@
     ]
 ])
 ?>
+
+<?php Modal::begin(['id'=>'modal', 'size'=> Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>", 'clientOptions' => ['backdrop' => false]]);
+echo "<div id='modalContent'></div>";
+Modal::end()?>
 

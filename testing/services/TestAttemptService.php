@@ -6,6 +6,8 @@ namespace testing\services;
 
 use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
+use olympic\models\OlimpicList;
+use olympic\repositories\OlimpicListRepository;
 use testing\models\TestAndQuestions;
 use testing\models\TestAttempt;
 use testing\models\TestQuestion;
@@ -22,24 +24,29 @@ class TestAttemptService
     private $testResultRepository;
     private $userRepository;
     private $transactionManager;
+    private $olimpicListRepository;
 
     function __construct(TestRepository $testRepository,
                          TestAttemptRepository $testAttemptRepository,
                          TestResultRepository $testResultRepository,
-                          UserRepository $userRepository, TransactionManager $transactionManager)
+                          UserRepository $userRepository, TransactionManager $transactionManager,
+                         OlimpicListRepository $olimpicListRepository)
     {
         $this->testRepository = $testRepository;
         $this->testAttemptRepository = $testAttemptRepository;
         $this->testResultRepository = $testResultRepository;
         $this->userRepository = $userRepository;
         $this->transactionManager = $transactionManager;
+        $this->olimpicListRepository = $olimpicListRepository;
     }
 
     public  function create($test_id) {
         $test  = $this->testRepository->isActive($test_id);
+        $olympic = $this->olimpicListRepository->get($test->olimpic_id);
+        $olympic->time_of_distants_tour_type;
         $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
         if (!$testAttempt) {
-            $testAttempt = TestAttempt::create($test_id);
+            $testAttempt = TestAttempt::create($test_id, $olympic->time_of_distants_tour_type);
             $this->transactionManager->wrap(function () use ($testAttempt, $test){
                 $this->testAttemptRepository->save($testAttempt);
                 $this->randQuestions($testAttempt->id, $test->id);

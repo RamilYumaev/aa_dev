@@ -13,7 +13,7 @@ $olympic_id = Yii::$app->request->get('olympic_id');
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic_id),
     'url' => ['olympic/olympic/view', 'id'=> $olympic_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Банк вопросов "Краткий ответ"',
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы теста "Краткий ответ"',
     'url' => ['index', 'olympic_id'=> $olympic_id]];
 $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\questions\QuestionAnswerShortAsset::register($this);
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="customer-form">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
         <div class="col-md-7">
-            <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model->question, 'form' => $form, 'id'=> '']) ?>
+            <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model->question, 'form' => $form, 'id'=> 'save-answer-short']) ?>
         </div>
         <div class="col-md-5">
             <div class="padding-v-md">

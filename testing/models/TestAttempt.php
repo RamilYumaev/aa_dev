@@ -19,31 +19,31 @@ class TestAttempt extends ActiveRecord
         return 'test_attempt';
     }
 
-    public static function create ($test_id) {
+    public static function create ($test_id, $time) {
         $testAtt = new static();
         $testAtt->user_id = \Yii::$app->user->identity->getId();
         $testAtt->test_id = $test_id;
-        $testAtt->start = date("Y-m-d H:i:s");
+        $testAtt->start = self::time($time);
         $testAtt->end = null;
         return $testAtt;
     }
+
+    private static function time($time)
+    {
+        $date =  date("Y-m-d H:i:s");
+        $currentDate = strtotime($date);
+        $futureDate = $currentDate+(60*$time);
+        $formatDate = date("Y-m-d H:i:s", $futureDate);
+        return $time ? $formatDate :  $date;
+    }
+
+
 
     public function edit($mark) {
         $this->end = date("Y-m-d H:i:s");
         $this->mark = $mark;
     }
 
-//    public function rules()
-//    {
-//        return [
-//            [['user_id', 'test_id'], 'required'],
-//            [['user_id', 'test_id', 'status_id'], 'integer'],
-//            [['start', 'end'], 'date', 'format' => 'php:Y-m-d H:i:s'],
-//            [['user_id', 'test_id'], 'unique', 'targetAttribute' => ['user_id', 'test_id']],
-//            ['mark', 'number'],
-//        ];
-//    }
-//
     public function attributeLabels()
     {
         return [

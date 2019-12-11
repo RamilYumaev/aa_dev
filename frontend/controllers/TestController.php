@@ -66,6 +66,37 @@ class TestController extends Controller
             return $this->redirect('/site/index');
         }
     }
+
+    /*
+  * @param $id
+  * @return mixed
+  * @throws NotFoundHttpException
+  */
+    public function actionStart($id)
+    {
+        try {
+            return $this->renderAjax('start', [
+                'test' => $this->find($id)
+            ]);
+        } catch (NotFoundHttpException $e) {
+        }
+    }
+        /*
+        * @param $id
+        * @return mixed
+        * @throws NotFoundHttpException
+        */
+    public function actionEnd($id)
+    {
+        try {
+            return $this->render('end', [
+                'test' => $this->find($id)
+            ]);
+        } catch (NotFoundHttpException $e) {
+        }
+    }
+
+
     /*
    * @param $id
    * @return mixed

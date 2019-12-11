@@ -1,28 +1,12 @@
-var ast = $("#answer-short-list");
-var divAst = ("div#answer-short");
+var ast = $(".container-items");
 
-var divAstLast = ast.find(divAst).last();
-$('#add-answer-short').click(function () {
-    var countast = ast.find(divAst).length;
-    var next = countast+1;
-    if (countast < 7) {
-        $(divAstLast).clone().attr('data-answer-index', next)
-            .find('label:first')
-            .text('Вариант ответа ' + next)
-            .end()
-            .find('input[type=text]')
-            .val('')
-            .end()
-            .appendTo(ast);
-    }
-});
 
 $('#save-answer-short').click(function (e) {
     e.preventDefault();
     var valid  = true;
     var error = $("#error-message");
     error.text("");
-    var form = $('#form-question-answer-short');
+    var form = $('#dynamic-form');
 
     var countAnswerIsNull =  ast.find('input[type=text]').length;
     for (var i = 0; i < countAnswerIsNull; i++) {
@@ -37,9 +21,31 @@ $('#save-answer-short').click(function (e) {
         }
     }
 
+    var vals = new Array();
+    ast.find('input[type="text"]').each(function() {
+        if($.inArray($(this).val(), vals) == -1) { //Not found
+            vals.push($(this).val());
+        } else {
+            alert("Одинаковые ответы: " + $(this).val()  );
+            valid = valid && false;
+        }
+    });
+
     if (valid) {
         form.submit();
     } else {
         error.text(' Необходимо заполнить  варианты ответов!');
     }
+});
+
+$(".dynamicform_wrapper").on("afterInsert", function(e, item) {
+    $(".dynamicform_wrapper .panel-title-address").each(function(index) {
+        $(this).html("Вариант ответа: " + (index + 1))
+    });
+});
+
+$(".dynamicform_wrapper").on("afterDelete", function(e) {
+    $(".dynamicform_wrapper .panel-title-address").each(function(index) {
+        $(this).html("Вариант ответа: " + (index + 1))
+    });
 });
