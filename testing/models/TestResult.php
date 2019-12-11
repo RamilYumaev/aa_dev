@@ -57,8 +57,8 @@ class TestResult extends ActiveRecord
             [
                 'class' => FileUploadBehavior::class,
                 'attribute' => 'result',
-                'filePath' => '@staticRoot/origin/result/[[attribute_question_id]].[[extension]]',
-                'fileUrl' => '@static/origin/result/[[attribute_question_id]].[[extension]]',
+                'filePath' => '@frontendRoot/origin/result/[[attribute_question_id]].[[extension]]',
+                'fileUrl' => '@frontend/origin/result/[[attribute_question_id]].[[extension]]',
             ],
         ];
     }

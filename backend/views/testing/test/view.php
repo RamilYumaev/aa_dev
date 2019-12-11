@@ -9,13 +9,15 @@ use yii\widgets\ActiveForm;
 /* @var $test testing\models\Test */
 
 
-$this->title = "Просмотр";
-$this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['index']];
+$this->title = "Просмотр теста";
+$this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicListHelper::olympicAndYearName($test->olimpic_id),
+    'url' => ['/olympic/olimpic-list/view', 'id' => $test->olimpic_id]];
 $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\modal\ModalAsset::register($this);
 
 ?>
-
+<div class="row">
+    <div class="col-md-6">
     <div class="box box-default">
         <div class="box box-header">
         </div>
@@ -23,13 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= DetailView::widget([
                 'model' => $test,
                 'attributes' => [
-                    //'name',
-                    ['label' => "Олимпиада",
-                        'format'=>'raw',
-                        'value' =>
-                            Html::a(\olympic\helpers\OlympicListHelper::olympicAndYearName($test->olimpic_id),
-                                ['/olympic/olimpic-list/view', 'id' => $test->olimpic_id])
-                    ],
+                    //'name'
                     ['label' => "Классы(курсы)",
                         'format'=>'raw',
                         'value' =>  \testing\helpers\TestClassHelper::TestClassString($test->id)
@@ -75,4 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $testAndQuestion->arrayMark ?  $test->draft() ? Html::submitButton('Сохранить',['class'=>'btn btn-primary']) :"" : ""; ?>
     <?php ActiveForm::end(); ?>
 </div>
+</div>
+    </div>
+        <div class="col-md-6"><?= \backend\widgets\testing\TestAttemptWidget::widget(['test_id'=> $test->id]) ?></div>
 </div>

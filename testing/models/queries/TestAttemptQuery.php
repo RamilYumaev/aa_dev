@@ -25,10 +25,20 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
       return  $this->andWhere(['<>', 'status_id', 0]);
     }
 
-
     public function inTestIdOlympic(OlimpicList $olimpicList)
     {
       return  $this->andWhere(['in', 'test_id', TestHelper::testIdOlympic($olimpicList->id)]);
     }
+
+    public function test($test)
+    {
+        return  $this->andWhere(['test_id'=> $test]);
+    }
+
+    public function orderByMark()
+    {
+        return  $this->orderBy(['mark' => SORT_DESC]);
+    }
+
 
 }

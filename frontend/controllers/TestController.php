@@ -40,7 +40,6 @@ class TestController extends Controller
 
     public function actionView($id)
     {
-
         $this->layout = "@frontend/views/layouts/testing.php";
         $get =  Yii::$app->request->get('page');
         if (\Yii::$app->request->post('AnswerAttempt')) {
@@ -55,8 +54,10 @@ class TestController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         try {
+            $attempt = $this->repository->isAttempt($id);
             $pages = $this->repository->pageCount($id);
             return $this->render('view', [
+                'time' => $attempt->start,
                 'test' => $this->find($id),
                 'pages' => $pages,
                 'models' => $this->repository->pageOffset($id),

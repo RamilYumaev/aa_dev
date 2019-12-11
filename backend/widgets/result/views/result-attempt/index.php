@@ -23,7 +23,7 @@
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
                 ['attribute' => "ФИО участника",
-                    'class' => \backend\widgets\result\gird\PersonalUserAttemptColumn::class,
+                    'class' => \backend\widgets\result\gird\ViewAnswerAttemptTestColumn::class,
                 ],
                 ['attribute' => 'Результат (оценка)',
                     'class' => \backend\widgets\result\gird\PersonalMarkAttemptColumn::class,
