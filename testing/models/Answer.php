@@ -36,7 +36,7 @@ class Answer extends ActiveRecord
             'quest_id' => 'Вопрос',
             'is_correct' => 'Правильный ответ',
             'name' => 'Наименование',
-            'answer_match' => 'Сопаставление',
+            'answer_match' => 'Сопоставление',
         ];
     }
 

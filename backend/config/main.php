@@ -11,8 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'name' => "АИС Абитуриент",
     'aliases' => [
-        '@staticRoot' => $params['staticPath'],
-        '@static' => $params['staticHostInfo'],
+        '@frontendRoot' => $params['staticPath'],
+        '@frontend' => $params['staticHostInfo'],
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -24,8 +24,8 @@ return [
             'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
             'roots' => [
                 [
-                    'baseUrl' => '@static',
-                    'basePath' => '@staticRoot',
+                    'baseUrl' => '@frontend',
+                    'basePath' => '@frontendRoot',
                     'path' => '/',
                     'name' => 'Global',
                     'options' => [

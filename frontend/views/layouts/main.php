@@ -5,8 +5,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
@@ -48,11 +46,7 @@ AppAsset::register($this);
             университет" <?= date('Y') ?> <a href="mailto:olimp@mpgu.su">olimp@mpgu.su</a></p>
     </div>
 </footer>
-
 <?php $this->endBody() ?>
 </body>
-<?php Modal::begin(['id'=>'modal',  'header' => "<h4 id='header-h4'></h4>"]);
-echo "<div id='modalContent'></div>";
-Modal::end()?>
 </html>
 <?php $this->endPage() ?>

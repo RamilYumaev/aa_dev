@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }, "format" => "raw"],
                 [
                     'value' => function($model) {
-                        return Html::a("Банк вопросов",['view', 'id'=>$model->id], ['class'=>'btn btn-info']);
+                        return Html::a("Вопросы теста",['view', 'id'=>$model->id], ['class'=>'btn btn-info']);
                     },
                     "format" => "raw"
                 ],

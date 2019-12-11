@@ -11,7 +11,7 @@ $olympic_id = Yii::$app->request->get('olympic_id');
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic_id),
     'url' => ['olympic/olympic/view', 'id'=> $olympic_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Банк вопросов "Загрузка файла"',
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы теста "Загрузка файла"',
     'url' => ['index', 'olympic_id'=> $olympic_id]];
 $this->params['breadcrumbs'][] = $this->title;
 

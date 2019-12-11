@@ -18,6 +18,17 @@ $('#save-answer-select-type-one').click(function (e) {
         error.text('Должен быть один правильный ответ');
         valid = valid && false;
     }
+
+    var vals = new Array();
+    ast.find('input[type="text"]').each(function() {
+        if($.inArray($(this).val(), vals) == -1) { //Not found
+            vals.push($(this).val());
+        } else {
+            alert("Одинаковые ответы: " + $(this).val());
+            valid = valid && false;
+        }
+    });
+
     if (valid) {
         form.submit();
     }

@@ -16,6 +16,17 @@ $('#save-answer-select-type').click(function (e) {
         error.text('Правильных ответов должно быть не меньше 2-х.');
         valid = valid && false;
     }
+
+    var vals = new Array();
+    ast.find('input[type="text"]').each(function() {
+        if($.inArray($(this).val(), vals) == -1) { //Not found
+            vals.push($(this).val());
+        } else {
+            alert("Одинаковые ответы: " + $(this).val());
+            valid = valid && false;
+        }
+    });
+
     if (valid) {
         form.submit();
     }

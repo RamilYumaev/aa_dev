@@ -10,13 +10,18 @@ $olympic_id = Yii::$app->request->get('olympic_id');
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic_id),
     'url' => ['olympic/olympic/view', 'id'=> $olympic_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Банк вопросов "Вложенные ответы"',
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы теста "Вложенные ответы"',
     'url' => ['index', 'olympic_id'=> $olympic_id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="customer-form">
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model->question, 'form' => $form, 'id'=> '']) ?>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="padding-v-md">
@@ -76,11 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $this->render('@backend/views/testing/question/_form-question', ['model' => $model->question, 'form' => $form, 'id'=> '']) ?>
-        </div>
-    </div>
+
     <?= $form->field($model, "id")->hiddenInput()->label('') ?>
     <?php ActiveForm::end(); ?>
 </div>
