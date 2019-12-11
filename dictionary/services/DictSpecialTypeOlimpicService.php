@@ -7,13 +7,13 @@ namespace dictionary\services;
 use dictionary\forms\DictSpecialTypeOlimpicCreateForm;
 use dictionary\forms\DictSpecialTypeOlimpicEditForm;
 use dictionary\models\DictSpecialTypeOlimpic;
-use dictionary\repositories\DictSpecialTypeOlimpicRepository;
+use dictionary\repositories\DictSendingTemplateRepository;
 
 class DictSpecialTypeOlimpicService
 {
     private $repository;
 
-    public function __construct(DictSpecialTypeOlimpicRepository $repository)
+    public function __construct(DictSendingTemplateRepository $repository)
     {
         $this->repository = $repository;
     }

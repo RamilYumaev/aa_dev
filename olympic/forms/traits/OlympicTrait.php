@@ -40,7 +40,9 @@ trait OlympicTrait
         $olimpic_id,
         $year,
         $date_range,
+        $percent_to_calculate,
         $_olympic;
+
 
     /**
      * {@inheritdoc}

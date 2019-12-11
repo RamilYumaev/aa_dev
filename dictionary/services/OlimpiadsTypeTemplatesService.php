@@ -5,7 +5,7 @@ namespace dictionary\services;
 use dictionary\forms\OlimpiadsTypeTemplatesCreateForm;
 use dictionary\forms\OlimpiadsTypeTemplatesEditForm;
 use dictionary\models\OlimpiadsTypeTemplates;
-use dictionary\repositories\DictSpecialTypeOlimpicRepository;
+use dictionary\repositories\DictSendingTemplateRepository;
 use dictionary\repositories\OlimpiadsTypeTemplatesRepository;
 use dictionary\repositories\TemplatesRepository;
 
@@ -17,7 +17,7 @@ class OlimpiadsTypeTemplatesService
 
     public function __construct(OlimpiadsTypeTemplatesRepository $repository,
                                 TemplatesRepository $templatesRepository,
-                                DictSpecialTypeOlimpicRepository $specialTypeOlimpicRepository)
+                                DictSendingTemplateRepository $specialTypeOlimpicRepository)
     {
         $this->repository = $repository;
         $this->templatesRepository = $templatesRepository;
