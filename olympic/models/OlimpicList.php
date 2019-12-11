@@ -67,6 +67,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->promotion_text = $form->promotion_text;
         $olympic->link = $form->link;
         $olympic->certificate_id = $form->certificate_id;
+        $olympic->percent_to_calculate = $form->percent_to_calculate;
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
@@ -105,6 +106,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $olympic->criteria_for_evaluating = $form->criteria_for_evaluating;
         $olympic->promotion_text = $form->promotion_text;
         $olympic->link = $form->link;
+        $olympic->percent_to_calculate = $form->percent_to_calculate;
         $olympic->certificate_id = $form->certificate_id;
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
@@ -141,6 +143,7 @@ class OlimpicList extends \yii\db\ActiveRecord
         $this->criteria_for_evaluating_dt = $form->criteria_for_evaluating_dt;
         $this->criteria_for_evaluating = $form->criteria_for_evaluating;
         $this->promotion_text = $form->promotion_text;
+        $this->percent_to_calculate = $form->percent_to_calculate;
         $this->link = $form->link;
         $this->certificate_id = $form->certificate_id;
         $this->event_type = $form->event_type;
@@ -184,7 +187,8 @@ class OlimpicList extends \yii\db\ActiveRecord
             'required_documents' => 'Необходимые документы на очный тур',
             'year' => 'Учебный год',
             'certificate_id' => 'Выдается сертификат участнику очного тура',
-            'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации'
+            'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации',
+            'percent_to_calculate' => 'Процент участников в следующий тур',
         ];
     }
 

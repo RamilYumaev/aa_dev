@@ -4,7 +4,7 @@
 namespace olympic\services;
 
 use dictionary\models\DictSpecialTypeOlimpic;
-use dictionary\repositories\DictSpecialTypeOlimpicRepository;
+use dictionary\repositories\DictSendingTemplateRepository;
 use olympic\forms\SpecialTypeOlimpicCreateForm;
 use olympic\forms\SpecialTypeOlimpicEditForm;
 use olympic\models\SpecialTypeOlimpic;
@@ -18,7 +18,7 @@ class SpecialTypeOlimpicService
     private $specialTypeOlimpicRepository;
 
     public function __construct(SpecialTypeOlimpicRepository $repository,
-                                OlimpicListRepository $olimpicListRepository, DictSpecialTypeOlimpicRepository $specialTypeOlimpicRepository)
+                                OlimpicListRepository $olimpicListRepository, DictSendingTemplateRepository $specialTypeOlimpicRepository)
     {
         $this->repository = $repository;
         $this->specialTypeOlimpicRepository = $specialTypeOlimpicRepository;

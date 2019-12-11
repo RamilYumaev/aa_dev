@@ -42,7 +42,7 @@ class OlimpicListCreateForm extends Model
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcreateform-edu_level_olymp").val() == 1 
             || $("#olimpiclistcreateform-edu_level_olymp").val() == 2}'],
-            ['time_of_distants_tour_type', 'required', 'when' => function ($model) {
+            [['time_of_distants_tour_type', 'percent_to_calculate'], 'required', 'when' => function ($model) {
                 return $model->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcreateform-form_of_passage").val() == 2; 
@@ -87,6 +87,7 @@ class OlimpicListCreateForm extends Model
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['showing_works_and_appeal', 'in', 'range' => OlympicHelper::showingWorkValid(), 'allowArray' => true],
+            ['percent_to_calculate', 'integer', 'min' => 40, 'max' => 60],
         ];
     }
 }

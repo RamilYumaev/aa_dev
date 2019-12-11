@@ -52,6 +52,7 @@ class OlimpicListEditForm extends Model
         $this->event_type = $olympic->event_type;
         $this->olimpic_id = $olympic->olimpic_id;
         $this->year = $olympic->year;
+        $this->percent_to_calculate = $olympic->percent_to_calculate;
         $this->_olympic = $olympic;
         parent::__construct($config);
     }
@@ -79,7 +80,7 @@ class OlimpicListEditForm extends Model
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclisteditform-form_of_passage").val() == 2; 
             }'],
-            ['time_of_distants_tour_type', 'required', 'when' => function ($model) {
+            [['time_of_distants_tour_type','percent_to_calculate'], 'required', 'when' => function ($model) {
                 return $model->number_of_tours == OlympicHelper::TWO_TOUR;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclisteditform-number_of_tours").val() == 2; 
@@ -118,6 +119,7 @@ class OlimpicListEditForm extends Model
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['showing_works_and_appeal', 'in', 'range' => OlympicHelper::showingWorkValid(), 'allowArray' => true],
+            ['percent_to_calculate', 'integer', 'min' => 40, 'max' => 60],
         ];
     }
 

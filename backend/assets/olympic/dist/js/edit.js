@@ -10,6 +10,7 @@ var hideZaochRequired = $("div.field-olimpiclisteditform-requiment_to_work_of_di
 var hideOchRequired = $("div.field-olimpiclisteditform-requiment_to_work");
 var hideZaochCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating_dt");
 var hideOchCriteria = $("div.field-olimpiclisteditform-criteria_for_evaluating");
+var calculate = $("div.field-olimpiclisteditform-percent_to_calculate");
 
 
 $("#olimpiclisteditform-number_of_tours").on("change init", function() {
@@ -23,6 +24,7 @@ $("#olimpiclisteditform-number_of_tours").on("change init", function() {
         hideZaochRequired.show();
         hideZaochCriteria.show();
         hideTypeOfTime.show();
+        calculate.show();
     }else{
         hideTypeOfTime.hide();
         hideTimeOfOchTour.hide();
@@ -34,6 +36,7 @@ $("#olimpiclisteditform-number_of_tours").on("change init", function() {
         hideOchCriteria.hide();
         hideZaochRequired.hide();
         hideZaochCriteria.hide();
+        calculate.hide();
     }
 });
 

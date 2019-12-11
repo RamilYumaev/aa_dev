@@ -65,7 +65,7 @@ class DictClassHelper
 
     public static function classFullName($key): string
     {
-        return ArrayHelper::getValue(self::classFullNameList(), $key);
+        return ArrayHelper::getValue(self::classFullNameList(), $key) ?? "";
     }
 
     public static function dictClassAll($classList) {

@@ -15,8 +15,4 @@ class OlympicEditAsset extends AssetBundle
         'yii\web\YiiAsset',
     ];
 
-    public $publishOptions = [
-        'forceCopy'=>true,
-    ];
-
 }
