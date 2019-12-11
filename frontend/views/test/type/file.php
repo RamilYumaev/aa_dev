@@ -4,8 +4,8 @@ use testing\helpers\TestQuestionHelper;
 use kartik\file\FileInput;
 /* @var $quent testing\models\TestResult */
 ?>
-<h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
-
+<?= TestQuestionHelper::questionTextName($quent->question_id) ?>
+<p>Загрузите файл:
 <?= $quent->getUploadedFileUrl('result')?>
 <?= FileInput::widget([
     'name' => 'AnswerAttempt[file]',
