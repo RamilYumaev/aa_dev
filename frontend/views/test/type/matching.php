@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
-<h4><?= TestQuestionHelper::questionTextName($quent->question_id) ?></h4>
+<?= TestQuestionHelper::questionTextName($quent->question_id) ?>
 <?php $a= yii\helpers\Json::decode($quent->result);?>
 <?php foreach (AnswerHelper::answerList($quent->question_id) as $index => $name): ?>
     <p><?= $name ?>

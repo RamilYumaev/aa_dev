@@ -41,6 +41,7 @@ class TestController extends Controller
     public function actionView($id)
     {
 
+        $this->layout = "@frontend/views/layouts/testing.php";
         $get =  Yii::$app->request->get('page');
         if (\Yii::$app->request->post('AnswerAttempt')) {
             try {
