@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'test-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'test-form', 'enableAjaxValidation' => true]); ?>
 
     <?= $form->field($model, 'classesList')->widget(Select2::class, [
         'data' => $model->classFullNameList(),

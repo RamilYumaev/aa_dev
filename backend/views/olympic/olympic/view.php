@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box box-default">
         <div class="box box-header">
         <p>
-            <?= Html::a('Обновить', ['update', 'id' => $olympic->id], ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal', 'class' => 'btn btn-primary']) ?>
+            <?= !\common\auth\helpers\UserHelper::isManagerOlympic() ? Html::a('Обновить', ['update', 'id' => $olympic->id], ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal', 'class' => 'btn btn-primary']) : "" ?>
         </p>
         </div>
         <div class="box-body">

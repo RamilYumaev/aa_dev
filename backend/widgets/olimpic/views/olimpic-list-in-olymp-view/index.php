@@ -12,7 +12,7 @@ use yii\helpers\Html;
 ?>
     <div class="box">
         <div class="box-header">
-            <?= Html::a('Cоздать', ['olympic/olimpic-list/create', 'olimpic_id'=> $model->id], ['class' => 'btn btn-success']) ?>
+            <?=  !Yii::$app->user->can('olymp_operator') ? Html::a('Cоздать', ['olympic/olimpic-list/create', 'olimpic_id'=> $model->id], ['class' => 'btn btn-success']) : "" ?>
         </div>
         <div class="box-body">
             <?= \backend\widgets\adminlte\grid\GridView::widget([
@@ -44,7 +44,9 @@ use yii\helpers\Html;
                         Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info btn-block']);
                     }, 'format' => "raw"],
                     ['class' => \yii\grid\ActionColumn::class,
-                        'controller' => 'olympic/olimpic-list'],
+                        'controller' => 'olympic/olimpic-list',
+                        'template'=> !\common\auth\helpers\UserHelper::isManagerOlympic()  ? "{update} {view} {delete}" : "{view}"
+                        ],
                 ]
             ]); ?>
         </div>

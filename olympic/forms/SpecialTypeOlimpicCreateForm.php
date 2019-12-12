@@ -27,7 +27,7 @@ class SpecialTypeOlimpicCreateForm extends  Model
         return [
             [['olimpic_id', 'special_type_id'], 'required'],
             [['olimpic_id', 'special_type_id'], 'integer'],
-            ['olimpic_id', 'unique',  'targetClass' => SpecialTypeOlimpic::class, 'targetAttribute' => ['olimpic_id', 'special_type_id'],
+            ['special_type_id','unique',  'targetClass' => SpecialTypeOlimpic::class, 'targetAttribute' => ['olimpic_id', 'special_type_id'],
                 'message' => 'Этот вид уже назначен данной олимпиаде']
         ];
     }

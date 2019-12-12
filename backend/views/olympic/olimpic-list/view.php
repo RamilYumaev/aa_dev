@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use dictionary\helpers\CategoryDocHelper;
+use common\auth\helpers\UserHelper;
 
 /* @var $this yii\web\View */
 /* @var $olympic \olympic\models\OlimpicList */
@@ -11,20 +11,21 @@ use dictionary\helpers\CategoryDocHelper;
 $this->title = "Просмотр";
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="row">
     <div class="col-md-6">
         <div class="box box-default">
             <div class="box box-header">
                 <p><?= Html::a('Вернуться', ['olympic/olympic/view', 'id' => $olympic->olimpic_id], ['class' => 'btn btn-info']) ?>
-                    <?= Html::a('Обновить', ['update', 'id' => $olympic->id], ['class' => 'btn btn-primary']) ?>
-                    <?= Html::a('Удалить', ['delete', 'id' => $olympic->id], [
+                    <?= !UserHelper::isManagerOlympic() ? Html::a('Обновить', ['update', 'id' => $olympic->id], ['class' => 'btn btn-primary']) : "" ?>
+                    <?= !UserHelper::isManagerOlympic() ? Html::a('Удалить', ['delete', 'id' => $olympic->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
                             'confirm' => 'Вы уверены, что хотите удалить?',
                             'method' => 'post',
                         ],
-                    ]) ?>
+                    ]) : "" ?>
                 </p>
             </div>
             <div class="box-body">
@@ -57,9 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-md-6">
+        <?php if(!UserHelper::isManagerOlympic()): ?>
         <?= \backend\widgets\olimpic\SpecialTypeOlympicWidget::widget(['olympic_id' => $olympic->id]) ?>
         <?= \backend\widgets\olimpic\OlympicNominationWidget::widget(['olympic_id' => $olympic->id]) ?>
-        <?php if ($olympic->isDistanceTour) : ?>
+        <?php endif;
+        if ($olympic->isDistanceTour) : ?>
             <?= \backend\widgets\testing\TestWidget::widget(['olympic_id' => $olympic->id]) ?>
         <?php endif; ?>
     </div>

@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'form-olympic-spec-type']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-olympic-spec-type','enableAjaxValidation' => true]); ?>
     <div class="box box-default">
         <div class="box-body">
             <?= $form->field($model, 'special_type_id')->dropDownList($model->specialTypeOlimpicList()) ?>

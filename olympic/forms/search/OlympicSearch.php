@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 class OlympicSearch extends Model
 {
     public $name, $status;
+    protected $_query;
 
     public function rules()
     {
@@ -19,13 +20,22 @@ class OlympicSearch extends Model
         ];
     }
 
+    public function __construct($manager = null, $config = [])
+    {
+        if ($manager) {
+            $this->_query = Olympic::find()->manager($manager);
+        } else {
+            $this->_query = Olympic::find();
+        }
+        parent::__construct($config);
+    }
     /**
      * @param array $params
      * @return ActiveDataProvider
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Olympic::find();
+        $query = $this->_query;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

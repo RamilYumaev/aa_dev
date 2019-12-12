@@ -7,10 +7,12 @@ use olympic\forms\SpecialTypeOlimpicCreateForm;
 use olympic\forms\SpecialTypeOlimpicEditForm;
 use olympic\models\SpecialTypeOlimpic;
 use olympic\services\SpecialTypeOlimpicService;
+use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class SpecialTypeOlimpicController extends Controller
 {
@@ -40,6 +42,10 @@ class SpecialTypeOlimpicController extends Controller
     public function actionCreate($olimpic_id)
     {
         $form = new SpecialTypeOlimpicCreateForm($olimpic_id);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
               $model =  $this->service->create($form);
@@ -63,6 +69,10 @@ class SpecialTypeOlimpicController extends Controller
     {
         $model = $this->findModel($id);
         $form = new SpecialTypeOlimpicEditForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($form);

@@ -30,8 +30,7 @@ class OlimpicNominationCreateForm extends Model
             [['olimpic_id', 'name'], 'required'],
             [['olimpic_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'message' => 'Такая номинация олимпиады уже есть'],
-            [['olimpic_id'], 'exist', 'skipOnError' => true, 'targetClass' => OlimpicList::class, 'targetAttribute' => ['olimpic_id' => 'id']],
+            ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'targetAttribute' => ['olimpic_id', 'name'], 'message' => 'Такая номинация олимпиады уже есть'],
         ];
     }
     /**

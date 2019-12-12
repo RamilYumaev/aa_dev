@@ -7,10 +7,12 @@ use olympic\forms\OlimpicNominationCreateForm;
 use olympic\forms\OlimpicNominationEditForm;
 use olympic\models\OlimpicNomination;
 use olympic\services\OlimpicNominationService;
+use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class OlimpicNominationController extends Controller
 {
@@ -40,6 +42,10 @@ class OlimpicNominationController extends Controller
     public function actionCreate($olimpic_id)
     {
         $form = new OlimpicNominationCreateForm($olimpic_id);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
               $model =  $this->service->create($form);
@@ -63,6 +69,10 @@ class OlimpicNominationController extends Controller
     {
         $model = $this->findModel($id);
         $form = new OlimpicNominationEditForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($form);
