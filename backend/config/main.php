@@ -12,7 +12,7 @@ return [
     'name' => "АИС Абитуриент",
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
-        '@frontend' => $params['staticHostInfo'],
+        '@frontendInfo' => $params['staticHostInfo'],
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],

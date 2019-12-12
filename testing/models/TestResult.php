@@ -29,6 +29,11 @@ class TestResult extends ActiveRecord
         $this->result = $file;
     }
 
+    public function setMark($mark): void
+    {
+        $this->mark = $mark;
+    }
+
     public function edit($result, $mark) {
         $this->updated = date("Y-m-d H:i:s");
         $this->result = $result;
@@ -57,8 +62,8 @@ class TestResult extends ActiveRecord
             [
                 'class' => FileUploadBehavior::class,
                 'attribute' => 'result',
-                'filePath' => '@frontendRoot/origin/result/[[attribute_question_id]].[[extension]]',
-                'fileUrl' => '@frontend/origin/result/[[attribute_question_id]].[[extension]]',
+                'filePath' => '@frontendRoot/result/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
+                'fileUrl' => '@frontendInfo/result/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
             ],
         ];
     }

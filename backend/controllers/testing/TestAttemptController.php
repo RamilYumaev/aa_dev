@@ -38,8 +38,8 @@ class TestAttemptController extends Controller
 
     public function actionIndex($test_id)
     {
-        return $this->render('view', [
-                'attempt' => $test_id,
+        return $this->render('index', [
+                'test_id' => $test_id,
             ]);
     }
 

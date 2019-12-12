@@ -46,7 +46,7 @@ class TestAttemptService
         $olympic->time_of_distants_tour_type;
         $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
         if (!$testAttempt) {
-            $testAttempt = TestAttempt::create($test_id, $olympic->time_of_distants_tour);
+            $testAttempt = TestAttempt::create($test_id, $olympic);
             $this->transactionManager->wrap(function () use ($testAttempt, $test){
                 $this->testAttemptRepository->save($testAttempt);
                 $this->randQuestions($testAttempt->id, $test->id);

@@ -11,7 +11,7 @@ use common\auth\helpers\UserHelper;
 $this->title = "Просмотр";
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+\backend\assets\modal\ModalAsset::register($this);
 ?>
 <div class="row">
     <div class="col-md-6">
