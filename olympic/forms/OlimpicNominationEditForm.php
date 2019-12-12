@@ -33,8 +33,8 @@ class OlimpicNominationEditForm extends Model
             [['olimpic_id', 'name'], 'required'],
             [['olimpic_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'filter' => ['<>', 'id', $this->_olympicNomination->id], 'message' => 'Такая номинация олимпиады уже есть'],
-            [['olimpic_id'], 'exist', 'skipOnError' => true, 'targetClass' => OlimpicList::class, 'targetAttribute' => ['olimpic_id' => 'id']],
+            ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'targetAttribute' => ['olimpic_id', 'name'], 'filter' => ['<>', 'id', $this->_olympicNomination->id], 'message' => 'Такая номинация олимпиады уже есть'],
+
         ];
     }
     /**

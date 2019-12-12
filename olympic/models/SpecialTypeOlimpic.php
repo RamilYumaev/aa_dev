@@ -25,6 +25,12 @@ class SpecialTypeOlimpic extends ActiveRecord
         return $specialTypeOlimpic;
     }
 
+    public function edit($olimpic_id, $special_type_id)
+    {
+        $this->olimpic_id = $olimpic_id;
+        $this->special_type_id = $special_type_id;
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -225,6 +225,11 @@ class OlympicHelper
         return ArrayHelper::map(Olympic::find()->all(), "id", 'name');
     }
 
+    public static function olympicManagerList()
+    {
+        return Olympic::find()->manager(\Yii::$app->user->identity->getId())->select('id')->column();
+    }
+
     public static function olympicName($key): string
     {
         return ArrayHelper::getValue(self::olympicList(), $key);

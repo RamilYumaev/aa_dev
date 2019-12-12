@@ -16,9 +16,9 @@ class PersonalPresenceAttemptRepository
         return $model;
     }
 
-    public function getUser($olympic_id, $user_id): bool
+    public function getUser($olympic_id, $user_id)
     {
-        PersonalPresenceAttempt::find()->olympic($olympic_id)->user($user_id)->exists();
+       return PersonalPresenceAttempt::find()->olympic($olympic_id)->user($user_id)->exists();
     }
 
     public function getOlympic($olympic_id): void

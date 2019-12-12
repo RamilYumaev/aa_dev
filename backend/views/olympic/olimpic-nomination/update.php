@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 <div>
-    <?php $form = ActiveForm::begin([ 'enableClientValidation' => true, 'id' => 'orm-olympic-nomination', ]); ?>
+    <?php $form = ActiveForm::begin([ 'id' => 'form-olympic-nomination', 'enableAjaxValidation' => true]); ?>
     <div class="box box-default">
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput() ?>

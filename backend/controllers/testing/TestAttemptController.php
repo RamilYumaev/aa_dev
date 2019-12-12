@@ -36,6 +36,13 @@ class TestAttemptController extends Controller
         $this->testRepository = $testRepository;
     }
 
+    public function actionIndex($test_id)
+    {
+        return $this->render('view', [
+                'attempt' => $test_id,
+            ]);
+    }
+
     public function actionView($id)
     {
         try {

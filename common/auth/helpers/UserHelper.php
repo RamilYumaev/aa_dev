@@ -57,6 +57,11 @@ class UserHelper
         return "Нет пользователя";
     }
 
+    public static function isManagerOlympic()
+    {
+       return \Yii::$app->authManager->getAssignment('olymp_operator',\Yii::$app->user->identity->getId())  ?? false;
+    }
+
     public static function getEmailUserId($userId)
     {
         $user = User::find()->andWhere(['id' => $userId])->limit('1')->one();

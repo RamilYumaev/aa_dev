@@ -5,6 +5,7 @@ namespace olympic\repositories;
 
 
 use common\helpers\EduYearHelper;
+use olympic\helpers\OlympicHelper;
 use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicList;
 use yii\web\HttpException;
@@ -27,6 +28,15 @@ class OlimpicListRepository
         }
         return $model;
     }
+
+    public function getManager($id)
+    {
+        if (($model = OlimpicList::find()->where(['id'=>$id,'olimpic_id'=>OlympicHelper::olympicManagerList()])->one()) !== null) {
+            return $model;
+        }
+       throw new HttpException('403', "Нет такой олимпиады");
+    }
+
 
     public function isFinishDateRegister($id): OlimpicList
     {

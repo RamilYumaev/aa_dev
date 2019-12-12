@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
     <div class="box box-default">
         <div class="box box-header">
         </div>
@@ -33,6 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['label' => "Сумма баллов",
                         'format'=>'raw',
                         'value' => \testing\helpers\TestAndQuestionsHelper::markSum($test->id),
+                    ],
+                    ['label' => "Количество попыток",
+                        'format'=>'raw',
+                        'value' => Html::a(\testing\helpers\TestAttemptHelper::count($test->id), ['/testing/test-attempt/index', 'test_id' => $test->id]),
                     ],
                 ],
             ]) ?>
@@ -73,5 +77,4 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 </div>
     </div>
-        <div class="col-md-6"><?= \backend\widgets\testing\TestAttemptWidget::widget(['test_id'=> $test->id]) ?></div>
 </div>

@@ -78,7 +78,7 @@ return [
         'rules' => [
             [
                 'allow' => true,
-                'roles' => ['manager', 'olymp_operator', 'rbac']
+                'roles' => ['dev']
             ]
         ]],
 
