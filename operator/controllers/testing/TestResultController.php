@@ -1,7 +1,7 @@
 <?php
 
 
-namespace backend\controllers\testing;
+namespace operator\controllers\testing;
 
 use kartik\form\ActiveForm;
 use testing\forms\AddFinalMarkResultForm;
@@ -51,14 +51,14 @@ class TestResultController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($attempt_id, $question_id, $tq_id, $form);
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['/testing/test-attempt/view', 'id' => $model->attempt_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('update', [
+        return $this->renderAjax('@backend/views/testing/test-result/update', [
             'model' => $form,
         ]);
     }

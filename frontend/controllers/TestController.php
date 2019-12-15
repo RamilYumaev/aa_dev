@@ -8,8 +8,6 @@ use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
 use testing\readRepositories\TestReadRepository;
 use testing\services\AttemptAnswerService;
-use yii\helpers\Html;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -57,7 +55,7 @@ class TestController extends Controller
             $attempt = $this->repository->isAttempt($id);
             $pages = $this->repository->pageCount($id);
             return $this->render('view', [
-                'time' => $attempt->start,
+                'time' => $attempt->end,
                 'test' => $this->find($id),
                 'pages' => $pages,
                 'models' => $this->repository->pageOffset($id),

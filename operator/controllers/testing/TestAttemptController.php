@@ -36,10 +36,17 @@ class TestAttemptController extends Controller
         $this->testRepository = $testRepository;
     }
 
+    public function actionIndex($test_id)
+    {
+        return $this->render('@backend/views/testing/test-attempt/index', [
+                'test_id' => $test_id,
+            ]);
+    }
+
     public function actionView($id)
     {
         try {
-            return $this->render('view', [
+            return $this->render('@backend/views/testing/test-attempt/view', [
                 'attempt' => $this->findModel($id),
             ]);
         } catch (NotFoundHttpException $e) {

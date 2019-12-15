@@ -38,10 +38,11 @@ use yii\helpers\Html;
                     $url = 'olympic/personal-presence-attempt'. ($model->isResultEndTour() ? '/index' : '/create') ;
                     return Html::a('Участники', [ 'olympic/user-olympic/index',
                             'olympic_id' => $model->id], ['class' => 'btn btn-success btn-block'])."</br>".
-                        Html::a('Ведомость', [
+                        (!$model->isDistanceTour ? Html::a('Ведомость', [
                             $url,
-                            'olympic_id' => $model->id], ['class' => 'btn btn-warning btn-block'])."</br>".
-                        Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info btn-block']);
+                            'olympic_id' => $model->id], ['class' => 'btn btn-warning btn-block'])."</br>":"").
+                        ( !\common\auth\helpers\UserHelper::isManagerOlympic() ?
+                        Html::a('Копировать', ['olympic/olimpic-list/copy', 'id' => $model->id], ['class' => 'btn btn-info btn-block']) :"");
                     }, 'format' => "raw"],
                     ['class' => \yii\grid\ActionColumn::class,
                         'controller' => 'olympic/olimpic-list',

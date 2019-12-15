@@ -11,8 +11,8 @@ return [
     'name' => 'Личный кабинет поступающего в МПГУ',
     'basePath' => dirname(__DIR__),
     'aliases' => [
-        '@staticRoot' => $params['staticPath'],
-        '@static' => $params['staticHostInfo'],
+       '@frontendRoot' => $params['staticPath'],
+        '@frontendInfo' => $params['staticHostInfo'],
     ],
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
