@@ -25,35 +25,45 @@ class ViewAnswerAttemptTestColumn extends DataColumn
         switch (TestQuestionHelper::questionType($model->question_id)):
             case TestQuestionHelper::TYPE_SELECT:
                 $data = $this->data($model->result);
+                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>';
+                if ($data &&  array_key_exists('select', $data)) {
                 $answer = $data ? $data['select'] : "";
-                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
-                    ($answer ? Html::tag('h4','Ответы: '.implode(", ", AnswerHelper::answerNameAll($answer))) : '');
+                $text.= ($answer ? Html::tag('h4','Ответы: '.implode(", ", AnswerHelper::answerNameAll($answer))) : '');
+                }
                 break;
             case TestQuestionHelper::TYPE_SELECT_ONE:
                 $data = $this->data($model->result);
-                $answer = $data ? $data['select-one'] : "";
-                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
-                    ($answer ? Html::tag('h4','Ответ: '.AnswerHelper::answerNameOne($answer)) : '');
+                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>';
+                if ($data && array_key_exists('select-one', $data)) {
+                 $answer = $data ? $data['select-one'] : "";
+                $text.= ($answer ? Html::tag('h4','Ответ: '.AnswerHelper::answerNameOne($answer)) : '');
+                }
                 break;
             case TestQuestionHelper::TYPE_ANSWER_DETAILED:
                 $data = $this->data($model->result);
+                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>';
+                if ($data &&  array_key_exists('detailed', $data)) {
                 $answer = $data ? $data['detailed'] : "";
-                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
-                    ($answer ?  Html::tag('h4','Ответ: '.$answer) : '');
+                $text.= ($answer ?  Html::tag('h4','Ответ: '.$answer) : '');
+                }
                 break;
             case TestQuestionHelper::TYPE_MATCHING:
                 $data = $this->data($model->result);
-                $answer = $data ? $data['matching'] : "";
                 $text = TestQuestionHelper::questionTextName($model->question_id).'</br>';
+                if ($data && array_key_exists('matching', $data)) {
+                $answer = $data ? $data['matching'] : "";
                 foreach (AnswerHelper::answerMatching($model->question_id) as $id => $value) {
                     $text.=   Html::tag('h4',$value ." - ". ($answer ? $answer[$id] : ""));
                 }
+            }
                 break;
             case TestQuestionHelper::TYPE_ANSWER_SHORT:
                 $data = $this->data($model->result);
+                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>';
+                if ($data && array_key_exists('short', $data)) {
                 $answer = $data ? $data['short'] :"";
-                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
-                    ($answer ? Html::tag('h4','Ответ: '.$answer) : '');
+                $text.=($answer ? Html::tag('h4','Ответ: '.$answer) : '');
+                }
                 break;
             case TestQuestionHelper::TYPE_FILE:
                 $text = TestQuestionHelper::questionTextName($model->question_id).'</br> '.
@@ -83,9 +93,8 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 }
                 break;
         endswitch;
-        return $text;
+        return $text ?? "";
     }
-
     private function data($data) {
         return Json::decode($data);
     }
