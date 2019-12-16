@@ -12,7 +12,7 @@ use yii\helpers\Html;
 ?>
     <div class="box">
         <div class="box-header">
-            <?=  !Yii::$app->user->can('olymp_operator') ? Html::a('Cоздать', ['olympic/olimpic-list/create', 'olimpic_id'=> $model->id], ['class' => 'btn btn-success']) : "" ?>
+            <?=   !\common\auth\helpers\UserHelper::isManagerOlympic()  ? Html::a('Cоздать', ['olympic/olimpic-list/create', 'olimpic_id'=> $model->id], ['class' => 'btn btn-success']) : "" ?>
         </div>
         <div class="box-body">
             <?= \backend\widgets\adminlte\grid\GridView::widget([
