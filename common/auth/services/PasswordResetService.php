@@ -59,7 +59,8 @@ class PasswordResetService
     public function sendEmail($user)
     {
         return Yii::$app
-            ->mailer
+            ->olympicMailer
+            ->mailer()
             ->compose(
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
