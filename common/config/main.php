@@ -12,6 +12,9 @@ return [
             'class' => 'yii\i18n\Formatter',
             'timeZone' => 'UTC',
         ],
+        'olympicMailer' => [
+            'class' => 'common\components\Mailer',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'dirMode' => '777',
