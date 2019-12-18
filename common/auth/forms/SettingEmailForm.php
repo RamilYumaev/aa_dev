@@ -12,15 +12,17 @@ class SettingEmailForm extends Model
     public $password;
     public $port;
     public $encryption;
+    public $user_id;
 
-    public function __construct($config = [])
+    public function __construct(SettingEmail $email = null, $config = [])
     {
-        if (($email = SettingEmail::findOne(['user_id'=> \Yii::$app->user->identity->getId()])) != null) {
+        if ($email) {
             $this->username = $email->username;
             $this->host= $email->host;
             $this->password = $email->password;
             $this->port = $email->port;
             $this->encryption = $email->encryption;
+            $this->user_id = $email->user_id;
         }
         parent::__construct($config);
     }
@@ -39,6 +41,9 @@ class SettingEmailForm extends Model
             ['password', 'trim'],
             ['password', 'required'],
             ['password', 'string','max' => 100],
+
+            ['user_id', 'required'],
+            ['user_id', 'integer'],
 
             ['host', 'trim'],
             ['host', 'required'],

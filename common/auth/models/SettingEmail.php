@@ -1,11 +1,6 @@
 <?php
-
 namespace common\auth\models;
-
-use bar\baz\source_with_namespace;
 use common\auth\forms\SettingEmailForm;
-use common\auth\models\User;
-use Yii;
 
 /**
  * This is the model class for table "auth".
@@ -40,8 +35,9 @@ class SettingEmail extends \yii\db\ActiveRecord
         return $email;
     }
 
-    public  function edit(SettingEmailForm $form) {
+    public  function edit($user_id, SettingEmailForm $form) {
         $this->username = $form->username;
+        $this->user_id = $user_id;
         $this->password = $form->password;
         $this->port = $form->port;
         $this->host = $form->host;
@@ -55,7 +51,7 @@ class SettingEmail extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => 'Менеджер',
             'username' => 'Email',
             'password' => 'Пароль',
             'host' => "Хостинг почты",

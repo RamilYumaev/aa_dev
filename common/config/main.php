@@ -14,6 +14,11 @@ return [
         ],
         'olympicMailer' => [
             'class' => 'common\components\Mailer',
+            'defaultHost' => 'smtp.gmail.com',
+            'defaultUsername' => 'cpk@mpgu.edu',
+            'defaultPassword' => 'w5h38c4v',
+            'defaultPort' => '465',
+            'defaultEncryption' => 'ssl',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
