@@ -21,8 +21,8 @@ class AddFinalMarkForm extends Model
     public function rules()
     {
         return [
-            ['mark', 'required'],
             ['mark', 'number', 'min' => 0, 'max' => 100],
+            ['mark', 'default', 'value' => 0]
         ];
     }
 

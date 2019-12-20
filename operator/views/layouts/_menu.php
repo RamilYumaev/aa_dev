@@ -6,6 +6,6 @@ array_merge(
                 ['label' => 'Перечень ', 'url' => '/olympic/olympic'],
       //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
             ])],
-            ['label' => 'Настройка почты', 'url' => '/auth/setting-email/setting']
+         //   ['label' => 'Настройка почты', 'url' => '/auth/setting-email/setting']
             ]
 )) : [];
