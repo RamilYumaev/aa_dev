@@ -4,6 +4,7 @@
 namespace testing\models;
 
 
+use olympic\models\OlimpicList;
 use testing\models\queries\TestAttemptQuery;
 use yii\db\ActiveRecord;
 
@@ -19,28 +20,27 @@ class TestAttempt extends ActiveRecord
         return 'test_attempt';
     }
 
-    public static function create ($test_id, $time) {
+    public static function create ($test_id, OlimpicList $olimpicList) {
         $testAtt = new static();
         $testAtt->user_id = \Yii::$app->user->identity->getId();
         $testAtt->test_id = $test_id;
-        $testAtt->start = self::time($time);
-        $testAtt->end = null;
+        $testAtt->start = date("Y-m-d H:i:s" );
+        $testAtt->end = self::time($olimpicList);
         return $testAtt;
     }
 
-    private static function time($time)
+    private static function time(OlimpicList $olimpicList)
     {
-        $date =  date("Y-m-d H:i:s");
+        $date = date("Y-m-d H:i:s");
+        $time = $olimpicList->time_of_distants_tour ?? 0;
+        $time = $time  ? $time*60 : strtotime($olimpicList->date_time_finish_reg);
         $currentDate = strtotime($date);
-        $futureDate = $currentDate+(60*$time);
+        $futureDate = $currentDate+($time);
         $formatDate = date("Y-m-d H:i:s", $futureDate);
-        return $time ? $formatDate :  $date;
+        return $formatDate;
     }
 
-
-
     public function edit($mark) {
-        $this->end = date("Y-m-d H:i:s");
         $this->mark = $mark;
     }
 

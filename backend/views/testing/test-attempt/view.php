@@ -7,6 +7,8 @@ use yii\widgets\DetailView;
 $this->title = "Просмотр попытки";
 $this->params['breadcrumbs'][] = ['label' => "Tecт",
     'url' => ['/testing/test/view', 'id' => $attempt->test_id]];
+$this->params['breadcrumbs'][] = ['label' => "Попытки",
+    'url' => ['index', 'test_id' => $attempt->test_id]];
 //$this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicListHelper::olympicAndYearName($test->olimpic_id),
 //    'url' => ['/olympic/olimpic-list/view', 'id' => $test->olimpic_id]];
 

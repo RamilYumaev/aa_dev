@@ -11,8 +11,8 @@ return [
     'name' => 'Личный кабинет поступающего в МПГУ',
     'basePath' => dirname(__DIR__),
     'aliases' => [
-        '@staticRoot' => $params['staticPath'],
-        '@static' => $params['staticHostInfo'],
+       '@frontendRoot' => $params['staticPath'],
+        '@frontendInfo' => $params['staticHostInfo'],
     ],
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -88,7 +88,8 @@ return [
 
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['olympiads/*', 'dod/*', 'auth/signup/request', 'site/index','auth/auth/login', 'auth/signup/captcha','auth/auth/auth', 'schools/*'],
+        'except' => ['olympiads/*', 'dod/*', 'auth/signup/request',
+            'auth/reset/*','site/index','auth/auth/login', 'auth/signup/captcha','auth/auth/auth', 'schools/*'],
         'rules' => [
             [
                 'allow' => true,

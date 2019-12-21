@@ -27,7 +27,6 @@ class AddFinalMarkTableForm extends Model
     public function rules()
     {
         return [
-            [['mark'], 'required'],
             [['mark'], 'integer'],
         ];
     }

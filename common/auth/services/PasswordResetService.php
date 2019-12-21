@@ -58,13 +58,13 @@ class PasswordResetService
 
     public function sendEmail($user)
     {
-        return Yii::$app
-            ->mailer
+        $mailer = Yii::$app->olympicMailer;
+        return $mailer
+            ->mailer()
             ->compose(
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            )->setFrom([$mailer->getFromSender() => Yii::$app->name . ' robot'])
             ->setTo($user->email)
             ->setSubject('Сброс пароля ' . Yii::$app->name)
             ->send();

@@ -114,8 +114,8 @@ use yii\helpers\Html;
 <?= $form->field($model, 'showing_works_and_appeal')->dropDownList($model->showingWork()); ?>
 
 <?= $form->field($model, 'certificate_id')->checkbox(); ?>
-
-        <?= $form->field($model, 'percent_to_calculate')->textInput(['type' => 'number', 'min'=>40, 'max'=>60]) ?>
+        
+        <?= $form->field($model, 'percent_to_calculate')->textInput() ?>
 
 <div class="form-group">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

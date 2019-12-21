@@ -5,7 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $olympic_id int/
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 ?>
 <div class="box box-default">
     <div class="box box-header">

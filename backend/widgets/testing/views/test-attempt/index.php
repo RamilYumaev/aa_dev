@@ -22,7 +22,7 @@ use yii\helpers\Html;
                 'end:datetime',
                 'mark',
                 ['class' => \yii\grid\ActionColumn::class,
-                    'template' => '{view} {delete}',
+                    'template' => !\common\auth\helpers\UserHelper::isManagerOlympic()  ?'{view} {delete}' : '{view}' ,
                     'controller' => 'testing/test-attempt',
                 ],
             ],

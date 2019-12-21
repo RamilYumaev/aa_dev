@@ -119,11 +119,11 @@ class OlimpicListEditForm extends Model
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['showing_works_and_appeal', 'in', 'range' => OlympicHelper::showingWorkValid(), 'allowArray' => true],
-            ['percent_to_calculate', 'integer', 'min' => 40, 'max' => 60, 'when' => function ($model) {
+            ['percent_to_calculate', 'number', 'when' => function ($model) {
                 return $model->number_of_tours == OlympicHelper::TWO_TOUR;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclisteditform-number_of_tours").val() == 2; 
-            }'],
+            }',  'min' => 40, 'max' => 60],
         ];
     }
 
