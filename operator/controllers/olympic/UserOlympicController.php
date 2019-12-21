@@ -49,7 +49,7 @@ class UserOlympicController extends Controller
     {
         $olympic = $this->findModel($olympicId);
         $neededUser = $this->getAllUserOlympic($olympic)->select("user_id")->column();
-        $model = Profiles::find()->getAllMembers($neededUser);
+        $model = Profiles::find()->getAllMembers($neededUser, $olympic);
         $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "members.docx";
         $fileName = "Список участников " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".docx";
 
