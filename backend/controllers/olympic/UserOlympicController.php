@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers\olympic;
 
 use common\helpers\FileHelper;
@@ -31,7 +32,7 @@ class UserOlympicController extends Controller
     public function actionIndex($olympic_id)
     {
         $olympic = $this->findModel($olympic_id);
-        $model =  UserOlimpiads::find()->where(['olympiads_id'=>$olympic->id]);
+        $model = UserOlimpiads::find()->where(['olympiads_id' => $olympic->id]);
         $dataProvider = new ActiveDataProvider(['query' => $model, 'pagination' => false]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -44,12 +45,17 @@ class UserOlympicController extends Controller
     {
         $olympic = $this->findModel($olympicId);
         $neededUser = $this->getAllUserOlympic($olympic)->select("user_id")->column();
-        $model = Profiles::find()->getAllMembers($neededUser);
+        $model = Profiles::find()->getAllMembers($neededUser, $olympic);
         $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "members.docx";
         $fileName = "Список участников " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".docx";
 
         FileHelper::getFile($model, $path, $fileName);
 
+    }
+
+    private function getAllUserOlympic(OlimpicList $olympic)
+    {
+        return UserOlimpiads::find()->where(['olympiads_id' => $olympic->id]);
     }
 
 
