@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 use olympic\helpers\auth\ProfileHelper; ?>
 <div class="box">
     <div class="box-header">
+        <?=\yii\helpers\Html::a("Выгрузить список в Word", ["get-report-olympic", "olympicId"=>$olympic->id], ["class"=>"btn btn-primary"]);?>
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([

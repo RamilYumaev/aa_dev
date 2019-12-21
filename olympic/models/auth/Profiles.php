@@ -7,6 +7,7 @@ use dictionary\helpers\DictCountryHelper;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
+use olympic\models\auth\queries\ProfilesQuery;
 
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -78,5 +79,10 @@ class Profiles extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public static function find()
+    {
+        return new ProfilesQuery(static::class);
     }
 }
