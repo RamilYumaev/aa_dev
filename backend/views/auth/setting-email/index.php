@@ -25,9 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute'=>'user_id'],
                     'host',
                     'username',
-                    'password',
+                   //'password',
                     'port',
                     'encryption',
+                    ['value' => function (\common\auth\models\SettingEmail $model) {
+                        return $model->isActivate() ? "Проверено" : Html::a('Проверить', ['activate', 'id' => $model->id],
+                            ['class'=> "btn btn-success",'data-method'=>'post']);
+                    }, 'format'=> 'raw'],
                     ['class' => \yii\grid\ActionColumn::class, 'template'=> "{update} {delete}"],
                 ]
             ]); ?>

@@ -16,6 +16,20 @@ class SendingDeliveryStatusRepository
         return $model;
     }
 
+    public function getHash($id, $hash): SendingDeliveryStatus
+    {
+        if (!$model = SendingDeliveryStatus::findOne(['id' => $id, 'hash' => $hash])) {
+            throw new \DomainException( 'Такого письма не найдено.');
+        }
+        return $model;
+    }
+
+    public function getExits($userId, $type, $value, $typeSending):  bool
+    {
+        return  SendingDeliveryStatus::find()->user($userId)
+            ->type($type)->value($value)->typeSending($typeSending)->exists();
+    }
+
     public function save(SendingDeliveryStatus $model): void
     {
         if (!$model->save()) {

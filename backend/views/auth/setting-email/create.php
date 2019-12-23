@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model common\auth\forms\SettingEmailForm */
+/* @var $model common\auth\forms\SettingEmailCreateForm */
 
 use yii\bootstrap\ActiveForm;
 

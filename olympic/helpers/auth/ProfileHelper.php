@@ -37,8 +37,20 @@ class ProfileHelper
         } else {
             return " ";
         }
-
     }
+
+    public static function profileName($userId): string
+    {
+        $profile = self::findProfile($userId);
+
+        if ($profile) {
+            return $profile->first_name . " "
+                . $profile->patronymic;
+        } else {
+            return " ";
+        }
+    }
+
 
     public static function getAllUserFullNameWithEmail()
     {

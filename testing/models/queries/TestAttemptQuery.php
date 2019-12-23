@@ -35,6 +35,11 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
         return  $this->andWhere(['test_id'=> $test]);
     }
 
+    public function user($user)
+    {
+        return  $this->andWhere(['user_id'=>$user]);
+    }
+
     public function orderByMark()
     {
         return  $this->orderBy(['mark' => SORT_DESC]);
