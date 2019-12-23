@@ -229,14 +229,14 @@ class OlimpicList extends \yii\db\ActiveRecord
     public function getDateRegStartNameString () {
         return Html::tag('strong','Дата и время начала регистрации на сайте: '). ($this->date_time_start_reg ?
                     DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
-                    . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg)
+                    . '  года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg)
                     : 'Данные обновляются.');
     }
 
     public function getDateRegEndNameString () {
         return Html::tag('strong','Дата и время завершения регистрации на сайте: '). ($this->date_time_finish_reg ?
             DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)
-            . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg)
+            . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg)
             : 'Данные обновляются.');
     }
 
@@ -249,7 +249,7 @@ class OlimpicList extends \yii\db\ActiveRecord
     public function getTimeStartTourNameString () {
         return $this->date_time_start_tour ?
             Html::tag('strong','Дата и время проведения очного тура: ') .
-            DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour)
+            DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour)
             : '';
     }
 
@@ -298,7 +298,7 @@ class OlimpicList extends \yii\db\ActiveRecord
                 'На выполнение заданий заочного (дистанционного) тура отводится ' . $this->time_of_distants_tour . ' минут'
                 : 'Выполнить задания необходимо до завершения периода регистрации на настоящее Мероприятие'), //пункт3
             $this->date_time_start_tour ? DateTimeCpuHelper::getDateChpu($this->date_time_start_tour)
-                . ' в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour) : '', //дата и время проведения очного тура
+                . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour) : '', //дата и время проведения очного тура
             $this->address, //адрес проведения очного тура
             $this->time_of_tour . ' минут', //продолжительность выполнения заданий очного тура в минутах
             OlimpicCgHelper::cgOlympicCompetitiveGroupList($this->id), //выбранные конкурсные группы
@@ -312,6 +312,15 @@ class OlimpicList extends \yii\db\ActiveRecord
             $this->criteria_for_evaluating_dt, //Критерии оценивания заданий заочного тура
             $this->requiment_to_work,//Требования к выполнению заданий очного тура
             $this->criteria_for_evaluating,//Требования к выполнению заданий очного тура
+        ];
+    }
+
+    public function replaceLabelsFromSending() {
+        return [
+            $this->genitive_name, // {название олимпиады в родительном падеже}
+            DateTimeCpuHelper::getDateChpu($this->date_time_start_tour). ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour),
+            $this->address, // {адрес проведения очного тура}
+            DictChairmansHelper::chairmansNameOne($this->chairman_id), // {Ф.И.О. председателя олимпиады}
         ];
     }
 

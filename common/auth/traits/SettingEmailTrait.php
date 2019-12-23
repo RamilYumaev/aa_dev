@@ -1,11 +1,9 @@
 <?php
-
-namespace common\auth\forms;
+namespace common\auth\traits;
 
 use common\auth\models\SettingEmail;
-use yii\base\Model;
 
-class SettingEmailForm extends Model
+trait SettingEmailTrait
 {
     public $username;
     public $host;
@@ -14,23 +12,7 @@ class SettingEmailForm extends Model
     public $encryption;
     public $user_id;
 
-    public function __construct(SettingEmail $email = null, $config = [])
-    {
-        if ($email) {
-            $this->username = $email->username;
-            $this->host= $email->host;
-            $this->password = $email->password;
-            $this->port = $email->port;
-            $this->encryption = $email->encryption;
-            $this->user_id = $email->user_id;
-        }
-        parent::__construct($config);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules(): array
+    public function validateRules(): array
     {
         return [
             ['username', 'trim'],
@@ -41,7 +23,6 @@ class SettingEmailForm extends Model
             ['password', 'trim'],
             ['password', 'required'],
             ['password', 'string','max' => 100],
-
             ['user_id', 'required'],
             ['user_id', 'integer'],
 
@@ -56,7 +37,7 @@ class SettingEmailForm extends Model
             ['encryption', 'trim'],
             ['encryption', 'required'],
             ['encryption', 'in', 'range' => $this->encryptionList(), 'allowArray' => true],
-         ];
+        ];
     }
 
     public function attributeLabels(): array
@@ -68,4 +49,5 @@ class SettingEmailForm extends Model
     {
         return ['tls'=> 'tls', 'ssl'=> 'ssl'];
     }
+
 }

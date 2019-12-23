@@ -2,7 +2,7 @@
 
 
 /* @var $this yii\web\View */
-/* @var $model common\auth\forms\SettingEmailForm */
+/* @var $model common\auth\forms\SettingEmailEditForm  | common\auth\forms\SettingEmailCreateForm */
 
 use yii\helpers\Html;
 use kartik\select2\Select2;

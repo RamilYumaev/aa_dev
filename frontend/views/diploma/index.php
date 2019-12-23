@@ -9,8 +9,11 @@ use olympic\helpers\auth\ProfileHelper;
 use common\auth\helpers\UserSchoolHelper;
 use dictionary\helpers\DictSchoolsHelper;
 
+/** @var \yii\web\View $this */
+/** @var $olympic \olympic\models\OlimpicList */
+
 $profile = ProfileHelper::profileFullName($model->user_id);
-$this->title = 'Диплом. ' .$profile;
+$this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Сертификат.') .$profile;
 ?>
 
 <div class="container-fluid">
@@ -28,6 +31,10 @@ $this->title = 'Диплом. ' .$profile;
         case  PersonalPresenceAttemptHelper::THIRD_PLACE :
             echo 'third-place';
             $label = '@web/img/certificate/third-place-label.png';
+            break;
+        case  null :
+            echo 'certificate-place';
+            $label = '@web/img/certificate/certificate.png';
             break;
         case  PersonalPresenceAttemptHelper::NOMINATION :
             echo 'nomination-place';
@@ -56,7 +63,8 @@ $this->title = 'Диплом. ' .$profile;
                     <p align="center">
                         <?= Html::img($label, ['width' => '650px']) ?>
                     </p>
-                    <h3 align="center">Настоящий диплом удостоверяет, что </h3>
+                    <h3 align="center">Настоящий <?= isset($model->reward_status_id) ? 'диплом' : 'сертификат' ?>
+                        удостоверяет, что </h3>
                 </div>
                 <div class="col-md-3 col-xs-3 mt-30">
                     <p style="color: #565656" align="center"><i>Проверка<br/>подлинности:</i></p>
@@ -91,7 +99,7 @@ $this->title = 'Диплом. ' .$profile;
                             <?= $model->nomination_id ? '«' . \olympic\helpers\OlympicNominationHelper::olympicName($model->nomination_id) . '»' : ''  ?>
                         </p>
                         <p class="olimpic">
-                            <?= $olympic->genitive_name . ' ' .  \Yii::$app->formatter->asDate($olympic->date_time_start_tour, 'yyyy') ?>
+                            <?= $olympic->genitive_name . ' ' .  $olympic->year ?>
                         </p>
                     </div>
                 </div>

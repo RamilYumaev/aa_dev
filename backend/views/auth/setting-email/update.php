@@ -3,7 +3,7 @@
 
 /* @var $this yii\web\View */
 
-/* @var $model common\auth\forms\SettingEmailForm */
+/* @var $model common\auth\forms\SettingEmailEditForm */
 
 use yii\bootstrap\ActiveForm;
 

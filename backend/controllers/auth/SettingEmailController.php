@@ -1,7 +1,8 @@
 <?php
 namespace backend\controllers\auth;
 
-use common\auth\forms\SettingEmailForm;
+use common\auth\forms\SettingEmailCreateForm;
+use common\auth\forms\SettingEmailEditForm;
 use common\auth\models\SettingEmail;
 use common\auth\services\SettingEmailService;
 use Yii;
@@ -26,6 +27,7 @@ class SettingEmailController extends \yii\web\Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'activate'=> ['POST']
                 ],
             ],
         ];
@@ -51,7 +53,7 @@ class SettingEmailController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-        $form = new SettingEmailForm();
+        $form = new SettingEmailCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -74,7 +76,7 @@ class SettingEmailController extends \yii\web\Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new SettingEmailForm($model);
+        $form = new SettingEmailEditForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -101,6 +103,21 @@ class SettingEmailController extends \yii\web\Controller
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionActivate($id)
+    {
+        try {
+            $this->service->activate($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['index']);
     }
 
     /**

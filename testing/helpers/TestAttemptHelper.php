@@ -14,5 +14,9 @@ class TestAttemptHelper
         return TestAttempt::find()->test($test)->count();
     }
 
+    public static function isAttempt($test, $user){
+        return TestAttempt::find()->test($test)->user($user)->exists();
+    }
+
 
 }

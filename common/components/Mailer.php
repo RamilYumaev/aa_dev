@@ -18,6 +18,7 @@ class Mailer extends Component
     public $defaultPassword;
     public $defaultEncryption;
     public $olympic = null;
+    public $idSettingEmail = null;
 
     public function mailer () {
         return Yii::createObject([
@@ -35,7 +36,7 @@ class Mailer extends Component
     }
 
     private function dataOlympicManager() {
-        if ($this->olympic && (($olympic = OlimpicList::findOne($this->olympic)) != null)) {
+        if ($this->olympic && (($olympic = OlimpicList::findOne($this->olympic)) !== null)) {
             return Olympic::findOne($olympic->olimpic_id)->managerId;
         }
         return null;
@@ -43,7 +44,9 @@ class Mailer extends Component
 
     private function dataEmailManager() {
         if($this->dataOlympicManager()) {
-            return SettingEmail::findOne(['user_id'=> $this->dataOlympicManager()]) ?? null;
+            return SettingEmail::findOne(['user_id'=> $this->dataOlympicManager(), 'status'=> SettingEmail::ACTIVATE]) ?? null;
+        } else if ($this->idSettingEmail) {
+            return SettingEmail::findOne($this->idSettingEmail);
         }
         return null;
     }
