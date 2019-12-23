@@ -1,5 +1,8 @@
 <?php
 namespace common\sending\helpers;
+use common\auth\models\User;
+use olympic\helpers\auth\ProfileHelper;
+use olympic\models\OlimpicList;
 use yii\helpers\ArrayHelper;
 
 class SendingHelper
@@ -76,4 +79,13 @@ class SendingHelper
         председатель оргкомитета {название олимпиады в родительном падеже}<br />
         {Ф.И.О. председателя олимпиады}</p>';
     }
+
+    public static function textEmail(User $user, OlimpicList $olympic, $hash, $type) {
+        $array = $olympic->replaceLabelsFromSending();
+        array_unshift($array, ProfileHelper::profileName($user->id));
+        array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
+        $template = $type == self::TYPE_HTML ? self::htmlOlympic() : self::textOlympic();
+        return str_replace(self::templatesLabel(), $array, $template);
+    }
+
 }

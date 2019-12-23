@@ -3,8 +3,10 @@
 
 namespace olympic\services;
 
+use cebe\markdown\block\TableTrait;
 use common\auth\forms\SignupForm;
 use common\auth\models\UserSchool;
+use common\sending\traits\MailTrait;
 use olympic\repositories\UserOlimpiadsRepository;
 use common\auth\repositories\UserRepository;
 use common\auth\repositories\UserSchoolRepository;
@@ -32,6 +34,8 @@ class OlympicRegisterUserService
     private $userOlimpiadsRepository;
     private $schoolsRepository;
     private $classRepository;
+
+    use MailTrait;
 
     public function __construct(
         DictClassRepository $classRepository,
@@ -70,7 +74,10 @@ class OlympicRegisterUserService
             $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
             $this->userOlimpiadsRepository->save($userOlympic);
 
-            $this->sendEmail($user);
+            $configTemplate =  ['html' => 'emailVerifyOlympic-html', 'text' => 'emailVerifyOlympic-text'];
+            $configData = ['user' => $user, 'olympic' => $userOlympic->olympiads_id];
+
+            $this->sendEmail($user, $configTemplate, $configData);
         });
     }
 
@@ -102,18 +109,18 @@ class OlympicRegisterUserService
 
      public  function newOrRenameSchoolId(SignupOlympicForm $form) : int
      {
-         $userSchoolForm =  $form->schoolUser;
+         $userSchoolForm = $form->schoolUser;
          $profileForm = $form->profile;
-         if($userSchoolForm->check_region_and_country_school &&
+         if ($userSchoolForm->check_region_and_country_school &&
              $userSchoolForm->check_new_school &&
              $userSchoolForm->new_school) {
-             $this->schoolsRepository->getFull($userSchoolForm->new_school,  $profileForm->country_id, $profileForm->region_id);
-             $school = DictSchools::create($userSchoolForm->new_school,  $profileForm->country_id, $profileForm->region_id);
+             $this->schoolsRepository->getFull($userSchoolForm->new_school, $profileForm->country_id, $profileForm->region_id);
+             $school = DictSchools::create($userSchoolForm->new_school, $profileForm->country_id, $profileForm->region_id);
          } elseif (!$userSchoolForm->check_region_and_country_school &&
              $userSchoolForm->check_new_school &&
              $userSchoolForm->new_school) {
              $this->schoolsRepository->getFull($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-             $school = DictSchools::create($userSchoolForm->new_school,  $userSchoolForm->country_school, $userSchoolForm->region_school);
+             $school = DictSchools::create($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
          } elseif ($userSchoolForm->check_region_and_country_school &&
              $userSchoolForm->check_rename_school &&
              $userSchoolForm->new_school) {
@@ -130,25 +137,5 @@ class OlympicRegisterUserService
          $this->schoolsRepository->save($school);
          return $school->id;
      }
-
-
-    /**
-     * Sends confirmation email to user
-     * @param \common\auth\models\User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    public function sendEmail(User $user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($user->email)
-            ->setSubject('Активация аккаунта. ' . Yii::$app->name)
-            ->send();
-    }
 
 }

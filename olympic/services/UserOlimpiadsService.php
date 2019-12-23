@@ -11,8 +11,8 @@ use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\helpers\SendingHelper;
 use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
+use common\sending\traits\MailTrait;
 use common\transactions\TransactionManager;
-use olympic\helpers\auth\ProfileHelper;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use olympic\repositories\ClassAndOlympicRepository;
@@ -28,6 +28,8 @@ class UserOlimpiadsService
     private $deliveryStatusRepository;
     private $transactionManager;
     private $userRepository;
+
+    use MailTrait;
 
     function __construct(UserOlimpiadsRepository $repository, OlimpicListRepository $olimpicListRepository,
                          ClassAndOlympicRepository $classAndOlympicRepository, UserSchoolRepository $userSchoolRepository,
@@ -81,24 +83,4 @@ class UserOlimpiadsService
         }
     }
 
-    private function settingEmail(User $user, OlimpicList $olympic, $hash) {
-        $mailer = \Yii::$app->olympicMailer;
-        $mailer->olympic = $olympic->id;
-        return $mailer
-            ->mailer()
-            ->compose()
-            ->setFrom([$mailer->getFromSender() => \Yii::$app->name . ' robot'])
-            ->setTo($user->email)
-            ->setTextBody($this->textEmail($user, $olympic, $hash, SendingHelper::TYPE_TEXT))
-            ->setHtmlBody($this->textEmail($user, $olympic, $hash, SendingHelper::TYPE_HTML))
-            ->setSubject('Приглашение ' . \Yii::$app->name);
-    }
-
-    private function textEmail(User $user, OlimpicList $olympic, $hash, $type) {
-        $array = $olympic->replaceLabelsFromSending();
-        array_unshift($array, ProfileHelper::profileName($user->id));
-        array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
-        $template = $type == SendingHelper::TYPE_HTML ? SendingHelper::htmlOlympic() : SendingHelper::textOlympic();
-        return str_replace(SendingHelper::templatesLabel(), $array, $template);
-    }
 }

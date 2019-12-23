@@ -83,13 +83,11 @@ return [
                 'auth/' => '/',
             ],
         ],
-
     ],
-
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['olympiads/*', 'dod/*', 'auth/signup/request',
-            'auth/reset/*','site/index','auth/auth/login', 'auth/signup/captcha','auth/auth/auth', 'schools/*'],
+        'except' => ['olympiads/*', 'dod/*', 'auth/signup/*', 'auth/reset/*','site/index','auth/auth/login', 'invitation/*',
+            'auth/auth/auth', 'schools/*'],
         'rules' => [
             [
                 'allow' => true,
