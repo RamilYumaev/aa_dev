@@ -5,6 +5,7 @@ namespace frontend\controllers;
 
 use frontend\components\UserNoEmail;
 use olympic\models\OlimpicList;
+use olympic\repositories\UserOlimpiadsRepository;
 use olympic\services\UserOlimpiadsService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -13,10 +14,12 @@ use Yii;
 class UserOlympicController extends Controller
 {
     private $service;
+    private $repository;
 
-    public function __construct($id, $module, UserOlimpiadsService $service,  $config = [])
+    public function __construct($id, $module, UserOlimpiadsService $service, UserOlimpiadsRepository $repository,  $config = [])
     {
         $this->service = $service;
+        $this->repository = $repository;
         parent::__construct($id, $module, $config);
     }
 
@@ -62,8 +65,12 @@ class UserOlympicController extends Controller
     {
         $this->isGuest();
         try {
-            $this->service->remove($id);
-            Yii::$app->session->setFlash('success', 'Успешно отменена');
+            if ($this->isAttempt($id)) {
+                Yii::$app->session->setFlash('warning', ' Вы не можете отменить запись, так как начали заочный тур');
+            } else {
+                $this->service->remove($id);
+                Yii::$app->session->setFlash('success', 'Успешно отменена');
+            }
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -73,7 +80,19 @@ class UserOlympicController extends Controller
 
     protected function isGuest() {
         if (Yii::$app->user->isGuest) {
-            return $this->redirect(['dod/index']);
+            return $this->redirect(['site/index']);
         }
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    private function isAttempt($id){
+        $userOlympic = $this->repository->get($id);
+        $class= \common\auth\helpers\UserSchoolHelper::userClassId($userOlympic->user_id, \common\helpers\EduYearHelper::eduYear());
+        $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($userOlympic->olympiads_id, $class);
+        return \testing\helpers\TestAttemptHelper::isAttempt($test, $userOlympic->user_id);
+
     }
 }
