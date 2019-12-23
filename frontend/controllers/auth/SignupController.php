@@ -111,8 +111,28 @@ class SignupController extends Controller
     public function actionConfirm($token)
     {
         try {
-            $this->service->confirm($token);
+            $user = $this->service->confirm($token);
             Yii::$app->session->setFlash('success', 'Ваш адрес электронной почты подтвержден.');
+            return $this->redirect(['auth/auth/login']);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->goHome();
+    }
+
+
+    /**
+     * @param $token
+     * @param $olympic_id
+     * @return mixed
+     */
+
+    public function actionConfirmOlympic($token, $olympic_id)
+    {
+        try {
+            $this->service->confirmOlympic($token, $olympic_id);
+            Yii::$app->session->addFlash('success', 'Ваш адрес электронной почты подтвержден.');
             return $this->redirect(['auth/auth/login']);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
