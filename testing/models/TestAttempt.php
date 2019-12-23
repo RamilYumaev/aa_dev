@@ -33,10 +33,14 @@ class TestAttempt extends ActiveRecord
     {
         $date = date("Y-m-d H:i:s");
         $time = $olimpicList->time_of_distants_tour ?? 0;
-        $time = $time  ? $time*60 : strtotime($olimpicList->date_time_finish_reg);
-        $currentDate = strtotime($date);
-        $futureDate = $currentDate+($time);
-        $formatDate = date("Y-m-d H:i:s", $futureDate);
+        if ($time) {
+            $time = $time * 60;
+            $currentDate = strtotime($date);
+            $futureDate =  $currentDate + ($time);
+            $formatDate = date("Y-m-d H:i:s", $futureDate);
+        } else {
+            $formatDate = $olimpicList->date_time_finish_reg;
+        }
         return $formatDate;
     }
 
