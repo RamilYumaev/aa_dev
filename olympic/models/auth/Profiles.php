@@ -85,4 +85,11 @@ class Profiles extends \yii\db\ActiveRecord
     {
         return new ProfilesQuery(static::class);
     }
+
+    public function isNullProfile() {
+        return $this->last_name == "" ||
+        $this->first_name == "" ||
+        $this->patronymic == "" ||
+        $this->phone == "";
+    }
 }
