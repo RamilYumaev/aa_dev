@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
 $this->title = $name;
 ?>
-<div class="site-error">
+<div class="container mt-30 site-error">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -19,10 +19,10 @@ $this->title = $name;
     </div>
 
     <p>
-        The above error occurred while the Web server was processing your request.
+        Данная ошибка произошла во время выполнения Вашего запроса сервером.
     </p>
     <p>
-        Please contact us if you think this is a server error. Thank you.
+        Пожалуйста сообщите нам об ошибке написав письмо olimp@mpgu.su и мы примем все необходимые меры. Спасибо!
     </p>
 
 </div>
