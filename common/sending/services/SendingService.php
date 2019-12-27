@@ -5,7 +5,8 @@ namespace common\sending\services;
 
 
 
-use common\sending\forms\SendingForm;
+use common\sending\forms\SendingCreateForm;
+use common\sending\forms\SendingEditForm;
 use common\sending\models\Sending;
 use common\sending\repositories\SendingRepository;
 
@@ -18,13 +19,13 @@ class SendingService
         $this->repository = $repository;
     }
 
-    public function create(SendingForm $form)
+    public function create(SendingCreateForm $form)
     {
         $model = Sending::create($form);
         $this->repository->save($model);
     }
 
-    public function edit($id, SendingForm $form)
+    public function edit($id, SendingEditForm $form)
     {
         $model = $this->repository->get($id);
         $model->edit($form);

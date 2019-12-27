@@ -7,6 +7,7 @@ namespace olympic\services;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
 use common\auth\repositories\UserSchoolRepository;
+use common\sending\helpers\DictSendingTemplateHelper;
 use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\helpers\SendingHelper;
 use common\sending\models\SendingDeliveryStatus;
@@ -46,7 +47,11 @@ class UserOlimpiadsService
     }
 
     public function add($olympic_id, $user_id) {
-        $this->transactionManager->wrap(function () use ($olympic_id, $user_id) {
+        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)) == null) {
+            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
+        }
+        $this->transactionManager->wrap(function () use ($olympic_id, $user_id, $sendingTemplate) {
             $olympic = $this->olimpicListRepository->get($olympic_id);
             $user = $this->userRepository->get($user_id);
             $userSchool = $this->userSchoolRepository->getSchooLUser($user->id);
@@ -54,7 +59,9 @@ class UserOlimpiadsService
             $userOlympic = UserOlimpiads::create($olympic->id, $userSchool->user_id);
             $this->repository->save($userOlympic);
             if ($olympic->isFormOfPassageInternal()) {
-                $this->send($user, $olympic);
+                $this->send($user, $olympic, $this->deliveryStatusRepository,
+                    SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                    SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, null, $sendingTemplate);
             }
         });
     }
@@ -62,25 +69,6 @@ class UserOlimpiadsService
     public function remove($id) {
         $userOlympic = $this->repository->get($id);
         $this->repository->remove($userOlympic);
-    }
-
-    private function send(User $user, OlimpicList $olympic) {
-        $exit = $this->deliveryStatusRepository->
-        getExits($user->id, SendingDeliveryStatusHelper::TYPE_OLYMPIC, $olympic->id,
-            SendingDeliveryStatusHelper::TYPE_SEND_INVITATION);
-        if (!$exit && $user->email) {
-            try {
-                $hash = \Yii::$app->security->generateRandomString() . '_' . time();
-                $this->settingEmail($user, $olympic, $hash)->send();
-                $delivery = SendingDeliveryStatus::create(null, $user->id, $hash,
-                    SendingDeliveryStatusHelper::TYPE_OLYMPIC,
-                    SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, $olympic->id);
-                $this->deliveryStatusRepository->save($delivery);
-                \Yii::$app->session->setFlash('success', 'Отправлено письмо приглашения на очный тур!.');
-            } catch (\Swift_TransportException $e) {
-                \Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
     }
 
 }

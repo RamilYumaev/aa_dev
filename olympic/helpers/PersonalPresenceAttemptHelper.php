@@ -40,9 +40,24 @@ class PersonalPresenceAttemptHelper
         ];
     }
 
+    public static function nameOfPlacesArrayAndValue()
+    {
+        return [
+            self::NOMINATION => "",
+            self::FIRST_PLACE => "1-е место",
+            self::SECOND_PLACE => "2-е место",
+            self::THIRD_PLACE => "3-е место",
+        ];
+    }
+
     public static function nameOfPlacesOne($key)
     {
         return ArrayHelper::getValue(self::nameOfPlaces(), $key);
+    }
+
+    public static function nameOfPlacesValueOne($key)
+    {
+        return ArrayHelper::getValue(self::nameOfPlacesArrayAndValue(), $key);
     }
 
 

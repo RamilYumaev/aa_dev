@@ -25,6 +25,11 @@ class DictSendingTemplateHelper
         return ArrayHelper::map(DictSendingTemplate::find()->all(), "id", 'name');
     }
 
+    public static function dictTemplate($type, $type_sending): ? DictSendingTemplate
+    {
+        return DictSendingTemplate::findOne(['type' => $type, 'type_sending' => $type_sending]);
+    }
+
     public static function templateName($key): string
     {
         return ArrayHelper::getValue(self::templateList(), $key);
@@ -37,12 +42,22 @@ class DictSendingTemplateHelper
 
     public static function checkStatusTypeName($key): string
     {
-        return ArrayHelper::getValue(self::checkStatusTypeList(), self::checkStatusTypeValue($key));
+        return ArrayHelper::getValue(self::checkStatusTypeList(), self::checkStatusTypeValue($key)) ?? "";
     }
 
     public static function checkStatusTypeValue($key): string
     {
-        return ArrayHelper::getValue(self::checkStatusList(), $key);
+        return ArrayHelper::getValue(self::checkStatusList(), $key)  ?? "";
     }
+
+    public static function isSending($key): string
+    {
+        return ArrayHelper::getValue(self::checkStatusList(), $key)  ?? "";
+    }
+
+
+
+
+
 
 }

@@ -28,7 +28,16 @@ class SendingDeliveryStatusHelper
         ];
     }
 
-    public static function deliveryTypeName($key): string
+    public static function deliveryTypeEventList()
+    {
+        return [
+            self::TYPE_OLYMPIC => 'Олимпиада',
+            self::TYPE_DOD => "День открытых дверей",
+            self::TYPE_MASTER_CLASS => "Мастер класс",
+        ];
+    }
+
+    public static function deliveryTypeName($key): ?string
     {
         return ArrayHelper::getValue(self::deliveryTypeList(), $key);
     }
@@ -42,7 +51,6 @@ class SendingDeliveryStatusHelper
             self::STATUS_NO_EMAIL => 'Не указан адрен электронной почты',
         ];
     }
-
 
     public static function deliveryStatusName($key): string
     {

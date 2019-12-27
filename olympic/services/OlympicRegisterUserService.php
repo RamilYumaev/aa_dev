@@ -60,25 +60,29 @@ class OlympicRegisterUserService
 
     public function signup(SignupOlympicForm $form): void
     {
-        $this->transaction->wrap(function () use ($form) {
+        try {
+            $this->transaction->wrap(function () use ($form) {
 
-            $user = $this->newUser($form->user);
-            $this->userRepository->save($user);
+                $user = $this->newUser($form->user);
+                $this->userRepository->save($user);
 
-            $profile = $this->newProfile($form->profile, $user->id);
-            $this->profileRepository->save($profile);
+                $profile = $this->newProfile($form->profile, $user->id);
+                $this->profileRepository->save($profile);
 
-            $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, $user->id);
-            $this->userSchoolRepository->save($userSchool);
+                $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, $user->id);
+                $this->userSchoolRepository->save($userSchool);
 
-            $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
-            $this->userOlimpiadsRepository->save($userOlympic);
+                $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
+                $this->userOlimpiadsRepository->save($userOlympic);
 
-            $configTemplate =  ['html' => 'emailVerifyOlympic-html', 'text' => 'emailVerifyOlympic-text'];
-            $configData = ['user' => $user, 'olympic' => $userOlympic->olympiads_id];
+                $configTemplate = ['html' => 'emailVerifyOlympic-html', 'text' => 'emailVerifyOlympic-text'];
+                $configData = ['user' => $user, 'olympic' => $userOlympic->olympiads_id];
 
-            $this->sendEmail($user, $configTemplate, $configData);
-        });
+                $this->sendEmail($user, $configTemplate, $configData);
+            });
+        } catch (\Exception $e) {
+            \Yii::$app->session->setFlash('error'," Ошибка сохранения");
+        }
     }
 
     public function newUser(SignupForm $form): User

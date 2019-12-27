@@ -13,8 +13,8 @@ $this->params['breadcrums'][] = $this->title;
 ?>
 <div class="box box-default">
     <div class="box box-header">
-        <?=Html::a('Добавить', ['create',],
-            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
+        <? //Html::a('Добавить', ['create',],
+            //['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить', 'class'=>'btn btn-primary']) ?>
     </div>
     <div class="box-body">
         <?= GridView::widget([
@@ -29,12 +29,12 @@ $this->params['breadcrums'][] = $this->title;
                             ' (' .  DictSendingTemplateHelper::checkStatusTypeName($model->template_id).')';
                     }
                 ],
-                [
-                    'attribute' => 'sending_category_id',
-                    'value' => function ($model) {
-                        return DictSendingUserCategoryHelper::categoryName($model->sending_category_id);
-                    }
-                ],
+//                [
+//                    'attribute' => 'sending_category_id',
+//                    'value' => function ($model) {
+//                        return DictSendingUserCategoryHelper::categoryName($model->sending_category_id);
+//                    }
+//                ],
                 [
                     'attribute' => 'status_id',
                     'format' => 'raw',
@@ -54,7 +54,7 @@ $this->params['breadcrums'][] = $this->title;
 //                return $result;
                     }
                 ],
-                [
+                [   'label'=> 'Дата создания',
                     'attribute' => 'deadline',
                     'format' => 'raw',
                     'value' => function ($model) {
@@ -62,16 +62,16 @@ $this->params['breadcrums'][] = $this->title;
                             . ' в ' . DateTimeCpuHelper::getTimeChpu($model->deadline);
                     }
                 ],
-                ['class' => \yii\grid\ActionColumn::class,
-                    'template' => '{update} {delete}',
-                    'buttons' => [
-                        'update' => function ($url,$model) {
-                            return Html::a(
-                                '<span class="glyphicon glyphicon-edit"></span>',
-                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal']);
-                        },
-                    ]
-                ],
+//                ['class' => \yii\grid\ActionColumn::class,
+//                    'template' => '{update} {delete}',
+//                    'buttons' => [
+//                        'update' => function ($url,$model) {
+//                            return Html::a(
+//                                '<span class="glyphicon glyphicon-edit"></span>',
+//                                $url, ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать', 'data-target' => '#modal']);
+//                        },
+//                    ]
+//                ],
             ],
         ]);?>
     </div>
