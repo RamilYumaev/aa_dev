@@ -7,7 +7,7 @@ use common\sending\helpers\SendingHelper;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\sending\forms\DictSendingTemplateForm  */
+/* @var $model common\sending\forms\DictSendingTemplateCreateForm  */
 /* @var $form yii\widgets\ActiveForm */
 
 echo 'Для составления шаблона письма, Вы можете использовать следующие автопостановки:'.'<br/>';
@@ -27,13 +27,11 @@ echo '{ссылка на приглашение}'.'<br/>';
     'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
     ]);?>
     <?= $form->field($model, 'text')->textarea(['row' => 6]); ?>
+    <?= $form->field($model, 'check_status')->checkbox(); ?>
+    <?= $form->field($model, 'base_type')->dropDownList(SendingHelper::typeTemplateList());?>
+    <?= $form->field($model, 'type')->dropDownList(SendingHelper::typeTemplateList());?>
+    <?= $form->field($model, 'type_sending')->dropDownList(SendingHelper::typeTemplateList());?>
 
-    <?php if (Yii::$app->user->can('admin_faculty')) : ?>
-
-       <?= $form->field($model, 'check_status')->checkbox(); ?>
-       <?= $form->field($model, 'base_type')->dropDownList(SendingHelper::typeTemplateList());?>
-
-    <?php endif; ?>
 <div class="form-group">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
 </div>

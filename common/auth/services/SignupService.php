@@ -4,6 +4,7 @@
 namespace common\auth\services;
 
 use common\auth\forms\UserEmailForm;
+use common\sending\helpers\DictSendingTemplateHelper;
 use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
@@ -91,28 +92,16 @@ class SignupService
     }
 
     public function confirmOlympic($token, $olympic) {
+        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)) == null) {
+            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
+        }
         $user = $this->confirm($token);
         $olympic = $this->olimpicListRepository->get($olympic);
         if ($olympic->isFormOfPassageInternal()) {
-            $this->send($user, $olympic);
-        }
-    }
-
-    private function send(User $user, OlimpicList $olympic) {
-        $exit = $this->deliveryStatusRepository->
-        getExits($user->id, SendingDeliveryStatusHelper::TYPE_OLYMPIC, $olympic->id,
-            SendingDeliveryStatusHelper::TYPE_SEND_INVITATION);
-        if (!$exit && $user->email) {
-            try {
-                $hash = \Yii::$app->security->generateRandomString() . '_' . time();
-                $this->settingEmail($user, $olympic, $hash)->send();
-                $delivery = SendingDeliveryStatus::create(null, $user->id, $hash,
-                    SendingDeliveryStatusHelper::TYPE_OLYMPIC,
-                    SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, $olympic->id);
-                $this->deliveryStatusRepository->save($delivery);
-            } catch (\Swift_TransportException $e) {
-                \Yii::$app->session->setFlash('error', $e->getMessage());
-            }
+            $this->send($user, $olympic, $this->deliveryStatusRepository,
+                SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, null, $sendingTemplate);
         }
     }
 

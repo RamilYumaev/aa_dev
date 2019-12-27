@@ -4,6 +4,7 @@ namespace common\sending\models;
 
 use common\sending\forms\SendingCreateForm;
 use common\sending\forms\SendingEditForm;
+use common\sending\helpers\SendingHelper;
 use common\sending\models\queries\SendingQuery;
 use Yii;
 
@@ -35,11 +36,24 @@ class Sending extends \yii\db\ActiveRecord
         $sending->value = $form->value;
         $sending->sending_category_id = $form->sending_category_id;
         $sending->type_id = $form->type_id;
-        $sending->user_id = $form->user_id;
+        $sending->user_id = Yii::$app->user->identity->getId();
         $sending->template_id = $form->template_id;
         $sending->poll_id = $form->poll_id;
         $sending->deadline = $form->deadline;
         $sending->kind_sending_id = $form->kind_sending_id;
+        return $sending;
+    }
+
+    public static function createDefault($name, $type, $value, $typeSending, $template_id) {
+        $sending = new static();
+        $sending->status_id = SendingHelper::CONFIRM;
+        $sending->name = $name;
+        $sending->template_id = $template_id;
+        $sending->type_sending = $typeSending;
+        $sending->type_id = $type;
+        $sending->deadline = date("Y-m-d H:i:s");
+        $sending->value = $value;
+        $sending->user_id = Yii::$app->user->identity->getId();
         return $sending;
     }
 
@@ -50,7 +64,7 @@ class Sending extends \yii\db\ActiveRecord
         $this->value = $form->value;
         $this->sending_category_id = $form->sending_category_id;
         $this->type_id = $form->type_id;
-        $this->user_id = $form->user_id;
+        $this->user_id = Yii::$app->user->identity->getId();
         $this->template_id = $form->template_id;
         $this->poll_id = $form->poll_id;
         $this->deadline = $form->deadline;

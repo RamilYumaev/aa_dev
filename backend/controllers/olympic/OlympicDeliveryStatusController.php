@@ -1,31 +1,28 @@
 <?php
 namespace backend\controllers\olympic;
 
-use common\sending\helpers\SendingDeliveryStatusHelper;
-use common\sending\models\SendingDeliveryStatus;
+use common\sending\actions\SendingDeliveryStatusAction;
+use common\sending\actions\SendingDiplomaAction;
 use olympic\models\OlimpicList;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class OlympicDeliveryStatusController extends Controller
 {
     /**
-     * @param integer $id
-     * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionIndex($olympic_id, $typeSending)
+
+    public function actions()
     {
-        $olympic = $this->findModel($olympic_id);
-        $model =  SendingDeliveryStatus::find()->type(SendingDeliveryStatusHelper::TYPE_OLYMPIC)
-            ->typeSending($typeSending)->value($olympic->id);
-        $dataProvider = new ActiveDataProvider(['query' => $model, 'pagination' => false]);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'olympic' => $olympic,
-            'type' => $typeSending
-        ]);
+       return [
+           'index' => [
+               'class'=>SendingDeliveryStatusAction::class,
+               'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id'))],
+           'send-diploma' => [
+               'class'=>SendingDiplomaAction::class,
+               'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+           ]];
     }
 
     /**

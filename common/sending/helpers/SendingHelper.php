@@ -1,7 +1,11 @@
 <?php
 namespace common\sending\helpers;
 use common\auth\models\User;
+use common\sending\models\DictSendingTemplate;
+use common\sending\models\Sending;
 use olympic\helpers\auth\ProfileHelper;
+use olympic\helpers\DiplomaHelper;
+use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\OlimpicList;
 use yii\helpers\ArrayHelper;
 
@@ -63,29 +67,28 @@ class SendingHelper
         ];
     }
 
-    public static function textOlympic () {
-       return 'Здравствуйте, {имя отчество получателя}!
-        Приглашаем Вас принять участие в очном туре {название олимпиады в родительном падеже} {дата и время очного тура олимпиады}, 
-        который будет проходить по адресу: {адрес проведения очного тура}. \r\n​
-        Ваше персональное приглашение доступно по ссылке: {ссылка на приглашение}\r\n\r\n 
-        С уважением, \r\nпредседатель оргкомитета {название олимпиады в родительном падеже}\r\n {Ф.И.О. председателя олимпиады}';
-    }
-
-    public static function htmlOlympic () {
-        return '<h1>Здравствуйте,&nbsp;{имя отчество получателя}!</h1>
-        <p>Приглашаем Вас принять участие в очном туре {дата и время очного тура олимпиады}, который будет проходить по адресу: {адрес проведения очного тура}.<br />
-        Ваше персональное приглашение доступно по ссылке: <a href="{ссылка на приглашение}">{ссылка на приглашение}</a></p>
-        <p style="text-align:right">С уважением,<br />
-        председатель оргкомитета {название олимпиады в родительном падеже}<br />
-        {Ф.И.О. председателя олимпиады}</p>';
-    }
-
-    public static function textEmail(User $user, OlimpicList $olympic, $hash, $type) {
+    public static function textOlympicEmail(User $user, OlimpicList $olympic, $hash, $type,
+                                            DictSendingTemplate $sendingTemplate, $type_sending) {
         $array = $olympic->replaceLabelsFromSending();
         array_unshift($array, ProfileHelper::profileName($user->id));
-        array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
-        $template = $type == self::TYPE_HTML ? self::htmlOlympic() : self::textOlympic();
+        $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
+        switch ($type_sending) {
+            case SendingDeliveryStatusHelper::TYPE_SEND_INVITATION:
+                array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
+                break;
+            case SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA :
+                $diploma = DiplomaHelper::userDiploma($user->id, $olympic->id);
+                $reward = PersonalPresenceAttemptHelper::nameOfPlacesValueOne($diploma->reward_status_id);
+                array_push($array, $reward ?? "",  \yii\helpers\Url::to('@frontendInfo/diploma?id='.$diploma->id.'&hash='.$hash, true), "");
+                break;
+        }
         return str_replace(self::templatesLabel(), $array, $template);
     }
+
+    public static function sendingData($type, $typeSending, $value)
+    {
+        return Sending::find()->type($type)->typeSending($typeSending)->value($value)->exists();
+    }
+
 
 }

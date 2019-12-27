@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Html;
+use common\sending\helpers\SendingHelper;
+use common\sending\helpers\SendingDeliveryStatusHelper;
 
 /* @var $this \yii\web\View */
 /* @var $olympic \olympic\models\OlimpicList */
@@ -27,6 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::end(); ?>
         <?php endif; ?>
     <?php else: ?>
+        <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+            SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку призеров олимпиады",
+            ['olympic/olympic-delivery-status/send-diploma', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
+            Html::a("Просмотр статусов",
+            ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
+                'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA], ['class'=>'btn btn-info'])?>
         <?= \backend\widgets\result\CountAttemptWidget::widget(['olympic' => $olympic->id]); ?>
         <?= \backend\widgets\result\ResultAttemptWidget::widget(['olympic' => $olympic]) ?>
     <?php endif; ?>
