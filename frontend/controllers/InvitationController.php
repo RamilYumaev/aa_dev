@@ -28,7 +28,6 @@ class InvitationController extends Controller
         $model =  SendingDeliveryStatus::find()
             ->hash($hash)
             ->type(SendingDeliveryStatusHelper::TYPE_OLYMPIC)
-            ->typeSending(SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)
             ->one();
         if (!$model) {
             throw new HttpException('404', 'Такой страницы не существует');

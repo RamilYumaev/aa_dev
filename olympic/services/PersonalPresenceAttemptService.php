@@ -17,6 +17,7 @@ use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlimpicNominationRepository;
 use olympic\repositories\PersonalPresenceAttemptRepository;
 use testing\forms\AddFinalMarkTableForm;
+use testing\models\TestAttempt;
 
 class PersonalPresenceAttemptService
 {
@@ -75,26 +76,35 @@ class PersonalPresenceAttemptService
 
     public function create($olympic_id) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
-        if ($olympic->isFormOfPassageInternal()) {
-            $uo = UserOlimpiads::find()->select('user_id')->andWhere(['olympiads_id' => $olympic->id])->all();
-            if (!$uo) {
-                throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
-            }
-            foreach ($uo as $u) {
-                if ($this->repository->getUser($olympic->id, $u->user_id)){
-                    continue;
+        if ($olympic->isTimeStartTour()) {
+            if ($olympic->isFormOfPassageInternal()) {
+                $uo = UserOlimpiads::find()->select('user_id')->andWhere(['olympiads_id' => $olympic->id])->all();
+                if (!$uo) {
+                    throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
                 }
-                $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
-              $this->repository->save($attempt);
+                foreach ($uo as $u) {
+                    if ($this->repository->getUser($olympic->id, $u->user_id)){
+                        continue;
+                    }
+                    $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
+                  $this->repository->save($attempt);
+                }
+            }
+            else if ($olympic->isFormOfPassageDistantInternal()) {
+                $uo =  TestAttempt::find()->inTestIdOlympic($olympic)->orderByMark()->all();
+
+                if (!$uo) {
+                    throw new \DomainException("Ведомость не может создана, так как нет ни одного участника");
+                }
+                foreach ($uo as $u) {
+                    if ($this->repository->getUser($olympic->id, $u->user_id)){
+                        continue;
+                    }
+                    $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
+                    $this->repository->save($attempt);
+                }
             }
         }
-//        else if ($olympic->isFormOfPassageDistantInternal) {
-//            $uo =  TestAttempt::find()->isNotNullStatus()->inTestIdOlympic($olympic)->all();
-//            foreach ($uo as $u) {
-//                $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
-//                $this->repository->save($attempt);
-//            }
-//        }
         else {
             throw new \DomainException("Для данной олимпиады очная ведомость непредусмотрена!");
         }

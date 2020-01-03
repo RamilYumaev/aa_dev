@@ -20,9 +20,9 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
             ->orderBy(['tta.mark' => SORT_DESC]);
     }
 
-    public function isNotNullStatus()
+    public function isNotNullMark()
     {
-      return  $this->andWhere(['<>', 'status_id', 0]);
+      return  $this->andWhere(['<>', 'mark', null]);
     }
 
     public function inTestIdOlympic(OlimpicList $olimpicList)

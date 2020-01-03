@@ -73,13 +73,13 @@ class SendingHelper
         array_unshift($array, ProfileHelper::profileName($user->id));
         $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
         switch ($type_sending) {
-            case SendingDeliveryStatusHelper::TYPE_SEND_INVITATION:
-                array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
-                break;
             case SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA :
                 $diploma = DiplomaHelper::userDiploma($user->id, $olympic->id);
                 $reward = PersonalPresenceAttemptHelper::nameOfPlacesValueOne($diploma->reward_status_id);
                 array_push($array, $reward ?? "",  \yii\helpers\Url::to('@frontendInfo/diploma?id='.$diploma->id.'&hash='.$hash, true), "");
+                break;
+            default:
+                array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
                 break;
         }
         return str_replace(self::templatesLabel(), $array, $template);
