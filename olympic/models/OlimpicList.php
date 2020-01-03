@@ -355,5 +355,10 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $this->current_status == OlympicHelper::OCH_FINISH;
     }
 
+    public function isTimeStartTour () {
+        return $this->date_time_start_tour ? true : false;
+    }
+
+
 
 }

@@ -17,7 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <?php if(!$olympic->isResultEndTour()) :?>
-       <?php if(!$olympic->isFormOfPassageDistantInternal()) :?>
+       <?php if($olympic->isFormOfPassageDistantInternal()) :?>
+            <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR, $olympic->id) ? Html::a("Запустить рассылку приглашений",
+                ['olympic/olympic-delivery-status/send-invitation', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
+                Html::a("Просмотр статусов",
+                    ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
+                        'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR], ['class'=>'btn btn-info'])?>
+        <?php endif; ?>
     <?= Html::a("Завершить и опубликовать результаты",
         ['olympic/personal-presence-attempt/finish', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info'])?>
     <?= Html::a("Поставить/редактировать оценки присутствующим на очном туре",
@@ -27,15 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= \backend\widgets\result\CountAttemptWidget::widget(['olympic' => $olympic->id]); ?>
     <?= \backend\widgets\result\ResultAttemptWidget::widget(['olympic' => $olympic]) ?>
     <?php \yii\widgets\Pjax::end(); ?>
-        <?php endif; ?>
     <?php else: ?>
+        <?php if(!$olympic->isResultEndTour()) :?>
         <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
             SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку призеров олимпиады",
             ['olympic/olympic-delivery-status/send-diploma', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
             Html::a("Просмотр статусов",
             ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                 'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA], ['class'=>'btn btn-info'])?>
+        <?php endif; ?>
         <?= \backend\widgets\result\CountAttemptWidget::widget(['olympic' => $olympic->id]); ?>
         <?= \backend\widgets\result\ResultAttemptWidget::widget(['olympic' => $olympic]) ?>
+            'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA], ['class'=>'btn btn-info'])?>
+
     <?php endif; ?>
 </div>

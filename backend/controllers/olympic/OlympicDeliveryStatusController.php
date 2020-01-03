@@ -2,7 +2,8 @@
 namespace backend\controllers\olympic;
 
 use common\sending\actions\SendingDeliveryStatusAction;
-use common\sending\actions\SendingDiplomaAction;
+use common\sending\actions\SendingAction;
+use common\sending\helpers\SendingDeliveryStatusHelper;
 use olympic\models\OlimpicList;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -20,8 +21,14 @@ class OlympicDeliveryStatusController extends Controller
                'class'=>SendingDeliveryStatusAction::class,
                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id'))],
            'send-diploma' => [
-               'class'=>SendingDiplomaAction::class,
+               'class'=>SendingAction::class,
                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+               'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA
+           ],
+           'send-invitation' => [
+               'class'=>SendingAction::class,
+               'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+               'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR
            ]];
     }
 

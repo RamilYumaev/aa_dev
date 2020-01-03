@@ -4,6 +4,8 @@
 namespace common\sending\models\queries;
 
 
+use common\sending\helpers\SendingDeliveryStatusHelper;
+
 class SendingDeliveryStatusQuery extends \yii\db\ActiveQuery
 {
     /**

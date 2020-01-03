@@ -12,7 +12,7 @@ class SendingDeliveryStatusHelper
 
     const TYPE_SEND_INVITATION = 1;
     const TYPE_SEND_DIPLOMA = 2;
-    const TYPE_SEND_CONFIRM = 3;
+    const TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR = 3;
 
     const TYPE_OLYMPIC = 1;
     const TYPE_MASTER_CLASS = 3;
@@ -24,7 +24,7 @@ class SendingDeliveryStatusHelper
         return [
             self::TYPE_SEND_INVITATION => 'Приглашение',
             self::TYPE_SEND_DIPLOMA => "Диплом/сертификат",
-            self::TYPE_SEND_CONFIRM => "Подтвержение"
+            self::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR => "Приглашение после прохождения заочного тура"
         ];
     }
 
@@ -52,12 +52,12 @@ class SendingDeliveryStatusHelper
         ];
     }
 
-    public static function deliveryStatusName($key): string
+    public static function deliveryStatusName($key): ?string
     {
         return ArrayHelper::getValue(self::deliveryStatusList(), $key);
     }
 
-    public static function countInvitation($olympic_id): string
+    public static function countInvitation($olympic_id): ?string
     {
         return SendingDeliveryStatus::find()->typeSending(self::TYPE_SEND_INVITATION)->type(self::TYPE_OLYMPIC)->value($olympic_id)->count();
     }

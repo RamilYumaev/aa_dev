@@ -38,7 +38,7 @@ use yii\helpers\Html;
                     $url = 'olympic/personal-presence-attempt'. ($model->isResultEndTour() ? '/index' : '/create') ;
                     return Html::a('Участники', [ 'olympic/user-olympic/index',
                             'olympic_id' => $model->id], ['class' => 'btn btn-success btn-block'])."</br>".
-                        (!$model->isDistanceTour ? Html::a('Ведомость', [
+                        ($model->isTimeStartTour() ? Html::a('Ведомость', [
                             $url,
                             'olympic_id' => $model->id], ['class' => 'btn btn-warning btn-block'])."</br>":"").
                         ( !\common\auth\helpers\UserHelper::isManagerOlympic() ?
