@@ -71,7 +71,8 @@ class PersonalPresenceAttemptController extends Controller
                         Yii::$app->session->setFlash('error', $e->getMessage());
                     }
                 }
-                return $this->render('@backend/views/olympic/personal-presence-attempt/add-final-mark', ['models' => $forms]);
+                return $this->render('@backend/views/olympic/personal-presence-attempt/add-final-mark',
+                    ['models' => $forms, 'olympic' => $olympic]);
             }
             else {
                 Yii::$app->session->setFlash('error', 'Вы не можете добавить оценки, так как нет ни одного присутствующего на очном туре');

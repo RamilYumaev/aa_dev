@@ -10,6 +10,8 @@ use yii\helpers\ArrayHelper;
 
 class OlympicListHelper
 {
+
+
     public static function olympicList(): array
     {
         return ArrayHelper::map(OlimpicList::find()->all(), "id", 'name');

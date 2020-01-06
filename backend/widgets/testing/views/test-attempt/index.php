@@ -14,10 +14,9 @@ use yii\helpers\Html;
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute' => 'user_id',
-                  'value' => function ($model) {
-                    return \olympic\helpers\auth\ProfileHelper::profileFullName($model->user_id);
-                  }],
+                ['attribute' => "ФИО участника",
+                    'class' => \backend\widgets\testing\gird\ButtonResultAnswerAttemptTestColumn::class,
+                ],
                 'start:datetime',
                 'end:datetime',
                 'mark',

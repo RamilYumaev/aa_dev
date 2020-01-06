@@ -26,6 +26,13 @@ class TestAttemptRepository
         }
     }
 
+    public function getNomination($test_id, $nomination): void
+    {
+        if (TestAttempt::find()->test($test_id)->andWhere(['nomination_id'=> $nomination])->exists()) {
+            throw new \DomainException('Такая наминация есть у другого участника.');
+        }
+    }
+
     public function remove(TestAttempt $model): void
     {
         if (!$model->delete()) {

@@ -54,6 +54,11 @@ class OlympicHelper
     const REG_STATUS = 0;
     const ZAOCH_FINISH = 1;
     const OCH_FINISH = 2;
+    const NO_FINISH = 4;
+    const APPELLATION = 3;
+
+    const COUNT_USER_OCH = 10;
+    const COUNT_USER_ZAOCH = 25;
 
     const ACTIVE = 0;
     const DRAFT = 1;
