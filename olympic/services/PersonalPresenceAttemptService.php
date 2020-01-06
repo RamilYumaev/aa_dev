@@ -3,13 +3,10 @@
 
 namespace olympic\services;
 
-use Mpdf\Tag\P;
 use olympic\helpers\OlympicHelper;
 use olympic\helpers\OlympicNominationHelper;
 use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\Diploma;
-use olympic\models\OlimpicNomination;
-use olympic\models\Olympic;
 use olympic\models\PersonalPresenceAttempt;
 use olympic\models\UserOlimpiads;
 use olympic\repositories\DiplomaRepository;
@@ -78,11 +75,15 @@ class PersonalPresenceAttemptService
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         if ($olympic->isTimeStartTour()) {
             if ($olympic->isFormOfPassageInternal()) {
-                $uo = UserOlimpiads::find()->select('user_id')->andWhere(['olympiads_id' => $olympic->id])->all();
+                $uo = UserOlimpiads::find()->select('user_id')->andWhere(['olympiads_id' => $olympic->id]);
+                $uoClone = clone $uo;
                 if (!$uo) {
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
                 }
-                foreach ($uo as $u) {
+                if ($uoClone->count() < OlympicHelper::COUNT_USER_OCH) {
+                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы меньше ". OlympicHelper::COUNT_USER);
+                }
+                foreach ($uo->all() as $u) {
                     if ($this->repository->getUser($olympic->id, $u->user_id)){
                         continue;
                     }
@@ -91,18 +92,40 @@ class PersonalPresenceAttemptService
                 }
             }
             else if ($olympic->isFormOfPassageDistantInternal()) {
-                $uo =  TestAttempt::find()->inTestIdOlympic($olympic)->orderByMark()->all();
 
+                $uo =  TestAttempt::find()->inTestIdOlympic($olympic)->isNotNullMark()->orderByMark();
+                $uoClone = clone $uo;
                 if (!$uo) {
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника");
                 }
-                foreach ($uo as $u) {
+
+//                if ($uoClone->count() < OlympicHelper::COUNT_USER_ZAOCH) {
+//                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы, прошедших заочного тура,  меньше ". OlympicHelper::COUNT_USER_ZAOCH);
+//                }
+
+                if (!$olympic->isPercentToCalculate()) {
+                    throw new \DomainException('На данной олимпиаде отсутвует "Процент участников в следующий тур".
+                     Обратитесь к администраторам портала');
+                }
+
+                $countUser = round(($uoClone->count()*$olympic->isPercentToCalculate())/100);
+
+                foreach ($uo->all() as $key => $u) {
+                    $key++;
                     if ($this->repository->getUser($olympic->id, $u->user_id)){
                         continue;
                     }
                     $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
                     $this->repository->save($attempt);
+
+                    if ($key == $countUser) {
+                        break;
+                    }
+
                 }
+
+                $olympic->current_status = OlympicHelper::ZAOCH_FINISH;
+                $this->olimpicListRepository->save($olympic);
             }
         }
         else {

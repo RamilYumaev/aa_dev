@@ -3,7 +3,9 @@ namespace testing\models\queries;
 
 use common\auth\models\UserSchool;
 use olympic\models\OlimpicList;
+use olympic\models\PersonalPresenceAttempt;
 use testing\helpers\TestHelper;
+use testing\models\TestAttempt;
 
 class TestAttemptQuery  extends  \yii\db\ActiveQuery
 {
@@ -22,7 +24,7 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
 
     public function isNotNullMark()
     {
-      return  $this->andWhere(['<>', 'mark', null]);
+        return $this->andWhere(['is not', TestAttempt::tableName().'.mark', null]);
     }
 
     public function inTestIdOlympic(OlimpicList $olimpicList)

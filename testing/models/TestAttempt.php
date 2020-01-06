@@ -4,16 +4,14 @@
 namespace testing\models;
 
 
+use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\OlimpicList;
+use testing\helpers\TestAttemptHelper;
 use testing\models\queries\TestAttemptQuery;
 use yii\db\ActiveRecord;
 
 class TestAttempt extends ActiveRecord
 {
-    const GOLD = 1;
-    const SILVER = 2;
-    const BRONZE = 3;
-    const MEMBER = 4;
 
     public static function tableName()
     {
@@ -27,6 +25,17 @@ class TestAttempt extends ActiveRecord
         $testAtt->start = date("Y-m-d H:i:s" );
         $testAtt->end = self::time($olimpicList);
         return $testAtt;
+    }
+
+    public function setRewardStatus($status)
+    {
+        $this->reward_status = $status;
+    }
+
+
+    public function setNomination($nomination)
+    {
+        $this->nomination_id = $nomination;
     }
 
     private static function time(OlimpicList $olimpicList)
@@ -63,5 +72,38 @@ class TestAttempt extends ActiveRecord
     public static function find(): TestAttemptQuery
     {
         return new  TestAttemptQuery(static::class);
+    }
+
+    public function  isRewardStatusNull() {
+        return $this->reward_status === null;
+    }
+
+    public function  isMarkNull() {
+        return $this->mark == null;
+    }
+
+    public function  isBallInMark () {
+        return $this->mark > 0;
+    }
+
+    public function  isRewardGold() {
+        return $this->reward_status == TestAttemptHelper::GOLD;
+    }
+
+    public function  isRewardSilver() {
+        return $this->reward_status == TestAttemptHelper::SILVER;
+    }
+
+    public function  isRewardBronze() {
+        return $this->reward_status == TestAttemptHelper::BRONZE;
+    }
+
+    public function  isRewardMember() {
+        return $this->reward_status == TestAttemptHelper::MEMBER;
+    }
+
+    public function isNullNomination()
+    {
+        return $this->nomination_id === null;
     }
 }

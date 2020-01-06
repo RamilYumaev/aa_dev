@@ -3,10 +3,10 @@
 
 namespace backend\controllers\testing;
 
+use testing\actions\traits\TestAttemptActionsTrait;
 use testing\models\TestAttempt;
 use testing\repositories\TestRepository;
 use testing\services\TestAndQuestionsService;
-use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -14,6 +14,8 @@ use yii\web\NotFoundHttpException;
 
 class TestAttemptController extends Controller
 {
+    use TestAttemptActionsTrait;
+
     private $service;
     private $testRepository;
 

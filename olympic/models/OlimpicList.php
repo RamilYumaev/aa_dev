@@ -344,11 +344,14 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $this->form_of_passage == OlympicHelper::ZAOCHNO_ZAOCHNAYA;
     }
 
-
     public function isResultDistanceTour() {
        return $this->current_status &&
         ($this->isFormOfPassageDistant()
             || $this->isFormOfPassageDistantInternal());
+    }
+
+    public function isRegStatus() {
+        return $this->current_status == OlympicHelper::REG_STATUS;
     }
 
     public function isResultEndTour() {
@@ -357,6 +360,10 @@ class OlimpicList extends \yii\db\ActiveRecord
 
     public function isTimeStartTour () {
         return $this->date_time_start_tour ? true : false;
+    }
+
+    public function  isPercentToCalculate() {
+       return $this->percent_to_calculate;
     }
 
 

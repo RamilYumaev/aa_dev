@@ -10,7 +10,7 @@ $userName = ProfileHelper::profileName($model->user_id);
 $this->title = 'Приглашение. ' . $userName;
 
 $generator = new Picqer\Barcode\BarcodeGeneratorSVG();
-$code = $model->id . '--' . \date('Y-m-d', strtotime($olympic->date_time_start_tour));
+$code = $model->user_id. '-'.$model->type .'-'.$model->value;
 ?>
 <div class="container">
     <div class="printDiv">
