@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= \backend\widgets\result\ResultAttemptWidget::widget(['olympic' => $olympic]) ?>
     <?php \yii\widgets\Pjax::end(); ?>
     <?php else: ?>
-        <?php if(!$olympic->isResultEndTour()) :?>
+        <?php if($olympic->isResultEndTour()) :?>
             <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
         <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
             SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку призеров олимпиады",

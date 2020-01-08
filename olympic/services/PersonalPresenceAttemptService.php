@@ -43,8 +43,14 @@ class PersonalPresenceAttemptService
     public function finish($olympic_id) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         if(!$this->isCorrectCountPresenceStatus($olympic->id)) {
-            throw new \DomainException("Поставьте участникам олимпиады явку|неявку");
+            throw new \DomainException("Не всем учатсникам поставлены явки/неявки");
         }
+        if($this->countIncomingPresenceTour($olympic_id))
+        {
+            throw  new \DomainException("Количество присутствующих участников меньше 10. Если это действительно так, 
+            то сообщите, о несостоявшейся олимпиаде аднимистраторам портала");
+        }
+
         elseif(!$this->isCorrectCountPresenceStatusAndIsMark($olympic->id)) {
             throw new \DomainException("Поставьте оценки участникам");
         }
@@ -52,10 +58,10 @@ class PersonalPresenceAttemptService
             throw new \DomainException("Поставьте все призовые места участникам");
         }
         elseif(!$this->isMaxMarkOnFirstPlace($olympic->id)) {
-            throw new \DomainException("Участник, который получил максимальный балл, не является победителем");
+            throw new \DomainException("Участник, который получил максимальный балл, не указан как победитель");
         }
         elseif(!$this->isCorrectCountNomination($olympic->id)) {
-            throw new \DomainException("Отметьте номминации");
+            throw new \DomainException("Отметьте номинации");
         }
         else {
             $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
@@ -186,6 +192,12 @@ class PersonalPresenceAttemptService
 
     private function countMarkNotNull($olympic_id) {
         return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()->andWhere(["IS NOT",'mark', null])->count();
+    }
+
+    private function countIncomingPresenceTour($olympic_id)
+    {
+        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()->count() < OlympicHelper::COUNT_USER_OCH;
+
     }
 
     private function inRewardStatus($olympic_id, $status) {
