@@ -81,7 +81,7 @@ class PersonalPresenceAttemptService
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
                 }
                 if ($uoClone->count() < OlympicHelper::COUNT_USER_OCH) {
-                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы меньше ". OlympicHelper::COUNT_USER);
+                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы меньше ". OlympicHelper::COUNT_USER_OCH);
                 }
                 foreach ($uo->all() as $u) {
                     if ($this->repository->getUser($olympic->id, $u->user_id)){
