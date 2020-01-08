@@ -21,7 +21,7 @@ trait MailTrait
             ->compose($configTemplate, $data)
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
             ->setTo($user->email)
-            ->setSubject('Аккуант зарегистрирован!' . Yii::$app->name)
+            ->setSubject('Аккаунт зарегистрирован!' . Yii::$app->name)
             ->send();
     }
 

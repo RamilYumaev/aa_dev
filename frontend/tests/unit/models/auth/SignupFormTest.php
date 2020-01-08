@@ -55,7 +55,7 @@ class SignupFormTest extends \Codeception\Test\Unit
         expect($mail)->isInstanceOf('yii\mail\MessageInterface');
         $this->assertArrayHasKey('some_email@example.com', $mail->getTo());
         $this->assertArrayHasKey(\Yii::$app->params['supportEmail'], $mail->getFrom());
-        $this->assertEquals($mail->getSubject(), 'Аккуант зарегистрирован!' . \Yii::$app->name);
+        $this->assertEquals($mail->getSubject(), 'Аккаунт зарегистрирован!' . \Yii::$app->name);
         expect($mail->toString())->stringContainsString($user->verification_token);
     }
 
