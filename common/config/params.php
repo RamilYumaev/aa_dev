@@ -6,6 +6,6 @@ return [
     'senderName' => 'Example.com mailer',
     'user.passwordResetTokenExpire' => 3600,
     'user.rememberMeDuration' => 3600 * 24 * 30,
-    'staticHostInfo' => 'http://127.0.0.1:8080/',
-    'staticPath' =>'@frontend/web/img',
+    'staticHostInfo' => require __DIR__ . '/hostname-local.php',
+    'staticPath' =>'@frontend/web',
 ];
