@@ -81,7 +81,7 @@ class PersonalPresenceAttemptService
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника олимпиады");
                 }
                 if ($uoClone->count() < OlympicHelper::COUNT_USER_OCH) {
-                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы меньше ". OlympicHelper::COUNT_USER);
+                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы меньше ". OlympicHelper::COUNT_USER_OCH);
                 }
                 foreach ($uo->all() as $u) {
                     if ($this->repository->getUser($olympic->id, $u->user_id)){
@@ -92,16 +92,15 @@ class PersonalPresenceAttemptService
                 }
             }
             else if ($olympic->isFormOfPassageDistantInternal()) {
-
                 $uo =  TestAttempt::find()->inTestIdOlympic($olympic)->isNotNullMark()->orderByMark();
                 $uoClone = clone $uo;
                 if (!$uo) {
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника");
                 }
 
-//                if ($uoClone->count() < OlympicHelper::COUNT_USER_ZAOCH) {
-//                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы, прошедших заочного тура,  меньше ". OlympicHelper::COUNT_USER_ZAOCH);
-//                }
+                if ($uoClone->count() < OlympicHelper::COUNT_USER_ZAOCH) {
+                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы, прошедших заочного тура,  меньше ". OlympicHelper::COUNT_USER_ZAOCH);
+                }
 
                 if (!$olympic->isPercentToCalculate()) {
                     throw new \DomainException('На данной олимпиаде отсутвует "Процент участников в следующий тур".
@@ -110,17 +109,12 @@ class PersonalPresenceAttemptService
 
                 $countUser = round(($uoClone->count()*$olympic->isPercentToCalculate())/100);
 
-                foreach ($uo->all() as $key => $u) {
-                    $key++;
+                foreach ($uo->limit($countUser)->all() as $u) {
                     if ($this->repository->getUser($olympic->id, $u->user_id)){
                         continue;
                     }
                     $attempt = PersonalPresenceAttempt::defaultCreate($u->user_id, $olympic->id);
                     $this->repository->save($attempt);
-
-                    if ($key == $countUser) {
-                        break;
-                    }
 
                 }
 
