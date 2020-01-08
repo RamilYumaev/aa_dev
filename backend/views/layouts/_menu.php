@@ -63,6 +63,13 @@ array_merge(
                 ['label' => 'Перечень ', 'url' => '/olympic/olympic'],
       //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
             ])]] : []),
+    [['label' => 'Рассылки', 'url' => '#',
+        'items' => array_merge([
+            ['label' => 'Перечень рассылок ', 'url' => '/sending/sending'],
+            ['label' => 'Перечень email ', 'url' => '/auth/setting-email'],
+            ['label' => 'Шаблоны для рассылок ', 'url' => '/sending/dict-sending-template'],
+            //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
+        ])]],
 
     (Yii::$app->user->can('manager') ?
         [['label' => 'Дни открытых дверей', 'url' => '/dod/dod/',
