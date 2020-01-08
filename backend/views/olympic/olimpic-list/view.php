@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         'name',
                         'year',
-                        ['label' => "Количество отпрваленых приглашений",
+                        ['label' => "Приглашения на очный тур",
                             'format'=>'raw',
                             'value' => Html::a(\common\sending\helpers\SendingDeliveryStatusHelper::countInvitation($olympic->id),
                                 ['/olympic/olympic-delivery-status/index', 'olympic_id'=>$olympic->id,
