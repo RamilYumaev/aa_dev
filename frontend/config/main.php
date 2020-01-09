@@ -22,8 +22,9 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\auth\Identity',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+//            'enableAutoLogin' => true,
+//            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'authTimeout' => 60 * 60 * 24, //100 дней для примера
             'loginUrl' => ['auth/auth/login'],
         ],
         'authClientCollection' => [
