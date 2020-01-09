@@ -21,7 +21,7 @@ class EduYearHelper
     public  static function eduYearList(): array
     {
         $year = date("Y");
-        $year = $year - 2;
+        $year = $year - 3;
         $result = [];
         for ($i = 1; $i <= 4; $i++) {
             $b = $year+$i;
