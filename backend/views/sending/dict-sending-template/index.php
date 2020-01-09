@@ -6,7 +6,7 @@ use common\sending\helpers\DictSendingUserCategoryHelper;
 use common\sending\helpers\SendingHelper;
 use common\helpers\DateTimeCpuHelper;
 use backend\widgets\adminlte\grid\GridView;
-$this->title = 'Щаблоны для рассылок';
+$this->title = 'Шаблоны для рассылок';
 $this->params['breadcrums'][] = $this->title;
 
 \backend\assets\modal\ModalAsset::register($this);
