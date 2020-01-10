@@ -17,6 +17,7 @@ array_merge(
                 ['label' => 'Вступительные испытания', 'url' => '/dictionary/dict-discipline'],
                 ['label' => 'Конкурсные группы', 'url' => '/dictionary/dict-competitive-group'],
                 ['label' => 'Классы/курсы', 'url' => '/dictionary/dict-class'],
+                ['label' => 'Вебинары', 'url' => '/web-conference/index'],
 
 
             ])]] : []),

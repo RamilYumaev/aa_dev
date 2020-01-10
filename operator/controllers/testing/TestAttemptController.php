@@ -1,12 +1,12 @@
 <?php
 
-
 namespace operator\controllers\testing;
 
+use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
 use testing\models\TestAttempt;
 use testing\repositories\TestRepository;
-use testing\services\TestAndQuestionsService;
+use testing\services\TestAttemptService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -17,6 +17,7 @@ class TestAttemptController extends Controller
     use TestAttemptActionsTrait;
     private $service;
     private $testRepository;
+    private $olimpicListRepository;
 
     public function behaviors(): array
     {
@@ -30,18 +31,22 @@ class TestAttemptController extends Controller
         ];
     }
 
-    public function __construct($id, $module, TestAndQuestionsService $service, TestRepository $testRepository, $config = [])
+    public function __construct($id, $module, TestAttemptService $service, TestRepository $testRepository,
+                                OlimpicListRepository $olimpicListRepository, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->testRepository = $testRepository;
+        $this->olimpicListRepository = $olimpicListRepository;
     }
 
     public function actionIndex($test_id)
     {
-        return $this->render('@backend/views/testing/test-attempt/index', [
-                'test_id' => $test_id,
-            ]);
+        $test = $this->testRepository->get($test_id);
+        $olympic = $this->olimpicListRepository->get($test->olimpic_id);
+        return $this->render('index', [
+            'test' => $test,
+            'olympic' => $olympic]);
     }
 
     public function actionView($id)
@@ -53,6 +58,18 @@ class TestAttemptController extends Controller
         } catch (NotFoundHttpException $e) {
         }
     }
+
+    public function actionEndDistTour($test_id, $olympic_id)
+    {
+        try {
+            $this->service->finish($test_id, $olympic_id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
 
     public function actionDelete($id)

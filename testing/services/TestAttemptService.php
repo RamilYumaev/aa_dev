@@ -122,19 +122,27 @@ class TestAttemptService
         $this->testAttemptRepository->save($testAttempt);
     }
 
-    public function finish($olympic_id) {
+    public function finish($test_id, $olympic_id) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
-        if(!$this->isRewardStatus($olympic->id)) {
+        $test= $this->testRepository->get($test_id);
+        if ($this->countAttempt($test->id) < OlympicHelper::COUNT_USER_ZAOCH) {
+            throw  new \DomainException('Количество присутствующих участников меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так, 
+            то сообщите, о несостоявшейся олимпиаде аднимистраторам портала');
+        }
+        elseif(!$this->isRewardStatus($test->id)) {
             throw new \DomainException("Поставьте все призовые места участникам");
         }
-        elseif(!$this->isMaxMarkOnFirstPlace($olympic->id)) {
+        elseif(!$this->isCorrectCountNomination($test->id, $olympic->id)) {
+            throw new \DomainException("Отметьте номминации");
+        }
+        elseif(!$this->isMaxMarkOnFirstPlace($test->id)) {
             throw new \DomainException("Участник, который получил максимальный балл, не является победителем");
         }
-        elseif(!$this->isCorrectCountNomination($olympic->id)) {
+        elseif(!$this->isCorrectCountNomination($test->id, $olympic->id)) {
             throw new \DomainException("Отметьте номминации");
         }
         else {
-            $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
+            $rewardUser = TestAttempt::find()->test($test->id)->isNotNullRewards()->all();
             if (!Diploma::find()->olympic($olympic->id)->exists()) {
                 foreach ($rewardUser as $eachUser) {
                     $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
@@ -146,56 +154,42 @@ class TestAttemptService
         }
     }
 
-    private function countAttempt($olympic_id) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->count();
+    private function countAttempt($test_id) {
+        return TestAttempt::find()->test($test_id)->count();
     }
 
-    private function countPresenceAllStatus($olympic_id) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(["IS NOT",'presence_status', null])->count();
-    }
-
-    private function countPresenceStatus($olympic_id) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()->count();
-    }
-
-    private function countMarkNotNull($olympic_id) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()->andWhere(["IS NOT",'mark', null])->count();
-    }
-
-    private function inRewardStatus($olympic_id, $status) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()
+    private function inRewardStatus($test_id, $status) {
+        return TestAttempt::find()->test($test_id)
             ->andWhere(['reward_status'=> $status])->exists();
     }
 
-    private function isMaxMarkOnFirstPlace($olympic_id) {
-        $max = PersonalPresenceAttempt::find()->olympic($olympic_id)->max('mark');
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(['mark'=> $max])->one()->isRewardFirstPlace();
+    private function isMaxMarkOnFirstPlace($test_id) {
+        $max = TestAttempt::find()->test($test_id)->max('mark');
+        return TestAttempt::find()->test($test_id)->andWhere(['mark'=> $max])->one()->isRewardGold();
     }
 
-    private function isCorrectCountPresenceStatus($olympic_id) {
-        return $this->countAttempt($olympic_id) == $this->countPresenceAllStatus($olympic_id);
+    private function isRewardStatus($test_id) {
+        return $this->inRewardStatus($test_id, TestAttemptHelper::GOLD) &&
+            $this->inRewardStatus($test_id, TestAttemptHelper::SILVER)  &&
+            $this->inRewardStatus($test_id, TestAttemptHelper::BRONZE);
     }
 
-    private function isCorrectCountPresenceStatusAndIsMark($olympic_id) {
-        return $this->countPresenceStatus($olympic_id) == $this->countMarkNotNull($olympic_id);
+    private function isNomination($test_id) {
+        return $this->inRewardStatus($test_id, TestAttemptHelper::NOMINATION);
     }
 
-    private function isRewardStatus($olympic_id) {
-        return $this->countPresenceStatus($olympic_id) && $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::FIRST_PLACE) &&
-            $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::SECOND_PLACE)  &&
-            $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::THIRD_PLACE);
-    }
-
-    private function isNomination($olympic_id) {
-        return $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::NOMINATION);
-    }
-
-    private function isCorrectCountNomination($olympic_id) {
+    private function isCorrectCountNomination($test_id, $olympic_id) {
         $countNomination = OlympicNominationHelper::olympicNominationListInOlympic($olympic_id)->count();
-        return $countNomination == $this->countNominationId($olympic_id);
+        return $countNomination == $this->countNominationId($test_id);
     }
 
-    private function countNominationId($olympic_id) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(["IS NOT",'nomination_id', null])->count();
+    private function countNominationId($test_id) {
+        return TestAttempt::find()->test($test_id)->andWhere(["IS NOT",'nomination_id', null])->count();
+    }
+
+    public function remove($id)
+    {
+        $model = $this->testAttemptRepository->get($id);
+        $this->testAttemptRepository->remove($model);
     }
 }

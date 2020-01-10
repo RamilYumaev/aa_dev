@@ -366,6 +366,15 @@ class OlimpicList extends \yii\db\ActiveRecord
        return $this->percent_to_calculate;
     }
 
+    public function isAppeal() {
+       return $this->showing_works_and_appeal == OlympicHelper::SHOW_WORK_YES;
+    }
+
+    public function isStatusAppeal() {
+        return $this->current_status == OlympicHelper::APPELLATION;
+    }
+
+
 
 
 }
