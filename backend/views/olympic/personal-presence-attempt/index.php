@@ -7,7 +7,7 @@ use common\sending\helpers\SendingDeliveryStatusHelper;
 /* @var $olympic \olympic\models\OlimpicList */
 
 $olympicAndYearName =  \olympic\helpers\OlympicListHelper::olympicAndYearName($olympic->id);
-$this->title = $olympicAndYearName . '. Ведомость очного тура';
+$this->title = $olympicAndYearName . '. Ведомость очного тура'.($olympic->isStatusAppeal() ? '. Аппеляция' : '');
 $this->params['breadcrumbs'][] = ['label' => 'Олимпиады/конкурсы', 'url' => ['olympic/olympic/index']];
 $this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicHelper::olympicName($olympic->olimpic_id),
     'url' => ['olympic/olympic/view', 'id'=> $olympic->olimpic_id]];
@@ -39,6 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
         <?php if($olympic->isResultEndTour()) :?>
             <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
+                <?php if($olympic->isAppeal()) :?>
+                   <?= Html::a("Аппеляция",
+                    ['olympic/personal-presence-attempt/appeal', 'olympic_id' => $olympic->id],['class'=>'btn btn-warning'])?>
+                <?php endif; ?>
         <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
             SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку писем с дипломами",
             ['olympic/olympic-delivery-status/send-diploma', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :

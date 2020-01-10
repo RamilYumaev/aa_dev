@@ -127,6 +127,23 @@ class PersonalPresenceAttemptController extends Controller
         return  $this->redirect(['index', 'olympic_id' => $olympic->id]);
     }
 
+    /**
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\web\HttpException
+     */
+    public function actionAppeal($olympic_id)
+    {
+        $olympic = $this->isPersonalAttempt($olympic_id);
+        try {
+            $this->service->appeal($olympic->id);
+            return $this->redirect(['index', 'olympic_id' => $olympic->id]);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+    }
+
 
     /**
      * @param integer $id

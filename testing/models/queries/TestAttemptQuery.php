@@ -37,6 +37,10 @@ class TestAttemptQuery  extends  \yii\db\ActiveQuery
         return  $this->andWhere(['test_id'=> $test]);
     }
 
+    public function  isNotNullRewards() {
+        return $this->andWhere(['is not', TestAttempt::tableName().'.reward_status', null]);
+    }
+
     public function user($user)
     {
         return  $this->andWhere(['user_id'=>$user]);

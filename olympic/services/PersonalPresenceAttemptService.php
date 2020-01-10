@@ -45,12 +45,11 @@ class PersonalPresenceAttemptService
         if(!$this->isCorrectCountPresenceStatus($olympic->id)) {
             throw new \DomainException("Не всем учатсникам поставлены явки/неявки");
         }
-        if($this->countIncomingPresenceTour($olympic_id))
+        elseif($this->countIncomingPresenceTour($olympic_id))
         {
             throw  new \DomainException("Количество присутствующих участников меньше 10. Если это действительно так, 
             то сообщите, о несостоявшейся олимпиаде аднимистраторам портала");
         }
-
         elseif(!$this->isCorrectCountPresenceStatusAndIsMark($olympic->id)) {
             throw new \DomainException("Поставьте оценки участникам");
         }
@@ -75,6 +74,15 @@ class PersonalPresenceAttemptService
            $olympic->current_status = OlympicHelper::OCH_FINISH;
            $this->olimpicListRepository->save($olympic);
         }
+    }
+
+    public function appeal($olympic_id) {
+        $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
+        if(!$olympic->isAppeal()) {
+            throw new \DomainException("Для данной олмпиады аппеляция не прудусмотрена");
+        }
+        $olympic->current_status = OlympicHelper::APPELLATION;
+        $this->olimpicListRepository->save($olympic);
     }
 
     public function create($olympic_id) {
@@ -104,9 +112,9 @@ class PersonalPresenceAttemptService
                     throw new \DomainException("Ведомость не может создана, так как нет ни одного участника");
                 }
 
-                if ($uoClone->count() < OlympicHelper::COUNT_USER_ZAOCH) {
-                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы, прошедших заочного тура,  меньше ". OlympicHelper::COUNT_USER_ZAOCH);
-                }
+//                if ($uoClone->count() < OlympicHelper::COUNT_USER_ZAOCH) {
+//                    throw new \DomainException("Ведомость не может создана, так как участников олимпдаы, прошедших заочного тура,  меньше ". OlympicHelper::COUNT_USER_ZAOCH);
+//                }
 
                 if (!$olympic->isPercentToCalculate()) {
                     throw new \DomainException('На данной олимпиаде отсутвует "Процент участников в следующий тур".

@@ -57,11 +57,10 @@ class SendingDeliveryStatusHelper
         return ArrayHelper::getValue(self::deliveryStatusList(), $key);
     }
 
-    public static function countInvitation($olympic_id): ?string
+    public static function countInvitation($type, $olympic_id): ?string
     {
-        return SendingDeliveryStatus::find()->typeSending(self::TYPE_SEND_INVITATION)->type(self::TYPE_OLYMPIC)->value($olympic_id)->count();
+        return SendingDeliveryStatus::find()->typeSending($type)->type(self::TYPE_OLYMPIC)->value($olympic_id)->count();
     }
-
 
 
 }
