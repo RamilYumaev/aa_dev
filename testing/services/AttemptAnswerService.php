@@ -107,7 +107,7 @@ class AttemptAnswerService
                 break;
             case TestQuestionHelper::TYPE_FILE:
                 if(!$this->getFile()) {
-                    throw new \DomainException('Загружите файл');
+                    throw new \DomainException('Загрузите файл');
                 }
                 $mark = null;
                 break;
