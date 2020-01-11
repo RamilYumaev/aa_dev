@@ -3,6 +3,7 @@
 namespace backend\controllers\sending;
 
 use common\sending\forms\DictSendingTemplateCreateForm;
+use common\sending\forms\DictSendingTemplateEditForm;
 use common\sending\models\DictSendingTemplate;
 use common\sending\services\DictSendingTemplateService;
 use yii\bootstrap\ActiveForm;
@@ -82,7 +83,7 @@ class DictSendingTemplateController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new DictSendingTemplateCreateForm($model);
+        $form = new DictSendingTemplateEditForm($model);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

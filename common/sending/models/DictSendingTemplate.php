@@ -3,6 +3,7 @@
 namespace common\sending\models;
 
 use common\sending\forms\DictSendingTemplateCreateForm;
+use common\sending\forms\DictSendingTemplateEditForm;
 use Yii;
 class DictSendingTemplate extends \yii\db\ActiveRecord
 {
@@ -22,10 +23,12 @@ class DictSendingTemplate extends \yii\db\ActiveRecord
         $template->check_status = $form->check_status;
         $template->base_type = $form->base_type;
         $template->user_id = Yii::$app->user->identity->getId();
+        $template->type = $form->type;
+        $template->type_sending  = $form->type_sending;
         return $template;
     }
 
-    public function edit(DictSendingTemplateCreateForm $form) {
+    public function edit(DictSendingTemplateEditForm $form) {
 
         $this->name =$form->name;
         $this->text = $form->text;
@@ -33,6 +36,8 @@ class DictSendingTemplate extends \yii\db\ActiveRecord
         $this->check_status = $form->check_status;
         $this->base_type = $form->base_type;
         $this->user_id = Yii::$app->user->identity->getId();
+        $this->type = $form->type;
+        $this->type_sending  = $form->type_sending;
 
     }
 
@@ -47,6 +52,8 @@ class DictSendingTemplate extends \yii\db\ActiveRecord
             'text' => 'Аналогичный текст рассылки',
             'check_status' => 'Проверен/Не проверен',
             'base_type' => 'Указать базовый тип шаблона',
+            'type' => "Тип мероприятия",
+            'type_sending' => "Тип рассылки"
         ];
     }
 

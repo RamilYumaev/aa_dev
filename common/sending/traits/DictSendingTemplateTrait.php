@@ -4,7 +4,7 @@ use common\sending\models\DictSendingTemplate;
 
 trait DictSendingTemplateTrait
 {
-    private $name, $html, $text, $check_status, $base_type, $type, $type_sending;
+    public $name, $html, $text, $check_status, $base_type, $type, $type_sending;
 
     public function validateRules(): array
     {

@@ -5,6 +5,7 @@ use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use common\sending\helpers\SendingHelper;
 use yii\widgets\ActiveForm;
+use common\sending\helpers\SendingDeliveryStatusHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\sending\forms\DictSendingTemplateCreateForm  */
@@ -29,8 +30,8 @@ echo '{ссылка на приглашение}'.'<br/>';
     <?= $form->field($model, 'text')->textarea(['row' => 6]); ?>
     <?= $form->field($model, 'check_status')->checkbox(); ?>
     <?= $form->field($model, 'base_type')->dropDownList(SendingHelper::typeTemplateList());?>
-    <?= $form->field($model, 'type')->dropDownList(SendingHelper::typeTemplateList());?>
-    <?= $form->field($model, 'type_sending')->dropDownList(SendingHelper::typeTemplateList());?>
+    <?= $form->field($model, 'type')->dropDownList(SendingDeliveryStatusHelper::deliveryTypeEventList());?>
+    <?= $form->field($model, 'type_sending')->dropDownList(SendingDeliveryStatusHelper::deliveryTypeList());?>
 
 <div class="form-group">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
