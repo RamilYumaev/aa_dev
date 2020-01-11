@@ -48,6 +48,11 @@ class SendingProcessService
                 $typeSending)) == null) {
             throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
         }
+        if (($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR) &&
+            $olympic->getTimeStartTourMatchDate()) {
+            throw new \DomainException( 'Вы не можете рассылать пригласительные на очный тур, 
+            так как он уже прошел '. $olympic->date_time_start_tour);
+        }
         $this->manager->wrap(function () use($olympic, $sendingTemplate, $typeSending){
             $name = SendingDeliveryStatusHelper::deliveryTypeName($typeSending).". ".$olympic->name;
             $sending = Sending::createDefault($name, SendingDeliveryStatusHelper::TYPE_OLYMPIC,
