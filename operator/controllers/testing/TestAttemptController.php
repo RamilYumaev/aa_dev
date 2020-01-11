@@ -44,7 +44,7 @@ class TestAttemptController extends Controller
     {
         $test = $this->testRepository->get($test_id);
         $olympic = $this->olimpicListRepository->get($test->olimpic_id);
-        return $this->render('index', [
+        return $this->render('@backend/views/testing/test-attempt/index', [
             'test' => $test,
             'olympic' => $olympic]);
     }
