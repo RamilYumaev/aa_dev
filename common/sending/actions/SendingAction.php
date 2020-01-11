@@ -22,12 +22,12 @@ class SendingAction extends \yii\base\Action
     {
         try {
             $this->service->createAndSend($this->olympicModel->id, $this->typeSending);
-            return $this->controller->redirect(['index',
-                'olympic_id'=> $this->olympicModel->id,
+            return $this->controller->redirect(['index', 'olympic_id'=> $this->olympicModel->id,
                 'typeSending' =>$this->typeSending]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->controller->redirect(Yii::$app->request->referrer);
         }
     }
 
