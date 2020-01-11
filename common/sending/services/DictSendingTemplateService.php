@@ -4,6 +4,7 @@
 namespace common\sending\services;
 
 use common\sending\forms\DictSendingTemplateCreateForm;
+use common\sending\forms\DictSendingTemplateEditForm;
 use common\sending\models\DictSendingTemplate;
 use common\sending\repositories\DictSendingTemplateRepository;
 
@@ -22,7 +23,7 @@ class DictSendingTemplateService
         $this->repository->save($model);
     }
 
-    public function edit($id, DictSendingTemplateCreateForm $form)
+    public function edit($id, DictSendingTemplateEditForm $form)
     {
         $model = $this->repository->get($id);
         $model->edit($form);
