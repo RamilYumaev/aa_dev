@@ -19,7 +19,7 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
 <div class="container">
     <?php if ($isOlympicUser) : ?>
         <?= Yii::$app->session->setFlash('warning', 'Вы не можете добавлять/редактировать учебные организации, 
-        так как Вы записаны на одну из олимпиад '. \common\helpers\EduYearHelper::eduYear()). " учебного года" ?>
+        так как записаны на одну из олимпиад '. \common\helpers\EduYearHelper::eduYear()). ' учебного года' ?>
     <?php endif; ?>
 <div class="row">
     <div class="col-md-7">
