@@ -133,7 +133,7 @@ class PersonalPresenceAttemptService
 
                 }
 
-                $olympic->current_status = OlympicHelper::ZAOCH_FINISH;
+                $olympic->current_status = $olympic->isRegStatus() ? OlympicHelper::ZAOCH_FINISH : $olympic->current_status;
                 $this->olimpicListRepository->save($olympic);
             }
         }

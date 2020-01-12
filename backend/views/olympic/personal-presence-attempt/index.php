@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR, $olympic->id) ? Html::a("Запустить рассылку приглашений",
                 ['olympic/olympic-delivery-status/send-invitation', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
-                Html::a("Просмотр статусов",
+                Html::a("Просмотр состояния рассылки (приглашения)",
                     ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR], ['class'=>'btn btn-info'])?>
             <?php endif; ?>
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY, $olympic->id) ? Html::a("Запустить рассылку писем с предварительными итогами",
                 ['olympic/olympic-delivery-status/send-preliminary-result', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
-                Html::a("Просмотр статусов",
+                Html::a("Просмотр состояния рассылки(предварительные итоги)",
                     ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY], ['class'=>'btn btn-info'])?>
         <?php endif; ?>
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
         SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку писем с дипломами",
         ['olympic/olympic-delivery-status/send-diploma', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
-        Html::a("Просмотр статусов",
+        Html::a("Просмотр состояния рассылки (дипломы/сертификаты)",
             ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                 'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA], ['class'=>'btn btn-info'])?>
         <?php endif; ?>
