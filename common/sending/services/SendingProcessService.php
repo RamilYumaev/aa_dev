@@ -60,7 +60,11 @@ class SendingProcessService
             $this->repository->save($sending);
             if ($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA) {
                 $this->sendDiploma($olympic, $sending, $sendingTemplate, $typeSending);
-            } else {
+            }
+            elseif ($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY) {
+                $this->sendPreliminaryResult($olympic, $sending, $sendingTemplate, $typeSending);
+            }
+            else {
                 $this->sendInvitation($olympic, $sending, $sendingTemplate, $typeSending);
             }
             $sendingUpdate = $this->repository->get($sending->id);
@@ -84,6 +88,17 @@ class SendingProcessService
         $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id)->all();
         foreach($ppt as $invitation) {
             $user = $this->userRepository->get($invitation->user_id);
+            $this->send($user, $olympic, $this->deliveryStatusRepository,
+                SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                $typeSending,
+                $sending->id, $sendingTemplate);
+        }
+    }
+
+    private function sendPreliminaryResult(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
+        $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id)->presence()->all();
+        foreach($ppt as $pr) {
+            $user = $this->userRepository->get($pr->user_id);
             $this->send($user, $olympic, $this->deliveryStatusRepository,
                 SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 $typeSending,

@@ -27,10 +27,9 @@ class ResultAttemptWidget extends Widget
     public function run()
     {
         $query = PersonalPresenceAttempt::find()->olympic($this->olympic->id)->orderByDescMark();
-
         $dataProvider = new ActiveDataProvider(['query' => $query, 'pagination' => false]);
-
-        $view = $this->olympic->isResultEndTour() ? $this->viewRead : $this->view;
+        $view = $this->olympic->isResultEndTour() ||
+             $this->olympic->isStatusPreliminaryFinish() ? $this->viewRead : $this->view;
         return $this->render($view, [
             'dataProvider' => $dataProvider,
             'olympic'=> $this->olympic

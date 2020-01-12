@@ -26,6 +26,11 @@ class OlympicDeliveryStatusController extends Controller
                 'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
                 'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA
             ],
+            'send-preliminary-result' => [
+                'class'=>SendingAction::class,
+                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY
+            ],
             'send-invitation' => [
                 'class'=>SendingAction::class,
                 'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),

@@ -108,13 +108,13 @@ class PersonalPresenceAttemptController extends Controller
      * @throws NotFoundHttpException
      * @throws \yii\web\HttpException
      */
-    public function actionFinish($olympic_id)
+    public function actionFinish($olympic_id, $status)
     {
         $olympic = $this->isPersonalAttempt($olympic_id);
         try {
             $olympic = $this->isFinishOlympic($olympic->id);
             try {
-                $this->service->finish($olympic->id);
+                $this->service->finish($olympic->id, $status);
                 return $this->redirect(['index', 'olympic_id' => $olympic->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

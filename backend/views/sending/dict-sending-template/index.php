@@ -29,19 +29,20 @@ $this->params['breadcrums'][] = $this->title;
                     'attribute' => 'html',
                     'format' => 'raw',
                 ],
-                [
-                    'attribute' => 'check_status',
-                    'value' => function ($model) {
-                        return DictSendingTemplateHelper::checkStatusTypeName($model->check_status);
-                    }
-                ],
-                [
-                    'attribute' => 'base_type',
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                        return SendingHelper::templateSendingName($model->base_type);
-                    }
-                ],
+                //[
+//                    'attribute' => 'check_status',
+//                    'value' => function ($model) {
+//                        return DictSendingTemplateHelper::checkStatusTypeName($model->check_status);
+//                    }
+//                ],
+//                [
+//                    'attribute' => 'base_type',
+//                    'format' => 'raw',
+//                    'value' => function ($model) {
+//                        return SendingHelper::templateSendingName($model->base_type);
+//                    }
+//                ],
+//
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update} {delete}',
                     'buttons' => [

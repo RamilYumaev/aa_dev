@@ -13,6 +13,7 @@ class SendingDeliveryStatusHelper
     const TYPE_SEND_INVITATION = 1;
     const TYPE_SEND_DIPLOMA = 2;
     const TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR = 3;
+    const TYPE_SEND_PRELIMINARY = 4;
 
     const TYPE_OLYMPIC = 1;
     const TYPE_MASTER_CLASS = 3;
@@ -24,7 +25,8 @@ class SendingDeliveryStatusHelper
         return [
             self::TYPE_SEND_INVITATION => 'Приглашение',
             self::TYPE_SEND_DIPLOMA => "Диплом/сертификат",
-            self::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR => "Приглашение после прохождения заочного тура"
+            self::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR => "Приглашение после прохождения заочного тура",
+            self::TYPE_SEND_PRELIMINARY => "Предварительные результаты"
         ];
     }
 
