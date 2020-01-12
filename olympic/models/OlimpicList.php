@@ -362,6 +362,10 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $this->current_status == OlympicHelper::OCH_FINISH;
     }
 
+    public function isDistanceFinish() {
+        return $this->current_status == OlympicHelper::ZAOCH_FINISH;
+    }
+
     public function isTimeStartTour () {
         return $this->date_time_start_tour ? true : false;
     }
@@ -377,6 +381,11 @@ class OlimpicList extends \yii\db\ActiveRecord
     public function isStatusAppeal() {
         return $this->current_status == OlympicHelper::APPELLATION;
     }
+
+    public function isStatusPreliminaryFinish() {
+        return $this->current_status == OlympicHelper::PRELIMINARY_FINISH;
+    }
+
 
 
 

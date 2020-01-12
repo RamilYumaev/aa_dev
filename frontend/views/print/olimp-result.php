@@ -12,7 +12,9 @@ use dictionary\helpers\DictSchoolsHelper;
 use common\auth\helpers\UserSchoolHelper;
 
 $this->title = $numTour == OlympicHelper::ZAOCH_FINISH ?
-    'Результаты отборочного (заочного) тура олимпиады.' : 'Результаты олимпиады';
+    'Результаты отборочного (заочного) тура олимпиады.' :
+    ($olimpiad->isStatusAppeal() || $olimpiad->isStatusPreliminaryFinish() ?
+        'Предварительные результаты олимпиады':'Результаты олимпиады');
 ?>
 <div class="container">
     <div class="row printDiv">

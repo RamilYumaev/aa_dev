@@ -5,6 +5,7 @@ use common\sending\models\DictSendingTemplate;
 use common\sending\models\Sending;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\DiplomaHelper;
+use olympic\helpers\OlympicHelper;
 use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\OlimpicList;
 use yii\helpers\ArrayHelper;
@@ -77,6 +78,11 @@ class SendingHelper
                 $diploma = DiplomaHelper::userDiploma($user->id, $olympic->id);
                 $reward = PersonalPresenceAttemptHelper::nameOfPlacesValueOne($diploma->reward_status_id);
                 array_push($array, $reward ?? "",  \yii\helpers\Url::to('@frontendInfo/diploma?id='.$diploma->id.'&hash='.$hash, true), "");
+                break;
+            case SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY:
+                $numTour = $olympic->isFormOfPassageDistantInternal() ? OlympicHelper::OCH_FINISH : null;
+                $urlString = '@frontendInfo/print/olimp-result?olympic_id='.$olympic->id.'&numTour='.$numTour.'&hash='.$hash;
+                array_push($array, "", "",  \yii\helpers\Url::to($urlString, true));
                 break;
             default:
                 array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));

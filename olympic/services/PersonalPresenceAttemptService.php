@@ -40,7 +40,7 @@ class PersonalPresenceAttemptService
         }
     }
 
-    public function finish($olympic_id) {
+    public function finish($olympic_id, $status) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         if(!$this->isCorrectCountPresenceStatus($olympic->id)) {
             throw new \DomainException("Не всем учатсникам поставлены явки/неявки");
@@ -63,15 +63,16 @@ class PersonalPresenceAttemptService
             throw new \DomainException("Отметьте номинации");
         }
         else {
-            $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
-            if (!Diploma::find()->olympic($olympic->id)->exists()) {
-                foreach ($rewardUser as $eachUser) {
-                    $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
-                    $this->diplomaRepository->save($diploma);
+            if ($status == OlympicHelper::OCH_FINISH) {
+                $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
+                if (!Diploma::find()->olympic($olympic->id)->exists()) {
+                    foreach ($rewardUser as $eachUser) {
+                        $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
+                        $this->diplomaRepository->save($diploma);
+                    }
                 }
             }
-
-           $olympic->current_status = OlympicHelper::OCH_FINISH;
+           $olympic->current_status = $status;
            $this->olimpicListRepository->save($olympic);
         }
     }
@@ -79,7 +80,7 @@ class PersonalPresenceAttemptService
     public function appeal($olympic_id) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         if(!$olympic->isAppeal()) {
-            throw new \DomainException("Для данной олмпиады аппеляция не прудусмотрена");
+            throw new \DomainException("Для данной олмпиады показ работы не предусмотрен");
         }
         $olympic->current_status = OlympicHelper::APPELLATION;
         $this->olimpicListRepository->save($olympic);
