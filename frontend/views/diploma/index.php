@@ -17,6 +17,9 @@ $this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Серти
 ?>
 
 <div class="container-fluid">
+    <div class="hide-print pl-30">
+        <?=Html::a("Как правильно распечатать диплом", "/instructions/diplom_print.pdf")?>
+    </div>
     <div class="row cert-bg <?php
     $label = '';
     switch ($model->reward_status_id) {
