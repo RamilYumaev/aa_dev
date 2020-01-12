@@ -44,7 +44,7 @@ class PersonalPresenceAttemptService
     public function finish($olympic_id, $status) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         if(!$this->isCorrectCountPresenceStatus($olympic->id)) {
-            throw new \DomainException("Не всем учатсникам поставлены явки/неявки");
+            throw new \DomainException("Не всем участникам поставлены явки/неявки");
         }
         elseif($this->countIncomingPresenceTour($olympic_id))
         {
