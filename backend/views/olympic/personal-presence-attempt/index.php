@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY, $olympic->id) ? Html::a("Запустить рассылку писем с предварительными итогами",
                 ['olympic/olympic-delivery-status/send-preliminary-result', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
-                Html::a("Просмотр состояния рассылки(предварительные итоги)",
+                Html::a("Просмотр состояния рассылки (предварительные итоги)",
                     ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY], ['class'=>'btn btn-info'])?>
         <?php endif; ?>
