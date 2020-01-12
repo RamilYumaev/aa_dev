@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model olympic\forms\auth\SchooLUserCreateForm */
+
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\grid\GridView;
@@ -19,12 +20,12 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
 <div class="container">
     <?php if ($isOlympicUser) : ?>
         <?= Yii::$app->session->setFlash('warning', 'Вы не можете добавлять/редактировать учебные организации, 
-        так как записаны на одну из олимпиад '. \common\helpers\EduYearHelper::eduYear()). ' учебного года' ?>
+        так как записаны на одну из олимпиад ' . \common\helpers\EduYearHelper::eduYear() . ' учебного года') ?>
     <?php endif; ?>
-<div class="row">
-    <div class="col-md-7">
-    <?= GridView::widget([
-            'dataProvider' => $dataProvider,
+    <div class="row">
+        <div class="col-md-7">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
                 'columns' => [
                     ['class' => SerialColumn::class],
                     ['attribute' => 'school_id',
@@ -38,27 +39,27 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
                         },
                     ],
                     'edu_year',
-                     ['class' => \yii\grid\ActionColumn::class,
-                     'template' => '{update} {delete}',
-                        'buttons' =>[
+                    ['class' => \yii\grid\ActionColumn::class,
+                        'template' => '{update} {delete}',
+                        'buttons' => [
                             'delete' => function ($url, $model) use ($isOlympicUser) {
-                               return !$isOlympicUser &&
-                                   $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
-                                   \yii\helpers\Html::a("Удалить", $url, ['data' => ['confirm' => 'Вы действительно хотите удалить запись ?', 'method' => 'POST']]) : "";
-                            },
-                            'update' => function ($url, $model)  use ($isOlympicUser){
                                 return !$isOlympicUser &&
-                                    $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
-                                    \yii\helpers\Html::a("Редактировать", $url, ['data-method'=>'post']) : "";
+                                $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
+                                    \yii\helpers\Html::a("Удалить", $url, ['data' => ['confirm' => 'Вы действительно хотите удалить запись ?', 'method' => 'POST']]) : "";
+                            },
+                            'update' => function ($url, $model) use ($isOlympicUser) {
+                                return !$isOlympicUser &&
+                                $model->edu_year == \common\helpers\EduYearHelper::eduYear() ?
+                                    \yii\helpers\Html::a("Редактировать", $url, ['data-method' => 'post']) : "";
                             }
                         ]
                     ],
                 ]
-    ]); ?>
-    </div>
+            ]); ?>
+        </div>
 
-    <div class="col-md-5">
-        <?= $this->render('_form', ['model' => $model]) ?>
+        <div class="col-md-5">
+            <?= $this->render('_form', ['model' => $model]) ?>
+        </div>
     </div>
-</div>
 </div>
