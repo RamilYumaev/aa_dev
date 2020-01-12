@@ -15,6 +15,7 @@ use olympic\repositories\OlimpicNominationRepository;
 use olympic\repositories\PersonalPresenceAttemptRepository;
 use testing\forms\AddFinalMarkTableForm;
 use testing\models\TestAttempt;
+use yii\helpers\VarDumper;
 
 class PersonalPresenceAttemptService
 {
@@ -121,7 +122,6 @@ class PersonalPresenceAttemptService
                     throw new \DomainException('На данной олимпиаде отсутвует "Процент участников в следующий тур".
                      Обратитесь к администраторам портала');
                 }
-
                 $countUser = round(($uoClone->count()*$olympic->isPercentToCalculate())/100);
 
                 foreach ($uo->limit($countUser)->all() as $u) {
