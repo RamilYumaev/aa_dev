@@ -37,7 +37,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
                 ],
                 ['header' => "Телефон",
                     'value' => function ($model) {
-                        return ProfileHelper::findProfile($model->user_id)->phone;
+                        return ProfileHelper::findProfile($model->user_id)->phone ?? "";
                     }
                 ],
                 ['header' => "e-mail",
