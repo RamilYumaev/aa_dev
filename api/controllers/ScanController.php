@@ -61,10 +61,10 @@ class ScanController extends Controller
         if($type == SendingDeliveryStatusHelper::TYPE_OLYMPIC) {
             $olympic = OlimpicList::findOne($value);
             if(!$olympic) {
-                return ['message' => "Нет такой олимпиды"];
+                return ['message' => "Нет такой олимпиады/конкурса"];
             }
             if($olympic->isResultEndTour()) {
-                return ['message' => "Такая олимпиада завершена"];
+                return ['message' => "Данная олимпиада завершена"];
             }
             $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id);
             if(!$ppt->exists()) {
@@ -77,12 +77,12 @@ class ScanController extends Controller
             /* @var $pptPresence \olympic\models\PersonalPresenceAttempt; */
             $pptPresence = clone $pptUser->one();
             if ($pptPresence->isPresence()) {
-                return ['message' => "Такой участник присутствует в ведомости"];
+                return ['message' => "Данный участник уже отмечен"];
             }
 
             $pptPresence->setPresenceStatus(PersonalPresenceAttemptHelper::PRESENCE);
             $pptPresence->save();
-            return ['message' => "Успешно добавлен"];
+            return ['message' => "Учасник отмечен"];
         }
     }
 }
