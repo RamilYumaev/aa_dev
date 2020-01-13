@@ -32,6 +32,10 @@ class TestAttempt extends ActiveRecord
         $this->reward_status = $status;
     }
 
+    public function seStatus($status)
+    {
+        $this->status = $status;
+    }
 
     public function setNomination($nomination)
     {
@@ -100,6 +104,14 @@ class TestAttempt extends ActiveRecord
 
     public function  isRewardMember() {
         return $this->reward_status == TestAttemptHelper::MEMBER;
+    }
+
+    public function  isAttemptEnd() {
+        return $this->status == TestAttemptHelper::END_TEST;
+    }
+
+    public function  isAttemptNoEnd() {
+        return $this->status == TestAttemptHelper::NO_END_TEST;
     }
 
     public function isNullNomination()

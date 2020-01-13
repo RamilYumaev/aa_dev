@@ -14,6 +14,7 @@ use common\transactions\TransactionManager;
 use olympic\models\Diploma;
 use olympic\models\OlimpicList;
 use olympic\models\PersonalPresenceAttempt;
+use olympic\models\UserOlimpiads;
 use olympic\repositories\OlimpicListRepository;
 
 class SendingProcessService
@@ -64,6 +65,9 @@ class SendingProcessService
             elseif ($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY) {
                 $this->sendPreliminaryResult($olympic, $sending, $sendingTemplate, $typeSending);
             }
+            elseif ($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_INVITATION) {
+                $this->sendInvitationFirst($olympic, $sending, $sendingTemplate, $typeSending);
+            }
             else {
                 $this->sendInvitation($olympic, $sending, $sendingTemplate, $typeSending);
             }
@@ -87,6 +91,17 @@ class SendingProcessService
     private function sendInvitation(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
         $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id)->all();
         foreach($ppt as $invitation) {
+            $user = $this->userRepository->get($invitation->user_id);
+            $this->send($user, $olympic, $this->deliveryStatusRepository,
+                SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                $typeSending,
+                $sending->id, $sendingTemplate);
+        }
+    }
+
+    private function sendInvitationFirst(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
+        $userOlympic  = UserOlimpiads::find()->where(['olympiads_id' => $olympic->id])->all();
+        foreach($userOlympic  as $invitation) {
             $user = $this->userRepository->get($invitation->user_id);
             $this->send($user, $olympic, $this->deliveryStatusRepository,
                 SendingDeliveryStatusHelper::TYPE_OLYMPIC,

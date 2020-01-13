@@ -18,10 +18,9 @@ class TestReadRepository
         throw new \DomainException( 'Тест не найден.');
     }
 
-
     public function quentTests($id) {
         $testAttempt = $this->isAttempt($id);
-        if ($testAttempt->end < date("Y-m-d H:i:s")) {
+        if ($testAttempt->isAttemptEnd() || $testAttempt->end < date("Y-m-d H:i:s")) {
             throw new \DomainException('Ваша попытка прохождения теста закончена');
         }
 

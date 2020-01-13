@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
     <?php elseif($olympic->isResultEndTour()): ?>
         <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
-    <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+        <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
         SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA, $olympic->id) ? Html::a("Запустить рассылку писем с дипломами",
         ['olympic/olympic-delivery-status/send-diploma', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
         Html::a("Просмотр состояния рассылки (дипломы/сертификаты)",

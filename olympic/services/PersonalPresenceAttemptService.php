@@ -65,7 +65,8 @@ class PersonalPresenceAttemptService
         }
         else {
             if ($status == OlympicHelper::OCH_FINISH) {
-                $rewardUser = PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
+                $rewardUser =  $olympic->isCertificate() ? PersonalPresenceAttempt::find()->olympic($olympic->id)->presence()->all() :
+                    PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards()->all();
                 if (!Diploma::find()->olympic($olympic->id)->exists()) {
                     foreach ($rewardUser as $eachUser) {
                         $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
