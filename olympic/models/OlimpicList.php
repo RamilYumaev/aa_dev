@@ -386,6 +386,10 @@ class OlimpicList extends \yii\db\ActiveRecord
         return $this->current_status == OlympicHelper::PRELIMINARY_FINISH;
     }
 
+    public function isCertificate() {
+        return $this->certificate_id == OlympicHelper::CERTIFICATE_YES;
+    }
+
 
 
 

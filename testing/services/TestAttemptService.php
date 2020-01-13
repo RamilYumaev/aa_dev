@@ -93,6 +93,7 @@ class TestAttemptService
         $test  = $this->testRepository->isActive($test_id);
         $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
         $testResult  = TestResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
+        $testAttempt->seStatus(TestAttemptHelper::END_TEST);
         $testAttempt->edit($testResult);
         $this->testAttemptRepository->save($testAttempt);
         return $testAttempt;
@@ -126,7 +127,7 @@ class TestAttemptService
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         $test= $this->testRepository->get($test_id);
         if ($this->countAttempt($test->id) < OlympicHelper::COUNT_USER_ZAOCH) {
-            throw  new \DomainException('Количество присутствующих участников меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так, 
+            throw  new \DomainException('Количество  участников заочного тура меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так,
             то сообщите, о несостоявшейся олимпиаде аднимистраторам портала');
         }
         elseif(!$this->isRewardStatus($test->id)) {
@@ -138,11 +139,8 @@ class TestAttemptService
         elseif(!$this->isMaxMarkOnFirstPlace($test->id)) {
             throw new \DomainException("Участник, который получил максимальный балл, не является победителем");
         }
-        elseif(!$this->isCorrectCountNomination($test->id, $olympic->id)) {
-            throw new \DomainException("Отметьте номминации");
-        }
         else {
-            $rewardUser = TestAttempt::find()->test($test->id)->isNotNullRewards()->all();
+            $rewardUser = $olympic->isCertificate() ? TestAttempt::find()->test($test->id)->isNotNullMark()->all() : TestAttempt::find()->test($test->id)->isNotNullRewards()->all();
             if (!Diploma::find()->olympic($olympic->id)->exists()) {
                 foreach ($rewardUser as $eachUser) {
                     $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);

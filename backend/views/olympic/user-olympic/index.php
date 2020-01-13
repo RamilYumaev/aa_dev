@@ -3,6 +3,9 @@
 use  common\auth\helpers\UserSchoolHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\helpers\DictClassHelper;
+use common\sending\helpers\SendingHelper;
+use common\sending\helpers\SendingDeliveryStatusHelper;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 
@@ -10,6 +13,7 @@ use dictionary\helpers\DictClassHelper;
 
 /* @var $this \yii\web\View */
 /* @var $olympic \olympic\models\OlimpicList */
+
 
 $olympicAndYearName =  \olympic\helpers\OlympicListHelper::olympicAndYearName($olympic->id);
 $this->title = $olympicAndYearName . '. Участники';
@@ -23,6 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
 use olympic\helpers\auth\ProfileHelper; ?>
 <div class="box">
     <div class="box-header">
+        <?php if ($olympic->isFormOfPassageInternal()  && $olympic->year == \common\helpers\EduYearHelper::eduYear()): ?>
+            <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, $olympic->id) ? Html::a("Запустить рассылку приглашений",
+                ['olympic/olympic-delivery-status/send-invitation-first', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
+                Html::a("Просмотр состояния рассылки (приглашение)",
+                    ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
+                        'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION], ['class'=>'btn btn-info'])?>
+        <?php endif; ?>
         <?=\yii\helpers\Html::a("Выгрузить список в Word", ["get-report-olympic", "olympicId"=>$olympic->id], ["class"=>"btn btn-primary"]);?>
     </div>
     <div class="box-body">

@@ -12,12 +12,19 @@ class TestAttemptHelper
     const MEMBER = 4;
     const REWARD_NULL = null;
 
+    const NO_END_TEST = 0;
+    const END_TEST = 1;
+
     public static function count($test){
         return TestAttempt::find()->test($test)->count();
     }
 
     public static function isAttempt($test, $user){
         return TestAttempt::find()->test($test)->user($user)->exists();
+    }
+
+    public static function Attempt($test, $user){
+        return TestAttempt::find()->test($test)->user($user)->one();
     }
 
 
