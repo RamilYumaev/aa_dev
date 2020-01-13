@@ -75,15 +75,15 @@ return [
         ],
 
     ],
-//    'as access' => [
-//        'class' => 'yii\filters\AccessControl',
-//        'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
-//        'rules' => [
-//            [
-//                'allow' => true,
-//                'roles' => ['olymp_operator']
-//            ]
-//        ]],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['olymp_operator']
+            ]
+        ]],
 
     'params' => $params,
 ];
