@@ -90,6 +90,14 @@ class TestAttempt extends ActiveRecord
         return $this->mark > 0;
     }
 
+    public function  ballGold () {
+        return $this->mark >= TestAttemptHelper::MIN_BALL_GOLD;
+    }
+
+    public function  ballNoGold () {
+        return $this->mark >= TestAttemptHelper::MIN_BALL_NO_GOLD;
+    }
+
     public function  isRewardGold() {
         return $this->reward_status == TestAttemptHelper::GOLD;
     }

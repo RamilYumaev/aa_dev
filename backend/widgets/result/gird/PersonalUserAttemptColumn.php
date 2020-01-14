@@ -74,9 +74,8 @@ class PersonalUserAttemptColumn extends DataColumn
 
     private  function  getRewardStatus(PersonalPresenceAttempt  $model) {
         if ($model->isPresence() && !$model->isMarkNull()) {
-            return $this->getButtonRewardFirstPlace($model).
-                $this->getButtonRewardSecondPlace($model).
-                $this->getButtonRewardThirdPlace($model).
+            return ($model->ballFirstPlace() ? $this->getButtonRewardFirstPlace($model) :"").
+                ($model->ballNoFirstPlace() ? $this->getButtonRewardSecondPlace($model). $this->getButtonRewardThirdPlace($model) :"").
                 $this->getButtonRewardInNomination($model).
                 $this->getButtonDeleteReward($model);
         }

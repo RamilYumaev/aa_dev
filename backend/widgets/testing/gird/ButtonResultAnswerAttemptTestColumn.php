@@ -41,9 +41,9 @@ class ButtonResultAnswerAttemptTestColumn extends DataColumn
     }
 
     private  function  getRewardStatus(TestAttempt  $model) {
-            return $this->getButtonGold($model).
-                $this->getButtonSilver($model).
-                $this->getButtonBronze($model). $this->getButtonMember($model, $this->getOlympic($model)).
+            return($model->ballGold() ? $this->getButtonGold($model) : "").
+                ($model->ballNoGold() ? $this->getButtonSilver($model).
+                $this->getButtonBronze($model) :""). $this->getButtonMember($model, $this->getOlympic($model)).
                 $this->getButtonRewardInNomination($model, $this->getOlympic($model)).
 
                 $this->getButtonDeleteReward($model);

@@ -84,6 +84,14 @@ class PersonalPresenceAttempt extends ActiveRecord
         return $this->mark > 0;
     }
 
+    public function  ballFirstPlace () {
+        return $this->mark >= PersonalPresenceAttemptHelper::MIN_BALL_FIRST_PLACE;
+    }
+
+    public function  ballNoFirstPlace () {
+        return $this->mark >= PersonalPresenceAttemptHelper::MIN_BALL_NO_FIRST_PLACE;
+    }
+
     public function  isRewardFirstPlace() {
         return $this->reward_status == PersonalPresenceAttemptHelper::FIRST_PLACE;
     }
