@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         'name',
                         'year',
+                        !$olympic->isFormOfPassageDistant() ?
                         ['label' => "Приглашения на очный тур",
                             'format'=>'raw',
                             'value' => Html::a(SendingDeliveryStatusHelper::countInvitation(
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['/olympic/olympic-delivery-status/index', 'olympic_id'=>$olympic->id,
                                     'typeSending' => $olympic->isFormOfPassageDistantInternal() ?  SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR :
                                         SendingDeliveryStatusHelper::TYPE_SEND_INVITATION]),
-                        ],
+                        ]:["label"=> ""],
                         ['attribute' => 'faculty_id',
                             'value' => \dictionary\helpers\DictFacultyHelper::facultyName($olympic->faculty_id)],
                         ['attribute' => 'chairman_id',

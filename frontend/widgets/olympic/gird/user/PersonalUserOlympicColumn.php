@@ -36,7 +36,7 @@ class PersonalUserOlympicColumn extends DataColumn
     }
 
     private function linkDiploma(OlimpicList $olympic) {
-        return  $this->getDiploma($olympic) ? Html::a("Диплом", ['diploma/index', 'id'=> $this->getDiploma($olympic)]) :"";
+        return  $this->getDiploma($olympic) ? Html::a(is_null($this->getDiploma($olympic)->reward_status_id) ?"Сертификат":"Диплом", ['diploma/index', 'id'=> $this->getDiploma($olympic)->id]) :"";
     }
 
     private function getClassUser() {

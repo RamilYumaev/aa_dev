@@ -10,7 +10,6 @@ use yii\bootstrap\ActiveForm;
 /* @var $models yii\data\ActiveDataProvider */
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
-
 ?>
 <div class="container gray">
     <div class="row">
@@ -18,7 +17,7 @@ use yii\bootstrap\ActiveForm;
             <div class="col-md-10 col-md-offset-1 white mt-50 dashedBlue">
                 <div class="row">
                     <div class="col-md-5 mt-10">
-                        <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'maxButtonCount' => 7]); ?>
+                        <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]); ?>
                     </div>
                     <?php if (\olympic\helpers\OlympicListHelper::timeDistanceTourData($test->olimpic_id)) : ?>
                         <div class="col-md-4 mt-20 fs-15">
@@ -68,7 +67,6 @@ use yii\bootstrap\ActiveForm;
                                 <?= Html::submitButton("Сохранить ответ", ['class' => 'btn btn-success btn-lg btn-block']) ?>
                             </div>
                         </div>
-
                         <?php ActiveForm::end(); ?>
                         <?php endforeach; ?>
                     </div>
