@@ -71,7 +71,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE => 'победителем',
             self::SECOND_PLACE => 'призером II степени',
             self::THIRD_PLACE => 'призером III степени',
-            null => 'участником заочного тура',
+            null => 'участником',
         ];
     }
 

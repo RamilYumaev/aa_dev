@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 
 class TestAttemptHelper
 {
-    const NOMINATION = 5;
+    const NOMINATION = 0;
     const GOLD = 1;
     const SILVER = 2;
     const BRONZE = 3;
