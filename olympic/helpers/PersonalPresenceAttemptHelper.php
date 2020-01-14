@@ -19,6 +19,9 @@ class PersonalPresenceAttemptHelper
     const SECOND_PLACE = 2;
     const THIRD_PLACE = 3;
 
+    const MIN_BALL_FIRST_PLACE = 75;
+    const MIN_BALL_NO_FIRST_PLACE = 50;
+
 
     public static function nameOfPlaces()
     {

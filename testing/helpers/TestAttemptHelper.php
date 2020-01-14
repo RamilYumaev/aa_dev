@@ -15,6 +15,9 @@ class TestAttemptHelper
     const NO_END_TEST = 0;
     const END_TEST = 1;
 
+    const MIN_BALL_GOLD = 75;
+    const MIN_BALL_NO_GOLD = 50;
+
     public static function count($test){
         return TestAttempt::find()->test($test)->count();
     }

@@ -65,6 +65,10 @@ class OlympicHelper
     const ACTIVE = 0;
     const DRAFT = 1;
 
+    const USER_REWARDS = 40;
+    const USER_REWARDS_GOLD = 10;
+
+
     const CERTIFICATE_YES = 1;
 
     public static function typeOfTimeDistanceTour()
