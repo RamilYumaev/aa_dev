@@ -30,10 +30,10 @@ class FacultyService
     {
         $model = $this->repository->get($form->_faculty->id);
         $model->edit($form);
-        $moderation = new Moderation(['model'=> Faculty::class, 'record_id' => $model->id,
-            'before' => Json::encode($form->_faculty), 'after' => Json::encode($model)]);
-        $moderation->save();
-        //$this->repository->save($model);
+//        $moderation = new Moderation(['model'=> Faculty::class, 'record_id' => $model->id,
+//            'before' => Json::encode($form->_faculty), 'after' => Json::encode($model)]);
+//        $moderation->save();
+        $this->repository->save($model);
     }
 
     public function editModeration(FacultyEditForm $form)

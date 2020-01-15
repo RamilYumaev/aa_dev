@@ -166,6 +166,15 @@ class OlympicHelper
         return ['', self::FOR_PUPLE, self::FOR_STUDENT, self::INTERUNIVERSITY];
     }
 
+    public static function levelOlympicAll()
+    {
+        return [self::FOR_PUPLE, self::FOR_STUDENT, self::INTERUNIVERSITY];
+    }
+    public static function levelOlympicBaccalaureateAll()
+    {
+        return [self::FOR_PUPLE, self::INTERUNIVERSITY];
+    }
+
     public static function showingWork()
     {
         return [

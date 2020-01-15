@@ -4,6 +4,8 @@ namespace olympic\readRepositories;
 
 
 use common\helpers\EduYearHelper;
+use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\Faculty;
 use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
 use olympic\models\Olympic;
@@ -24,14 +26,48 @@ class OlimpicReadRepository
 
     public function getAll()
     {
+        return $this->getProvider($this->queryOlympic());
+    }
+
+    protected function queryOlympic()
+    {
         $query = Olympic::find()->alias('o');
         $query->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id');
         $query->select('o.name, o.id');
         $query->where(['o.status' => OlympicHelper::ACTIVE]);
         $query->andWhere(['ol.year' => EduYearHelper::eduYear() ]);
         $query->andWhere(['ol.prefilling' => false]);
+        return $query;
+    }
+
+    protected function getSort($faculty, $formEdu, $isFilial)
+    {
+        $query = $this->queryOlympic();
+        $query->innerJoin(Faculty::tableName() . ' fac', 'fac.id = ol.faculty_id');
+        $query->andWhere(['ol.edu_level_olymp' => $formEdu]);
+        $query->andWhere(['ol.faculty_id' => $faculty]);
+        $query->andWhere(['fac.filial' => $isFilial]);
+        return $query;
+    }
+
+    public function getAllMagistracy($faculty)
+    {
+        $query = $this->getSort($faculty, OlympicHelper::FOR_STUDENT, DictFacultyHelper::NO_FILIAL);
         return $this->getProvider($query);
     }
+
+    public function getAllBaccalaureate($faculty)
+    {
+        $query = $this->getSort($faculty, OlympicHelper::levelOlympicBaccalaureateAll(), DictFacultyHelper::NO_FILIAL);
+        return $this->getProvider($query);
+    }
+
+    public function getAllFilial($faculty)
+    {
+        $query = $this->getSort($faculty, OlympicHelper::levelOlympicAll(), DictFacultyHelper::YES_FILIAL);
+        return $this->getProvider($query);
+    }
+
 
     public function find($id): ?Olympic
     {

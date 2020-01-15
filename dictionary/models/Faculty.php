@@ -21,12 +21,14 @@ class Faculty extends \yii\db\ActiveRecord
     {
         $faculty = new static();
         $faculty->full_name = $form->full_name;
+        $faculty->filial = $form->filial;
         return $faculty;
     }
 
     public function edit(FacultyEditForm $form): void
     {
         $this->full_name = $form->full_name;
+        $this->filial = $form->filial;
     }
 
     /**
@@ -37,6 +39,7 @@ class Faculty extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'full_name' => 'Полное название',
+            'filial' => 'Филиал?',
         ];
     }
 

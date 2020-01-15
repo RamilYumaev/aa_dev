@@ -7,7 +7,7 @@ use yii\base\Model;
 
 class FacultyCreateForm extends Model
 {
-    public $full_name;
+    public $full_name, $filial;
 
     /**
      * {@inheritdoc}
@@ -21,6 +21,7 @@ class FacultyCreateForm extends Model
     {
         return [
             ['full_name', 'required'],
+            ['filial', 'integer'],
             ['full_name', 'unique', 'targetClass' => Faculty::class, 'message' => 'Такое наименование существует'],
             ['full_name', 'string'],
         ];
