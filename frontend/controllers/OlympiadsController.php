@@ -44,6 +44,46 @@ class OlympiadsController extends Controller
         ]);
     }
 
+    /**
+     * @param $faculty
+     * @return mixed
+     */
+    public function actionFilial($faculty)
+    {
+        $this->layout = "@frontend/views/layouts/olimpic.php";
+        $dataProvider = $this->repository->getAllFilial($faculty);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @param $faculty
+     * @return mixed
+     */
+    public function actionMagistracy($faculty)
+    {
+        $this->layout = "@frontend/views/layouts/olimpic.php";
+        $dataProvider = $this->repository->getAllMagistracy($faculty);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @param $faculty
+     * @return mixed
+     */
+    public function actionBaccalaureate($faculty)
+    {
+        $this->layout = "@frontend/views/layouts/olimpic.php";
+        $dataProvider = $this->repository->getAllBaccalaureate($faculty);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /*
     * @param $id
     * @return mixed

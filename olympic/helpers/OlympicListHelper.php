@@ -5,7 +5,9 @@ namespace olympic\helpers;
 
 
 use common\helpers\EduYearHelper;
+use dictionary\models\Faculty;
 use olympic\models\OlimpicList;
+use olympic\models\Olympic;
 use yii\helpers\ArrayHelper;
 
 class OlympicListHelper
@@ -58,5 +60,20 @@ class OlympicListHelper
     public static function olympicAndYearName($key): string
     {
         return ArrayHelper::getValue(self::olympicAndYearList(), $key);
+    }
+
+    public static function olympicMenu($formEdu, $isFilial) {
+        $query = Olympic::find()->alias('o');
+        $query->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id');
+        $query->innerJoin(Faculty::tableName() . ' fac', 'fac.id = ol.faculty_id');
+        $query->select('fac.id');
+        $query->where(['o.status' => OlympicHelper::ACTIVE]);
+        $query->andWhere(['ol.year' => EduYearHelper::eduYear() ]);
+        $query->andWhere(['ol.prefilling' => false]);
+        $query->andWhere(['ol.edu_level_olymp' => $formEdu]);
+        $query->andWhere(['fac.filial' => $isFilial]);
+        $query->groupBy(['ol.faculty_id']);
+        $query->orderBy(['fac.full_name'=> SORT_ASC]);
+        return $query->all();
     }
 }

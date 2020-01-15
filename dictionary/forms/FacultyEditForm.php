@@ -9,6 +9,7 @@ class FacultyEditForm extends Model
 {
     public $full_name;
     public $_faculty;
+    public $filial;
 
     /**
      * {@inheritdoc}
@@ -16,6 +17,7 @@ class FacultyEditForm extends Model
     public function __construct(Faculty $faculty, $config = [])
     {
         $this->full_name = $faculty->full_name;
+        $this->filial = $faculty->filial;
         $this->_faculty = $faculty;
 
         parent::__construct($config);
@@ -25,6 +27,7 @@ class FacultyEditForm extends Model
     {
         return [
             ['full_name', 'required'],
+            ['filial', 'integer'],
             ['full_name', 'unique', 'targetClass' => Faculty::class, 'filter' => ['<>', 'id', $this->_faculty->id],
                 'message' => 'Такое наименование существует'],
             ['full_name', 'string'],
