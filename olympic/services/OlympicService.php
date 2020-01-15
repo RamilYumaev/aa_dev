@@ -3,39 +3,61 @@
 
 namespace olympic\services;
 
+use common\auth\rbac\Rbac;
+use common\auth\rbac\RoleManager;
+use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
-use dictionary\models\DisciplineCompetitiveGroup;
-use dictionary\repositories\DictChairmansRepository;
-use dictionary\repositories\DictClassRepository;
-use dictionary\repositories\DictCompetitiveGroupRepository;
-use dictionary\repositories\FacultyRepository;
 use olympic\forms\OlympicCreateForm;
 use olympic\forms\OlympicEditForm;
-use olympic\models\ClassAndOlympic;
-use olympic\models\OlimpicCg;
+use olympic\models\auth\AuthAssignment;
 use olympic\models\Olympic;
 use olympic\repositories\OlympicRepository;
+use yii\rbac\Role;
 
 class OlympicService
 {
     private $repository;
+    private $transactionManager;
+    private $userRepository;
+    private $roleManager;
 
-    public function __construct(OlympicRepository $repository)
+    public function __construct(OlympicRepository $repository, TransactionManager $transactionManager, UserRepository $userRepository,
+                                RoleManager $roleManager)
     {
         $this->repository = $repository;
+        $this->roleManager = $roleManager;
+        $this->transactionManager = $transactionManager;
+        $this->userRepository = $userRepository;
     }
 
     public function create(OlympicCreateForm $form)
     {
-        $model = Olympic::create($form);
-        $this->repository->save($model);
+        $user = $this->userRepository->get($form->managerId);
+        $model = Olympic::create($form, $user->id);
+        $this->transactionManager->wrap(function () use($user, $model) {
+            $this->repository->save($model);
+            if(!AuthAssignment::findOne(['user_id'=>$user->id])) {
+                $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+            } else {
+                $user->setAssignment(Rbac::ROLE_OLYMPIC_OPERATOR);
+            }
+        });
         return $model;
     }
 
     public function edit(OlympicEditForm $form)
     {
+        $user = $this->userRepository->get($form->managerId);
         $model = $this->repository->get($form->_olympic->id);
-        $model->edit($form);
+        $model->edit($form, $user->id);
+        $this->transactionManager->wrap(function () use($user, $model) {
+            $this->repository->save($model);
+            if(!AuthAssignment::findOne(['user_id'=>$user->id])) {
+                $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+            } else {
+                $user->setAssignment(Rbac::ROLE_OLYMPIC_OPERATOR);
+            }
+        });
         $this->repository->save($model);
     }
 

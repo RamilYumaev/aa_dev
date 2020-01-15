@@ -26,20 +26,20 @@ class Olympic extends \yii\db\ActiveRecord
         return 'olimpic';
     }
 
-    public static function create(OlympicCreateForm $form)
+    public static function create(OlympicCreateForm $form, $managerId)
     {
         $olympic = new static();
         $olympic->name = $form->name;
         $olympic->status = $form->status;
-        $olympic->managerId = $form->managerId;
+        $olympic->managerId = $managerId;
         return $olympic;
     }
 
-    public function edit(OlympicEditForm $form)
+    public function edit(OlympicEditForm $form, $managerId)
     {
         $this->name = $form->name;
         $this->status = $form->status;
-        $this->managerId = $form->managerId;
+        $this->managerId = $managerId;
 
     }
 
