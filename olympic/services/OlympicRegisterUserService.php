@@ -3,7 +3,7 @@
 
 namespace olympic\services;
 
-use cebe\markdown\block\TableTrait;
+use common\helpers\FlashMessages;
 use common\auth\forms\SignupForm;
 use common\auth\models\UserSchool;
 use common\sending\traits\MailTrait;
@@ -79,6 +79,7 @@ class OlympicRegisterUserService
                 $configData = ['user' => $user, 'olympic' => $userOlympic->olympiads_id];
 
                 $this->sendEmail($user, $configTemplate, $configData);
+                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
             });
         } catch (\Exception $e) {
             \Yii::$app->session->setFlash('error'," Ошибка сохранения");

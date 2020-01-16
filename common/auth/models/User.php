@@ -44,6 +44,7 @@ class User extends ActiveRecord
             if ($addRole !== $role) {
                 $this->assignment->user_id = $this->id;
                 $this->assignment->item_name = $addRole;
+                $this->assignment->created_at = time();
                 $this->assignment->save();
             }
         }
@@ -53,6 +54,7 @@ class User extends ActiveRecord
     {
         $this->assignment->user_id = $this->id;
         $this->assignment->item_name = $addRole;
+        $this->assignment->created_at = time();
         $this->assignment->save();
     }
 

@@ -15,7 +15,7 @@ use yii\helpers\Html;
 
 class PersonalUserOlympicColumn extends DataColumn
 {
-    protected function renderDataCellContent($model, $key, $index): string
+    protected function renderDataCellContent($model, $key, $index)
     {
         return  $this->text($model->olympicOne);
     }
