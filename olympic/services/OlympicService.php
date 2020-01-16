@@ -38,8 +38,6 @@ class OlympicService
             $this->repository->save($model);
             if(!AuthAssignment::findOne(['user_id'=>$user->id])) {
                 $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
-            } else {
-                $user->setAssignment(Rbac::ROLE_OLYMPIC_OPERATOR);
             }
         });
         return $model;
@@ -52,10 +50,8 @@ class OlympicService
         $model->edit($form, $user->id);
         $this->transactionManager->wrap(function () use($user, $model) {
             $this->repository->save($model);
-            if(!AuthAssignment::findOne(['user_id'=>$user->id])) {
+            if(!AuthAssignment::findOne(['user_id'=>$user->id, 'item_name'=>Rbac::ROLE_OLYMPIC_OPERATOR])) {
                 $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
-            } else {
-                $user->setAssignment(Rbac::ROLE_OLYMPIC_OPERATOR);
             }
         });
         $this->repository->save($model);
