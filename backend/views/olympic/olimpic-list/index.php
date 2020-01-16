@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return DictFacultyHelper::facultyName($model->faculty_id);
                         },
                     ],
+                    'year',
                     ['class' => \yii\grid\ActionColumn::class],
                 ]
             ]); ?>

@@ -35,18 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         'name',
                         'year',
-                        !$olympic->isFormOfPassageDistant() ?
-                        ['label' => "Приглашения на очный тур",
-                            'format'=>'raw',
-                            'value' => Html::a(SendingDeliveryStatusHelper::countInvitation(
-                                   $olympic->isFormOfPassageDistantInternal() ?  SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR :
-                                       SendingDeliveryStatusHelper::TYPE_SEND_INVITATION,
+                            ['label' =>  !$olympic->isFormOfPassageDistant() ?"Приглашения на очный тур" :"",
+                                'format'=>'raw',
+                                'value' => !$olympic->isFormOfPassageDistant() ? Html::a(SendingDeliveryStatusHelper::countInvitation(
+                                    $olympic->isFormOfPassageDistantInternal() ?  SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR :
+                                        SendingDeliveryStatusHelper::TYPE_SEND_INVITATION,
                                     $olympic->id
-                            ),
-                                ['/olympic/olympic-delivery-status/index', 'olympic_id'=>$olympic->id,
-                                    'typeSending' => $olympic->isFormOfPassageDistantInternal() ?  SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR :
-                                        SendingDeliveryStatusHelper::TYPE_SEND_INVITATION]),
-                        ]:["label"=> ""],
+                                ),
+                                    ['/olympic/olympic-delivery-status/index', 'olympic_id'=>$olympic->id,
+                                        'typeSending' => $olympic->isFormOfPassageDistantInternal() ?  SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR :
+                                            SendingDeliveryStatusHelper::TYPE_SEND_INVITATION]) :"",
+                            ],
                         ['attribute' => 'faculty_id',
                             'value' => \dictionary\helpers\DictFacultyHelper::facultyName($olympic->faculty_id)],
                         ['attribute' => 'chairman_id',
