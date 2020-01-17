@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $pages integer */
@@ -10,6 +11,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $models yii\data\ActiveDataProvider */
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
+
+$url = Url::to(['/test-attempt/end', 'test_id' => $test->id]);
 ?>
 <div class="container gray">
     <div class="row">
@@ -22,11 +25,11 @@ use yii\bootstrap\ActiveForm;
                     <?php if (\olympic\helpers\OlympicListHelper::timeDistanceTourData($test->olimpic_id)) : ?>
                         <div class="col-md-4 mt-20 fs-15">
                             Оставшееся время:<br/><span
-                                    class="pl-20"><?= $this->render('_time', ['time' => $time]) ?></span>
+                                    class="pl-20"><?= $this->render('_time', ['time' => $time, 'url'=> $url]) ?></span>
                         </div>
                     <?php endif; ?>
                     <div class="col-md-3 mt-30">
-                        <?= Html::a("Завершить заочный тур", ['/test-attempt/end', 'test_id' => $test->id],
+                        <?= Html::a("Завершить заочный тур", $url,
                             ['data' => ['confirm' => 'Вы действительно хотите завершить заочный тур?', 'method' => 'POST'], 'class' => 'btn btn-primary']) ?>
                     </div>
                     <?php foreach ($models
