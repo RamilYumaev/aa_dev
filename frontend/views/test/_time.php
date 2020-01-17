@@ -38,4 +38,3 @@ JS;
 $this->registerJs($script);
 ?>
 <span id="clock"></span>
-<
