@@ -427,11 +427,6 @@ a:hover {
     min-height: 350px;
 }
 
-.simplePlace {
-    margin: 5px;
-    min-height: 350px;
-}
-
 .dashedBlue {
     border: dashed deepskyblue 1px;
 
@@ -506,10 +501,6 @@ a:hover {
     font-size: 18px;
 }
 
-.simplePlace p {
-    padding: 15px;
-    font-size: 16px;
-}
 
 .col-md-6 {
     padding-left: 1px !important;

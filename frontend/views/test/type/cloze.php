@@ -12,7 +12,7 @@ use testing\helpers\QuestionPropositionHelper;
            $drop = Html::dropDownList("AnswerAttempt[select-cloze][$index]", $a['select-cloze'][$index] ?? [], \testing\helpers\AnswerClozeHelper::answerMatchingList($index)); ?>
             <?= QuestionPropositionHelper::isStart($index) ?  $drop . $item :  $item . $drop ?>
     <?php elseif (QuestionPropositionHelper::type($index) == TestQuestionHelper::CLOZE_TEXT):
-             $input = Html::textInput("AnswerAttempt[answer-cloze][$index]", $a['answer-cloze'][$index] ?? '' )?>
+             $input = Html::textInput("AnswerAttempt[answer-cloze][$index]", $a['answer-cloze'][$index] ?? '', ['class'=>'form-control'] )?>
             <?= QuestionPropositionHelper::isStart($index) ?  $input . $item :  $item . $input ?>
         <?php else:?>
            <?= $item ?>
