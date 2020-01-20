@@ -16,12 +16,7 @@ var vaLRegion = $("#schoolusercreateform-region_id").val();
 var vaLCountrySchool = $("#schooluserupdateform-country_school_h").val();
 var vaLRegionSchool = $("#schooluserupdateform-region_school_h").val();
 var vaLSchool = $("#schooluserupdateform-school").val();
-console.log(vaLSchool);
-console.log(vaLCountry);
-console.log(vaLRegion);
 
-console.log(vaLCountrySchool);
-console.log(vaLRegionSchool);
 
 
 function  propCheck(selector, attr, bool) {
@@ -94,7 +89,7 @@ $('#schooluserupdateform-check_region_and_country_school').on('change init', fun
     if (this.checked) {
         regionSch.hide();
         countrySch.hide();
-        chNewSch.hide();
+        chNewSch.show();
         chRenSch.hide();
         newSch.hide();
         $("#schooluserupdateform-country_school").val("")

@@ -80,7 +80,7 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
     if (this.checked) {
         regionSch.hide();
         countrySch.hide();
-        chNewSch.hide();
+        chNewSch.show();
         chRenSch.hide();
         newSch.hide();
         $("#schooluserform-country_school").val("")
