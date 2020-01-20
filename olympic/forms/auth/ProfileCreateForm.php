@@ -33,7 +33,7 @@ class ProfileCreateForm extends Model
             ['region_id', 'required', 'when' => function ($model) {
                 return $model->country_id == 46;
             }, 'whenClient' => 'function (attribute, value) { return $("#profilecreateform-country_id").val() == 46}'],
-            ['phone', 'match', 'pattern' => '/^\+7\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/', 'message' => 'неверный формат телефона!']
+            ['phone', 'match', 'pattern' => '/^\+7\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/', 'message' => 'неверный формат телефона! Пример: +7(999)999-99-99, без пробела']
         ];
     }
 
