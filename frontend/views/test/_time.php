@@ -15,7 +15,6 @@ function setTime() {
      var elapsed = (today >= future); 
      if (totalSecsLeft == 0) {  
          $("#clock").html("00:00:00");
-          alert("Время вышло");
           $.post( "$url");
           return;
      }
