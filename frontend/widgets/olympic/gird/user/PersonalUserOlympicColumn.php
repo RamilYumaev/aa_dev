@@ -22,9 +22,9 @@ class PersonalUserOlympicColumn extends DataColumn
 
     private function text(OlimpicList $olympic) {
         if ($olympic->isRegStatus()) {
-            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkTest($olympic) : $this->getAttempt($olympic)->mark;
+            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkTest($olympic) : ($this->getAttempt($olympic)->mark  ?? 0);
         } else {
-            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkDiploma($olympic) : $this->getAttempt($olympic)->mark."<br />".$this->linkDiploma($olympic);
+            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkDiploma($olympic) : ($this->getAttempt($olympic)->mark ?? 0)."<br />".$this->linkDiploma($olympic);
         }
     }
 

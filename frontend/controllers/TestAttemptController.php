@@ -55,7 +55,9 @@ class TestAttemptController extends Controller
         $this->isGuest();
         try {
             $testAttempt = $this->service->end($test_id);
-            Yii::$app->session->setFlash('info', "Ваш результат тестирования: ".$testAttempt->mark." балл(-а, -oв)");
+            $mark = is_null($testAttempt->mark) ?? 0;
+            Yii::$app->session->setFlash('info', "Ваш предварительный результат тестирования: ".$mark." балл(-а, -oв). 
+            Окончательный результат будет известен после окончания заочного тура");
             return $this->redirect(['site/index']);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
