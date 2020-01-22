@@ -17,6 +17,8 @@ AppAsset::register($this);
         <?= Html::csrfMetaTags() ?>
         <title></title>
         <?php $this->head(); ?>
+
+        <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
     </head>
     <body class="gray">
     <?php $this->beginBody(); ?>
@@ -25,6 +27,10 @@ AppAsset::register($this);
             <?= $content ?>
         </div>
     </div>
+    <div id="vk_community_messages"></div>
+    <script type="text/javascript">
+        VK.Widgets.CommunityMessages("vk_community_messages", 191157288, {disableExpandChatSound: "1",tooltipButtonText: "Есть вопрос?"});
+    </script>
     <?php $this->endBody(); ?>
     </body>
     </html>

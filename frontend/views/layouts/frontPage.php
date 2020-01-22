@@ -52,7 +52,13 @@ AppAsset::register($this);
     <!-- VK Widget -->
     <div id="vk_community_messages"></div>
     <script type="text/javascript">
-        VK.Widgets.CommunityMessages("vk_community_messages", 31113184, {tooltipButtonText: "Есть вопрос?"});
+        <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
+
+    <!-- VK Widget -->
+    <div id="vk_community_messages"></div>
+    <script type="text/javascript">
+        VK.Widgets.CommunityMessages("vk_community_messages", 191157288, {disableExpandChatSound: "1",tooltipButtonText: "Есть вопрос?"});
+
     </script>
 
 <?php endif; ?>

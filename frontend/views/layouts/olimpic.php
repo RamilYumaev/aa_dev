@@ -26,8 +26,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <?php if (!($_SERVER['HTTP_HOST'] === 'aa:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
 
-        <script src="https://vk.com/js/api/openapi.js?159" type="text/javascript"></script>
-
+        <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
     <?php endif; ?>
 </head>
 <body>
@@ -55,8 +54,7 @@ AppAsset::register($this);
     <!-- VK Widget -->
     <div id="vk_community_messages"></div>
     <script type="text/javascript">
-        VK.Widgets.CommunityMessages("vk_community_messages", 31113184, {tooltipButtonText: "Есть вопрос?"});
-    </script>
+        VK.Widgets.CommunityMessages("vk_community_messages", 191157288, {disableExpandChatSound: "1",tooltipButtonText: "Есть вопрос?"});    </script>
 
 <?php endif; ?>
 
