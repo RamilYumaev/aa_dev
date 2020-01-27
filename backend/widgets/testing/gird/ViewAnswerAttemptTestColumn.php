@@ -147,9 +147,9 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 $text = Html::tag('h4',$answerText);
                 break;
             case TestQuestionHelper::TYPE_ANSWER_SHORT:
-                $answerText = "Правильный(-ые) ответ(-ы): ";
+                $answerText = "Правильный(-ые) ответ(-ы): <br/>";
                 foreach ($answers->all() as $answer) {
-                    $answerText .= $answer->name.'; ';
+                    $answerText .= $answer->name.'<br/>';
                 }
                 $text = Html::tag('h4',$answerText);
                 break;
