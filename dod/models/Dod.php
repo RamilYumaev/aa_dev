@@ -4,12 +4,14 @@
 namespace dod\models;
 
 
+use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
 use dod\forms\DodCreateForm;
 use dod\forms\DodEditForm;
 
 class  Dod extends \yii\db\ActiveRecord
 {
 
+    const BIG_HALL = "Актовый зал";
 
     public static function tableName()
     {
@@ -82,10 +84,17 @@ class  Dod extends \yii\db\ActiveRecord
         return "Адрес:" . $this->address;
     }
 
+    public function isBigHall(): bool
+    {
+        return trim($this->aud_number) == self::BIG_HALL;
+    }
+
     public function getAudNumberString(): string
     {
-        $place = ($this->aud_number == "Актовый зал") ? "" : "Аудитория №";
-        return $this->aud_number ? $place . $this->aud_number : "";
+        if ($this->isBigHall()) {
+            return $this->aud_number;
+        }
+        return "Аудитория № " . $this->aud_number;
     }
 
 }
