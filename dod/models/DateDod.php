@@ -53,12 +53,12 @@ class DateDod extends ActiveRecord
 
     public function getDateStartString(): string
     {
-        return  "Дата проведения:". DateTimeCpuHelper::getDateChpu($this->date_time);
+        return  "Дата проведения: ". DateTimeCpuHelper::getDateChpu($this->date_time);
     }
 
     public function getTimeStartString(): string
     {
-        return  "Время начала::". DateTimeCpuHelper::getTimeChpu($this->date_time);
+        return  "Время начала: ". DateTimeCpuHelper::getTimeChpu($this->date_time);
     }
 
 

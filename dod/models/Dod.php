@@ -67,23 +67,25 @@ class  Dod extends \yii\db\ActiveRecord
         return $dod->attributeLabels();
     }
 
-    public function dodRelation($id) {
-        return  self::find()->where(['id' => $id]);
+    public function dodRelation($id)
+    {
+        return self::find()->where(['id' => $id]);
     }
 
     public function getAddressAndAudNumberString(): string
     {
-         return $this->addressString ." ".($this->aud_number ?? ', аудитория №' . $this->aud_number);
+        return $this->addressString . " ";
     }
 
     public function getAddressString(): string
     {
-        return  "Адрес:". $this->address;
+        return "Адрес:" . $this->address;
     }
 
     public function getAudNumberString(): string
     {
-        return $this->aud_number ?? 'Аудитория №' . $this->aud_number;
+        $place = ($this->aud_number == "Актовый зал") ? "" : "Аудитория №";
+        return $this->aud_number ? $place . $this->aud_number : "";
     }
 
 }

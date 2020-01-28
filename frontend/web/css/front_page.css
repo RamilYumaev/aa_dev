@@ -148,13 +148,20 @@ a.desc:after {
 }
 
 
-.dod-panel div a {
+.dod-panel div a, .dod_share a{
     text-decoration: underline;
     color: #fff;
     position: absolute;
     bottom: 30px;
+}
+.dod-panel div a{
     left: 12.5%;
     width: 75%;
+}
+
+.dod_share a {
+    left: 25%;
+    width: 50%;
 }
 
 .dod-panel a {
@@ -211,6 +218,8 @@ a.desc:after {
     background-color: #381c62;
     color: #fff;
     padding: 30px;
+    margin: 0px 5px;
+    min-height: 350px;
 }
 
 .dod_share a, .dod-panel div a {

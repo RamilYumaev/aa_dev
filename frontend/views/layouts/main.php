@@ -31,7 +31,7 @@ AppAsset::register($this);
     require_once('_menu.php');
     ?>
 
-    <div class="container-fluid mt-30">
+    <div class="container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
