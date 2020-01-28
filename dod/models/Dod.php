@@ -94,7 +94,7 @@ class  Dod extends \yii\db\ActiveRecord
         if ($this->isBigHall()) {
             return $this->aud_number;
         }
-        return "Аудитория № " . $this->aud_number;
+        return $this->aud_number? "Аудитория №" . $this->aud_number: "";
     }
 
 }
