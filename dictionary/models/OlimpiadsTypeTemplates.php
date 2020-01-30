@@ -27,6 +27,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         $olimpiadsTypeTemplates->template_id = $template_id;
         $olimpiadsTypeTemplates->special_type = $special_type;
         $olimpiadsTypeTemplates->year = $form->year;
+        $olimpiadsTypeTemplates->range = $form->rage;
         return $olimpiadsTypeTemplates;
     }
 
@@ -38,6 +39,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         $this->year = $form->year;
         $this->template_id = $template_id;
         $this->special_type = $special_type;
+        $this->range = $form->range;
     }
 
     /**
@@ -51,7 +53,8 @@ class OlimpiadsTypeTemplates extends ActiveRecord
             'edu_level_olimp' => 'Уровень олимпиады',
             'template_id' => 'Шаблон',
             'special_type' => 'Специальный вид олимпиады (можно не заполнять)',
-            'year' => "Учебный год"
+            'year' => "Учебный год",
+            'range' => "Позиция",
 
         ];
     }

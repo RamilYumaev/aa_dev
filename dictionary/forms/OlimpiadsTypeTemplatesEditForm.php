@@ -14,7 +14,8 @@ use yii\base\Model;
 
 class OlimpiadsTypeTemplatesEditForm extends Model
 {
-    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $year, $special_type, $_olimpiadsTypeTemplates;
+    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $year, $special_type,
+        $_olimpiadsTypeTemplates, $range;
 
     public function __construct(OlimpiadsTypeTemplates $olimpiadsTypeTemplates, $config = [])
     {
@@ -24,6 +25,7 @@ class OlimpiadsTypeTemplatesEditForm extends Model
         $this->template_id = $olimpiadsTypeTemplates->template_id;
         $this->special_type = $olimpiadsTypeTemplates->special_type;
         $this->year = $olimpiadsTypeTemplates->year;
+        $this->range = $olimpiadsTypeTemplates->range;
         $this->_olimpiadsTypeTemplates = $olimpiadsTypeTemplates;
         parent::__construct($config);
     }
@@ -34,14 +36,15 @@ class OlimpiadsTypeTemplatesEditForm extends Model
     public function rules()
     {
         return [
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'year'], 'required'],
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'special_type'], 'integer'],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'year', 'range'], 'required'],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'special_type', 'range'], 'integer'],
             [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'unique', 'targetClass' => OlimpiadsTypeTemplates::class,
-                'filter' => ['<>', 'id', $this->_olimpiadsTypeTemplates->id], 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'year']],
+                'filter' => ['<>', 'id', $this->_olimpiadsTypeTemplates->id], 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'range', 'template_id', 'year']],
             [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Templates::class, 'targetAttribute' => ['template_id' => 'id']],
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['edu_level_olimp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
+            ['range', 'in', 'range' =>self::range(), 'allowArray' => true],
         ];
     }
 
@@ -81,6 +84,11 @@ class OlimpiadsTypeTemplatesEditForm extends Model
     public function years(): array
     {
         return EduYearHelper::eduYearList();
+    }
+
+    public function range(): array
+    {
+        return [0,1,2,3,4,5,6,7,8,9,10];
     }
 
 }

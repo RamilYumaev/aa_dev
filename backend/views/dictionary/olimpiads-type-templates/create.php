@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'template_id')->dropDownList($model->templatesList()) ?>
 
+    <?= $form->field($model, 'range')->dropDownList($model->range()) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

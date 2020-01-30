@@ -22,7 +22,8 @@ class OlimpiadsTypeTemplatesQuery extends \yii\db\ActiveQuery
             'form_of_passage' => $form_of_passage,
             'edu_level_olimp' => $edu_level_olymp,
             'year' => $year ])
-            ->andWhere(['is', 'special_type', null]);
+            ->andWhere(['is', 'special_type', null])
+            ->orderBy(['range'=> SORT_ASC]);
     }
 
     /**
@@ -34,7 +35,8 @@ class OlimpiadsTypeTemplatesQuery extends \yii\db\ActiveQuery
         return $this->alias('ott')
             ->innerJoin(SpecialTypeOlimpic::tableName() . ' sto', 'sto.special_type_id = ott.special_type')
             ->andWhere(['sto.olimpic_id' => $olympic_id])
-            ->andWhere(['ott.year' => $year]);
+            ->andWhere(['ott.year' => $year])
+            ->orderBy(['ott.range'=> SORT_ASC]);
     }
 
 }
