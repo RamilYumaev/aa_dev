@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'year',
+                'range',
             ['class' => \yii\grid\ActionColumn::class,
                 'template' => '{update} {delete}',
                 'buttons' => [

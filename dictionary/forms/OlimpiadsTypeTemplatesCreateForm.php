@@ -14,7 +14,7 @@ use yii\base\Model;
 
 class OlimpiadsTypeTemplatesCreateForm extends Model
 {
-    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $special_type, $year;
+    public $number_of_tours, $form_of_passage, $edu_level_olimp, $template_id, $special_type,  $year, $range;
 
     public function __construct($config = [])
     {
@@ -27,13 +27,14 @@ class OlimpiadsTypeTemplatesCreateForm extends Model
     public function rules()
     {
         return [
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'year'], 'required'],
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'special_type'], 'integer'],
-            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'unique', 'targetClass' => OlimpiadsTypeTemplates::class, 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'year', 'template_id']],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'year', 'range'], 'required'],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id', 'special_type', 'range'], 'integer'],
+            [['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'template_id'], 'unique', 'targetClass' => OlimpiadsTypeTemplates::class, 'targetAttribute' => ['number_of_tours', 'form_of_passage', 'edu_level_olimp', 'year', 'range', 'template_id']],
             [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Templates::class, 'targetAttribute' => ['template_id' => 'id']],
             ['number_of_tours', 'in', 'range' => OlympicHelper::numberOfToursValid(), 'allowArray' => true],
             ['form_of_passage', 'in', 'range' => OlympicHelper::formOfPassageValid(), 'allowArray' => true],
             ['edu_level_olimp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
+            ['range', 'in', 'range' =>self::range(), 'allowArray' => true],
             ];
     }
 
@@ -73,6 +74,11 @@ class OlimpiadsTypeTemplatesCreateForm extends Model
     public function years(): array
     {
         return EduYearHelper::eduYearList();
+    }
+
+    public function range(): array
+    {
+        return [0,1,2,3,4,5,6,7,8,9,10];
     }
 
 }
