@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use kartik\file\FileInput;
 /* @var $quent testing\models\TestResult */
+$maxFileSize = TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile($quent->question_id)]['maxSize'] / 1024;
 ?>
 <?= TestQuestionHelper::questionTextName($quent->question_id) ?>
 <?php if ($quent->getUploadedFileUrl('result')): ?>
@@ -17,8 +18,7 @@ use kartik\file\FileInput;
         'maxFileCount' => 1,
         'allowedFileExtensions'=>TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
                 $quent->question_id)]['extensions'],
-        'maxFileSize' => [TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(
-            $quent->question_id)]['maxSize']],
+        'maxFileSize' => $maxFileSize,
     ],
 ]);?>
 <p><?=implode(", ", TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::questionTypeFile(

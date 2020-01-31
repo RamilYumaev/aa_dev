@@ -2,6 +2,7 @@
 
 namespace dictionary\services;
 
+use common\auth\forms\UserEmailForm;
 use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
 use dictionary\models\DictSchools;
@@ -26,6 +27,13 @@ class DictSchoolsService
     {
         $model = $this->repository->get($id);
         $model->edit($form->name, $form->country_id, $form->region_id);
+        $this->repository->save($model);
+    }
+
+    public function addEmail($id, UserEmailForm $form)
+    {
+        $model = $this->repository->get($id);
+        $model->setEmail($form->email);
         $this->repository->save($model);
     }
 

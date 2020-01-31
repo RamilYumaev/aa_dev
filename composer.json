@@ -53,7 +53,8 @@
     "wbraganca/yii2-dynamicform": "*",
     "kartik-v/yii2-date-range": "dev-master",
     "kartik-v/yii2-widget-fileinput": "@dev",
-    "aneeshikmat/yii2-time-down-counter": "v1.0.0-stable"
+    "aneeshikmat/yii2-time-down-counter": "v1.0.0-stable",
+    "moonlandsoft/yii2-phpexcel": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

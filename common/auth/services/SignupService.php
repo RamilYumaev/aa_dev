@@ -4,11 +4,13 @@
 namespace common\auth\services;
 
 use common\auth\forms\UserEmailForm;
+use common\auth\rbac\Rbac;
 use common\sending\helpers\DictSendingTemplateHelper;
 use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
 use common\sending\traits\MailTrait;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
 use olympic\repositories\auth\ProfileRepository;
@@ -45,14 +47,19 @@ class SignupService
         $this->deliveryStatusRepository = $deliveryStatusRepository;
     }
 
-    public function signup(SignupForm $form): void
+    public function signup(SignupForm $form, $role = null): void
     {
-        $this->transaction->wrap(function () use ($form) {
+        $this->transaction->wrap(function () use ($form, $role) {
             $user = $this->newUser($form);
             $this->users->save($user);
 
             $profile = $this->newProfile($user->id);
+            $profile->setRole($role);
             $this->profileRepository->save($profile);
+
+            if($role !== ProfileHelper::ROLE_STUDENT) {
+                $user->setAssignmentFirst(Rbac::roleName($role));
+            }
 
             $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
             $configData = ['user' => $user];

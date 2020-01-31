@@ -3,27 +3,39 @@
 namespace common\sending\traits;
 
 use common\auth\models\User;
-use common\sending\helpers\DictSendingTemplateHelper;
 use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\helpers\SendingHelper;
 use common\sending\models\DictSendingTemplate;
 use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
+use dictionary\models\DictSchools;
 use olympic\models\OlimpicList;
 use Yii;
 
 trait MailTrait
 {
-    public function sendEmail(User $user, $configTemplate, $data)
+    public function sendEmail(User $user, $configTemplate, $data, $subject)
+    {
+        return $this->sendDefault($user->email, $configTemplate, $data, $subject);
+    }
+
+    public function sendTeacherEmail(DictSchools $schools, $configTemplate, $data)
+    {
+        $subject = 'Подтверждение. ';
+        return $this->sendDefault($schools->email, $configTemplate, $data, $subject);
+    }
+
+    protected function sendDefault($email, $configTemplate, $data, $subject)
     {
         return Yii::$app
             ->mailer
             ->compose($configTemplate, $data)
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($user->email)
-            ->setSubject('Аккаунт зарегистрирован! ' . Yii::$app->name)
+            ->setTo($email)
+            ->setSubject($subject . Yii::$app->name)
             ->send();
     }
+
 
     public function settingEmail(User $user, OlimpicList $olympic, $hash, $emailFrom, DictSendingTemplate $sendingTemplate, $typeSend) {
         $subject = SendingDeliveryStatusHelper::deliveryTypeName($typeSend).". ".$olympic->name;

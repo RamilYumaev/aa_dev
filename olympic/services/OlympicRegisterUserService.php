@@ -21,6 +21,7 @@ use olympic\repositories\auth\ProfileRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\models\auth\Profiles;
 use common\auth\models\User;
+use olympic\traits\NewOrRenameSchoolTrait;
 use Yii;
 
 
@@ -36,6 +37,7 @@ class OlympicRegisterUserService
     private $classRepository;
 
     use MailTrait;
+    use NewOrRenameSchoolTrait;
 
     public function __construct(
         DictClassRepository $classRepository,
@@ -69,7 +71,7 @@ class OlympicRegisterUserService
                 $profile = $this->newProfile($form->profile, $user->id);
                 $this->profileRepository->save($profile);
 
-                $userSchool = $this->newUserSchool($this->newOrRenameSchoolId($form), $form->schoolUser->class_id, $user->id);
+                $userSchool = $this->newUserSchool($this->newOrRenameSchoolRegisterOlympicId($form, $this->schoolsRepository), $form->schoolUser->class_id, $user->id);
                 $this->userSchoolRepository->save($userSchool);
 
                 $userOlympic = $this->newUserOlimpiads($form->idOlympic, $user->id);
@@ -78,10 +80,10 @@ class OlympicRegisterUserService
                 $configTemplate = ['html' => 'emailVerifyOlympic-html', 'text' => 'emailVerifyOlympic-text'];
                 $configData = ['user' => $user, 'olympic' => $userOlympic->olympiads_id];
 
-                $this->sendEmail($user, $configTemplate, $configData);
+                $this->sendEmail($user, $configTemplate, $configData, 'Аккаунт зарегистрирован! ');
                 Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
             });
-        } catch (\Exception $e) {
+        } catch (\DomainException $e) {
             \Yii::$app->session->setFlash('error'," Ошибка сохранения");
         }
     }
@@ -111,36 +113,4 @@ class OlympicRegisterUserService
         $userOlympic = UserOlimpiads::create($olympic->id, $user_id);
         return $userOlympic;
     }
-
-     public  function newOrRenameSchoolId(SignupOlympicForm $form) : int
-     {
-         $userSchoolForm = $form->schoolUser;
-         $profileForm = $form->profile;
-         if ($userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_new_school &&
-             $userSchoolForm->new_school) {
-             $this->schoolsRepository->getFull($userSchoolForm->new_school, $profileForm->country_id, $profileForm->region_id);
-             $school = DictSchools::create($userSchoolForm->new_school, $profileForm->country_id, $profileForm->region_id);
-         } elseif (!$userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_new_school &&
-             $userSchoolForm->new_school) {
-             $this->schoolsRepository->getFull($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-             $school = DictSchools::create($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-         } elseif ($userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_rename_school &&
-             $userSchoolForm->new_school) {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school->edit($userSchoolForm->new_school, $profileForm->conutry_id, $profileForm->region_id);
-         } elseif (!$userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_rename_school &&
-             $userSchoolForm->new_school) {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school->edit($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-         } else {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-         }
-         $this->schoolsRepository->save($school);
-         return $school->id;
-     }
-
 }

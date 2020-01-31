@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $user common\auth\models\User */
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['auth/signup/confirm', 'token' => $user->verification_token]);
+$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['sign-up/confirm', 'token' => $user->verification_token]);
 ?>
 Здравствуйте!
 

@@ -4,7 +4,7 @@
 /* @var $user common\auth\models\User */
 /* @var $olympic int */
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['auth/signup/confirm-olympic', 'token' => $user->verification_token,
+$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['auth/confirm/olympic', 'token' => $user->verification_token,
     'olympic_id' => $olympic]);
 ?>
 Здравствуйте!

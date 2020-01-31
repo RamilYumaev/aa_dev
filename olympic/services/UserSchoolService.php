@@ -4,48 +4,71 @@
 namespace olympic\services;
 
 use common\auth\models\UserSchool;
+use common\helpers\FlashMessages;
+use common\sending\traits\MailTrait;
+use common\transactions\TransactionManager;
+use common\user\repositories\UserTeacherSchoolRepository;
 use dictionary\repositories\DictClassRepository;
 use dictionary\repositories\DictSchoolsRepository;
 use olympic\forms\auth\SchooLUserCreateForm;
 use common\auth\repositories\UserSchoolRepository;
-use dictionary\models\DictSchools;
-
-
+use olympic\helpers\auth\ProfileHelper;
+use olympic\traits\NewOrRenameSchoolTrait;
+use teacher\helpers\UserTeacherJobHelper;
+use teacher\models\UserTeacherJob;
 
 class UserSchoolService
 {
+
+    use NewOrRenameSchoolTrait;
+    use MailTrait;
     private $userSchoolRepository;
     private $classRepository;
     public $schoolsRepository;
+    public $teacherSchoolRepository;
+    private $transactionManager;
 
     public function __construct(
         UserSchoolRepository $userSchoolRepository,
         DictClassRepository $classRepository,
-        DictSchoolsRepository $schoolsRepository
+        DictSchoolsRepository $schoolsRepository,
+        UserTeacherSchoolRepository $teacherSchoolRepository,
+        TransactionManager $transactionManager
     )
     {
         $this->userSchoolRepository = $userSchoolRepository;
         $this->schoolsRepository = $schoolsRepository;
         $this->classRepository = $classRepository;
+        $this->teacherSchoolRepository = $teacherSchoolRepository;
+        $this->transactionManager = $transactionManager;
     }
 
-    public function signup(SchooLUserCreateForm $form): void
+    public function signup(SchooLUserCreateForm $form, $role): void
     {
-        $userSchool = $this->newUserSchool($form, $form->schoolUser->class_id, \Yii::$app->user->id);
-        $this->userSchoolRepository->save($userSchool);
+        if ($role == ProfileHelper::ROLE_TEACHER) {
+            $this->teacherSchoolRepository->save($this->newUserTeacherSchool($form, \Yii::$app->user->id));
+
+        } else {
+            $userSchool = $this->newUserSchool($form, $form->schoolUser->class_id, \Yii::$app->user->id);
+            $this->userSchoolRepository->save($userSchool);
+        }
     }
 
-    public function update($id, SchooLUserCreateForm $form): void
+    public function update($id, SchooLUserCreateForm $form, $role): void
     {
-        $userSchool = $this->updateUserSchool($id, $form, $form->schoolUser->class_id, \Yii::$app->user->id);
-        $this->userSchoolRepository->save($userSchool);
+        if ($role == ProfileHelper::ROLE_TEACHER) {
+            $this->teacherSchoolRepository->save($this->updateUserTeacherSchool($id, $form, \Yii::$app->user->id));
+        }else {
+            $userSchool = $this->updateUserSchool($id, $form, $form->schoolUser->class_id, \Yii::$app->user->id);
+            $this->userSchoolRepository->save($userSchool);
+        }
     }
 
     public function updateUserSchool($id, SchooLUserCreateForm $form, $class_id, $user_id): UserSchool
     {
         $usSchool = $this->userSchoolRepository->get($id, $user_id);
         $class = $this->classRepository->get($class_id);
-        $school_id = $this->newOrRenameSchoolId($form);
+        $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
 
         $usSchool->edit($school_id, $class->id);
         return $usSchool;
@@ -55,44 +78,65 @@ class UserSchoolService
     {
         $class = $this->classRepository->get($class_id);
         $this->userSchoolRepository->isSchooLUser($user_id);
-        $school_id = $this->newOrRenameSchoolId($form);
+        $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
         $userSchool = UserSchool::create($school_id, $user_id, $class->id);
         return $userSchool;
     }
 
-     public  function newOrRenameSchoolId(SchooLUserCreateForm $form) : int
-     {
-         $userSchoolForm =  $form->schoolUser;
-         if($userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_new_school &&
-             $userSchoolForm->new_school) {
-             $this->schoolsRepository->getFull($userSchoolForm->new_school,  $form->country_id, $form->region_id);
-             $school = DictSchools::create($userSchoolForm->new_school,  $form->country_id, $form->region_id);
-         } elseif (!$userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_new_school &&
-             $userSchoolForm->new_school) {
-             $this->schoolsRepository->getFull($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-             $school = DictSchools::create($userSchoolForm->new_school,  $userSchoolForm->country_school, $userSchoolForm->region_school);
-         } elseif ($userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_rename_school &&
-             $userSchoolForm->new_school) {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school->edit($userSchoolForm->new_school, $form->country_id, $form->region_id);
-         } elseif (!$userSchoolForm->check_region_and_country_school &&
-             $userSchoolForm->check_rename_school &&
-             $userSchoolForm->new_school) {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-             $school->edit($userSchoolForm->new_school, $userSchoolForm->country_school, $userSchoolForm->region_school);
-         } else {
-             $school = $this->schoolsRepository->get($userSchoolForm->school_id);
-         }
-         $this->schoolsRepository->save($school);
-         return $school->id;
-     }
 
-    public function remove($id, $user_id): void
+    public function updateUserTeacherSchool($id, SchooLUserCreateForm $form, $user_id): UserTeacherJob
     {
-        $usSchool = $this->userSchoolRepository->get($id, $user_id);
-        $this->userSchoolRepository->remove($usSchool);
+        $teacherJob = $this->teacherSchoolRepository->get($id, $user_id);
+        $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
+        $teacherJob->edit($school_id);
+        return $teacherJob;
+    }
+
+    public function newUserTeacherSchool(SchooLUserCreateForm $form, $user_id): UserTeacherJob
+    {
+        $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
+        $this->teacherSchoolRepository->isSchoolTeacher($user_id, $school_id);
+        $this->userSchoolRepository->isSchooLUser($user_id);
+        $teacherJob = UserTeacherJob::create($school_id, $user_id);
+        return $teacherJob;
+    }
+
+    public function remove($id, $user_id, $role): void
+    {
+        if ($role == ProfileHelper::ROLE_TEACHER) {
+            $teacher = $this->teacherSchoolRepository->get($id, $user_id);
+            $this->teacherSchoolRepository->remove($teacher);
+        }else {
+            $usSchool = $this->userSchoolRepository->get($id, $user_id);
+            $this->userSchoolRepository->remove($usSchool);
+        }
+    }
+
+    public function send($id): void
+    {
+        $teacher = $this->teacherSchoolRepository->get($id, \Yii::$app->user->id);
+        $school = $this->schoolsRepository->get($teacher->school_id);
+        if (is_null($school->email)) {
+            throw new \DomainException('У данной школы нет электронной почты.');
+        }
+        try {
+            $this->transactionManager->wrap(function () use ($teacher, $school) {
+                $teacher->setStatus(UserTeacherJobHelper::WAIT);
+                $teacher->generateVerificationToken();
+                $configTemplate = ['html' => 'verifyTeacher-html', 'text' => 'verifyTeacher-text'];
+                $configData = ['teacher' => $teacher];
+                $this->sendTeacherEmail($school, $configTemplate, $configData);
+                $this->teacherSchoolRepository->save($teacher);
+            });
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error'," Ошибка сохранения");
+        }
+    }
+
+    public function confirm($hash): void
+    {
+        $teacher = $this->teacherSchoolRepository->getHash($hash);
+        $teacher->setStatus(UserTeacherJobHelper::ACTIVE);
+        $this->teacherSchoolRepository->save($teacher);
     }
 }

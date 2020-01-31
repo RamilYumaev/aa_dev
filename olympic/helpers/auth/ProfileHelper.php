@@ -9,10 +9,32 @@ use olympic\models\auth\Profiles;
 use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 
 class ProfileHelper
 {
+    const ROLE_STUDENT = 0;
+    const ROLE_TEACHER = 1;
+    const ROLE_OPERATOR = 2;
+    const ROLE_ADMIN = 3;
+
+    public static function typeOfRole()
+    {
+        return [
+            self::ROLE_ADMIN => 'администратор',
+            self::ROLE_OPERATOR => 'менеджер олимпиады',
+            self::ROLE_TEACHER => 'учитель/преподаватель',
+            self::ROLE_STUDENT => 'ученик/студент',
+        ];
+    }
+
+    public static function roleName($role): string
+    {
+        return ArrayHelper::getValue(self::typeOfRole(), $role);
+    }
+
+
     public static function profileShortName($userId): string
     {
         $profile = self::findProfile($userId);

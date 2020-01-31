@@ -2,8 +2,6 @@
 
 
 namespace olympic\models;
-
-
 use yii\db\ActiveRecord;
 
 class ClassAndOlympic extends ActiveRecord

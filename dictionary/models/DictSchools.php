@@ -36,6 +36,11 @@ class DictSchools extends \yii\db\ActiveRecord
         $this->region_id =  $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
     }
 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
     /**
      * {@inheritdoc}
      */

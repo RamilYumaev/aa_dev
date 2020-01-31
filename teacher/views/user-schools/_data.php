@@ -1,0 +1,49 @@
+<?php
+/* @var $this yii\web\View */
+/* @var $model teacher\models\searches\UserOlympicSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+use yii\helpers\Html;
+use olympic\models\UserOlimpiads;
+
+?>
+<?= \backend\widgets\adminlte\grid\GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+        ['class' => \yii\grid\SerialColumn::class],
+        ['header' => "ФИО участника",
+            'format' => "raw",
+            'value' => function (UserOlimpiads $model) {
+                return $model->getFullNameUserOrTeacher($model->user_id);
+            }
+        ],
+        ['header' => "Олимпиадв",
+            'value' => function (UserOlimpiads $model) {
+                return  $model->olympicAndYear;
+            }
+        ],
+        ['header' => "Учебная организация",
+            'value' => function (UserOlimpiads $model) {
+                return  $model->schoolUser;
+            }
+        ],
+        ['header' => "Класс/курс",
+            'value' => function (UserOlimpiads $model) {
+                return $model->classUser;
+            }
+        ],
+        ['value' => function (UserOlimpiads $model) {
+                if ($model->isStatusDraft()) {
+                    return Html::a("Ваш ученик/студент ?",
+                        ['schools-setting/send-user', 'id' => $model->id], [
+                            'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это  Ваш ученик/студент и хотите отправить 
+                        письмо с подтверждением?']);
+                } else {
+                   return UserOlimpiads::statusName($model->status);
+                }
+            },
+            'format' => 'raw'
+        ],
+    ]
+]); ?>
+
