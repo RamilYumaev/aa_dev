@@ -71,4 +71,40 @@ class UserOlimpiadsService
         $this->repository->remove($userOlympic);
     }
 
+    public function sendUser($id): void
+    {
+        $userOlympic = $this->repository->get($id);
+        $user = $this->userRepository->get($userOlympic->user_id);
+        if (is_null($user->email)) {
+            throw new \DomainException('У данного пользователя  нет электронной почты.');
+        }
+        try {
+            $this->transactionManager->wrap(function () use ($userOlympic, $user) {
+                $userOlympic->setStatus(UserOlimpiads::WAIT);
+                $userOlympic->generateVerificationToken();
+                $userOlympic->setTeacher(\Yii::$app->user->identity->getId());
+                $configTemplate = ['html' => 'verifyTeacherInUser-html', 'text' => 'verifyTeacherInUser-text'];
+                $configData = ['userOlympic' => $userOlympic];
+                $this->sendEmail($user, $configTemplate, $configData, 'Подтверждение. ');
+                $this->repository->save($userOlympic);
+            });
+        } catch (\DomainException $e) {
+            \Yii::$app->session->setFlash('error'," Ошибка сохранения");
+        }
+    }
+
+    public function confirm($hash): void
+    {
+        $userOlympic = $this->repository->getHash($hash);
+        $userOlympic->setStatus(UserOlimpiads::ACTIVE);
+        $this->repository->save($userOlympic);
+    }
+
+    public function reset($hash): void
+    {
+        $userOlympic = $this->repository->getHash($hash);
+        $userOlympic->setReset();
+        $this->repository->save($userOlympic);
+    }
+
 }

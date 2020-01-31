@@ -23,6 +23,15 @@ class UserOlimpiadsRepository
         return $model;
     }
 
+    public function getHash($hash): UserOlimpiads
+    {
+        if (!$model = UserOlimpiads::findOne(['hash' => $hash])) {
+            throw new \DomainException("Такой записи нет");
+        }
+        return $model;
+    }
+
+
     public function save(UserOlimpiads $model): void
     {
         if (!$model->save()) {

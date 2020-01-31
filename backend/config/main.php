@@ -16,6 +16,15 @@ return [
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'container' => [
+        'definitions' => [
+            \backend\widgets\adminlte\grid\GridView::class => \yii\grid\GridView::class,
+            \yii\widgets\DetailView::class => [
+                'class' => \yii\widgets\DetailView::class,
+                'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '[нет данных]'],
+            ],
+        ]
+    ],
     'modules' => [],
     'controllerMap' => [
         'elfinder' => [

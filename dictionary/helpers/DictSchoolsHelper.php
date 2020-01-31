@@ -9,7 +9,17 @@ class DictSchoolsHelper
 {
     public static function schoolName($key): ?string
     {
-        return  DictSchools::findOne($key)->name ?? null;
+        return self::find($key)->name ?? null;
+    }
+
+    public static function schoolEmail($key): ?string
+    {
+        return  self::find($key)->email ?? null;
+    }
+
+    protected static function find($key): ?DictSchools
+    {
+        return  DictSchools::findOne($key);
     }
 
     public static function preSchoolName($key): ?string

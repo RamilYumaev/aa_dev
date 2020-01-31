@@ -13,6 +13,8 @@ return [
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
+        '@operatorRoot' => $params['operatorPath'],
+        '@operatorInfo' => $params['operatorHostInfo'],
     ],
     'controllerNamespace' => 'operator\controllers',
     'bootstrap' => ['log'],
@@ -35,7 +37,22 @@ return [
                     ],
                 ],
             ],
-        ]
+        ],
+        'account' => [
+            'class' => 'common\auth\controllers\AuthController',
+            'role' => \olympic\helpers\auth\ProfileHelper::ROLE_OPERATOR,
+        ],
+        'sign-up' => [
+            'class' => \common\auth\controllers\SignupController::class,
+            'role' => \olympic\helpers\auth\ProfileHelper::ROLE_OPERATOR,
+        ],
+        'profile' => [
+            'class' => \common\auth\controllers\ProfileController::class,
+            'view' => 'profile-default',
+        ],
+        'reset' => \common\auth\controllers\ResetController::class,
+
+
     ],
     'components' => [
         'request' => [
@@ -47,9 +64,9 @@ return [
 //            'enableAutoLogin' => true,
 //            'identityCookie' => ['name' => '_identity-operator', 'httpOnly' => true],
             'authTimeout' => 60 * 60 * 24, //100 дней для примера
-            'loginUrl' => ['auth/auth/login'],
+            'loginUrl' => ['account/login'],
         ],
-        //'authClientCollection' => require __DIR__ . '/../../common/config/social.php',
+        'authClientCollection' => require __DIR__ . '/../../common/config/social.php',
         'session' => [
             // this is the name of the session cookie used for login on the operator
             'name' => 'advanced-operator',
@@ -77,7 +94,7 @@ return [
     ],
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['auth/auth/login', 'site/error', 'auth/auth/logout'],
+        'except' => ['account/*', 'site/error', 'sign-up/*', 'reset/*'],
         'rules' => [
             [
                 'allow' => true,

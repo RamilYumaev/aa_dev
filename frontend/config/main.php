@@ -16,6 +16,25 @@ return [
     ],
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'controllerMap' => [
+        'account' => [
+            'class' => \common\auth\controllers\AuthController::class,
+            'role' => \olympic\helpers\auth\ProfileHelper::ROLE_STUDENT,
+        ],
+        'sign-up' => [
+            'class' => \common\auth\controllers\SignupController::class,
+            'role' => \olympic\helpers\auth\ProfileHelper::ROLE_STUDENT,
+        ],
+        'schools' => [
+            'class' => \common\user\controllers\SchoolsController::class,
+            'role' => \olympic\helpers\auth\ProfileHelper::ROLE_STUDENT,
+        ],
+        'profile' => [
+            'class' => \common\auth\controllers\ProfileController::class,
+            'view' => 'profile-user',
+        ],
+        'reset' => \common\auth\controllers\ResetController::class,
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -25,39 +44,9 @@ return [
 //            'enableAutoLogin' => true,
 //            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'authTimeout' => 60 * 60 * 24, //100 дней для примера
-            'loginUrl' => ['auth/auth/login'],
+            'loginUrl' => ['account/login'],
         ],
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-//                'google' => [
-//                    'class' => 'yii\authclient\clients\Google',
-//                    'clientId' => 'google_client_id',
-//                    'clientSecret' => 'google_client_secret',
-//                ],
-
-                'yandex' => [
-                    'class' => 'yii\authclient\clients\Yandex',
-                    'clientId' => '14ccd7cc6ae04ed680e250aa2b65a369',
-                    'clientSecret' => 'f2ed1d137a0443529b607514ad49985f',
-                ],
-
-                'facebook' => [
-                    'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => '993150624227282',
-                    'clientSecret' => '062d3794e0913366d9dd9aef50bfbd4f',
-                    'scope' => 'email',
-                ],
-
-                'vkontakte' => [
-                    'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' => '6840071',
-                    'clientSecret' => 'kjKLyc2zgJB5k9pL80A9',
-                    'scope' => 'email',
-                ]
-
-            ],
-        ],
+        'authClientCollection' => require __DIR__ . '/../../common/config/social.php',
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
@@ -88,8 +77,7 @@ return [
     'as access' => [
         'class' => 'yii\filters\AccessControl',
         'except' => ['olympiads/*', 'dod/*', 'print/*',
-            'diploma/*','auth/signup/*', 'auth/reset/*','site/*', 'auth/auth/login', 'invitation/*',
-            'auth/auth/auth', 'schools/*'],
+            'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*', 'reset/*', 'auth/confirm/*'],
         'rules' => [
             [
                 'allow' => true,

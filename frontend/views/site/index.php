@@ -10,7 +10,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <div class="row mt-30">
     <div class="col-md-2" align="center">
         <?php if (!Yii::$app->user->isGuest) {
-            echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/auth/profile/profile');
+            echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/profile/edit');
         } ?>
 
     </div>

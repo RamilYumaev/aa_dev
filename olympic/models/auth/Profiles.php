@@ -45,6 +45,12 @@ class Profiles extends \yii\db\ActiveRecord
         return $profile;
     }
 
+    public function setRole($role)
+    {
+       $this->role = $role;
+    }
+
+
     public function edit(ProfileEditForm $form)
     {
         $this->last_name = $form->last_name;

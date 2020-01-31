@@ -22,6 +22,12 @@ class ProfileRepository
         return $profile;
     }
 
+    public function getUser($user_id): ?Profiles
+    {
+        $profile = Profiles::findOne(['user_id' => $user_id ]);
+        return $profile;
+    }
+
     public function save(Profiles $model): void
     {
         if (!$model->save()) {

@@ -18,11 +18,11 @@ echo Nav::widget([
         ['label' => 'Дни открытых дверей', 'url' => ['/dod']],
         // ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']],
         Yii::$app->user->isGuest ?
-            ['label' => 'Регистрация', 'url' => ['/auth/signup/request']] : ['label' => ''],
+            ['label' => 'Регистрация', 'url' => ['/sign-up/request']] : ['label' => ''],
         Yii::$app->user->isGuest ?
-            ['label' => 'Вход', 'url' => ['/auth/auth/login']] :
+            ['label' => 'Вход', 'url' => ['/account/login']] :
             ['label' => 'Выход (' . Yii::$app->user->identity->getUsername() . ')',
-                'url' => ['/auth/auth/logout'], 'linkOptions' => ['data-method' => 'post']],
+                'url' => ['/account/logout'], 'linkOptions' => ['data-method' => 'post']],
     ]
 
 ]);

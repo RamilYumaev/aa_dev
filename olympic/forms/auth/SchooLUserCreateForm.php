@@ -4,7 +4,6 @@
 namespace olympic\forms\auth;
 
 use common\auth\forms\CompositeForm;
-use common\auth\models\UserSchool;
 use olympic\repositories\auth\ProfileRepository;
 
 class SchooLUserCreateForm extends CompositeForm
@@ -13,7 +12,9 @@ class SchooLUserCreateForm extends CompositeForm
     public $region_id;
     public $country_id;
 
-    public function __construct(UserSchool $userSchool = null, $config = [])
+    public function __construct($role,
+                                $userSchool = null,
+                                $config = [])
     {
         $repository = new ProfileRepository();
         $this->_profile = $repository->getUserId();
@@ -21,10 +22,11 @@ class SchooLUserCreateForm extends CompositeForm
             $this->region_id = $this->_profile->region_id ?? 0;
             $this->country_id = $this->_profile->country_id;
         }
+
         if ($userSchool) {
-            $this->schoolUser = new SchoolUserUpdateForm($userSchool);
+            $this->schoolUser = new SchoolUserUpdateForm($userSchool, $role);
         } else {
-            $this->schoolUser = new SchooLUserForm();
+            $this->schoolUser = new SchooLUserForm($role);
         }
 
         parent::__construct($config);

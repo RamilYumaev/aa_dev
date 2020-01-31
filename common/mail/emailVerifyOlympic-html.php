@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $user common\auth\models\User */
 /* @var $olympic int */
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['auth/signup/confirm-olympic', 'token' => $user->verification_token,
+$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['confirm/olympic', 'token' => $user->verification_token,
     'olympic_id' => $olympic]);
 ?>
 <div class="verify-email">
