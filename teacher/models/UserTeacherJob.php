@@ -3,9 +3,8 @@
 
 namespace teacher\models;
 
-use common\helpers\EduYearHelper;
 use teacher\helpers\UserTeacherJobHelper;
-use yii\behaviors\TimestampBehavior;
+use teacher\models\queries\UserTeacherJobQuery;
 use yii\db\ActiveRecord;
 
 class UserTeacherJob extends ActiveRecord
@@ -70,6 +69,11 @@ class UserTeacherJob extends ActiveRecord
         return [
             'school_id' => 'Название учебной организации',
         ];
+    }
+
+    public static function find(): UserTeacherJobQuery
+    {
+        return new UserTeacherJobQuery(static::class);
     }
 
 }

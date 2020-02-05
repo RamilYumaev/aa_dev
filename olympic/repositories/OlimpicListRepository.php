@@ -1,13 +1,11 @@
 <?php
 
-
 namespace olympic\repositories;
-
 
 use common\helpers\EduYearHelper;
 use olympic\helpers\OlympicHelper;
-use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicList;
+use olympic\models\Olympic;
 use yii\web\HttpException;
 
 class OlimpicListRepository
@@ -31,7 +29,8 @@ class OlimpicListRepository
 
     public function getManager($id)
     {
-        if (($model = OlimpicList::find()->where(['id'=>$id,'olimpic_id'=>OlympicHelper::olympicManagerList()])->one()) !== null) {
+        if (($model = Olympic::find()->andWhere(['id'=>$id])
+                ->andWhere(['id'=>OlympicHelper::olympicManagerList()])->one()) !== null) {
             return $model;
         }
        throw new HttpException('403', "Нет такой олимпиады");

@@ -3,15 +3,23 @@
 
 namespace dictionary\models;
 
-
-use dictionary\forms\DictSchoolsCreateForm;
-use dictionary\forms\DictSchoolsEditForm;
-use dictionary\forms\DictSpecialityCreateForm;
+use common\moderation\behaviors\ModerationBehavior;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\models\queries\DictSchoolsQuery;
 
-class DictSchools extends \yii\db\ActiveRecord
+class DictSchools extends YiiActiveRecordAndModeration
 {
+    public function behaviors()
+    {
+        return [
+            'moderation' => [
+                'class' => ModerationBehavior::class,
+                'attributes' => ['name'],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -25,7 +33,7 @@ class DictSchools extends \yii\db\ActiveRecord
         $schools = new static();
         $schools->name = $name;
         $schools->country_id = $country_id;
-        $schools->region_id =  $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
+        $schools->region_id = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
         return $schools;
     }
 
@@ -33,7 +41,7 @@ class DictSchools extends \yii\db\ActiveRecord
     {
         $this->name = $name;
         $this->country_id = $country_id;
-        $this->region_id =  $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
+        $this->region_id = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
     }
 
     public function setEmail($email)
@@ -65,5 +73,13 @@ class DictSchools extends \yii\db\ActiveRecord
         return new DictSchoolsQuery(static::class);
     }
 
+    public function titleModeration(): string
+    {
+        return "Учебные организации";
+    }
 
+    public function moderationAttributes($value): array
+    {
+        return ['name' => $value ];
+    }
 }

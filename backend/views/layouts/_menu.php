@@ -93,7 +93,7 @@ array_merge(
                 ['label' => 'Пользователи', 'url' => '/rbac/user'],
                 ['label' => 'Правила', 'url' => '/rbac/rule'],
                 ['label' => 'Меню', 'url' => '/rbac/menu'],
-
-            ])]] : []
+            ])]] : [],
+    [['label' => 'Модерация', 'url' => '/moderation',]]
 
 )) : [];
