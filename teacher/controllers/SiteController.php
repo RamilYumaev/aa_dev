@@ -4,6 +4,8 @@ namespace teacher\controllers;
 
 use olympic\forms\WebConferenceForm;
 use olympic\models\WebConference;
+use teacher\models\UserTeacherJob;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
 
@@ -28,7 +30,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $dataProvider = new ActiveDataProvider(['query' => UserTeacherJob::find()->diploma()]);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
 }

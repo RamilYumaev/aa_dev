@@ -38,7 +38,7 @@ trait NewOrRenameSchoolTrait
             $userSchoolForm->check_rename_school &&
             $userSchoolForm->new_school) {
             $school = $schoolsRepository->get($userSchoolForm->school_id);
-            $school->edit($userSchoolForm->new_school, $profileForm->conutry_id, $profileForm->region_id);
+            $school->edit($userSchoolForm->new_school, $profileForm->country_id, $profileForm->region_id);
         } elseif (!$userSchoolForm->check_region_and_country_school &&
             $userSchoolForm->check_rename_school &&
             $userSchoolForm->new_school) {

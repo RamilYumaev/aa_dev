@@ -44,6 +44,9 @@ return [
                     ],
                 ],
             ],
+        ],
+        'moderation' =>[
+            'class' => \common\moderation\controllers\ModerationController::class
         ]
     ],
     'components' => [

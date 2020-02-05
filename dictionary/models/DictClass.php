@@ -6,15 +6,30 @@ use dictionary\forms\DictClassEditForm;
 use dictionary\forms\DictClassCreateForm;
 use dictionary\helpers\DictClassHelper;
 use dictionary\models\queries\DictClassQuery;
-use dictionary\models\queries\DictCompetitiveGroupQuery;
-use yii\helpers\ArrayHelper;
+use yii\db\ActiveRecord;
 
-class DictClass extends \yii\db\ActiveRecord
+class DictClass extends ActiveRecord
 {
 
     public static function tableName()
     {
         return 'dict_class';
+    }
+
+
+
+
+    public function moderationAttributes($value):array
+    {
+        return [
+            'name' => $value,
+            'type' => DictClassHelper::typeName($value)
+        ];
+    }
+
+    public function titleModeration(): string
+    {
+        return "Класс";
     }
 
     public static function create(DictClassCreateForm $form): self
@@ -58,5 +73,6 @@ class DictClass extends \yii\db\ActiveRecord
     {
         return new DictClassQuery(static::class);
     }
+
 
 }

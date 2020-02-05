@@ -46,7 +46,7 @@ class DictClassHelper
         ];
     }
 
-    public static function typeName($type_id): string
+    public static function typeName($type_id): ? string
     {
         return ArrayHelper::getValue(self::typeOfClass(), $type_id);
     }
