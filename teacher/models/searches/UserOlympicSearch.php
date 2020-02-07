@@ -4,7 +4,9 @@ namespace teacher\models\searches;
 
 use common\auth\models\UserSchool;
 use dictionary\helpers\DictSchoolsHelper;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\OlympicListHelper;
+use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use teacher\helpers\UserTeacherJobHelper;
 use yii\base\Model;
@@ -14,13 +16,15 @@ use yii\helpers\ArrayHelper;
 
 class UserOlympicSearch extends Model
 {
-    public $school_id;
+    public $year;
     public $olympiads_id;
+    public $user_id;
 
     public function rules()
     {
         return [
-            [['school_id', 'olympiads_id'], 'integer']
+            [['year'], 'string'],
+            [['olympiads_id', 'user_id'], 'integer']
         ];
     }
 
@@ -44,8 +48,9 @@ class UserOlympicSearch extends Model
         }
 
         $query->andFilterWhere([
-            'us.school_id' => $this->school_id,
+            'o.year' => $this->year,
             'uo.olympiads_id' => $this->olympiads_id,
+            'uo.user_id' => $this->user_id,
         ]);
         return $dataProvider;
     }
@@ -53,33 +58,29 @@ class UserOlympicSearch extends Model
     protected function find() {
         $query = UserOlimpiads::find()
             ->alias("uo")
-            ->innerJoin(UserSchool::tableName() . ' us', 'us.user_id = uo.user_id')
-            ->andWhere(['us.school_id' => UserTeacherJobHelper::columnSchoolId()])
-            ->select(['uo.user_id', 'uo.olympiads_id', 'uo.status',
-                'uo.id','us.school_id']);
-
+            ->innerJoin(OlimpicList::tableName() . ' o',  'uo.olympiads_id =o.id')
+            ->select(['uo.user_id', 'uo.olympiads_id',]);
         return $query;
     }
 
     public function attributeLabels()
     {
-        return ['school_id' => "Учебная организация",
-                'olympiads_id' => 'Олимпиада'];
+        return ['year' => "Учебный год",
+                'olympiads_id' => 'Олимпиада',
+                'user_id' => 'ФИО Участника',
+            ];
     }
 
     public function listOlympic()
     {
-        return  ArrayHelper::map($this->find()->asArray()->all(), 'olympiads_id', function ($array) {
-            return OlympicListHelper::olympicAndYearName($array['olympiads_id']);
-        });
+        return OlympicListHelper::olympicAndYearList();
     }
 
-    public function listSchool()
+    public function listUser()
     {
-        return  ArrayHelper::map($this->find()->asArray()->all(), 'school_id', function ($array) {
-            return DictSchoolsHelper::schoolName($array['school_id']);
+        return  ArrayHelper::map(UserOlimpiads::find()->where(['olympiads_id'=> $this->olympiads_id])->asArray()->all(), 'user_id',
+            function ($array) {
+            return ProfileHelper::profileFullName($array['user_id']);
         });
     }
-
-
 }

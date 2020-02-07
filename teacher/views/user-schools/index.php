@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-success">
             <div class="box-body">
-                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+                <?= $this->render('_search', ['model' => $searchModel]); ?>
             </div>
         </div>
     </div>
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
-                <?php echo $this->render('_data', ['dataProvider' => $dataProvider]); ?>
+                <?= $this->render('_data', ['dataProvider' => $dataProvider]); ?>
             </div>
         </div>
     </div>

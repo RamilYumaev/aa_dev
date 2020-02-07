@@ -14,6 +14,7 @@ use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
 use common\sending\traits\MailTrait;
 use common\transactions\TransactionManager;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use olympic\repositories\ClassAndOlympicRepository;
@@ -105,6 +106,18 @@ class UserOlimpiadsService
         $userOlympic = $this->repository->getHash($hash);
         $userOlympic->setReset();
         $this->repository->save($userOlympic);
+    }
+
+    public function allUsersAjax($olympic)
+    {
+        $users = [];
+        foreach (UserOlimpiads::find()->where(['olympiads_id'=>$olympic])->all() as $user ) {
+            $users[] = [
+                'id' => $user->user_id,
+                'name' =>ProfileHelper::profileFullName($user->user_id) ,
+            ];
+        }
+        return $users;
     }
 
 }

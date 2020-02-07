@@ -28,10 +28,12 @@ class SiteController extends Controller
      *
      * @return string
      */
+
+
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider(['query' => UserTeacherJob::find()->diploma()]);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+//        $dataProvider = new ActiveDataProvider(['query' => UserTeacherJob::find()->diploma()]);
+        return $this->render('index');
     }
 
 }

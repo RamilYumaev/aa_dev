@@ -184,12 +184,8 @@ levelSelect.on("change init", function(){
             }
         },
         error: function() {
-
         }
-
     });
-
-
 });
 
 
