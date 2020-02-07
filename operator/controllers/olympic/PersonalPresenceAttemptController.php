@@ -385,7 +385,7 @@ class PersonalPresenceAttemptController extends Controller
 
     protected function findOlympic($olympic_id) {
 
-        return $this->olimpicListRepository->getManager($olympic_id);
+        return $this->olimpicListRepository->getManagerList($olympic_id);
     }
 
     /**
@@ -396,7 +396,7 @@ class PersonalPresenceAttemptController extends Controller
      */
 
     protected function isFinishOlympic($olympic_id) {
-        $olympic = $this->olimpicListRepository->getManager($olympic_id);
+        $olympic = $this->olimpicListRepository->getManagerList($olympic_id);
         if ($olympic->isResultEndTour()) {
             throw new \DomainException('Данная олимпиада завершена');
         }

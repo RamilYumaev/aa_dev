@@ -29,6 +29,6 @@ class m190124_110444_add_user_teacher_job_table extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable($this->table());
     }
 }

@@ -11,16 +11,6 @@ $this->title= "Главная"
         <h4>Благодарности</h4>
     </div>
     <div class="box-body">
-        <?= \backend\widgets\adminlte\grid\GridView::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                ['class' => \yii\grid\SerialColumn::class],
-                ['attribute' => 'school_id',
-                    'value' => function (\teacher\models\UserTeacherJob $model) {
-                        return DictSchoolsHelper::schoolName($model->school_id);
-                    },
-                ],
-            ],
-        ]); ?>
+
     </div>
 </div>

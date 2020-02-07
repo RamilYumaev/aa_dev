@@ -33,7 +33,15 @@ class OlimpicListRepository
                 ->andWhere(['id'=>OlympicHelper::olympicManagerList()])->one()) !== null) {
             return $model;
         }
-       throw new HttpException('403', "Нет такой олимпиады");
+       throw new HttpException('403', "Вам не разрешено данное действие");
+    }
+
+    public function getManagerList($id)
+    {
+        if (($model = OlimpicList::find()->where(['id'=>$id,'olimpic_id'=>OlympicHelper::olympicManagerList()])->one()) !== null) {
+            return $model;
+        }
+        throw new HttpException('403', "Вам не разрешено данное действие");
     }
 
 

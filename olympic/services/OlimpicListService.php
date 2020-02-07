@@ -152,4 +152,19 @@ class OlimpicListService
         ClassAndOlympic::deleteAll(['olympic_id' => $id]);
     }
 
+    public function allOlympicsAjax($year)
+    {
+        $olympics = [];
+        foreach (OlimpicList::find()->where(['year'=>$year])->all() as $olympic ) {
+            $olympics[] = [
+                'id' => $olympic->id,
+                'name' => $olympic->name
+            ];
+        }
+        return $olympics;
+    }
+
+
+
+
 }
