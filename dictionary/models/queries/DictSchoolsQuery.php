@@ -35,4 +35,13 @@ class DictSchoolsQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['region_id' => $region_id, 'country_id' => $country_id]);
     }
 
+    /**
+     * @param $dict_school_report_id
+     * @return $this
+     */
+    public function notDictSchoolReportId($dict_school_report_id)
+    {
+        return $this->andWhere(['not', ['dict_school_report_id'=> $dict_school_report_id]]);
+    }
+
 }

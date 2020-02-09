@@ -10,15 +10,15 @@ use dictionary\models\queries\DictSchoolsQuery;
 
 class DictSchools extends YiiActiveRecordAndModeration
 {
-    public function behaviors()
-    {
-        return [
-            'moderation' => [
-                'class' => ModerationBehavior::class,
-                'attributes' => ['name'],
-            ],
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'moderation' => [
+//                'class' => ModerationBehavior::class,
+//                'attributes' => ['name'],
+//            ],
+//        ];
+//    }
 
     /**
      * {@inheritdoc}
@@ -47,6 +47,11 @@ class DictSchools extends YiiActiveRecordAndModeration
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function setDictSchoolReportId($id)
+    {
+        $this->dict_school_report_id = $id;
     }
 
     /**
