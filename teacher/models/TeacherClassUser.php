@@ -16,10 +16,10 @@ class TeacherClassUser extends ActiveRecord
         return 'teacher_user_class';
     }
 
-    public static function create($id_olympic_user, $user_id)
+    public static function create($id_olympic_user)
     {
         $userTeacherJob = new static();
-        $userTeacherJob ->user_id = $user_id;
+        $userTeacherJob ->user_id = \Yii::$app->user->identity->getId();
         $userTeacherJob ->id_olympic_user = $id_olympic_user;
         return $userTeacherJob;
     }
@@ -33,21 +33,6 @@ class TeacherClassUser extends ActiveRecord
     public function setStatus($status)
     {
         $this->status = $status;
-    }
-
-    public function isStatusWait()
-    {
-        return $this->status == UserTeacherJobHelper::WAIT;
-    }
-
-    public function isStatusActive()
-    {
-        return $this->status == UserTeacherJobHelper::ACTIVE;
-    }
-
-    public function isStatusDraft()
-    {
-        return $this->status == UserTeacherJobHelper::DRAFT;
     }
 
     public function generateVerificationToken()

@@ -11,6 +11,15 @@ $this->title= "Главная"
         <h4>Благодарности</h4>
     </div>
     <div class="box-body">
-
+        <?= \backend\widgets\adminlte\grid\GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                ['class' => \yii\grid\SerialColumn::class],
+                'id',
+                ['class' => \yii\grid\ActionColumn::class,
+                    'template' => '{view}',
+                ],
+            ]
+        ]); ?>
     </div>
 </div>

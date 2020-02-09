@@ -59,7 +59,7 @@ class UserOlympicSearch extends Model
         $query = UserOlimpiads::find()
             ->alias("uo")
             ->innerJoin(OlimpicList::tableName() . ' o',  'uo.olympiads_id =o.id')
-            ->select(['uo.user_id', 'uo.olympiads_id',]);
+            ->select(['uo.user_id', 'uo.olympiads_id', 'uo.id']);
         return $query;
     }
 
@@ -71,16 +71,4 @@ class UserOlympicSearch extends Model
             ];
     }
 
-    public function listOlympic()
-    {
-        return OlympicListHelper::olympicAndYearList();
-    }
-
-    public function listUser()
-    {
-        return  ArrayHelper::map(UserOlimpiads::find()->where(['olympiads_id'=> $this->olympiads_id])->asArray()->all(), 'user_id',
-            function ($array) {
-            return ProfileHelper::profileFullName($array['user_id']);
-        });
-    }
 }

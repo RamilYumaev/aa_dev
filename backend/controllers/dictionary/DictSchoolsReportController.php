@@ -82,6 +82,20 @@ class DictSchoolsReportController extends Controller
     {
         return $this->render('view', [
             'school' => $this->findModel($id),
+            'isAdd' => false
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionAdd($id)
+    {
+        return $this->render('view', [
+            'school' => $this->findModel($id),
+            'isAdd' => true
         ]);
     }
 

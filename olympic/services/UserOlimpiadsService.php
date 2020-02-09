@@ -14,12 +14,15 @@ use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
 use common\sending\traits\MailTrait;
 use common\transactions\TransactionManager;
+use common\user\repositories\TeacherClassUserRepository;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use olympic\repositories\ClassAndOlympicRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\UserOlimpiadsRepository;
+use teacher\helpers\TeacherClassUserHelper;
+use teacher\models\TeacherClassUser;
 
 class UserOlimpiadsService
 {
@@ -30,13 +33,15 @@ class UserOlimpiadsService
     private $deliveryStatusRepository;
     private $transactionManager;
     private $userRepository;
+    private $teacherClassUserRepository;
 
     use MailTrait;
 
     function __construct(UserOlimpiadsRepository $repository, OlimpicListRepository $olimpicListRepository,
                          ClassAndOlympicRepository $classAndOlympicRepository, UserSchoolRepository $userSchoolRepository,
                          SendingDeliveryStatusRepository $deliveryStatusRepository,
-                         TransactionManager $transactionManager, UserRepository $userRepository)
+                         TransactionManager $transactionManager, UserRepository $userRepository,
+                         TeacherClassUserRepository $teacherClassUserRepository)
     {
         $this->repository = $repository;
         $this->olimpicListRepository = $olimpicListRepository;
@@ -45,6 +50,7 @@ class UserOlimpiadsService
         $this->deliveryStatusRepository = $deliveryStatusRepository;
         $this->transactionManager = $transactionManager;
         $this->userRepository = $userRepository;
+        $this->teacherClassUserRepository = $teacherClassUserRepository;
     }
 
     public function add($olympic_id, $user_id) {
@@ -81,13 +87,14 @@ class UserOlimpiadsService
         }
         try {
             $this->transactionManager->wrap(function () use ($userOlympic, $user) {
-                $userOlympic->setStatus(UserOlimpiads::WAIT);
-                $userOlympic->generateVerificationToken();
-                $userOlympic->setTeacher(\Yii::$app->user->identity->getId());
+                $userTeacherClass = TeacherClassUser::create($userOlympic->id);
+                $userTeacherClass->setStatus(TeacherClassUserHelper::WAIT);
+                $userTeacherClass->generateVerificationToken();
                 $configTemplate = ['html' => 'verifyTeacherInUser-html', 'text' => 'verifyTeacherInUser-text'];
-                $configData = ['userOlympic' => $userOlympic];
+                $configData = ['userOlympic' => $userOlympic, 'hash'=> $userTeacherClass->hash,
+                    'teacher_id' =>\Yii::$app->user->identity->getId()];
                 $this->sendEmail($user, $configTemplate, $configData, 'Подтверждение. ');
-                $this->repository->save($userOlympic);
+                $this->teacherClassUserRepository->save($userTeacherClass);
             });
         } catch (\DomainException $e) {
             \Yii::$app->session->setFlash('error'," Ошибка сохранения");
@@ -96,9 +103,9 @@ class UserOlimpiadsService
 
     public function confirm($hash): void
     {
-        $userOlympic = $this->repository->getHash($hash);
-        $userOlympic->setStatus(UserOlimpiads::ACTIVE);
-        $this->repository->save($userOlympic);
+        $userTeacherClass = $this->teacherClassUserRepository->getHash($hash);
+        $userTeacherClass->setStatus(TeacherClassUserHelper::ACTIVE);
+        $this->teacherClassUserRepository->save($userTeacherClass);
     }
 
     public function reset($hash): void
