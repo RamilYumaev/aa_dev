@@ -1,9 +1,6 @@
 <?php
 
-use yii\grid\ActionColumn;
-use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
-use dictionary\models\DictSchools;
 
 /* @var $this yii\web\View */
 /* @var $searchModel dictionary\forms\search\DictSchoolsSearch */
@@ -25,19 +22,8 @@ use dictionary\models\DictSchools;
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
                 'name',
-                ['attribute' => 'country_id',
-                    'filter' => $searchModel->countryList(),
-                    'value' => function (DictSchools $model) {
-                        return \dictionary\helpers\DictCountryHelper::countryName($model->country_id);
-                    },
-                ],
-                ['attribute' => 'region_id',
-                    'filter' => $searchModel->regionList(),
-                    'value' => function (DictSchools $model) {
-                        return \dictionary\helpers\DictRegionHelper::regionName($model->region_id);
-                    },
-                ],
                 ['class' => 'yii\grid\CheckboxColumn',
+                    'multiple' => false,
                     'checkboxOptions' => function ($model, $key, $index, $column) use($school_id) {
                       return ['onchange' =>
                          '$.post("/dictionary/dict-schools/select-school?id='.$model->id.'&school_id='.$school_id.'", 

@@ -32,18 +32,19 @@ use olympic\models\UserOlimpiads;
                 return $model->classUser;
             }
         ],
-//        ['value' => function (UserOlimpiads $model) {
-//                if ($model->isStatusDraft()) {
-//                    return Html::a("Подтвердить",
-//                        ['schools-setting/send-user', 'id' => $model->id], [
-//                            'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это  Ваш ученик/студент и хотите отправить
-//                        письмо с подтверждением?']);
-//                } else {
-//                   return UserOlimpiads::statusName($model->status);
-//                }
-//            },
-//            'format' => 'raw'
-//        ],
+        ['value' => function (UserOlimpiads $model) {
+               $userTeacherClass = \teacher\helpers\TeacherClassUserHelper::find($model->id);
+                if (is_null($userTeacherClass)) {
+                    return Html::a("Подтвердить",
+                        ['schools-setting/send-user', 'id' => $model->id], [
+                            'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это  Ваш ученик/студент и хотите отправить
+                        письмо с подтверждением?']);
+                } else {
+                   return UserOlimpiads::statusName($userTeacherClass->status);
+                }
+            },
+            'format' => 'raw'
+        ],
     ]
 ]); ?>
 
