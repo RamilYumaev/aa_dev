@@ -7,12 +7,14 @@ use dictionary\helpers\DictRegionHelper;
 use dictionary\models\DictSchools;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\QueryInterface;
 
 class DictSchoolsSearch extends Model
 {
     public $country_id;
     public $region_id;
     public $name;
+    protected $query;
 
     public function rules(): array
     {
@@ -22,13 +24,25 @@ class DictSchoolsSearch extends Model
         ];
     }
 
+    public function __construct(QueryInterface $query =null, $config = [])
+    {
+        if ($query) {
+            $this->query = $query;
+        }else {
+            $this->query = DictSchools::find();
+        }
+
+
+        parent::__construct($config);
+    }
+
     /**
      * @param array $params
      * @return ActiveDataProvider
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = DictSchools::find();
+        $query = $this->query;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

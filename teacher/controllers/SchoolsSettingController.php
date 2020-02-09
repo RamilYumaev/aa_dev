@@ -41,7 +41,7 @@ class SchoolsSettingController extends Controller
      */
     public function actionAddEmail($id)
     {
-        $form = new SchoolEmailForm(DictSchools::class);
+        $form = new SchoolEmailForm(DictSchools::class, false);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

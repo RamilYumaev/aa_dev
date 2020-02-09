@@ -7,18 +7,20 @@ use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
 use dictionary\forms\search\DictSchoolsSearch;
 use dictionary\models\DictSchools;
+use dictionary\models\DictSchoolsReport;
+use dictionary\services\DictSchoolsReportService;
 use dictionary\services\DictSchoolsService;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 
-class DictSchoolsController extends Controller
+class DictSchoolsReportController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DictSchoolsService $service, $config = [])
+    public function __construct($id, $module, DictSchoolsReportService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -31,7 +33,6 @@ class DictSchoolsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'select-school'  => ['POST'],
                 ],
             ],
         ];
@@ -42,11 +43,12 @@ class DictSchoolsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DictSchoolsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       // $searchModel = new DictSchoolsSearch();
+        $dataProvider =  new ActiveDataProvider(['query'=> DictSchoolsReport::find()]);
+        // $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+          //  'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -69,6 +71,38 @@ class DictSchoolsController extends Controller
         return $this->render('create', [
             'model' => $form,
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'school' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @param $school_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionSelectSchool($school_id, $id)
+    {
+        $model = $this->findModel($id);
+        try {
+            $this->service->add($model->id,$school_id);
+            $msg = "Добавлен!";
+        } catch (\DomainException $e) {
+            $msg = $e->getMessage();
+        }
+        echo $msg;
+
     }
 
     /**
@@ -96,36 +130,14 @@ class DictSchoolsController extends Controller
         ]);
     }
 
-
-    /**
-     * @param $id
-     * @param $school_id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-    public function actionSelectSchool($id, $school_id)
-    {
-        $model = $this->findModel($id);
-        try {
-            $this->service->addDictSchoolReportId($model->id, $school_id);
-            $msg = "Добавлен!";
-        } catch (\DomainException $e) {
-            $msg = $e->getMessage();
-        }
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        return  $msg;
-
-    }
-
     /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): DictSchools
+    protected function findModel($id): DictSchoolsReport
     {
-        if (($model = DictSchools::findOne($id)) !== null) {
+        if (($model = DictSchoolsReport::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
