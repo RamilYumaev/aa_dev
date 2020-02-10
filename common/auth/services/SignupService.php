@@ -64,7 +64,7 @@ class SignupService
             $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
             $configData = ['user' => $user];
 
-            $this->sendEmail($user, $configTemplate, $configData);
+            $this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
         });
     }
 
