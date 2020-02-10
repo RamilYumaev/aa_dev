@@ -54,6 +54,10 @@ class DictSchools extends YiiActiveRecordAndModeration
         $this->dict_school_report_id = $id;
     }
 
+    public function schoolRelation($id) {
+        return self::find()->where(['id' => $id]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -62,6 +66,7 @@ class DictSchools extends YiiActiveRecordAndModeration
         return [
             'id' => 'ID',
             'name' => 'Название учебной организации',
+            'dict_school_report_id' => "Название УО в чистовике",
             'country_id' => 'Страна, где расположена учебная организация',
             'region_id' => 'Регион, где расположена учебная организация',
         ];

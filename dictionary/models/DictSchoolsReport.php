@@ -9,32 +9,42 @@ class DictSchoolsReport extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    private $dict_school;
+
+    public function __construct($config = [])
+    {
+        $this->dict_school = new DictSchools();
+        parent::__construct($config);
+    }
+
     public static function tableName()
     {
         return 'dict_schools_report';
     }
 
-    public static function create($name, $country_id, $region_id)
+    public static function create($school_id)
     {
         $report = new static();
-        $report->name = $name;
-        $report->country_id = $country_id;
-        $report->region_id = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
+        $report->school_id = $school_id;
 
         return $report;
     }
 
-    public function edit(DictSchoolsPreModerationForm $form)
+    public function edit($school_id)
     {
-        $this->name = $form->name;
-        $this->country_id = $form->country_id;
-        $this->region_id = $form->region_id;
+        $this->school_id = $school_id;
     }
 
-    public function setEmail($email)
-    {
-        $this->email = $email;
+
+
+    /**
+     * @return DictSchools
+     */
+    public function dictSchoolOne() {
+        return $this->dict_school->schoolRelation($this->school_id)->one();
     }
+
 
     /**
      * {@inheritdoc}
@@ -43,11 +53,7 @@ class DictSchoolsReport extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Название учебной организации',
-            'country_id' => 'Страна',
-            'region_id' => 'Регион',
-            'status' => "Статус",
-            'email' => "Email",
+            'school_id' => 'Название учебной организации',
         ];
     }
 

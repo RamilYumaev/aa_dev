@@ -22,6 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'rowOptions' => function(DictSchools $model){
+                    if (\dictionary\helpers\DictSchoolsReportHelper::isSchoolReport(
+                            $model->dict_school_report_id, $model->id)) {
+                        return ['class' => 'success'];
+                    }
+                },
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
@@ -35,6 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => $searchModel->regionList(),
                         'value' => function (DictSchools $model) {
                             return \dictionary\helpers\DictRegionHelper::regionName($model->region_id);
+                        },
+                    ],
+                    ['attribute' => 'dict_school_report_id',
+                        'format'=> "raw",
+                        'filter' => $searchModel->schoolReportList(),
+                        'value' => function (DictSchools $model) {
+                             if ($model->dict_school_report_id) {
+                                 $name = dictionary\helpers\DictSchoolsReportHelper::schoolReportName($model->dict_school_report_id);
+                                 return Html::a($name, ['dictionary/dict-schools-report/view', 'id' => $model->dict_school_report_id]);
+                              }
+                             return Html::a("Добавить в чистовик", ['add-in-report', 'id' => $model->id],
+                                 ['class'=>'btn btn-success', 'data'=>['method' => 'post', 'confirm' => 'Вы уверены, что хотите 
+                                 добавить учебную организацию в чистовик?']]);
                         },
                     ],
                     ['class' => ActionColumn::class,

@@ -31,20 +31,20 @@ class DictSchoolsWidget extends Widget
         return $this->render($this->viewPath(), [
              'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'school_id' => $this->model->id
+            'school' => $this->model
         ]);
     }
 
     private function queryDefaultSchool() {
         return DictSchools::find()
-            ->countryAndRegion($this->model->region_id, $this->model->country_id);
+            ->countryAndRegion($this->model->dictSchoolOne()->region_id, $this->model->dictSchoolOne()->country_id);
     }
 
     private function query() {
         if ($this->isAdd) {
             return $this->queryDefaultSchool()->notDictSchoolReportId();
         }
-        return $this->queryDefaultSchool()->dictSchoolReportId($this->model->id);
+        return $this->queryDefaultSchool()->dictSchoolReportId($this->model->id, $this->model->school_id);
     }
 
     private function viewPath() {

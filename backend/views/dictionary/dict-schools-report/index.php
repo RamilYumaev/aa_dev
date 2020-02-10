@@ -1,5 +1,4 @@
 <?php
-
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
@@ -21,25 +20,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
-                //'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
-                    'name',
-                    ['attribute' => 'country_id',
-                        //'filter' => $searchModel->countryList(),
+                    ['attribute' => 'school_id',
                         'value' => function (DictSchoolsReport $model) {
-                            return \dictionary\helpers\DictCountryHelper::countryName($model->country_id);
+                            return $model->dictSchoolOne()->name;
                         },
                     ],
-                    ['attribute' => 'region_id',
-                       //'filter' => $searchModel->regionList(),
-                        'value' => function (DictSchoolsReport $model) {
-                            return \dictionary\helpers\DictRegionHelper::regionName($model->region_id);
-                        },
-                    ],
-                    'status',
                     ['class' => ActionColumn::class,
-                        'template' => '{view}',
+                        'template' => '{view} {delete}',
                     ],
                 ]
             ]); ?>

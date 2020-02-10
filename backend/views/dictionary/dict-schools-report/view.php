@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $isAdd boolean */
 
 $title = $isAdd ? " Поиск и добавление": " Просмотр";
-$this->title = $school->name. $title;
+$this->title = $school->dictSchoolOne()->name. $title;
 $this->params['breadcrumbs'][] = ['label' => 'Учебные организации. Для отчетов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,16 +17,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= DetailView::widget([
                     'model' => $school,
                     'attributes' => [
-                        'id',
-                        'name',
-                        'email:email',
-                        ['attribute' => 'country_id',
-                            'value' => \dictionary\helpers\DictCountryHelper::countryName($school->country_id),
+                        ['label' => 'Наименование',
+                            'value' => $school->dictSchoolOne()->name,
                         ],
-                        ['attribute' => 'region_id',
-                            'value' =>  \dictionary\helpers\DictRegionHelper::regionName($school->region_id),
+                        ['label' => 'Email',
+                            'value' => $school->dictSchoolOne()->email
                         ],
-                        'status'
+                        ['label' => 'Страна',
+                            'value' => \dictionary\helpers\DictCountryHelper::countryName(
+                                    $school->dictSchoolOne()->country_id),
+                        ],
+                        ['label' => 'Регион',
+                            'value' =>  \dictionary\helpers\DictRegionHelper::regionName($school->dictSchoolOne()->region_id),
+                        ],
                     ],
                 ]) ?>
             </div>

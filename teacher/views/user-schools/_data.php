@@ -32,7 +32,7 @@ use olympic\models\UserOlimpiads;
                 return $model->classUser;
             }
         ],
-        ['header' => "Призер",
+        ['header' => "Призер/Сертификат",
             'value' => function (UserOlimpiads $model) {
                 $diploma = $model->olympicUserDiploma();
                 if ($diploma) {
@@ -49,7 +49,7 @@ use olympic\models\UserOlimpiads;
                             'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это  Ваш ученик/студент и хотите отправить
                         письмо с подтверждением?']);
                 } else {
-                   return UserOlimpiads::statusName($userTeacherClass->status);
+                   return \teacher\helpers\TeacherClassUserHelper::statusName($userTeacherClass->status);
                 }
             },
             'format' => 'raw'

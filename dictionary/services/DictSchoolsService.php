@@ -28,11 +28,9 @@ class DictSchoolsService
     public function create(DictSchoolsCreateForm $form)
     {
         $this->transactionManager->wrap(function () use ($form){
-            $reportModel = DictSchoolsReport::create($form->name, $form->country_id, $form->region_id);
-            $this->reportRepository->save($reportModel);
             $model = DictSchools::create($form->name, $form->country_id, $form->region_id);
-            $model->setDictSchoolReportId($reportModel->id);
             $this->repository->save($model);
+            $this->addSchoolReport($model->id);
         });
     }
 
@@ -54,16 +52,24 @@ class DictSchoolsService
 
     public function addEmail($id, UserEmailForm $form)
     {
-        $this->transactionManager->wrap(function () use ($id, $form) {
-            $model = $this->repository->get($id);
-            $model->setEmail($form->email);
-            if (!is_null($model->dict_school_report_id)) {
-                $reportModel = $this->reportRepository->get($model->dict_school_report_id);
-                $reportModel->setEmail($form->email);
-                $this->reportRepository->save($reportModel);
-            }
-            $this->repository->save($model);
-        });
+        $model = $this->repository->get($id);
+        $model->setEmail($form->email);
+        $this->repository->save($model);
+    }
+
+    public function addSchoolReport($id) {
+        $modelOne = $this->repository->get($id);
+        $this->reportRepository->isSchoolId($modelOne->id);
+        $reportModel = DictSchoolsReport::create($modelOne->id);
+        $this->reportRepository->save($reportModel);
+        $modelOne->setDictSchoolReportId($reportModel->id);
+        $this->repository->save($modelOne);
+    }
+
+    public function resetReport($id) {
+        $modelOne = $this->repository->get($id);
+        $modelOne->setDictSchoolReportId(null);
+        $this->repository->save($modelOne);
     }
 
     public function remove($id)

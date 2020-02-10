@@ -5,7 +5,7 @@ use backend\widgets\adminlte\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel dictionary\forms\search\DictSchoolsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $school_id integer */
+/* @var $school dictionary\models\DictSchoolsReport*/
 
 ?>
 <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -24,9 +24,9 @@ use backend\widgets\adminlte\grid\GridView;
                 'name',
                 ['class' => 'yii\grid\CheckboxColumn',
                     'multiple' => false,
-                    'checkboxOptions' => function ($model, $key, $index, $column) use($school_id) {
+                    'checkboxOptions' => function ($model, $key, $index, $column) use($school) {
                       return ['onchange' =>
-                         '$.post("/dictionary/dict-schools/select-school?id='.$model->id.'&school_id='.$school_id.'", 
+                         '$.post("/dictionary/dict-schools/select-school?id='.$model->id.'&school_id='.$school->id.'", 
                          function(data) { if(data=="Добавлен!") {
                      $(".alert").attr("class", "alert alert-success alert-dismissible fade in");
                   }

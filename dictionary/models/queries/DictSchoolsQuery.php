@@ -37,11 +37,13 @@ class DictSchoolsQuery extends \yii\db\ActiveQuery
 
     /**
      * @param $dict_school_report_id
+     * @param $school_id
      * @return $this
      */
-    public function dictSchoolReportId($dict_school_report_id)
+    public function dictSchoolReportId($dict_school_report_id, $school_id)
     {
-        return $this->andWhere(['dict_school_report_id'=> $dict_school_report_id]);
+        return $this->andWhere(['dict_school_report_id'=> $dict_school_report_id])
+            ->andWhere(['not in','id', $school_id]);
     }
 
     /**

@@ -31,7 +31,9 @@ class DictSchoolsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'select-school'  => ['POST'],
+                    'select-school' => ['POST'],
+                    'add-in-report' => ['POST'],
+                    'reset-report' => ['POST'],
                 ],
             ],
         ];
@@ -95,6 +97,44 @@ class DictSchoolsController extends Controller
             'school' => $model,
         ]);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionAddInReport($id)
+    {
+        $model = $this->findModel($id);
+        try {
+            $this->service->addSchoolReport($model->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @param $school_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionResetReport($id, $school_id)
+    {
+        $model = $this->findModel($id);
+        try {
+            $this->service->resetReport($model->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['dictionary/dict-schools-report/view', 'id' => $school_id]);
+    }
+
 
 
     /**

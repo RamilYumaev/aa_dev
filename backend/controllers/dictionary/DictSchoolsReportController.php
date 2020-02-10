@@ -33,6 +33,7 @@ class DictSchoolsReportController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'add-school-index' => ['POST'],
                 ],
             ],
         ];
@@ -43,33 +44,9 @@ class DictSchoolsReportController extends Controller
      */
     public function actionIndex()
     {
-       // $searchModel = new DictSchoolsSearch();
         $dataProvider =  new ActiveDataProvider(['query'=> DictSchoolsReport::find()]);
-        // $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
-          //  'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $form = new DictSchoolsCreateForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->create($form);
-                return $this->redirect(['index']);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('create', [
-            'model' => $form,
         ]);
     }
 
@@ -98,52 +75,6 @@ class DictSchoolsReportController extends Controller
             'isAdd' => true
         ]);
     }
-
-    /**
-     * @param $id
-     * @param $school_id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-    public function actionSelectSchool($school_id, $id)
-    {
-        $model = $this->findModel($id);
-        try {
-            $this->service->add($model->id,$school_id);
-            $msg = "Добавлен!";
-        } catch (\DomainException $e) {
-            $msg = $e->getMessage();
-        }
-        echo $msg;
-
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        $form = new DictSchoolsEditForm($model);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($model->id, $form);
-                return $this->redirect(['index']);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('update', [
-            'model' => $form,
-            'school' => $model,
-        ]);
-    }
-
     /**
      * @param integer $id
      * @return mixed
@@ -171,6 +102,23 @@ class DictSchoolsReportController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    /**
+     * @param integer $id
+     * @param integer $school_id
+     * @return mixed
+     */
+    public function actionAddSchoolIndex($id, $school_id)
+    {
+        try {
+            $this->service->addIndex($id, $school_id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view','id'=> $id]);
+    }
+
 
 
 }
