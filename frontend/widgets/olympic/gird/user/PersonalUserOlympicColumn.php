@@ -8,6 +8,7 @@ use olympic\models\OlimpicList;
 use testing\helpers\TestAttemptHelper;
 use testing\helpers\TestHelper;
 use common\helpers\EduYearHelper;
+use testing\helpers\TestResultHelper;
 use testing\models\TestAttempt;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
@@ -22,9 +23,9 @@ class PersonalUserOlympicColumn extends DataColumn
 
     private function text(OlimpicList $olympic) {
         if ($olympic->isRegStatus()) {
-            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkTest($olympic) : ($this->getAttempt($olympic)->mark  ?? 0);
+            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkTest($olympic) : ($this->textResult($olympic));
         } else {
-            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkDiploma($olympic) : ($this->getAttempt($olympic)->mark ?? 0)."<br />".$this->linkDiploma($olympic);
+            return $this->isNoAttemptOrNoEndAttempt($olympic) ? $this->linkDiploma($olympic) : ($this->textResult($olympic))."<br />".$this->linkDiploma($olympic);
         }
     }
 
@@ -65,4 +66,15 @@ class PersonalUserOlympicColumn extends DataColumn
         return DiplomaHelper::diplomaId($this->getUser(), $olympic->id);
     }
 
+    private function textResult(OlimpicList $olympic) {
+        $attempt = $this->getAttempt($olympic);
+        if (TestResultHelper::isPreResult($attempt->id)) {
+            return "Оценка появится после завершение заочного тура";
+        } elseif(TestResultHelper::isPreResultAll($attempt->id)) {
+            return "Предварительная оценка ".$attempt->mark.
+                " балла(-ов), окончательная оценка будет известна после окончания заочного тура";
+        } else {
+            return $attempt->mark ?? 0;
+        }
+    }
 }
