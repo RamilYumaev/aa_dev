@@ -8,6 +8,7 @@ use common\auth\helpers\UserSchoolHelper;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use olympic\helpers\auth\ProfileHelper;
+use olympic\helpers\DiplomaHelper;
 use olympic\helpers\OlympicListHelper;
 use yii\helpers\ArrayHelper;
 
@@ -101,6 +102,18 @@ class UserOlimpiads extends \yii\db\ActiveRecord
 
     public function  getFullNameUserOrTeacher($user_id) {
         return ProfileHelper::profileFullName($user_id);
+    }
+
+    public function  getFullNameUser() {
+        return ProfileHelper::profileFullName($this->user_id);
+    }
+
+    public function olympicUserRelation($id) {
+        return self::find()->where(['id' => $id]);
+    }
+
+    public function olympicUserDiploma() {
+        return DiplomaHelper::userDiploma($this->user_id, $this->olympiads_id);
     }
 
     /**

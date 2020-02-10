@@ -8,16 +8,33 @@ $this->title= "Главная"
 ?>
 <div class="box">
     <div class="box-header">
-        <h4>Благодарности</h4>
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
-                'id',
-                ['class' => \yii\grid\ActionColumn::class,
-                    'template' => '{view}',
+                 ['attribute' =>'id_olympic_user',
+                   'value' => function (\teacher\models\TeacherClassUser $model) {
+                        return $model->getOlympicUserOne()->getFullNameUser();
+                   }
+                 ],
+                [ 'header'=> "Наименование олимпиады (уч. год)",
+                        'format' => 'raw',
+                    'value' => function (\teacher\models\TeacherClassUser $model) {
+                        return $model->getOlympicUserOne()->getOlympicAndYear();
+                    }
+                ],
+                [ 'header'=> "",
+                    'format' => 'raw',
+                    'value' => function (\teacher\models\TeacherClassUser $model) {
+                        $diploma = $model->getOlympicUserOne()->olympicUserDiploma();
+                        if ($diploma) {
+                            return \yii\helpers\Html::a("Благодарность", ['view', 'id' => $model->id],
+                                ['class' => 'btn btn-info']);
+                        }
+                        return "";
+                    }
                 ],
             ]
         ]); ?>
