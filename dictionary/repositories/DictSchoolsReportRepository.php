@@ -15,10 +15,9 @@ class DictSchoolsReportRepository
         return $model;
     }
 
-    public function getFull($name, $country_id, $region_id)
+    public function isSchoolId($school_id)
     {
-        $region = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
-        if (DictSchoolsReport::findOne(['name' => $name, 'country_id'=> $country_id, 'region_id'=>  $region])) {
+        if (DictSchoolsReport::findOne(['school_id' => $school_id])) {
             throw new \DomainException('Такая учебная оргнаизация существует.');
         }
     }
