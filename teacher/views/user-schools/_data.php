@@ -32,6 +32,15 @@ use olympic\models\UserOlimpiads;
                 return $model->classUser;
             }
         ],
+        ['header' => "Призер",
+            'value' => function (UserOlimpiads $model) {
+                $diploma = $model->olympicUserDiploma();
+                if ($diploma) {
+                    return "Да";
+                }
+                return "Нет";
+            }
+        ],
         ['value' => function (UserOlimpiads $model) {
                $userTeacherClass = \teacher\helpers\TeacherClassUserHelper::find($model->id);
                 if (is_null($userTeacherClass)) {

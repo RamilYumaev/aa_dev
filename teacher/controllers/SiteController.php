@@ -46,7 +46,11 @@ class SiteController extends Controller
      */
 
     public function actionView($id) {
-        return $this->render('view', ['data'=> $this->findModel($id)]);
+        $model= $this->findModel($id)->getOlympicUserOne()->olympicUserDiploma();
+        if($model) {
+            return $this->render('view', ['model' => $model]);
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     /**
