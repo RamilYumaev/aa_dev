@@ -88,12 +88,13 @@ trait SchoolUserTrait
 
             ['region_school', 'required', 'when' => function ($model) {
                 return $model->country_school == 46 && !$model->check_region_and_country_school;
-            },  'whenClient' => 'function (attribute, value) { return $("#'.$selector.'-country_school").val() == 46  &&  
+            },  'whenClient' => 'function (attribute, value) { return $("'.$selector.'-country_school").val() == 46  &&  
             !$("'.$selector.'-check_region_and_country_school").prop("checked") }'],
 
             ['new_school', 'required', 'when' => function ($model) {
                 return $model->check_new_school || $model->check_rename_school;
-            }, 'whenClient' => 'function (attribute, value) { return $("'.$selector.'-check_new_school").prop("checked")  ||   $("#schooluserupdateform-check_rename_school").prop("checked")  }'],
+            }, 'whenClient' => 'function (attribute, value) { return $("'.$selector.'-check_new_school").prop("checked")  ||   
+            $("'.$selector.'-check_rename_school").prop("checked")  }'],
 
             ['school_id', 'required', 'when' => function ($model) {
                 return !$model->check_new_school;
