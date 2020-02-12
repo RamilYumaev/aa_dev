@@ -26,7 +26,7 @@ class ProfileCreateForm extends Model
             [['last_name', 'first_name', 'phone', 'country_id'], 'required'],
             [['country_id', 'region_id'], 'integer'],
             [['last_name', 'first_name', 'patronymic'], 'string', 'min' => 1, 'max' => 255],
-            [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яА-Я\-\s]+$/u',
+            [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],
             [['phone'], 'string', 'max' => 25],
             ['phone', 'unique', 'targetClass' => Profiles::class, 'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
