@@ -2,6 +2,11 @@
 
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
+use common\widgets\Alert;
+
+/* @var $this \yii\web\View */
+
+/* @var $content string */
 
 AppAsset::register($this);
 ?>
@@ -17,13 +22,13 @@ AppAsset::register($this);
         <?= Html::csrfMetaTags() ?>
         <title></title>
         <?php $this->head(); ?>
-
         <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
     </head>
     <body class="gray">
     <?php $this->beginBody(); ?>
     <div id="wrapper">
         <div class="container">
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
     </div>
