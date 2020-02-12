@@ -72,7 +72,7 @@ class PersonalUserOlympicColumn extends DataColumn
             return "Оценка появится после завершение заочного тура";
         } elseif(TestResultHelper::isPreResultAll($attempt->id)) {
             return "Предварительная оценка ".$attempt->mark.
-                " балла(-ов), окончательная оценка будет известна после окончания заочного тура";
+                " балла(-ов), итоговая оценка будет известна после окончания заочного тура";
         } else {
             return $attempt->mark ?? 0;
         }
