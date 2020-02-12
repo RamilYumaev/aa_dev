@@ -18,7 +18,7 @@ class DictCountryHelper
         return Country::find()->select(['name', 'cis','id'])->orderBy("cis DESC,name ASC")->indexBy("id")->column();
     }
 
-    public static function countryName($key): string
+    public static function countryName($key): ?string
     {
         return ArrayHelper::getValue(self::countryList(), $key);
     }

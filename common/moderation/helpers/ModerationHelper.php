@@ -1,6 +1,9 @@
 <?php
 namespace common\moderation\helpers;
 
+use common\auth\models\UserSchool;
+use dictionary\models\DictSchools;
+use olympic\models\auth\Profiles;
 use yii\helpers\ArrayHelper;
 
 class ModerationHelper
@@ -23,8 +26,10 @@ class ModerationHelper
 
 
     public static function modelList() {
-        return  [\dictionary\models\DictSchools::class => "Учебные организации",
-            \dictionary\models\DictClass::class => "Классы"];
+        return  [
+            UserSchool::class => "Учебные оргнаизации (Ученики/студенты)",
+            DictSchools::class => "Учебные организации",
+            Profiles::class=> "Профиль"];
     }
 
     public static function modelOneName ($key) {
