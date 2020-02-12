@@ -11,6 +11,7 @@ use olympic\forms\OlympicCreateForm;
 use olympic\forms\OlympicEditForm;
 use olympic\models\auth\AuthAssignment;
 use olympic\models\Olympic;
+use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlympicRepository;
 use yii\rbac\Role;
 
@@ -20,14 +21,17 @@ class OlympicService
     private $transactionManager;
     private $userRepository;
     private $roleManager;
+    private $olimpicListRepository;
 
-    public function __construct(OlympicRepository $repository, TransactionManager $transactionManager, UserRepository $userRepository,
+    public function __construct(OlympicRepository $repository, OlimpicListRepository $olimpicListRepository,
+                                TransactionManager $transactionManager, UserRepository $userRepository,
                                 RoleManager $roleManager)
     {
         $this->repository = $repository;
         $this->roleManager = $roleManager;
         $this->transactionManager = $transactionManager;
         $this->userRepository = $userRepository;
+        $this->olimpicListRepository = $olimpicListRepository;
     }
 
     public function create(OlympicCreateForm $form)
@@ -59,7 +63,11 @@ class OlympicService
 
     public function remove($id)
     {
+
         $model = $this->repository->get($id);
+        if ($this->olimpicListRepository->isOlympicParent($model->id)) {
+            throw new \DomainException('Вы не можете удалить олимпиаду, так как имеются дочерные записи');
+        }
         $this->repository->remove($model);
     }
 }
