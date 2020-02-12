@@ -12,6 +12,11 @@ class UserTeacherSchoolRepository
         }
     }
 
+    public function isSchool($school_id): bool
+    {
+        return UserTeacherJob::find()->where(['school_id' =>$school_id ])->exists();
+    }
+
 
     public function get($id, $user_id): UserTeacherJob
     {

@@ -13,6 +13,7 @@ use dictionary\repositories\DictSchoolsRepository;
 use olympic\forms\auth\SchooLUserCreateForm;
 use common\auth\repositories\UserSchoolRepository;
 use olympic\helpers\auth\ProfileHelper;
+use olympic\repositories\UserOlimpiadsRepository;
 use olympic\traits\NewOrRenameSchoolTrait;
 use teacher\helpers\UserTeacherJobHelper;
 use teacher\models\UserTeacherJob;
@@ -27,8 +28,10 @@ class UserSchoolService
     public $schoolsRepository;
     public $teacherSchoolRepository;
     private $transactionManager;
+    private $userOlimpiadsRepository;
 
     public function __construct(
+        UserOlimpiadsRepository $userOlimpiadsRepository,
         UserSchoolRepository $userSchoolRepository,
         DictClassRepository $classRepository,
         DictSchoolsRepository $schoolsRepository,
@@ -41,6 +44,7 @@ class UserSchoolService
         $this->classRepository = $classRepository;
         $this->teacherSchoolRepository = $teacherSchoolRepository;
         $this->transactionManager = $transactionManager;
+        $this->userOlimpiadsRepository = $userOlimpiadsRepository;
     }
 
     public function signup(SchooLUserCreateForm $form, $role): void
@@ -108,6 +112,9 @@ class UserSchoolService
             $this->teacherSchoolRepository->remove($teacher);
         }else {
             $usSchool = $this->userSchoolRepository->get($id, $user_id);
+            if ($this->userOlimpiadsRepository->isOlympicUserYear($usSchool->edu_year, $user_id)) {
+                throw new \DomainException("Вы не можете удалить школу, так как записаны на одну из олимпиад $usSchool->edu_year учебного года");
+            }
             $this->userSchoolRepository->remove($usSchool);
         }
     }

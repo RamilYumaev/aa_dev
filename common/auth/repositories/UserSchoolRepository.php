@@ -34,6 +34,12 @@ class UserSchoolRepository
         return $model;
     }
 
+    public function isSchool($school_id): bool
+    {
+        return UserSchool::find()->where(['school_id' =>$school_id ])->exists();
+    }
+
+
     public function save(UserSchool $model): void
     {
         if (!$model->save()) {

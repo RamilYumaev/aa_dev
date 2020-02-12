@@ -3,13 +3,16 @@
 namespace dictionary\services;
 
 use common\auth\forms\UserEmailForm;
+use common\auth\repositories\UserSchoolRepository;
 use common\transactions\TransactionManager;
+use common\user\repositories\UserTeacherSchoolRepository;
 use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
 use dictionary\models\DictSchools;
 use dictionary\models\DictSchoolsReport;
 use dictionary\repositories\DictSchoolsReportRepository;
 use dictionary\repositories\DictSchoolsRepository;
+use teacher\models\UserTeacherJob;
 
 
 class DictSchoolsService
@@ -17,12 +20,19 @@ class DictSchoolsService
     private $repository;
     private $transactionManager;
     private $reportRepository;
+    private $userSchoolRepository;
+    private $teacherSchoolRepository;
 
-    public function __construct(DictSchoolsRepository $repository, TransactionManager $transactionManager, DictSchoolsReportRepository $reportRepository)
+    public function __construct(DictSchoolsRepository $repository, TransactionManager $transactionManager,
+                                DictSchoolsReportRepository $reportRepository,
+                                UserSchoolRepository $userSchoolRepository,
+                                UserTeacherSchoolRepository $teacherSchoolRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
         $this->reportRepository = $reportRepository;
+        $this->userSchoolRepository = $userSchoolRepository;
+        $this->teacherSchoolRepository = $teacherSchoolRepository;
     }
 
     public function create(DictSchoolsCreateForm $form)
@@ -75,6 +85,9 @@ class DictSchoolsService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if ($this->teacherSchoolRepository->isSchool($model->id) ||  $this->userSchoolRepository->isSchool($model->id)) {
+            throw new \DomainException('Вы не можете удалить школу, так как такая запись присутсвует в других разделах.');
+        }
         $this->repository->remove($model);
     }
 }

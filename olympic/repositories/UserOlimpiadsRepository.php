@@ -3,6 +3,7 @@
 namespace olympic\repositories;
 
 use common\helpers\FlashMessages;
+use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 
 class UserOlimpiadsRepository
@@ -23,12 +24,25 @@ class UserOlimpiadsRepository
         return $model;
     }
 
-    public function getHash($hash): UserOlimpiads
+    public function isUserOlympic($olympic_id, $user_id): bool
     {
-        if (!$model = UserOlimpiads::findOne(['hash' => $hash])) {
-            throw new \DomainException("Такой записи нет");
-        }
-        return $model;
+       return UserOlimpiads::find()->andWhere(['olympiads_id' => $olympic_id, 'user_id' => $user_id])->exists();
+    }
+
+    public function isOlympic($olympic_id): bool
+    {
+        return UserOlimpiads::find()->andWhere(['olympiads_id' => $olympic_id])->exists();
+    }
+
+
+    public function isOlympicUserYear($year,  $user_id): bool
+    {
+        return UserOlimpiads::find()
+            ->alias('uo')
+            ->innerJoin(OlimpicList::tableName(). ' olympic', 'olympic.id = uo.olympiads_id')
+            ->andWhere(['user_id' => $user_id])
+            ->andWhere(['olympic.year'=>$year])
+            ->exists();
     }
 
 

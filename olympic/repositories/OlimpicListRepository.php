@@ -44,6 +44,10 @@ class OlimpicListRepository
         throw new HttpException('403', "Вам не разрешено данное действие");
     }
 
+    public function isOlympicParent($id): bool
+    {
+        return  OlimpicList::find()->where(['olimpic_id'=>$id])->exists();
+    }
 
     public function isFinishDateRegister($id): OlimpicList
     {

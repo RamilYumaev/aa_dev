@@ -16,8 +16,10 @@ use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicCg;
 use olympic\models\OlimpicList;
 use olympic\models\Olympic;
+use olympic\models\UserOlimpiads;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlympicRepository;
+use olympic\repositories\UserOlimpiadsRepository;
 
 class OlimpicListService
 {
@@ -28,6 +30,7 @@ class OlimpicListService
     private $competitiveGroupRepository;
     private $transaction;
     public $classRepository;
+    private $userOlimpiadsRepository;
 
     public function __construct(
         OlimpicListRepository $repository,
@@ -36,7 +39,8 @@ class OlimpicListService
         DictChairmansRepository $chairmansRepository,
         DictClassRepository $classRepository,
         DictCompetitiveGroupRepository $competitiveGroupRepository,
-        TransactionManager $transaction
+        TransactionManager $transaction,
+        UserOlimpiadsRepository $userOlimpiadsRepository
     )
     {
         $this->repository = $repository;
@@ -46,6 +50,7 @@ class OlimpicListService
         $this->competitiveGroupRepository = $competitiveGroupRepository;
         $this->transaction = $transaction;
         $this->classRepository = $classRepository;
+        $this->userOlimpiadsRepository = $userOlimpiadsRepository;
     }
 
     public function create(OlimpicListCreateForm $form)
@@ -142,6 +147,9 @@ class OlimpicListService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if ($this->userOlimpiadsRepository->isOlympic($model->id)) {
+            throw new \DomainException("Вы не можете  удалить олимпиаду, так как есть участники");
+        }
         $this->deleteRelation($model->id);
         $this->repository->remove($model);
     }

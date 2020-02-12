@@ -63,8 +63,10 @@ class UserOlimpiadsService
             $user = $this->userRepository->get($user_id);
             $userSchool = $this->userSchoolRepository->getSchooLUser($user->id);
             $this->classAndOlympicRepository->get($olympic->id, $userSchool->class_id);
-            $userOlympic = UserOlimpiads::create($olympic->id, $userSchool->user_id);
-            $this->repository->save($userOlympic);
+            if(!$this->repository->isUserOlympic($olympic->id, $user->id)) {
+                $userOlympic = UserOlimpiads::create($olympic->id, $userSchool->user_id);
+                $this->repository->save($userOlympic);
+            }
             if ($olympic->isFormOfPassageInternal()) {
                 $this->send($user, $olympic, $this->deliveryStatusRepository,
                     SendingDeliveryStatusHelper::TYPE_OLYMPIC,
