@@ -94,6 +94,11 @@ array_merge(
                 ['label' => 'Правила', 'url' => '/rbac/rule'],
                 ['label' => 'Меню', 'url' => '/rbac/menu'],
             ])]] : [],
-    [['label' => 'Модерация', 'url' => '/moderation',]]
+    [['label' => 'Модерация', 'url' => '/moderation',]],
+    [['label' => 'Учебные организации', 'url' => '#',
+        'items' => array_merge([
+            ['label' => 'Список', 'url' => '/dictionary/dict-schools'],
+            ['label' => 'Для отчета', 'url' => '/dictionary/dict-schools-report'],
+        ])]]
 
 )) : [];

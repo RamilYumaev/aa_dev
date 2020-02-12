@@ -32,17 +32,8 @@ class ModerationBehavior extends  Behavior
     public function events()
     {
         return [
-        ActiveRecord::EVENT_AFTER_INSERT => 'afterInsert',
         ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate',
         ];
-    }
-
-    /**
-     * @param $event
-     */
-    public function afterInsert($event)
-    {
-        $this->moderation();
     }
 
     /**

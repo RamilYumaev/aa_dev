@@ -3,17 +3,33 @@
 
 namespace olympic\models\auth;
 
+use common\moderation\behaviors\ModerationBehavior;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictRegionHelper;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
 use olympic\models\auth\queries\ProfilesQuery;
 
-class Profiles extends \yii\db\ActiveRecord
+class Profiles extends YiiActiveRecordAndModeration
 {
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            'moderation' => [
+                'class' => ModerationBehavior::class,
+                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
+            ],
+        ];
+    }
+
+
+
+
     public static function tableName()
     {
         return 'profiles';
@@ -97,5 +113,20 @@ class Profiles extends \yii\db\ActiveRecord
         $this->first_name == "" ||
         $this->patronymic == "" ||
         $this->phone == "";
+    }
+
+    public function titleModeration(): string
+    {
+        return  "Профиль";
+    }
+
+    public function moderationAttributes($value): array
+    {
+      return  [
+          'last_name' => $value,
+          'first_name'=>$value, 'patronymic'=> $value,
+          'phone' => $value,
+          'country_id'=> DictCountryHelper::countryName($value) ,
+          'region_id'=> DictRegionHelper::regionName($value)];
     }
 }

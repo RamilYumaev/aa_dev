@@ -10,15 +10,15 @@ use dictionary\models\queries\DictSchoolsQuery;
 
 class DictSchools extends YiiActiveRecordAndModeration
 {
-//    public function behaviors()
-//    {
-//        return [
-//            'moderation' => [
-//                'class' => ModerationBehavior::class,
-//                'attributes' => ['name'],
-//            ],
-//        ];
-//    }
+    public function behaviors()
+    {
+        return [
+            'moderation' => [
+                'class' => ModerationBehavior::class,
+                'attributes' => ['name'],
+            ],
+        ];
+    }
 
     /**
      * {@inheritdoc}

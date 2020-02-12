@@ -86,7 +86,7 @@ class DictSchoolsService
     {
         $model = $this->repository->get($id);
         if ($this->teacherSchoolRepository->isSchool($model->id) ||  $this->userSchoolRepository->isSchool($model->id)) {
-            throw new \DomainException('Вы не можете удалить школу, так как такая запись присутсвует в других разделах.');
+            throw new \DomainException('Вы не можете удалить школу, так как такая запись присутствует в других разделах.');
         }
         $this->repository->remove($model);
     }

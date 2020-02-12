@@ -2,6 +2,7 @@
 
 namespace common\moderation\controllers;
 
+use common\moderation\helpers\ModerationHelper;
 use common\moderation\models\Moderation;
 use common\moderation\forms\ModerationMessageForm;
 use common\moderation\services\ModerationService;
@@ -45,7 +46,7 @@ class ModerationController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider(['query'=> Moderation::find()]);
+        $dataProvider = new ActiveDataProvider(['query'=> Moderation::find()->andWhere(["status"=> ModerationHelper::STATUS_NEW])]);
 
         return $this->render('@common/moderation/views/moderation/index', [
             'dataProvider' => $dataProvider,
