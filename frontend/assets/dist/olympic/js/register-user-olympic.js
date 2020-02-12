@@ -41,7 +41,6 @@ function dataAjax(dataParams) {
         success: function (groups) {
             propCheck("#schooluserform-check_rename_school", 'checked', false);
             var schools = groups.result;
-            console.log(schools);
             schoolSelect = $("#schooluserform-school_id");
             schoolSelect.val("").trigger("change");
             schoolSelect.empty();
@@ -133,23 +132,29 @@ $("#profilecreateform-country_id").on("change", function () {
             region.show();
             chNewSch.hide();
             chRenSch.hide();
+            newSch.hide();
             school.hide();
+            $("#schooluserform-country_school option[value !=" +  this.value  + "]").removeAttr('disabled');
         } else {
             region.hide();
             dataParams = {country_id: this.value};
             dataAjax(dataParams);
             $("#profilecreateform-region_id").val("")
             school.show();
-            console.log(dataParams);
+            $("#schooluserform-country_school option[value !=" +  this.value  + "]").removeAttr('disabled');
+            $("#schooluserform-country_school option[value=" +  this.value  + "]").attr('disabled','disabled');
         }
     } else {
         if (this.value == russia) {
             $("#profilecreateform-region_id").val("");
+            $("#schooluserform-country_school option[value !=" +  this.value  + "]").removeAttr('disabled');
             region.show();
 
         } else {
             $("#profilecreateform-region_id").val("");
             region.hide();
+            $("#schooluserform-country_school option[value !=" +  this.value  + "]").removeAttr('disabled');
+            $("#schooluserform-country_school option[value=" +  this.value  + "]").attr('disabled','disabled');
         }
     }
 
@@ -176,8 +181,9 @@ $("#profilecreateform-region_id").on("change", function () {
         dataParams = {country_id: russia, region_id: this.value};
         dataAjax(dataParams);
         school.show();
-        console.log(dataParams);
     }
+    $("#schooluserform-region_school option[value !=" +  this.value  + "]").removeAttr('disabled');
+    $("#schooluserform-region_school option[value=" +  this.value  + "]").attr('disabled','disabled');
 });
 
 $("#schooluserform-country_school").on("change", function () {
@@ -190,6 +196,7 @@ $("#schooluserform-country_school").on("change", function () {
         $("#schooluserform-region_school").val("")
     } else if (this.value == russia) {
         regionSch.show();
+
         school.hide();
         chNewSch.hide();
         chRenSch.hide();
@@ -198,7 +205,6 @@ $("#schooluserform-country_school").on("change", function () {
         dataParams = {country_id: this.value};
         dataAjax(dataParams);
         school.show();
-        console.log(dataParams);
         $("#schooluserform-region_school").val("")
     }
 });
@@ -209,6 +215,5 @@ $("#schooluserform-region_school").on("change", function () {
         dataParams = {country_id: russia, region_id: this.value};
         school.show();
         dataAjax(dataParams);
-        console.log(dataParams);
-    }
+}
 });

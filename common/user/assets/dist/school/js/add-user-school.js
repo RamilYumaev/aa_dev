@@ -9,7 +9,8 @@ var chNewSch = $("div.field-schooluserform-check_new_school");
 chNewSch.hide();
 var chRenSch = $("div.field-schooluserform-check_rename_school");
 chRenSch.hide();
-
+var vaLCountry = $("#schoolusercreateform-country_id").val();
+var vaLRegion = $("#schoolusercreateform-region_id").val();
 
 function  propCheck(selector, attr, bool) {
     $(selector).prop(attr, bool);
@@ -36,7 +37,7 @@ function dataAjax(dataParams) {
         success: function (groups) {
             propCheck("#schooluserform-check_rename_school",'checked', false);
             var schools = groups.result;
-            console.log(schools);
+
             schoolSelect = $("#schooluserform-school_id");
             schoolSelect.val("").trigger("change");
             schoolSelect.empty();
@@ -88,8 +89,6 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
         $("#schooluserform-new_school").val("");
         propCheck("#schooluserform-check_new_school",'checked', false);
         propCheck("#schooluserform-check_rename_school",'checked', false);
-        var vaLCountry = $("#schoolusercreateform-country_id").val();
-        var vaLRegion = $("#schoolusercreateform-region_id").val();
         dataParams = {country_id: vaLCountry, region_id: vaLRegion ? vaLRegion : null};
         dataAjax(dataParams);
         school.show();
@@ -98,6 +97,9 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
         propCheck("#schooluserform-check_new_school",'checked', false);
         propCheck("#schooluserform-check_rename_school",'checked', false);
         $("#schooluserform-new_school").val("");
+        if (vaLCountry != russia) {
+            $("#schooluserform-country_school option[value=" +  vaLCountry  + "]").attr('disabled','disabled');
+        }
         school.hide();
         countrySch.show();
         chNewSch.hide();
@@ -109,11 +111,9 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
 $('#schooluserform-check_new_school').on('change', function() {
     // From the other examples
     if (this.checked) {
-        console.log(112)
         newSch.show();
        // changeNewSchool();
     } else {
-        console.log(113)
         newSch.hide();
       // changeNewSchool();
     }
@@ -146,6 +146,7 @@ $("#schooluserform-country_school").on("change", function() {
         $("#schooluserform-region_school").val("")
     }
     else if (this.value == russia) {
+        $("#schooluserform-region_school option[value=" +  vaLRegion  + "]").attr('disabled','disabled');
         regionSch.show();
         school.hide();
         chNewSch.hide();
@@ -155,7 +156,6 @@ $("#schooluserform-country_school").on("change", function() {
         dataParams = {country_id : this.value};
         dataAjax(dataParams);
         school.show();
-        console.log(dataParams);
         $("#schooluserform-region_school").val("")
     }
 });
@@ -166,6 +166,5 @@ $("#schooluserform-region_school").on("change", function() {
     dataParams = {country_id : russia, region_id : this.value};
     school.show();
     dataAjax(dataParams);
-    console.log(dataParams);
     }
 });
