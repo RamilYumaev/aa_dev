@@ -11,6 +11,7 @@ use testing\helpers\TestHelper;
 use testing\models\Test;
 use testing\models\TestClass;
 use testing\models\TestGroup;
+use testing\repositories\TestAttemptRepository;
 use testing\repositories\TestClassRepository;
 use testing\repositories\TestGroupRepository;
 use testing\repositories\TestQuestionGroupRepository;
@@ -24,10 +25,12 @@ class TestService
     private $classRepository;
     private $groupRepository;
     private $testQuestionGroupRepository;
+    private $testAttemptRepository;
 
     public function __construct(TestRepository $repository,
                                 OlimpicListRepository $olympicRepository,
                                 TransactionManager $transactionManager,
+                                TestAttemptRepository $testAttemptRepository,
                                 TestClassRepository $classRepository,
                                 TestGroupRepository $groupRepository,
                                 TestQuestionGroupRepository $testQuestionGroupRepository)
@@ -38,6 +41,7 @@ class TestService
         $this->classRepository = $classRepository;
         $this->groupRepository = $groupRepository;
         $this->testQuestionGroupRepository = $testQuestionGroupRepository;
+        $this->testAttemptRepository = $testAttemptRepository;
     }
 
     public function create(TestCreateForm $form)
@@ -79,6 +83,9 @@ class TestService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if($this->testAttemptRepository->isAttemptTest($model->id)) {
+            throw new \DomainException('Вы не можете удалить данный тест, так как имеются попытки');
+        }
         $this->repository->remove($model);
     }
 

@@ -110,6 +110,7 @@ class AttemptAnswerService
                     throw new \DomainException('Загрузите файл');
                 }
                 $mark = null;
+                \Yii::$app->session->addFlash('success','Файл успешно загружен');
                 break;
         default:
             $dataAnswerCloze = $data['answer-cloze'];

@@ -19,6 +19,11 @@ class TestAttemptRepository
         return $model = TestAttempt::findOne(['test_id'=>$test_id, 'user_id'=> Yii::$app->user->identity->getId()]);
     }
 
+    public function isAttemptTest($test_id): bool
+    {
+        return $model = TestAttempt::find()->andWhere(['test_id'=>$test_id ])->exists();
+    }
+
     public function save(TestAttempt $model): void
     {
         if (!$model->save()) {
