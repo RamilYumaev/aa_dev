@@ -23,10 +23,6 @@ $url = Url::to(['testing/trail/test-attempt/end', 'test_id' => $test->id]);
                         <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]); ?>
                     </div>
                     <div class="col-md-4 mt-20 fs-15">
-<!--                    --><?php //if (\olympic\helpers\OlympicListHelper::timeDistanceTourData($test->olimpic_id)) : ?>
-<!--                            Оставшееся время:<br/><span-->
-<!--                                    class="pl-20">--><?//= $this->render('_time', ['time' => $time, 'url'=> $url]) ?><!--</span>-->
-<!--                    --><?php //endif; ?><!-- -->
                     </div>
                     <div class="col-md-3 mt-30">
                         <?= Html::a("Завершить заочный тур", $url,
