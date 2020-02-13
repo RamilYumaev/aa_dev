@@ -24,9 +24,12 @@ use yii\helpers\Html;
                     'value' => function($model) {
                         return !$model->status ?
                             Html::a('Запустить тест',['testing/test/start', 'id'=>$model->id],  ['class'=>'btn btn-success']) :
-                            Html::a('Остановить тест',['testing/test/end', 'id'=>$model->id],  ['class'=>'btn btn-danger']);
+                            Html::a('Остановить тест',['testing/test/end', 'id'=>$model->id],  ['class'=>'btn btn-danger']).
+                            Html::a("Пробный тест", ['testing/trail/test-attempt/start',
+                                'test_id'=> $model->id],
+                                ['data' => ['confirm' => 'Вы действительно хотите начать пробный тест ?', 'method' => 'POST'],
+                                    'class' =>'btn btn-primary']);
                     }, "format" => "raw"],
-
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update} {view} {delete}',
                     'controller' => 'testing/test',

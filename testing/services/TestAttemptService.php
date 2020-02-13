@@ -96,6 +96,7 @@ class TestAttemptService
         $testAttempt->seStatus(TestAttemptHelper::END_TEST);
         $testAttempt->edit($testResult);
         $this->testAttemptRepository->save($testAttempt);
+        return $testAttempt;
     }
 
     public function rewardStatus($id, $status) {
