@@ -25,7 +25,7 @@ use yii\helpers\Html;
                         return !$model->status ?
                             Html::a('Запустить тест',['testing/test/start', 'id'=>$model->id],  ['class'=>'btn btn-success']) :
                             Html::a('Остановить тест',['testing/test/end', 'id'=>$model->id],  ['class'=>'btn btn-danger']).
-                            Html::a("Пробный тест", ['testing/trail/test-attempt/start',
+                            Html::a("Пробный тест", ['trail-attempt/start',
                                 'test_id'=> $model->id],
                                 ['data' => ['confirm' => 'Вы действительно хотите начать пробный тест ?', 'method' => 'POST'],
                                     'class' =>'btn btn-primary']);
