@@ -12,7 +12,7 @@ use yii\helpers\Url;
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
 
-$url = Url::to(['testing/trail/test-attempt/end', 'test_id' => $test->id]);
+$url = Url::to(['trail-attempt/end', 'test_id' => $test->id]);
 ?>
 <div class="container gray">
     <div class="row">

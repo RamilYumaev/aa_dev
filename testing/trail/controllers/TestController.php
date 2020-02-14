@@ -1,5 +1,5 @@
 <?php
-namespace operator\controllers\testing\trail;
+namespace testing\trail\controllers;
 
 use common\helpers\FlashMessages;
 use testing\readRepositories\TestReadOperatorRepository;
@@ -29,7 +29,7 @@ class TestController extends Controller
 
     public function actionView($id)
     {
-        $this->layout = "@frontend/views/layouts/testing.php";
+        $this->layout = "@testing/trail/views/layouts/testing.php";
         $get =  Yii::$app->request->get('page');
         if (\Yii::$app->request->post('AnswerAttempt')) {
             try {
@@ -45,7 +45,7 @@ class TestController extends Controller
         try {
             $attempt = $this->repository->isAttempt($id);
             $pages = $this->repository->pageCount($id);
-            return $this->render('@backend/views/testing/trail/test/view', [
+            return $this->render('@testing/trail/views/test/view', [
                 'time' => $attempt->end,
                 'test' => $this->find($id),
                 'pages' => $pages,

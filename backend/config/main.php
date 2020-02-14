@@ -45,9 +45,9 @@ return [
                 ],
             ],
         ],
-        'moderation' =>[
-            'class' => \common\moderation\controllers\ModerationController::class
-        ]
+        'moderation' => \common\moderation\controllers\ModerationController::class,
+        'trail' => \testing\trail\controllers\TestController::class,
+        'trail-attempt' => \testing\trail\controllers\TestAttemptController::class
     ],
     'components' => [
         'request' => [

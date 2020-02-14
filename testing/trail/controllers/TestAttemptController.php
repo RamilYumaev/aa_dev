@@ -1,14 +1,11 @@
 <?php
 
-namespace operator\controllers\testing\trail;
+namespace testing\trail\controllers;
 
-use olympic\helpers\OlympicHelper;
-use olympic\models\OlimpicList;
 use testing\services\TestAttemptService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
-use yii\web\NotFoundHttpException;
 
 class TestAttemptController extends Controller
 {
@@ -36,9 +33,10 @@ class TestAttemptController extends Controller
 
     public function actionStart($test_id)
     {
+        $this->isGuest();
         try {
             $testAttempt = $this->service->create($test_id);
-            return $this->redirect(['testing/trail/test/view', 'id' => $testAttempt->test_id]);
+            return $this->redirect(['trail/view', 'id' => $testAttempt->test_id]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -48,14 +46,20 @@ class TestAttemptController extends Controller
 
     public function actionEnd($test_id)
     {
-
+        $this->isGuest();
         try {
             $testAttempt = $this->service->end($test_id);
-            return $this->redirect(['testing/test-attempt/view', 'id' => $testAttempt->id]);
+            return $this->redirect(['testing/test-attempt/view', 'id'=> $testAttempt->id]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    protected function isGuest() {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/index']);
+        }
     }
 }

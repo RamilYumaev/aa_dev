@@ -51,8 +51,8 @@ return [
             'view' => 'profile-default',
         ],
         'reset' => \common\auth\controllers\ResetController::class,
-
-
+        'trail' => \testing\trail\controllers\TestController::class,
+        'trail-attempt' => \testing\trail\controllers\TestAttemptController::class
     ],
     'components' => [
         'request' => [
