@@ -39,32 +39,4 @@ class SiteController extends Controller
         return $this->render('index', ['dataProvider'=> $dataProvider]);
     }
 
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-    public function actionView($id) {
-        $model= $this->findModel($id)->getOlympicUserOne()->olympicUserDiploma();
-        if($model) {
-            return $this->render('view', ['model' => $model]);
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    protected function findModel($id): TeacherClassUser
-    {
-        if (($model = TeacherClassUser::findOne(['id'=>$id,'user_id'=> \Yii::$app->user->identity->getId(),
-                'status'=> TeacherClassUserHelper::ACTIVE])) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
 }

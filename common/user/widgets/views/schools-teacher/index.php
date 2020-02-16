@@ -29,6 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return DictSchoolsHelper::schoolName($model->school_id);
                             },
                         ],
+                        ['attribute' => 'school_id',
+                            'label'=> "Email",
+                            'value' => function (UserTeacherJob $model) {
+                                return DictSchoolsHelper::schoolEmail($model->school_id);
+                            },
+                        ],
                         [ 'value' => function (UserTeacherJob $model) {
                             if ($model->isStatusDraft()) {
                             return !DictSchoolsHelper::schoolEmail($model->school_id) ?
