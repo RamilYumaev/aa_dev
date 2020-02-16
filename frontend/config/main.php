@@ -74,15 +74,15 @@ return [
             ],
         ],
     ],
-    'as access' => [
-        'class' => 'yii\filters\AccessControl',
-        'except' => ['olympiads/*', 'dod/*', 'print/*',
-            'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*', 'reset/*', 'auth/confirm/*'],
-        'rules' => [
-            [
-                'allow' => true,
-                'roles' => ['@']
-            ]
-        ]],
+//    'as access' => [
+//        'class' => 'yii\filters\AccessControl',
+//        'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*',
+//            'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*', 'reset/*', 'auth/confirm/*'],
+//        'rules' => [
+//            [
+//                'allow' => true,
+//                'roles' => ['@']
+//            ]
+//        ]],
     'params' => $params,
 ];

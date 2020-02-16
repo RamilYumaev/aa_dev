@@ -8,6 +8,9 @@ $this->title = 'Ученики/студенты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php if (is_null(\teacher\helpers\UserTeacherJobHelper::columnSchoolId(Yii::$app->user->identity->getId()))) : ?>
+    <?= Yii::$app->session->addFlash("warning", "Добавьте данные об работодателе или ожидайте подтверждения со стороны")?>
+<?php else: ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-success">
@@ -24,3 +27,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+    <?php endif; ?>
