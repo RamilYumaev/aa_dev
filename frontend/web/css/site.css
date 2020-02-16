@@ -826,6 +826,9 @@ input.break {
 .certificate-place {
     background-color: #075376;
 }
+.gratitude-place{
+    background-color: #6a36b5;
+}
 
 .cert-win-label {
     background-image: url("../img/certificate/winn-label.png");
