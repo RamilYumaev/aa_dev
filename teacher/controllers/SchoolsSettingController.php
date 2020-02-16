@@ -50,11 +50,11 @@ class SchoolsSettingController extends Controller
             try {
                 $this->service->addEmail($id, $form);
                 Yii::$app->session->setFlash('success', ' Элеткронная почта успешно добавлена.');
-                return $this->redirect('/schools/index');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect('/schools/index');
         }
 
         return $this->renderAjax('add-email', ['model' => $form, 'id'=>$id]);

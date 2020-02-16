@@ -17,6 +17,12 @@
                     <td><?= $moderation->getModel()->getAttributeLabel($key) ?></td>
                     <td><?= $moderation->getModel()->moderationValue($key, $moderation->getBefore($key)) ?></td>
                     <td><?= $moderation->getModel()->moderationValue($key, $value) ?></td>
+                    <td><?php if($moderation->getModel()->isIdenticalValue($key, $moderation->getBefore($key), $value)): ?>
+                            <span class="label label-success"><?=  new \rmrevin\yii\fontawesome\component\Icon('check') ?></span>
+                        <?php else: ?>
+                            <span class="label label-warning"><?=  new \rmrevin\yii\fontawesome\component\Icon('eye') ?></span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>

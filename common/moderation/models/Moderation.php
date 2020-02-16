@@ -11,8 +11,6 @@ use yii\helpers\Json;
 class Moderation extends ActiveRecord
 {
 
-
-
     /**
      * @inheritdoc
      */
