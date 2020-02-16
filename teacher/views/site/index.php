@@ -30,7 +30,8 @@ $this->title= "Главная"
                     'value' => function (\teacher\models\TeacherClassUser $model) {
                         $diploma = $model->getOlympicUserOne()->olympicUserDiploma();
                         if ($diploma) {
-                            return \yii\helpers\Html::a("Благодарность", ['view', 'id' => $model->id],
+                            $urlFrontend = \yii\helpers\Url::to('@frontendInfo/gratitude/index?id='. $model->id);
+                            return \yii\helpers\Html::a("Благодарность", $urlFrontend,
                                 ['class' => 'btn btn-info']);
                         }
                         return "";
