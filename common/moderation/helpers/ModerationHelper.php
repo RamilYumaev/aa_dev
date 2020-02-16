@@ -27,7 +27,7 @@ class ModerationHelper
 
     public static function modelList() {
         return  [
-            UserSchool::class => "Учебные оргнаизации (Ученики/студенты)",
+            UserSchool::class => "Учебные оргнаизации (Ученики/студенты/педагоги)",
             DictSchools::class => "Учебные организации",
             Profiles::class=> "Профиль"];
     }

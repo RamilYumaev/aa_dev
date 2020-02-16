@@ -15,7 +15,7 @@ class DictSchools extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['name'],
+                'attributes' => ['name','email'],
             ],
         ];
     }
@@ -90,6 +90,6 @@ class DictSchools extends YiiActiveRecordAndModeration
 
     public function moderationAttributes($value): array
     {
-        return ['name' => $value ];
+        return ['name' => $value, 'email' => $value ];
     }
 }

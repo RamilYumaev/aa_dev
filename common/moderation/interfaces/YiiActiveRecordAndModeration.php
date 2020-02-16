@@ -17,4 +17,9 @@ abstract class YiiActiveRecordAndModeration extends ActiveRecord
         return ArrayHelper::getValue($this->moderationAttributes($value), $key);
     }
 
+    public function isIdenticalValue($key, $beforeValue, $afterValue): bool
+    {
+        return $this->moderationValue($key, $beforeValue) == $this->moderationValue($key, $afterValue);
+    }
+
 }

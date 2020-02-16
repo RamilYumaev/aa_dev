@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [ 'value' => function (UserTeacherJob $model) {
                             if ($model->isStatusDraft()) {
-                            return !DictSchoolsHelper::schoolEmail($model->school_id) ?
-                                Html::a( "Добавить email",
+                            return
+                                Html::a( "Добавить/изменить email",
                                 ['schools-setting/add-email', 'id' => $model->school_id], ['data-pjax' => 'w0',
-                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить', 'data-target' => '#modal'])
-                                :
+                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить/изменить', 'data-target' => '#modal'])
+                                .
                                 Html::a( "Подтвердить",
                                     ['schools-setting/send', 'id' => $model->id], ['data-pjax' => 'w0',
                                         'data-method' => 'post', 'class'=>'btn btn-info', 'data-confirm' =>'Вы уверены, что хотите отправить письмо с подтверждением?']);

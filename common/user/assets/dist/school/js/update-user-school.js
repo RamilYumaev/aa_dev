@@ -189,6 +189,8 @@ if ((vaLCountry == russia1 && vaLCountrySchool== russia1)  && vaLRegionSchool ==
     dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
     dataAjax(dataParams);
     school.show();
+    chNewSch.hide();
+    chRenSch.show();
     $("#schooluserupdateform-school_id").val(vaLSchool);
     $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
 } else if(vaLCountrySchool ==  russia1  && (vaLRegionSchool)) {
@@ -199,6 +201,8 @@ if ((vaLCountry == russia1 && vaLCountrySchool== russia1)  && vaLRegionSchool ==
     dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
     dataAjax(dataParams);
     school.show();
+    chNewSch.hide();
+    chRenSch.show();
     $("#schooluserupdateform-school_id").val(vaLSchool);
     $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
 }
@@ -209,6 +213,8 @@ else if(vaLCountry != vaLCountrySchool && vaLRegionSchool != vaLRegion) {
     dataParams = {country_id: vaLCountrySchool, region_id: null};
     dataAjax(dataParams);
     school.show();
+    chNewSch.hide();
+    chRenSch.show();
     $("#schooluserupdateform-school_id").val(vaLSchool);
     $('#schooluserupdateform-check_region_and_country_school').removeAttr("checked");
 

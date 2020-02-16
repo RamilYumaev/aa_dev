@@ -83,7 +83,7 @@ class ModerationBehavior extends  Behavior
         if (ModelModeration::find()->andWhere(['model'=> $this->owner::className(),
             'record_id' =>  $this->owner->id,
             "status" => ModerationHelper::STATUS_NEW])->exists()) {
-            throw  new  \DomainException("Модерация еще не пройдена");
+            throw  new  \DomainException("Измененные данные находятся на модерации");
         }
 
     }
