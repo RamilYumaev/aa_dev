@@ -54,7 +54,7 @@ class SchoolsSettingController extends Controller
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect('/schools/index');
+            return $this->redirect(['/schools/index']);
         }
 
         return $this->renderAjax('add-email', ['model' => $form, 'id'=>$id]);

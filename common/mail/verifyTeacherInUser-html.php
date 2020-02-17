@@ -9,7 +9,7 @@ use olympic\helpers\auth\ProfileHelper;
 /* @var $hash string */
 /* @var $teacher_id integer */
 
-$verifyLink = Url::to(['@frontendInfo/auth/confirm/teacher-user', 'hash' => $hash],  true);
+$verifyLink = Url::to('@frontendInfo/auth/confirm/teacher-user?hash='.$hash,  true);
 ?>
 <div class="verify-email">
     <p>Уважаемый(-ая), <?= ProfileHelper::profileName($userOlympic->user_id)?>! </p>
