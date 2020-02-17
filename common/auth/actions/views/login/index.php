@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-4 col-md-offset-4">
                 <?= Html::submitButton('Войти', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'login-button']) ?></div>
         </div>
-        <?= Html::a('Забыли пароль?', '/reset/request') ?><br>
+        <?= Html::a('Забыли пароль?', ['/reset/request']) ?><br>
         <?= Html::a('Зарегистрироваться', ['/sign-up/request']) ?>
 
         <?php ActiveForm::end() ?>

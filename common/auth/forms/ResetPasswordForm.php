@@ -9,6 +9,7 @@ use yii\base\Model;
 class ResetPasswordForm extends Model
 {
     public $password;
+    public $password_repeat;
 
     public function rules()
     {

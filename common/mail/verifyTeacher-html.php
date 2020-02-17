@@ -9,12 +9,12 @@ use dictionary\helpers\DictSchoolsHelper;
 /* @var $teacher teacher\models\UserTeacherJob */
 /* @var $olympic int */
 
-$verifyLink = Url::to(['@frontendInfo/auth/confirm/teacher', 'hash' => $teacher->hash],  true);
+$verifyLink = Url::to('@frontendInfo/auth/confirm/teacher?hash='.$teacher->hash,  true);
 ?>
 <div class="verify-email">
     <p>Уважаемые коллеги! </p>
     <p>Оргкомитет олимпиад и конкурсов Московского педагогического государственного университета просит подтвердить информацию о том,
-    что <?= ProfileHelper::profileFullName($teacher->user_id)?> работает в <? DictSchoolsHelper::schoolName($teacher->school_id)?> учителем. Данное подтверждение нам необходимо для выдачи электронного благодарственного письма!
+    что <?= ProfileHelper::profileFullName($teacher->user_id)?> работает в <?= DictSchoolsHelper::schoolName($teacher->school_id)?> учителем. Данное подтверждение нам необходимо для выдачи электронного благодарственного письма!
     Для автоматического подтверждения просим пройти по данной ссылке <?= Html::a(Html::encode($verifyLink), $verifyLink) ?></p>
     <p>В противном случае просим проигнорировать данное сообщение. </p>
 
