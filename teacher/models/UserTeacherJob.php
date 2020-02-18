@@ -13,7 +13,6 @@ class UserTeacherJob extends ActiveRecord
      * {@inheritdoc}
      */
 
-
     public static function tableName()
     {
         return 'user_teacher_job';
@@ -37,6 +36,11 @@ class UserTeacherJob extends ActiveRecord
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function setHashNull()
+    {
+        $this->hash = null;
     }
 
     public function isStatusWait()

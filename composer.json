@@ -54,7 +54,8 @@
     "kartik-v/yii2-date-range": "dev-master",
     "kartik-v/yii2-widget-fileinput": "@dev",
     "aneeshikmat/yii2-time-down-counter": "v1.0.0-stable",
-    "moonlandsoft/yii2-phpexcel": "*"
+    "moonlandsoft/yii2-phpexcel": "*",
+    "wapmorgan/yii2-inflection": "^1.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

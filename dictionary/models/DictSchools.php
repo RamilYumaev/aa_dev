@@ -6,6 +6,7 @@ namespace dictionary\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\queries\DictSchoolsQuery;
 
 class DictSchools extends YiiActiveRecordAndModeration
@@ -47,6 +48,16 @@ class DictSchools extends YiiActiveRecordAndModeration
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function isStatusAndEmail(): bool
+    {
+        return $this->email && $this->status == DictSchoolsHelper::ACTIVE_EMAIL;
     }
 
     public function setDictSchoolReportId($id)

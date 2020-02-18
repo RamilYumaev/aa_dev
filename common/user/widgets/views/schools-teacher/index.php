@@ -9,7 +9,7 @@ use dictionary\helpers\DictSchoolsHelper;
 use yii\helpers\Html;
 
 \teacher\assets\modal\ModalAsset::register($this);
-$this->title = 'Данные об работодателе';
+$this->title = 'Данные об учебной организации';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -40,11 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return
                                 Html::a( "Добавить/изменить email",
                                 ['schools-setting/add-email', 'id' => $model->school_id], ['data-pjax' => 'w0',
-                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить/изменить', 'data-target' => '#modal'])
-                                .
-                                Html::a( "Подтвердить",
-                                    ['schools-setting/send', 'id' => $model->id], ['data-pjax' => 'w0',
-                                        'data-method' => 'post', 'class'=>'btn btn-info', 'data-confirm' =>'Вы уверены, что хотите отправить письмо с подтверждением?']);
+                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить/изменить', 'data-target' => '#modal']);
                         } else {
                                 return \teacher\helpers\UserTeacherJobHelper::statusName($model->status);
                             }},
