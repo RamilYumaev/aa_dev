@@ -49,7 +49,7 @@ class SchoolsSettingController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addEmail($id, $form);
-                Yii::$app->session->setFlash('success', ' Элеткронная почта успешно добавлена.');
+                Yii::$app->session->setFlash('success', ' Электронная почта успешно добавлена.');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -60,18 +60,6 @@ class SchoolsSettingController extends Controller
         return $this->renderAjax('add-email', ['model' => $form, 'id'=>$id]);
     }
 
-    public function actionSend($id)
-    {
-        $model = $this->find($id);
-        try {
-            $this->schoolService->send($model->id);
-            Yii::$app->session->setFlash('success', 'Письмо отправлено!');
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
 
     public function actionSendUser($id)
     {

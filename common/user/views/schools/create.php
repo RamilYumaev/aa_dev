@@ -9,6 +9,6 @@ use olympic\helpers\auth\ProfileHelper;
     <?php $this->title = "Учебные организации. Добавление." ?>
     <?= $this->render('_frontend', ['model'=> $model])?>
 <?php else:?>
-    <?php $this->title = "Данные об работодателе. Добавление." ?>
+    <?php $this->title = "Данные об учебной организации. Добавление." ?>
     <?= $this->render('_teacher', ['model'=> $model])?>
 <?php endif;?>

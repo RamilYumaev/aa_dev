@@ -4,7 +4,7 @@ namespace common\auth\actions\traits;
 
 use common\auth\actions\LoginAction;
 use common\auth\actions\LogOutAction;
-use common\auth\components\AuthHandler;
+use common\components\AuthHandler;
 
 trait AuthTrait
 {

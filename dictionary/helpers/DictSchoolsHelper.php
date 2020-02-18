@@ -7,6 +7,8 @@ use dictionary\models\DictSchoolsPreModeration;
 
 class DictSchoolsHelper
 {
+    const DRAFT_EMAIL = 0;
+    const ACTIVE_EMAIL = 1;
     public static function schoolName($key): ?string
     {
         return self::find($key)->name ?? null;

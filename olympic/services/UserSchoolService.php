@@ -50,8 +50,13 @@ class UserSchoolService
     public function signup(SchooLUserCreateForm $form, $role): void
     {
         if ($role == ProfileHelper::ROLE_TEACHER) {
-            $this->teacherSchoolRepository->save($this->newUserTeacherSchool($form, \Yii::$app->user->id));
-
+            $teacher = $this->newUserTeacherSchool($form, \Yii::$app->user->id);
+            $this->teacherSchoolRepository->save($teacher);
+            $school = $this->schoolsRepository->get($teacher->school_id);
+            if ($school->isStatusAndEmail()) {
+                $this->send($teacher->id, \Yii::$app->user->id);
+                \Yii::$app->session->setFlash('success', 'Письмо отправлено!');
+            }
         } else {
             $userSchool = $this->newUserSchool($form, $form->schoolUser->class_id, \Yii::$app->user->id);
             $this->userSchoolRepository->save($userSchool);
@@ -93,6 +98,8 @@ class UserSchoolService
         $teacherJob = $this->teacherSchoolRepository->get($id, $user_id);
         $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
         $teacherJob->edit($school_id);
+        $teacherJob->setStatus(UserTeacherJobHelper::DRAFT);
+        $teacherJob->setHashNull();
         return $teacherJob;
     }
 
@@ -102,6 +109,7 @@ class UserSchoolService
         $this->teacherSchoolRepository->isSchoolTeacher($user_id, $school_id);
         $this->userSchoolRepository->isSchooLUser($user_id);
         $teacherJob = UserTeacherJob::create($school_id, $user_id);
+
         return $teacherJob;
     }
 
@@ -119,9 +127,9 @@ class UserSchoolService
         }
     }
 
-    public function send($id): void
+    public function send($id, $user_id): void
     {
-        $teacher = $this->teacherSchoolRepository->get($id, \Yii::$app->user->id);
+        $teacher = $this->teacherSchoolRepository->get($id, $user_id);
         $school = $this->schoolsRepository->get($teacher->school_id);
         if (is_null($school->email)) {
             throw new \DomainException('У данной школы нет электронной почты.');

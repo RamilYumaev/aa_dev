@@ -5,6 +5,7 @@ namespace dod\services;
 
 use common\auth\forms\SignupForm;
 use common\auth\repositories\UserRepository;
+use common\sending\traits\MailTrait;
 use common\transactions\TransactionManager;
 use dod\forms\SignupDodForm;
 use dod\models\UserDod;
@@ -25,6 +26,8 @@ class DodRegisterUserService
     private $profileRepository;
     private $dodRepository;
     private $userDodRepository;
+
+    use MailTrait;
 
     public function __construct(
         UserDodRepository $userDodRepository,
@@ -54,7 +57,10 @@ class DodRegisterUserService
             $userDod = $this->newUserDod($form->dateDodId, $user->id);
             $this->userDodRepository->save($userDod);
 
-            $this->sendEmail($user);
+            $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
+            $configData = ['user' => $user];
+
+            $this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
         });
     }
 
@@ -75,20 +81,6 @@ class DodRegisterUserService
         $dateDod = $this->dodRepository->get($dod_id);
         $userDod = UserDod::create($dateDod->id, $user_id);
         return $userDod;
-    }
-
-    public function sendEmail(User $user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($user->email)
-            ->setSubject('Активация аккаунта. ' . Yii::$app->name)
-            ->send();
     }
 
 }

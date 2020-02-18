@@ -41,7 +41,7 @@ $label = '@web/img/certificate/gratitude.png';
                     <p align="center">
                         <?= Html::img($label, ['width' => '650px']) ?>
                     </p>
-                    <h3 align="center">Оргкомитет <?= $olympic->genitive_name." ".$olympic->year ?> сообщает, что</h3>
+
                 </div>
                 <div class="col-md-3 col-xs-3 mt-30">
                     <p style="color: #565656" align="center"><i>Проверка<br/>подлинности:</i></p>
@@ -60,7 +60,7 @@ $label = '@web/img/certificate/gratitude.png';
                 <div class="row">
                     <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
                         <p align="center" class="fio">
-                            <?= $teacher ?>
+                            <?= Yii::$app->inflection->inflectName($teacher, wapmorgan\yii2inflection\Inflector::DATIVE)?>
                         </p>
                         <p class="school">
                             <?php foreach ($schoolId  as $item) : ?>
@@ -68,7 +68,7 @@ $label = '@web/img/certificate/gratitude.png';
                             <?php endforeach; ?>
                         </p>
                         <p class="reward">
-                            Принимал активное участие в подготовке следующего участника олимпиады, занявшего призовое место:
+                            за активное участие в подготовке участника олимпиады, занявшего призовое место:
                         </p>
                         <p class="nomination">
                             ФИО участника: <?= $profile ?>;
@@ -77,13 +77,9 @@ $label = '@web/img/certificate/gratitude.png';
                             Призовое место: <?= PersonalPresenceAttemptHelper::nameOfPlacesOne($diploma->reward_status_id) ?>.
                         </p>
 
-                        <p class="nomination">
-                            Уважаемый(-ая)  <?= ProfileHelper::profileName($model->user_id)?>! </p>
-                        <p class="reward">    Выражаем Вам глубокую благодарность и признательность за Ваш педагогический талант и высокий профессионализм! Желаем Вам процветания и дальнейших успехов в педагогической деятельности!
-
+                        <p class="reward">   Выражаем признательность за Ваш педагогический талант и высокий профессионализм!
+                            Желаем Вам процветания и дальнейших успехов в педагогической деятельности!
                         </p>
-
-
 
                     </div>
                 </div>
@@ -111,7 +107,7 @@ $label = '@web/img/certificate/gratitude.png';
                         </div>
                         <div class="col-md-4 col-xs-4 fs-25">
                             Председатель
-                            оргкомитета <?= $olympic->genitive_name . ', <br/>' . '<strong>' . \dictionary\helpers\DictChairmansHelper::chairmansFullNameOne($olympic->chairman_id) . '</strong>' ?>
+                            оргкомитета <?= $olympic->genitive_name.' '.$olympic->year.', <br/>' . '<strong>' . \dictionary\helpers\DictChairmansHelper::chairmansFullNameOne($olympic->chairman_id) . '</strong>' ?>
                         </div>
                     </div>
                 </div>
@@ -126,3 +122,4 @@ $label = '@web/img/certificate/gratitude.png';
 
 
 
+<h3 align="center">Оргкомитет <?= $olympic->genitive_name." ".$olympic->year ?> сообщает, что</h3>
