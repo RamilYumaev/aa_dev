@@ -12,6 +12,7 @@ return [
             'class' => 'yii\authclient\clients\Yandex',
             'clientId' => '14ccd7cc6ae04ed680e250aa2b65a369',
             'clientSecret' => 'f2ed1d137a0443529b607514ad49985f',
+            'scope' => 'email',
         ],
 
         'facebook' => [
@@ -23,8 +24,8 @@ return [
 
         'vkontakte' => [
             'class' => 'yii\authclient\clients\VKontakte',
-            'clientId' => '6840071',
-            'clientSecret' => 'kjKLyc2zgJB5k9pL80A9',
+            'clientId' => '6774734',
+            'clientSecret' => 'DnZyVThgj3x3bLbhdMUh',
             'scope' => 'email',
         ]
     ]];

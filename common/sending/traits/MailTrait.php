@@ -27,10 +27,11 @@ trait MailTrait
 
     protected function sendDefault($email, $configTemplate, $data, $subject)
     {
-        return Yii::$app
-            ->mailer
+        $mailer = Yii::$app->olympicMailer;
+        return $mailer
+            ->mailer()
             ->compose($configTemplate, $data)
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([$mailer->getFromSender() => Yii::$app->name . ' robot'])
             ->setTo($email)
             ->setSubject($subject . Yii::$app->name)
             ->send();

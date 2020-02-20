@@ -1,17 +1,19 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $form yii\bootstrap\ActiveForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 use yii\helpers\Url;
+
 \common\auth\actions\assets\LoginAsset::register($this);
 $this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
 
-$docUrl = Html::a("Ознакомиться", Url::to('@frontendInfo/uploads/consent.pdf'),['target'=>'_blank']);
+$docUrl = Html::a("Ознакомиться", Url::to('@frontendInfo/uploads/consent.pdf'), ['target' => '_blank']);
 ?>
 <div class="login-box">
     <div class="login-box-body">
@@ -20,10 +22,14 @@ $docUrl = Html::a("Ознакомиться", Url::to('@frontendInfo/uploads/con
             <h2>Регистрация</h2>
         </div><!-- /.login-logo -->
         <h4 class="login-box-msg">зарегистрируйтесь с помощью:</h4>
-        <?= yii\authclient\widgets\AuthChoice::widget([
-            'baseAuthUrl' => ['account/auth'],
-            'popupMode' => false,
-        ]) ?>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <?= yii\authclient\widgets\AuthChoice::widget([
+                    'baseAuthUrl' => ['account/auth'],
+                    'popupMode' => false,
+                ]) ?>
+            </div>
+        </div>
         <h4 class="login-box-msg">или заполните форму:</h4>
         <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
         <div class="form-group has-feedback">
