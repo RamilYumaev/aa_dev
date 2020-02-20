@@ -43,6 +43,15 @@ class PersonalPresenceAttemptHelper
         ];
     }
 
+    public static function namePlacesArray()
+    {
+        return [
+            self::FIRST_PLACE,
+            self::SECOND_PLACE,
+            self::THIRD_PLACE,
+        ];
+    }
+
     public static function nameOfPlacesArrayAndValue()
     {
         return [

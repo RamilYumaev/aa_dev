@@ -126,6 +126,7 @@ $("#schooluserform-school_id").on("change", function() {
         $("#schooluserform-new_school").val("");
         newSch.hide();
     } else {
+        propCheck("#schooluserform-check_new_school",'checked', false);
         propCheck("#schooluserform-check_rename_school",'checked', false);
         chNewSch.hide();
         $("#schooluserform-new_school").val("");

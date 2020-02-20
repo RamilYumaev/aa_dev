@@ -10,7 +10,7 @@ $this->title = 'Ваш профиль';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-7">
         <div class="box">
             <?php $form = ActiveForm::begin(); ?>
             <div class="box-body">
@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div
             <?php ActiveForm::end(); ?>
         </div>
+    </div>
+    <div class="col-md-5">
+        <?= \common\user\widgets\DeclinationWidget::widget(); ?>
     </div>
 </div>
 

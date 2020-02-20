@@ -50,13 +50,8 @@ class UserSchoolService
     public function signup(SchooLUserCreateForm $form, $role): void
     {
         if ($role == ProfileHelper::ROLE_TEACHER) {
-            $teacher = $this->newUserTeacherSchool($form, \Yii::$app->user->id);
-            $this->teacherSchoolRepository->save($teacher);
-            $school = $this->schoolsRepository->get($teacher->school_id);
-            if ($school->isStatusAndEmail()) {
-                $this->send($teacher->id, \Yii::$app->user->id);
-                \Yii::$app->session->setFlash('success', 'Письмо отправлено!');
-            }
+            $this->teacherSchoolRepository->save($this->newUserTeacherSchool($form, \Yii::$app->user->id));
+
         } else {
             $userSchool = $this->newUserSchool($form, $form->schoolUser->class_id, \Yii::$app->user->id);
             $this->userSchoolRepository->save($userSchool);

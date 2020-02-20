@@ -42,19 +42,20 @@ class ModerationBehavior extends  Behavior
     public function beforeUpdate($event)
     {
         $this->find();
-
         $old = $this->owner->oldAttributes;
         if ($this->isNoNewsAndOld($old)) {
-            $this->moderation($old);
+            if (!$this->emptyCount($old)) {
+                $this->moderation($old);
+            }
         }
     }
 
-    protected function moderation(array $old = null) {
+    protected function moderation(array $old) {
 
         $moderation = ModelModeration::create(
             $this->owner::className(),
             $this->owner->id,
-            $old ? $this->old($old) : null,
+            $this->old($old),
             $this->news());
 
         $this->repository->save($moderation);
@@ -62,7 +63,11 @@ class ModerationBehavior extends  Behavior
 
     protected function  allowedKeysAttribute ($data)
     {
-        return Json::encode(array_intersect_key($data, array_flip($this->attributes)), JSON_NUMERIC_CHECK);
+        return Json::encode($this->arrayIntersectKey($data), JSON_NUMERIC_CHECK);
+    }
+
+    protected  function  arrayIntersectKey ($data) {
+        return array_intersect_key($data, array_flip($this->attributes));
     }
 
     protected function old(array $old)
@@ -85,7 +90,18 @@ class ModerationBehavior extends  Behavior
             "status" => ModerationHelper::STATUS_NEW])->exists()) {
             throw  new  \DomainException("Измененные данные находятся на модерации");
         }
+    }
 
+    private function emptyCount(array $old) : bool
+    {
+        $count = 0;
+        foreach ($this-> arrayIntersectKey($old) as $value) {
+            if (empty($value)) {
+                $count++;
+            }
+        }
+
+        return count($this->attributes) == $count;
     }
 
 }

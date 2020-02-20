@@ -113,7 +113,7 @@ class UserOlimpiads extends \yii\db\ActiveRecord
     }
 
     public function olympicUserDiploma() {
-        return DiplomaHelper::userDiploma($this->user_id, $this->olympiads_id);
+        return DiplomaHelper::userDiplomaFirstSecondThree($this->user_id, $this->olympiads_id);
     }
 
     /**

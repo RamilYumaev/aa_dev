@@ -93,7 +93,7 @@ class SendingHelper
 
     public static function sendingData($type, $typeSending, $value)
     {
-        return Sending::find()->type($type)->typeSending($typeSending)->value($value)->exists();
+        return Sending::find()->type($type)->typeSending($typeSending)->value($value)->statusSending(self::FINISH_SENDING)->exists();
     }
 
 

@@ -5,6 +5,7 @@ use xj\qrcode\QRcode;
 use xj\qrcode\widgets\Text;
 use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\helpers\auth\ProfileHelper;
+use common\auth\helpers\DeclinationFioHelper;
 
 /** @var \yii\web\View $this */
 /** @var  $schoolId array*/
@@ -12,8 +13,9 @@ use olympic\helpers\auth\ProfileHelper;
 
 $olympic = \olympic\helpers\OlympicListHelper::olympicOne($diploma->olimpic_id);
 $profile = ProfileHelper::profileFullName($diploma->user_id);
-$teacher = ProfileHelper::profileFullName($model->user_id);
-$this->title = "Благодарность.".$teacher;
+$teacher = DeclinationFioHelper::userDeclination($model->user_id);
+if(!is_null($teacher))  {
+$this->title = "Благодарность.".$teacher->nominative;
 $label = '@web/img/certificate/gratitude.png';
 ?>
 <div class="container-fluid">
@@ -60,7 +62,7 @@ $label = '@web/img/certificate/gratitude.png';
                 <div class="row">
                     <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
                         <p align="center" class="fio">
-                            <?= Yii::$app->inflection->inflectName($teacher, wapmorgan\yii2inflection\Inflector::DATIVE)?>
+                            <?= $teacher->dative ?>
                         </p>
                         <p class="school">
                             <?php foreach ($schoolId  as $item) : ?>
@@ -120,6 +122,4 @@ $label = '@web/img/certificate/gratitude.png';
     </div>
 </div>
 
-
-
-<h3 align="center">Оргкомитет <?= $olympic->genitive_name." ".$olympic->year ?> сообщает, что</h3>
+<?php } ?>

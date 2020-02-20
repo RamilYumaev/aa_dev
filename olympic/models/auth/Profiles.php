@@ -11,6 +11,7 @@ use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
 use olympic\models\auth\queries\ProfilesQuery;
+use olympic\models\behaviors\DeclinationBehavior;
 
 class Profiles extends YiiActiveRecordAndModeration
 {
@@ -24,10 +25,13 @@ class Profiles extends YiiActiveRecordAndModeration
                 'class' => ModerationBehavior::class,
                 'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
             ],
+            'declination' => [
+                'class' =>  DeclinationBehavior::class,
+               // 'data' =>$this->last_name,
+            ],
+
         ];
     }
-
-
 
 
     public static function tableName()
@@ -101,6 +105,17 @@ class Profiles extends YiiActiveRecordAndModeration
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getFio()
+    {
+        if (!empty($this->last_name) && !empty($this->last_name) && !empty($this->patronymic)) {
+          return  $this->last_name ." ".$this->first_name." ".$this->patronymic;
+        }
+        elseif(!empty($this->last_name) && !empty($this->first_name)) {
+            return  $this->last_name ." ".$this->first_name;
+        }
+        return null;
     }
 
     public static function find()

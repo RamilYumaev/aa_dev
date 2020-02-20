@@ -60,6 +60,18 @@ class SchoolsSettingController extends Controller
         return $this->renderAjax('add-email', ['model' => $form, 'id'=>$id]);
     }
 
+    public function actionSend($id)
+    {
+        $model = $this->find($id);
+        try {
+            $this->schoolService->send($model->id, Yii::$app->user->identity->getId());
+            Yii::$app->session->setFlash('success', 'Письмо отправлено!');
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
     public function actionSendUser($id)
     {

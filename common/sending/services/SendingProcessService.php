@@ -54,7 +54,6 @@ class SendingProcessService
             throw new \DomainException( 'Вы не можете рассылать пригласительные на очный тур, 
             так как он уже прошел '. $olympic->date_time_start_tour);
         }
-        $this->manager->wrap(function () use($olympic, $sendingTemplate, $typeSending){
             $name = SendingDeliveryStatusHelper::deliveryTypeName($typeSending).". ".$olympic->name;
             $sending = Sending::createDefault($name, SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 $olympic->id, $typeSending, $sendingTemplate->id);
@@ -74,7 +73,6 @@ class SendingProcessService
             $sendingUpdate = $this->repository->get($sending->id);
             $sendingUpdate->status_id = SendingHelper::FINISH_SENDING;
             $this->repository->save($sendingUpdate);
-        });
     }
 
     private function sendDiploma(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
@@ -87,6 +85,7 @@ class SendingProcessService
                 $sending->id, $sendingTemplate);
         }
     }
+
 
     private function sendInvitation(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
         $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id)->all();
