@@ -107,9 +107,24 @@ class UserOlimpiadsService
     {
         $userTeacherClass = $this->teacherClassUserRepository->getHash($hash);
         $userTeacherClass->setStatus(TeacherClassUserHelper::ACTIVE);
+        $userOlympic = $userTeacherClass->getOlympicUserOne();
+        if($userOlympic->olympicUserDiploma()) {
+            $user = $this->userRepository->get($userTeacherClass->user_id);
+            $this->sendTeacher($user, $userOlympic->olympiads_id, $userTeacherClass->id);
+        }
         $this->teacherClassUserRepository->save($userTeacherClass);
     }
 
+    public function sendTeacher(User $user, $olympic, $gratitude_id) {
+        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+                SendingDeliveryStatusHelper::TYPE_SEND_GRATITUDE)) == null) {
+            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
+        }
+        $olympic = $this->olimpicListRepository->get($olympic);
+        $this->send($user, $olympic, $this->deliveryStatusRepository,
+            SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+            SendingDeliveryStatusHelper::TYPE_SEND_GRATITUDE, null, $sendingTemplate, $gratitude_id);
+    }
 
     public function allUsersAjax($olympic)
     {

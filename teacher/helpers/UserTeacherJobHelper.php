@@ -30,7 +30,7 @@ class UserTeacherJobHelper
     public static function columnSchoolId($user_id)
     {
         if (($schoolId = UserTeacherJob::find()->select('school_id')
-                ->andWhere(['status' => self::ACTIVE, 'user_id' => $user_id])->column()) != null) {
+                ->andWhere(['user_id' => $user_id])->column()) != null) {
             return $schoolId;
             }
         return null;

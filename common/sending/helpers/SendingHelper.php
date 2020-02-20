@@ -69,7 +69,7 @@ class SendingHelper
     }
 
     public static function textOlympicEmail(User $user, OlimpicList $olympic, $hash, $type,
-                                            DictSendingTemplate $sendingTemplate, $type_sending) {
+                                            DictSendingTemplate $sendingTemplate, $type_sending, $gratitude_id) {
         $array = $olympic->replaceLabelsFromSending();
         array_unshift($array, ProfileHelper::profileName($user->id));
         $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
@@ -83,6 +83,9 @@ class SendingHelper
                 $numTour = $olympic->isFormOfPassageDistantInternal() ? OlympicHelper::OCH_FINISH : null;
                 $urlString = '@frontendInfo/print/olimp-result?olympic_id='.$olympic->id.'&numTour='.$numTour.'&hash='.$hash;
                 array_push($array, "", "",  \yii\helpers\Url::to($urlString, true));
+                break;
+            case SendingDeliveryStatusHelper::TYPE_SEND_GRATITUDE :
+                array_push($array,  "",  \yii\helpers\Url::to('@frontendInfo/gratitude?id='.$gratitude_id.'&hash='.$hash, true), "");
                 break;
             default:
                 array_push($array, "", "",  \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
