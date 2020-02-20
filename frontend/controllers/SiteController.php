@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use yii\web\Controller;
 use Yii;
@@ -18,7 +19,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => ErrorAction::class,
             ],
         ];
     }
