@@ -54,6 +54,7 @@ return [
             'view' => 'profile-default',
         ],
         'reset' => \common\auth\controllers\ResetController::class,
+        'declination' => \common\user\controllers\DeclinationController::class,
     ],
     'components' => [
         'request' => [

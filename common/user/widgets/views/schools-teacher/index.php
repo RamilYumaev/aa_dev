@@ -35,12 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return DictSchoolsHelper::schoolEmail($model->school_id);
                             },
                         ],
-                        [ 'value' => function (UserTeacherJob $model) {
+                        ['value' => function (UserTeacherJob $model) {
                             if ($model->isStatusDraft()) {
                             return
                                 Html::a( "Добавить/изменить email",
                                 ['schools-setting/add-email', 'id' => $model->school_id], ['data-pjax' => 'w0',
-                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить/изменить', 'data-target' => '#modal']);
+                                    'data-toggle' => 'modal', 'class'=>'btn btn-success', 'data-modalTitle' =>'Добавить/изменить', 'data-target' => '#modal'])
+                                .
+                                (!DictSchoolsHelper::schoolEmailAndStatus($model->school_id) ? "" : Html::a( "Подтвердить",
+                                    ['schools-setting/send', 'id' => $model->id], ['data-pjax' => 'w0',
+                                        'data-method' => 'post', 'class'=>'btn btn-info', 'data-confirm' =>'Вы уверены, что хотите отправить письмо с подтверждением?']));
                         } else {
                                 return \teacher\helpers\UserTeacherJobHelper::statusName($model->status);
                             }},

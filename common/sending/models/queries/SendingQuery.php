@@ -7,6 +7,7 @@ class SendingQuery extends \yii\db\ActiveQuery
     /**
      * @return $this
      */
+
     public function orderByStatusDeadlineAsc()
     {
         return $this->orderBy(['status_id' => SORT_ASC, 'deadline' => SORT_ASC]);
@@ -26,5 +27,11 @@ class SendingQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['type_sending'=>$type]);
     }
+
+    public function statusSending($status)
+    {
+        return $this->andWhere(['status_id'=>$status]);
+    }
+
 
 }

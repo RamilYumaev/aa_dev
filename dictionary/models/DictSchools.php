@@ -16,7 +16,7 @@ class DictSchools extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['name','email'],
+                'attributes' => ['name','email','status'],
             ],
         ];
     }
@@ -80,6 +80,7 @@ class DictSchools extends YiiActiveRecordAndModeration
             'dict_school_report_id' => "Название УО в чистовике",
             'country_id' => 'Страна, где расположена учебная организация',
             'region_id' => 'Регион, где расположена учебная организация',
+            'status' => "Статус электронной почты"
         ];
     }
 
@@ -101,6 +102,6 @@ class DictSchools extends YiiActiveRecordAndModeration
 
     public function moderationAttributes($value): array
     {
-        return ['name' => $value, 'email' => $value ];
+        return ['name' => $value, 'email' => $value, 'status' => DictSchoolsHelper::typeEmailName($value)];
     }
 }

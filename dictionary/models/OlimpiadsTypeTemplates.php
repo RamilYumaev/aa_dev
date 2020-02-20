@@ -27,7 +27,7 @@ class OlimpiadsTypeTemplates extends ActiveRecord
         $olimpiadsTypeTemplates->template_id = $template_id;
         $olimpiadsTypeTemplates->special_type = $special_type;
         $olimpiadsTypeTemplates->year = $form->year;
-        $olimpiadsTypeTemplates->range = $form->rage;
+        $olimpiadsTypeTemplates->range = $form->range;
         return $olimpiadsTypeTemplates;
     }
 

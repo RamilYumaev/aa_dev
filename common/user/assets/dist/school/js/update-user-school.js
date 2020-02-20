@@ -135,11 +135,14 @@ $("#schooluserupdateform-school_id").on("change", function() {
         newSch.hide();
     } else {
         propCheck("#schooluserupdateform-check_rename_school",'checked', false);
+        propCheck("#schooluserupdateform-check_new_school",'checked', false);
         chNewSch.hide();
         $("#schooluserupdateform-new_school").val("");
         chRenSch.show();
         newSch.hide();
     }
+    validateSchools();
+
 });
 
 $("#schooluserupdateform-country_school").on("change", function() {
