@@ -16,6 +16,13 @@ return [
     ],
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'container' => [
+        'definitions' => [
+           \frontend\components\redirect\components\interfaces\IRedirectNewUrl::class => function () {
+                return new \frontend\components\redirect\components\RedirectDataFileCsv(
+                    Yii::getAlias('@frontend/components/redirect/file/redirect.csv')); }
+        ],
+    ],
     'controllerMap' => [
         'account' => [
             'class' => \common\auth\controllers\AuthController::class,
