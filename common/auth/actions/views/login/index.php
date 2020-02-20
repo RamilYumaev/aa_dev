@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $form yii\bootstrap\ActiveForm */
 
 use yii\helpers\Html;
@@ -21,10 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <h2>Вход</h2>
         </div>
         <p align="center">Войдите с помощью:</p>
-        <?= yii\authclient\widgets\AuthChoice::widget([
-            'baseAuthUrl' => ['account/auth'],
-            'popupMode' => false,
-        ]) ?>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <?= yii\authclient\widgets\AuthChoice::widget([
+                    'baseAuthUrl' => ['account/auth'],
+                    'popupMode' => false,
+                ]) ?>
+            </div>
+        </div>
 
         <h4 class="login-box-msg">или заполните, пожалуйста, форму:</h4>
 
