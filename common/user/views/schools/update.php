@@ -8,6 +8,6 @@ use olympic\helpers\auth\ProfileHelper;
     <?php $this->title = "Учебные организации. Редактирование." ?>
     <?= $this->render('_frontend', ['model'=> $model])?>
 <?php else:?>
-    <?php $this->title = "Данные об работодателе. Редактирование." ?>
+    <?php $this->title = "Данные об учебной организации. Редактирование." ?>
     <?= $this->render('_teacher', ['model'=> $model])?>
 <?php endif;?>

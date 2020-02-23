@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= $dod->dodOne->addressString ?></p>
     <p><?= $dod->dodOne->audNumberString ?></p>
 
-    <h4><strong>Уже есть учетная запись? <?= Html::a('Войдите', '/auth/auth/login') ?></strong></h4>
+    <h4><strong>Уже есть учетная запись? <?= Html::a('Войдите', ['account/login']) ?></strong></h4>
 
     <h4>или заполните следующую форму:</h4>
 
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ]) ?>
 
 <?= $form->field($model->user, 'verifyCode')->widget(Captcha::className(), [
-    'captchaAction' => ['/auth/signup/captcha'],
+    'captchaAction' => ['/sign-up/captcha'],
     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
 ]) ?>
 

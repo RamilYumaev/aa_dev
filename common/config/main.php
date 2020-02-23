@@ -1,6 +1,6 @@
 <?php
 return [
-    'language' => 'ru-RU',
+    'language' => 'ru_RU',
     'timeZone' => 'Europe/Moscow',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -24,6 +24,9 @@ return [
             'class' => 'yii\caching\FileCache',
             'dirMode' => '777',
             'fileMode' => '777',
+        ],
+        'inflection' => [
+            'class' => 'wapmorgan\yii2inflection\Inflection'
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

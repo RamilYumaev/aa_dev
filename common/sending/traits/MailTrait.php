@@ -10,10 +10,13 @@ use common\sending\models\SendingDeliveryStatus;
 use common\sending\repositories\SendingDeliveryStatusRepository;
 use dictionary\models\DictSchools;
 use olympic\models\OlimpicList;
+use testing\repositories\TestGroupRepository;
 use Yii;
 
 trait MailTrait
 {
+    private $name = "Оргкомитет Олимпиады МПГУ";
+
     public function sendEmail(User $user, $configTemplate, $data, $subject)
     {
         return $this->sendDefault($user->email, $configTemplate, $data, $subject);
@@ -21,7 +24,7 @@ trait MailTrait
 
     public function sendTeacherEmail(DictSchools $schools, $configTemplate, $data)
     {
-        $subject = 'Подтверждение. ';
+        $subject = 'Запрос информации. ';
         return $this->sendDefault($schools->email, $configTemplate, $data, $subject);
     }
 
@@ -31,9 +34,9 @@ trait MailTrait
         return $mailer
             ->mailer()
             ->compose($configTemplate, $data)
-            ->setFrom([$mailer->getFromSender() => Yii::$app->name . ' robot'])
+            ->setFrom([$mailer->getFromSender() => $this->name . ' robot'])
             ->setTo($email)
-            ->setSubject($subject . Yii::$app->name)
+            ->setSubject($subject ." ". $this->name)
             ->send();
     }
 
@@ -43,7 +46,7 @@ trait MailTrait
         return $this->getDataEmail($olympic)
             ->mailer()
             ->compose()
-            ->setFrom([$emailFrom => \Yii::$app->name . ' robot']) //@TODO Надо что-то написать нормальное
+            ->setFrom([$emailFrom =>  $this->name . ' robot']) //@TODO Надо что-то написать нормальное
             ->setTo($user->email)
             ->setTextBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_TEXT, $sendingTemplate, $typeSend))
             ->setHtmlBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_HTML, $sendingTemplate, $typeSend))

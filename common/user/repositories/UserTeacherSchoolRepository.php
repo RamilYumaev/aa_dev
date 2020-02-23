@@ -26,6 +26,11 @@ class UserTeacherSchoolRepository
         return $user;
     }
 
+    public function getSchool($school_id, $user_id): ?UserTeacherJob
+    {
+        return UserTeacherJob::findOne(['user_id' => $user_id, 'school_id' =>$school_id ]);
+    }
+
     public function getHash($hash): UserTeacherJob
     {
         if (!$user =  UserTeacherJob::findOne(['hash' => $hash])) {

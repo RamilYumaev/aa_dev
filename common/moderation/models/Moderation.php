@@ -2,6 +2,8 @@
 namespace common\moderation\models;
 
 use common\moderation\helpers\ModerationHelper;
+use dictionary\behaviors\DictSchoolsEmailModerationBehavior;
+use dictionary\behaviors\DictSchoolsModerationBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
@@ -19,6 +21,10 @@ class Moderation extends ActiveRecord
     {
         return [
            TimestampBehavior::class,
+            'dictSchool' => [
+                'class' =>DictSchoolsEmailModerationBehavior::class,
+                'attributeEmail'=> 'email'
+                ]
         ];
     }
 
@@ -82,6 +88,10 @@ class Moderation extends ActiveRecord
 
     public function getBefore($key) {
        return ArrayHelper::getValue($this->getBeforeData(), $key);
+    }
+
+    public function getAfter($key) {
+        return ArrayHelper::getValue($this->getAfterData(), $key);
     }
 
     /**

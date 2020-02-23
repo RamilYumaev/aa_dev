@@ -1,6 +1,6 @@
 <?php
 
-namespace common\auth\components;
+namespace common\components;
 
 use common\auth\Identity;
 use common\auth\models\Auth;

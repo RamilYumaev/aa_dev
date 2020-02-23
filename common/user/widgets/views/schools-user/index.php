@@ -15,7 +15,7 @@ $this->title = 'Учебные организации';
 $this->params['breadcrumbs'][] = $this->title;
 $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
 ?>
-<div class="container">
+<div class="container mt-50">
     <?php if ($isOlympicUser) : ?>
         <?= Yii::$app->session->setFlash('warning', 'Вы не можете добавлять/редактировать учебные организации, 
         так как записаны на одну из олимпиад ' . EduYearHelper::eduYear() . ' учебного года') ?>

@@ -9,7 +9,6 @@ $params = array_merge(
 return [
     'id' => 'app-teacher',
     'basePath' => dirname(__DIR__),
-    'name' => "ЛК организатора олимпиад и конкурсов",
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],

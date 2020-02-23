@@ -95,7 +95,7 @@ class UserOlimpiadsService
                 $configTemplate = ['html' => 'verifyTeacherInUser-html', 'text' => 'verifyTeacherInUser-text'];
                 $configData = ['userOlympic' => $userOlympic, 'hash'=> $userTeacherClass->hash,
                     'teacher_id' =>\Yii::$app->user->identity->getId()];
-                $this->sendEmail($user, $configTemplate, $configData, 'Подтверждение. ');
+                $this->sendEmail($user, $configTemplate, $configData, 'Запрос информации. ');
                 $this->teacherClassUserRepository->save($userTeacherClass);
             });
         } catch (\DomainException $e) {
@@ -110,12 +110,6 @@ class UserOlimpiadsService
         $this->teacherClassUserRepository->save($userTeacherClass);
     }
 
-    public function reset($hash): void
-    {
-        $userOlympic = $this->repository->getHash($hash);
-        $userOlympic->setReset();
-        $this->repository->save($userOlympic);
-    }
 
     public function allUsersAjax($olympic)
     {
