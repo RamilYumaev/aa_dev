@@ -8,11 +8,11 @@ use common\transactions\TransactionManager;
 use common\user\repositories\UserTeacherSchoolRepository;
 use dictionary\forms\DictSchoolsCreateForm;
 use dictionary\forms\DictSchoolsEditForm;
+use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictSchools;
 use dictionary\models\DictSchoolsReport;
 use dictionary\repositories\DictSchoolsReportRepository;
 use dictionary\repositories\DictSchoolsRepository;
-use teacher\models\UserTeacherJob;
 
 
 class DictSchoolsService
@@ -64,7 +64,9 @@ class DictSchoolsService
     {
         $model = $this->repository->get($id);
         $model->setEmail($form->email);
+        $model->setStatus(DictSchoolsHelper::DRAFT_EMAIL);
         $this->repository->save($model);
+         \Yii::$app->session->addFlash("warning", "Измененная Вами электронная почта отправлена на модерацию");
     }
 
     public function addSchoolReport($id) {

@@ -17,5 +17,10 @@ class DiplomaHelper
         return Diploma::findOne(['user_id'=> $user_id, "olimpic_id"=> $olympic_id]);
     }
 
+    public static function userDiplomaFirstSecondThree($user_id, $olympic_id) {
+        return Diploma::findOne(['user_id'=> $user_id, "olimpic_id"=> $olympic_id,
+            'reward_status_id' => PersonalPresenceAttemptHelper::namePlacesArray()
+        ]);
+    }
 
 }

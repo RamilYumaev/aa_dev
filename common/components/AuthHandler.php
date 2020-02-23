@@ -63,6 +63,11 @@ class AuthHandler
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "Авторизация {client}. Пользователь с таким email уже существует.", ['client' => $this->client->getTitle()]),
                     ]);
+                }
+                elseif ($nickname  !== null && $this->userRepository->getUsername($nickname)) {
+                        Yii::$app->getSession()->setFlash('error', [
+                            Yii::t('app', "Авторизация {client}. Пользователь с таким логином уже существует.", ['client' => $this->client->getTitle()]),
+                        ]);
                 } else {
                     $this->transactionManager->wrap(function () use ($nickname, $email, $id) {
                         $user = $this->newUser($nickname ?? $id, $email);

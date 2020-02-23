@@ -52,7 +52,8 @@ return [
         ],
         'reset' => \common\auth\controllers\ResetController::class,
         'trail' => \testing\trail\controllers\TestController::class,
-        'trail-attempt' => \testing\trail\controllers\TestAttemptController::class
+        'trail-attempt' => \testing\trail\controllers\TestAttemptController::class,
+        'declination' => \common\user\controllers\DeclinationController::class,
     ],
     'components' => [
         'request' => [

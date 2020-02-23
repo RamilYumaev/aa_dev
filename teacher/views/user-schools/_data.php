@@ -32,7 +32,7 @@ use olympic\models\UserOlimpiads;
                 return $model->classUser;
             }
         ],
-        ['header' => "Призер/Сертификат",
+        ['header' => "Призер",
             'value' => function (UserOlimpiads $model) {
                 $diploma = $model->olympicUserDiploma();
                 if ($diploma) {

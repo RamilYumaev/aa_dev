@@ -20,6 +20,7 @@ class SendingAction extends \yii\base\Action
 
     public function run()
     {
+        set_time_limit(600);
         try {
             $this->service->createAndSend($this->olympicModel->id, $this->typeSending);
             return $this->controller->redirect(['index', 'olympic_id'=> $this->olympicModel->id,

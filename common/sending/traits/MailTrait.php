@@ -41,15 +41,16 @@ trait MailTrait
     }
 
 
-    public function settingEmail(User $user, OlimpicList $olympic, $hash, $emailFrom, DictSendingTemplate $sendingTemplate, $typeSend) {
+    public function settingEmail(User $user, OlimpicList $olympic, $hash, $emailFrom, DictSendingTemplate $sendingTemplate, $typeSend,
+                                 $gratitude_id) {
         $subject = SendingDeliveryStatusHelper::deliveryTypeName($typeSend).". ".$olympic->name;
         return $this->getDataEmail($olympic)
             ->mailer()
             ->compose()
             ->setFrom([$emailFrom =>  $this->name . ' robot']) //@TODO Надо что-то написать нормальное
             ->setTo($user->email)
-            ->setTextBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_TEXT, $sendingTemplate, $typeSend))
-            ->setHtmlBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_HTML, $sendingTemplate, $typeSend))
+            ->setTextBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_TEXT, $sendingTemplate, $typeSend, $gratitude_id))
+            ->setHtmlBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_HTML, $sendingTemplate, $typeSend, $gratitude_id))
             ->setSubject($subject);
     }
 
@@ -65,14 +66,14 @@ trait MailTrait
                          $type,
                          $type_send,
                          $sending_id,
-                         DictSendingTemplate $sendingTemplate) {
+                         DictSendingTemplate $sendingTemplate, $gratitude_id = null) {
         $exit = $repository->getExits($user->id, $type, $olympic->id, $type_send);
 
         if (!$exit && $user->email) {
             try {
                 $emailFrom = $this->getDataEmail($olympic)->getFromSender();
                 $hash = \Yii::$app->security->generateRandomString() . '_' . time();
-                $this->settingEmail($user, $olympic, $hash, $emailFrom, $sendingTemplate, $type_send)->send();
+                $this->settingEmail($user, $olympic, $hash, $emailFrom, $sendingTemplate, $type_send, $gratitude_id)->send();
                 $delivery = SendingDeliveryStatus::create( $sending_id, $user->id,
                     $hash, $type, $type_send, $olympic->id, $emailFrom);
                 $repository->save($delivery);
