@@ -1,5 +1,6 @@
 <?php
 
+use wapmorgan\yii2inflection\Inflector;
 use yii\helpers\Html;
 use xj\qrcode\QRcode;
 use xj\qrcode\widgets\Text;
@@ -61,6 +62,7 @@ $label = '@web/img/certificate/gratitude.png';
 
                 <div class="row">
                     <div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1">
+                        <p class="reward">Оргкомитет выражает благодарность</p>
                         <p align="center" class="fio">
                             <?= $teacher->dative ?>
                         </p>
@@ -70,18 +72,15 @@ $label = '@web/img/certificate/gratitude.png';
                             <?php endforeach; ?>
                         </p>
                         <p class="reward">
-                            за активное участие в подготовке участника олимпиады, занявшего призовое место:
+                            за подготовку и активную работу по  привлечению к участию в олимпиаде <?= $olympic->name ?>
                         </p>
                         <p class="nomination">
-                            ФИО участника: <?= $profile ?>;
+                         <?=  Yii::$app->inflection->inflectName($profile,  Inflector::GENITIVE); ?>,
                         </p>
                         <p class="reward">
-                            Призовое место: <?= PersonalPresenceAttemptHelper::nameOfPlacesOne($diploma->reward_status_id) ?>.
+                            занявшего(-ей) <?= $diploma->reward_status_id ?> место и ставшего(-ей) <?= $diploma->reward_status_id  ==  PersonalPresenceAttemptHelper::FIRST_PLACE ? "победителем" : "призером"?>.
                         </p>
 
-                        <p class="reward">   Выражаем признательность за Ваш педагогический талант и высокий профессионализм!
-                            Желаем Вам процветания и дальнейших успехов в педагогической деятельности!
-                        </p>
 
                     </div>
                 </div>
