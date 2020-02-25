@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $form->field($model->profile, 'first_name')->textInput(['maxlength' => true]) ?>
 
 <?= $form->field($model->profile, 'patronymic')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model->profile, 'gender')->dropDownList($model->profile->genderList()) ?>
 
 <?= $form->field($model->profile, 'phone')->widget(MaskedInput::class, ['mask' => '+7(999)999-99-99']) ?>
 
