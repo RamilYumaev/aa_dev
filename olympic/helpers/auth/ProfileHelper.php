@@ -19,6 +19,9 @@ class ProfileHelper
     const ROLE_OPERATOR = 2;
     const ROLE_ADMIN = 3;
 
+    const MALE= 1;
+    const FEMALE =2;
+
     public static function typeOfRole()
     {
         return [
@@ -28,6 +31,22 @@ class ProfileHelper
             self::ROLE_STUDENT => 'ученик/студент',
         ];
     }
+
+    public static function typeOfGender()
+    {
+        return [
+            self::MALE => 'мужской',
+            self::FEMALE=> 'женский',
+        ];
+    }
+
+
+
+    public static function genderName($gender): ?string
+    {
+        return ArrayHelper::getValue(self::typeOfGender(), $gender);
+    }
+
 
     public static function roleName($role): string
     {

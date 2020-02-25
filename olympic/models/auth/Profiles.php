@@ -46,6 +46,7 @@ class Profiles extends YiiActiveRecordAndModeration
         $profile->first_name = $form->first_name;
         $profile->patronymic = $form->patronymic;
         $profile->phone = $form->phone;
+        $profile->gender = $form->gender;
         $profile->country_id = $form->country_id;
         $profile->region_id = $form->country_id == DictCountryHelper::RUSSIA ? $form->region_id : null;
         $profile->user_id = $user_id;
@@ -77,6 +78,7 @@ class Profiles extends YiiActiveRecordAndModeration
         $this->first_name = $form->first_name;
         $this->patronymic = $form->patronymic;
         $this->phone = $form->phone;
+        $this->gender = $form->gender;
         $this->country_id = $form->country_id;
         $this->region_id = $form->country_id == DictCountryHelper::RUSSIA ? $form->region_id : null;
     }
@@ -93,6 +95,7 @@ class Profiles extends YiiActiveRecordAndModeration
             'phone' => 'Номер телефона:',
             'country_id' => 'Страна проживания',
             'region_id' => 'Регион проживания',
+            'gender'=> "Пол"
         ];
     }
 
