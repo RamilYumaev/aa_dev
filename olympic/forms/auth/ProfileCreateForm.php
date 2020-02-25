@@ -4,13 +4,14 @@ namespace olympic\forms\auth;
 
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
 use yii\base\Model;
 use Yii;
 class ProfileCreateForm extends Model
 {
 
-    public $last_name, $first_name, $patronymic, $phone, $country_id, $region_id;
+    public $last_name, $first_name, $patronymic, $phone, $country_id, $region_id, $gender;
 
     /**
      * {@inheritdoc}
@@ -23,8 +24,8 @@ class ProfileCreateForm extends Model
     public function rules(): array
     {
         return [
-            [['last_name', 'first_name', 'phone', 'country_id'], 'required'],
-            [['country_id', 'region_id'], 'integer'],
+            [['last_name', 'first_name', 'phone', 'country_id', 'gender'], 'required'],
+            [['country_id', 'region_id', 'gender'], 'integer'],
             [['last_name', 'first_name', 'patronymic'], 'string', 'min' => 1, 'max' => 255],
             [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],
@@ -45,6 +46,11 @@ class ProfileCreateForm extends Model
     public function regionList(): array
     {
         return DictRegionHelper::regionList();
+    }
+
+    public function genderList(): array
+    {
+        return ProfileHelper::typeOfGender();
     }
 
     public function countryList(): array

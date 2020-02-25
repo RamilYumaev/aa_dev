@@ -13,6 +13,8 @@ use yii\widgets\MaskedInput;
 
 <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
 
+<?= $form->field($model, 'gender')->dropDownList($model->genderList()) ?>
+
 <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
     'mask' => '+7(999)999-99-99',]) ?>
 
