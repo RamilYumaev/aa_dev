@@ -36,7 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= $form->field($model->profile, 'gender')->dropDownList($model->profile->genderList()) ?>
 
-<?= $form->field($model->profile, 'phone')->widget(MaskedInput::class, ['mask' => '+7(999)999-99-99']) ?>
+    <?= $form->field($model->profile, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
+        'jsOptions' => [
+            'preferredCountries' => ['ru'],
+        ]
+    ]) ?>
 
 <?= $form->field($model->profile,  'country_id')->dropDownList($model->profile->countryList(), ['prompt'=> 'Выберите страну']) ?>
 
