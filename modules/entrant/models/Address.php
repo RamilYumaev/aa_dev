@@ -60,6 +60,20 @@ class Address extends YiiActiveRecordAndModeration
         $this->user_id = $form->user_id;
     }
 
+    protected function getProperty($property){
+        return $this->getAttributeLabel($property).": ".$this->$property;
+    }
+
+    public function getAddersFull(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'id']) as  $key => $value) {
+            if($value) {
+                $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
     public static function tableName()
     {
         return "{{%address}}";

@@ -43,7 +43,7 @@ class AddressController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
-                return $this->redirect('@frontendInfo');
+                return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -62,12 +62,11 @@ class AddressController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         $form = new AddressForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
-                return $this->redirect('@frontendInfo');
+                return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -75,7 +74,6 @@ class AddressController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'competitiveGroup' => $model,
         ]);
     }
 
