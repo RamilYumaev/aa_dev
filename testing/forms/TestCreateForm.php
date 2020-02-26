@@ -15,7 +15,7 @@ class TestCreateForm extends Model
     public $olimpic_id,
         $introduction,
         $final_review,
-        $classesList;
+        $classesList, $random_order;
     private $_olympicList;
 
 
@@ -30,7 +30,7 @@ class TestCreateForm extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id'], 'integer'],
+            [['olimpic_id', 'random_order'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
             [['classesList'], 'safe'],

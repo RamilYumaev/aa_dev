@@ -4,7 +4,6 @@ namespace testing\models;
 
 use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
-use testing\forms\TestForm;
 use testing\helpers\TestHelper;
 use yii\db\ActiveRecord;
 
@@ -20,6 +19,7 @@ class Test extends ActiveRecord
         $test = new static();
         $test->olimpic_id = $olimpic_id;
         $test->status = TestHelper::DRAFT;
+        $test->random_order = $form->random_order;
         $test->introduction = $form->introduction;
         $test->final_review = $form->final_review;
         return $test;
@@ -28,6 +28,7 @@ class Test extends ActiveRecord
     public function edit(TestEditForm $form, $olimpic_id)
     {
         $this->olimpic_id = $olimpic_id;
+        $this->random_order = $form->random_order;
         $this->introduction = $form->introduction;
         $this->final_review = $form->final_review;
     }
@@ -40,6 +41,7 @@ class Test extends ActiveRecord
             'introduction' => 'Вступление',
             'final_review' => 'Итоговый отзыв',
             'status' => 'Открыть тест для участников',
+            'random_order'=> 'Случайный порядок вопросов',
             'type_calculate_id' => 'Критерий расчета прохода в следующий тур',
             'calculate_value' => 'Значение для расчета',
         ];
