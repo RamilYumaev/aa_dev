@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
 
 /**
@@ -36,6 +37,27 @@ class Address extends YiiActiveRecordAndModeration
             'attributes'=>['country_id', 'type', 'postcode', 'region', 'district',
                 'city', 'village', 'street', 'house', 'housing', 'building', 'flat']
         ]];
+    }
+
+    public static  function create(AddressForm $form) {
+        $address =  new static();
+        $address->data($form);
+        return $address;
+    }
+
+    public function data(AddressForm $form) {
+        $this->country_id = $form->country_id;
+        $this->type = $form->type;
+        $this->postcode = $form->postcode;
+        $this->region = $form->region;
+        $this->district = $form->district;
+        $this->village = $form->village;
+        $this->street = $form->street;
+        $this->house = $form->house;
+        $this->housing = $form->housing;
+        $this->building  = $form->building;
+        $this->flat = $form->flat;
+        $this->user_id = $form->user_id;
     }
 
     public static function tableName()
@@ -83,4 +105,5 @@ class Address extends YiiActiveRecordAndModeration
             'flat' => "Квартира",
             ];
     }
+
 }

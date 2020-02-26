@@ -18,6 +18,15 @@ class AddressHelper
         ];
     }
 
+    public static function rangeAddress()
+    {
+        return [
+            self::TYPE_ACTUAL,
+            self::TYPE_REGISTRATION,
+            self::TYPE_RESIDENCE,
+        ];
+    }
+
     public static function typeName($type): ? string
     {
         return ArrayHelper::getValue(self::typeOfAddress(), $type);

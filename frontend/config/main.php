@@ -23,6 +23,11 @@ return [
                     Yii::getAlias('@frontend/components/redirect/file/redirect.csv')); }
         ],
     ],
+    'modules' => [
+        'entrant' => [
+            'class' => \modules\entrant\Entrant::class
+        ],
+    ],
     'controllerMap' => [
         'account' => [
             'class' => \common\auth\controllers\AuthController::class,
