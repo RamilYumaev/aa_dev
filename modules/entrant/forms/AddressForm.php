@@ -8,24 +8,15 @@ use yii\helpers\ArrayHelper;
 
 class AddressForm extends Model
 {
-    public $country_id, $type, $postcode, $region, $district, $city, $village, $street, $house, $housing, $building, $flat, $user_id;
+    public $country_id, $type, $postcode, $region, $district, $city,
+        $village, $street, $house, $housing, $building, $flat, $user_id;
 
     private $_address;
 
     public function __construct(Address $address = null, $config = [])
     {
         if($address){
-            $this->country_id = $address->country_id;
-            $this->type = $address->type;
-            $this->postcode = $address->postcode;
-            $this->region = $address->region;
-            $this->district = $address->district;
-            $this->village = $address->village;
-            $this->street = $address->street;
-            $this->house = $address->house;
-            $this->housing = $address->housing;
-            $this->building  = $address->building;
-            $this->flat = $address->flat;
+            $this->setAttributes($address->getAttributes(), false);
             $this->_address = $address;
         }
         $this->user_id = \Yii::$app->user->identity->getId();
@@ -54,7 +45,7 @@ class AddressForm extends Model
     {
         if ($this->_address) {
             return [
-                [['type', 'user_id',], 'unique', 'targetClass' => Address::class,
+                [['type'], 'unique', 'targetClass' => Address::class,
                     'filter' => ['<>', 'id', $this->_address->id],
                     'targetAttribute' => ['type', 'user_id',]],
             ];
