@@ -28,6 +28,8 @@ use yii\widgets\ActiveForm;
         'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
     ]); ?>
 
+    <?= $form->field($model, 'random_order')->checkbox() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>

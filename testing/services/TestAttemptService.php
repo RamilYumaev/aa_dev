@@ -15,6 +15,7 @@ use olympic\repositories\DiplomaRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlimpicNominationRepository;
 use testing\helpers\TestAttemptHelper;
+use testing\models\Test;
 use testing\models\TestAndQuestions;
 use testing\models\TestAttempt;
 use testing\models\TestQuestion;
@@ -71,8 +72,9 @@ class TestAttemptService
     }
 
     private function randQuestions($attempt_id, $test_id) {
-        $testAndQuestions = TestAndQuestions::find()->where(['test_id' => $test_id])
-            ->orderBy( new Expression('rand()'))->all();
+        $test = $this->testRepository->get($test_id);
+        $testAndQuestions = TestAndQuestions::find()->where(['test_id' => $test->id])
+            ->orderBy($test->random_order ? new Expression('rand()') : ['id'=>SORT_ASC])->all();
         foreach ($testAndQuestions as $index => $value) {
             if ($value->test_group_id) {
                 $que = $this->randQuestionsFromGroup($value->test_group_id)->id;
@@ -85,6 +87,7 @@ class TestAttemptService
     }
 
     private function randQuestionsFromGroup($group_id) {
+
        return $testAndQuestions = TestQuestion::find()->where(['group_id' => $group_id])
             ->orderBy( new Expression('rand()'))->one();
     }

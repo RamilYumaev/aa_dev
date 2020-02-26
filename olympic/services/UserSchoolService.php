@@ -112,6 +112,9 @@ class UserSchoolService
     {
         if ($role == ProfileHelper::ROLE_TEACHER) {
             $teacher = $this->teacherSchoolRepository->get($id, $user_id);
+            if($teacher->isStatusActive()) {
+                throw new \DomainException("После подтверждения нельзя удалять образовательную организацию");
+            }
             $this->teacherSchoolRepository->remove($teacher);
         }else {
             $usSchool = $this->userSchoolRepository->get($id, $user_id);

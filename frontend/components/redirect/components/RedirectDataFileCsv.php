@@ -38,6 +38,20 @@ class RedirectDataFileCsv  implements  IRedirectNewUrl
     {
         return $this->url = Url::to();        
     }
+
+    /**
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function getPathInfo () : string
+    {
+        return \Yii::$app->getRequest()->getPathInfo();
+    }
+
+    public function getQueryString(): string {
+       return \Yii::$app->getRequest()->getQueryString();
+    }
  
     /**
      * @return array
@@ -55,14 +69,18 @@ class RedirectDataFileCsv  implements  IRedirectNewUrl
 
     private function filterUrl () 
     {
-    if (!empty($this->getUrlTo())) {
+        if (!empty($this->getUrlTo())) {
             $data = array_filter($this->getData(), function ($value) {
                 $conditions = [true];
+                if($value[2]) {
+                    $conditions[] = strpos($value[0], $this->getPathInfo()) !== false;
+                } else {
                     $conditions[] = strpos($value[0], $this->url) !== false;
+                }
                 return array_product($conditions);
             });
-         return $data;
-         }
+             return $data;
+        }
     }
     
     /**
@@ -73,8 +91,11 @@ class RedirectDataFileCsv  implements  IRedirectNewUrl
      {
         $string = "";
         foreach ($this->filterUrl() as $url) {
-            if (strpos($url[2], "301") !== false) {
+            if (strpos($url[2], "0") !== false) {
                 $string = $url[1];
+            }
+            elseif (strpos($url[2], "1") !== false) {
+                $string = $url[1].'?'.$this->getQueryString();
             }
         } 
         return $string;
