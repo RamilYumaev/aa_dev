@@ -2,6 +2,7 @@
 
 namespace olympic\forms\auth;
 
+use borales\extensions\phoneInput\PhoneInputValidator;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
 use olympic\helpers\auth\ProfileHelper;
@@ -51,7 +52,7 @@ class ProfileEditForm extends Model
             ['region_id', 'required', 'when' => function ($model) {
                 return $model->country_id == 46;
             }, 'whenClient' => 'function (attribute, value) { return $("#profileeditform-country_id").val() == 46}'],
-            ['phone', 'match', 'pattern' => '/^\+7\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/', 'message' => 'неверный формат телефона! Пример: +7(999)999-99-99, без пробела']
+            [['phone'], PhoneInputValidator::class],
         ];
     }
 

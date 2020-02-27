@@ -9,4 +9,5 @@ Yii::setAlias('@dictionary', dirname(dirname(__DIR__)) . '/dictionary');
 Yii::setAlias('@dod', dirname(dirname(__DIR__)) . '/dod');
 Yii::setAlias('@testing', dirname(dirname(__DIR__)) . '/testing');
 Yii::setAlias('@api', dirname(dirname(__DIR__)) . '/api');
-Yii::setAlias('@teacher', dirname(dirname(__DIR__)) . '/teacher');
+Yii::setAlias('@modules', dirname(dirname(__DIR__)) . '/modules');
+

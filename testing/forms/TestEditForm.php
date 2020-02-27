@@ -16,7 +16,10 @@ class TestEditForm  extends Model
     public $olimpic_id,
         $test,
         $introduction,
-        $final_review, $classesList;
+        $final_review,
+        $random_order,
+        $classesList;
+
 
 
     public function __construct(Test $test, $config = [])
@@ -25,6 +28,7 @@ class TestEditForm  extends Model
         $this->olimpic_id = $test->olimpic_id;
         $this->introduction = $test->introduction;
         $this->final_review = $test->final_review;
+        $this->random_order = $test->random_order;
         $this->test = $test;
         parent::__construct($config);
     }
@@ -33,7 +37,7 @@ class TestEditForm  extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id'], 'integer'],
+            [['olimpic_id', 'random_order'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
         ];

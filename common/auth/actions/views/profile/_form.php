@@ -15,8 +15,11 @@ use yii\widgets\MaskedInput;
 
 <?= $form->field($model, 'gender')->dropDownList($model->genderList()) ?>
 
-<?= $form->field($model, 'phone')->widget(MaskedInput::class, [
-    'mask' => '+7(999)999-99-99',]) ?>
+<?= $form->field($model, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
+    'jsOptions' => [
+        'preferredCountries' => ['ru'],
+    ]
+]) ?>
 
 <?= $form->field($model, 'country_id')->dropDownList($model->countryList()) ?>
 
