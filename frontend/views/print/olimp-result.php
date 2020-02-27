@@ -24,9 +24,9 @@ $this->title = $numTour == OlympicHelper::ZAOCH_FINISH ?
             'columns' => [
                 ['label' => 'ФИО участника',
                     'format' => 'raw',
-                    'value' => function ($model) {
+                    'value' => function ($model)use($olimpiad) {
                         return PersonalPresenceAttemptHelper::userOfPlacesForCert($model->user_id,
-                            $model->reward_status ?? null, $model->status_id ?? null);
+                            $model->reward_status, $olimpiad);
                     }],
                 [
                     'label' => 'Название образовательной организации',

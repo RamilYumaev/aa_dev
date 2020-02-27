@@ -7,6 +7,8 @@ namespace dictionary\models;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use dictionary\models\Faculty;
+use dictionary\models\DictSpeciality;
 use yii\db\ActiveRecord;
 
 class DictCompetitiveGroup extends ActiveRecord
@@ -89,6 +91,21 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         $competitiveGroup = new static();
         return $competitiveGroup->attributeLabels();
+    }
+
+    public function getFaculty()
+    {
+        return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
+    }
+
+    public function getSpecialization()
+    {
+        return $this->hasOne(DictSpecialization::class, ['id' => 'specialization_id']);
+    }
+
+    public function getSpecialty()
+    {
+        return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
     }
 
     public static function find(): DictCompetitiveGroupQuery

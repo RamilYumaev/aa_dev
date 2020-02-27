@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use backend\models\AisCg;
+use dictionary\models\DictCompetitiveGroup;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use yii\web\Controller;
@@ -38,6 +40,16 @@ class SiteController extends Controller
     {
         $this->layout = "@frontend/views/layouts/frontPage.php";
         return $this->render('index');
+    }
+
+    public function actionGetAisCg()
+    {
+        $sdoCg = DictCompetitiveGroup::find()->all();
+        foreach ($sdoCg as $cg)
+        {
+            $aisFacultyId = $cg->faculty->
+            $aisCg = AisCg::findCg();
+        }
     }
 
 

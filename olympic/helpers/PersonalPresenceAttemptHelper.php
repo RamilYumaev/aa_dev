@@ -3,7 +3,9 @@
 namespace olympic\helpers;
 
 use olympic\helpers\auth\ProfileHelper;
+use olympic\models\OlimpicList;
 use olympic\models\PersonalPresenceAttempt;
+use phpDocumentor\Reflection\Types\Boolean;
 use yii\helpers\ArrayHelper;
 
 class PersonalPresenceAttemptHelper
@@ -18,6 +20,8 @@ class PersonalPresenceAttemptHelper
     const FIRST_PLACE = 1;
     const SECOND_PLACE = 2;
     const THIRD_PLACE = 3;
+
+    const USER_NEXT_TOUR = 4;
 
     const MIN_BALL_FIRST_PLACE = 75;
     const MIN_BALL_NO_FIRST_PLACE = 50;
@@ -89,22 +93,37 @@ class PersonalPresenceAttemptHelper
         return ArrayHelper::getValue(self::nameOfPlacesForCert(), $key);
     }
 
+    public static function exitInPersonalAttempt($userId, $olimpicId): bool
+    {
+        return PersonalPresenceAttempt::find()->olympic($olimpicId)->user($userId)->exists();
+    }
 
-    public static function isPersonalAttemptOlympic($olimpId) {
+
+    public static function isPersonalAttemptOlympic($olimpId)
+    {
         return PersonalPresenceAttempt::find()->olympic($olimpId)->exists();
     }
 
-    public static function userOfPlacesForCert($user_id, $reward_status, $status_id) {
+    public static function userOfPlacesForCert($user_id, $reward_status, OlimpicList $olympicList)
+    {
         $result = ProfileHelper::profileFullName($user_id);
-        if ($reward_status) {
+        if ($reward_status !== null && $reward_status != self::USER_NEXT_TOUR) {
             $result .= ' - <br/><strong>';
-            $result .=  self::nameOfPlacesOne($reward_status);
+            $result .= self::nameOfPlacesOne($reward_status);
             $result .= '</strong>';
-        } elseif ($status_id) {
+        }elseif(
+            $olympicList->isFormOfPassageDistantInternal()
+            && $olympicList->isDistanceFinish()
+            && self::exitInPersonalAttempt($user_id, $olympicList->id)
+        )
+            {
+
             $result .= '<strong>';
             $result .= '- участник приглашен на очный тур';
             $result .= '</strong>';
-        }
+
+    }
+
         return $result;
     }
 

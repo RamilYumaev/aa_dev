@@ -22,6 +22,7 @@ class Faculty extends \yii\db\ActiveRecord
         $faculty = new static();
         $faculty->full_name = $form->full_name;
         $faculty->filial = $form->filial;
+        $faculty->ais_id = $form->ais_id;
         return $faculty;
     }
 
@@ -29,6 +30,7 @@ class Faculty extends \yii\db\ActiveRecord
     {
         $this->full_name = $form->full_name;
         $this->filial = $form->filial;
+        $this->ais_is = $form->ais_id;
     }
 
     /**
@@ -40,6 +42,7 @@ class Faculty extends \yii\db\ActiveRecord
             'id' => 'ИД',
             'full_name' => 'Полное название',
             'filial' => 'Филиал?',
+            'ais_id'=> 'код в АИС ВУЗ'
         ];
     }
 
