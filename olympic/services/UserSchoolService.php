@@ -91,6 +91,9 @@ class UserSchoolService
     public function updateUserTeacherSchool($id, SchooLUserCreateForm $form, $user_id): UserTeacherJob
     {
         $teacherJob = $this->teacherSchoolRepository->get($id, $user_id);
+        if($teacherJob->isStatusActive() || $teacherJob->isStatusWait()) {
+            throw new \DomainException("После подтверждения нельзя редактировать образовательную организацию");
+        }
         $school_id = $this->newOrRenameSchoolId($form, $this->schoolsRepository);
         $teacherJob->edit($school_id);
         $teacherJob->setStatus(UserTeacherJobHelper::DRAFT);
@@ -112,7 +115,7 @@ class UserSchoolService
     {
         if ($role == ProfileHelper::ROLE_TEACHER) {
             $teacher = $this->teacherSchoolRepository->get($id, $user_id);
-            if($teacher->isStatusActive()) {
+            if($teacher->isStatusActive() || $teacher->isStatusWait()) {
                 throw new \DomainException("После подтверждения нельзя удалять образовательную организацию");
             }
             $this->teacherSchoolRepository->remove($teacher);
