@@ -8,35 +8,77 @@
 use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
+use dictionary\helpers\DictDisciplineHelper;
+
 $this->title = "Выбор образовательных программ";
+
+$result = "";
+foreach ($currentFaculty as $faculty) {
+    $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";
+    $cgFaculty = DictCompetitiveGroup::find()
+        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+        ->faculty($faculty)
+        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
+        ->all();
+    if ($cgFaculty) {
+        $result .=
+            "<table class=\"table tabled-bordered\">
+<tr>
+<th width=\"342\">Код, Направление подготовки, профиль</th>
+<th width=\"180\">Форма и срок обучения</th>
+<th width=\"150\">Уровень образования</th>
+<th width=\"158\">Необходимые предметы ЕГЭ</th>
+<th colspan=\"2\">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
+</tr>";
+        foreach ($cgFaculty as $currentCg) {
+            $result .= "<tr>";
+            $result .= "<td>";
+            $result .= $currentCg->specialty->getCodeWithName();
+            $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name . "</strong>" : "";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->education_form_id] . ", ";
+            $result .= $currentCg->education_duration != 5 ? $currentCg->education_duration . " года"
+                : $currentCg->education_duration . " лет";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->edu_level);
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= "<ol>";
+            foreach ($currentCg->examinations as $examination) {
+
+                $result .= "<li>";
+                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
+                $result .= "</li>";
+            }
+            $result .= "</ol>";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= "<ol>";
+            foreach ($currentCg->examinations as $examination) {
+
+                $result .= "<li>";
+                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
+                $result .= "</li>";
+            }
+            $result .= "</ol>";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= "<a class=\"btn btn-default\" data-toggle=\"collapse\" href=\"#info-3-3\" aria-expanded=\"false\" 
+aria-controls=\"info-3-3\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
+            $result .= "</td>";
+            $result .= "</tr>";
+        }
+    } else {
+        continue;
+    }
+    $result .= "</table>";
+}
 ?>
 
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
-    <?php foreach ($currentFaculty as $faculty):
-          $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
-        ->faculty($faculty)->all(); ?>
-    <h3 class="text-center"> <?= Faculty::getAllFacultyName()[$faculty]; ?></h3>;
-        <?php if ($cgFaculty) : ?>
-        <table class="table tabled-bordered">
-            <tr>
-                <th width="342">Код, Направление подготовки, профиль</th>
-                <th width="180">Форма и срок обучения</th>
-                <th width="150">Уровень образования</th>
-                <th width="158">Необходимые предметы ЕГЭ</th>
-                <th colspan="2">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
-            </tr>
-                <?php foreach ($cgFaculty as $currentCg): ?>
-            <tr>
-                <td>
-                    <?= $currentCg->specialty->getCodeWithName(); ?>
-                    <?= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name . "</strong>" : ""; ?>
-                </td>
-            </tr>
-            <?php endforeach;?>
-        </table>
-        <?php else : continue; ?>
-        <?php endif; ?>
-    <?php endforeach;?>
+    <?= $result ?>
+
 </div>

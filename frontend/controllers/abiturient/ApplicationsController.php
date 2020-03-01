@@ -9,18 +9,16 @@ use yii\web\Controller;
 
 class ApplicationsController extends Controller
 {
-    public function actionGet()
+    public function actionGetBachelor()
     {
         $currentYear = Date("Y");
 
-        $facultyArray = Faculty::getAllFacultyName();
         $lastYear = $currentYear - 1;
         $transformYear = $lastYear . "-" . $currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()->allActualFaculty($transformYear);
+        $currentFaculty = DictCompetitiveGroup::find()->allActualFacultyWithoutBranch($transformYear);
 
 
         return $this->render('get', [
-            'facultyArray' => $facultyArray,
             'currentFaculty' => $currentFaculty,
         ]);
     }

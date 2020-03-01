@@ -71,6 +71,11 @@ class DictCompetitiveGroupHelper
         ];
     }
 
+    public static function allBranch()
+    {
+        return [];
+    }
+
     public static function specialRight(): array
     {
         return [self::USUAL, self::SPECIAL_RIGHT, self::TARGET_PLACE];

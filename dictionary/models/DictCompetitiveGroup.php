@@ -83,7 +83,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'is_new_program' => 'Новая программа',
             'only_pay_status' => 'Только на платной основе',
             'education_duration' => 'Срок обучения',
-            'year'=> 'Учебный год',
+            'year' => 'Учебный год',
         ];
     }
 
@@ -98,17 +98,25 @@ class DictCompetitiveGroup extends ActiveRecord
         return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
     }
 
-    public function getSpecialization()
+    public function getExaminations()
+    {
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id']);
+    }
+
+    public
+    function getSpecialization()
     {
         return $this->hasOne(DictSpecialization::class, ['id' => 'specialization_id']);
     }
 
-    public function getSpecialty()
+    public
+    function getSpecialty()
     {
         return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
     }
 
-    public static function find(): DictCompetitiveGroupQuery
+    public
+    static function find(): DictCompetitiveGroupQuery
     {
         return new DictCompetitiveGroupQuery(static::class);
     }

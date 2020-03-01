@@ -2,6 +2,10 @@
 
 namespace dictionary\models\queries;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\Faculty;
+
 class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 {
     /**
@@ -13,9 +17,9 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['edu_level' => $eduLevel]);
     }
 
-    public function allActualFaculty($year)
+    public function allActualFacultyWithoutBranch($year)
     {
-        return $this->distinct()->select('faculty_id')->andWhere(['year' => $year])->column();
+        return $this->distinct()->select('faculty_id')->withoutBranch()->andWhere(['year' => $year])->column();
     }
 
     public function getAllCg($year)
@@ -26,6 +30,14 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function faculty($facultyId)
     {
         return $this->andWhere(['faculty_id' => $facultyId]);
+    }
+
+    public function withoutBranch()
+    {
+        return $this
+            ->andWhere(['not in', 'faculty_id', Faculty::find()
+                ->select('id')
+            ->andWhere(['filial'=> DictFacultyHelper::YES_FILIAL])->column()]);
     }
 
 }
