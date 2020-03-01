@@ -10,6 +10,7 @@ use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use yii\base\InvalidConfigException;
 
 /**
  * This is the model class for table "{{%passport_data}}".
@@ -39,32 +40,48 @@ class PassportData extends YiiActiveRecordAndModeration
         ]];
     }
 
+    const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT_VIEW = 'd.m.Y';
+
     public static  function create(PassportDataForm $form) {
         $address =  new static();
         $address->data($form);
         return $address;
     }
 
-    public function data(PassportDataForm $form) {
+    public function data(PassportDataForm $form)
+    {
         $this->nationality = $form->nationality;
         $this->type = $form->type;
         $this->series = $form->series;
         $this->number = $form->number;
-        $this->date_of_birth = $form->date_of_birth;
+        $this->date_of_birth = $this->dateFormat($form->date_of_birth, self::DATE_FORMAT);
         $this->place_of_birth = $form->place_of_birth;
-        $this->date_of_issue = $form->date_of_issue;
+        $this->date_of_issue = $this->dateFormat($form->date_of_issue, self::DATE_FORMAT);
         $this->authority = $form->authority;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;
     }
 
+    public function dateFormat($date, $format) : ? string
+    {
+        return date($format, strtotime($date));
+    }
+
+    public function getValue($property){
+        if ($property == "date_of_birth" || $property == "date_of_issue") {
+            return $this->dateFormat($this->$property, self::DATE_FORMAT_VIEW);
+            }
+          return $this->$property;
+    }
+
     protected function getProperty($property){
-        return $this->getAttributeLabel($property).": ".$this->$property;
+        return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
 
     public function getPassportFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'type', 'nationality', 'id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
@@ -90,8 +107,8 @@ class PassportData extends YiiActiveRecordAndModeration
             'series' => $value,
             'place_of_birth' => $value,
             'number'=> $value,
-            'date_of_birth'=> $value,
-            'date_of_issue'=> $value,
+            'date_of_birth'=> $this->dateFormat($value, self::DATE_FORMAT_VIEW),
+            'date_of_issue'=> $this->dateFormat($value, self::DATE_FORMAT_VIEW),
             'authority'=> $value,
             'division_code'=> $value,
             ];
