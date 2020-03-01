@@ -48,4 +48,9 @@ class Faculty extends \yii\db\ActiveRecord
         $faculty = new static();
         return $faculty->attributeLabels();
     }
+
+    public static function getAllFacultyName()
+    {
+        return self::find()->select('full_name')->indexBy('id')->column();
+    }
 }
