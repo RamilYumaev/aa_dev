@@ -45,11 +45,33 @@ class SiteController extends Controller
     public function actionGetAisCg()
     {
         $sdoCg = DictCompetitiveGroup::find()->all();
-        foreach ($sdoCg as $cg)
-        {
-            $aisFacultyId = $cg->faculty->
-            $aisCg = AisCg::findCg();
+        foreach ($sdoCg as $cg) {
+            $aisFacultyId = $cg->faculty->ais_id;
+            $aisSpecialtyId = $cg->specialty->ais_id;
+            $aisSpecializationId = $cg->specialization->ais_id;
+
+            $aisCg = AisCg::findCg($aisFacultyId,
+                $aisSpecialtyId,
+                $aisSpecializationId,
+                AisCg::transformEducationForm($cg->education_form_id),
+                $cg->financing_type_id, AisCg::transformYear($cg->year));
+
+            if ($aisCg) {
+                $cg->ais_id = $aisCg->id;
+                $cg->passing_score = $aisCg->competition_mark;
+                $cg->competition_count = $aisCg->competition_count;
+                $cg->education_duration = $aisCg->education_duration;
+                $cg->only_pay_status = $aisCg->only_pay_status;
+                $cg->is_new_program = $aisCg->is_new_program;
+
+                if (!$cg->save()) {
+                    throw new \DomainException("ошибка при сохранении конкурсной группы");
+                }
+            } else {
+                continue;
+            }
         }
+        return "Success";
     }
 
 

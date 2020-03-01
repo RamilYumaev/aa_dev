@@ -38,6 +38,7 @@ class DictSpeciality extends ActiveRecord
         return [
             [['code', 'name'], 'required'],
             [['name'], 'string'],
+            [['ais_id'], 'integer'],
             [['code'], 'string', 'max' => 8],
             ['code', 'unique', 'message' => 'Такой направление подготовки уже есть'],
         ];
