@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var $olimpiad \olympic\models\OlimpicList
+ * @var $olimpiad olympic\models\OlimpicList
  * @var $numTour int
  */
 use olympic\helpers\OlympicHelper;

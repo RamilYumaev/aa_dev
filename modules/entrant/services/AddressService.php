@@ -30,8 +30,4 @@ class AddressService
         $model->save($model);
     }
 
-    public function remove($id)
-    {
-
-    }
 }

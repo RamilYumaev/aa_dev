@@ -15,15 +15,13 @@ class ApplicationsController extends Controller
 
         $facultyArray = Faculty::getAllFacultyName();
         $lastYear = $currentYear - 1;
-        $transformYear = $lastYear . " - " . $currentYear;
+        $transformYear = $lastYear . "-" . $currentYear;
         $currentFaculty = DictCompetitiveGroup::find()->allActualFaculty($transformYear);
-        $cg = DictCompetitiveGroup::find()->getAllCg($transformYear);
 
 
         return $this->render('get', [
             'facultyArray' => $facultyArray,
             'currentFaculty' => $currentFaculty,
-            'cg' => $cg,
         ]);
     }
 }

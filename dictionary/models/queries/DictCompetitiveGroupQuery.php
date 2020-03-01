@@ -23,4 +23,9 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['year' => $year])->all();
     }
 
+    public function faculty($facultyId)
+    {
+        return $this->andWhere(['faculty_id' => $facultyId]);
+    }
+
 }
