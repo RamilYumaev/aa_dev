@@ -7,17 +7,16 @@
 
 use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
+use \dictionary\models\DictCompetitiveGroup;
 
 $this->title = "Выбор образовательных программ";
 
 $result = "";
 foreach ($currentFaculty as $faculty) {
     $result .= "<h3 class=\"text-center\">" . Faculty::getAllFacultyName()[$faculty] . "</h3>";
-    $cgFaculty = \dictionary\models\DictCompetitiveGroup::find()
+    $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
-        ->faculty($faculty)
-        ->all();
-
+        ->faculty($faculty)->all();
     if ($cgFaculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
@@ -32,7 +31,7 @@ foreach ($currentFaculty as $faculty) {
             $result .= "<tr>";
             $result .= "<td>";
             $result .= $currentCg->specialty->getCodeWithName();
-            $result .= $currentCg->specialization->name ? ", профиль(-и) " . $currentCg->specialization->name : "";
+            $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name . "</strong>" : "";
             $result .= "</td>";
             $result .= "</tr>";
         }
@@ -42,6 +41,8 @@ foreach ($currentFaculty as $faculty) {
 }
 ?>
 
-    <h2 class="text-center"><?= $this->title ?></h2>
+<h2 class="text-center"><?= $this->title ?></h2>
+<div class="container">
+    <?= $result ?>
 
-<?= $result ?>
+</div>
