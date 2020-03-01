@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
 
 class PassportDataForm extends Model
 {
-    public $nationality, $type, $series, $number, $date_of_birth, $place_of_birth, $date_of_issue, $authority, $division_code;
+    public $nationality, $type, $series, $number, $date_of_birth, $user_id, $place_of_birth, $date_of_issue, $authority, $division_code;
 
     private $_passport;
 
@@ -18,6 +18,8 @@ class PassportDataForm extends Model
     {
         if($passportData){
             $this->setAttributes($passportData->getAttributes(), false);
+            $this->date_of_birth= $passportData->getValue("date_of_birth");
+            $this->date_of_issue= $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
         }
         $this->user_id = \Yii::$app->user->identity->getId();
@@ -38,7 +40,8 @@ class PassportDataForm extends Model
             [['series',],'string', 'max' => 4],
             [['number', 'place_of_birth', 'authority'], 'string', 'max' => 255],
             [['number'], 'string', 'max' => 15],
-            [['date_of_birth','date_of_issue',], 'string',],
+            [['date_of_birth','date_of_issue',], 'safe'],
+            [['date_of_birth','date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_PASSPORT)
             ],
         ];

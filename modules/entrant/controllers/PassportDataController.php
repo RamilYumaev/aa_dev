@@ -3,6 +3,10 @@
 
 namespace modules\entrant\controllers;
 
+use modules\entrant\forms\PassportDataForm;
+use modules\entrant\models\PassportData;
+use modules\entrant\services\PassportDataService;
+use Mpdf\Tag\P;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -12,7 +16,7 @@ class PassportDataController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, AddressService $service, $config = [])
+    public function __construct($id, $module, PassportDataService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -35,7 +39,7 @@ class PassportDataController extends Controller
      */
     public function actionCreate()
     {
-        $form = new AddressForm();
+        $form = new PassportDataForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->service->create($form);
@@ -58,7 +62,7 @@ class PassportDataController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new AddressForm($model);
+        $form = new PassportDataForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -78,9 +82,9 @@ class PassportDataController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): Address
+    protected function findModel($id): PassportData
     {
-        if (($model = Address::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = PassportData::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');

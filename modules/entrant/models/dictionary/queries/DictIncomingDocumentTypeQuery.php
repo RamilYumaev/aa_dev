@@ -10,7 +10,7 @@ class DictIncomingDocumentTypeQuery extends \yii\db\ActiveQuery
 
     public function type($type)
     {
-        return $this->andWhere(['type' => $type]);
+        return $this->andWhere(['type_id' => $type]);
     }
 
 }
