@@ -40,8 +40,10 @@ trait SchoolUserTrait
          $this->region_school_h = $school->region_id;
      }
 
-    public function defaultClassIdUpdateData(UserSchool $userSchool) {
-        return $this->class_id = $userSchool->class_id;
+    public function defaultClassIdUpdateData($userSchool) {
+        if ($userSchool instanceof UserSchool) {
+            return $this->class_id = $userSchool->class_id;
+        }
     }
 
     public function defaultDataCheck()
@@ -118,7 +120,7 @@ trait SchoolUserTrait
      */
     public function rulesValidateRole($role, $selector): array
     {
-        if ($role == ProfileHelper::ROLE_TEACHER) {
+        if ($role == ProfileHelper::ROLE_TEACHER || is_null($role)) {
             return  $this->rulesValidateAndSelector($selector);
         }
         return  ArrayHelper::merge($this->rulesValidateAndSelector($selector), $this->rulesValidateClassId());
