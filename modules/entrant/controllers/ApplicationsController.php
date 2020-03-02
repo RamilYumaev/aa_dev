@@ -1,15 +1,13 @@
 <?php
 
-namespace frontend\controllers\abiturient;
+namespace modules\entrant\controllers;
 
-use backend\models\AisCg;
 use dictionary\models\DictCompetitiveGroup;
-use dictionary\models\Faculty;
 use yii\web\Controller;
 
 class ApplicationsController extends Controller
 {
-    public function actionGetBachelor1()
+    public function actionGetBachelor()
     {
         $currentYear = Date("Y");
 
@@ -18,7 +16,7 @@ class ApplicationsController extends Controller
         $currentFaculty = DictCompetitiveGroup::find()->allActualFacultyWithoutBranch($transformYear);
 
 
-        return $this->render('get', [
+        return $this->render('get-bachelor', [
             'currentFaculty' => $currentFaculty,
         ]);
     }
