@@ -24,7 +24,7 @@ return [
         ],
     ],
     'modules' => [
-        'entrant' => [
+        'abiturient' => [
             'class' => \modules\entrant\Entrant::class
         ],
     ],
