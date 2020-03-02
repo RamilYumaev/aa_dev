@@ -9,6 +9,7 @@ use dictionary\helpers\DictCountryHelper;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
+use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
 use yii\base\InvalidConfigException;
 
@@ -34,14 +35,11 @@ class PassportData extends YiiActiveRecordAndModeration
     public function behaviors()
     {
         return ['moderation' => [
-            'class'=> ModerationBehavior::class,
-            'attributes'=>[ 'nationality','type', 'series', 'number', 'date_of_birth', 'place_of_birth','date_of_issue', 'authority',
+            'class' => ModerationBehavior::class,
+            'attributes' => ['nationality', 'type', 'series', 'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority',
                 'division_code']
         ]];
     }
-
-    const DATE_FORMAT = 'Y-m-d';
-    const DATE_FORMAT_VIEW = 'd.m.Y';
 
     public static  function create(PassportDataForm $form) {
         $address =  new static();
@@ -55,22 +53,17 @@ class PassportData extends YiiActiveRecordAndModeration
         $this->type = $form->type;
         $this->series = $form->series;
         $this->number = $form->number;
-        $this->date_of_birth = $this->dateFormat($form->date_of_birth, self::DATE_FORMAT);
+        $this->date_of_birth = DateFormatHelper::formatRecord($form->date_of_birth);
         $this->place_of_birth = $form->place_of_birth;
-        $this->date_of_issue = $this->dateFormat($form->date_of_issue, self::DATE_FORMAT);
+        $this->date_of_issue =  DateFormatHelper::formatRecord($form->date_of_issue);
         $this->authority = $form->authority;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;
     }
 
-    public function dateFormat($date, $format) : ? string
-    {
-        return date($format, strtotime($date));
-    }
-
     public function getValue($property){
         if ($property == "date_of_birth" || $property == "date_of_issue") {
-            return $this->dateFormat($this->$property, self::DATE_FORMAT_VIEW);
+            return DateFormatHelper::formatView($this->$property);
             }
           return $this->$property;
     }
@@ -107,8 +100,8 @@ class PassportData extends YiiActiveRecordAndModeration
             'series' => $value,
             'place_of_birth' => $value,
             'number'=> $value,
-            'date_of_birth'=> $this->dateFormat($value, self::DATE_FORMAT_VIEW),
-            'date_of_issue'=> $this->dateFormat($value, self::DATE_FORMAT_VIEW),
+            'date_of_birth'=> DateFormatHelper::formatView($value),
+            'date_of_issue'=> DateFormatHelper::formatView($value),
             'authority'=> $value,
             'division_code'=> $value,
             ];
