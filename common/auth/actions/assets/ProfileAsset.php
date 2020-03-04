@@ -8,6 +8,7 @@ class ProfileAsset extends AssetBundle
     public $sourcePath = '@common/auth/actions/assets/dist/profile';
     public $js = [
         'js/profile.js',
+        'css/style.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

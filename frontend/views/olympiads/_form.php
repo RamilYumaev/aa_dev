@@ -29,11 +29,10 @@ use yii\captcha\Captcha;
     <?= $form->field($model->profile, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
         'jsOptions' => [
             'preferredCountries' => ['ru'],
+            'separateDialCode'=>true
         ]
     ]) ?>
-
-
-<?= $form->field($model->profile,  'country_id')->dropDownList($model->profile->countryList(), ['prompt'=> 'Выберите страну']) ?>
+    <?= $form->field($model->profile,  'country_id')->dropDownList($model->profile->countryList(), ['prompt'=> 'Выберите страну']) ?>
 
     <?= $form->field($model->profile,  'region_id')->dropDownList($model->profile->regionList(), ['prompt'=> 'Выберите регион']) ?>
 
@@ -68,7 +67,7 @@ use yii\captcha\Captcha;
     <?= $form->field($model->user, 'verifyCode')->widget(Captcha::className(), [
         'captchaAction' => ['/sign-up/captcha'],
         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
-    ]) ?>
+    ])->hint("Для изменения кода  необходимо кликнуть на картинку") ?>
 
     <?= $form->field($model, 'idOlympic')->hiddenInput()->label('') ?>
 

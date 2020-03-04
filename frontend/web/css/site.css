@@ -971,3 +971,7 @@ input.break {
 select {
     max-width: 100%;
 }
+
+.iti {
+    display: block;
+}
