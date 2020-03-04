@@ -10,6 +10,7 @@ use dictionary\helpers\DictRegionHelper;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\queries\ProfilesQuery;
 use olympic\models\behaviors\DeclinationBehavior;
 
@@ -18,21 +19,20 @@ class Profiles extends YiiActiveRecordAndModeration
     /**
      * {@inheritdoc}
      */
+
     public function behaviors()
     {
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
+                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'gender', 'country_id', 'region_id'],
             ],
             'declination' => [
                 'class' =>  DeclinationBehavior::class,
-               // 'data' =>$this->last_name,
             ],
 
         ];
     }
-
 
     public static function tableName()
     {
@@ -144,7 +144,8 @@ class Profiles extends YiiActiveRecordAndModeration
           'last_name' => $value,
           'first_name'=>$value, 'patronymic'=> $value,
           'phone' => $value,
-          'country_id'=> DictCountryHelper::countryName($value) ,
+          'gender' => ProfileHelper::genderName($value),
+          'country_id'=> DictCountryHelper::countryName($value),
           'region_id'=> DictRegionHelper::regionName($value)];
     }
 }
