@@ -26,10 +26,11 @@
                 <div class="col-md-<?=$md?>">
                     <div class="dod_share">
                         <h3 align="center"><?= $dod->dodOne->name ?></h3>
-                        <p><i> <?= $dod->dateStartString ?></i></p>
-                        <p><i> <?= $dod->timeStartString ?></i></p>
-                        <p> <?= $dod->dodOne->addressAndAudNumberString ?></p>
-                        <?= $dod->dodOne->description ?>
+<!--                        <p><i> --><?//= $dod->dateStartString ?><!--</i></p>-->
+<!--                        <p><i> --><?//= $dod->timeStartString ?><!--</i></p>-->
+<!--                        <p> --><?//= $dod->dodOne->addressAndAudNumberString ?><!--</p>-->
+<!--                        --><?//= $dod->dodOne->description ?>
+                        <?= $dod->textString ?>
                         <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
                     </div>
                 </div>
