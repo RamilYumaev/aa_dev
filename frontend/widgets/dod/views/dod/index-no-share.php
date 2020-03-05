@@ -35,10 +35,11 @@ $b = 6;
         <div class="col-md-4">
             <div class="dod-panel <?php color($b) ?>">
                 <h3><?= $dod->dodOne->name ?></h3>
-                <p><i><?= $dod->dateStartString ?></i></p>
-                <p><i><?= $dod->timeStartString ?></i></p>
-                <p><?= $dod->dodOne->addressString ?></p>
-                <p><?= $dod->dodOne->audNumberString ?></p>
+<!--                <p><i>--><?//= $dod->dateStartString ?><!--</i></p>-->
+<!--                <p><i>--><?//= $dod->timeStartString ?><!--</i></p>-->
+<!--                <p>--><?//= $dod->dodOne->addressString ?><!--</p>-->
+<!--                <p>--><?//= $dod->dodOne->audNumberString ?><!--</p>-->
+                <?= $dod->textString ?>
                 <?= $dod->dodOne->description ?>
                 <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
             </div>

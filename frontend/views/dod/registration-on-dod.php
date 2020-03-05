@@ -16,11 +16,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Дни открытых двере
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <p><i><?= $dod->dateStartString ?></i></p>
-    <p><i><?= $dod->timeStartString ?></i></p>
-    <p><?= $dod->dodOne->addressString ?></p>
-    <p><?= $dod->dodOne->audNumberString ?></p>
+
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
+<!--    <p><i>--><?//= $dod->dateStartString ?><!--</i></p>-->
+<!--    <p><i>--><?//= $dod->timeStartString ?><!--</i></p>-->
+<!--    <p>--><?//= $dod->dodOne->addressString ?><!--</p>-->
+<!--    <p>--><?//= $dod->dodOne->audNumberString ?><!--</p>-->
+    <?= $dod->textString ?>
 
     <h4><strong>Уже есть учетная запись? <?= Html::a('Войдите', ['account/login']) ?></strong></h4>
 
