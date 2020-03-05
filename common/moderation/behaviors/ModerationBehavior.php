@@ -7,16 +7,18 @@ use yii\base\Behavior;
 use common\moderation\models\Moderation as ModelModeration;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 class ModerationBehavior extends  Behavior
 {
     public $attributes = [];
+    public $attributesNoEncode = [];
+
     /**
      * @var BaseActiveRecord
      */
     public $owner;
-
 
     private $repository;
 
@@ -61,23 +63,34 @@ class ModerationBehavior extends  Behavior
         $this->repository->save($moderation);
     }
 
-    protected function  allowedKeysAttribute ($data)
+    protected function allowedKeysAttribute($data, $attributes, $type = 320)
     {
-        return Json::encode($this->arrayIntersectKey($data), JSON_NUMERIC_CHECK);
+        return Json::encode($this->arrayIntersectKey($data, $attributes), $type);
     }
 
-    protected  function  arrayIntersectKey ($data) {
-        return array_intersect_key($data, array_flip($this->attributes));
+    protected  function  arrayIntersectKey ($data, $attributes) {
+        return array_intersect_key($data, array_flip($attributes));
     }
 
-    protected function old(array $old)
+    protected function encoding(array $data)
     {
-        return $this->allowedKeysAttribute($old);
+        $encode = $this->allowedKeysAttribute($data, $this->attributes, JSON_NUMERIC_CHECK);
+        if ($this->attributesNoEncode) {
+            $attributeNoEncode = $this->allowedKeysAttribute($data, $this->attributesNoEncode);
+            $a = Json::decode($encode);
+            $b = Json::decode($attributeNoEncode);
+            return Json::encode(ArrayHelper::merge($a, $b));
+        }
+        return $encode;
     }
 
     protected function news()
     {
-       return $this->allowedKeysAttribute($this->owner->attributes);
+       return $this->encoding($this->owner->attributes);
+    }
+    protected function old(array $old)
+    {
+        return $this->encoding($old);
     }
 
     protected function isNoNewsAndOld(array $old){
@@ -95,7 +108,7 @@ class ModerationBehavior extends  Behavior
     private function emptyCount(array $old) : bool
     {
         $count = 0;
-        foreach ($this-> arrayIntersectKey($old) as $value) {
+        foreach ($this->arrayIntersectKey($old, $this->attributes) as $value) {
             if (empty($value)) {
                 $count++;
             }
