@@ -18,20 +18,20 @@ class Profiles extends YiiActiveRecordAndModeration
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            'moderation' => [
-                'class' => ModerationBehavior::class,
-                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
-            ],
-            'declination' => [
-                'class' =>  DeclinationBehavior::class,
-               // 'data' =>$this->last_name,
-            ],
-
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'moderation' => [
+//                'class' => ModerationBehavior::class,
+//                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
+//            ],
+//            'declination' => [
+//                'class' =>  DeclinationBehavior::class,
+//               // 'data' =>$this->last_name,
+//            ],
+//
+//        ];
+//    }
 
 
     public static function tableName()

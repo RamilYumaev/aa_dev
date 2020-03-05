@@ -6,6 +6,7 @@ use backend\models\AisCg;
 use dictionary\models\DictCompetitiveGroup;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
+use olympic\models\auth\Profiles;
 use yii\web\Controller;
 use Yii;
 
@@ -72,6 +73,24 @@ class SiteController extends Controller
             }
         }
         return "Success";
+    }
+
+    public function actionTransformPhone()
+    {
+        set_time_limit(6000);
+        $profile = Profiles::find()->all();
+
+        foreach ($profile as $item) {
+            $phone = str_replace(array('+', ' ', '(', ')', '-'), '', $item->phone);
+
+            $item->phone = $phone;
+
+            if (!$item->save()) {
+                throw new \DomainException("ошибка при сохранении");
+            }
+        }
+
+        return "finish";
     }
 
 
