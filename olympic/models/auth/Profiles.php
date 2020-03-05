@@ -3,6 +3,7 @@
 
 namespace olympic\models\auth;
 
+use borales\extensions\phoneInput\PhoneInputBehavior;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
@@ -25,11 +26,13 @@ class Profiles extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'gender', 'country_id', 'region_id'],
+                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id'],
+                'attributesNoEncode'=>['phone']
             ],
             'declination' => [
                 'class' =>  DeclinationBehavior::class,
             ],
+            ['class' => PhoneInputBehavior::class],
 
         ];
     }
@@ -129,7 +132,6 @@ class Profiles extends YiiActiveRecordAndModeration
     public function isNullProfile() {
         return $this->last_name == "" ||
         $this->first_name == "" ||
-        $this->patronymic == "" ||
         $this->phone == "";
     }
 
