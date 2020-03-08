@@ -9,6 +9,7 @@ use dictionary\helpers\DictSchoolsHelper;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\entrant\models\queries\DocumentEducationQuery;
 
 /**
  * This is the model class for table "{{%document_education}}".
@@ -105,5 +106,11 @@ class DocumentEducation extends YiiActiveRecordAndModeration
             'year'=>'Год окончания',
         ];
     }
+
+    public static function find(): DocumentEducationQuery
+    {
+        return new DocumentEducationQuery(static::class);
+    }
+
 
 }

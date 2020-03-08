@@ -2,28 +2,29 @@
 namespace modules\entrant\services;
 
 
-use dictionary\repositories\DictSchoolsRepository;
+use common\auth\models\UserSchool;
+use common\auth\repositories\UserSchoolRepository;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\repositories\DocumentEducationRepository;
-use olympic\traits\NewOrRenameSchoolTrait;
+use supplyhog\ClipboardJs\ClipboardJsAsset;
 
 class DocumentEducationService
 {
-    use NewOrRenameSchoolTrait;
 
     private $repository;
-    private $dictSchoolsRepository;
+    private $userSchoolRepository;
 
-    public function __construct(DocumentEducationRepository $repository, DictSchoolsRepository $dictSchoolsRepository)
+    public function __construct(DocumentEducationRepository $repository, UserSchoolRepository $userSchoolRepository)
     {
         $this->repository = $repository;
-        $this->dictSchoolsRepository = $dictSchoolsRepository;
+        $this->userSchoolRepository = $userSchoolRepository;
     }
 
     public function create(DocumentEducationForm $form)
     {
-        $model  = DocumentEducation::create($form, $this->newOrRenameSchoolId($form->schoolUser, $this->dictSchoolsRepository));
+        $userSchool = $this->schoolUser($form->school_id);
+        $model  = DocumentEducation::create($form, $userSchool->school_id);
         $this->repository->save($model);
         return $model;
     }
@@ -31,8 +32,14 @@ class DocumentEducationService
     public function edit($id, DocumentEducationForm $form)
     {
         $model = $this->repository->get($id);
-        $model->data($form, $this->newOrRenameSchoolId($form->schoolUser, $this->dictSchoolsRepository));
+        $userSchool = $this->schoolUser($form->school_id);
+        $model->data($form, $userSchool->school_id);
         $model->save($model);
+    }
+
+    private function schoolUser($schoolId) : UserSchool
+    {
+        return  $this->userSchoolRepository->getSchoolUserId($schoolId, \Yii::$app->user->identity->getId());
     }
 
 }
