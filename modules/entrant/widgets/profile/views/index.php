@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 <div class="row">
     <div class="col-md-12">
         <h4>Профиль</h4>
-        <?= Html::a('Редактировать', '@frontendInfo/profile/edit', ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Редактировать', '@frontendInfo/profile/edit', ['class' => 'btn btn-primary mb-10']) ?>
         <?= DetailView::widget([
             'model' => $profile,
             'attributes' => [

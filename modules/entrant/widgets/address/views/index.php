@@ -6,8 +6,8 @@ use yii\helpers\Html;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h4>Контактная информация</h4>
-        <?= Html::a('Добавить', ['address/create'], ['class' => 'btn btn-success']) ?>
+        <h4>Адреса регистрации и проживания:</h4>
+        <?= Html::a('Добавить', ['address/create'], ['class' => 'btn btn-success mb-10']) ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
