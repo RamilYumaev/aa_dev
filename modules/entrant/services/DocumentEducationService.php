@@ -42,4 +42,10 @@ class DocumentEducationService
         return  $this->userSchoolRepository->getSchoolUserId($schoolId, \Yii::$app->user->identity->getId());
     }
 
+    public function remove($id)
+    {
+        $model = $this->repository->get($id);
+        $this->repository->remove($model);
+    }
+
 }

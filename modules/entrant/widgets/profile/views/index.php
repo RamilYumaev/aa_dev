@@ -17,8 +17,10 @@ use yii\widgets\DetailView;
                 'first_name',
                 'patronymic',
                 'phone',
-                'country_id',
-                'region_id'
+                ['label'=>$profile->getAttributeLabel('country_id'),
+                    'value' =>$profile->countryName],
+                ['label'=>$profile->getAttributeLabel('region_id'),
+                    'value' =>$profile->regionName],
             ],
         ]) ?>
     </div>

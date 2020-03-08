@@ -29,4 +29,10 @@ class PassportDataService
         $model->save($model);
     }
 
+    public function remove($id)
+    {
+        $model = $this->repository->get($id);
+        $this->repository->remove($model);
+    }
+
 }

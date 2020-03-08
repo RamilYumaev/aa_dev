@@ -14,11 +14,14 @@ use yii\widgets\DetailView;
         <?php if($isUserSchool) :?>
             <?php if($document_education) :?>
                 <?= Html::a('Редактировать', ['document-education/update','id'=>$document_education->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Удалить', ['document-education/delete','id'=>$document_education->id], ['class' => 'btn btn-danger','data'=> ['method'=> 'post', 'confirm'=> "Вы уверены что хотите удалить документ об образовании?"]]) ?>
                 <?= DetailView::widget([
                     'model' => $document_education,
                     'attributes' => [
-                        'school_id',
-                        'type',
+                        ['label'=> $document_education->getAttributeLabel('school_id'),
+                        'value' =>$document_education->schoolName,],
+                        ['label'=>$document_education->getAttributeLabel('type'),
+                            'value' =>$document_education->typeName,],
                         'series',
                         'number',
                         'date:date',

@@ -12,12 +12,19 @@ use yii\helpers\Html;
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                'type',
-                 'nationality',
+                ['attribute'=>'type',
+                    'value' => function (\modules\entrant\models\PassportData $model) {
+                        return $model->typeName;
+                    },],
+                ['attribute'=>'nationality',
+                    'value' => function (\modules\entrant\models\PassportData $model) {
+                        return $model->nationalityName;
+                    },],
                 ['value'=> function (\modules\entrant\models\PassportData $model){
                      return $model->getPassportFull();
                 },
-                    'header' =>  "Паспортные данные"]
+                    'header' =>  "Паспортные данные"],
+                ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'passport-data', 'template'=> '{update} {delete}']
             ],
         ]) ?>
     </div>

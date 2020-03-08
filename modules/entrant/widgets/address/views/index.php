@@ -11,12 +11,20 @@ use yii\helpers\Html;
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                'type',
-                 'country_id',
+                ['attribute'=>'type',
+                    'value' => function (\modules\entrant\models\Address $model) {
+                        return $model->typeName;
+                    },],
+                ['attribute'=>'country_id',
+                    'value' => function (\modules\entrant\models\Address $model) {
+                        return $model->countryName;
+                    },],
+
                 ['value'=> function (\modules\entrant\models\Address $model){
                      return $model->getAddersFull();
                 },
-                    'header' =>  "Адрес"]
+                    'header' =>  "Адрес"],
+                ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'address', 'template'=> '{update}{delete}']
             ],
         ]) ?>
     </div>
