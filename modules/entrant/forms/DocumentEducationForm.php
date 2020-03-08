@@ -1,16 +1,16 @@
 <?php
 
 namespace modules\entrant\forms;
-use common\auth\forms\CompositeForm;
+
 use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\DocumentEducation;
 
-use olympic\forms\auth\SchooLUserCreateForm;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
-class DocumentEducationForm extends CompositeForm
+class DocumentEducationForm extends Model
 {
-    public $type, $series, $number, $date, $user_id, $year;
+    public $type, $series, $number, $date, $user_id, $year, $school_id;
 
     private $_documentEducation;
 
@@ -20,9 +20,7 @@ class DocumentEducationForm extends CompositeForm
             $this->setAttributes($documentEducation->getAttributes(), false);
             $this->date= $documentEducation->getValue("date");
             $this->_documentEducation = $documentEducation;
-            $this->schoolUser = new SchooLUserCreateForm(null,  $documentEducation);
-        } else {
-            $this->schoolUser = new SchooLUserCreateForm(null);
+        }else {
             $this->user_id = \Yii::$app->user->identity->getId();
         }
         parent::__construct($config);
@@ -36,8 +34,8 @@ class DocumentEducationForm extends CompositeForm
     {
         return [
             [['type', 'series',
-                'number', 'date', 'year'], 'required'],
-            [['type'], 'integer'],
+                'number', 'date', 'year', 'school_id'], 'required'],
+            [['type', 'school_id'], 'integer'],
             [['series',],'string', 'max' => 25],
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],
@@ -79,10 +77,5 @@ class DocumentEducationForm extends CompositeForm
     public function attributeLabels()
     {
         return (new DocumentEducation())->attributeLabels();
-    }
-
-    protected function internalForms(): array
-    {
-        return ['schoolUser'];
     }
 }

@@ -5,7 +5,6 @@ namespace modules\entrant\controllers;
 
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\models\DocumentEducation;
-use modules\entrant\models\PassportData;
 use modules\entrant\services\DocumentEducationService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -35,14 +34,17 @@ class DocumentEducationController extends Controller
     }
 
     /**
+     *
      * @return mixed
      */
+
     public function actionCreate()
     {
+        $this->findModelIsUser();
         $form = new DocumentEducationForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->service->create($form);
+                $this->service->create($form);
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -88,6 +90,17 @@ class DocumentEducationController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function findModelIsUser()
+    {
+        $model  = DocumentEducation::findOne(['user_id' => Yii::$app->user->identity->getId()]);
+        if($model) {
+            return $this->redirect(['update', 'id'=> $model->id]);
+        }
     }
 
     /**

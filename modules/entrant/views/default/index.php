@@ -8,4 +8,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= \modules\entrant\widgets\profile\ProfileWidget::widget(); ?>
 <?= \modules\entrant\widgets\address\AddressWidget::widget(); ?>
 <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(); ?>
+<?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(); ?>
 </div>
