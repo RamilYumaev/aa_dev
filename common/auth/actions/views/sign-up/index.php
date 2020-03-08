@@ -44,7 +44,7 @@ $docUrl = Html::a("Ознакомиться", Url::to('@frontendInfo/uploads/con
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                 'captchaAction' => ['/sign-up/captcha'],
                 'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
-            ]) ?>
+            ])->hint("Для изменения кода  необходимо кликнуть на картинку") ?>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

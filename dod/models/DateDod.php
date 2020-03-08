@@ -28,6 +28,7 @@ class DateDod extends ActiveRecord
         $dateDod = new static();
         $dateDod->date_time = $form->date_time;
         $dateDod->dod_id = $dod_id;
+        $dateDod->text = $form->text;
         $dateDod->broadcast_link = $form->broadcast_link;
         return $dateDod;
     }
@@ -36,6 +37,7 @@ class DateDod extends ActiveRecord
     {
         $this->date_time = $form->date_time;
         $this->broadcast_link = $form->broadcast_link;
+        $this->text = $form->text;
         $this->dod_id = $dod_id;
     }
 
@@ -43,7 +45,8 @@ class DateDod extends ActiveRecord
     {
         return [
             'date_time' => 'Дата и время',
-            'broadcast_link'=>"Код вставки на трансляцию"
+            'broadcast_link'=>"Код вставки на трансляцию",
+            'text' => "Текст"
         ];
     }
 
@@ -54,6 +57,11 @@ class DateDod extends ActiveRecord
     public function getDateStartString(): string
     {
         return  "Дата проведения: ". DateTimeCpuHelper::getDateChpu($this->date_time);
+    }
+
+    public function getTextString(): string
+    {
+        return  $this->text ?? "";
     }
 
     public function getTimeStartString(): string

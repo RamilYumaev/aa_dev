@@ -3,6 +3,7 @@
 
 namespace olympic\models\auth;
 
+use borales\extensions\phoneInput\PhoneInputBehavior;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
@@ -10,6 +11,7 @@ use dictionary\helpers\DictRegionHelper;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\queries\ProfilesQuery;
 use olympic\models\behaviors\DeclinationBehavior;
 
@@ -18,6 +20,7 @@ class Profiles extends YiiActiveRecordAndModeration
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
 //    public function behaviors()
 //    {
 //        return [
@@ -32,7 +35,24 @@ class Profiles extends YiiActiveRecordAndModeration
 //
 //        ];
 //    }
+=======
 
+    public function behaviors()
+    {
+        return [
+            'moderation' => [
+                'class' => ModerationBehavior::class,
+                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id'],
+                'attributesNoEncode'=>['phone']
+            ],
+            'declination' => [
+                'class' =>  DeclinationBehavior::class,
+            ],
+            ['class' => PhoneInputBehavior::class],
+
+        ];
+    }
+>>>>>>> 32e3fc08175618b0b3710e35428f7be4256dd161
 
     public static function tableName()
     {
@@ -129,7 +149,6 @@ class Profiles extends YiiActiveRecordAndModeration
     public function isNullProfile() {
         return $this->last_name == "" ||
         $this->first_name == "" ||
-        $this->patronymic == "" ||
         $this->phone == "";
     }
 
@@ -144,7 +163,8 @@ class Profiles extends YiiActiveRecordAndModeration
           'last_name' => $value,
           'first_name'=>$value, 'patronymic'=> $value,
           'phone' => $value,
-          'country_id'=> DictCountryHelper::countryName($value) ,
+          'gender' => ProfileHelper::genderName($value),
+          'country_id'=> DictCountryHelper::countryName($value),
           'region_id'=> DictRegionHelper::regionName($value)];
     }
 }

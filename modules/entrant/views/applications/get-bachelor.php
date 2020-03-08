@@ -3,6 +3,7 @@
  * @var $facultyArray
  * @var $currentFaculty
  * @var $cg
+ * @var $transformYear
  */
 
 use dictionary\models\Faculty;
@@ -18,6 +19,8 @@ foreach ($currentFaculty as $faculty) {
     $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+        ->budgetAndContractOnly()
+        ->currentYear($transformYear)
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();

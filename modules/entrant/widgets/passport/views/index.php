@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 <div class="row">
     <div class="col-md-12">
-        <h4>Пасспортые данные</h4>
+        <h4>Паспортые данные</h4>
         <?= Html::a('Добавить', ['passport-data/create'], ['class' => 'btn btn-success']) ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,

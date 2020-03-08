@@ -18,6 +18,7 @@ use yii\widgets\MaskedInput;
 <?= $form->field($model, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
     'jsOptions' => [
         'preferredCountries' => ['ru'],
+        'separateDialCode'=>true
     ]
 ]) ?>
 

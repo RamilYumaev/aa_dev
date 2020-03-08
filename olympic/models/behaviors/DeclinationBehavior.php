@@ -39,16 +39,14 @@ class DeclinationBehavior extends  Behavior
      */
     public function afterUpdate($event)
     {
-        if ($this->owner->role == ProfileHelper::ROLE_TEACHER) {
-            if (!is_null($this->owner->fio)) {
-                $declination = $this->repository->findByUserId($this->owner->user_id);
-                if ($declination) {
-                    $declination->data($this->owner->fio);
-                }else {
-                    $declination = DeclinationFio::defaultCreate($this->owner->fio, $this->owner->user_id);
-                }
-                $this->repository->save($declination);
+        if (!is_null($this->owner->fio)) {
+            $declination = $this->repository->findByUserId($this->owner->user_id);
+            if ($declination) {
+                $declination->data($this->owner->fio);
+            }else {
+                $declination = DeclinationFio::defaultCreate($this->owner->fio, $this->owner->user_id);
             }
+            $this->repository->save($declination);
         }
     }
 

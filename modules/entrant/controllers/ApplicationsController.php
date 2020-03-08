@@ -18,6 +18,7 @@ class ApplicationsController extends Controller
 
         return $this->render('get-bachelor', [
             'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
         ]);
     }
 }

@@ -19,7 +19,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function allActualFacultyWithoutBranch($year)
     {
-        return $this->distinct()->select('faculty_id')->withoutBranch()->andWhere(['year' => $year])->column();
+        return $this->distinct()
+            ->select('faculty_id')
+            ->withoutBranch()
+            ->andWhere(['year' => $year])
+            ->column();
     }
 
     public function getAllCg($year)
@@ -37,7 +41,19 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this
             ->andWhere(['not in', 'faculty_id', Faculty::find()
                 ->select('id')
-            ->andWhere(['filial'=> DictFacultyHelper::YES_FILIAL])->column()]);
+                ->andWhere(['filial' => DictFacultyHelper::YES_FILIAL])->column()]);
+    }
+
+    public function budgetAndContractOnly()
+    {
+        return $this->andWhere(['or',
+            ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET],
+            ['only_pay_status' => true]]);
+    }
+
+    public function currentYear($year)
+    {
+       return  $this->andWhere(['year' => $year]);
     }
 
 }

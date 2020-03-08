@@ -16,11 +16,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Дни открытых двере
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <p><i><?= $dod->dateStartString ?></i></p>
-    <p><i><?= $dod->timeStartString ?></i></p>
-    <p><?= $dod->dodOne->addressString ?></p>
-    <p><?= $dod->dodOne->audNumberString ?></p>
+
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
+<!--    <p><i>--><?//= $dod->dateStartString ?><!--</i></p>-->
+<!--    <p><i>--><?//= $dod->timeStartString ?><!--</i></p>-->
+<!--    <p>--><?//= $dod->dodOne->addressString ?><!--</p>-->
+<!--    <p>--><?//= $dod->dodOne->audNumberString ?><!--</p>-->
+    <?= $dod->textString ?>
 
     <h4><strong>Уже есть учетная запись? <?= Html::a('Войдите', ['account/login']) ?></strong></h4>
 
@@ -39,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model->profile, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
         'jsOptions' => [
             'preferredCountries' => ['ru'],
+            'separateDialCode'=>true
         ]
     ]) ?>
 
@@ -63,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $form->field($model->user, 'verifyCode')->widget(Captcha::className(), [
     'captchaAction' => ['/sign-up/captcha'],
     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6 col-lg-offset-1">{input}</div></div>',
-]) ?>
+])->hint("Для изменения кода  необходимо кликнуть на картинку") ?>
 
 <?= $form->field($model, 'dateDodId')->hiddenInput()->label('') ?>
 

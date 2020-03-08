@@ -21,6 +21,9 @@ use yii\widgets\ActiveForm;
                 ]
             ]); ?>
             <?= $form->field($model, 'broadcast_link')->textarea(['rows' => 3]) ?>
+            <?= $form->field($model, 'text')->widget(\mihaildev\ckeditor\CKEditor::class, [
+                'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
+            ]); ?>
         </div>
     </div>
 
