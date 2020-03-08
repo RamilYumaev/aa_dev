@@ -1,4 +1,5 @@
 <?php
+namespace modules\entrant\migrations;
 
 use \yii\db\Migration;
 

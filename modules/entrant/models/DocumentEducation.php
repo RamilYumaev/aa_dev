@@ -63,15 +63,14 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
 
-    public function getDocumentEducationFull(){
-        $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'id']) as  $key => $value) {
-            if($value) {
-                $string .= $this->getProperty($key)." ";
-            }
-        }
-        return $string;
+    public function getTypeName() {
+        return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_EDUCATION, $this->type);
     }
+
+    public function getSchoolName() {
+        return  DictSchoolsHelper::schoolName($this->school_id);
+    }
+
 
     public static function tableName()
     {

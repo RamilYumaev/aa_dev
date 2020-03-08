@@ -74,6 +74,15 @@ class Address extends YiiActiveRecordAndModeration
         return $string;
     }
 
+    public function getTypeName() {
+        return AddressHelper::typeName($this->type);
+    }
+
+    public function getCountryName()
+    {
+        return  DictCountryHelper::countryName($this->country_id);
+    }
+
     public static function tableName()
     {
         return "{{%address}}";

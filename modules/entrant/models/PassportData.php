@@ -92,6 +92,15 @@ class PassportData extends YiiActiveRecordAndModeration
         return "Паспортные данные";
     }
 
+    public function getTypeName() {
+        return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_PASSPORT, $this->type);
+    }
+
+    public function getNationalityName()
+    {
+        return  DictCountryHelper::countryName($this->nationality);
+    }
+
     public function moderationAttributes($value): array
     {
         return [
