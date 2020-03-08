@@ -140,14 +140,25 @@ class Profiles extends YiiActiveRecordAndModeration
         return  "Профиль";
     }
 
+    public function getCountryName()
+    {
+        return  DictCountryHelper::countryName($this->country_id);
+    }
+    public function getRegionName()
+    {
+        return  DictRegionHelper::regionName($this->region_id);
+    }
+
     public function moderationAttributes($value): array
     {
-      return  [
-          'last_name' => $value,
-          'first_name'=>$value, 'patronymic'=> $value,
-          'phone' => $value,
-          'gender' => ProfileHelper::genderName($value),
-          'country_id'=> DictCountryHelper::countryName($value),
-          'region_id'=> DictRegionHelper::regionName($value)];
+        return  [
+            'last_name' => $value,
+            'first_name'=>$value,
+            'patronymic'=> $value,
+            'phone' => $value,
+            'gender' => ProfileHelper::genderName($value),
+            'country_id'=> DictCountryHelper::countryName($value),
+            'region_id'=> DictRegionHelper::regionName($value)
+        ];
     }
 }

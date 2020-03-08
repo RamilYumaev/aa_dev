@@ -3,19 +3,19 @@
 
 namespace modules\entrant\controllers;
 
-use modules\entrant\forms\DocumentEducationForm;
-use modules\entrant\models\DocumentEducation;
-use modules\entrant\services\DocumentEducationService;
+use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\services\OtherDocumentService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 
-class DocumentEducationController extends Controller
+class OtherDocumentController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, DocumentEducationService $service, $config = [])
+    public function __construct($id, $module, OtherDocumentService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -40,8 +40,7 @@ class DocumentEducationController extends Controller
 
     public function actionCreate()
     {
-        $this->findModelIsUser();
-        $form = new DocumentEducationForm();
+        $form = new OtherDocumentForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -64,7 +63,7 @@ class DocumentEducationController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new DocumentEducationForm($model);
+        $form = new OtherDocumentForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -84,23 +83,12 @@ class DocumentEducationController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): DocumentEducation
+    protected function findModel($id): OtherDocument
     {
-        if (($model = DocumentEducation::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = OtherDocument::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function findModelIsUser()
-    {
-        $model  = DocumentEducation::findOne(['user_id' => Yii::$app->user->identity->getId()]);
-        if($model) {
-            return $this->redirect(['update', 'id'=> $model->id]);
-        }
     }
 
     /**

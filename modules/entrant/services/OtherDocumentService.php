@@ -3,27 +3,27 @@
 
 namespace modules\entrant\services;
 
-use modules\entrant\forms\AddressForm;
-use modules\entrant\models\Address;
-use modules\entrant\repositories\AddressRepository;
+use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\repositories\OtherDocumentRepository;
 
-class AddressService
+class OtherDocumentService
 {
     private $repository;
 
-    public function __construct(AddressRepository $repository)
+    public function __construct(OtherDocumentRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function create(AddressForm $form)
+    public function create(OtherDocumentForm $form)
     {
-        $model  = Address::create($form);
+        $model  = OtherDocument::create($form);
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit($id, AddressForm $form)
+    public function edit($id, OtherDocumentForm $form)
     {
         $model = $this->repository->get($id);
         $model->data($form);
