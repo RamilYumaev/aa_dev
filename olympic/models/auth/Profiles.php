@@ -20,22 +20,6 @@ class Profiles extends YiiActiveRecordAndModeration
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-//    public function behaviors()
-//    {
-//        return [
-//            'moderation' => [
-//                'class' => ModerationBehavior::class,
-//                'attributes' => ['last_name', 'first_name', 'patronymic', 'phone', 'country_id', 'region_id'],
-//            ],
-//            'declination' => [
-//                'class' =>  DeclinationBehavior::class,
-//               // 'data' =>$this->last_name,
-//            ],
-//
-//        ];
-//    }
-=======
 
     public function behaviors()
     {
@@ -52,7 +36,6 @@ class Profiles extends YiiActiveRecordAndModeration
 
         ];
     }
->>>>>>> 32e3fc08175618b0b3710e35428f7be4256dd161
 
     public static function tableName()
     {
