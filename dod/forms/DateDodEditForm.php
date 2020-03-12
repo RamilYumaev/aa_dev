@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class DateDodEditForm extends Model
 {
-    public $date_time, $dod_id, $broadcast_link, $text;
+    public $date_time, $dod_id, $broadcast_link, $text, $type;
     public $_dateDod;
 
     public function __construct(DateDod $dateDod, $config = [])
@@ -26,7 +26,7 @@ class DateDodEditForm extends Model
     {
         return [
             ['date_time', 'safe'],
-            ['dod_id', 'integer'],
+            [['dod_id','type',],'integer'],
             [['broadcast_link','text'], 'string'],
             ['date_time', 'unique', 'targetClass' => DateDod::class, 'filter' => ['<>', 'id', $this->_dateDod->id],
                 'targetAttribute' => ['date_time', 'dod_id'], 'message' => 'Такая дата для данного ДОД уже введена'],

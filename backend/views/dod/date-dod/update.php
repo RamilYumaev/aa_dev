@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'text')->widget(\mihaildev\ckeditor\CKEditor::class, [
                 'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
             ]); ?>
+            <?= $form->field($model, 'type')->dropDownList(\dod\helpers\DateDodHelper::listTypes()) ?>
         </div>
     </div>
 

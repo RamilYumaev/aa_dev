@@ -6,6 +6,7 @@ use common\helpers\DateTimeCpuHelper;
 use dictionary\helpers\DictChairmansHelper;
 use dod\forms\DateDodCreateForm;
 use dod\forms\DateDodEditForm;
+use dod\helpers\DateDodHelper;
 use dod\models\queries\DateDodQuery;
 use yii\db\ActiveRecord;
 
@@ -31,6 +32,7 @@ class DateDod extends ActiveRecord
         $dateDod->dod_id = $dod_id;
         $dateDod->text = $form->text;
         $dateDod->broadcast_link = $form->broadcast_link;
+        $dateDod->type = $form->type;
         return $dateDod;
     }
 
@@ -40,6 +42,7 @@ class DateDod extends ActiveRecord
         $this->broadcast_link = $form->broadcast_link;
         $this->text = $form->text;
         $this->dod_id = $dod_id;
+        $this->type = $form->type;
     }
 
     public function attributeLabels()
@@ -47,7 +50,8 @@ class DateDod extends ActiveRecord
         return [
             'date_time' => 'Дата и время',
             'broadcast_link'=>"Код вставки на трансляцию",
-            'text' => "Текст"
+            'text' => "Текст",
+            'type' => 'Форма проведения'
         ];
     }
 
@@ -77,6 +81,9 @@ class DateDod extends ActiveRecord
         ];
     }
 
+    public function isTypeRemote() {
+        return $this->type == DateDodHelper::TYPE_REMOTE;
+    }
 
     public static function labels(): array
     {

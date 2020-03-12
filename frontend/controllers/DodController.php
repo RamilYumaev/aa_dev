@@ -69,6 +69,19 @@ class DodController extends Controller
     }
 
     /*
+   * @param $id
+   * @return mixed
+   * @throws NotFoundHttpException
+   */
+    public function actionDod($id)
+    {
+        $dod = $this->findDod($id);
+        return $this->render('dod', [
+            'dod' => $dod
+        ]);
+    }
+
+    /*
  * @param $id
  * @return mixed
  * @throws NotFoundHttpException
