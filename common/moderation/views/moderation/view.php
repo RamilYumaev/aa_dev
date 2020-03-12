@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
         <div class="box-body">
             <?= DetailView::widget(['model' => $moderation,
+              'formatter' => ['class' => 'yii\i18n\Formatter','timeZone' => 'Europe/Moscow'],
              'attributes' => [
                       'model',
                       'record_id',

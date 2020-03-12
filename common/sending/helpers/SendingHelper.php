@@ -3,6 +3,8 @@ namespace common\sending\helpers;
 use common\auth\models\User;
 use common\sending\models\DictSendingTemplate;
 use common\sending\models\Sending;
+use dod\models\DateDod;
+use dod\models\Dod;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\DiplomaHelper;
 use olympic\helpers\OlympicHelper;
@@ -68,6 +70,17 @@ class SendingHelper
         ];
     }
 
+    public static function templatesDodLabel()
+    {
+        return [
+            '{имя отчество получателя}',
+            '{название ДОД}',//
+            '{дата и время ДОД}',//
+            '{ссылка}',//
+        ];
+    }
+
+
     public static function textOlympicEmail(User $user, OlimpicList $olympic, $hash, $type,
                                             DictSendingTemplate $sendingTemplate, $type_sending, $gratitude_id) {
         $array = $olympic->replaceLabelsFromSending();
@@ -92,6 +105,22 @@ class SendingHelper
                 break;
         }
         return str_replace(self::templatesLabel(), $array, $template);
+    }
+
+    public static function textDodEmail(User $user, DateDod $dod, $hash, $type,
+                                            DictSendingTemplate $sendingTemplate, $type_sending) {
+        $array = $dod->replaceLabelsFromSending();
+        array_unshift($array, ProfileHelper::profileName($user->id));
+        $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
+        switch ($type_sending) {
+            case SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB :
+                array_push($array, \yii\helpers\Url::to('@frontendInfo/dod?id='.$dod->id.'&hash='.$hash, true));
+                break;
+            default:
+                array_push($array, \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
+                break;
+        }
+        return str_replace(self::templatesDodLabel(), $array, $template);
     }
 
     public static function sendingData($type, $typeSending, $value)

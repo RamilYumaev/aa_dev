@@ -89,7 +89,11 @@ $('#schooluserform-check_region_and_country_school').on('change init', function(
         $("#schooluserform-new_school").val("");
         propCheck("#schooluserform-check_new_school",'checked', false);
         propCheck("#schooluserform-check_rename_school",'checked', false);
-        dataParams = {country_id: vaLCountry, region_id: vaLRegion ? vaLRegion : null};
+        if (vaLCountry != russia) {
+            dataParams = {country_id: vaLCountry};
+        }else {
+            dataParams = {country_id: vaLCountry, region_id: vaLRegion};
+        }
         dataAjax(dataParams);
         school.show();
     } else {

@@ -2,7 +2,7 @@
 
 namespace frontend\controllers\auth;
 
-use common\auth\services\SignupService;
+use common\auth\services\OlympicConfirmService;
 use olympic\services\UserOlimpiadsService;
 use olympic\services\UserSchoolService;
 use yii\web\Controller;
@@ -14,7 +14,7 @@ class ConfirmController extends Controller
     private $schoolService;
     private $olimpiadsService;
 
-    public function __construct($id, $module, SignupService $service, UserSchoolService $schoolService, UserOlimpiadsService $olimpiadsService,  $config = [])
+    public function __construct($id, $module, OlympicConfirmService $service, UserSchoolService $schoolService, UserOlimpiadsService $olimpiadsService,  $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

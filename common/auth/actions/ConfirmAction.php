@@ -15,7 +15,6 @@ class ConfirmAction extends \yii\base\Action
         parent::__construct($id, $controller, $config);
         $this->service = $service;
         $this->token = Yii::$app->request->get('token');
-
     }
 
     public function run()

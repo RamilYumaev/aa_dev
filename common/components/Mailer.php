@@ -19,6 +19,7 @@ class Mailer extends Component
     public $defaultEncryption;
     public $olympic = null;
     public $idSettingEmail = null;
+    public $subject;
 
     public function mailer () {
         return Yii::createObject([
@@ -74,6 +75,10 @@ class Mailer extends Component
     public function getFromSender()
     {
         return $this->getUsername();
+    }
+
+    public function getSubject() {
+        return $this->subject;
     }
 
 
