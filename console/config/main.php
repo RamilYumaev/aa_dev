@@ -24,6 +24,10 @@ return [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationNamespaces' => ['modules\entrant\migrations'],
         ],
+        'migrate-dictionary' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationNamespaces' => ['modules\dictionary\migrations'],
+        ],
     ],
     'components' => [
         'log' => [

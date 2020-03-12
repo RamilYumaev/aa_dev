@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
-                'formatter' => ['class' => 'yii\i18n\Formatter','timeZone' => 'Europe/Moscow'],
+               // 'formatter' => ['class' => 'yii\i18n\Formatter','timeZone' => 'Europe/Moscow'],
                 'rowOptions' => function( \common\moderation\models\Moderation $model){
                     if ($model->isStatusTake()) {
                         return ['class' => 'success'];

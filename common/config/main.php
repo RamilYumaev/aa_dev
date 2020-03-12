@@ -8,11 +8,11 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
-//      'formatter' => [
-//            'class' => 'yii\i18n\Formatter',
-//            'defaultTimeZone' => 'Europe/Moscow',
-//            'timeZone' => 'Europe/Moscow'
-//        ],
+      'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'defaultTimeZone' => 'Europe/Moscow',
+            'timeZone' => 'Europe/Moscow'
+        ],
         'olympicMailer' => [
             'class' => 'common\components\Mailer',
             'defaultHost' => 'smtp.gmail.com',
