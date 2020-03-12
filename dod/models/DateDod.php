@@ -3,6 +3,7 @@
 namespace dod\models;
 
 use common\helpers\DateTimeCpuHelper;
+use dictionary\helpers\DictChairmansHelper;
 use dod\forms\DateDodCreateForm;
 use dod\forms\DateDodEditForm;
 use dod\models\queries\DateDodQuery;
@@ -67,6 +68,13 @@ class DateDod extends ActiveRecord
     public function getTimeStartString(): string
     {
         return  "Время начала: ". DateTimeCpuHelper::getTimeChpu($this->date_time);
+    }
+
+    public function replaceLabelsFromSending() {
+        return [
+            $this->dodOne->name, // {название ДОД}
+            DateTimeCpuHelper::getDateChpu($this->date_time). ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time),
+        ];
     }
 
 

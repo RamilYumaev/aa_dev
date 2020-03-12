@@ -7,6 +7,7 @@ use common\auth\forms\CompositeForm;
 use common\auth\forms\SignupForm;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\SchooLUserForm;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\ClassAndOlympicHelper;
 use olympic\models\Olympic;
 
@@ -21,7 +22,7 @@ class SignupOlympicForm extends CompositeForm
         $this->user = new SignupForm();
         $this->idOlympic =  $this->_olympic->olympicOneLast->id;
         $this->profile = new ProfileCreateForm();
-        $this->schoolUser = new SchooLUserForm();
+        $this->schoolUser = new SchooLUserForm(ProfileHelper::ROLE_STUDENT);
         parent::__construct($config);
     }
 

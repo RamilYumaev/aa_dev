@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'formatter' => ['class' => 'yii\i18n\Formatter','timeZone' => 'Europe/Moscow'],
                 'rowOptions' => function( \common\moderation\models\Moderation $model){
                     if ($model->isStatusTake()) {
                         return ['class' => 'success'];
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => yii\grid\SerialColumn::class],
                     ['attribute' => 'model',
                         'value'=> function(\common\moderation\models\Moderation $model) {
-                            return $model->getModel()->titleModeration();
+                            return \common\moderation\helpers\ModerationHelper::modelOneName($model->model);
                         }],
                     ['attribute' => 'created_by',
                         'value'=> function(\common\moderation\models\Moderation $model) {

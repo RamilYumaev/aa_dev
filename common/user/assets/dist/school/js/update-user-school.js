@@ -18,12 +18,11 @@ var vaLRegionSchool = $("#schooluserupdateform-region_school_h").val();
 var vaLSchool = $("#schooluserupdateform-school").val();
 
 
-
 function  propCheck(selector, attr, bool) {
     $(selector).prop(attr, bool);
 }
 function validateSchools() {
-    $('#form-school-user').yiiActiveForm('validateAttribute', 'schooluserupdateform-school_id');
+   // $('#form-school-user').yiiActiveForm('validateAttribute', 'schooluserupdateform-school_id');
 }
 
 function changeNewSchool() {
@@ -81,10 +80,9 @@ $('#schooluserupdateform-check_rename_school').on('change', function() {
 
     }
 });
-
 $('#schooluserupdateform-check_region_and_country_school').on('change init', function() {
     // From the other examples
-    if (this.checked) {
+    if (this.checked === true) {
         regionSch.hide();
         countrySch.hide();
         chNewSch.show();
@@ -95,9 +93,9 @@ $('#schooluserupdateform-check_region_and_country_school').on('change init', fun
         $("#schooluserupdateform-new_school").val("");
         propCheck("#schooluserupdateform-check_new_school",'checked', false);
         propCheck("#schooluserupdateform-check_rename_school",'checked', false);
-        dataParams = {country_id: vaLCountry, region_id: vaLRegion ? vaLRegion : null};
-        dataAjax(dataParams);
-        school.show();
+       dataParams = {country_id: vaLCountry, region_id: vaLRegion ? vaLRegion : null};
+       dataAjax(dataParams);
+       school.show();
     } else {
         $("#schooluserupdateform-school_id").val("").trigger("change");
         propCheck("#schooluserupdateform-check_new_school",'checked', false);
@@ -191,6 +189,7 @@ if ((vaLCountry == russia1 && vaLCountrySchool== russia1)  && vaLRegionSchool ==
     $("#schooluserupdateform-region_school").val(vaLRegionSchool);
     dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
     dataAjax(dataParams);
+    console.log("ddd");
     school.show();
     chNewSch.hide();
     chRenSch.show();
@@ -203,6 +202,7 @@ if ((vaLCountry == russia1 && vaLCountrySchool== russia1)  && vaLRegionSchool ==
     $("#schooluserupdateform-region_school").val(vaLRegionSchool);
     dataParams = {country_id: vaLCountrySchool, region_id: vaLRegionSchool};
     dataAjax(dataParams);
+    console.log("fff");
     school.show();
     chNewSch.hide();
     chRenSch.show();
@@ -215,6 +215,7 @@ else if(vaLCountry != vaLCountrySchool && vaLRegionSchool != vaLRegion) {
     regionSch.hide();
     dataParams = {country_id: vaLCountrySchool, region_id: null};
     dataAjax(dataParams);
+    console.log("sss");
     school.show();
     chNewSch.hide();
     chRenSch.show();

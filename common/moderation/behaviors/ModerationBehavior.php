@@ -35,6 +35,7 @@ class ModerationBehavior extends  Behavior
     {
         return [
         ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate',
+            ActiveRecord::EVENT_BEFORE_DELETE=> 'beforeDelete'
         ];
     }
 
@@ -50,6 +51,14 @@ class ModerationBehavior extends  Behavior
                 $this->moderation($old);
             }
         }
+    }
+
+    /**
+     * @param $event
+     */
+    public function beforeDelete($event)
+    {
+       ModelModeration::deleteAll(['model'=> $this->owner::className(), 'record_id' =>  $this->owner->id]);
     }
 
     protected function moderation(array $old) {

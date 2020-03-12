@@ -15,7 +15,6 @@ use Yii;
 
 trait MailTrait
 {
-    private $name = "Оргкомитет Олимпиады МПГУ";
 
     public function sendEmail(User $user, $configTemplate, $data, $subject)
     {
@@ -31,23 +30,28 @@ trait MailTrait
     protected function sendDefault($email, $configTemplate, $data, $subject)
     {
         $mailer = Yii::$app->olympicMailer;
+        try {
         return $mailer
             ->mailer()
             ->compose($configTemplate, $data)
-            ->setFrom([$mailer->getFromSender() => $this->name . ' robot'])
+            ->setFrom([$mailer->getFromSender() => $mailer->getSubject() . ' robot'])
             ->setTo($email)
-            ->setSubject($subject ." ". $this->name)
+            ->setSubject($subject ." ". $mailer->getSubject())
             ->send();
+        } catch (\Swift_TransportException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        }
     }
 
 
     public function settingEmail(User $user, OlimpicList $olympic, $hash, $emailFrom, DictSendingTemplate $sendingTemplate, $typeSend,
                                  $gratitude_id) {
-        $subject = SendingDeliveryStatusHelper::deliveryTypeName($typeSend).". ".$olympic->name;
-        return $this->getDataEmail($olympic)
+        $mailer = $this->getDataEmail($olympic);
+        $subject = SendingDeliveryStatusHelper::deliveryTypeName($typeSend).". ".$mailer->getSubject();
+        return $mailer
             ->mailer()
             ->compose()
-            ->setFrom([$emailFrom =>  $this->name . ' robot']) //@TODO Надо что-то написать нормальное
+            ->setFrom([$emailFrom =>  $mailer->getSubject() . ' robot']) //@TODO Надо что-то написать нормальное
             ->setTo($user->email)
             ->setTextBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_TEXT, $sendingTemplate, $typeSend, $gratitude_id))
             ->setHtmlBody(SendingHelper::textOlympicEmail($user, $olympic, $hash, SendingHelper::TYPE_HTML, $sendingTemplate, $typeSend, $gratitude_id))
@@ -79,6 +83,7 @@ trait MailTrait
                 $repository->save($delivery);
             } catch (\Swift_TransportException $e) {
                 \Yii::$app->session->setFlash('error', $e->getMessage());
+                return;
             }
         }
     }

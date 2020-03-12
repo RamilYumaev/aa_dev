@@ -5,16 +5,10 @@ namespace common\auth\services;
 
 use common\auth\forms\UserEmailForm;
 use common\auth\rbac\Rbac;
-use common\sending\helpers\DictSendingTemplateHelper;
-use common\sending\helpers\SendingDeliveryStatusHelper;
-use common\sending\models\SendingDeliveryStatus;
-use common\sending\repositories\SendingDeliveryStatusRepository;
-use common\sending\traits\MailTrait;
+use common\sending\traits\SelectionCommitteeMailTrait;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
-use olympic\models\OlimpicList;
 use olympic\repositories\auth\ProfileRepository;
-use olympic\repositories\OlimpicListRepository;
 use Yii;
 use common\auth\forms\SignupForm;
 use common\auth\models\User;
@@ -27,24 +21,18 @@ class SignupService
     private $users;
     private $transaction;
     private $profileRepository;
-    private $olimpicListRepository;
-    private $deliveryStatusRepository;
 
-    use MailTrait;
+    use SelectionCommitteeMailTrait;
 
     public function __construct(
         UserRepository $users,
         TransactionManager $transaction,
-        ProfileRepository $profileRepository,
-        OlimpicListRepository $olimpicListRepository,
-        SendingDeliveryStatusRepository $deliveryStatusRepository
+        ProfileRepository $profileRepository
     )
     {
         $this->users = $users;
         $this->transaction = $transaction;
         $this->profileRepository = $profileRepository;
-        $this->olimpicListRepository = $olimpicListRepository;
-        $this->deliveryStatusRepository = $deliveryStatusRepository;
     }
 
     public function signup(SignupForm $form, $role = null): void
@@ -90,26 +78,11 @@ class SignupService
     public function confirm($token)
     {
         if (empty($token) || !is_string($token)) {
-            throw new InvalidArgumentException('Verify email token cannot be blank.');
+            throw new InvalidArgumentException('Убедитесь, что токен электронной почты не может быть пустым.');
         }
         $user = $this->users->getByVerificationToken($token);
         $user->confirmSignup();
         $this->users->save($user);
         return $user;
     }
-
-    public function confirmOlympic($token, $olympic) {
-        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
-                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)) == null) {
-            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
-        }
-        $user = $this->confirm($token);
-        $olympic = $this->olimpicListRepository->get($olympic);
-        if ($olympic->isFormOfPassageInternal()) {
-            $this->send($user, $olympic, $this->deliveryStatusRepository,
-                SendingDeliveryStatusHelper::TYPE_OLYMPIC,
-                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, null, $sendingTemplate);
-        }
-    }
-
 }

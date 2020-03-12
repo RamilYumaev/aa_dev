@@ -5,7 +5,7 @@ namespace dod\services;
 
 use common\auth\forms\SignupForm;
 use common\auth\repositories\UserRepository;
-use common\sending\traits\MailTrait;
+use common\sending\traits\SelectionCommitteeMailTrait;
 use common\transactions\TransactionManager;
 use dod\forms\SignupDodForm;
 use dod\models\UserDod;
@@ -27,7 +27,7 @@ class DodRegisterUserService
     private $dodRepository;
     private $userDodRepository;
 
-    use MailTrait;
+    use SelectionCommitteeMailTrait;
 
     public function __construct(
         UserDodRepository $userDodRepository,
