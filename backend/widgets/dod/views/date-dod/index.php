@@ -26,6 +26,11 @@ use dod\models\DateDod;
                             . ' в ' . DateTimeCpuHelper::getTimeChpu($model->date_time);
                     },
                 ],
+                ['attribute' => 'type',
+                    'value' => function (DateDod $model) {
+                        return \dod\helpers\DateDodHelper::typeName($model->type);
+                    },
+                ],
                 ['class' => \yii\grid\ActionColumn::class,
                     'controller' => '/dod/date-dod',
                     'template' => '{update} {delete}',

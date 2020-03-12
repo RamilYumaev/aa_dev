@@ -1,6 +1,7 @@
 <?php
 namespace frontend\widgets\dod;
 
+use dod\readRepositories\DateDodReadRepository;
 use Yii;
 use dod\readRepositories\UserDodReadRepository;
 use yii\base\Widget;
@@ -9,10 +10,12 @@ class UserDodWidget extends Widget
 {
     public $dod_id;
     private $repository;
+    private $dodRepository;
 
-    public function __construct(UserDodReadRepository $repository, $config = [])
+    public function __construct(UserDodReadRepository $repository,  DateDodReadRepository $dodRepository, $config = [])
     {
         $this->repository = $repository;
+        $this->dodRepository = $dodRepository;
         parent::__construct($config);
     }
 
@@ -27,15 +30,19 @@ class UserDodWidget extends Widget
 
     private function guest () {
         return $this->render('user/index-guest', [
-            'dod_id' => $this->dod_id
+            'dod' => $this->findOne($this->findOne($this->dod_id))
         ]);
+    }
+
+    private function findOne($id) {
+        return $this->dodRepository->find($id);
     }
 
     private function user () {
         $userDod = $this->repository->find($this->dod_id, Yii::$app->user->id);
         return $this->render('user/index-user', [
             'userDod' => $userDod,
-            'dod_id' => $this->dod_id
+            'dod' => $this->findOne($this->findOne($this->dod_id))
         ]);
     }
 }
