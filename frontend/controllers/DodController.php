@@ -35,6 +35,9 @@ class DodController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->session->setFlash("danger", "Уважаемые абитуриенты! Все Дни открытых дверей в институтах 
+        и факультетах отменены и/или будут проведены в дистанционной форме. Общеуниверситетский день открытых дверей 
+        перенесен с 28 марта на 25 апреля!");
         return $this->render('index');
     }
 

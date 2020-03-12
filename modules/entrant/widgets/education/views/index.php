@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 
 <div class="row">
     <div class="col-md-12">
-        <h4>Документ об образовнии</h4>
+        <h4>Документ об образовании</h4>
         <?php if($isUserSchool) :?>
             <?php if($document_education) :?>
                 <?= Html::a('Редактировать', ['document-education/update','id'=>$document_education->id], ['class' => 'btn btn-primary']) ?>

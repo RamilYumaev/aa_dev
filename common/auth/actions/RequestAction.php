@@ -28,7 +28,7 @@ class RequestAction extends \yii\base\Action
             try {
                 $this->service->request($form);
                 Yii::$app->session->setFlash('success', 'Проверьте свою электронную почту и следуйте инструкциям, 
-                указаным в письме.');
+                указанным в письме.');
                 return $this->controller->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
