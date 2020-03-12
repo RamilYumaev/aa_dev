@@ -25,7 +25,11 @@ return [
             ],
         ]
     ],
-    'modules' => [],
+    'modules' => [
+        'dictionary-module' => [
+            'class' => \modules\dictionary\Dictionary::class
+        ],
+    ],
     'controllerMap' => [
         'elfinder' => [
             'class' => \mihaildev\elfinder\Controller::class,

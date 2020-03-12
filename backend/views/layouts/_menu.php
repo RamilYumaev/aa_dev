@@ -18,8 +18,7 @@ array_merge(
                 ['label' => 'Конкурсные группы', 'url' => '/dictionary/dict-competitive-group'],
                 ['label' => 'Классы/курсы', 'url' => '/dictionary/dict-class'],
                 ['label' => 'Вебинары', 'url' => '/web-conference/index'],
-
-
+                ['label' => 'Должности', 'url' => ['/dictionary-module/dict-post-education']],
             ])]] : []),
 
 //    (Yii::$app->user->can('manager') ?
