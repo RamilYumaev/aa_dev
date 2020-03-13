@@ -7,6 +7,7 @@ use dictionary\models\DictSchools;
 use dictionary\models\DictSchoolsReport;
 use dictionary\repositories\DictSchoolsReportRepository;
 use dictionary\repositories\DictSchoolsRepository;
+use dod\forms\SignupDodForm;
 use olympic\forms\auth\SchooLUserCreateForm;
 use olympic\forms\SignupOlympicForm;
 use olympic\helpers\OlympicHelper;
@@ -16,6 +17,11 @@ trait NewOrRenameSchoolTrait
 {
 
     public function newOrRenameSchoolRegisterOlympicId(SignupOlympicForm $form, DictSchoolsRepository $schoolsRepository) : int
+    {
+        return  $this->newOrRenameSchoolDefaultId($form->schoolUser, $form->profile, $schoolsRepository);
+    }
+
+    public function newOrRenameSchoolRegisterDodId(SignupDodForm $form, DictSchoolsRepository $schoolsRepository) : int
     {
         return  $this->newOrRenameSchoolDefaultId($form->schoolUser, $form->profile, $schoolsRepository);
     }
