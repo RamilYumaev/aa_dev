@@ -33,7 +33,7 @@ $b = 6;
             <div class="row">
         <?php endif; ?>
         <div class="col-md-4">
-            <div class="dod-panel <?php color($b) ?>">
+            <div class="<?php color($b) ?>">
                 <h3><?= $dod->dodOne->name ?></h3>
                 <p><i><?= $dod->dateStartString ?></i></p>
                 <p><i><?= $dod->timeStartString ?></i></p>

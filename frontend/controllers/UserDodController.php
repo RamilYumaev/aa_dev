@@ -4,19 +4,24 @@
 namespace frontend\controllers;
 
 use common\helpers\FlashMessages;
+use dod\forms\SignUpDodRemoteUserForm;
+use dod\readRepositories\DateDodReadRepository;
 use dod\services\UserDodService;
 use frontend\components\UserNoEmail;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class UserDodController extends Controller
 {
     private $service;
+    private $repository;
 
-    public function __construct($id, $module, UserDodService $service, $config = [])
+    public function __construct($id, $module, UserDodService $service, DateDodReadRepository $repository, $config = [])
     {
         $this->service = $service;
+        $this->repository = $repository;
         parent::__construct($id, $module, $config);
     }
 
@@ -41,7 +46,7 @@ class UserDodController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionRegistration($id)
+    public function actionRegistration($id, $type = null)
     {
         $this->isGuest();
         try {
@@ -53,6 +58,37 @@ class UserDodController extends Controller
         }
         return $this->redirect(['dod/index']);
     }
+
+    /*
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionRegistrationOnDodRemoteUser($id)
+    {
+        $this->isGuest();
+        $dod = $this->findDod($id);
+        $form = new SignUpDodRemoteUserForm($dod);
+        if (is_null($form->schoolUser->country_id)) {
+            Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
+            return $this->redirect(['/profile/edit']);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->addRemoteEdu($form, Yii::$app->user->id);
+                $this->redirect(['dod/index']);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            };
+        }
+        return $this->render('registration-on-dod-remote-user', [
+            'dod' => $dod,
+            'model' => $form
+        ]);
+    }
+
+
 
     /**
      * @param integer $id
@@ -75,5 +111,18 @@ class UserDodController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['dod/index']);
         }
+    }
+
+    /*
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findDod($id)
+    {
+        if (!$olympic = $this->repository->find($id)) {
+            new NotFoundHttpException('The requested page does not exist.');
+        }
+        return $olympic;
     }
 }

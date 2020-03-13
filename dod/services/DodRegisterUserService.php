@@ -1,6 +1,4 @@
 <?php
-
-
 namespace dod\services;
 
 use common\auth\forms\SignupForm;
