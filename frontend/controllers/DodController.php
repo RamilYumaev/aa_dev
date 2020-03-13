@@ -82,15 +82,15 @@ class DodController extends Controller
     }
 
     /*
- * @param $id
- * @return mixed
- * @throws NotFoundHttpException
- */
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
     protected function findDod($id)
     {
-        if (!$olympic = $this->repository->find($id)) {
+        if (!$model = $this->repository->find($id)) {
             new NotFoundHttpException('The requested page does not exist.');
         }
-        return $olympic;
+        return $model;
     }
 }

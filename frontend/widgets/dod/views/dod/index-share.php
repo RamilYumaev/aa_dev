@@ -17,9 +17,7 @@
             break;
         default:
             $md = 12;
-
     }
-
     ?>
     <div class="row">
         <?php foreach ($model as $dod) : ?>
