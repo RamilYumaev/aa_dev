@@ -3,7 +3,6 @@
 namespace dod\models;
 
 use common\helpers\DateTimeCpuHelper;
-use dictionary\helpers\DictChairmansHelper;
 use dod\forms\DateDodCreateForm;
 use dod\forms\DateDodEditForm;
 use dod\helpers\DateDodHelper;
@@ -83,6 +82,26 @@ class DateDod extends ActiveRecord
 
     public function isTypeRemote() {
         return $this->type == DateDodHelper::TYPE_REMOTE;
+    }
+
+    public function isTypeRemoteEdu() {
+        return $this->type == DateDodHelper::TYPE_REMOTE_EDU;
+    }
+
+    public function isTypeIntramuralLiveBroadcast() {
+        return $this->type == DateDodHelper::TYPE_INTRAMURAL_LIVE_BROADCAST;
+    }
+
+    public function isTypeIntramural() {
+        return $this->type == DateDodHelper::TYPE_INTRAMURAL;
+    }
+
+    public function isTypeHybrid() {
+        return $this->type == DateDodHelper::TYPE_HYBRID;
+    }
+
+    public function isTypeWeb() {
+        return $this->type == DateDodHelper::TYPE_WEB;
     }
 
     public static function labels(): array
