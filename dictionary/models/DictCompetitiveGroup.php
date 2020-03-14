@@ -120,4 +120,9 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         return new DictCompetitiveGroupQuery(static::class);
     }
+
+    public function findBudgetAnalog($incomingCompetitiveId)
+    {
+
+    }
 }

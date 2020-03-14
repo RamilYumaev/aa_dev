@@ -51,6 +51,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['only_pay_status' => true]]);
     }
 
+
+    public function contractOnly()
+    {
+        return $this->andWhere(
+            ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);
+    }
+
     public function currentYear($year)
     {
        return  $this->andWhere(['year' => $year]);

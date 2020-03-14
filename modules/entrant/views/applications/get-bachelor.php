@@ -16,15 +16,17 @@ $this->title = "Выбор образовательных программ";
 
 $result = "";
 foreach ($currentFaculty as $faculty) {
-    $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
-        ->budgetAndContractOnly()
+        ->contractOnly()
         ->currentYear($transformYear)
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();
+
     if ($cgFaculty) {
+
+        $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>

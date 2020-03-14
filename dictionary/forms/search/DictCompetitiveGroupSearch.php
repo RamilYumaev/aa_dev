@@ -3,6 +3,7 @@
 namespace dictionary\forms\search;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\helpers\DictSpecialityHelper;
 use dictionary\helpers\DictSpecializationHelper;
@@ -12,12 +13,13 @@ use yii\data\ActiveDataProvider;
 
 class DictCompetitiveGroupSearch extends Model
 {
-    public $speciality_id, $specialization_id, $faculty_id;
+    public $speciality_id, $specialization_id, $faculty_id, $year, $financing_type_id;
 
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'faculty_id'], 'integer'],
+            [['speciality_id', 'specialization_id', 'faculty_id', 'financing_type_id'], 'integer'],
+            [['year'], 'string'],
         ];
     }
 
@@ -43,8 +45,11 @@ class DictCompetitiveGroupSearch extends Model
         $query->andFilterWhere([
             'speciality_id' => $this->speciality_id,
             'specialization_id' => $this->specialization_id,
-            'faculty_id' => $this->faculty_id
+            'faculty_id' => $this->faculty_id,
+            'financing_type_id'=> $this->financing_type_id,
         ]);
+
+        $query->andFilterWhere(['like', 'year', $this->year]);
 
         return $dataProvider;
     }
@@ -57,6 +62,11 @@ class DictCompetitiveGroupSearch extends Model
     public function specialityCodeList(): array
     {
         return DictSpecialityHelper::specialityCodeList();
+    }
+
+    public function financingTypeList()
+    {
+        return DictCompetitiveGroupHelper::getFinancingTypes();
     }
 
     public function facultyList(): array

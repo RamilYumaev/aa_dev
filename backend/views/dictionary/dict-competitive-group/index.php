@@ -43,6 +43,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             return DictFacultyHelper::facultyName($model->faculty_id);
                         },
                     ],
+                    ['attribute' => 'financing_type_id',
+                        'filter' => $searchModel->financingTypeList(),
+                        'value' => function ($model) {
+                    return \dictionary\helpers\DictCompetitiveGroupHelper::financingTypeName($model->financing_type_id);
+                        },
+                    ],
+
+                 'year',
+
                     ['class' => \yii\grid\ActionColumn::class],
                 ]
             ]); ?>
