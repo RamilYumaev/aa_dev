@@ -11,10 +11,14 @@ use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
 use yii\helpers\Html;
+use modules\entrant\helpers\UserCgHelper;
+use yii\widgets\Pjax;
+use yii\web\View;
 
 $this->title = "Выбор образовательных программ";
 
 $result = "";
+
 foreach ($currentFaculty as $faculty) {
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
@@ -37,10 +41,14 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-            $result .= "<tr>";
+
+            $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
+            $trColor = UserCgHelper::trColor($currentCg);
+            $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
             $result .= $currentCg->specialty->getCodeWithName();
-            $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name . "</strong>" : "";
+            $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name
+                . "</strong>" : "";
             $result .= "</td>";
             $result .= "<td>";
             $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->education_form_id] . ", ";
@@ -75,23 +83,27 @@ foreach ($currentFaculty as $faculty) {
                 . $currentCg->id .
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
-            $result .= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-plus']),
-                ['/reg-on-cg', 'id' => $currentCg->id],
-                ['class' => 'btn btn-success']);
-            $result .= Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-plus']),
-                ['/reg-on-cg', 'id' => $currentCg->id],
-                ['class' => 'btn btn-warning']);
+
+            $result .= $budgetAnalog["status"] ? UserCgHelper::link(
+                    $budgetAnalog["cgBudgetId"],
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+                . UserCgHelper::link(
+                    $budgetAnalog["cgContractId"],
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
+                UserCgHelper::link(
+                    $budgetAnalog["cgContractId"],
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
             $result .= "</td>";
             $result .= "</tr>";
             $result .= "<tr id=\"info-" . $currentCg->id . "\" class=\"collapse\">";
             $result .= "<td>Количество бюджетных мест:<br><strong>" .
-                ($currentCg->only_pay_status ? 'приём на платной основе' : $currentCg->kcp);
+                ($currentCg->only_pay_status ? 'приём на платной основе' : $budgetAnalog["kcp"]);
             $result .= "</strong></td>";
             $result .= "<td>";
-            $result .= $currentCg->competition_count ? ("Конкурс: " . $currentCg->competition_count) : "";
+            $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $currentCg->passing_score ? ("Проходной балл: " . $currentCg->passing_score) : "";
+            $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
             $result .= "</td>";
             $result .= "<td>";
             $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
@@ -106,8 +118,27 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 }
 ?>
 
+
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
+    <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
     <?= $result ?>
+    <?php Pjax::end(); ?>
+
+    <?php
+    $this->registerJs("
+            $(document).on('pjax:send', function () {
+            const buttonPlus = $('.glyphicon');
+            const buttonWrapper = $('.btn');
+            buttonPlus.addClass(\"glyphicon-time\");
+            buttonWrapper.attr('disabled', 'true');
+            buttonPlus.removeClass(\"glyphicon-plus\");
+            buttonPlus.removeClass(\"glyphicon-minus\");
+
+        })
+    ", View::POS_READY);
+
+    ?>
 
 </div>
+

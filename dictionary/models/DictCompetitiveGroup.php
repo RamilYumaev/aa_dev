@@ -6,6 +6,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use dictionary\models\Faculty;
 use dictionary\models\DictSpeciality;
@@ -121,8 +122,27 @@ class DictCompetitiveGroup extends ActiveRecord
         return new DictCompetitiveGroupQuery(static::class);
     }
 
-    public function findBudgetAnalog($incomingCompetitiveId)
+    public static function findBudgetAnalog($cgContract): array
     {
+        $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
+        if ($cgBudget) {
+            return [
+                "status" => 1,
+                "cgBudgetId" => $cgBudget->id,
+                "cgContractId" => $cgContract->id,
+                "kcp" => $cgBudget->kcp,
+                "competition_count" => $cgBudget->competition_count,
+                "passing_score" => $cgBudget->passing_score,
+
+            ];
+        }
+            return [
+                "status" => 0,
+                "cgContractId" => $cgContract->id,
+                "kcp" => "прием только на платной основе",
+                "competition_count" => null,
+                "passing_score" => null,
+            ];
     }
 }

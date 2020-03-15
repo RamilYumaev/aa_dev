@@ -37,6 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             return DictSpecializationHelper::specializationName($model->specialization_id);
                         },
                     ],
+
+                    ['attribute' => 'education_form_id',
+                        'filter' => $searchModel->educationFormList(),
+                        'value' => function ($model) {
+                            return \dictionary\helpers\DictCompetitiveGroupHelper::formName($model->education_form_id);
+                        },
+                    ],
                     ['attribute' => 'faculty_id',
                         'filter' => $searchModel->facultyList(),
                         'value' => function ($model) {
