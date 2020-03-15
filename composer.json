@@ -57,7 +57,7 @@
     "moonlandsoft/yii2-phpexcel": "*",
     "wapmorgan/yii2-inflection": "^1.0",
     "borales/yii2-phone-input": "*",
-    "yiisoft/yii2-bootstrap4": "~2.0.6"
+    "yiisoft/yii2-bootstrap4": "^2.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
