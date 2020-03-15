@@ -13,6 +13,7 @@ use dictionary\helpers\DictDisciplineHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
+use yii\web\View;
 
 $this->title = "Выбор образовательных программ";
 
@@ -43,7 +44,7 @@ foreach ($currentFaculty as $faculty) {
 
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
             $trColor = UserCgHelper::trColor($currentCg);
-            $result .= "<tr".$trColor.">";
+            $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
             $result .= $currentCg->specialty->getCodeWithName();
             $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name
@@ -91,7 +92,7 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
                 UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
-                DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
             $result .= "</td>";
             $result .= "</tr>";
             $result .= "<tr id=\"info-" . $currentCg->id . "\" class=\"collapse\">";
@@ -120,8 +121,24 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
-    <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState'=>false]);?>
+    <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
     <?= $result ?>
     <?php Pjax::end(); ?>
+
+    <?php
+    $this->registerJs("
+            $(document).on('pjax:send', function () {
+            const buttonPlus = $('.glyphicon');
+            const buttonWrapper = $('.btn');
+            buttonPlus.addClass(\"glyphicon-time\");
+            buttonWrapper.attr('disabled', 'true');
+            buttonPlus.removeClass(\"glyphicon-plus\");
+            buttonPlus.removeClass(\"glyphicon-minus\");
+
+        })
+    ", View::POS_READY);
+
+    ?>
+
 </div>
 

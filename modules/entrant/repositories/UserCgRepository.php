@@ -11,7 +11,7 @@ class UserCgRepository
     public function get($cgId): UserCg
     {
         if (!$model = UserCg::findOne(["user_id" => \Yii::$app->user->id, "cg_id" => $cgId])) {
-            throw new \DomainException('Заявление пользователя не найдено');
+            throw new \DomainException('Заявление уже удалено!');
         }
         return $model;
     }
