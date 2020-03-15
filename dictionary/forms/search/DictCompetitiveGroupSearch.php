@@ -13,12 +13,12 @@ use yii\data\ActiveDataProvider;
 
 class DictCompetitiveGroupSearch extends Model
 {
-    public $speciality_id, $specialization_id, $faculty_id, $year, $financing_type_id;
+    public $speciality_id, $specialization_id, $faculty_id, $year, $financing_type_id, $education_form_id;
 
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'faculty_id', 'financing_type_id'], 'integer'],
+            [['speciality_id', 'specialization_id', 'faculty_id', 'financing_type_id', 'education_form_id'], 'integer'],
             [['year'], 'string'],
         ];
     }
@@ -47,6 +47,7 @@ class DictCompetitiveGroupSearch extends Model
             'specialization_id' => $this->specialization_id,
             'faculty_id' => $this->faculty_id,
             'financing_type_id'=> $this->financing_type_id,
+            'education_form_id'=> $this->education_form_id,
         ]);
 
         $query->andFilterWhere(['like', 'year', $this->year]);
@@ -72,6 +73,11 @@ class DictCompetitiveGroupSearch extends Model
     public function facultyList(): array
     {
         return DictFacultyHelper::facultyList();
+    }
+
+    public function educationFormList()
+    {
+        return DictCompetitiveGroupHelper::getEduForms();
     }
 
     public function specializationList(): array

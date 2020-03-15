@@ -51,6 +51,19 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['only_pay_status' => true]]);
     }
 
+    public function findBudgetAnalog($cgContract)
+    {
+        return $this->andWhere(
+            ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET,
+                'faculty_id' => $cgContract->faculty_id,
+                'year' => $cgContract->year,
+                'speciality_id' => $cgContract->speciality_id,
+                'specialization_id' => $cgContract->specialization_id,
+                'edu_level' => $cgContract->edu_level,
+                'education_form_id' => $cgContract->education_form_id]
+        );
+    }
+
 
     public function contractOnly()
     {
@@ -60,7 +73,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function currentYear($year)
     {
-       return  $this->andWhere(['year' => $year]);
+        return $this->andWhere(['year' => $year]);
     }
 
 }
