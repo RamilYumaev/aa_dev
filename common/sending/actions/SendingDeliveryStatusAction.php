@@ -1,16 +1,14 @@
 <?php
 namespace common\sending\actions;
 
-use common\sending\helpers\SendingDeliveryStatusHelper;
 use common\sending\models\SendingDeliveryStatus;
-use olympic\models\OlimpicList;
 use yii\data\ActiveDataProvider;
 use Yii;
 
 class SendingDeliveryStatusAction extends \yii\base\Action
 {
-    /* @var  $olympicModel OlimpicList */
-    public $olympicModel;
+    public $model;
+    public $modelType;
     private $typeSending;
 
     private $viewPath = "@common/sending/actions/views/sending-delivery-status";
@@ -25,13 +23,14 @@ class SendingDeliveryStatusAction extends \yii\base\Action
     public function run()
     {
         $this->controller->viewPath = $this->viewPath;
-        $model =  SendingDeliveryStatus::find()->type(SendingDeliveryStatusHelper::TYPE_OLYMPIC)
-            ->typeSending($this->typeSending)->value($this->olympicModel->id);
+        $model =  SendingDeliveryStatus::find()->type($this->modelType)
+            ->typeSending($this->typeSending)->value($this->model->id);
         $dataProvider = new ActiveDataProvider(['query' => $model, 'pagination' => false]);
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,
-            'olympic' => $this->olympicModel,
-            'type' => $this->typeSending
+            'model' => $this->model,
+            'type' => $this->typeSending,
+            'typeModel' => $this->modelType,
         ]);
     }
 

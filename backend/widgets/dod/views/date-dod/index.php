@@ -31,6 +31,22 @@ use dod\models\DateDod;
                         return \dod\helpers\DateDodHelper::typeName($model->type);
                     },
                 ],
+                ['format'=> "raw",
+                    'value' => function (DateDod $model) {
+                        if ($model->isTypeWeb() || $model->isTypeRemoteEdu() || $model->isTypeIntramuralLiveBroadcast()) {
+                        return Html::a("Запустить рассылку",
+                            ['dod/dod-delivery-status/send-href', 'dod_id' => $model->id], ['class'=>'btn btn-info']);
+                    } return "";
+                        },
+                ],
+                ['format'=> "raw",
+                    'value' => function (DateDod $model) {
+                        if ($model->isTypeWeb() || $model->isTypeRemoteEdu() || $model->isTypeIntramuralLiveBroadcast()) {
+                            return Html::a("Просмотр статусов",
+                                ['dod/dod-delivery-status/index', 'dod_id' => $model->id], ['class'=>'btn btn-info']);
+                        } return "";
+                    },
+                ],
                 ['class' => \yii\grid\ActionColumn::class,
                     'controller' => '/dod/date-dod',
                     'template' => '{update} {delete}',

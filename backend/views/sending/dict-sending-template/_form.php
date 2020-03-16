@@ -20,6 +20,10 @@ echo '{Ф.И.О. председателя олимпиады}' . '<br/>';
 echo '{1-е место, 2-е место, 3-е место}'. '<br/>';
 echo '{ссылка на диплом}'.'<br/>';
 echo '{ссылка на приглашение}'.'<br/>';
+echo '{название ДОД}'.'<br/>';
+echo '{дата и время ДОД}'.'<br/>';
+echo '{ссылка ДОД}'.'<br/>';
+
 ?>
 <?php $form = ActiveForm::begin(['id' => 'form-sending-template-create-update-form', 'enableAjaxValidation' => true]); ?>
 

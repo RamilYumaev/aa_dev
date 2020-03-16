@@ -25,18 +25,6 @@ class SendingController extends Controller
         $this->service = $service;
     }
 
-//    public function behaviors(): array
-//    {
-//        return [
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'delete' => ['POST'],
-//                ],
-//            ],
-//        ];
-//    }
-
     /**
      * @return mixed
      */
@@ -51,85 +39,4 @@ class SendingController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function actionCreate()
-//    {
-//        $form = new SendingCreateForm();
-//        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            return ActiveForm::validate($form);
-//        }
-//        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-//            try {
-//                $this->service->create($form);
-//            } catch (\DomainException $e) {
-//                Yii::$app->errorHandler->logException($e);
-//                Yii::$app->session->setFlash('error', $e->getMessage());
-//            }
-//            return $this->redirect(Yii::$app->request->referrer);
-//        }
-//        return $this->renderAjax('create', [
-//            'model' => $form,
-//        ]);
-//    }
-//
-//    /**
-//     * @param integer $id
-//     * @return mixed
-//     * @throws NotFoundHttpException
-//     */
-//    public function actionUpdate($id)
-//    {
-//        $model = $this->findModel($id);
-//        $form = new SendingEditForm($model);
-//        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            return ActiveForm::validate($form);
-//        }
-//        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-//            try {
-//                $this->service->edit($model->id, $form);
-//            } catch (\DomainException $e) {
-//                Yii::$app->errorHandler->logException($e);
-//                Yii::$app->session->setFlash('error', $e->getMessage());
-//            }
-//            return $this->redirect(Yii::$app->request->referrer);
-//        }
-//        return $this->renderAjax('update', [
-//            'model' => $form,
-//            'specialTypeOlimpic' => $model,
-//        ]);
-//    }
-//
-//    /**
-//     * @param integer $id
-//     * @return mixed
-//     * @throws NotFoundHttpException
-//     */
-//    protected function findModel($id): Sending
-//    {
-//        if (($model = Sending::findOne($id)) !== null) {
-//            return $model;
-//        }
-//        throw new NotFoundHttpException('The requested page does not exist.');
-//    }
-//
-//    /**
-//     * @param integer $id
-//     * @return mixed
-//     */
-//    public function actionDelete($id)
-//    {
-//        try {
-//            $this->service->remove($id);
-//        } catch (\DomainException $e) {
-//            Yii::$app->errorHandler->logException($e);
-//            Yii::$app->session->setFlash('error', $e->getMessage());
-//        }
-//        return $this->redirect(Yii::$app->request->referrer);
-//    }
-
 }
