@@ -17,6 +17,7 @@ class DateDodEditForm extends Model
         $this->dod_id = $dateDod->dod_id;
         $this->broadcast_link = $dateDod->broadcast_link;
         $this->text = $dateDod->text;
+        $this->type = $dateDod->type;
         $this->_dateDod = $dateDod;
 
         parent::__construct($config);

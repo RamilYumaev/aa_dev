@@ -29,17 +29,20 @@ $b = 6;
         <h2>Дни открытых дверей в институтах и факультетах МПГУ:</h2>
     </div>
     <?php foreach ($model as $dod) : ?>
+        <?php  if(\dod\helpers\DateDodHelper::maxDate($dod->date_time, $dod->type, $dod->dod_id)):?>
         <?php if ($c % 3 == 0): ?>
             <div class="row">
         <?php endif; ?>
         <div class="col-md-4">
             <div class="<?php color($b) ?>">
+                <h3><?= $dod->date_time ?></h3>
                 <h3><?= $dod->dodOne->name ?></h3>
                 <p><i><?= $dod->dateStartString ?></i></p>
                 <p><i><?= $dod->timeStartString ?></i></p>
                 <p><?= $dod->dodOne->addressString ?></p>
                 <p><?= $dod->dodOne->audNumberString ?></p>
                 <?= $dod->dodOne->description ?>
+                <h1><?= $dod->id."  тип ".$dod->type ?></h1>
                 <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
             </div>
         </div>
@@ -48,6 +51,7 @@ $b = 6;
         <?php endif;
         $c++;
         $b++; ?>
+        <?php  endif; ?>
     <?php endforeach; ?>
     <?php endif; ?>
 

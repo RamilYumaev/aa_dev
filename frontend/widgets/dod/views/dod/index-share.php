@@ -21,6 +21,7 @@
     ?>
     <div class="row">
         <?php foreach ($model as $dod) : ?>
+             <?php  if(\dod\helpers\DateDodHelper::maxDate($dod->date_time, $dod->type, $dod->dod_id)):?>
                 <div class="col-md-<?=$md?>">
                     <div class="dod_share">
                         <h3 align="center"><?= $dod->dodOne->name ?></h3>
@@ -32,6 +33,7 @@
                         <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
                     </div>
                 </div>
+         <?php endif; ?>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
