@@ -19,7 +19,8 @@ class OlympicDeliveryStatusController extends Controller
        return [
            'index' => [
                'class'=>SendingDeliveryStatusAction::class,
-               'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id'))],
+               'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+               'modelType' => SendingDeliveryStatusHelper::TYPE_OLYMPIC],
            'send-diploma' => [
                'class'=>SendingAction::class,
                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),

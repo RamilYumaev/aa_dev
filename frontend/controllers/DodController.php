@@ -3,6 +3,9 @@
 
 namespace frontend\controllers;
 
+use common\sending\helpers\SendingDeliveryStatusHelper;
+use common\sending\models\SendingDeliveryStatus;
+use common\sending\services\SendingDeliveryStatusService;
 use dod\forms\SignupDodForm;
 use dod\readRepositories\DateDodReadRepository;
 use dod\services\DodRegisterUserService;
@@ -16,14 +19,17 @@ class DodController extends Controller
 {
     private $repository;
     private $service;
+    private $deliveryStatusService;
 
     public function __construct($id, $module, DodRegisterUserService $service,
-                                DateDodReadRepository $repository, $config = [])
+                                DateDodReadRepository $repository, SendingDeliveryStatusService $deliveryStatusService, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->repository = $repository;
         $this->service = $service;
+        $this->deliveryStatusService  = $deliveryStatusService;
     }
+
 
     public function beforeAction($action)
     {
@@ -71,11 +77,30 @@ class DodController extends Controller
 
     /*
    * @param $id
+   * @param $hash
    * @return mixed
    * @throws NotFoundHttpException
    */
-    public function actionDod($id)
+    public function actionDod($id, $hash =null)
     {
+        if ($hash !== null) {
+            $modelSendingDelivery =  SendingDeliveryStatus::find()
+                ->hash($hash)
+                ->type(SendingDeliveryStatusHelper::TYPE_DOD)
+                ->typeSending(SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB)
+                ->one();
+            if (!$modelSendingDelivery) {
+                throw new HttpException('404', 'Такой страницы не существует');
+            }
+            if (!$modelSendingDelivery->isStatusRead()) {
+                try {
+                    $this->deliveryStatusService->statusRead($modelSendingDelivery->id);
+                } catch (\DomainException $e) {
+                    \Yii::$app->errorHandler->logException($e);
+                    \Yii::$app->session->setFlash('error', $e->getMessage());
+                }
+            }
+        }
         $dod = $this->findDod($id);
         return $this->render('dod', [
             'dod' => $dod

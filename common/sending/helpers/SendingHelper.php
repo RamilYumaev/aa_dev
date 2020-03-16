@@ -76,7 +76,7 @@ class SendingHelper
             '{имя отчество получателя}',
             '{название ДОД}',//
             '{дата и время ДОД}',//
-            '{ссылка}',//
+            '{ссылка ДОД}',//
         ];
     }
 
@@ -114,7 +114,7 @@ class SendingHelper
         $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
         switch ($type_sending) {
             case SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB :
-                array_push($array, \yii\helpers\Url::to('@frontendInfo/dod?id='.$dod->id.'&hash='.$hash, true));
+                array_push($array, \yii\helpers\Url::to('@frontendInfo/dod/dod?id='.$dod->id.'&hash='.$hash, true));
                 break;
             default:
                 array_push($array, \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
