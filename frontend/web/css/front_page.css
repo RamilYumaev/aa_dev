@@ -148,7 +148,7 @@ a.desc:after {
 }
 
 
-.dod-panel div a, .dod_share a{
+.dod-panel div , .dod_share div{
     text-decoration: underline;
     color: #fff;
     position: absolute;
@@ -156,12 +156,10 @@ a.desc:after {
 }
 .dod-panel div a{
     left: 12.5%;
-    width: 75%;
 }
 
 .dod_share a {
     left: 25%;
-    width: 50%;
 }
 
 .dod-panel a {
@@ -215,15 +213,19 @@ a.desc:after {
 }
 
 .dod_share {
-    background-color: #381c62;
     color: #fff;
     padding: 30px;
     margin: 0px 5px;
-    min-height: 350px;
+    min-height: 375px;
+
+}
+.dod-image-background{
+    background-image: url("../img/logo_.jpg");
+    background-position: center center;
 }
 
 .dod_share a, .dod-panel div a {
-    margin-top: 20px;
+    margin-top: 10px;
     color: #381c62 !important;
     background-color: #fff !important;
     text-decoration: none;

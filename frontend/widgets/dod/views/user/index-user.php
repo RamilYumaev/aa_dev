@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /* @var  $dod dod\models\DateDod */
 /* @var  $userDod dod\models\UserDod */
-$class= 'btn btn-lg btn-bd-primary mb-3 mb-md-0 mr-md-3';
+$class= 'btn btn-lg btn-bd-primary ml-10 mb-3 mb-md-0 mr-md-3';
 ?>
 <div>
-    <center>
+
         <?php if ($dod->isDateActual()) : ?>
             <?php if (!$userDod): ?>
                 <?= \dod\helpers\DateDodHelper::dodDateActual($dod, $class, true) ?>
@@ -17,6 +17,5 @@ $class= 'btn btn-lg btn-bd-primary mb-3 mb-md-0 mr-md-3';
         <?php else: ?>
             <?= \dod\helpers\DateDodHelper::dodDateNoActual($dod,$class) ?>
         <?php endif; ?>
-    </center>
 </div>
 
