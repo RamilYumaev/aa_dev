@@ -110,6 +110,14 @@ class DateDod extends ActiveRecord
         return $dateDod->attributeLabels();
     }
 
+    public function isDateActual() {
+        return  $this->date_time > date('Y-m-d H:i:s');
+    }
+
+    public function isDateToday() {
+        return \Yii::$app->formatter->asDate($this->date_time,'php:Y-m-d') == date('Y-m-d');
+    }
+
     public static function find(): DateDodQuery
     {
         return new DateDodQuery(static::class);

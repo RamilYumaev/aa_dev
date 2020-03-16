@@ -30,7 +30,7 @@ class UserDodWidget extends Widget
 
     private function guest () {
         return $this->render('user/index-guest', [
-            'dod' => $this->findOne($this->findOne($this->dod_id))
+            'dod' => $this->findOne($this->dod_id)
         ]);
     }
 
@@ -42,7 +42,7 @@ class UserDodWidget extends Widget
         $userDod = $this->repository->find($this->dod_id, Yii::$app->user->id);
         return $this->render('user/index-user', [
             'userDod' => $userDod,
-            'dod' => $this->findOne($this->findOne($this->dod_id))
+            'dod' => $this->findOne($this->dod_id)
         ]);
     }
 }

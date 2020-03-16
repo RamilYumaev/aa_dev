@@ -3,7 +3,9 @@
 namespace dod\helpers;
 
 use dod\models\Dod;
+use dod\models\UserDod;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class UserDodHelper
 {
@@ -22,4 +24,10 @@ class UserDodHelper
     {
         return ArrayHelper::getValue(self::listParticipationForm(), $key);
     }
+
+    public static function userDodDeleteLink($class, UserDod $userDod) {
+        return  Html::a('Отменить регистрацию', ['user-dod/delete', 'id' => $userDod->dod_id],
+            ['class' => $class, 'data' => ['confirm' => 'Вы действительно хотите отменить?', 'method' => 'POST']]);
+    }
+
 }

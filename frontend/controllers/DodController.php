@@ -8,6 +8,7 @@ use dod\readRepositories\DateDodReadRepository;
 use dod\services\DodRegisterUserService;
 use frontend\components\UserNoEmail;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use Yii;
 
@@ -89,7 +90,7 @@ class DodController extends Controller
     protected function findDod($id)
     {
         if (!$model = $this->repository->find($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
+            throw new HttpException('404', 'Такой страницы не существует');
         }
         return $model;
     }
