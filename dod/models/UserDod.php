@@ -4,6 +4,8 @@
 namespace dod\models;
 
 
+use dod\helpers\UserDodHelper;
+
 class UserDod extends \yii\db\ActiveRecord
 {
     /**
@@ -30,6 +32,10 @@ class UserDod extends \yii\db\ActiveRecord
         $userDod->count = $count;
 
         return $userDod;
+    }
+
+    public function isFormLive() {
+        return $this->form_of_participation == UserDodHelper::FORM_LIVE_BROADCAST;
     }
 
     public function attributeLabels()

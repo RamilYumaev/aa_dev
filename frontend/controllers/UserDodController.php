@@ -5,7 +5,9 @@ namespace frontend\controllers;
 
 use common\helpers\FlashMessages;
 use dod\forms\SignUpDodRemoteUserForm;
+use dod\models\UserDod;
 use dod\readRepositories\DateDodReadRepository;
+use dod\repositories\UserDodRepository;
 use dod\services\UserDodService;
 use frontend\components\UserNoEmail;
 use yii\filters\VerbFilter;
@@ -50,8 +52,7 @@ class UserDodController extends Controller
     {
         $this->isGuest();
         try {
-            $this->service->add($id, Yii::$app->user->id);
-            Yii::$app->session->setFlash('success', FlashMessages::get()["successDodRegistrationInsideCabinet"]);
+            $this->service->add($id, Yii::$app->user->id, $type);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -68,6 +69,7 @@ class UserDodController extends Controller
     {
         $this->isGuest();
         $dod = $this->findDod($id);
+        $this->isUserDod($dod->id);
         $form = new SignUpDodRemoteUserForm($dod);
         if (is_null($form->schoolUser->country_id)) {
             Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
@@ -76,7 +78,8 @@ class UserDodController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addRemoteEdu($form, Yii::$app->user->id);
-                $this->redirect(['dod/index']);
+                \Yii::$app->session->setFlash('success', FlashMessages::get()["successDodRegistrationInsideCabinet"]." Накануне мероприятия на почту придет ссылка на трансляцию");
+                return $this->redirect(['dod/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -87,8 +90,6 @@ class UserDodController extends Controller
             'model' => $form
         ]);
     }
-
-
 
     /**
      * @param integer $id
@@ -107,11 +108,29 @@ class UserDodController extends Controller
         return $this->redirect(['dod/index']);
     }
 
+
+
     protected function isGuest() {
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['dod/index']);
         }
     }
+
+    /*
+    * @param $id
+    * @return mixed
+    */
+    public function isUserDod($id) {
+        try {
+            (new UserDodRepository())->getDodUser($id, Yii::$app->user->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['dod/index']);
+        }
+
+    }
+
 
     /*
      * @param $id
@@ -120,9 +139,9 @@ class UserDodController extends Controller
      */
     protected function findDod($id)
     {
-        if (!$olympic = $this->repository->find($id)) {
-            new NotFoundHttpException('The requested page does not exist.');
+        if (!$dod = $this->repository->find($id)) {
+            new NotFoundHttpException('Такой страницы не существует.');
         }
-        return $olympic;
+        return $dod;
     }
 }

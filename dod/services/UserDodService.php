@@ -1,6 +1,7 @@
 <?php
 namespace dod\services;
 
+use common\helpers\FlashMessages;
 use dictionary\repositories\DictSchoolsRepository;
 use dod\forms\SignUpDodRemoteUserForm;
 use dod\models\UserDod;
@@ -29,10 +30,17 @@ class UserDodService
     public function add($dod_id, $user_id, $type = null) {
         $dod = $this->dateDodRepository->get($dod_id);
         $profile = $this->isAddProfile();
+        $this->repository->getDodUser($dod->id, $user_id);
         if($dod->isTypeIntramuralLiveBroadcast()) {
             $userDod = UserDod::create($dod->id, $user_id, $type);
         }else {
             $userDod = UserDod::create($dod->id, $user_id);
+        }
+        if($userDod->isFormLive() || $dod->isTypeWeb()) {
+            \Yii::$app->session->setFlash('success', FlashMessages::get()["successDodRegistrationInsideCabinet"]." Накануне мероприятия на почту придет ссылка на трансляцию");
+        } else
+            {
+            \Yii::$app->session->setFlash('success', FlashMessages::get()["successDodRegistrationInsideCabinet"]);
         }
         $this->repository->save($userDod);
     }
