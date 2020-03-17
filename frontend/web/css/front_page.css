@@ -213,15 +213,17 @@ a.desc:after {
 }
 
 .dod_share {
+    background: rgba(0,0,0,.7);
     color: #fff;
     padding: 30px;
-    margin: 0px 5px;
+
     min-height: 375px;
 
 }
 .dod-image-background{
-    background-image: url("../img/logo_.jpg");
-    background-position: center center;
+    background-image: url("../img/kgf.jpeg");
+    background-size: cover;
+    margin: 0px 5px;
 }
 
 .dod_share a, .dod-panel div a {
