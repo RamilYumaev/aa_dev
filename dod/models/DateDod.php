@@ -118,10 +118,30 @@ class DateDod extends ActiveRecord
         return \Yii::$app->formatter->asDate($this->date_time,'php:Y-m-d') == date('Y-m-d');
     }
 
+    public function haveDateTypes() {
+       return  $this->isTypeWeb() || $this->isTypeRemoteEdu();
+    }
+
+    public function haveDateHybridTypes() {
+        return  $this->isTypeHybrid() && $this->isDateActual();
+    }
+
+    public function haveFullInfoTypes() {
+        return $this->isTypeIntramuralLiveBroadcast() || $this->isTypeIntramural();
+    }
+
+
+    public function getFormNameTypes() {
+        return "Форма проведения: " .DateDodHelper::typeName($this->type);
+    }
+
+
     public static function find(): DateDodQuery
     {
         return new DateDodQuery(static::class);
     }
+
+
 
 
 
