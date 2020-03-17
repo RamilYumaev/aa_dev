@@ -26,11 +26,16 @@
                     <div class="dod-image-background">
                             <div class="dod_share">
                                 <h3 align="center"><?= $dod->dodOne->name ?></h3>
-                                <p><i> <?= $dod->dateStartString ?></i></p>
-                                <p><i> <?= $dod->timeStartString ?></i></p>
-                                <p> <?= $dod->dodOne->addressAndAudNumberString ?></p>
-                                <?= $dod->dodOne->description ?>
-                                <?= $dod->textString ?>
+                                <p><i><?= $dod->formNameTypes ?></i></p>
+                                <?php if($dod->haveDateTypes()): ?>
+                                    <p><i><?= $dod->dateStartString ?></i></p>
+                                    <p><i><?= $dod->timeStartString ?></i></p>
+                                <?php elseif($dod->haveFullInfoTypes() || $dod->haveDateHybridTypes()): ?>
+                                    <p><i><?= $dod->dateStartString ?></i></p>
+                                    <p><i><?= $dod->timeStartString ?></i></p>
+                                    <p> <?= $dod->dodOne->addressAndAudNumberString ?></p>
+                                    <?= $dod->dodOne->description ?>
+                                <?php endif; ?>
                                 <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
                             </div>
                     </div>
