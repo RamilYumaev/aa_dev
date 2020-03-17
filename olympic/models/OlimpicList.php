@@ -4,11 +4,7 @@
 namespace olympic\models;
 
 use common\helpers\DateTimeCpuHelper;
-use common\moderation\behaviors\ModerationBehavior;
-use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictChairmansHelper;
-use dictionary\helpers\DictClassHelper;
-use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\OlimpiadsTypeTemplates;
 use olympic\forms\OlimpicListCopyForm;
 use olympic\forms\OlimpicListCreateForm;
@@ -20,26 +16,12 @@ use olympic\helpers\OlympicHelper;
 use yii\helpers\Html;
 
 
-class OlimpicList extends  YiiActiveRecordAndModeration
+class OlimpicList extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     private $_olmpicTypeTemplate;
-
-    public function behaviors()
-    {
-        return [
-            'moderation' => [
-                'class' => ModerationBehavior::class,
-                'attributes' => ['date_time_start_reg', 'date_time_finish_reg', 'edu_level_olymp', 'name', 'chairman_id', 'number_of_tours',
-                    'edu_level_olymp', 'genitive_name', 'faculty_id', 'time_of_distants_tour_type', 'form_of_passage','time_of_tour', 'time_of_tour',
-                    'content', 'required_documents', 'showing_works_and_appeal', 'time_of_distants_tour', 'prefilling', 'only_mpgu_students', 'list_position',
-                    'auto_sum', 'date_time_start_tour','address', 'requiment_to_work_of_distance_tour', 'requiment_to_work','criteria_for_evaluating_dt',
-                    'criteria_for_evaluating', 'promotion_text', 'link', 'certificate_id','percent_to_calculate','event_type','year'],
-            ],
-        ];
-    }
 
     public static function tableName()
     {
@@ -409,45 +391,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
     }
 
 
-    public function titleModeration(): string
-    {
-         return  "Олимпиада";
-    }
 
-    public function moderationAttributes($value): array
-    {
-        return  [
-            'date_time_start_reg'=>$value,
-            'date_time_finish_reg'=>$value,
-            'edu_level_olymp' => OlympicHelper::levelOlimpName($value),
-            'name'=>$value,
-            'chairman_id'=> DictChairmansHelper::chairmansNameOne($value),
-            'number_of_tours'=> OlympicHelper::numberOfToursName($value),
-            'genitive_name'=>$value,
-            'faculty_id'=> DictFacultyHelper::facultyName($value),
-            'time_of_distants_tour_type'=>$value,
-            'form_of_passage' => OlympicHelper::formOfPassageName($value),
-            'time_of_tour'=>$value,
-            'content'=>$value,
-            'required_documents'=>$value,
-            'showing_works_and_appeal' => OlympicHelper::showingWorkName($value),
-            'time_of_distants_tour'=>$value,
-            'prefilling' => OlympicHelper::prefillingName($value),
-            'only_mpgu_students'=> $value,
-            'list_position' =>$value,
-            'auto_sum' =>$value,
-            'date_time_start_tour' =>$value,
-            'address' =>$value,
-            'requiment_to_work_of_distance_tour' =>$value,
-            'requiment_to_work' =>$value,
-            'criteria_for_evaluating_dt' =>$value,
-            'criteria_for_evaluating' =>$value,
-            'promotion_text' =>$value,
-            'link' =>$value,
-            'certificate_id' =>$value,
-            'percent_to_calculate' =>$value,
-            'event_type' =>$value,
-            'year' =>$value
-            ];
-    }
+
+
 }

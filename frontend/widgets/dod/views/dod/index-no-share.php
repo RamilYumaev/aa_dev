@@ -36,17 +36,12 @@ $b = 6;
         <div class="col-md-4">
             <div class="dod-panel <?php color($b) ?>">
                 <h3><?= $dod->dodOne->name ?></h3>
-                <p><i><?= $dod->formNameTypes ?></i></p>
-                <?php if($dod->haveDateTypes()): ?>
-                    <p><i><?= $dod->dateStartString ?></i></p>
-                    <p><i><?= $dod->timeStartString ?></i></p>
-                <?php elseif($dod->haveFullInfoTypes() || $dod->haveDateHybridTypes()): ?>
-                    <p><i><?= $dod->dateStartString ?></i></p>
-                    <p><i><?= $dod->timeStartString ?></i></p>
-                    <p><?= $dod->dodOne->addressString ?></p>
-                    <p><?= $dod->dodOne->audNumberString ?></p>
-                <?php endif; ?>
+                <p><i><?= $dod->dateStartString ?></i></p>
+                <p><i><?= $dod->timeStartString ?></i></p>
+                <p><?= $dod->dodOne->addressString ?></p>
+                <p><?= $dod->dodOne->audNumberString ?></p>
                 <?= $dod->dodOne->description ?>
+                <h1><?= $dod->id."  тип ".$dod->type ?></h1>
                 <?= \frontend\widgets\dod\UserDodWidget::widget(['dod_id' => $dod->id]); ?>
             </div>
         </div>
