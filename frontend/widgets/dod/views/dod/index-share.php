@@ -19,6 +19,7 @@
             $md = 12;
     }
     ?>
+    
     <div class="row">
         <?php foreach ($model as $dod) : ?>
             <?php if (\dod\helpers\DateDodHelper::maxDate($dod->date_time, $dod->type, $dod->dod_id)): ?>
