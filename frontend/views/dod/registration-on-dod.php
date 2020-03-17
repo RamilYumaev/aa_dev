@@ -19,12 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <h1><?= Html::encode($this->title) ?></h1>
-    <p><i><?= $dod->dateStartString ?></i></p>
-    <p><i><?= $dod->timeStartString ?></i></p>
-    <p><?= $dod->dodOne->addressString ?></p>
-    <p><?= $dod->dodOne->audNumberString ?></p>
+    <p><i><?= $dod->formNameTypes ?></i></p>
+    <?php if($dod->haveDateTypes()): ?>
+        <p><i><?= $dod->dateStartString ?></i></p>
+        <p><i><?= $dod->timeStartString ?></i></p>
+    <?php elseif($dod->haveFullInfoTypes() || $dod->haveDateHybridTypes()): ?>
+        <p><i><?= $dod->dateStartString ?></i></p>
+        <p><i><?= $dod->timeStartString ?></i></p>
+        <p><?= $dod->dodOne->addressString ?></p>
+        <p><?= $dod->dodOne->audNumberString ?></p>
+    <?php endif; ?>
     <?= $dod->textString ?>
-
     <h4><strong>Уже есть учетная запись? <?= Html::a('Войдите', ['account/login']) ?></strong></h4>
 
     <h4>или заполните следующую форму:</h4>
