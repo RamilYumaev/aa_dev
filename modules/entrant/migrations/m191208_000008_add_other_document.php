@@ -14,7 +14,7 @@ class m191208_000008_add_other_document extends Migration
         $this->createTable($this->table(), [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'type' => $this->integer(3)->null()->comment('Тип документа'),
+            'type' => $this->tinyInteger(3)->null()->comment('Тип документа'),
             'note' => $this->string()->null()->comment('Примечание'),
         ], $tableOptions);
         
