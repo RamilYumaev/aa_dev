@@ -16,7 +16,7 @@ class m191208_000004_add_passport_data extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'nationality' => $this->integer()->notNull()->comment("Гражданство"),
-            'type' => $this->integer(3)->null()->comment('Тип документа'),
+            'type' => $this->tinyInteger(3)->null()->comment('Тип документа'),
             'series' => $this->string()->null()->comment('Серия'),
             'number' => $this->string()->null()->comment("Номер"),
             'date_of_birth' => $this->date()->null()->comment("Дата рождения"),

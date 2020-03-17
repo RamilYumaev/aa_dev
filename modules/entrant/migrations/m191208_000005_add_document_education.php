@@ -16,7 +16,7 @@ class m191208_000005_add_document_education extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'school_id' => $this->integer()->notNull()->comment("Учебное заведение"),
-            'type' => $this->integer(3)->null()->comment('Тип документа'),
+            'type' => $this->tinyInteger(3)->null()->comment('Тип документа'),
             'series' => $this->string()->null()->comment('Серия'),
             'number' => $this->string()->null()->comment("Номер"),
             'date' => $this->date()->null()->comment("От"),
