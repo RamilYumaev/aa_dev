@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => yii\grid\SerialColumn::class],
                     ['attribute' => 'model',
                         'value'=> function(\common\moderation\models\Moderation $model) {
-                            return \common\moderation\helpers\ModerationHelper::modelOneName($model->model);
+                            return $model->getModel()->titleModeration();
                         }],
                     ['attribute' => 'created_by',
                         'value'=> function(\common\moderation\models\Moderation $model) {
