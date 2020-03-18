@@ -25,7 +25,7 @@ class DateDodHelper
             self::TYPE_INTRAMURAL_LIVE_BROADCAST =>'очный тип с прямой трансляцией',
             self::TYPE_WEB => 'вебинар',
             self::TYPE_REMOTE => 'дистанционный тип',
-            self::TYPE_HYBRID =>'гибридный тип (очный и дистанционный)',
+            self::TYPE_HYBRID =>'очный и/или дистанционный',
             self::TYPE_REMOTE_EDU => 'дистанционный для учебных организаций'
         ];
     }

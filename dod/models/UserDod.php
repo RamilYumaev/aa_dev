@@ -41,7 +41,7 @@ class UserDod extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'count'=>'Количество участников',
+            'count'=>'Количество участников вебинара',
             'status_edu' => "Статус участника",
             'school_id' => "Учебная оргнаизация",
             'form_of_participation' => "Форма участия"

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = 'Обновление';
 
 ?>
 <div class="dod-update">
-    <?php $form = ActiveForm::begin(['id' => 'form-faculty']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-dod', 'options' => ['autocomplete' => 'off']]); ?>
 
     <div class="box box-default">
         <div class="box-body">

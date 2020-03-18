@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \backend\assets\dod\DodCreateAsset::register($this);
 ?>
 <div class="dod-create">
-    <?php $form = ActiveForm::begin(['id' => 'form-dod']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-dod', 'options' => ['autocomplete' => 'off']]); ?>
 
     <div class="box box-default">
         <div class="box-body">
