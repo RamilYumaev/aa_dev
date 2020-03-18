@@ -16,6 +16,7 @@ class SendingDeliveryStatusHelper
     const TYPE_SEND_PRELIMINARY = 4;
     const TYPE_SEND_GRATITUDE = 5;
     const TYPE_SEND_DOD_WEB =6;
+    const TYPE_SEND_DOD_WEB_MESSAGE =7;
 
     const TYPE_OLYMPIC = 1;
     const TYPE_MASTER_CLASS = 3;
@@ -30,7 +31,8 @@ class SendingDeliveryStatusHelper
             self::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR => "Приглашение после прохождения заочного тура",
             self::TYPE_SEND_PRELIMINARY => "Предварительные результаты",
             self::TYPE_SEND_GRATITUDE => "Благодарность",
-            self::TYPE_SEND_DOD_WEB => "Вебинар"
+            self::TYPE_SEND_DOD_WEB => "Вебинар",
+            self::TYPE_SEND_DOD_WEB_MESSAGE =>"Сообщение о вебинаре"
         ];
     }
 
