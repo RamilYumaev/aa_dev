@@ -117,7 +117,7 @@ class SendingHelper
                 array_push($array, \yii\helpers\Url::to('@frontendInfo/dod/dod?id='.$dod->id.'&hash='.$hash, true));
                 break;
             default:
-                array_push($array, \yii\helpers\Url::to('@frontendInfo/invitation?hash='.$hash, true));
+                array_push($array, "");
                 break;
         }
         return str_replace(self::templatesDodLabel(), $array, $template);

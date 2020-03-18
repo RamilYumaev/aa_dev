@@ -2,6 +2,7 @@
 
 namespace frontend\controllers\auth;
 
+use common\auth\services\DodConfirmService;
 use common\auth\services\OlympicConfirmService;
 use olympic\services\UserOlimpiadsService;
 use olympic\services\UserSchoolService;
@@ -13,14 +14,17 @@ class ConfirmController extends Controller
     private $service;
     private $schoolService;
     private $olimpiadsService;
+    private $dodService;
 
-    public function __construct($id, $module, OlympicConfirmService $service, UserSchoolService $schoolService, UserOlimpiadsService $olimpiadsService,  $config = [])
+    public function __construct($id, $module, OlympicConfirmService $service, DodConfirmService $dodService, UserSchoolService $schoolService, UserOlimpiadsService $olimpiadsService,  $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->schoolService = $schoolService;
         $this->olimpiadsService = $olimpiadsService;
+        $this->dodService = $dodService;
     }
+
 
     /**
      * @param $token
@@ -40,6 +44,26 @@ class ConfirmController extends Controller
         }
         return $this->goHome();
     }
+
+    /**
+     * @param $token
+     * @param $dod_id
+     * @return mixed
+     */
+
+    public function actionDod($token, $dod_id)
+    {
+        try {
+            $this->dodService->confirmDod($token, $dod_id);
+            Yii::$app->session->addFlash('success', 'Ваш адрес электронной почты подтвержден.');
+            return $this->redirect(['account/login']);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->goHome();
+    }
+
 
     /**
      * @param $hash

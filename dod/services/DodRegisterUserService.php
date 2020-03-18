@@ -63,8 +63,8 @@ class DodRegisterUserService
             $userDod = $this->newUserDod($dateDod, $user->id, $form);
             $this->userDodRepository->save($userDod);
 
-            $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
-            $configData = ['user' => $user];
+            $configTemplate =  ['html' => 'emailVerifyDod-html', 'text' => 'emailVerifyDod-text'];
+            $configData = ['user' => $user, 'dod' => $userDod->dod_id];
 
             $this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
         });
