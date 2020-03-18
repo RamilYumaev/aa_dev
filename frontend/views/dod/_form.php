@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use modules\dictionary\helpers\DictPostEducationHelper;
 use dod\helpers\UserDodHelper;
 ?>
-<?php $form = ActiveForm::begin(['id'=> 'form-reg-dod']); ?>
+<?php $form = ActiveForm::begin(['id'=> 'form-reg']); ?>
     <?= $this->render('@frontend/views/olympiads/form/_form_profile', ['model' => $model->profile, 'form' => $form]) ?>
     <?php if ($dod->isTypeRemoteEdu()) :?>
         <?= $this->render('@frontend/views/olympiads/form/_form_school', ['model' => $model->schoolUser, 'form' => $form]) ?>
