@@ -52,7 +52,7 @@ class SendingDodProcessService
         $dateDod = $this->dateDodRepository->get($dod_id);
         if (SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_DOD,
             $typeSending, $dateDod->id)) {
-            throw new \DomainException( 'Рассылка была создана.');
+            throw new \DomainException( 'Рассылка была  была завершена.');
         }
         if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_DOD,
                 $typeSending)) == null) {
@@ -60,6 +60,9 @@ class SendingDodProcessService
         }
         if (($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB) && !$dateDod->isDateActual()) {
             throw new \DomainException( 'Вы не можете рассылать, так как мероприятие уже прошло ');
+        }
+        if (!$dateDod->broadcast_link ) {
+            throw new \DomainException( 'Вы не можете рассылать, так как отсутствует ссылка на данное мероприятие');
         }
         $userDodCount = clone $this->userDodAll($dateDod);
         if (!$userDodCount->count()) {
@@ -73,9 +76,7 @@ class SendingDodProcessService
         if ($typeSending == SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB) {
             $this->sendWeb($dateDod, $sending, $sendingTemplate, $typeSending);
         }
-        $sendingUpdate = $this->repository->get($sending->id);
-        $sendingUpdate->status_id = SendingHelper::FINISH_SENDING;
-        $this->repository->save($sendingUpdate);
+
     }
 
     private function sendWeb(DateDod $dateDod,Sending $sending, $sendingTemplate, $typeSending) {
