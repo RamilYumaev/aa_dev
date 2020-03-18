@@ -46,6 +46,7 @@ class DodRegisterUserService
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
         $this->transaction = $transaction;
+        $this->dictSchoolsRepository = $dictSchoolsRepository;
     }
 
     public function signup(SignupDodForm $form): void
