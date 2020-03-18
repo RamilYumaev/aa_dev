@@ -14,7 +14,7 @@ $q = $a ? array_map(function ($var) {
 }, $a['select']) : '';
 ?>
 <div class="row mt-10">
-    <div class="col-md-6 col-md-offset-3 text-left white">
+    <div class="ml-30 col-md-6 col-md-offset-3 text-left white">
         <?= Html::checkboxList('AnswerAttempt[select]', $q ?? [], AnswerHelper::answerList($quent->question_id), [
             'itemOptions' => [
                 'labelOptions' => ['class' => 'checkbox'],

@@ -31,8 +31,8 @@ class SendingDeliveryStatusHelper
             self::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR => "Приглашение после прохождения заочного тура",
             self::TYPE_SEND_PRELIMINARY => "Предварительные результаты",
             self::TYPE_SEND_GRATITUDE => "Благодарность",
-            self::TYPE_SEND_DOD_WEB => "Вебинар",
-            self::TYPE_SEND_DOD_WEB_MESSAGE =>"Сообщение о вебинаре"
+            self::TYPE_SEND_DOD_WEB => "Ссылка на вебинар",
+            self::TYPE_SEND_DOD_WEB_MESSAGE =>"Вы зарегистрированы на вебинар"
         ];
     }
 

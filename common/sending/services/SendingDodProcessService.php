@@ -50,10 +50,11 @@ class SendingDodProcessService
 
     public function createAndSend($dod_id, $typeSending) {
         $dateDod = $this->dateDodRepository->get($dod_id);
-        if (SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_DOD,
-            $typeSending, $dateDod->id)) {
-            throw new \DomainException( 'Рассылка была  была завершена.');
-        }
+
+//        if (SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_DOD,
+//            $typeSending, $dateDod->id)) {
+//            throw new \DomainException( 'Рассылка была завершена.');
+//        }
         if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_DOD,
                 $typeSending)) == null) {
             throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
@@ -62,7 +63,7 @@ class SendingDodProcessService
             throw new \DomainException( 'Вы не можете рассылать, так как мероприятие уже прошло ');
         }
         if (!$dateDod->broadcast_link ) {
-            throw new \DomainException( 'Вы не можете рассылать, так как отсутствует ссылка на данное мероприятие');
+            throw new \DomainException( 'Вы не можете рассылать, так как отсутствует ссылка на трансляцию');
         }
         $userDodCount = clone $this->userDodAll($dateDod);
         if (!$userDodCount->count()) {
