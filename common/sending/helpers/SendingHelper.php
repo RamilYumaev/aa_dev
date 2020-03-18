@@ -59,6 +59,7 @@ class SendingHelper
     public static function templatesLabel()
     {
         return [
+            '{Уважаемый(-ая)}',
             '{имя отчество получателя}',
             '{название олимпиады в родительном падеже}',//
             '{дата и время очного тура олимпиады}',//
@@ -73,6 +74,7 @@ class SendingHelper
     public static function templatesDodLabel()
     {
         return [
+            '{Уважаемый(-ая)}',
             '{имя отчество получателя}',
             '{название ДОД}',//
             '{дата и время ДОД}',//
@@ -85,6 +87,7 @@ class SendingHelper
                                             DictSendingTemplate $sendingTemplate, $type_sending, $gratitude_id) {
         $array = $olympic->replaceLabelsFromSending();
         array_unshift($array, ProfileHelper::profileName($user->id));
+        array_unshift($array, ProfileHelper::withBestRegard($user->id));
         $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
         switch ($type_sending) {
             case SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA :
@@ -111,6 +114,7 @@ class SendingHelper
                                             DictSendingTemplate $sendingTemplate, $type_sending) {
         $array = $dod->replaceLabelsFromSending();
         array_unshift($array, ProfileHelper::profileName($user->id));
+        array_unshift($array, ProfileHelper::withBestRegard($user->id));
         $template = $type == self::TYPE_HTML ?  $sendingTemplate->html : $sendingTemplate->text;
         switch ($type_sending) {
             case SendingDeliveryStatusHelper::TYPE_SEND_DOD_WEB :

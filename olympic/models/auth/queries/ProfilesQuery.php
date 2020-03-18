@@ -12,17 +12,17 @@ use yii\db\ActiveQuery;
 
 class ProfilesQuery extends ActiveQuery
 {
-public function getAllMembers($neededUser, OlimpicList $olympic)
-{
-    return $this->
+    public function getAllMembers($neededUser, OlimpicList $olympic)
+    {
+        return $this->
         select(['concat_ws(" ", last_name, first_name, patronymic) as fio, phone, user.email as email, dict_schools.name as school, dict_class.name as class'])
-        ->innerJoin(UserSchool::tableName(), Profiles::tableName() . '.`user_id` =' . UserSchool::tableName() . '.`user_id`')
-        ->innerJoin(\common\auth\models\User::tableName(), 'user.id = profiles.user_id')
-        ->leftJoin('dict_schools', 'user_school.school_id = dict_schools.id')
-        ->leftJoin('dict_class', 'user_school.class_id = dict_class.id')
-        ->andWhere(['in', '{{profiles}}.user_id', $neededUser])
-        ->andWhere([UserSchool::tableName() . '.`edu_year`' => $olympic->year])
-        ->asArray()->all();
-}
+            ->innerJoin(UserSchool::tableName(), Profiles::tableName() . '.`user_id` =' . UserSchool::tableName() . '.`user_id`')
+            ->innerJoin(\common\auth\models\User::tableName(), 'user.id = profiles.user_id')
+            ->leftJoin('dict_schools', 'user_school.school_id = dict_schools.id')
+            ->leftJoin('dict_class', 'user_school.class_id = dict_class.id')
+            ->andWhere(['in', '{{profiles}}.user_id', $neededUser])
+            ->andWhere([UserSchool::tableName() . '.`edu_year`' => $olympic->year])
+            ->asArray()->all();
+    }
 
 }

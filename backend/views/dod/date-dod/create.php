@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div>
-    <?php $form = ActiveForm::begin(['id' => 'form-date-dod', 'enableAjaxValidation' => true]); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-date-dod', 'enableAjaxValidation' => true, 'options' => ['autocomplete' => 'off']]); ?>
     <div class="box box-default">
         <div class="box-body">
             <?= $form->field($model, 'date_time')->widget(\kartik\datetime\DateTimePicker::classname(), [

@@ -19,8 +19,8 @@ class ProfileHelper
     const ROLE_OPERATOR = 2;
     const ROLE_ADMIN = 3;
 
-    const MALE= 1;
-    const FEMALE =2;
+    const MALE = 1;
+    const FEMALE = 2;
 
     public static function typeOfRole()
     {
@@ -36,10 +36,9 @@ class ProfileHelper
     {
         return [
             self::MALE => 'мужской',
-            self::FEMALE=> 'женский',
+            self::FEMALE => 'женский',
         ];
     }
-
 
 
     public static function genderName($gender): ?string
@@ -90,6 +89,20 @@ class ProfileHelper
         } else {
             return " ";
         }
+    }
+
+    public static function withBestRegard($userId)
+    {
+        $profile = self::findProfile($userId);
+        if ($profile->gender == self::FEMALE) {
+            return "Уважаемая";
+        }
+        if ($profile->gender == self::MALE) {
+            return "Уважаемый";
+        }
+
+        return "Уважаемый(-ая)";
+
     }
 
 
