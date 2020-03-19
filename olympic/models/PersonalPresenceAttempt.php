@@ -96,6 +96,11 @@ class PersonalPresenceAttempt extends ActiveRecord
         return $this->reward_status == PersonalPresenceAttemptHelper::FIRST_PLACE;
     }
 
+    public function  isRewardNoFirstPlace() {
+        return $this->isRewardSecondPlace() || $this->isRewardThirdPlace();
+    }
+
+
     public function  isRewardSecondPlace() {
         return $this->reward_status == PersonalPresenceAttemptHelper::SECOND_PLACE;
     }
