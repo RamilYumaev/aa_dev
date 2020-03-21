@@ -10,7 +10,7 @@ class TestAttemptHelper
     const SILVER = 2;
     const BRONZE = 3;
     const MEMBER = 4;
-    const REWARD_NULL = null;
+    const REWARD_NULL = 5;
 
     const NO_END_TEST = 0;
     const END_TEST = 1;

@@ -14,6 +14,15 @@ use yii\helpers\Html;
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
+            'rowOptions' => function( \testing\models\TestResult $model){
+                if ((TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
+                        TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
+                    return ['class' => 'warning'];
+                }
+                 else {
+                     return ['class' => 'default'];
+                }
+            },
             'columns' => [
                ['attribute'=>'question_id',
                'class'=> \backend\widgets\testing\gird\ViewAnswerAttemptTestColumn::class],

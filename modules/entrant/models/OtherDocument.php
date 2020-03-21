@@ -11,7 +11,7 @@ use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use yii\base\InvalidConfigException;
 
 /**

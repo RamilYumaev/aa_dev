@@ -61,7 +61,7 @@ class PersonalPresenceAttemptService
             throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать 40%(".$this->countDefaultRewards($olympic->id)." чел. ) от общего числа участников");
         }
         elseif(!$this->isMaxMarkOnFirstPlace($olympic->id)) {
-            throw new \DomainException("Участник, который получил максимальный балл, не указан как победитель");
+            throw new \DomainException("Участник, который получил максимальный балл, не указан как победитель/призер");
         }
         elseif($this->countRewardFirstStatus($olympic->id)  > $this->countDefaultRewardsFirst($olympic->id)) {
             throw new \DomainException("Количество победителей Мероприятия не должно превышать 10% (".$this->countDefaultRewardsFirst($olympic->id)."  чел. ) от общего количества участников");
@@ -241,13 +241,21 @@ class PersonalPresenceAttemptService
     }
 
     private function inRewardStatus($olympic_id, $status) {
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()
-                ->andWhere(['reward_status'=> $status])->exists();
+        if($this->maxMark($olympic_id) < PersonalPresenceAttemptHelper::MIN_BALL_FIRST_PLACE  && $status == PersonalPresenceAttemptHelper::FIRST_PLACE) {
+            return true;
+        }
+        return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()->andWhere(['reward_status'=> $status])->exists();
     }
 
     private function isMaxMarkOnFirstPlace($olympic_id) {
-        $max = PersonalPresenceAttempt::find()->olympic($olympic_id)->max('mark');
-        return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(['mark'=> $max])->one()->isRewardFirstPlace();
+        if($this->maxMark($olympic_id) < PersonalPresenceAttemptHelper::MIN_BALL_FIRST_PLACE) {
+            return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(['mark'=> $this->maxMark($olympic_id)])->one()->isRewardNoFirstPlace();
+        }
+        return PersonalPresenceAttempt::find()->olympic($olympic_id)->andWhere(['mark'=> $this->maxMark($olympic_id)])->one()->isRewardFirstPlace();
+    }
+
+    private function maxMark($olympic_id) {
+        return PersonalPresenceAttempt::find()->olympic($olympic_id)->max('mark');
     }
 
     private function isCorrectCountPresenceStatus($olympic_id) {
@@ -262,6 +270,10 @@ class PersonalPresenceAttemptService
         return $this->countPresenceStatus($olympic_id) && $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::FIRST_PLACE) &&
             $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::SECOND_PLACE)  &&
             $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::THIRD_PLACE);
+    }
+
+    private function isFirstMinBallFirstPlace($olympic_id) {
+      return  $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::FIRST_PLACE);
     }
 
     private function isNomination($olympic_id) {

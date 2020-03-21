@@ -32,7 +32,7 @@ class m191208_000004_add_passport_data extends Migration
         $this->createIndex('{{%idx-passport-nationality}}', $this->table(), 'nationality');
         $this->addForeignKey('{{%fk-idx-passport-nationality}}', $this->table(), 'nationality', \dictionary\models\Country::tableName(), 'id',  'RESTRICT', 'RESTRICT');
         $this->createIndex('{{%idx-passport-type}}', $this->table(), 'type');
-        $this->addForeignKey('{{%fk-idx-passport-type}}', $this->table(), 'type', \modules\entrant\models\dictionary\DictIncomingDocumentType::tableName(),
+        $this->addForeignKey('{{%fk-idx-passport-type}}', $this->table(), 'type', \modules\dictionary\models\DictIncomingDocumentType::tableName(),
             'id', 'RESTRICT', 'RESTRICT');
     }
 

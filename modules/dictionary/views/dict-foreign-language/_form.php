@@ -1,5 +1,5 @@
 <?php
-/* @var $model modules\dictionary\forms\DictPostEducationForm */
+/* @var $model modules\dictionary\forms\DictForeignLanguageForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
 use yii\bootstrap\ActiveForm;
