@@ -1,7 +1,7 @@
 <?php
 namespace modules\dictionary\models;
 
-use modules\entrant\models\dictionary\queries\DictIncomingDocumentTypeQuery;
+use modules\dictionary\models\queries\DictIncomingDocumentTypeQuery;
 
 class DictIncomingDocumentType extends \yii\db\ActiveRecord
 {
