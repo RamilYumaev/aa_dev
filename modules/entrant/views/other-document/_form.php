@@ -2,7 +2,7 @@
 /* @var $model modules\entrant\forms\OtherDocumentForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>

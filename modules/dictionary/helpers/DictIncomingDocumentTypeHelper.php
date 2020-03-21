@@ -1,7 +1,7 @@
 <?php
-namespace modules\entrant\helpers\dictionary;
+namespace modules\dictionary\helpers;
 
-use modules\entrant\models\dictionary\DictIncomingDocumentType;
+use modules\dictionary\models\DictIncomingDocumentType;
 use yii\helpers\ArrayHelper;
 
 class DictIncomingDocumentTypeHelper

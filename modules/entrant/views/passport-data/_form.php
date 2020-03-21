@@ -6,7 +6,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use dictionary\helpers\DictCountryHelper;
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use yii\widgets\MaskedInput;
 use kartik\date\DatePicker;
 ?>

@@ -2,7 +2,7 @@
 
 namespace modules\entrant\forms;
 use modules\entrant\helpers\AddressHelper;
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
 use yii\base\Model;

@@ -21,7 +21,7 @@ class m191208_000008_add_other_document extends Migration
         $this->createIndex('{{%idx-other_document-user}}', $this->table(), 'user_id');
         $this->addForeignKey('{{%fk-idx-other_document-user}}', $this->table(), 'user_id', \common\auth\models\User::tableName(), 'id',  'CASCADE', 'RESTRICT');
         $this->createIndex('{{%idx-other_document-type}}', $this->table(), 'type');
-        $this->addForeignKey('{{%fk-idx-other_document-type}}', $this->table(), 'type', \modules\entrant\models\dictionary\DictIncomingDocumentType::tableName(),
+        $this->addForeignKey('{{%fk-idx-other_document-type}}', $this->table(), 'type', \modules\dictionary\models\DictIncomingDocumentType::tableName(),
             'id', 'RESTRICT', 'RESTRICT');
     }
 

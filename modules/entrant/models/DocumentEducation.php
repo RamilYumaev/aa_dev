@@ -8,7 +8,7 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\DateFormatHelper;
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\queries\DocumentEducationQuery;
 
 /**

@@ -28,7 +28,7 @@ class m191208_000005_add_document_education extends Migration
         $this->createIndex('{{%idx-document-education-school_id}}', $this->table(), 'school_id');
         $this->addForeignKey('{{%fk-idx-document-education-school_id}}', $this->table(), 'school_id', \dictionary\models\DictSchools::tableName(), 'id',  'RESTRICT', 'RESTRICT');
         $this->createIndex('{{%idx-document-education-type}}', $this->table(), 'type');
-        $this->addForeignKey('{{%fk-idx-document-education-type}}', $this->table(), 'type', \modules\entrant\models\dictionary\DictIncomingDocumentType::tableName(),
+        $this->addForeignKey('{{%fk-idx-document-education-type}}', $this->table(), 'type', \modules\dictionary\models\DictIncomingDocumentType::tableName(),
             'id', 'RESTRICT', 'RESTRICT');
     }
 
