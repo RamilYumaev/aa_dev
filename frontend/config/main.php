@@ -80,6 +80,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+              //  "abiturient/document/update/<id:[\w\-]+>" => "abiturient/document-education/update",
                 "index" => "/",
                 "site" => "",
                 'auth/' => '/',

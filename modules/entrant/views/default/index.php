@@ -10,4 +10,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(); ?>
 <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(); ?>
 <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
+<?= \modules\entrant\widgets\language\LanguageWidget::widget(); ?>
 </div>
