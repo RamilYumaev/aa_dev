@@ -24,13 +24,19 @@ class Anketa extends ActiveRecord
         return "{{%anketa}}";
     }
 
-    public function behaviors()
-    {
-        return ['moderation' => [
-            'class'=> ModerationBehavior::class,
-            'attributes'=>['citizenship_id', 'edu_finish_year', 'current_edu_level', 'category_id']
-        ]];
-    }
+//    public function behaviors()
+//    {
+////        return ['moderation' => [
+////            'class'=> ModerationBehavior::class,
+////            'attributes'=>['citizenship_id', 'edu_finish_year', 'current_edu_level', 'category_id']
+////        ]];
+////
+////        return [[
+////            'class'=>
+////        ]
+////        ];
+//
+//    }
 
     public static function create(AnketaForm $form)
     {
@@ -58,7 +64,7 @@ class Anketa extends ActiveRecord
     {
         return [
             'citizenship_id' => 'Какое у Вас гражданство?',
-            'edu_finish_year' => 'В каком году Вы окончили последную образовательную организацию?',
+            'edu_finish_year' => 'В каком году Вы окончили последнюю образовательную организацию?',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
         ];

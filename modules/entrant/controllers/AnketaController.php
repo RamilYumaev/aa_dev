@@ -5,6 +5,7 @@ namespace modules\entrant\controllers;
 
 use modules\dictionary\models\DictCategory;
 use modules\entrant\forms\AnketaForm;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\repositories\AnketaRepository;
 use modules\entrant\services\AnketaService;
@@ -18,6 +19,7 @@ class AnketaController extends Controller
 {
 
     private $service;
+
 
     public function __construct($id, $module, AnketaService $service, $config = [])
     {
@@ -64,6 +66,17 @@ class AnketaController extends Controller
             ]);
         }
     }
+
+    public function actionChoiceEducationLevel()
+    {
+
+        $anketa = $this->findModelByUser();
+        if(!$anketa)
+        {
+            $this->redirect("index");
+        }
+    }
+
 
     public function actionGetCategory($foreignerStatus)
     {

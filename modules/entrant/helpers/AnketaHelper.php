@@ -17,6 +17,54 @@ class AnketaHelper
     const SCHOOL_TYPE_SCHOOL_9 = 10;
 
 
+    const SPO_LEVEL = [
+        self::SCHOOL_TYPE_SCHOOL_9,
+        self::SCHOOL_TYPE_SCHOOL
+    ];
+    const SPO_LEVEL_ONLY_CONTRACT = [
+        self::SCHOOL_TYPE_NPO,
+        self::SCHOOL_TYPE_SPO,
+        self::SCHOOL_TYPE_SCHOOL,
+        self::SCHOOL_TYPE_BACHELOR,
+        self::SCHOOL_TYPE_MAGISTER,
+        self::SCHOOL_TYPE_DIPLOMA_SPECIALIST,
+        self::SCHOOL_TYPE_SPECIALIST,
+        self::SCHOOL_TYPE_DOCTOR_SCIENCES,
+        self::SCHOOL_TYPE_PHD
+
+    ];
+    const BACHELOR_LEVEL = [
+        self::SCHOOL_TYPE_SCHOOL,
+        self::SCHOOL_TYPE_SPO
+    ];
+    const BACHELOR_LEVEL_ONLY_CONTRACT = [
+        self::SCHOOL_TYPE_BACHELOR,
+        self::SCHOOL_TYPE_DIPLOMA_SPECIALIST,
+        self::SCHOOL_TYPE_MAGISTER,
+        self::SCHOOL_TYPE_SPECIALIST,
+        self::SCHOOL_TYPE_PHD,
+        self::SCHOOL_TYPE_DOCTOR_SCIENCES
+    ];
+    const MAGISTRACY_LEVEL = [
+        AnketaHelper::SCHOOL_TYPE_BACHELOR,
+        AnketaHelper::SCHOOL_TYPE_DIPLOMA_SPECIALIST
+    ];
+    const MAGISTRACY_LEVEL_ONLY_CONTRACT = [
+        AnketaHelper::SCHOOL_TYPE_MAGISTER,
+        AnketaHelper::SCHOOL_TYPE_SPECIALIST,
+        AnketaHelper::SCHOOL_TYPE_PHD,
+        AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
+    ];
+    const HIGH_GRADUATE_LEVEL = [
+        AnketaHelper::SCHOOL_TYPE_MAGISTER,
+        AnketaHelper::SCHOOL_TYPE_SPECIALIST
+    ];
+    const HIGH_GRADUATE_LEVEL_ONLY_CONTRACT = [
+        AnketaHelper::SCHOOL_TYPE_PHD,
+        AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
+    ];
+
+
 
     public static function currentEducationLevel()
     {
