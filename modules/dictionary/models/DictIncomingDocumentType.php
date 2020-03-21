@@ -1,5 +1,5 @@
 <?php
-namespace modules\entrant\models\dictionary;
+namespace modules\dictionary\models;
 
 use modules\entrant\models\dictionary\queries\DictIncomingDocumentTypeQuery;
 

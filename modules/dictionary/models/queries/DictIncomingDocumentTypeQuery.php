@@ -1,5 +1,5 @@
 <?php
-namespace modules\entrant\models\dictionary\queries;
+namespace modules\dictionary\models\queries;
 
 class DictIncomingDocumentTypeQuery extends \yii\db\ActiveQuery
 {

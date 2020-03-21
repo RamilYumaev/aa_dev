@@ -1,7 +1,7 @@
 <?php
 
 namespace modules\entrant\forms;
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\OtherDocument;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

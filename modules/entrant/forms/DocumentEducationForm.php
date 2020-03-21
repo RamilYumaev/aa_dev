@@ -2,7 +2,7 @@
 
 namespace modules\entrant\forms;
 
-use modules\entrant\helpers\dictionary\DictIncomingDocumentTypeHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\DocumentEducation;
 
 use yii\base\Model;
