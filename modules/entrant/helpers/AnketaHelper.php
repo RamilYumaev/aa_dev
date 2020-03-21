@@ -16,13 +16,6 @@ class AnketaHelper
     const SCHOOL_TYPE_NPO = 9;
     const SCHOOL_TYPE_SCHOOL_9 = 10;
 
-    const EC_RF_COMMON_BASIS = 1;
-    const EC_IN_COMPATRIOT = 2;
-    const EC_IN = 3;
-    const EC_KVOTA = 4;
-    const EC_CELEVIK = 5;
-    const EC_PARALLEL = 6;
-
 
 
     public static function currentEducationLevel()
@@ -38,20 +31,6 @@ class AnketaHelper
             self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
             self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
             self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
-        ];
-    }
-
-    public static function entrantCategory()
-    {
-        return [
-            self::EC_RF_COMMON_BASIS => 'Гражданин РФ, поступающий на общих основаниях',
-            self::EC_IN_COMPATRIOT => 'Иностранный гражданин, относящийся к категории соотечественников **',
-            self::EC_IN => 'Иностранные граждане, поступающие на платной основе',
-            self::EC_KVOTA => 'Гражданин РФ, относящийся к льготной категории***',
-            self::EC_CELEVIK => 'Гражданин РФ, имеющий целевое направление',
-            self::EC_PARALLEL => 'Граждане, обучающиеся в вузе в настоящий момент',
-
-
         ];
     }
 
