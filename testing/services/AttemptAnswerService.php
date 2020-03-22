@@ -72,6 +72,7 @@ class AttemptAnswerService
                     }
                 }
                 $mark = $valid && count($data) == $count? $tqId->mark  : 0;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
             break;
             case TestQuestionHelper::TYPE_SELECT_ONE:
                 if(!array_key_exists('select-one', $data)) {
@@ -79,12 +80,14 @@ class AttemptAnswerService
                 }
                 $answer = $answer->andWhere(['in','id',$data['select-one']])->exists();
                 $mark = $answer ? $tqId->mark  : 0;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
             break;
             case TestQuestionHelper::TYPE_ANSWER_DETAILED:
                 if(!$data['detailed']) {
                     throw new \DomainException( 'Напишите эссе.');
                 }
                 $mark = null;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
                 break;
             case TestQuestionHelper::TYPE_MATCHING:
                  $data = $data['matching'];
@@ -97,6 +100,7 @@ class AttemptAnswerService
                     }
                 }
                 $mark = $a == count($data) ? $tqId->mark  : 0;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
                 break;
             case TestQuestionHelper::TYPE_ANSWER_SHORT:
                     if(!$data['short']) {
@@ -104,13 +108,14 @@ class AttemptAnswerService
                 }
                 $answer = $answer->andWhere(['in','name', trim($data['short'])])->exists();
                 $mark = $answer ? $tqId->mark  : 0;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
                 break;
             case TestQuestionHelper::TYPE_FILE:
                 if(!$this->getFile()) {
                     throw new \DomainException('Загрузите файл');
                 }
                 $mark = null;
-                \Yii::$app->session->addFlash('success','Файл успешно загружен');
+                \Yii::$app->session->addFlash('success','Файл успешно загружен!');
                 break;
         default:
             $dataAnswerCloze = $data['answer-cloze'];
@@ -136,7 +141,7 @@ class AttemptAnswerService
             }
             $sum = $b + $c;
             $mark = $sum == $countArray ? $tqId->mark : 0;
-
+            \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
         endswitch;
         return $mark;
     }

@@ -11,4 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(); ?>
 <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
 <?= \modules\entrant\widgets\language\LanguageWidget::widget(); ?>
+<?= \modules\entrant\widgets\cse\CseSubjectResultWidget::widget(); ?>
+<?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
 </div>

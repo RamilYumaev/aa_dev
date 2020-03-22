@@ -11,19 +11,9 @@ use yii\helpers\Html;
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute'=>'type',
-                    'value' => function (\modules\entrant\models\Address $model) {
-                        return $model->typeName;
-                    },],
-                ['attribute'=>'country_id',
-                    'value' => function (\modules\entrant\models\Address $model) {
-                        return $model->countryName;
-                    },],
-
-                ['value'=> function (\modules\entrant\models\Address $model){
-                     return $model->getAddersFull();
-                },
-                    'header' =>  "Адрес"],
+                ['attribute'=>'type', 'value' => 'typeName'],
+                ['attribute'=>'country_id','value' => 'countryName'],
+                ['value'=> 'addersFull', 'header' =>  "Адрес"],
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'address', 'template'=> '{update}{delete}']
             ],
         ]) ?>

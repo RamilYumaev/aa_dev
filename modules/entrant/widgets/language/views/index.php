@@ -11,10 +11,7 @@ use yii\helpers\Html;
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute'=>'language_id',
-                    'value' => function (\modules\entrant\models\Language $model) {
-                        return $model->languageName;
-                    },],
+                ['attribute'=>'language_id', 'value' => 'languageName'],
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'language', 'template'=> '{update}{delete}']
             ],
         ]) ?>
