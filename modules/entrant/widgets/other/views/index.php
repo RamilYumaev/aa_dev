@@ -11,10 +11,7 @@ use yii\helpers\Html;
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute'=>'type',
-                    'value' => function (\modules\entrant\models\OtherDocument $model) {
-                        return $model->typeName;
-                    },],
+                ['attribute'=>'type', 'value' =>'typeName'],
                 'note',
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'other-document', 'template'=> '{update}{delete}']
             ],
