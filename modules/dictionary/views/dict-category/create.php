@@ -1,9 +1,11 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $model modules\dictionary\forms\DictPostEducationForm */
-$this->title = "Должности. Редактирование.";
-$this->params['breadcrumbs'][] = ['label' => 'Должности', 'url' => ['dict-post-education/index']];
+$this->title = "Категории граждан. Добавление.";
+
+$this->params['breadcrumbs'][] = ['label' => 'Категории граждан', 'url' => ['dict-post-category/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <?= $this->render('_form', ['model'=> $model] )?>
+

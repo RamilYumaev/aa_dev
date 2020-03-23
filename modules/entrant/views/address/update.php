@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\AddressForm */
 
-$this->title = "Адреса. Редактировние.";
+$this->title = "Адреса. Редактирование.";
 $this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
