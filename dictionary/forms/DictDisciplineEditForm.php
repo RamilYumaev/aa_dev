@@ -9,12 +9,13 @@ use yii\base\Model;
 
 class DictDisciplineEditForm extends Model
 {
-    public $name, $links, $_discipline;
+    public $name, $links, $_discipline, $cse_subject_id;
 
     public function __construct(DictDiscipline $discipline, $config = [])
     {
         $this->name = $discipline->name;
         $this->links = $discipline->links;
+        $this->cse_subject_id =$discipline->cse_subject_id;
         $this->_discipline = $discipline;
 
         parent::__construct($config);
@@ -29,6 +30,7 @@ class DictDisciplineEditForm extends Model
             [['name'], 'required'],
             ['name', 'unique', 'targetClass' => DictDiscipline::class, 'filter' => ['<>', 'id', $this->_discipline->id], 'message' => 'Такая дисциплина уже есть в справочнике'],
             [['name', 'links'], 'string', 'max' => 255],
+            ['cse_subject_id', 'integer']
         ];
     }
 
