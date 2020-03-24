@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use modules\dictionary\helpers\DictCseSubjectHelper;
+
 
 /* @var $this yii\web\View */
 /* @var $discipline dictionary\models\DictDiscipline */
@@ -17,6 +19,8 @@ $this->params['breadcrumbs'][] = 'Обновить';
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'links')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'cse_subject_id')->dropDownList(DictCseSubjectHelper::subjectCseList(),
+                ['prompt'=> "Выберите предмет ЕГЭ"]) ?>
         </div>
     </div>
 

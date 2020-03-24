@@ -6,6 +6,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
+use modules\dictionary\helpers\DictCseSubjectHelper;
 
 class DictDiscipline extends \yii\db\ActiveRecord
 {
@@ -22,6 +23,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline = new static();
         $discipline->name = $form->name;
         $discipline->links = $form->links;
+        $discipline->cse_subject_id = $form->cse_subject_id;
         return $discipline;
     }
 
@@ -29,8 +31,12 @@ class DictDiscipline extends \yii\db\ActiveRecord
     {
         $this->name = $form->name;
         $this->links = $form->links;
+        $this->cse_subject_id = $form->cse_subject_id;
     }
 
+    public function getCseSubject() {
+        return DictCseSubjectHelper::name( $this->cse_subject_id);
+    }
     /**
      * {@inheritdoc}
      */
@@ -40,6 +46,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название дисциплины',
             'links' => 'Ссылка на сайте',
+            'cse_subject_id' => "Предмет ЕГЭ"
         ];
     }
 

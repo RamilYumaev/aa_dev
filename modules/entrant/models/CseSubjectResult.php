@@ -53,9 +53,11 @@ class CseSubjectResult extends YiiActiveRecordAndModeration
     {
         $array = Json::decode($value);
         $result = "";
-        foreach ($array as $item => $value)
-        {
-            $result.=DictCseSubjectHelper::name($item) .": ".$value."<br />";
+        if(is_array($array)) {
+            foreach ($array as $item => $value)
+            {
+                $result.=DictCseSubjectHelper::name($item) .": ".$value."<br />";
+            }
         }
         return $result;
     }

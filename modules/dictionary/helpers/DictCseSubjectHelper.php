@@ -17,7 +17,7 @@ class DictCseSubjectHelper
             ->orderBy(['name'=>SORT_ASC])->all(), "id", 'name');
     }
 
-    public static function name($key) : string
+    public static function name($key) : ?string
     {
         return ArrayHelper::getValue(self::subjectCseList(), $key);
     }
