@@ -46,7 +46,7 @@ use modules\dictionary\helpers\DictCseSubjectHelper;
                             <div class="item panel panel-default"><!-- widgetBody -->
                                 <div class="panel-heading">
                                     <span class="panel-title-address">Предмет ЕГЭ: <?= ($index + 1) ?></span>
-                                    <button type="button" class="pull-right remove-item btn btn-danger"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="pull-right remove-item btn btn-danger"><i class="glyphicon glyphicon-minus"></i></button>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="panel-body">
