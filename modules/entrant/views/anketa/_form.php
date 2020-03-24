@@ -29,9 +29,10 @@ use kartik\select2\Select2;
     </div>
 
 <?php
+$categoryVal = $model->category_id ? 1 : 0;
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
-var categoryVal = $model->category_id;
+var categoryVal = $categoryVal;
 const rf = 46;
 const rk = 29;
 const rb = 49;
@@ -83,7 +84,7 @@ if(curentCountry.val() == rf
     
   curentCountrySelect.trigger("init");
 if(categoryVal){
-    console.log(category.val(categoryVal));
+    category.val($model->category_id);
 }  
 
 JS

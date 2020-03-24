@@ -13,6 +13,10 @@ class UserCgQuery extends ActiveQuery
     {
         return $this->andWhere(["user_id" => \Yii::$app->user->id, "cg_id" => $id]);
     }
+    public function findUser()
+    {
+        return $this->andWhere(["user_id" => \Yii::$app->user->id]);
+    }
 
 
 }
