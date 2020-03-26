@@ -62,6 +62,8 @@ return [
                  '' => 'site/index',
                  'scan' => 'scan/index',
                  'scan/presence' => 'scan/presence',
+                 'communication' => 'communication/index',
+                 'dictionary' => 'communication/dictionary',
              ],
          ],
     ],
