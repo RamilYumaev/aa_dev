@@ -56,4 +56,16 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return $discipline->attributeLabels();
     }
 
+    public static function aisToSdoConverter($key)
+    {
+        $model = self::find()->andWhere(['ais_id'=> $key])->one();
+
+        if($model !== null)
+        {
+            return $model->id;
+        }
+
+        else return null;
+    }
+
 }

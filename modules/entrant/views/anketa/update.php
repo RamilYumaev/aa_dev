@@ -4,7 +4,7 @@
 
 \common\user\assets\UpdateSchoolAsset::register($this);
 
-$this->title = "Анкета. Редактирование.";
+$this->title = "Анкета. Шаг 1. Редактирование.";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_form', ['model'=> $model] )?>

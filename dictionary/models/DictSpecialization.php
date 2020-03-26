@@ -47,4 +47,16 @@ class DictSpecialization extends \yii\db\ActiveRecord
         $specialization = new static();
         return $specialization->attributeLabels();
     }
+
+    public static function aisToSdoConverter($key)
+    {
+        $model = self::find()->andWhere(['ais_id'=> $key])->one();
+
+        if($model !== null)
+        {
+            return $model->id;
+        }
+
+        else return null;
+    }
 }

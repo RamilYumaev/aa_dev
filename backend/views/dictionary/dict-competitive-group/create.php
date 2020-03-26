@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -17,17 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= $form->field($model, 'year')->dropDownList($model->yearList()) ?>
 
-            <?= $form->field($model, 'speciality_id')->dropDownList($model->specialityNameAndCodeList(),['prompt'=> 'Выберите направление подготовки']) ?>
+            <?= $form->field($model, 'speciality_id')->dropDownList($model->specialityNameAndCodeList(), ['prompt' => 'Выберите направление подготовки']) ?>
 
-            <?= $form->field($model, 'specialization_id')->dropDownList($model->specializationList(), ['prompt'=> 'Выберите образовательную программу']) ?>
-
-            <?= $form->field($model, 'edu_level')->dropDownList($model->eduLevelsList()) ?>
+            <?= $form->field($model, 'specialization_id')->dropDownList($model->specializationList(), ['prompt' => 'Выберите образовательную программу']) ?>
 
             <?= $form->field($model, 'education_form_id')->dropDownList($model->formList()) ?>
 
             <?= $form->field($model, 'financing_type_id')->dropDownList($model->financingTypesList()) ?>
 
-            <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(), ['prompt'=> 'Выберите институт/факультет']) ?>
+            <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(), ['prompt' => 'Выберите институт/факультет']) ?>
 
             <?= $form->field($model, 'kcp')->textInput() ?>
 
@@ -44,6 +43,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'only_pay_status')->checkbox() ?>
 
             <?= $form->field($model, 'education_duration')->textInput() ?>
+
+            <?= $form->field($model, 'education_year_cost')->textInput() ?>
+
+            <?= $form->field($model, 'discount')->textInput() ?>
+
+            <?= $form->field($model, 'enquiry_086_u_status')->checkbox() ?>
+
+            <?= $form->field($model, 'spo_class')->textInput() ?>
+
+            <?= $form->field($model, 'ais_id')->textInput() ?>
         </div>
     </div>
 

@@ -15,9 +15,9 @@ use yii\base\Model;
 class DictCompetitiveGroupCreateForm extends Model
 {
 
-    public $speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
+    public $id, $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $year;
+        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id;
 
     public function __construct($config = [])
     {
@@ -30,18 +30,22 @@ class DictCompetitiveGroupCreateForm extends Model
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
-            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status'], 'integer'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
+                'kcp', 'year', 'education_duration'], 'required'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
+                'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'ais_id', 'spo_class',
+                'enquiry_086_u_status'], 'integer'],
             [['competition_count'], 'number'],
-            [['education_duration'], 'double'],
+            [['education_duration', 'discount', 'education_year_cost'], 'double'],
             [['link'], 'string', 'max' => 255],
-            [['year','speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
-                'unique', 'targetClass' => DictCompetitiveGroup::class, 'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id', 'year'],
+            [['year','speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
+                'special_right_id'],
+                'unique', 'targetClass' => DictCompetitiveGroup::class, 'targetAttribute' => ['speciality_id',
+                'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id', 'year'],
                 'message' => 'Такое сочетание уже есть'],
             ['special_right_id', 'in', 'range' => DictCompetitiveGroupHelper::specialRight(), 'allowArray' => true],
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],
             ['year', 'in', 'range' => EduYearHelper::eduYearList(), 'allowArray' => true],
-            ['edu_level', 'in', 'range' => DictCompetitiveGroupHelper::eduLevels(), 'allowArray' => true],
             ['education_form_id', 'in', 'range' => DictCompetitiveGroupHelper::forms(), 'allowArray' => true],
 
         ];
@@ -61,12 +65,6 @@ class DictCompetitiveGroupCreateForm extends Model
     {
         return DictCompetitiveGroupHelper::getFinancingTypes();
     }
-
-    public function eduLevelsList(): array
-    {
-        return DictCompetitiveGroupHelper::getEduLevels();
-    }
-
 
     public function specialRightList(): array
     {

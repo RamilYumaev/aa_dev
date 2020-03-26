@@ -4,6 +4,9 @@ namespace frontend\controllers;
 
 use backend\models\AisCg;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictSpeciality;
+use dictionary\models\DictSpecialization;
+use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use olympic\models\auth\Profiles;
@@ -43,38 +46,6 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-//    public function actionGetAisCg()
-//    {
-//        $sdoCg = DictCompetitiveGroup::find()->all();
-//        foreach ($sdoCg as $cg) {
-//            $aisFacultyId = $cg->faculty->ais_id;
-//            $aisSpecialtyId = $cg->specialty->ais_id;
-//            $aisSpecializationId = $cg->specialization->ais_id;
-//
-//            $aisCg = AisCg::findCg($aisFacultyId,
-//                $aisSpecialtyId,
-//                $aisSpecializationId,
-//                AisCg::transformEducationForm($cg->education_form_id),
-//                $cg->financing_type_id, AisCg::transformYear($cg->year));
-//
-//            if ($aisCg) {
-//                $cg->ais_id = $aisCg->id;
-//                $cg->passing_score = $aisCg->competition_mark;
-//                $cg->competition_count = $aisCg->competition_count;
-//                $cg->education_duration = $aisCg->education_duration;
-//                $cg->only_pay_status = $aisCg->only_pay_status;
-//                $cg->is_new_program = $aisCg->is_new_program;
-//
-//                if (!$cg->save()) {
-//                    throw new \DomainException("ошибка при сохранении конкурсной группы");
-//                }
-//            } else {
-//                continue;
-//            }
-//        }
-//        return "Success";
-//    }
-
 //    public function actionTransformPhone()
 //    {
 //        set_time_limit(6000);
@@ -97,6 +68,52 @@ class SiteController extends Controller
 //
 //        return "finish";
 //    }
+
+
+    public function actionAisImport($year)
+    {
+        $allAisCg = AisCg::find()->andWhere(['year' => $year])->all();
+
+        foreach ($allAisCg as $aisCg) {
+            $sdoCg = DictCompetitiveGroup::findCg(
+                Faculty::aisToSdoConverter($aisCg->faculty_id),
+                DictSpeciality::aisToSdoConverter($aisCg->speciality_id),
+                DictSpecialization::aisToSdoConverter($aisCg->specialization_id),
+                DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id),
+                $aisCg->financing_type_id,
+                DictCompetitiveGroup::aisToSdoYearConverter()[$aisCg->year]);
+
+            if ($sdoCg->exists()) {
+                $model = $sdoCg->one();
+            } else {
+                $model = new DictCompetitiveGroup();
+                };
+            $model->speciality_id = DictSpeciality::aisToSdoConverter($aisCg->speciality_id);
+            $model->specialization_id = DictSpecialization::aisToSdoConverter($aisCg->specialization_id);
+            $model->education_form_id = DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id);
+            $model->financing_type_id = $aisCg->financing_type_id;
+            $model->faculty_id = Faculty::aisToSdoConverter($aisCg->faculty_id);
+            $model->kcp = $aisCg->kcp;
+            $model->special_right_id = $aisCg->special_right_id;
+            $model->passing_score = $aisCg->passing_score;
+            $model->is_new_program = $aisCg->is_new_program;
+            $model->only_pay_status = $aisCg->only_pay_status;
+            $model->competition_count = $aisCg->competition_count;
+            $model->education_duration = $aisCg->education_duration;
+            $model->education_year_cost = $aisCg->education_year_cost;
+            $model->discount = $aisCg->discount;
+            $model->enquiry_086_u_status = $aisCg->enquiry_086_u_status;
+            $model->spo_class = $aisCg->spo_class;
+            $model->ais_id = $aisCg->ais_id;
+            $model->link = $aisCg->link;
+            $model->year = DictCompetitiveGroup::aisToSdoYearConverter()[$aisCg->year];
+
+            $model->save();
+
+            }
+
+        return "success";
+    }
 
 
     public function actionClearCache()
