@@ -110,7 +110,7 @@ class ModerationBehavior extends  Behavior
         if (ModelModeration::find()->andWhere(['model'=> $this->owner::className(),
             'record_id' =>  $this->owner->id,
             "status" => ModerationHelper::STATUS_NEW])->exists()) {
-            throw  new  \DomainException("Измененные данные находятся на модерации");
+            throw  new  \DomainException("Сохранение не возможно, так как предыдущее редактирование находится на модерации");
         }
     }
 

@@ -120,7 +120,6 @@ class OlimpicListService
         $model = $this->repository->get($id);
 
         $model->edit($form, $chairman->id ?? null, $faculty->id ?? null, $olympic->id);
-        try {
             $this->transaction->wrap(function () use ($model, $form) {
                 $this->deleteRelation($model->id);
                 if ($form->competitiveGroupsList) {
@@ -140,8 +139,6 @@ class OlimpicListService
 
                 $this->repository->save($model);
             });
-        } catch (\Exception $e) {
-        }
     }
 
     public function remove($id)
