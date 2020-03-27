@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use dictionary\helpers\DictCountryHelper;
 use modules\entrant\helpers\AddressHelper;
+use modules\kladr\widgets\KladrAddressWidget;
 ?>
 <div class="container">
     <div class="row">
@@ -14,16 +15,12 @@ use modules\entrant\helpers\AddressHelper;
             <?php $form = ActiveForm::begin(['id'=> 'form-address']); ?>
             <?= $form->field($model, 'country_id')->dropDownList(DictCountryHelper::countryList(), ['prompt'=> 'Выберите страну']) ?>
             <?= $form->field($model, 'type')->dropDownList(AddressHelper::typeOfAddress()) ?>
-            <?= $form->field($model, 'postcode')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'district')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'village')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'house')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'housing')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'flat')->textInput(['maxlength' => true]) ?>
+            <?= KladrAddressWidget::widget([
+                'model' => $model,
+                'form' => $form,
+                'mode' => KladrAddressWidget::MODE_FULL,
+            ]) ?>
+
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
