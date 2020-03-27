@@ -27,6 +27,9 @@ return [
         'abiturient' => [
             'class' => \modules\entrant\Entrant::class
         ],
+        'kladr' => [
+            'class' => \modules\kladr\Kladr::class
+        ],
     ],
     'controllerMap' => [
         'account' => [
