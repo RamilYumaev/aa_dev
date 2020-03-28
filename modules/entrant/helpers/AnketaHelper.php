@@ -35,7 +35,8 @@ class AnketaHelper
     ];
     const BACHELOR_LEVEL = [
         self::SCHOOL_TYPE_SCHOOL,
-        self::SCHOOL_TYPE_SPO
+        self::SCHOOL_TYPE_SPO,
+        self::SCHOOL_TYPE_NPO,
     ];
     const BACHELOR_LEVEL_ONLY_CONTRACT = [
         self::SCHOOL_TYPE_BACHELOR,
@@ -63,6 +64,9 @@ class AnketaHelper
         AnketaHelper::SCHOOL_TYPE_PHD,
         AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
     ];
+
+    const ONLY_PAY_CONDITION = 1;
+    const FULL_CONDITION = 2;
 
 
 

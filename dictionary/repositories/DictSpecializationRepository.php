@@ -11,7 +11,7 @@ class DictSpecializationRepository
     public function get($id): DictSpecialization
     {
         if (!$model = DictSpecialization::findOne($id)) {
-            throw new \DomainException('DictSpecialization не найдено.');
+            throw new \DomainException('DictSpecialization не найдено. ' . $id);
         }
         return $model;
     }

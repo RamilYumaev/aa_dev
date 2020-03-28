@@ -15,16 +15,15 @@ use yii\base\Model;
 class DictCompetitiveGroupEditForm extends Model
 {
 
-    public $speciality_id, $specialization_id, $edu_level, $education_form_id, $financing_type_id, $faculty_id,
+    public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $_competitiveGroup, $year;
+        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $_competitiveGroup;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
 
         $this->speciality_id = $competitiveGroup->speciality_id;
         $this->specialization_id = $competitiveGroup->specialization_id;
-        $this->edu_level = $competitiveGroup->edu_level;
         $this->education_form_id = $competitiveGroup->education_form_id;
         $this->financing_type_id = $competitiveGroup->financing_type_id;
         $this->faculty_id = $competitiveGroup->faculty_id;
@@ -35,9 +34,16 @@ class DictCompetitiveGroupEditForm extends Model
         $this->only_pay_status = $competitiveGroup->only_pay_status;
         $this->competition_count = $competitiveGroup->competition_count;
         $this->education_duration = $competitiveGroup->education_duration;
+        $this->education_year_cost = $competitiveGroup->education_year_cost;
+        $this->discount = $competitiveGroup->discount;
+        $this->enquiry_086_u_status = $competitiveGroup->enquiry_086_u_status;
+        $this->spo_class = $competitiveGroup->spo_class;
+        $this->ais_id = $competitiveGroup->ais_id;
         $this->link = $competitiveGroup->link;
         $this->year = $competitiveGroup->year;
-        $this->_competitiveGroup= $competitiveGroup;
+        $this->foreigner_status = $competitiveGroup->foreigner_status;
+        $this->_competitiveGroup = $competitiveGroup;
+
 
         parent::__construct($config);
     }
@@ -48,8 +54,8 @@ class DictCompetitiveGroupEditForm extends Model
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
-            [['speciality_id', 'specialization_id', 'edu_level', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status'], 'integer'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'foreigner_status'], 'integer'],
             [['competition_count'], 'number'],
             [['education_duration'], 'double'],
             [['link'], 'string', 'max' => 255],
@@ -59,7 +65,6 @@ class DictCompetitiveGroupEditForm extends Model
             ['special_right_id', 'in', 'range' => DictCompetitiveGroupHelper::specialRight(), 'allowArray' => true],
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],
             ['year', 'in', 'range' => EduYearHelper::eduYearList(), 'allowArray' => true],
-            ['edu_level', 'in', 'range' => DictCompetitiveGroupHelper::eduLevels(), 'allowArray' => true],
             ['education_form_id', 'in', 'range' => DictCompetitiveGroupHelper::forms(), 'allowArray' => true],
 
         ];
@@ -78,11 +83,6 @@ class DictCompetitiveGroupEditForm extends Model
     public function financingTypesList(): array
     {
         return DictCompetitiveGroupHelper::getFinancingTypes();
-    }
-
-    public function eduLevelsList(): array
-    {
-        return DictCompetitiveGroupHelper::getEduLevels();
     }
 
 

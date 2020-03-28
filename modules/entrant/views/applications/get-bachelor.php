@@ -18,7 +18,16 @@ use yii\web\View;
 $this->title = "Выбор образовательных программ";
 
 $result = "";
-
+?>
+<div class="row">
+    <div class="col-md-1 mt-10">
+        <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+    </div>
+    <div class="col-md-1 col-md-offset-11">
+        <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+    </div>
+</div>
+<?php
 foreach ($currentFaculty as $faculty) {
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
@@ -47,7 +56,7 @@ foreach ($currentFaculty as $faculty) {
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
             $result .= $currentCg->specialty->getCodeWithName();
-            $result .= $currentCg->specialization->name ? ", профиль(-и) <strong>" . $currentCg->specialization->name
+            $result .= $currentCg->specialization ? ", профиль(-и) <strong>" . $currentCg->specialization->name
                 . "</strong>" : "";
             $result .= "</td>";
             $result .= "<td>";

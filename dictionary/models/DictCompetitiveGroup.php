@@ -29,7 +29,6 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup = new static();
         $competitiveGroup->speciality_id = $speciality_id;
         $competitiveGroup->specialization_id = $specialization_id;
-        $competitiveGroup->edu_level = $form->edu_level;
         $competitiveGroup->education_form_id = $form->education_form_id;
         $competitiveGroup->financing_type_id = $form->financing_type_id;
         $competitiveGroup->faculty_id = $faculty_id;
@@ -40,8 +39,14 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->only_pay_status = $form->only_pay_status;
         $competitiveGroup->competition_count = $form->competition_count;
         $competitiveGroup->education_duration = $form->education_duration;
+        $competitiveGroup->education_year_cost = $form->education_year_cost;
+        $competitiveGroup->discount = $form->discount;
+        $competitiveGroup->enquiry_086_u_status = $form->enquiry_086_u_status;
+        $competitiveGroup->spo_class = $form->spo_class;
+        $competitiveGroup->ais_id = $form->ais_id;
         $competitiveGroup->link = $form->link;
         $competitiveGroup->year = $form->year;
+        $competitiveGroup->foreigner_status = $form->foreigner_status;
         return $competitiveGroup;
     }
 
@@ -49,7 +54,6 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         $this->speciality_id = $speciality_id;
         $this->specialization_id = $specialization_id;
-        $this->edu_level = $form->edu_level;
         $this->education_form_id = $form->education_form_id;
         $this->financing_type_id = $form->financing_type_id;
         $this->faculty_id = $faculty_id;
@@ -60,8 +64,14 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->only_pay_status = $form->only_pay_status;
         $this->competition_count = $form->competition_count;
         $this->education_duration = $form->education_duration;
+        $this->education_year_cost = $form->education_year_cost;
+        $this->discount = $form->discount;
+        $this->enquiry_086_u_status = $form->enquiry_086_u_status;
+        $this->spo_class = $form->spo_class;
+        $this->ais_id = $form->ais_id;
         $this->link = $form->link;
         $this->year = $form->year;
+        $this->foreigner_status = $form->foreigner_status;
     }
 
     /**
@@ -72,7 +82,6 @@ class DictCompetitiveGroup extends ActiveRecord
         return [
             'speciality_id' => 'Направление подготовки',
             'specialization_id' => 'Образовательная программа',
-            'edu_level' => 'Уровень образования',
             'education_form_id' => 'Форма обучения',
             'financing_type_id' => 'Вид финансирования',
             'faculty_id' => 'Факультет',
@@ -85,6 +94,12 @@ class DictCompetitiveGroup extends ActiveRecord
             'only_pay_status' => 'Только на платной основе',
             'education_duration' => 'Срок обучения',
             'year' => 'Учебный год',
+            'education_year_cost' => 'Стоимость обучения за год',
+            'discount' => 'Скидка',
+            'enquiry_086_u_status' => 'Требуется справка 086-у',
+            'spo_class' => 'Класс СПО',
+            'ID  АИС ВУЗ' => 'ais_id',
+            'Конкурсная группа УМС' => 'foreigner_status',
         ];
     }
 
@@ -137,12 +152,76 @@ class DictCompetitiveGroup extends ActiveRecord
 
             ];
         }
-            return [
-                "status" => 0,
-                "cgContractId" => $cgContract->id,
-                "kcp" => "прием только на платной основе",
-                "competition_count" => null,
-                "passing_score" => null,
-            ];
+        return [
+            "status" => 0,
+            "cgContractId" => $cgContract->id,
+            "kcp" => "прием только на платной основе",
+            "competition_count" => null,
+            "passing_score" => null,
+        ];
     }
+
+
+    public static function findCg($facultyId, $specialtyId, $specializationId, $educationFormId, $financingTypeId,
+                                  $year, $specialtyRight, $foreignerStatus, $spoClass)
+    {
+
+        $cg = self::find()
+            ->andWhere(['faculty_id' => $facultyId])
+            ->andWhere(['speciality_id' => $specialtyId])
+            ->andWhere(['specialization_id' => $specializationId])
+            ->andWhere(['education_form_id' => $educationFormId])
+            ->andWhere(['financing_type_id' => $financingTypeId])
+            ->andWhere(['special_right_id' => $specialtyRight])
+            ->andWhere(['foreigner_status' => $foreignerStatus])
+            ->andWhere(['spo_class' => $spoClass])
+            ->andWhere(['year' => $year])->one();
+        return $cg;
+    }
+
+    public static function aisToSdoEduLevelConverter($key)
+    {
+        switch ($key) {
+            case 1 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
+                break;
+            case 4 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
+                break;
+            case 5 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+                break;
+            case 6 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+                break;
+
+        }
+    }
+
+    public static function aisToSdoEduFormConverter($key)
+    {
+        switch ($key) {
+            case 1 :
+                return DictCompetitiveGroupHelper::EDU_FORM_OCH;
+                break;
+            case 2 :
+                return DictCompetitiveGroupHelper::EDU_FORM_ZAOCH;
+                break;
+            case 3 :
+                return DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH;
+                break;
+        }
+    }
+
+
+    public static function aisToSdoYearConverter()
+    {
+        return [
+            2020 => "2019-2020",
+            2019 => "2018-2019",
+            2018 => "2017-2018",
+        ];
+    }
+
+
 }

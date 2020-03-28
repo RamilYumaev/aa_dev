@@ -1,10 +1,14 @@
 <?php
+
 namespace modules\entrant\models;
 
 
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
+use modules\entrant\helpers\AnketaHelper;
 use yii\db\ActiveRecord;
 
 /**
@@ -24,19 +28,14 @@ class Anketa extends ActiveRecord
         return "{{%anketa}}";
     }
 
-//    public function behaviors()
-//    {
-////        return ['moderation' => [
-////            'class'=> ModerationBehavior::class,
-////            'attributes'=>['citizenship_id', 'edu_finish_year', 'current_edu_level', 'category_id']
-////        ]];
-////
-////        return [[
-////            'class'=>
-////        ]
-////        ];
-//
-//    }
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AnketaBehavior::class,
+            ],
+        ];
+    }
 
     public static function create(AnketaForm $form)
     {
@@ -79,4 +78,42 @@ class Anketa extends ActiveRecord
 //            'category_id'=> $value,
 //        ];
 //    }
+
+    public function getPermittedEducationLevels(): array
+    {
+        // 0. Если выбрал пункт, что иностранец на платной основе, то надо выдать сообщение чтобы он пошел на фиг.
+
+        // 1.1. Условие для подачи документов в СПО - образование не ниже 9-ти классов,
+        // 1.2. Условие для бюджета СПО - образование не выше 11 классов,
+        // 2.1 Условие для подачи документов в бакалавриат - образование не ниже 11 классов.
+        // 2.2. Условие для бюджета бакалавриат - образование ниже бакалавриата
+        // 2.3. Условие для поступление по внутренним ВИ - (соотвечественние окончивший УО в текущем году),
+        // выпускник СПО, квотник.
+
+        $result = [];
+        if (in_array($this->current_edu_level, array_merge(
+            AnketaHelper::SPO_LEVEL,
+            AnketaHelper::SPO_LEVEL_ONLY_CONTRACT))) {
+            $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+        }
+        if (in_array($this->current_edu_level, array_merge(
+            AnketaHelper::BACHELOR_LEVEL,
+            AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT))) {
+            $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
+        }
+        if (in_array($this->current_edu_level, array_merge(
+            AnketaHelper::MAGISTRACY_LEVEL,
+            AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT))) {
+            $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
+        }
+        if (in_array($this->current_edu_level, array_merge(
+            AnketaHelper::HIGH_GRADUATE_LEVEL,
+            AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT))) {
+            $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        }
+
+        return $result;
+    }
+
+
 }

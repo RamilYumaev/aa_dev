@@ -11,7 +11,12 @@ use \dictionary\helpers\DictCountryHelper;
 use kartik\select2\Select2;
 
 ?>
+
     <div class="container">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-11">
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 mt-30">
                 <h1><?= Html::encode($this->title) ?></h1>
@@ -20,17 +25,17 @@ use kartik\select2\Select2;
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
                 <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
-                <div class="form-group">
-                    <?= Html::submitButton('Далее', ['class' => 'btn btn-success']) ?>
-                </div>
+                <?= Html::submitButton('Сохранить и продолжить', ['class' => 'btn btn-lg btn-success']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
 
 <?php
+$categoryVal = $model->category_id ? 1 : 0;
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
+var categoryVal = $categoryVal;
 const rf = 46;
 const rk = 29;
 const rb = 49;
@@ -81,5 +86,9 @@ if(curentCountry.val() == rf
   })  
     
   curentCountrySelect.trigger("init");
+if(categoryVal){
+    category.val($model->category_id);
+}  
+
 JS
 );

@@ -35,11 +35,11 @@ class DictCompetitiveGroupService
 
     public function create(DictCompetitiveGroupCreateForm $form)
     {
-        $faculty = $this->facultyRepository->get($form->faculty_id);
-        $speciality = $this->specialityRepository->get($form->speciality_id);
-        $specialization = $this->specializationRepository->get($form->specialization_id);
+//        $faculty = $this->facultyRepository->get($form->faculty_id);
+//        $speciality = $this->specialityRepository->get($form->speciality_id);
+//        $specialization = $this->specializationRepository->get($form->specialization_id);
 
-        $model = DictCompetitiveGroup::create($form, $faculty->id, $speciality->id, $specialization->id);
+        $model = DictCompetitiveGroup::create($form, $form->faculty_id, $form->speciality_id, $form->specialization_id);
         $this->repository->save($model);
         return $model;
     }

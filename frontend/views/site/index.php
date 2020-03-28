@@ -38,24 +38,6 @@ $this->title = 'Личный кабинет поступающего в МПГУ
             } ?>
 
         </div>
-<?php
-$array =\yii\helpers\Json::decode(
-'{"id":276,"campaign_id":"4","name":"Аспирантура | БИО | БИО | биохимия | о | б","education_level_id":"6","faculty_id":"39","specialty_id":"223","specialization_id":"719","education_program_id":"1","kcp":"88","education_form_id":"1","financing_type_id":"1","special_right_id":null,"second_degree_status":0,"parallel_education_status":0,"foreigner_status":"0","weekend_group_status":0,"education_year_cost":null,"education_duration":"4","course":"1","semester":"1","enquiry_086_u_status":"0","application_current_number":2,"spo_class":null,"eoidot_type_id":"","eoidot_education_year_cost":null,"competition_count":"","competition_mark":"","site_url":"","is_new_status":"0","contract_only_status":"0","faculty_real_id":"39","discount":0,"ums_vpu_status":"0","ums_vpu_cost_1":"","ums_vpu_cost_2":"","ums_vpu_cost_3":"","spo_semester":""}
-');
-//var_dump($array);
-$model= new \dictionary\models\ais\DictIncomingCompetitiveGroup();
-$ar1=array_intersect_key($array,$model->attributeAis());
-$array2 = [];
-$array1=  $model->attributeAis();
-foreach ($ar1 as $key => $value) {
-       $array2[$array1[$key]]  = $value;
-}
-
-var_dump($array2);
-
-
-?>
-
 
 
 <!--        <div class="col-md-2" align="center">-->

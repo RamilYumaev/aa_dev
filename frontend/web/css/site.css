@@ -958,3 +958,6 @@ select {
 .iti {
     display: block;
 }
+.position-fixed{
+    position: fixed;
+}

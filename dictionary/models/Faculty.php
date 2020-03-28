@@ -49,4 +49,16 @@ class Faculty extends \yii\db\ActiveRecord
         return $faculty->attributeLabels();
     }
 
+    public static function aisToSdoConverter($key)
+    {
+        $model = self::find()->andWhere(['ais_id'=> $key])->one();
+
+        if($model !== null)
+        {
+            return $model->id;
+        }
+
+        throw new \DomainException("Факультет не найден ".$key);
+    }
+
 }

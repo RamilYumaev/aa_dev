@@ -66,4 +66,18 @@ class DictSpeciality extends ActiveRecord
     {
         return $this->code . ' - ' . $this->name;
     }
+
+    public static function aisToSdoConverter($key)
+    {
+        $model = self::find()->andWhere(['ais_id'=> $key])->one();
+
+
+
+        if($model !== null)
+        {
+            return $model->id;
+        }
+
+        throw new \DomainException("Специальность не найдена ".$key);
+    }
 }

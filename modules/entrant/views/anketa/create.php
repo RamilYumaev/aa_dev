@@ -3,7 +3,7 @@
 /* @var $model modules\entrant\forms\DocumentEducationForm */
 
 \common\user\assets\AddSchoolAsset::register($this);
-$this->title = "Анкета. Добавление.";
+$this->title = "Анкета. Шаг 1. Добавление.";
 
 $this->params['breadcrumbs'][] = $this->title;
 

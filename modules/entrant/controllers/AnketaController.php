@@ -3,11 +3,8 @@
 namespace modules\entrant\controllers;
 
 
-use modules\dictionary\models\DictCategory;
 use modules\entrant\forms\AnketaForm;
-use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\Anketa;
-use modules\entrant\repositories\AnketaRepository;
 use modules\entrant\services\AnketaService;
 use yii\web\Controller;
 use Yii;
@@ -19,22 +16,23 @@ class AnketaController extends Controller
 {
 
     private $service;
+    private $anketa;
 
 
     public function __construct($id, $module, AnketaService $service, $config = [])
     {
         $this->service = $service;
+        $this->anketa = $this->findModelByUser();
         parent::__construct($id, $module, $config);
     }
 
-    public function actionIndex()
+    public function actionStep1()
     {
-        $model = $this->findModelByUser();
 
-        if ($model) {
+        if ($this->anketa) {
             Yii::$app->session->setFlash("warning", "Редактирование анкеты приведет к удалению всех ранее 
         выбранных образовательных программ!");
-            $form = new AnketaForm($model);
+            $form = new AnketaForm($this->anketa);
         } else {
             $form = new AnketaForm();
 
@@ -42,21 +40,21 @@ class AnketaController extends Controller
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                if ($model) {
-                    $this->service->update($model->id, $form);
+                if ($this->anketa) {
+                    $this->service->update($this->anketa->id, $form);
 
                 } else {
                     $this->service->create($form);
 
                 }
-                return $this->redirect(["default/index"]); //@TODO
+                return $this->redirect(["step2"]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
 
-        if ($model) {
+        if ($this->anketa) {
             return $this->render('update', [
                 'model' => $form,
             ]);
@@ -67,12 +65,23 @@ class AnketaController extends Controller
         }
     }
 
+    public function actionStep2()
+    {
+        if ($this->anketa === null) {
+            return $this->redirect(['step1']);
+        }
+
+
+        return $this->render("step2", ['anketa' => $this->anketa]);
+
+
+    }
+
     public function actionChoiceEducationLevel()
     {
 
         $anketa = $this->findModelByUser();
-        if(!$anketa)
-        {
+        if (!$anketa) {
             $this->redirect("index");
         }
     }

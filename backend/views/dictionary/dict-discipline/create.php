@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'links')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'cse_subject_id')->dropDownList(DictCseSubjectHelper::subjectCseList(), ['prompt'=> "Выберите предмет ЕГЭ"])?>
+            <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 
