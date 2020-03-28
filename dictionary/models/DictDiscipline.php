@@ -24,6 +24,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->name = $form->name;
         $discipline->links = $form->links;
         $discipline->cse_subject_id = $form->cse_subject_id;
+        $discipline->ais_id = $form->ais_id;
         return $discipline;
     }
 
@@ -32,6 +33,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $this->name = $form->name;
         $this->links = $form->links;
         $this->cse_subject_id = $form->cse_subject_id;
+        $this->ais_id = $form->ais_id;
     }
 
     public function getCseSubject() {
@@ -46,7 +48,8 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название дисциплины',
             'links' => 'Ссылка на сайте',
-            'cse_subject_id' => "Предмет ЕГЭ"
+            'cse_subject_id' => "Предмет ЕГЭ",
+            'ais_id' => "ID АИС ВУЗ"
         ];
     }
 

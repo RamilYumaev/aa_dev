@@ -23,19 +23,17 @@ class ApplicationsController extends Controller
 
     public function actionGetBachelor()
     {
-//        $currentYear = Date("Y");
-//
-//        $currentYear -= 1; //@TODO потом убрать
-//
-//        $lastYear = $currentYear - 1;
-//        $transformYear = $lastYear . "-" . $currentYear;
-//        $currentFaculty = DictCompetitiveGroup::find()->allActualFacultyWithoutBranch($transformYear);
+        $currentYear = Date("Y");
+
+        $lastYear = $currentYear - 1;
+        $transformYear = $lastYear . "-" . $currentYear;
+        $currentFaculty = DictCompetitiveGroup::find()->allActualFacultyWithoutBranch($transformYear);
 
 
-//        return $this->render('get-bachelor', [
-////            'currentFaculty' => $currentFaculty,
-////            'transformYear' => $transformYear,
-//        ]);
+        return $this->render('get-bachelor', [
+            'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
+        ]);
 
         return $this->renderList();
     }

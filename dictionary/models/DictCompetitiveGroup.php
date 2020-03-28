@@ -46,6 +46,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->ais_id = $form->ais_id;
         $competitiveGroup->link = $form->link;
         $competitiveGroup->year = $form->year;
+        $competitiveGroup->foreigner_status = $form->foreigner_status;
         return $competitiveGroup;
     }
 
@@ -70,6 +71,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->ais_id = $form->ais_id;
         $this->link = $form->link;
         $this->year = $form->year;
+        $this->foreigner_status = $form->foreigner_status;
     }
 
     /**
@@ -97,6 +99,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'enquiry_086_u_status' => 'Требуется справка 086-у',
             'spo_class' => 'Класс СПО',
             'ID  АИС ВУЗ' => 'ais_id',
+            'Конкурсная группа УМС' => 'foreigner_status',
         ];
     }
 
@@ -159,16 +162,20 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
 
-    public static function findCg($facultyId, $specialtyId, $specializationId, $educationFormId, $financingTypeId, $year)
+    public static function findCg($facultyId, $specialtyId, $specializationId, $educationFormId, $financingTypeId,
+                                  $year, $specialtyRight, $foreignerStatus, $spoClass)
     {
 
         $cg = self::find()
-            ->andWhere(['faculty_id' => Faculty::aisToSdoConverter($facultyId)])
-            ->andWhere(['speciality_id' => DictSpeciality::aisToSdoConverter($specialtyId)])
-            ->andWhere(['specialization_id' => DictSpecialization::aisToSdoConverter($specializationId)])
-            ->andWhere(['education_form_id' => self::aisToSdoEduFormConverter($educationFormId)])
+            ->andWhere(['faculty_id' => $facultyId])
+            ->andWhere(['speciality_id' => $specialtyId])
+            ->andWhere(['specialization_id' => $specializationId])
+            ->andWhere(['education_form_id' => $educationFormId])
             ->andWhere(['financing_type_id' => $financingTypeId])
-            ->andWhere(['year' => $year]);
+            ->andWhere(['special_right_id' => $specialtyRight])
+            ->andWhere(['foreigner_status' => $foreignerStatus])
+            ->andWhere(['spo_class' => $spoClass])
+            ->andWhere(['year' => $year])->one();
         return $cg;
     }
 

@@ -20,7 +20,7 @@ class CommunicationController extends Controller
     public function verbs()
     {
         return [
-            'dictionary' => ['POST'],'index' => ["GET"],
+            'dictionary' => ['POST'], 'index' => ["GET"],
         ];
     }
 
@@ -49,14 +49,29 @@ class CommunicationController extends Controller
         /** @var yii\db\ActiveRecord $modelName */
         $modelName = 'dictionary\models\ais\\' . $name;
         if (!class_exists($modelName)) {
-           throw new NotFoundHttpException('The model '.$name.' does not exist.');
+            throw new NotFoundHttpException('The model ' . $name . ' does not exist.');
         }
 
-        if (!method_exists($modelName,'attributeAis')) {
+        if (!method_exists($modelName, 'attributeAis')) {
             throw new NotFoundHttpException('The method attributeAis does not exist.');
         }
-            $data = Json::decode($data);
-            if ($action == self::ACTION_ADD) {
+        $data = Json::decode($data);
+        if ($action == self::ACTION_ADD) {
+            /** @var yii\db\ActiveRecord $model */
+            $model = new $modelName();
+            $model->setAttributes($model->dataAis($data), false);
+            if (!$model->save()) {
+                throw new Exception(print_r($model->errors + $data, true));
+            }
+            return;
+        }
+        if ($action == self::ACTION_UPDATE) {
+            if (!isset($data['id'])) {
+                throw new InvalidArgumentException();
+            }
+
+            $model = $modelName::findOne(['ais_id' => $data['id']]);
+            if ($model === null) {
                 /** @var yii\db\ActiveRecord $model */
                 $model = new $modelName();
                 $model->setAttributes($model->dataAis($data), false);
@@ -65,41 +80,26 @@ class CommunicationController extends Controller
                 }
                 return;
             }
-            if ($action == self::ACTION_UPDATE) {
-                if (!isset($data['id'])) {
-                    throw new InvalidArgumentException();
-                }
 
-                $model = $modelName::findOne($data['id']);
-                if ($model === null) {
-                    /** @var yii\db\ActiveRecord $model */
-                    $model = new $modelName();
-                    $model->setAttributes($model->dataAis($data), false);
-                    if (!$model->save()) {
-                        throw new Exception(print_r($model->errors + $data, true));
-                    }
-                    return;
-                }
-
-                $model->setAttributes($model->dataAis($data), false);
-                if (!$model->save()) {
-                    throw new Exception(print_r($model->errors + $data, true));
-                }
-                return;
+            $model->setAttributes($model->dataAis($data), false);
+            if (!$model->save()) {
+                throw new Exception(print_r($model->errors + $data, true));
             }
-            if ($action == self::ACTION_DEL) {
-                if (!isset($data['id'])) {
-                    throw new InvalidArgumentException();
-                }
-
-                $model = $modelName::findOne($data['id']);
-                if (($model === null || !$model->delete())) {
-                    throw new Exception(print_r($data, true));
-                }
-                return;
+            return;
+        }
+        if ($action == self::ACTION_DEL) {
+            if (!isset($data['id'])) {
+                throw new InvalidArgumentException();
             }
 
-            throw new InvalidArgumentException();
+            $model = $modelName::findOne(['ais_id' => $data['id']]);
+            if (($model === null || !$model->delete())) {
+                throw new Exception(print_r($data, true));
+            }
+            return;
+        }
+
+        throw new InvalidArgumentException();
 
     }
 

@@ -58,7 +58,7 @@ class Faculty extends \yii\db\ActiveRecord
             return $model->id;
         }
 
-        else return null;
+        throw new \DomainException("Факультет не найден ".$key);
     }
 
 }

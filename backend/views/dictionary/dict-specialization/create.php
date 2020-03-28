@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'speciality_id')->dropDownList($model->specialityNameAndCodeList(), ["prompt" => "Выберите направление подготовки"]) ?>
+            <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
+
         </div>
     </div>
 

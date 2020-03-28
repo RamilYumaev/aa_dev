@@ -24,7 +24,7 @@ class DictSpecializationService
     public function create(DictSpecializationCreateForm $form)
     {
         $speciality = $this->specialityRepository->get($form->speciality_id);
-        $model = DictSpecialization::create($form->name, $speciality->id);
+        $model = DictSpecialization::create($form->name, $speciality->id, $form->ais_id);
         $this->repository->save($model);
     }
 
@@ -32,7 +32,7 @@ class DictSpecializationService
     {
         $model = $this->repository->get($id);
         $speciality = $this->specialityRepository->get($form->speciality_id);
-        $model->edit($form->name, $speciality->id);
+        $model->edit($form->name, $speciality->id,$form->ais_id);
         $this->repository->save($model);
     }
 

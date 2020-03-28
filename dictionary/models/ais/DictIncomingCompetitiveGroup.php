@@ -18,6 +18,7 @@ class DictIncomingCompetitiveGroup extends DictCompetitiveGroup implements DictA
             'faculty_id'=> 'faculty_id',
             'kcp'=>'kcp',
             'special_right_id'=> 'special_right_id',
+            'id'=> 'ais_id',
 //            'competition_count' =>
 ////            'passing_score',
 ////            'link',

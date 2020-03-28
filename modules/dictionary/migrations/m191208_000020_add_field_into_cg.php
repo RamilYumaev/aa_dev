@@ -21,7 +21,7 @@ class m191208_000020_add_field_into_cg extends Migration
         $this->addColumn('{{%dict_competitive_group}}', 'discount',
             $this->decimal(3, 1)->defaultValue(0.0));
 
-        $this->addColumn('{{%dict_competitive_group}}', 'ais_cg',
+        $this->addColumn('{{%dict_competitive_group}}', 'ais_id',
             $this->Integer(7)->defaultValue(null));
     }
 
@@ -35,6 +35,7 @@ class m191208_000020_add_field_into_cg extends Migration
 
         $this->dropColumn('{{%dict_competitive_group}}', 'discount');
 
-        $this->dropColumn('{{%dict_competitive_group}}', 'ais_cg');
+        $this->dropColumn('{{%dict_competitive_group}}', 'ais_id');
+
     }
 }

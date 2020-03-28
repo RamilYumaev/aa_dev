@@ -72,47 +72,55 @@ class SiteController extends Controller
 
     public function actionAisImport($year)
     {
-        $allAisCg = AisCg::find()->andWhere(['year' => $year])->all();
+        $allAisCg = AisCg::find()
+            ->andWhere(['year' => $year])
+            ->all();
+
+        echo count($allAisCg);
+
+        $key = 0;
 
         foreach ($allAisCg as $aisCg) {
             $sdoCg = DictCompetitiveGroup::findCg(
                 Faculty::aisToSdoConverter($aisCg->faculty_id),
-                DictSpeciality::aisToSdoConverter($aisCg->speciality_id),
+                DictSpeciality::aisToSdoConverter($aisCg->specialty_id),
                 DictSpecialization::aisToSdoConverter($aisCg->specialization_id),
                 DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id),
                 $aisCg->financing_type_id,
-                DictCompetitiveGroup::aisToSdoYearConverter()[$aisCg->year]);
+                DictCompetitiveGroup::aisToSdoYearConverter()[$aisCg->year],
+                $aisCg->special_right_id, $aisCg->foreigner_status, $aisCg->spo_class);
 
-            if ($sdoCg->exists()) {
-                $model = $sdoCg->one();
+            if ($sdoCg !== null) {
+                $model = $sdoCg;
             } else {
                 $model = new DictCompetitiveGroup();
                 };
-            $model->speciality_id = DictSpeciality::aisToSdoConverter($aisCg->speciality_id);
+            $model->speciality_id = DictSpeciality::aisToSdoConverter($aisCg->specialty_id);
             $model->specialization_id = DictSpecialization::aisToSdoConverter($aisCg->specialization_id);
             $model->education_form_id = DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id);
             $model->financing_type_id = $aisCg->financing_type_id;
             $model->faculty_id = Faculty::aisToSdoConverter($aisCg->faculty_id);
             $model->kcp = $aisCg->kcp;
             $model->special_right_id = $aisCg->special_right_id;
-            $model->passing_score = $aisCg->passing_score;
-            $model->is_new_program = $aisCg->is_new_program;
-            $model->only_pay_status = $aisCg->only_pay_status;
+            $model->passing_score = $aisCg->competition_mark;
+            $model->is_new_program = $aisCg->is_new_status;
             $model->competition_count = $aisCg->competition_count;
+            $model->only_pay_status = $aisCg->contract_only_status;
+            $model->edu_level = DictCompetitiveGroup::aisToSdoEduLevelConverter($aisCg->education_level_id);
             $model->education_duration = $aisCg->education_duration;
             $model->education_year_cost = $aisCg->education_year_cost;
             $model->discount = $aisCg->discount;
             $model->enquiry_086_u_status = $aisCg->enquiry_086_u_status;
             $model->spo_class = $aisCg->spo_class;
-            $model->ais_id = $aisCg->ais_id;
-            $model->link = $aisCg->link;
+            $model->ais_id = $aisCg->id;
+            $model->link = $aisCg->site_url;
             $model->year = DictCompetitiveGroup::aisToSdoYearConverter()[$aisCg->year];
-
+            $model->foreigner_status = $aisCg->foreigner_status;
             $model->save();
-
+            $key++;
             }
 
-        return "success";
+        return " Количество итерации: ".$key. " success";
     }
 
 

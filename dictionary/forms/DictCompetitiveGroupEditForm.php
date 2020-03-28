@@ -17,7 +17,7 @@ class DictCompetitiveGroupEditForm extends Model
 
     public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $_competitiveGroup;
+        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $_competitiveGroup;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
@@ -41,6 +41,7 @@ class DictCompetitiveGroupEditForm extends Model
         $this->ais_id = $competitiveGroup->ais_id;
         $this->link = $competitiveGroup->link;
         $this->year = $competitiveGroup->year;
+        $this->foreigner_status = $competitiveGroup->foreigner_status;
         $this->_competitiveGroup = $competitiveGroup;
 
 
@@ -54,7 +55,7 @@ class DictCompetitiveGroupEditForm extends Model
     {
         return [
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
-            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status'], 'integer'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'foreigner_status'], 'integer'],
             [['competition_count'], 'number'],
             [['education_duration'], 'double'],
             [['link'], 'string', 'max' => 255],

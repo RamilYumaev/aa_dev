@@ -5,7 +5,7 @@ use \yii\db\Migration;
 class m191208_000010_add_dict_category extends Migration
 {
     private function table() {
-        return \modules\entrant\models\DictCategory::tableName();
+        return \modules\dictionary\models\DictCategory::tableName();
     }
 
     public function up()

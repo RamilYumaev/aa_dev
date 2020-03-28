@@ -71,11 +71,13 @@ class DictSpeciality extends ActiveRecord
     {
         $model = self::find()->andWhere(['ais_id'=> $key])->one();
 
+
+
         if($model !== null)
         {
             return $model->id;
         }
 
-        else return null;
+        throw new \DomainException("Специальность не найдена ".$key);
     }
 }
