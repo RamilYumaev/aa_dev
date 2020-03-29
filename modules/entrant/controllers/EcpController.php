@@ -1,6 +1,4 @@
 <?php
-
-
 namespace modules\entrant\controllers;
 
 
@@ -33,6 +31,23 @@ class EcpController extends Controller
             ],
         ];
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionGet($id)
+    {
+        $model = $this->findModel($id);
+        $filePath = $model->getUploadedFilePath('file_name_user');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
 
     /**
      * @return mixed
@@ -74,6 +89,7 @@ class EcpController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
+            "ecp" => $model
         ]);
     }
 
