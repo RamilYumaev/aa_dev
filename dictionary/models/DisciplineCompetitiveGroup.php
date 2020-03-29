@@ -61,4 +61,5 @@ class DisciplineCompetitiveGroup extends ActiveRecord
         return $competitiveGroup->attributeLabels();
     }
 
+
 }

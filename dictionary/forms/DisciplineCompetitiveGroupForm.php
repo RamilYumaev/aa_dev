@@ -10,7 +10,7 @@ use yii\base\Model;
 
 class DisciplineCompetitiveGroupForm extends Model
 {
-    public $discipline_id, $competitive_group_id, $priority;
+    public $discipline_id, $competitive_group_id, $priority, $year;
 
     public function __construct($competitive_group_id, DisciplineCompetitiveGroup $competitiveGroup = null, $config = [])
     {
@@ -18,6 +18,7 @@ class DisciplineCompetitiveGroupForm extends Model
             $this->discipline_id = $competitiveGroup->discipline_id;
             $this->competitive_group_id = $competitiveGroup->competitive_group_id;
             $this->priority = $competitiveGroup->priority;
+            $this->year = $competitiveGroup->year;
         } else {
             $this->competitive_group_id = $competitive_group_id;
         }
@@ -31,7 +32,7 @@ class DisciplineCompetitiveGroupForm extends Model
     {
         return [
             [['discipline_id', 'competitive_group_id', 'priority'], 'required'],
-            [['discipline_id', 'competitive_group_id', 'priority'], 'integer'],
+            [['discipline_id', 'competitive_group_id', 'priority', 'year'], 'integer'],
         ];
     }
 

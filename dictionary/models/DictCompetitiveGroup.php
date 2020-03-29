@@ -223,5 +223,15 @@ class DictCompetitiveGroup extends ActiveRecord
         ];
     }
 
+    public static function aisToSdoConverter($key, $year)
+    {
+        $model = self::find()->andWhere(['ais_id' => $key])->andWhere(["year" => $year])->one();
+
+        if ($model !== null) {
+            return $model->id;
+        }
+        throw new \DomainException("Не найдена кокнурсная группа ".$key);
+    }
+
 
 }

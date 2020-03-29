@@ -68,7 +68,8 @@ class DictDiscipline extends \yii\db\ActiveRecord
             return $model->id;
         }
 
-        else return null;
+        throw new \DomainException("Не найдена дисциплина ".$key);
+
     }
 
 }

@@ -29,13 +29,12 @@ $this->title = "Анкета. Шаг 2.";
                 <div class="dark_blue_sky">
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                 </div>
-                <?php if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR): ?>
-                    <div>
-                        <?= Html::a("перейти к выбору программ", ["applications/get-bachelor"],
-                            ["class" => "btn btn-warning"]) ?>
+                <div>
+                    <?= Html::a("Перейти к выбору программ", ["applications/"
+                        . DictCompetitiveGroupHelper::getUrl($level)],
+                        ["class" => "btn btn-warning"]) ?>
 
-                    </div>
-                <?php endif; ?>
+                </div>
             </div>
         <?php
         endforeach;

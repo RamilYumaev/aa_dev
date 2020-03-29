@@ -44,6 +44,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 ->andWhere(['filial' => DictFacultyHelper::YES_FILIAL])->column()]);
     }
 
+    public function withoutForeignerCg()
+    {
+        return $this->andWhere(['foreigner_status'=>0]);
+    }
+
     public function budgetAndContractOnly()
     {
         return $this->andWhere(['or',

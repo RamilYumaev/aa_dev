@@ -22,7 +22,7 @@ $result = "";
 <?php
 foreach ($currentFaculty as $faculty) {
     $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
         ->contractOnly()
         ->withoutForeignerCg()
         ->currentYear($transformYear)
@@ -36,11 +36,10 @@ foreach ($currentFaculty as $faculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
-<th width=\"342\">Код, Направление подготовки, профиль</th>
+<th width=\"342\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
 <th width=\"180\">Форма и срок обучения</th>
 <th width=\"150\">Уровень образования</th>
-<th width=\"158\">Необходимые предметы ЕГЭ</th>
-<th colspan=\"2\">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
+<th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
 
@@ -59,16 +58,6 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</td>";
             $result .= "<td>";
             $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->edu_level);
-            $result .= "</td>";
-            $result .= "<td>";
-            $result .= "<ol>";
-            foreach ($currentCg->examinations as $examination) {
-
-                $result .= "<li>";
-                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
-                $result .= "</li>";
-            }
-            $result .= "</ol>";
             $result .= "</td>";
             $result .= "<td>";
             $result .= "<ol>";
@@ -120,23 +109,24 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 }
 ?>
 
-<?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
-<div class="row">
-    <div class="col-md-1 mt-10">
-        <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+
+    <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
+    <div class="row">
+        <div class="col-md-1 mt-10">
+            <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+        </div>
+        <div class="col-md-1 col-md-offset-11">
+            <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+        </div>
     </div>
-    <div class="col-md-1 col-md-offset-11">
-        <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
-    </div>
-</div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
     <?= $result ?>
 </div>
-<?php Pjax::end(); ?>
+    <?php Pjax::end(); ?>
 
-<?php
-$this->registerJs("
+    <?php
+    $this->registerJs("
             $(document).on('pjax:send', function () {
             const buttonPlus = $('.glyphicon');
             const buttonWrapper = $('.btn');
@@ -148,5 +138,6 @@ $this->registerJs("
         })
     ", View::POS_READY);
 
-?>
+    ?>
+
 

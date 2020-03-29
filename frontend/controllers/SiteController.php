@@ -3,9 +3,12 @@
 namespace frontend\controllers;
 
 use backend\models\AisCg;
+use dictionary\models\ais\CgExamAis;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
 use dictionary\models\DictSpeciality;
 use dictionary\models\DictSpecialization;
+use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
@@ -94,7 +97,7 @@ class SiteController extends Controller
                 $model = $sdoCg;
             } else {
                 $model = new DictCompetitiveGroup();
-                };
+            };
             $model->speciality_id = DictSpeciality::aisToSdoConverter($aisCg->specialty_id);
             $model->specialization_id = DictSpecialization::aisToSdoConverter($aisCg->specialization_id);
             $model->education_form_id = DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id);
@@ -118,11 +121,33 @@ class SiteController extends Controller
             $model->foreigner_status = $aisCg->foreigner_status;
             $model->save();
             $key++;
-            }
+        }
 
-        return " Количество итерации: ".$key. " success";
+        return " Количество итерации: " . $key . " success";
     }
 
+    public function actionAisDisciplineImport($year)
+    {
+        $allDiscipline = CgExamAis::find()->andWhere(["year" => $year])->all();
+
+        foreach ($allDiscipline as $discipline) {
+            if (DisciplineCompetitiveGroup::findOne([
+                'discipline_id' => DictDiscipline::aisToSdoConverter($discipline->entrance_examination_id),
+                'competitive_group_id' => DictCompetitiveGroup::aisToSdoConverter($discipline->competitive_group_id,
+                    DictCompetitiveGroup::aisToSdoYearConverter()[$year])])) {
+                continue;
+            } else {
+                $model = new DisciplineCompetitiveGroup();
+            }
+
+            $model->discipline_id = DictDiscipline::aisToSdoConverter($discipline->entrance_examination_id);
+            $model->competitive_group_id = DictCompetitiveGroup::aisToSdoConverter(
+                $discipline->competitive_group_id, DictCompetitiveGroup::aisToSdoYearConverter()[$year]);
+            $model->priority = $discipline->priority;
+            $model->save();
+        }
+        return "success";
+    }
 
     public function actionClearCache()
     {

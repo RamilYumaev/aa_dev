@@ -22,7 +22,7 @@ $result = "";
 <?php
 foreach ($currentFaculty as $faculty) {
     $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)
         ->contractOnly()
         ->withoutForeignerCg()
         ->currentYear($transformYear)
@@ -39,8 +39,7 @@ foreach ($currentFaculty as $faculty) {
 <th width=\"342\">Код, Направление подготовки, профиль</th>
 <th width=\"180\">Форма и срок обучения</th>
 <th width=\"150\">Уровень образования</th>
-<th width=\"158\">Необходимые предметы ЕГЭ</th>
-<th colspan=\"2\">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
+<th colspan=\"2\">Конкурс аттестатов</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
 
@@ -59,16 +58,6 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</td>";
             $result .= "<td>";
             $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->edu_level);
-            $result .= "</td>";
-            $result .= "<td>";
-            $result .= "<ol>";
-            foreach ($currentCg->examinations as $examination) {
-
-                $result .= "<li>";
-                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
-                $result .= "</li>";
-            }
-            $result .= "</ol>";
             $result .= "</td>";
             $result .= "<td>";
             $result .= "<ol>";
@@ -120,6 +109,7 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 }
 ?>
 
+
 <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row">
     <div class="col-md-1 mt-10">
@@ -149,4 +139,5 @@ $this->registerJs("
     ", View::POS_READY);
 
 ?>
+
 

@@ -138,4 +138,28 @@ class DictCompetitiveGroupHelper
             . " / " . $specialization
             . " / " . StringHelper::mb_ucfirst($form_edu);
     }
+
+    public static function getUrl($level)
+    {
+        switch ($level) {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
+                $url = "get-college";
+                break;
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
+                $url = "get-bachelor";
+                break;
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
+                $url = "get-magistracy";
+                break;
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
+                $url = "get-graduate";
+                break;
+
+            default :
+                $url = "#";
+
+        }
+
+        return $url;
+    }
 }
