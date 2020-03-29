@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'min_mark',
                     ['attribute' => 'composite_discipline_status', 'value' =>'compositeDisciplineStatus'],
                     ['attribute' => 'cse_status', 'value' =>'cseStatus'],
+                    'ais_id',
                     ['class' => ActionColumn::class,
                         'controller' => "dict-cse-subject",
                         'template' => '{update} {delete}',

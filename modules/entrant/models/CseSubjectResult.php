@@ -3,15 +3,16 @@
 
 namespace modules\entrant\models;
 
-use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\helpers\AddressHelper;
+use yii\db\ActiveRecord;
 use yii\helpers\Json;
 use yii\web\JsonParser;
+use modules\entrant\behaviors\AnketaBehavior;
 
 /**
  * This is the model class for table "{{%cse_subject_result}}".
@@ -22,14 +23,21 @@ use yii\web\JsonParser;
  * @property integer $year
 **/
 
-class CseSubjectResult extends YiiActiveRecordAndModeration
+class CseSubjectResult extends ActiveRecord
 {
     public function behaviors()
     {
-        return ['moderation' => [
-            'class'=> ModerationBehavior::class,
-            'attributes'=>['year', 'result']
-        ]];
+//        return ['moderation' => [
+//            'class'=> ModerationBehavior::class,
+//            'attributes'=>['year', 'result']
+//        ]];
+
+        return [
+            'AnketaBehavior' => [
+                'class'=> AnketaBehavior::class,
+                'deleteType'=> 'bachelor',
+            ],
+        ];
     }
 
     public static  function create(CseSubjectResultForm $form, $result) {
@@ -71,18 +79,18 @@ class CseSubjectResult extends YiiActiveRecordAndModeration
         return  Json::decode($this->result);
     }
 
-    public function titleModeration(): string
-    {
-        return "Результаты ЕГЭ";
-    }
-
-    public function moderationAttributes($value): array
-    {
-        return [
-            'year' => $value,
-            'result' => $this->setDataResult($value),
-        ];
-    }
+//    public function titleModeration(): string
+//    {
+//        return "Результаты ЕГЭ";
+//    }
+//
+//    public function moderationAttributes($value): array
+//    {
+//        return [
+//            'year' => $value,
+//            'result' => $this->setDataResult($value),
+//        ];
+//    }
 
     public function attributeLabels()
     {

@@ -75,7 +75,9 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
+                $result .= Html::a(DictDisciplineHelper::disciplineName($examination->discipline_id),
+                    $examination->discipline->links,
+                    ['target'=> '_blank']);
                 $result .= "</li>";
             }
             $result .= "</ol>";

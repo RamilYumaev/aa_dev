@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 
 class DictCseSubjectForm extends Model
 {
-    public $name, $min_mark, $composite_discipline_status, $cse_status;
+    public $name, $min_mark, $composite_discipline_status, $cse_status, $ais_id;
 
     private $_dictCseSubject;
 
@@ -27,10 +27,10 @@ class DictCseSubjectForm extends Model
     public function defaultRules()
     {
         return [
-            [['name'], 'required'],
-            [['composite_discipline_status', 'cse_status'], 'integer'],
+            [['name', 'min_mark', 'ais_id'], 'required'],
+            [['composite_discipline_status', 'cse_status', 'ais_id'], 'integer'],
             [['min_mark'], 'integer', 'min' => 1,'max' => 100],
-            [['name'], 'string', ],
+            [['name'], 'string'],
         ];
     }
 
@@ -43,11 +43,11 @@ class DictCseSubjectForm extends Model
     {
         if ($this->_dictCseSubject) {
             return [
-                [['name'], 'unique', 'targetClass' => DictCseSubject::class,
+                [['name', 'ais_id'], 'unique', 'targetClass' => DictCseSubject::class,
                     'filter' => ['<>', 'id', $this->_dictCseSubject->id]],
             ];
         }
-        return [[['name'], 'unique', 'targetClass' => DictCseSubject::class,]];
+        return [[['name', 'ais_id'], 'unique', 'targetClass' => DictCseSubject::class,]];
     }
 
     /**
