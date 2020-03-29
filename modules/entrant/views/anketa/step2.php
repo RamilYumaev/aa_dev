@@ -30,6 +30,11 @@ $this->title = "Анкета. Шаг 2.";
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                 </div>
                 <div>
+                    <?php if($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+                    {
+                        echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse");
+                    }
+                    ?>
                     <?= Html::a("Перейти к выбору программ", ["applications/"
                         . DictCompetitiveGroupHelper::getUrl($level)],
                         ["class" => "btn btn-warning"]) ?>

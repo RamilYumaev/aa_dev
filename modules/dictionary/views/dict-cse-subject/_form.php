@@ -13,6 +13,7 @@ use yii\helpers\Html;
         <?= $form->field($model, 'min_mark')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'composite_discipline_status')->checkbox() ?>
         <?= $form->field($model, 'cse_status')->checkbox() ?>
+        <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

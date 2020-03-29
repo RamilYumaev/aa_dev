@@ -49,7 +49,7 @@ class CseSubjectResultController extends Controller
                 Model::validateMultiple($form->resultData)) {
                 try {
                     $this->service->create($form);
-                    return $this->redirect(['default/index']);
+                    return $this->redirect(['default/cse']);
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());
@@ -68,6 +68,9 @@ class CseSubjectResultController extends Controller
      */
     public function actionUpdate($id)
     {
+        \Yii::$app->session->setFlash("warning", "Редактирование предметов приведет к удалению выбранных образовательных 
+        программ бакалавриата");
+
         $model = $this->findModel($id);
         $form = new CseSubjectResultForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -76,7 +79,7 @@ class CseSubjectResultController extends Controller
                 Model::validateMultiple($form->resultData)) {
                 try {
                     $this->service->edit($model->id, $form);
-                    return $this->redirect(['default/index']);
+                    return $this->redirect(['default/cse']);
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());
@@ -114,6 +117,6 @@ class CseSubjectResultController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(['default/cse']);
     }
 }

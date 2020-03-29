@@ -18,13 +18,13 @@ class CseSubjectResultForm extends Model
 
     public function __construct(CseSubjectResult $cseSubjectResult = null, $config = [])
     {
-        if($cseSubjectResult){
+        if ($cseSubjectResult) {
             $this->setAttributes($cseSubjectResult->getAttributes(), false);
             foreach ($cseSubjectResult->dateJsonDecode() as $key => $value) {
-                $this->resultData [] = new CseSubjectMarkForm(['subject_id' => $key, 'mark'=> $value]);
+                $this->resultData [] = new CseSubjectMarkForm(['subject_id' => $key, 'mark' => $value]);
             }
             $this->_cseSubjectResult = $cseSubjectResult;
-        }else {
+        } else {
             $this->user_id = \Yii::$app->user->identity->getId();
             $this->resultData = [new CseSubjectMarkForm()];
         }
@@ -38,8 +38,8 @@ class CseSubjectResultForm extends Model
     public function defaultRules()
     {
         return [
-            [[ 'year'], 'required'],
-            [['year'], 'date', 'format' => 'yyyy', 'min'=> date("Y")-4 ,'max'=> date("Y")],
+            [['year'], 'required'],
+            [['year'], 'date', 'format' => 'yyyy', 'min' => date("Y") - 4, 'max' => date("Y")],
         ];
     }
 
@@ -48,15 +48,17 @@ class CseSubjectResultForm extends Model
      */
     public function uniqueRules()
     {
+
+        $message = "Нельзя добавлять несколько записей одного и того же года";
         if ($this->_cseSubjectResult) {
             return [
                 [['year'], 'unique', 'targetClass' => CseSubjectResult::class,
                     'filter' => ['<>', 'id', $this->_cseSubjectResult->id],
-                    'targetAttribute' => ['user_id', 'year']],
+                    'targetAttribute' => ['user_id', 'year'], 'message' => $message],
             ];
         }
         return [[['year',], 'unique', 'targetClass' => CseSubjectResult::class,
-            'targetAttribute' => ['user_id', 'year']]];
+            'targetAttribute' => ['user_id', 'year'], 'message' => $message]];
     }
 
     /**
@@ -76,10 +78,11 @@ class CseSubjectResultForm extends Model
         return (new CseSubjectResult())->attributeLabels();
     }
 
-    public function isArrayMoreResult() {
+    public function isArrayMoreResult()
+    {
         try {
             $postData = \Yii::$app->request->post((new CseSubjectMarkForm)->formName());
-            if ($postData){
+            if ($postData) {
                 $this->resultData = [];
                 foreach ($postData as $value) {
                     $this->resultData [] = new CseSubjectMarkForm($value);

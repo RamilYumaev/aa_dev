@@ -101,7 +101,6 @@ class ApplicationsController extends Controller
 
     }
 
-
     protected function renderList($level)
     {
 
@@ -116,7 +115,6 @@ class ApplicationsController extends Controller
             'transformYear' => $transformYear
         ]);
     }
-
 
     public function actionRemoveCg($id)
     {

@@ -16,6 +16,7 @@ use modules\dictionary\helpers\DictDefaultHelper;
  * @property integer $min_mark
  * @property integer $composite_discipline_status
  * @property integer $cse_status
+ * @property integer $ais_id
  *
  **/
 
@@ -35,6 +36,7 @@ class DictCseSubject extends ActiveRecord
         $this->composite_discipline_status =  $form->composite_discipline_status;
         $this->min_mark = $form->min_mark;
         $this->cse_status = $form->cse_status;
+        $this->ais_id = $form->ais_id;
     }
 
     public static function tableName()
@@ -57,6 +59,7 @@ class DictCseSubject extends ActiveRecord
             'min_mark' => "Минимальный балл для поступления",
             'composite_discipline_status'=>'Составная дисциплина',
             'cse_status'=>'Предмет ЕГЭ',
+            'ais_id'=>'Id АИС ВУЗ',
         ];
     }
 }
