@@ -3,7 +3,6 @@
 
 namespace modules\entrant\models;
 
-use modules\entrant\forms\ECPForm;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\FileUploadBehavior;
@@ -14,26 +13,25 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property integer $id
  * @property integer $user_id
  * @property integer $type
- * @property string $file_name
+ * @property string $file_name_user
+ * @property string $file_name_base
  *
 **/
 
 class ECP extends ActiveRecord
 {
 
-    public $name_file;
-
     public static  function create(UploadedFile $file, $user_id) {
         $ecp =  new static();
-        $ecp->setFile($file);
         $ecp->user_id = $user_id;
+        $ecp->setFile($file);
         return $ecp;
     }
 
     public function setFile(UploadedFile $file): void
     {
-        $this->file_name = $file;
-        $this->name_file = \Yii::$app->security->generateRandomString() . '_' . time();
+        $this->file_name_user = $file;
+        $this->file_name_base= \Yii::$app->security->generateRandomString() . '_' . time();
     }
 
 
@@ -50,9 +48,9 @@ class ECP extends ActiveRecord
         return [
             [
                 'class' => FileUploadBehavior::class,
-                'attribute' => 'file_name',
-                'filePath' => '@frontendRoot/ecp/[[attribute_name_file]].[[extension]]',
-                'fileUrl' => '@frontendInfo/ecp/[[attribute_name_file]].[[extension]]',
+                'attribute' => 'file_name_user',
+                'filePath' => '@frontendRoot/ecp/[[attribute_file_name_base]].[[extension]]',
+                'fileUrl' => '@frontendInfo/ecp/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
     }
