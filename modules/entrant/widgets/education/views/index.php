@@ -25,7 +25,9 @@ use yii\widgets\DetailView;
                         'series',
                         'number',
                         'date:date',
-                        'year'
+                        'year',
+                        ['label'=>$document_education->getAttributeLabel('original'),
+                            'value' =>$document_education->getOriginal(),],
                     ],
                 ]) ?>
             <?php else:?>

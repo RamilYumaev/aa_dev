@@ -14,6 +14,7 @@ class DocumentEducationForm extends Model
     public $type, $series, $number, $date, $user_id, $year, $school_id;
 
     private $_documentEducation;
+    public $original;
 
     public function __construct(DocumentEducation $documentEducation = null, $config = [])
     {
@@ -36,7 +37,7 @@ class DocumentEducationForm extends Model
         return [
             [['type', 'series',
                 'number', 'date', 'year', 'school_id'], 'required'],
-            [['type', 'school_id'], 'integer'],
+            [['type', 'school_id','original'], 'integer'],
             [['series',],'string', 'max' => 25],
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],

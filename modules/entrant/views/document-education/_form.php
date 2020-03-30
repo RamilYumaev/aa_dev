@@ -21,6 +21,7 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'original')->checkbox() ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
