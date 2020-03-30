@@ -70,7 +70,7 @@ class UserSchool extends YiiActiveRecordAndModeration
 
     public function titleModeration(): string
     {
-        return  "Учебные оргнаизации (Ученики/студенты)". $this->edu_year;
+        return  "Учебные организации (Ученики/студенты)". $this->edu_year;
     }
 
     public function moderationAttributes($value): array
