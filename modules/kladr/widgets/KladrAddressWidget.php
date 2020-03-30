@@ -14,6 +14,9 @@ class KladrAddressWidget extends Widget
     const MODE_SINGLE_LINE = 2;
 
     /** @var string */
+    public $url;
+
+    /** @var string */
     public $attributesPrefix = '';
 
     /** @var \yii\base\Model */
@@ -79,8 +82,8 @@ class KladrAddressWidget extends Widget
     {
         $widgetId = $this->id;
         $view = $this->getView();
-        $kladrWidgetUrl = Url::toRoute(['/kladr', 'widgetId' => $widgetId]);
-        $getPostcodeUrl = Url::toRoute('/kladr/get-postcode');
+        $kladrWidgetUrl = Url::toRoute([$this->url, 'widgetId' => $widgetId]);
+        $getPostcodeUrl = Url::toRoute($this->url.'/get-postcode');
         $singleLineMode = (int)($this->mode == self::MODE_SINGLE_LINE);
 
         $view->registerJs(<<<JS

@@ -43,15 +43,11 @@ class AddressForm extends Model
      */
     public function uniqueRules()
     {
+        $arrayUnique = [['type'], 'unique', 'targetClass' => Address::class, 'targetAttribute' => ['type', 'user_id',]];
         if ($this->_address) {
-            return [
-                [['type'], 'unique', 'targetClass' => Address::class,
-                    'filter' => ['<>', 'id', $this->_address->id],
-                    'targetAttribute' => ['type', 'user_id',]],
-            ];
+               return ArrayHelper::merge($arrayUnique,['filter' => ['<>', 'id', $this->_address->id]]);
         }
-        return [[['type', 'user_id',], 'unique', 'targetClass' => Address::class,
-                'targetAttribute' => ['type', 'user_id',]]];
+        return $arrayUnique;
     }
 
     /**
@@ -60,7 +56,7 @@ class AddressForm extends Model
 
     public function rules()
     {
-        return ArrayHelper::merge($this->defaultRules(), $this->uniqueRules());
+        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
     }
 
     /**

@@ -18,6 +18,7 @@ use modules\kladr\widgets\KladrAddressWidget;
             <?= KladrAddressWidget::widget([
                 'model' => $model,
                 'form' => $form,
+                'url'=> "/kladr/default",
                 'mode' => KladrAddressWidget::MODE_FULL,
             ]) ?>
 
