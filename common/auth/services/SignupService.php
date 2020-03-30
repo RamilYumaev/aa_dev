@@ -4,6 +4,7 @@
 namespace common\auth\services;
 
 use common\auth\forms\UserEmailForm;
+use common\auth\Identity;
 use common\auth\rbac\Rbac;
 use common\sending\traits\SelectionCommitteeMailTrait;
 use olympic\helpers\auth\ProfileHelper;
@@ -49,10 +50,12 @@ class SignupService
                 $user->setAssignmentFirst(Rbac::roleName($role));
             }
 
-            $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
-            $configData = ['user' => $user];
+            //$configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
+            //$configData = ['user' => $user];
 
-            $this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
+            //$this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
+
+            Yii::$app->user->login(new Identity($user));
         });
     }
 

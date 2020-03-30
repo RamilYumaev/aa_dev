@@ -32,7 +32,6 @@ class SignUpAction extends \yii\base\Action
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form, $this->role);
-                Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
                 return $this->controller->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

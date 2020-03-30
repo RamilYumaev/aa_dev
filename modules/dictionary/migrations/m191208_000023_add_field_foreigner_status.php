@@ -4,7 +4,7 @@ namespace modules\dictionary\migrations;
 
 use \yii\db\Migration;
 
-class m191208_000020_add_field_into_cg extends Migration
+class m191208_000023_add_field_foreigner_status extends Migration
 {
 
     public function up()

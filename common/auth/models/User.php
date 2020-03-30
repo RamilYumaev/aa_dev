@@ -66,7 +66,7 @@ class User extends ActiveRecord
         $user->github = $github;
         $user->setPassword(!empty($form->password) ? $form->password : Yii::$app->security->generateRandomString());
         $user->created_at = time();
-        $user->status = UserHelper::STATUS_ACTIVE;
+        $user->status = UserHelper::STATUS_WAIT;
         $user->auth_key = Yii::$app->security->generateRandomString();
         return $user;
     }
