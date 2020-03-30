@@ -24,11 +24,11 @@ class AuthService
         if (!$user || !$user->validatePassword($form->password)) {
             throw new \DomainException('Неверный логин или пароль.');
         }
-        if (!$user->isActive()) {
-            throw new \DomainException('Ваша учетная запись не подтверждена. 
-            Пожалуйста, пройдите по ссылке в письме, которое было Вам ранее отправлено. 
-            Если письмо не пришло, то проверьте, пожалуйста, папку Спам.');
-        }
+//        if (!$user->isActive()) {
+//            throw new \DomainException('Ваша учетная запись не подтверждена.
+//            Пожалуйста, пройдите по ссылке в письме, которое было Вам ранее отправлено.
+//            Если письмо не пришло, то проверьте, пожалуйста, папку Спам.');
+//        }
 
         $profile = $this->profileRepository->getUser($user->id);
         if ($profile->role !== $role) {
