@@ -108,27 +108,27 @@ var getLocations = function(url, from, to) {
 };
 
 regions.on("change", function() {
-    getLocations("/kladr/get-districts", this, districts);
-    getLocations("/kladr/get-cities", this, cities);
-    getLocations("/kladr/get-streets", this, streets);
+    getLocations("/kladr/default/get-districts", this, districts);
+    getLocations("/kladr/default/get-cities", this, cities);
+    getLocations("/kladr/default/get-streets", this, streets);
 });
 
 districts.on("change", function() {
-    getLocations("/kladr/get-cities", this, cities);
-    getLocations("/kladr/get-villages", this, villages);
+    getLocations("/kladr/default/get-cities", this, cities);
+    getLocations("/kladr/default/get-villages", this, villages);
 });
 
 cities.on("change", function() {
-    getLocations("/kladr/get-villages", this, villages);
-    getLocations("/kladr/get-streets", this, streets);
+    getLocations("/kladr/default/get-villages", this, villages);
+    getLocations("/kladr/default/get-streets", this, streets);
 });
 
 villages.on("change", function() {
-    getLocations("/kladr/get-streets", this, streets);
+    getLocations("/kladr/default/get-streets", this, streets);
 });
 
 streets.on("change", function() {
-    getLocations("/kladr/get-houses", this, houses);
+    getLocations("/kladr/default/get-houses", this, houses);
 });
 JS
 );

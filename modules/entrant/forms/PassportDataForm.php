@@ -52,15 +52,12 @@ class PassportDataForm extends Model
      */
     public function uniqueRules()
     {
+        $arrayUnique = [['type',], 'unique', 'targetClass' => PassportData::class,
+            'targetAttribute' => ['type', 'user_id',]];
         if ($this->_passport) {
-            return [
-                [['type'], 'unique', 'targetClass' => PassportData::class,
-                    'filter' => ['<>', 'id', $this->_passport->id],
-                    'targetAttribute' => ['type', 'user_id',]],
-            ];
+            return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_passport->id]]);
         }
-        return [[['type',], 'unique', 'targetClass' => PassportData::class,
-                'targetAttribute' => ['type', 'user_id',]]];
+        return $arrayUnique;
     }
 
     /**
@@ -69,7 +66,7 @@ class PassportDataForm extends Model
 
     public function rules()
     {
-        return ArrayHelper::merge($this->defaultRules(), $this->uniqueRules());
+        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
     }
 
     /**

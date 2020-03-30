@@ -14,7 +14,6 @@ class UserEmailForm extends Model
 
     public function __construct($class=null, $unique = true, $config = [])
     {
-
         $this->unique = $unique;
         if ($class) {
             $this->class = $class;

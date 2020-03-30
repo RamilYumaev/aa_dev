@@ -3,6 +3,7 @@
 namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\DocumentEducation;
 
 use yii\base\Model;
@@ -51,15 +52,12 @@ class DocumentEducationForm extends Model
      */
     public function uniqueRules()
     {
+        $arrayUnique = [['type',], 'unique', 'targetClass' => DocumentEducation::class,
+            'targetAttribute' => ['type', 'series', 'number']];
         if ($this->_documentEducation) {
-            return [
-                [['type'], 'unique', 'targetClass' => DocumentEducation::class,
-                    'filter' => ['<>', 'id', $this->_documentEducation->id],
-                    'targetAttribute' => ['type', 'series', 'number']],
-            ];
+            return ArrayHelper::merge($arrayUnique, ['filter' => ['<>', 'id', $this->_documentEducation->id]]);
         }
-        return [[['type',], 'unique', 'targetClass' => DocumentEducation::class,
-                'targetAttribute' => ['type', 'series', 'number']]];
+        return $arrayUnique;
     }
 
     /**
@@ -68,7 +66,7 @@ class DocumentEducationForm extends Model
 
     public function rules()
     {
-        return ArrayHelper::merge($this->defaultRules(), $this->uniqueRules());
+        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
     }
 
     /**

@@ -40,15 +40,12 @@ class LanguageForm extends Model
      */
     public function uniqueRules()
     {
+        $arrayUnique = [['language_id',], 'unique', 'targetClass' => Language::class,
+            'targetAttribute' => ['language_id', 'user_id',]];
         if ($this->_language) {
-            return [
-                [['language_id'], 'unique', 'targetClass' => Language::class,
-                    'filter' => ['<>', 'id', $this->_language->id],
-                    'targetAttribute' => ['language_id', 'user_id',]],
-            ];
+            return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_language->id]]);
         }
-        return [[['language_id',], 'unique', 'targetClass' => Language::class,
-                'targetAttribute' => ['language_id', 'user_id',]]];
+        return $arrayUnique;
     }
 
     /**
@@ -57,7 +54,7 @@ class LanguageForm extends Model
 
     public function rules()
     {
-        return ArrayHelper::merge($this->defaultRules(), $this->uniqueRules());
+        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
     }
 
     /**

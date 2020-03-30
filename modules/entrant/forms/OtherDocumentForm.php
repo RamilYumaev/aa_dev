@@ -2,6 +2,7 @@
 
 namespace modules\entrant\forms;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\OtherDocument;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -45,15 +46,11 @@ class OtherDocumentForm extends Model
      */
     public function uniqueRules()
     {
+        $arrayUnique = [['type',], 'unique', 'targetClass' => OtherDocument::class, 'targetAttribute' => ['type', 'user_id',]];
         if ($this->_otherDocument) {
-            return [
-                [['type'], 'unique', 'targetClass' => OtherDocument::class,
-                    'filter' => ['<>', 'id', $this->_otherDocument->id],
-                    'targetAttribute' => ['type', 'user_id',]],
-            ];
+            return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_otherDocument->id]]);
         }
-        return [[['type',], 'unique', 'targetClass' => OtherDocument::class,
-                'targetAttribute' => ['type', 'user_id',]]];
+        return $arrayUnique;
     }
 
     /**
@@ -62,7 +59,7 @@ class OtherDocumentForm extends Model
 
     public function rules()
     {
-        return ArrayHelper::merge($this->defaultRules(), $this->uniqueRules());
+        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
     }
 
     /**
