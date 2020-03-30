@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
@@ -22,6 +23,7 @@ use modules\entrant\models\queries\DocumentEducationQuery;
  * @property string $number
  * @property string $date
  * @property string $year
+ * @property string $original
  *
 **/
 
@@ -31,7 +33,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration
     {
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year']
+            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year', 'original']
         ]];
     }
 
@@ -49,6 +51,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         $this->number = $form->number;
         $this->date = DateFormatHelper::formatRecord($form->date);
         $this->year = $form->year;
+        $this->original = $form->original;
         $this->user_id = $form->user_id;
     }
 
@@ -71,6 +74,10 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         return  DictSchoolsHelper::schoolName($this->school_id);
     }
 
+    public function getOriginal() {
+        return   DictDefaultHelper::name($this->original);
+    }
+
 
     public static function tableName()
     {
@@ -91,6 +98,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration
             'number'=> $value,
             'date'=> DateFormatHelper::formatView($value),
             'year'=> $value,
+            'original'=> DictDefaultHelper::name($value)
             ];
     }
 
@@ -103,6 +111,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration
             'number'=>'Номер',
             'date'=>'От',
             'year'=>'Год окончания',
+            'original' => 'Оригинал?',
         ];
     }
 
@@ -110,6 +119,5 @@ class DocumentEducation extends YiiActiveRecordAndModeration
     {
         return new DocumentEducationQuery(static::class);
     }
-
 
 }
