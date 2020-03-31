@@ -6,9 +6,12 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictCountryHelper;
+use modules\dictionary\models\DictCategory;
 use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\models\queries\AnketaQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -115,5 +118,22 @@ class Anketa extends ActiveRecord
         return $result;
     }
 
+    public function onlyCse()
+    {
+        return ($this->citizenship_id == DictCountryHelper::RUSSIA
+                && $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL) ||
+            ($this->category->foreigner_status && ($this->edu_finish_year < date("Y")));
+    }
+
+
+    public static function find()
+    {
+        return new AnketaQuery(static::class);
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(DictCategory::class, ['id' => 'category_id']);
+    }
 
 }

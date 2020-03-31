@@ -3,6 +3,7 @@
 namespace common\auth;
 
 use common\auth\models\User;
+use modules\entrant\models\Anketa;
 use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
@@ -37,6 +38,12 @@ class Identity implements IdentityInterface
         $userOlimpic = $this->getOlympicRepository()->isEduYear($this->user->id);
         return $userOlimpic;
     }
+
+    public function anketa()
+    {
+        return Anketa::find()->userAnketa($this->getId())->one();
+    }
+
 
     public function getUsername(): string
     {

@@ -65,7 +65,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
+                $result .= $examination->discipline->name;
                 $result .= "</li>";
             }
             $result .= "</ol>";
@@ -75,9 +75,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a(DictDisciplineHelper::disciplineName($examination->discipline_id),
-                    $examination->discipline->links,
-                    ['target'=> '_blank']);
+                $result .= Html::a($examination->discipline->name, $examination->discipline->links, ['target' => '_blank']);
                 $result .= "</li>";
             }
             $result .= "</ol>";
