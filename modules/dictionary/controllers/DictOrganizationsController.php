@@ -1,7 +1,9 @@
 <?php
+
 namespace modules\dictionary\controllers;
 
 
+use modules\dictionary\searches\DictOrganizationsSearch;
 use modules\dictionary\services\DictOrganizationService;
 use modules\dictionary\forms\DictOrganizationForm;
 use modules\dictionary\models\DictOrganizations;
@@ -12,12 +14,13 @@ class DictOrganizationsController extends ControllerClass
     public function __construct($id, $module,
                                 DictOrganizationService $service,
                                 DictOrganizationForm $formModel,
-                                DictOrganizations $model,
+                                DictOrganizations $model, DictOrganizationsSearch $searchModel,
                                 $config = [])
     {
         $this->model = $model;
         $this->formModel = $formModel;
         $this->service = $service;
+        $this->searchModel = $searchModel;
 
         parent::__construct($id, $module, $config);
     }

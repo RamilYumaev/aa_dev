@@ -8,6 +8,7 @@ use dictionary\models\DictClass;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel \modules\dictionary\searches\DictOrganizationsSearch*/
 
 $this->title = 'Целевые организации';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'filterModel'=> $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',

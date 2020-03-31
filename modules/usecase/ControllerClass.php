@@ -20,6 +20,7 @@ class ControllerClass extends Controller
     public $service;
     public $model;
     public $formModel;
+    public $searchModel;
 
     public function behaviors(): array
     {
@@ -38,12 +39,18 @@ class ControllerClass extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => $this->model::find()->orderBy(['name' => SORT_ASC]),
-        ]);
+        /**
+         * @var $searchModel Model
+         */
+
+        $searchModel = new $this->searchModel;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
