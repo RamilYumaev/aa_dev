@@ -1,0 +1,44 @@
+<?php
+
+
+namespace modules\entrant\helpers;
+
+
+use modules\entrant\models\CseSubjectResult;
+
+class CseSubjectHelper
+{
+
+    const MIN_NEEDED_SUBJECT_CSE = 2;
+
+    private static function modelAll($userId)
+    {
+        return $cseSubjectResult = CseSubjectResult::find()
+            ->where(['user_id' => $userId])->orderBy(['year' => SORT_ASC])->all();
+    }
+
+    public static function maxMarkSubject($userId)
+    {
+        $array = [];
+        if (self::modelAll($userId)) {
+            foreach (self::modelAll($userId) as $value) {
+                foreach ($value->dateJsonDecode() as $item => $mark) {
+                    if (!array_key_exists($item, $array)) {
+                        $array[$item] = $mark;
+                    } elseif ($array[$item] <= $mark) {
+                        $array[$item] = $mark;
+                    }
+                }
+            }
+        }
+        return $array;
+    }
+
+    public static function minNumberSubject($userId)
+    {
+        return count(self::maxMarkSubject($userId)) >= self::MIN_NEEDED_SUBJECT_CSE;
+    }
+
+
+
+}

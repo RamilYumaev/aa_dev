@@ -43,8 +43,8 @@ class ApplicationsController extends Controller
 
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear);
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)->column());
 
 
         return $this->render('get-bachelor', [

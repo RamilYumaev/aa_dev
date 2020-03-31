@@ -19,11 +19,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function allActualFacultyWithoutBranch($year)
     {
-        return $this->distinct()
+        return $this
             ->select('faculty_id')
             ->withoutBranch()
-            ->andWhere(['year' => $year])
-            ->column();
+            ->andWhere(['year' => $year]);
     }
 
     public function getAllCg($year)
@@ -46,7 +45,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function withoutForeignerCg()
     {
-        return $this->andWhere(['foreigner_status'=>0]);
+        return $this->andWhere(['foreigner_status' => 0]);
     }
 
     public function budgetAndContractOnly()

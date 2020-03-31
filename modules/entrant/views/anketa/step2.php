@@ -3,6 +3,7 @@
 use \modules\entrant\helpers\AnketaHelper;
 use \yii\helpers\Html;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
+use \modules\entrant\helpers\CseSubjectHelper;
 
 /**
  * @var $anketa modules\entrant\models\Anketa
@@ -30,14 +31,20 @@ $this->title = "Анкета. Шаг 2.";
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                 </div>
                 <div>
-                    <?php if($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
-                    {
+                    <?php if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR &&
+                        Yii::$app->user->identity->anketa()->onlyCse()) {
                         echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse");
+                        if (CseSubjectHelper::minNumberSubject(Yii::$app->user->identity->getId())) {
+                            echo AnketaHelper::getButton($level);
+                        }else{
+                            echo "<p>Перейти к выбору образовательных программ можно только после ввода сданных предметов ЕГЭ</p>";
+                        }
+
+                    } else {
+                        echo AnketaHelper::getButton($level);
                     }
                     ?>
-                    <?= Html::a("Перейти к выбору программ", ["applications/"
-                        . DictCompetitiveGroupHelper::getUrl($level)],
-                        ["class" => "btn btn-warning"]) ?>
+
 
                 </div>
             </div>

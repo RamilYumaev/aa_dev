@@ -3,6 +3,9 @@
 namespace modules\entrant\helpers;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use yii\helpers\Html;
+
 class AnketaHelper
 {
     const SCHOOL_TYPE_SCHOOL = 1;
@@ -58,7 +61,8 @@ class AnketaHelper
     ];
     const HIGH_GRADUATE_LEVEL = [
         AnketaHelper::SCHOOL_TYPE_MAGISTER,
-        AnketaHelper::SCHOOL_TYPE_SPECIALIST
+        AnketaHelper::SCHOOL_TYPE_SPECIALIST,
+        AnketaHelper::SCHOOL_TYPE_DIPLOMA_SPECIALIST,
     ];
     const HIGH_GRADUATE_LEVEL_ONLY_CONTRACT = [
         AnketaHelper::SCHOOL_TYPE_PHD,
@@ -67,7 +71,6 @@ class AnketaHelper
 
     const ONLY_PAY_CONDITION = 1;
     const FULL_CONDITION = 2;
-
 
 
     public static function currentEducationLevel()
@@ -84,6 +87,14 @@ class AnketaHelper
             self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
             self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
         ];
+    }
+
+
+    public static function getButton($level)
+    {
+        return Html::a("Перейти к выбору программ", ["applications/"
+            . DictCompetitiveGroupHelper::getUrl($level)],
+            ["class" => "btn btn-warning"]);
     }
 
 }
