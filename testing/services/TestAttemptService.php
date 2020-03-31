@@ -143,7 +143,7 @@ class TestAttemptService
             throw new \DomainException("Отметьте номминации");
         }
         elseif(!$this->isMaxMarkOnFirstPlace($test->id)) {
-            throw new \DomainException("Участник, который получил максимальный балл, не является победителем");
+            throw new \DomainException("Участник, который получил максимальный балл, не является победителем/призером");
         }
         elseif($this->countRewardFirstStatus($test->id)  > $this->countDefaultRewardsFirst($test->id)) {
             throw new \DomainException("Количество победителей Мероприятия не должно превышать 10% (".$this->countDefaultRewardsFirst($test->id).") от общего количества участников");
@@ -161,7 +161,7 @@ class TestAttemptService
                     $this->diplomaRepository->save($diploma);
                 }
             }
-            $olympic->current_status = OlympicHelper::ZAOCH_FINISH;
+            $olympic->current_status = $olympic->isNumberOfTourOne() ? OlympicHelper::OCH_FINISH : OlympicHelper::ZAOCH_FINISH;
             $this->olimpicListRepository->save($olympic);
         }
     }
@@ -172,6 +172,10 @@ class TestAttemptService
 
     private function countAttemptNotNullMark($test_id) {
         return TestAttempt::find()->test($test_id)->isNotNullMark()->count();
+    }
+
+    private function maxMark($test_id) {
+        return TestAttempt::find()->test($test_id)->max('mark');
     }
 
     private function countDefaultRewards($test_id) {
@@ -193,13 +197,17 @@ class TestAttemptService
     }
 
     private function inRewardStatus($test_id, $status) {
-        return TestAttempt::find()->test($test_id)
-            ->andWhere(['reward_status'=> $status])->exists();
+        if($this->maxMark($test_id) < TestAttemptHelper::MIN_BALL_GOLD  && $status == TestAttemptHelper::GOLD) {
+            return true;
+        }
+        return TestAttempt::find()->test($test_id)->andWhere(['reward_status'=> $status])->exists();
     }
 
     private function isMaxMarkOnFirstPlace($test_id) {
-        $max = TestAttempt::find()->test($test_id)->max('mark');
-        return TestAttempt::find()->test($test_id)->andWhere(['mark'=> $max])->one()->isRewardGold();
+        if($this->maxMark($test_id) < TestAttemptHelper::MIN_BALL_GOLD) {
+            return TestAttempt::find()->test($test_id)->andWhere(['mark'=> $this->maxMark($test_id)])->one()->isRewardNoGold();
+        }
+        return TestAttempt::find()->test($test_id)->andWhere(['mark'=> $this->maxMark($test_id)])->one()->isRewardGold();
     }
 
     private function isRewardStatus($test_id) {
