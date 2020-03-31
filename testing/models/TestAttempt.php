@@ -106,6 +106,10 @@ class TestAttempt extends ActiveRecord
         return $this->reward_status == TestAttemptHelper::SILVER;
     }
 
+    public function  isRewardNoGold() {
+        return $this->isRewardBronze()|| $this->isRewardSilver();
+    }
+
     public function  isRewardBronze() {
         return $this->reward_status == TestAttemptHelper::BRONZE;
     }

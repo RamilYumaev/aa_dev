@@ -20,25 +20,26 @@ class OlympicDeliveryStatusController extends Controller
         return [
             'index' => [
                 'class'=>SendingDeliveryStatusAction::class,
-                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id'))],
+                'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'modelType' => SendingDeliveryStatusHelper::TYPE_OLYMPIC],
             'send-diploma' => [
                 'class'=>SendingAction::class,
-                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
                 'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_DIPLOMA
             ],
             'send-preliminary-result' => [
                 'class'=>SendingAction::class,
-                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
                 'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY
             ],
             'send-invitation' => [
                 'class'=>SendingAction::class,
-                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
                 'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR
             ],
             'send-invitation-first' => [
                 'class'=>SendingAction::class,
-                'olympicModel'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
+                'model'=> $this->findModel(\Yii::$app->request->get('olympic_id')),
                 'typeSending' => SendingDeliveryStatusHelper::TYPE_SEND_INVITATION
             ]
         ];

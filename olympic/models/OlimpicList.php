@@ -340,7 +340,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
     public function replaceLabelsFromSending() {
         return [
             $this->genitive_name, // {название олимпиады в родительном падеже}
-            DateTimeCpuHelper::getDateChpu($this->date_time_start_tour). ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour),
+            $this->date_time_start_tour ?
+                DateTimeCpuHelper::getDateChpu($this->date_time_start_tour). ' года в ' .
+                DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour): "",
             $this->address, // {адрес проведения очного тура}
             DictChairmansHelper::chairmansNameOne($this->chairman_id), // {Ф.И.О. председателя олимпиады}
         ];
@@ -352,6 +354,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
 
     public function isFormOfPassageDistant () {
         return $this->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA;
+    }
+    public function isNumberOfTourOne () {
+        return $this->number_of_tours  == OlympicHelper::ONE_TOUR;
     }
 
     public function isFormOfPassageDistantInternal () {
@@ -367,7 +372,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
     }
 
     public function isResultDistanceTour() {
-       return $this->current_status &&
+       return !$this->isNumberOfTourOne() &&
         ($this->isFormOfPassageDistant()
             || $this->isFormOfPassageDistantInternal());
     }
@@ -381,7 +386,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
     }
 
     public function isDistanceFinish() {
-        return $this->current_status == OlympicHelper::ZAOCH_FINISH;
+        return $this->current_status == OlympicHelper::OCH_FINISH;
     }
 
     public function isTimeStartTour () {
