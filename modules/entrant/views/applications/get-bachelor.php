@@ -10,17 +10,34 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\entrant\helpers\CseSubjectHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
+use \dictionary\models\DictDiscipline;
 
 $this->title = "Выбор образовательных программ";
 
 $result = "";
+$userId = \Yii::$app->user->identity->getId();
+$anketa = \Yii::$app->user->identity->anketa();
+$userArray = DictDiscipline::cseToDisciplineConverter(
+    CseSubjectHelper::userSubjects($userId));
+
+$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
+
+$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
+
+$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
+
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
+
+    if (!in_array($faculty, $filteredFaculty) && $anketa->onlyCse()) {
+        continue;
+    }
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->contractOnly()
@@ -43,6 +60,11 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания для категорий граждан, имеющих право поступать без ЕГЭ</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
+
+            if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
+                continue;
+            }
+
 
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
             $trColor = UserCgHelper::trColor($currentCg);

@@ -1,5 +1,6 @@
 <?php
 
+use dictionary\models\DictDiscipline;
 use \modules\entrant\helpers\AnketaHelper;
 use \yii\helpers\Html;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
@@ -10,6 +11,9 @@ use \modules\entrant\helpers\CseSubjectHelper;
  * @var $this yii\web\View
  */
 $this->title = "Анкета. Шаг 2.";
+$userId = Yii::$app->user->identity->getId();
+$anketa = Yii::$app->user->identity->anketa();
+$onlyCse = $anketa->onlyCse();
 ?>
 <div class="row">
     <div class="col-md-1">
@@ -32,12 +36,10 @@ $this->title = "Анкета. Шаг 2.";
                 </div>
                 <div>
                     <?php
-                    $anketa = Yii::$app->user->identity->anketa();
-                    $onlyCse = $anketa->onlyCse();
                     if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse
                     ) {
                         echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse");
-                        if (CseSubjectHelper::minNumberSubject(Yii::$app->user->identity->getId())) {
+                        if (CseSubjectHelper::minNumberSubject($userId)) {
                             echo AnketaHelper::getButton($level);
                         } else {
                             echo "<p>Перейти к выбору образовательных программ можно только после ввода Ваших результатов ЕГЭ</p>";
@@ -47,8 +49,6 @@ $this->title = "Анкета. Шаг 2.";
                         echo AnketaHelper::getButton($level);
                     }
                     ?>
-
-
                 </div>
             </div>
         <?php
