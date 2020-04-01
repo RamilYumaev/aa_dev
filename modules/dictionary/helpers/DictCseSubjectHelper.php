@@ -38,5 +38,16 @@ class DictCseSubjectHelper
     }
 
 
+    public static function foreignLanguagesIdArray()
+    {
+            return DictCseSubject::find()->select("id")
+                ->andWhere(['or',
+                    ['like','name', 'Иностранный'],
+                    ['like','name', 'иностранный'],
+                    ['like','name', 'иностраный'],
+                ])->column();
+    }
+
+
 
 }

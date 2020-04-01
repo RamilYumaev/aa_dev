@@ -3,6 +3,8 @@
 namespace common\auth;
 
 use common\auth\models\User;
+use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\models\Anketa;
 use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
@@ -42,6 +44,43 @@ class Identity implements IdentityInterface
     public function anketa()
     {
         return Anketa::find()->userAnketa($this->getId())->one();
+    }
+
+    public function cseFilterCg(array $userSubjectArray): array
+    {
+        $cgArrayPriority1 = DisciplineCompetitiveGroup::find()
+            ->select("competitive_group_id")
+            ->andWhere(['in', 'discipline_id', $userSubjectArray])
+            ->priorityOne()
+            ->column();
+
+        $cgArrayPriority2 = DisciplineCompetitiveGroup::find()
+            ->select("competitive_group_id")
+            ->andWhere(['in', 'discipline_id', $userSubjectArray])
+            ->priorityTwo()
+            ->column();
+
+        $cgArrayPriority3 = DisciplineCompetitiveGroup::find()
+            ->select("competitive_group_id")
+            ->andWhere(['in', 'discipline_id', $userSubjectArray])
+            ->priorityThree()
+            ->column();
+
+
+        $array1 = array_uintersect(array_values($cgArrayPriority3), array_values($cgArrayPriority2), "strcasecmp");
+
+        return array_uintersect(array_values($cgArrayPriority1), $array1, "strcasecmp");
+
+    }
+
+    public function cseFilterFaculty($filteredCg)
+    {
+        $arrayModel = DictCompetitiveGroup::find()
+            ->select("faculty_id")
+            ->andWhere(['in', 'id', $filteredCg])
+            ->column();
+
+        return array_unique($arrayModel);
     }
 
 

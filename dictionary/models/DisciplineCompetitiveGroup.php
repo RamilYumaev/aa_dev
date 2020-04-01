@@ -4,6 +4,7 @@
 namespace dictionary\models;
 
 
+use dictionary\models\queries\DisciplineCompetitiveQuery;
 use yii\db\ActiveRecord;
 
 class DisciplineCompetitiveGroup extends ActiveRecord
@@ -63,6 +64,11 @@ class DisciplineCompetitiveGroup extends ActiveRecord
     public function getDiscipline()
     {
         return $this->hasOne(DictDiscipline::class, ['id' => 'discipline_id']);
+    }
+
+    public static function find(): DisciplineCompetitiveQuery
+    {
+       return new DisciplineCompetitiveQuery(static::class);
     }
 
 

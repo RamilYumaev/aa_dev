@@ -4,6 +4,7 @@
 namespace modules\entrant\helpers;
 
 
+use dictionary\models\DictDiscipline;
 use modules\entrant\models\CseSubjectResult;
 
 class CseSubjectHelper
@@ -39,6 +40,11 @@ class CseSubjectHelper
         return count(self::maxMarkSubject($userId)) >= self::MIN_NEEDED_SUBJECT_CSE;
     }
 
+    public static function userSubjects($userId)
+    {
+        return
+            array_keys(self::maxMarkSubject($userId));
+    }
 
 
 }

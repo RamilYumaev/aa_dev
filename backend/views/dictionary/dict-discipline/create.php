@@ -21,6 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'links')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'cse_subject_id')->dropDownList(DictCseSubjectHelper::subjectCseList(), ['prompt'=> "Выберите предмет ЕГЭ"])?>
             <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'dvi')->checkbox() ?>
+            <?= $form->field($model, 'composite_discipline')->checkbox() ?>
         </div>
     </div>
 
