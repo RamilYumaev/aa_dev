@@ -118,9 +118,21 @@ class DictCompetitiveGroupHelper
         return ArrayHelper::getValue(self::getSpecialRight(), $key);
     }
 
-    public static function dictCompetitiveGroupList(): array
+    public static function dictCompetitiveGroupList($competitiveGroupsList): array
     {
-        return ArrayHelper::map(DictCompetitiveGroup::find()->all(), "id", 'name');
+        $array = [];
+        foreach (DictCompetitiveGroup::find()->andWhere(
+            ['id'=> $competitiveGroupsList]
+        )->asArray()->all() as $value) {
+           $array[$value['id']] = self::getFullName($value['year'],
+                $value['edu_level'],
+                $value['speciality_id'],
+                $value['specialization_id'],
+                $value['faculty_id'],
+                $value['education_form_id']);
+        };
+        return  $array;
+
     }
 
     public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id)
