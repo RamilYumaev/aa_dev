@@ -145,6 +145,14 @@ class DictCompetitiveGroupController extends Controller
         return ['result' => $this->service->getAllCg($levelId)];
     }
 
+    public function actionFullCg($year = null, $educationLevelId = null, $educationFormId = null,
+            $facultyId = null, $foreignerStatus = null, $financingTypeId = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['result' => $this->service->getAllFullCg($year, $educationLevelId, $educationFormId,
+            $facultyId, $foreignerStatus, $financingTypeId)];
+    }
+
 
 //    public function actionGetAisCg($year)
 //    {

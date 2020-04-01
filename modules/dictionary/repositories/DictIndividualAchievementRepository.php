@@ -3,29 +3,13 @@
 
 namespace modules\dictionary\repositories;
 use modules\dictionary\models\DictIndividualAchievement;
+use modules\usecase\RepositoryClass;
 
-class DictIndividualAchievementRepository
+class DictIndividualAchievementRepository extends RepositoryClass
 {
-    public function get($id): DictIndividualAchievement
+    public function __construct(DictIndividualAchievement $model)
     {
-        if (!$model = DictIndividualAchievement::findOne($id)) {
-            throw new \DomainException('ИД не найдено.');
-        }
-        return $model;
-    }
-
-    public function save(DictIndividualAchievement $model): void
-    {
-        if (!$model->save()) {
-            throw new \RuntimeException('Ошибка сохранения.');
-        }
-    }
-
-    public function remove(DictIndividualAchievement $model): void
-    {
-        if (!$model->delete()) {
-            throw new \RuntimeException('Ошибка удаления.');
-        }
+        $this->model = $model;
     }
 
 }

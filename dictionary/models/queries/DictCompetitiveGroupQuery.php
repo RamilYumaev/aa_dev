@@ -69,11 +69,30 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     }
 
 
+    public function foreignerStatus($foreignerStatus)
+    {
+        return $this->andWhere(['foreigner_status' => $foreignerStatus]
+        );
+    }
+
+    public function formEdu($formId)
+    {
+        return $this->andWhere(['education_form_id' => $formId]
+        );
+    }
+
     public function contractOnly()
     {
         return $this->andWhere(
             ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);
     }
+
+    public function finance($financeId)
+    {
+        return $this->andWhere(
+            ['financing_type_id' => $financeId]);
+    }
+
 
     public function currentYear($year)
     {

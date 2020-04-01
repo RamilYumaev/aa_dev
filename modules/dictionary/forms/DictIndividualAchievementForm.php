@@ -1,13 +1,15 @@
 <?php
 namespace modules\dictionary\forms;
 
+use modules\dictionary\helpers\DictIndividualAchievementCgHelper;
+use modules\dictionary\helpers\DictIndividualAchievementDocumentHelper;
 use modules\dictionary\models\DictIndividualAchievement;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 class DictIndividualAchievementForm extends Model
 {
-    public $name, $year, $mark, $category_id, $name_short;
+    public $name, $year, $mark, $category_id, $name_short, $competitiveGroupsList, $documentTypesList;
 
     private $_dictIndividualAchievement;
 
@@ -21,7 +23,11 @@ class DictIndividualAchievementForm extends Model
     {
         if ($dictIndividualAchievement) {
             $this->setAttributes($dictIndividualAchievement->getAttributes(), false);
+            $this->documentTypesList = DictIndividualAchievementDocumentHelper::listDocument($dictIndividualAchievement->id);
+            $this->competitiveGroupsList = DictIndividualAchievementCgHelper::listCg($dictIndividualAchievement->id);
             $this->_dictIndividualAchievement = $dictIndividualAchievement;
+        } else {
+            $this->competitiveGroupsList = [];
         }
 
         parent::__construct($config);
@@ -40,8 +46,9 @@ class DictIndividualAchievementForm extends Model
     public function defaultRules()
     {
         return [
-            [['year', 'name', 'name_short', 'category_id','mark'], 'required'],
+            [['year', 'name', 'name_short', 'category_id','mark', 'competitiveGroupsList','documentTypesList'], 'required'],
             [['category_id','mark'], 'integer'],
+            [['competitiveGroupsList','documentTypesList'], 'safe'],
             [['year', 'name', 'name_short'], 'string', 'max' => 255],
         ];
     }

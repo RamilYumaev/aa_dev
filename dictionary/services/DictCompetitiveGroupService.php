@@ -86,4 +86,26 @@ class DictCompetitiveGroupService
         }
         return $result;
     }
+
+    public function getAllFullCg($year, $educationLevelId, $educationFormId,
+            $facultyId, $foreignerStatus, $financingTypeId)
+    {$model = DictCompetitiveGroup::find()
+            ->currentYear($year)
+            ->eduLevel($educationLevelId)
+            ->faculty($facultyId)
+            ->finance($financingTypeId)
+            ->formEdu($educationFormId)
+            ->foreignerStatus($foreignerStatus);
+        $result = [];
+        foreach ($model->all() as $currentCg) {
+            $result[] = [
+                'id' => $currentCg->id,
+                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
+                    $currentCg->speciality_id,
+                    $currentCg->specialization_id,
+                    $currentCg->faculty_id, $currentCg->education_form_id),
+            ];
+        }
+        return $result;
+    }
 }
