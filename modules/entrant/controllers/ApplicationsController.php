@@ -28,8 +28,8 @@ class ApplicationsController extends Controller
 
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear);
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)->column());
 
 
         return $this->render('get-college', [
@@ -57,8 +57,8 @@ class ApplicationsController extends Controller
     {
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear);
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)->column());
 
 
         return $this->render('get-magistracy', [
@@ -97,7 +97,8 @@ class ApplicationsController extends Controller
             \Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
-        return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level));
+        return $this->redirect("applications/"
+            . DictCompetitiveGroupHelper::getUrl($cg->edu_level));
 
     }
 
@@ -106,7 +107,8 @@ class ApplicationsController extends Controller
 
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()->allActualFacultyWithoutBranch($transformYear);
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)->column());
 
         $url = DictCompetitiveGroupHelper::getUrl($level);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';

@@ -120,7 +120,7 @@ class Anketa extends ActiveRecord
 
     public function onlyCse()
     {
-        return ($this->citizenship_id == DictCountryHelper::RUSSIA
+        return (in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)
                 && $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL) ||
             ($this->category->foreigner_status && ($this->edu_finish_year < date("Y")));
     }

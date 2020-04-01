@@ -75,7 +75,8 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a($examination->discipline->name, $examination->discipline->links, ['target' => '_blank']);
+                $result .= Html::a($examination->discipline->name, $examination->discipline->links,
+                    ['target' => '_blank']);
                 $result .= "</li>";
             }
             $result .= "</ol>";
@@ -119,7 +120,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     $result .= "</table>";
 }
 ?>
-
 <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row">
     <div class="col-md-1 mt-10">
