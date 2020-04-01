@@ -135,6 +135,32 @@ class Profiles extends YiiActiveRecordAndModeration
         $this->phone == "";
     }
 
+    public function isNoRussia() {
+        return $this->country_id !== DictCountryHelper::RUSSIA;
+    }
+
+    public function dataArray(){
+        $array = [];
+        foreach ($this->getAttributes(null,['user_id', 'patronymic', 'id', 'role']) as  $key => $value) {
+            $array[$key] = $value;
+        }
+        if ($array['country_id'] !== DictCountryHelper::RUSSIA) {
+            unset($array['region_id']);
+        }
+        return $array;
+    }
+
+    public function dataNoEmpty()
+    {
+        $i = 0;
+        foreach ($this->dataArray() as $value) {
+            if (empty($value)) {
+                $i++;
+            }
+        }
+        return $i==0;
+    }
+
     public function titleModeration(): string
     {
         return  "Профиль";
@@ -143,6 +169,11 @@ class Profiles extends YiiActiveRecordAndModeration
     public function getCountryName()
     {
         return  DictCountryHelper::countryName($this->country_id);
+    }
+
+    public function getGenderName()
+    {
+        return ProfileHelper::genderName($this->gender);
     }
     public function getRegionName()
     {
