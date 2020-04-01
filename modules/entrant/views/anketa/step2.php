@@ -31,13 +31,16 @@ $this->title = "Анкета. Шаг 2.";
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                 </div>
                 <div>
-                    <?php if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR &&
-                        Yii::$app->user->identity->anketa()->onlyCse()) {
+                    <?php
+                    $anketa = Yii::$app->user->identity->anketa();
+                    $onlyCse = $anketa->onlyCse();
+                    if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse
+                    ) {
                         echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse");
                         if (CseSubjectHelper::minNumberSubject(Yii::$app->user->identity->getId())) {
                             echo AnketaHelper::getButton($level);
-                        }else{
-                            echo "<p>Перейти к выбору образовательных программ можно только после ввода сданных предметов ЕГЭ</p>";
+                        } else {
+                            echo "<p>Перейти к выбору образовательных программ можно только после ввода Ваших результатов ЕГЭ</p>";
                         }
 
                     } else {

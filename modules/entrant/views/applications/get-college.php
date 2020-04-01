@@ -14,6 +14,7 @@ use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
+use \dictionary\helpers\DictFacultyHelper;
 
 $this->title = "Выбор образовательных программ";
 
@@ -32,7 +33,7 @@ foreach ($currentFaculty as $faculty) {
 
     if ($cgFaculty) {
 
-        $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";
+        $result .= "<h3 class=\"text-center\">" . DictFacultyHelper::facultyList()[$faculty] . "</h3>";
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
@@ -64,7 +65,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= DictDisciplineHelper::disciplineName($examination->discipline_id);
+                $result .= $examination->discipline->name;
                 $result .= "</li>";
             }
             $result .= "</ol>";

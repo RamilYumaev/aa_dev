@@ -12,10 +12,23 @@ use yii\helpers\ArrayHelper;
 class DictCountryHelper
 {
     const RUSSIA = 46;
+    const BELARUS = 49;
+    const KYRGYZSTAN = 35;
+    const KAZAKHSTAN = 29;
+    const TAJIKISTAN = 30;
+
+    const TASHKENT_AGREEMENT = [
+        self::RUSSIA,
+        self::BELARUS,
+        self::KYRGYZSTAN,
+        self::KAZAKHSTAN,
+        self::TAJIKISTAN,
+    ];
+
 
     public static function countryList(): array
     {
-        return Country::find()->select(['name', 'cis','id'])->orderBy("cis DESC,name ASC")->indexBy("id")->column();
+        return Country::find()->select(['name', 'cis', 'id'])->orderBy("cis DESC,name ASC")->indexBy("id")->column();
     }
 
     public static function countryName($key): ?string
