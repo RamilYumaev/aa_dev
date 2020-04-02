@@ -48,7 +48,7 @@ foreach ($currentFaculty as $faculty) {
             $trColor = UserCgHelper::trColor($currentCg);
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
-            $result .= $currentCg->specialty->getCodeWithName();
+            $result .= $currentCg->specialty->getCodeWithName() . " (для " . $currentCg->spo_class . " классов)";
             $result .= $currentCg->specialization ? ", профиль(-и) <strong>" . $currentCg->specialization->name
                 . "</strong>" : "";
             $result .= "</td>";
