@@ -4,6 +4,7 @@ namespace modules\entrant\behaviors;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\models\CseSubjectResult;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
@@ -37,6 +38,7 @@ class AnketaBehavior extends Behavior
         if ($this->userCgExists() && !$this->checkUpdate()) {
             if ($this->deleteType == "all") {
                 UserCg::deleteAll(['user_id' => Yii::$app->user->identity->getId()]);
+                CseSubjectResult::deleteAll(['user_id' => Yii::$app->user->identity->getId()]);
             } else {
                 UserCg::deleteAll(['user_id' => Yii::$app->user->identity->getId(),
                     'cg_id' => $this->bachelorCg()]);
