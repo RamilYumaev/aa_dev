@@ -64,7 +64,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 'speciality_id' => $cgContract->speciality_id,
                 'specialization_id' => $cgContract->specialization_id,
                 'edu_level' => $cgContract->edu_level,
-                'education_form_id' => $cgContract->education_form_id]
+                'education_form_id' => $cgContract->education_form_id,
+                'spo_class' => $cgContract->spo_class,
+
+            ]
         );
     }
 
