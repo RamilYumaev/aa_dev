@@ -29,6 +29,11 @@ $finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
 
 $filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
 
+foreach ($filteredCg as $cg)
+{
+    echo $cg. ",";
+}
+
 $filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
 
 ?>

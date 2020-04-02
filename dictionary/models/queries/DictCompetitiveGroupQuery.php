@@ -99,4 +99,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['year' => $year]);
     }
 
+    public function currentAutoYear()
+    {
+        $currentYear = Date("Y");
+        $lastYear = $currentYear - 1;
+
+        return $this->andWhere(['year' => "$lastYear-$currentYear"]);
+
+    }
+
 }

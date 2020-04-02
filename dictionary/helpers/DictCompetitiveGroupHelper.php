@@ -6,6 +6,8 @@ namespace dictionary\helpers;
 
 use common\helpers\EduYearHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
+use modules\entrant\helpers\CseSubjectHelper;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
@@ -177,4 +179,21 @@ class DictCompetitiveGroupHelper
 
         return $url;
     }
+
+    public static function saveChecked($id, $level)
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+        $permittedLevel = $anketa->getPermittedEducationLevels();
+        if ($anketa->onlyCse()) {
+            $userId = \Yii::$app->user->identity->getId();
+            $userArray = DictDiscipline::cseToDisciplineConverter(
+                CseSubjectHelper::userSubjects($userId));
+            $finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
+            $filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
+            if (!in_array($id, $filteredCg) && !in_array($level, $permittedLevel)) {
+                throw new \DomainException("Конкурсная группа не доступна");
+            }
+        }
+    }
+
 }
