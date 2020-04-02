@@ -7,10 +7,12 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
 use yii\web\Controller;
 use Yii;
+use yii\web\HttpException;
 
 class ApplicationsController extends Controller
 {
@@ -28,7 +30,7 @@ class ApplicationsController extends Controller
 
     public function actionGetCollege()
     {
-
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
         $currentFaculty = array_unique(DictCompetitiveGroup::find()
@@ -43,7 +45,7 @@ class ApplicationsController extends Controller
 
     public function actionGetBachelor()
     {
-
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
         $currentFaculty = array_unique(DictCompetitiveGroup::find()
@@ -58,6 +60,7 @@ class ApplicationsController extends Controller
 
     public function actionGetMagistracy()
     {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
         $currentFaculty = array_unique(DictCompetitiveGroup::find()
@@ -72,6 +75,7 @@ class ApplicationsController extends Controller
 
     public function actionGetGraduate()
     {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
         $currentFaculty = DictCompetitiveGroup::find()
@@ -136,4 +140,17 @@ class ApplicationsController extends Controller
         }
         return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level));
     }
+
+    private function permittedLevelChecked($level)
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+
+        if (!in_array($level, $anketa->getPermittedEducationLevels())) {
+            \Yii::$app->session->setFlash("error", "Недопустимый уровень образования!");
+            return $this->redirect("/abiturient/anketa/step2");
+        }
+
+    }
+
+
 }

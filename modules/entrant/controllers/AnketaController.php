@@ -67,6 +67,7 @@ class AnketaController extends Controller
 
     public function actionStep2()
     {
+
         if ($this->anketa === null) {
             return $this->redirect(['step1']);
         }
