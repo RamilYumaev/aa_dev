@@ -4,8 +4,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use kartik\select2\Select2;
 use dictionary\helpers\DictFacultyHelper;
 ?>
-
- <hr/>
+<hr/>
         <label>Уровень образования</label>
         <?= Html::dropDownList('', null,
             ['' => ''] + DictCompetitiveGroupHelper::getEduLevels(),
@@ -20,12 +19,12 @@ use dictionary\helpers\DictFacultyHelper;
         ) ?>
         <br/>
 
-        <label>Вид финансирования</label>
-        <?= Html::dropDownList('', null,
-            ['' => ''] + DictCompetitiveGroupHelper::getFinancingTypes(),
-            ['id' => 'filter-financing_type_id', 'class' => 'form-control']
-        ) ?>
-        <br/>
+<!--        <label>Вид финансирования</label>-->
+<!--        --><?//= Html::dropDownList('', null,
+//            ['' => ''] + DictCompetitiveGroupHelper::getFinancingTypes(),
+//            ['id' => 'filter-financing_type_id', 'class' => 'form-control']
+//        ) ?>
+<!--        <br/>-->
 
         <label>Факультет</label>
         <?= Select2::widget([
