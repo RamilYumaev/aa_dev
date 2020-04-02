@@ -141,12 +141,13 @@ class ApplicationsController extends Controller
         return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level));
     }
 
-    private function permittedLevelChecked($level): void
+    private function permittedLevelChecked($level)
     {
         $anketa = \Yii::$app->user->identity->anketa();
 
         if (!in_array($level, $anketa->getPermittedEducationLevels())) {
-            throw new HttpException("Вы не можете подавать документы на данный уровень образования", 403);
+            \Yii::$app->session->setFlash("error", "Недопустимый уровень образования!");
+            return $this->redirect("/abiturient/anketa/step2");
         }
 
     }
