@@ -4,10 +4,13 @@ namespace modules\entrant\controllers;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
 use dictionary\repositories\DictCompetitiveGroupRepository;
+use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
 use yii\web\Controller;
+use Yii;
 
 class ApplicationsController extends Controller
 {
@@ -83,9 +86,9 @@ class ApplicationsController extends Controller
 
     public function actionSaveCg($id)
     {
-
         try {
             $cg = $this->repositoryCg->get($id);
+            DictCompetitiveGroupHelper::saveChecked($id, $cg->edu_level);
             $this->repository->haveARecord($cg->id);
             $userCg = UserCg::create($cg->id);
             $this->repository->save($userCg);

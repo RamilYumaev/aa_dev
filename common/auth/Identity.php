@@ -78,6 +78,7 @@ class Identity implements IdentityInterface
         $arrayModel = DictCompetitiveGroup::find()
             ->select("faculty_id")
             ->andWhere(['in', 'id', $filteredCg])
+            ->currentAutoYear()
             ->column();
 
         return array_unique($arrayModel);
