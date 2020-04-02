@@ -94,6 +94,7 @@ class AddressController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         try {
@@ -102,6 +103,6 @@ class AddressController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index']);
+        return $this->redirect(['default/index']);
     }
 }

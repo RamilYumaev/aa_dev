@@ -47,6 +47,9 @@ AppAsset::register($this);
     </div>
 </footer>
 <?php $this->endBody() ?>
+<?php Modal::begin(['id'=>'modal', 'size'=> Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>", 'clientOptions' => ['backdrop' => false]]);
+echo "<div id='modalContent'></div>";
+Modal::end()?>
 </body>
 </html>
 <?php $this->endPage() ?>

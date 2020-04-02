@@ -30,10 +30,10 @@ class PersonalUserOlympicColumn extends DataColumn
     }
 
     private function linkTest(OlimpicList $olympic) {
-        return $this->getTest($olympic) ? Html::a("Начать заочный тур", ['/test-attempt/start',
-            'test_id'=> $this->getTest($olympic)],
-            ['data' => ['confirm' => 'Вы действительно хотите начать заочный тур ?', 'method' => 'POST'],
-                'class' =>'btn btn-primary'] ):"";
+        return $this->getTest($olympic) ? Html::a("Начать заочный тур", ['/test/start',
+            'id'=> $this->getTest($olympic)],
+            ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle'
+            =>'Заочный тур', 'class' =>'btn btn-primary'] ):"";
     }
 
     private function linkDiploma(OlimpicList $olympic) {

@@ -7,6 +7,7 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
 $this->title = 'Ваш профиль';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

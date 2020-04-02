@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 $this->title = 'Личный кабинет поступающего в МПГУ';
 ?>
 
