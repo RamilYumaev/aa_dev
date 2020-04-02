@@ -122,33 +122,36 @@ class DictCompetitiveGroupHelper
     {
         $array = [];
         foreach (DictCompetitiveGroup::find()->andWhere(
-            ['id'=> $competitiveGroupsList]
+            ['id' => $competitiveGroupsList]
         )->asArray()->all() as $value) {
-           $array[$value['id']] = self::getFullName($value['year'],
+            $array[$value['id']] = self::getFullName($value['year'],
                 $value['edu_level'],
                 $value['speciality_id'],
                 $value['specialization_id'],
                 $value['faculty_id'],
-                $value['education_form_id']);
+                $value['education_form_id'],
+                $value['financing_type_id']);
         };
-        return  $array;
+        return $array;
 
     }
 
-    public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id)
+    public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id, $budget)
     {
         $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
         $speciality = DictSpecialityHelper::specialityName($speciality_id);
         $specialization = DictSpecializationHelper::specializationName($specialization_id);
         $faculty = DictFacultyHelper::facultyName($faculty_id);
         $form_edu = self::formName($education_form_id);
+        $budget = self::financingTypeName($budget);
 
         return $year
-            . " / " .$edu_level
+            . " / " . $edu_level
             . " / " . $faculty
             . " / " . $speciality
             . " / " . $specialization
-            . " / " . StringHelper::mb_ucfirst($form_edu);
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget;
     }
 
     public static function getUrl($level)

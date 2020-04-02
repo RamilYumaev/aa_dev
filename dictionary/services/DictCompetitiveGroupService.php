@@ -81,7 +81,7 @@ class DictCompetitiveGroupService
                 'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
                     $currentCg->speciality_id,
                     $currentCg->specialization_id,
-                    $currentCg->faculty_id, $currentCg->education_form_id),
+                    $currentCg->faculty_id, $currentCg->education_form_id, $currentCg->financing_type_id) ,
             ];
         }
         return $result;
@@ -103,7 +103,7 @@ class DictCompetitiveGroupService
                 'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
                     $currentCg->speciality_id,
                     $currentCg->specialization_id,
-                    $currentCg->faculty_id, $currentCg->education_form_id),
+                    $currentCg->faculty_id, $currentCg->education_form_id, $currentCg->financing_type_id),
             ];
         }
         return $result;
