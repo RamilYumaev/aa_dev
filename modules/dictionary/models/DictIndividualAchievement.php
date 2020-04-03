@@ -1,8 +1,10 @@
 <?php
 
 namespace modules\dictionary\models;
+
 use modules\dictionary\forms\DictIndividualAchievementForm;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 
 /**
@@ -13,10 +15,9 @@ use yii\db\ActiveRecord;
  * @property string $name_short
  * @property integer $mark
  * @property integer $category_id
- * @property string  $year
+ * @property string $year
  *
  **/
-
 class DictIndividualAchievement extends ActiveRecord
 {
 
@@ -25,8 +26,9 @@ class DictIndividualAchievement extends ActiveRecord
         return "{{%dict_individual_achievement}}";
     }
 
-    public static  function create(DictIndividualAchievementForm $form) {
-        $dictIndividualAchievement =  new static();
+    public static function create(DictIndividualAchievementForm $form)
+    {
+        $dictIndividualAchievement = new static();
         $dictIndividualAchievement->data($form);
         return $dictIndividualAchievement;
     }
@@ -54,10 +56,24 @@ class DictIndividualAchievement extends ActiveRecord
             'mark' => 'Максимальный балл',
             'category_id' => 'Категория',
             'year' => 'Год',
-
             'competitiveGroupsList' => 'Конкурсные группы',
             'documentTypesList' => 'Виды документов',
         ];
+    }
+
+    public static function getFilteredByUserIndividualAchievement()
+    {
+        $userId = \Yii::$app->user->identity->getId();
+        $userChoiceCg = UserCg::find()->select("cg_id")
+            ->andWhere(['user_id' => $userId])
+            ->column();
+        $selectIndividualAchievement = DictIndividualAchievementCg::find()
+            ->andWhere(['in', 'competitive_group_id', $userChoiceCg])
+            ->column();
+
+        return DictIndividualAchievement::find()
+            ->andWhere(["in", "id", $selectIndividualAchievement])
+            ->all();
     }
 
 }

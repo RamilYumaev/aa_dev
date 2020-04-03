@@ -8,11 +8,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 mt-30">
-            <h1><?= Html::encode($this->title) ?></h1>
-            <?php $form = ActiveForm::begin(['id'=> 'form-other-documents']); ?>
+ <?php $form = ActiveForm::begin(['id'=> 'form-other-documents']); ?>
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType([
                 DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
                 DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
@@ -29,6 +25,3 @@ use yii\helpers\Html;
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
             <?php ActiveForm::end(); ?>
-        </div>
-    </div>
-</div>
