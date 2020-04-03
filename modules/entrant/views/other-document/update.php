@@ -2,11 +2,10 @@
 
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\OtherDocumentForm */
-
+use yii\helpers\Html;
 $this->title = "Прочие документы. Редактирование";
 $this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
+$this->params['breadcrumbs'][] = $this->title; ?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
