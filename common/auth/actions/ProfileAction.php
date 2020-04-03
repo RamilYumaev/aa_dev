@@ -26,11 +26,16 @@ class ProfileAction extends \yii\base\Action
             return $this->controller->goHome();
         }
 
+        $referrer = Yii::$app->request->get("redirect");
+
         $form = new ProfileEditForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($form);
                 Yii::$app->session->setFlash('success', 'Успешно обновлен.');
+                if ($referrer == "online-registration") {
+                    return $this->controller->redirect(['/abiturient']);
+                }
                 return $this->controller->redirect(['edit']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

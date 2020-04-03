@@ -23,7 +23,7 @@ $columns = [
 ];
 ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($isData) ?>" >
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($isData) ?>">
         <h4>Документ об образовании</h4>
         <?php if($isUserSchool) :?>
             <?php if($document_education) :?>
@@ -37,11 +37,13 @@ $columns = [
                     'model' => $document_education,
                     'attributes' => $columns
                 ]) ?>
-            <?php else:?>
+            <?php else: ?>
                 <?= Html::a('Добавить документ', ['document-education/create'], ['class' => 'btn btn-success']) ?>
-            <?php endif;?>
-        <?php else:?>
-             <p>Чтобь добавить документ об образовании необходимо акутализировать раздел <?= Html::a('"Учебные организации"', '@frontendInfo/schools', ['class' => 'btn btn-warning']) ?></p>
-        <?php endif;?>
+            <?php endif; ?>
+        <?php else: ?>
+            <p>Чтобь добавить документ об образовании необходимо акутализировать
+                раздел <?= Html::a('"Учебные организации"',
+                    ['/schools/create', 'redirect' => 'online-registration'], ['class' => 'btn btn-warning']) ?></p>
+        <?php endif; ?>
     </div>
 </div>
