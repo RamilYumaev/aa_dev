@@ -20,6 +20,7 @@ array_merge(
                 ['label' => 'Вебинары', 'url' => '/web-conference/index'],
                 ['label' => 'Должности', 'url' => ['/dictionary-module/dict-post-education']],
                 ['label' => 'Справочник ЕГЭ', 'url' => ['/dictionary-module/dict-cse-subject']],
+                ['label' => 'Справочник ИД', 'url' => ['/dictionary-module/dict-individual-achievement']],
             ])]] : []),
 
 //    (Yii::$app->user->can('manager') ?
