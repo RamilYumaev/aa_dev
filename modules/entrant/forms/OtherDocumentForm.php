@@ -2,14 +2,13 @@
 
 namespace modules\entrant\forms;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\OtherDocument;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 class OtherDocumentForm extends Model
 {
-    public $note, $type, $user_id;
+    public $note, $type, $user_id, $amount, $series, $number, $date, $authority;
 
     private $_otherDocument;
 
@@ -17,7 +16,9 @@ class OtherDocumentForm extends Model
     {
         if($otherDocument){
             $this->setAttributes($otherDocument->getAttributes(), false);
+            $this->date=$otherDocument->date ? $otherDocument->getValue("date"): null;
             $this->_otherDocument = $otherDocument;
+
         }
         $this->user_id = \Yii::$app->user->identity->getId();
         parent::__construct($config);
@@ -31,11 +32,15 @@ class OtherDocumentForm extends Model
     {
         return [
             [['type'], 'required'],
-            [['type'], 'integer'],
-            [['note'], 'string', 'max' => 255],
+            [['type','amount'], 'integer'],
+            [['note',  'series', 'number', 'authority'], 'string', 'max' => 255],
+            [['date',], 'safe'],
+            [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType([
                 DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
-                    DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ
+                    DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
+                DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
+                DictIncomingDocumentTypeHelper::TYPE_MEDICINE
             ])
             ],
         ];

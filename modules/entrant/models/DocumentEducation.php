@@ -26,6 +26,9 @@ use modules\entrant\models\queries\DocumentEducationQuery;
  * @property string $date
  * @property string $year
  * @property string $original
+ * @property string $patronymic
+ * @property string $surname
+ * @property string $name
  *
 **/
 
@@ -35,7 +38,8 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
     {
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year', 'original']
+            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
+                'patronymic', 'surname', 'name', 'original', ]
         ]];
     }
 
@@ -54,6 +58,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         $this->date = DateFormatHelper::formatRecord($form->date);
         $this->year = $form->year;
         $this->original = $form->original;
+        $this->surname = !$form->fio ? $form->surname : null;
+        $this->patronymic = !$form->fio ? $form->patronymic : null;
+        $this->name = !$form->fio ? $form->name : null;
         $this->user_id = $form->user_id;
     }
 
@@ -114,6 +121,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'date'=>'От',
             'year'=>'Год окончания',
             'original' => 'Оригинал?',
+            'patronymic' => 'Отчество',
+            'surname' => "Фамилия",
+            'name' => 'Имя',
         ];
     }
 
@@ -124,7 +134,11 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
 
     public function isDataNoEmpty(): bool
     {
-        $arrayNoRequired = ['user_id', 'original'];
+        $arrayNoRequired = ['user_id', 'original','patronymic'];
+        if(!$this->name && !$this->surname)
+        {
+            array_push($arrayNoRequired, 'surname','name');
+        }
         return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
     }
 }
