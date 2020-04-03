@@ -8,8 +8,10 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\DocumentEducationForm;
+use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\queries\DocumentEducationQuery;
 
 /**
@@ -24,16 +26,20 @@ use modules\entrant\models\queries\DocumentEducationQuery;
  * @property string $date
  * @property string $year
  * @property string $original
+ * @property string $patronymic
+ * @property string $surname
+ * @property string $name
  *
 **/
 
-class DocumentEducation extends YiiActiveRecordAndModeration
+class DocumentEducation extends YiiActiveRecordAndModeration implements DataModel
 {
     public function behaviors()
     {
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year', 'original']
+            'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
+                'patronymic', 'surname', 'name', 'original', ]
         ]];
     }
 
@@ -52,6 +58,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         $this->date = DateFormatHelper::formatRecord($form->date);
         $this->year = $form->year;
         $this->original = $form->original;
+        $this->surname = !$form->fio ? $form->surname : null;
+        $this->patronymic = !$form->fio ? $form->patronymic : null;
+        $this->name = !$form->fio ? $form->name : null;
         $this->user_id = $form->user_id;
     }
 
@@ -112,6 +121,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration
             'date'=>'От',
             'year'=>'Год окончания',
             'original' => 'Оригинал?',
+            'patronymic' => 'Отчество',
+            'surname' => "Фамилия",
+            'name' => 'Имя',
         ];
     }
 
@@ -120,4 +132,13 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         return new DocumentEducationQuery(static::class);
     }
 
+    public function isDataNoEmpty(): bool
+    {
+        $arrayNoRequired = ['user_id', 'original','patronymic'];
+        if(!$this->name && !$this->surname)
+        {
+            array_push($arrayNoRequired, 'surname','name');
+        }
+        return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
+    }
 }

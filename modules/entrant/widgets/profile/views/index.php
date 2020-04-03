@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use modules\entrant\helpers\BlockRedGreenHelper;
 
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles */
-$color = $profile->dataNoEmpty() ? 'bg-success' : 'bg-danger';
 $column = [
     'last_name',
     'first_name',
@@ -23,9 +23,9 @@ $column = [
  }
 ?>
 <div class="row">
-    <div class="col-md-12 <?= $color ?>">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($profile->isDataNoEmpty()) ?>">
         <h4>Профиль</h4>
-        <?= Html::a('Редактировать', '@frontendInfo/profile/edit', ['class' => 'btn btn-primary mb-10']) ?>
+        <?= Html::a('Редактировать', ['/profile/edit', "redirect"=> "online-registration"], ['class' => 'btn btn-primary mb-10']) ?>
         <?= DetailView::widget([
                 'options' => ['class' => 'table table-bordered detail-view'],
             'model' => $profile,

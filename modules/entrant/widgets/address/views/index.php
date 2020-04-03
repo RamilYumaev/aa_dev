@@ -1,14 +1,18 @@
 <?php
+
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
+use modules\entrant\helpers\AddressHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(AddressHelper::isExits(Yii::$app->user->identity->getId())) ?>" >
         <h4>Адреса регистрации и проживания:</h4>
         <?= Html::a('Добавить', ['address/create'], ['class' => 'btn btn-success mb-10']) ?>
         <?= \yii\grid\GridView::widget([
+                'tableOptions' => ['class' => 'table  table-bordered'],
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['attribute'=>'type', 'value' => 'typeName'],

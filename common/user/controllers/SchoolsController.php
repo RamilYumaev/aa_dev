@@ -23,7 +23,7 @@ class SchoolsController extends Controller
     public $role;
 
 
-    public function __construct($id,  $module, DictSchoolsReadRepository $repository,
+    public function __construct($id, $module, DictSchoolsReadRepository $repository,
                                 UserSchoolReadRepository $userSchoolReadRepository,
                                 UserTeacherReadRepository $teacherReadRepository,
                                 UserSchoolService $service,
@@ -37,7 +37,8 @@ class SchoolsController extends Controller
         $this->viewPath = '@common/user/views/schools';
     }
 
-    public function actionAll($country_id, $region_id = null) {
+    public function actionAll($country_id, $region_id = null)
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ['result' => $this->repository->getAllSchools($region_id, $country_id)];
 
@@ -49,15 +50,17 @@ class SchoolsController extends Controller
     }
 
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
 
         return $this->render('index', ['role' => $this->role]);
 
     }
 
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $form = new SchooLUserCreateForm($this->role);
-
+        $redirect = Yii::$app->request->get("redirect");
         if (is_null($form->country_id)) {
             Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
             return $this->redirect(['/profile/edit']);
@@ -65,13 +68,17 @@ class SchoolsController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->signup($form, $this->role);
-                $this->redirect('index');
+                if ($redirect == "online-registration") {
+                    return $this->redirect(['/abiturient']);
+                }
+
+                return $this->redirect('index');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->render('create',['model' => $form]);
+        return $this->render('create', ['model' => $form]);
     }
 
     /*
@@ -80,7 +87,8 @@ class SchoolsController extends Controller
       * @throws NotFoundHttpException
     */
 
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->find($id);
         $form = new SchooLUserCreateForm($this->role, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -114,7 +122,6 @@ class SchoolsController extends Controller
     }
 
 
-
     /*
      * @param $id
      * @return mixed
@@ -122,10 +129,10 @@ class SchoolsController extends Controller
    */
     protected function find($id)
     {
-       if ($this->role == ProfileHelper::ROLE_STUDENT) {
-           return  $this->findUserSchool($id);
-       }
-        return  $this->findTeacherSchool($id);
+        if ($this->role == ProfileHelper::ROLE_STUDENT) {
+            return $this->findUserSchool($id);
+        }
+        return $this->findTeacherSchool($id);
     }
 
 
