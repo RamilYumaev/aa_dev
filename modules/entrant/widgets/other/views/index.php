@@ -12,6 +12,7 @@ use yii\helpers\Html;
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['attribute'=>'type', 'value' =>'typeName'],
+                ['value'=> 'otherDocumentFull', 'header' =>  "Данные"],
                 'note',
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'other-document', 'template'=> '{update}{delete}']
             ],
