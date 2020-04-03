@@ -4,15 +4,12 @@ namespace modules\entrant\controllers;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
-use dictionary\models\DictDiscipline;
 use dictionary\repositories\DictCompetitiveGroupRepository;
-use modules\entrant\helpers\CseSubjectHelper;
-use modules\entrant\models\Anketa;
+use yii\helpers\Url;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
 use yii\web\Controller;
 use Yii;
-use yii\web\HttpException;
 
 class ApplicationsController extends Controller
 {
@@ -144,10 +141,10 @@ class ApplicationsController extends Controller
     private function permittedLevelChecked($level)
     {
         $anketa = \Yii::$app->user->identity->anketa();
-
         if (!in_array($level, $anketa->getPermittedEducationLevels())) {
-            \Yii::$app->session->setFlash("error", "Недопустимый уровень образования!");
-            return $this->redirect("/abiturient/anketa/step2");
+            Yii::$app->session->setFlash("error", "Недопустимый уровень образования!");
+            Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+            Yii::$app->end();
         }
 
     }
