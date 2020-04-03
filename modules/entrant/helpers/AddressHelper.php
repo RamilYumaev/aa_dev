@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\helpers;
 
+use modules\entrant\models\Address;
 use yii\helpers\ArrayHelper;
 
 class AddressHelper
@@ -30,6 +31,13 @@ class AddressHelper
     public static function typeName($type): ? string
     {
         return ArrayHelper::getValue(self::typeOfAddress(), $type);
+    }
+
+    public static function isExits($user_id): bool
+    {
+        return Address::find()->andWhere(['user_id' => $user_id])->andWhere(['in','type', [self::TYPE_ACTUAL, self::TYPE_REGISTRATION]])
+            ->orWhere(['in','type', [self::TYPE_ACTUAL, self::TYPE_RESIDENCE]])->count() >=2;
+
     }
 
 
