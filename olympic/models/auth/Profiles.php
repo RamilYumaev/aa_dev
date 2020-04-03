@@ -8,6 +8,8 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
+use modules\entrant\helpers\BlockRedGreenHelper;
+use modules\entrant\interfaces\models\DataModel;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
@@ -15,7 +17,7 @@ use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\queries\ProfilesQuery;
 use olympic\models\behaviors\DeclinationBehavior;
 
-class Profiles extends YiiActiveRecordAndModeration
+class Profiles extends YiiActiveRecordAndModeration implements DataModel
 {
     /**
      * {@inheritdoc}
@@ -24,11 +26,11 @@ class Profiles extends YiiActiveRecordAndModeration
     public function behaviors()
     {
         return [
-            'moderation' => [
-                'class' => ModerationBehavior::class,
-                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id'],
-                'attributesNoEncode'=>['phone']
-            ],
+//            'moderation' => [
+//                'class' => ModerationBehavior::class,
+//                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id'],
+//                'attributesNoEncode'=>['phone']
+//            ],
             'declination' => [
                 'class' =>  DeclinationBehavior::class,
             ],
@@ -135,30 +137,17 @@ class Profiles extends YiiActiveRecordAndModeration
         $this->phone == "";
     }
 
+    public function isDataNoEmpty(): bool
+    {
+        $arrayNoRequired = ['user_id', 'patronymic', 'id', 'role'];
+        if ($this->isNoRussia()) {
+            array_push($arrayNoRequired, 'region_id');
+        }
+        return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
+    }
+
     public function isNoRussia() {
         return $this->country_id !== DictCountryHelper::RUSSIA;
-    }
-
-    public function dataArray(){
-        $array = [];
-        foreach ($this->getAttributes(null,['user_id', 'patronymic', 'id', 'role']) as  $key => $value) {
-            $array[$key] = $value;
-        }
-        if ($array['country_id'] !== DictCountryHelper::RUSSIA) {
-            unset($array['region_id']);
-        }
-        return $array;
-    }
-
-    public function dataNoEmpty()
-    {
-        $i = 0;
-        foreach ($this->dataArray() as $value) {
-            if (empty($value)) {
-                $i++;
-            }
-        }
-        return $i==0;
     }
 
     public function titleModeration(): string

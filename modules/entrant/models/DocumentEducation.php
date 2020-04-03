@@ -8,8 +8,10 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\DocumentEducationForm;
+use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\queries\DocumentEducationQuery;
 
 /**
@@ -27,7 +29,7 @@ use modules\entrant\models\queries\DocumentEducationQuery;
  *
 **/
 
-class DocumentEducation extends YiiActiveRecordAndModeration
+class DocumentEducation extends YiiActiveRecordAndModeration implements DataModel
 {
     public function behaviors()
     {
@@ -120,4 +122,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration
         return new DocumentEducationQuery(static::class);
     }
 
+    public function isDataNoEmpty(): bool
+    {
+        $arrayNoRequired = ['user_id', 'original'];
+        return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
+    }
 }

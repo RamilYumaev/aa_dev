@@ -1,21 +1,24 @@
 <?php
 
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $document_education modules\entrant\models\DocumentEducation */
 /* @var $isUserSchool bool */
-?>
 
+$isData = $document_education ? $document_education->isDataNoEmpty() : false;
+?>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($isData) ?>" >
         <h4>Документ об образовании</h4>
         <?php if($isUserSchool) :?>
             <?php if($document_education) :?>
                 <?= Html::a('Редактировать', ['document-education/update','id'=>$document_education->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Удалить', ['document-education/delete','id'=>$document_education->id], ['class' => 'btn btn-danger','data'=> ['method'=> 'post', 'confirm'=> "Вы уверены что хотите удалить документ об образовании?"]]) ?>
                 <?= DetailView::widget([
+                    'options' => ['class' => 'table table-bordered detail-view'],
                     'model' => $document_education,
                     'attributes' => [
                         ['label'=> $document_education->getAttributeLabel('school_id'),

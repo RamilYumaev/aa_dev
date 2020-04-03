@@ -3,7 +3,6 @@
 namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\DocumentEducation;
 
 use yii\base\Model;
