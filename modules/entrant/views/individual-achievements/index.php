@@ -3,7 +3,11 @@
  * @var $model modules\dictionary\models\DictIndividualAchievement
  */
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
+
+
+\frontend\assets\modal\ModalAsset::register($this);
 
 $this->title = "Доступные индивидуальные достижения";
 $result = "";
@@ -18,8 +22,10 @@ if ($model !== null) {
         $result .= "<tr>";
         $result .= "<td>" . $individualAchievement->name . "</td>";
         $result .= "<td>" . Html::a(Html::tag("span", "",
-                ["class" => "glyphicon glyphicon-plus"]), $individualAchievement->id,
-                ["class" => "btn btn-success"]) . "</td>";
+                ["class" => "glyphicon glyphicon-plus"]),
+                ["add-individual-achievement", "individualId" => $individualAchievement->id],
+                ["class" => "btn btn-success",
+                    'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить']) . "</td>";
         $result .= "</tr>";
     }
     $result .= "</table>";
@@ -33,4 +39,5 @@ if ($model !== null) {
     <div class="row">
         <?= Html::decode($result); ?>
     </div>
+
 </div>

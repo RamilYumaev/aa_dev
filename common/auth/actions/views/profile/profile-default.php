@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box">
             <?php $form = ActiveForm::begin(); ?>
             <div class="box-body">
-                <?= $this->render('_form', ['form' => $form, "model" => $model, "referrer" => $referrer]) ?>
+                <?= $this->render('_form', ['form' => $form, "model" => $model]) ?>
             </div>
             <div class="box-footer">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

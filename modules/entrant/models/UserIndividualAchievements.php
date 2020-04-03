@@ -12,4 +12,15 @@ class UserIndividualAchievements extends ActiveRecord
     {
         return "{{user-individual-achievements}}";
     }
+
+    public static function create($userId, $individualId, $documentId)
+    {
+        $model = new static();
+        $model->user_id = $userId;
+        $model->individual_id = $individualId;
+        $model->document_id = $documentId;
+
+        return $model;
+    }
+
 }
