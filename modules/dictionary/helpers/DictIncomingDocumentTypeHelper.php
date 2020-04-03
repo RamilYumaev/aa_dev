@@ -15,6 +15,8 @@ class DictIncomingDocumentTypeHelper
     const TYPE_EDUCATION_PHOTO= 5;
     const TYPE_DIPLOMA= 6;
 
+    const ID_PHOTO= 45;
+
     public static function listType($type)
     {
         return ArrayHelper::map(self::find($type)->all(), 'id', 'name');
