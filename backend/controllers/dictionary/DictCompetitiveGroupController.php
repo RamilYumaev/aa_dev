@@ -3,13 +3,9 @@
 
 namespace backend\controllers\dictionary;
 
-use backend\models\AisCg;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\models\DictCompetitiveGroup;
-use dictionary\models\DictSpeciality;
-use dictionary\models\DictSpecialization;
-use dictionary\models\Faculty;
 use dictionary\services\DictCompetitiveGroupService;
 use Yii;
 use dictionary\forms\search\DictCompetitiveGroupSearch;

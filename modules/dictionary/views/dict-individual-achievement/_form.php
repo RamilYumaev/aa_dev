@@ -50,6 +50,7 @@ var filterEducationLevelSelect = $("#filter-education_level_id");
 var filterEducationFormSelect = $("#filter-education_form_id");
 var filterFinancingTypeSelect = $("#filter-financing_type_id");
 var filterFacultySelect = $("#filter-faculty_id");
+
 filterEducationLevelSelect.add(filterEducationLevelSelect).add(filterEducationFormSelect).add(filterFinancingTypeSelect)
     .add(filterFacultySelect).add(yearSelect)
     .on("change", function() {
@@ -57,8 +58,8 @@ filterEducationLevelSelect.add(filterEducationLevelSelect).add(filterEducationFo
         url: "/dictionary/dict-competitive-group/full-cg",
         method: "GET",
         dataType: "json",
-        data: {year: yearSelect.val(), educationLevelId: filterEducationLevelSelect.val(), educationFormId: filterEducationFormSelect.val(),
-            facultyId: filterFacultySelect.val(), foreignerStatus: 0, financingTypeId: {$financingTypeBudget}},
+        data: {year: yearSelect.val(), educationLevelId: filterEducationLevelSelect.val(), educationFormId: JSON.stringify(filterEducationFormSelect.val()),
+            facultyId: JSON.stringify(filterFacultySelect.val()), foreignerStatus: 0, financingTypeId: {$financingTypeBudget}},
         async: false,
         success: function(competitiveGroups) {
             var items = competitiveGroups.result;
@@ -70,7 +71,7 @@ filterEducationLevelSelect.add(filterEducationLevelSelect).add(filterEducationFo
             }
         },
         error: function() {
-            alert('Произошла непредвиденная ошибка. Пожалуйста, обратитесь к администратору.');
+          alert('Произошла непредвиденная ошибка. Пожалуйста, обратитесь к администратору.');
         }
     });
 });
