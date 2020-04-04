@@ -16,6 +16,7 @@ class DictIncomingDocumentTypeHelper
     const TYPE_DIPLOMA= 6;
 
     const ID_PHOTO= 45;
+    const ID_MEDICINE= 29;
 
     public static function listType($type)
     {
