@@ -24,7 +24,6 @@ use yii\db\ActiveRecord;
  * @property integer $type
  * @property string $series
  * @property string $number
- * @property string $note
  * @property string $date
  * @property string $authority
  * @property integer $amount
@@ -43,7 +42,6 @@ class OtherDocument extends ActiveRecord
     public function data(OtherDocumentForm $form)
     {
         $this->type = $form->type;
-        $this->note = $form->note;
         $this->amount = $form->amount;
         $this->series = $form->series;
         $this->authority = $form->authority;
@@ -95,7 +93,6 @@ class OtherDocument extends ActiveRecord
     {
         return [
             'type'=>'Тип документа',
-            'note'=>'Примечание',
             'series'=> "Серия",
             'number'=> "Номер",
             'authority' => "Кем выдан?",

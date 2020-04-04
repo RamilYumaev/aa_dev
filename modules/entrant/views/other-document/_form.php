@@ -24,7 +24,6 @@ use yii\helpers\Html;
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
         </div>
     <?= $form->field($model, 'amount')->textInput() ?>
-    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
