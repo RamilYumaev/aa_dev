@@ -13,6 +13,7 @@ use dictionary\repositories\DictCompetitiveGroupRepository;
 use dictionary\repositories\DictSpecialityRepository;
 use dictionary\repositories\DictSpecializationRepository;
 use dictionary\repositories\FacultyRepository;
+use yii\helpers\Json;
 
 class DictCompetitiveGroupService
 {
@@ -92,9 +93,9 @@ class DictCompetitiveGroupService
     {$model = DictCompetitiveGroup::find()
             ->currentYear($year)
             ->eduLevel($educationLevelId)
-            ->faculty($facultyId)
+            ->faculty($this->jsonDecodeIntValue($facultyId))
             ->finance($financingTypeId)
-            ->formEdu($educationFormId)
+            ->formEdu($this->jsonDecodeIntValue($educationFormId))
             ->foreignerStatus($foreignerStatus);
         $result = [];
         foreach ($model->all() as $currentCg) {
@@ -107,5 +108,10 @@ class DictCompetitiveGroupService
             ];
         }
         return $result;
+    }
+
+    private function jsonDecodeIntValue($data) {
+        $array = array_map(function($value) { return (int) $value; }, Json::decode($data));
+        return $array;
     }
 }

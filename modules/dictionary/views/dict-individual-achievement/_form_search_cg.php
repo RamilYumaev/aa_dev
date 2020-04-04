@@ -13,11 +13,14 @@ use dictionary\helpers\DictFacultyHelper;
         <br/>
 
         <label>Форма обучения</label>
-        <?= Html::dropDownList('', null,
-            ['' => ''] + DictCompetitiveGroupHelper::getEduForms(),
-            ['id' => 'filter-education_form_id', 'class' => 'form-control']
-        ) ?>
-        <br/>
+        <?= Select2::widget([
+            'name' => 'filter-education_form_id',
+            'id' => 'filter-education_form_id',
+            'data' =>DictCompetitiveGroupHelper::getEduForms(),
+            'options' => ['placeholder' => 'Выберите форму обучения', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => true],
+        ]); ?>
+       <br/>
 
 <!--        <label>Вид финансирования</label>-->
 <!--        --><?//= Html::dropDownList('', null,
@@ -31,7 +34,7 @@ use dictionary\helpers\DictFacultyHelper;
             'name' => 'filter-faculty_id',
             'id' => 'filter-faculty_id',
             'data' =>DictFacultyHelper::facultyList(),
-            'options' => ['placeholder' => 'Выберите факультет'],
+            'options' => ['placeholder' => 'Выберите факультет', 'multiple' => true],
             'pluginOptions' => ['allowClear' => true],
         ]); ?>
         <br/>

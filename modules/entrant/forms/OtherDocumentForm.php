@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 
 class OtherDocumentForm extends Model
 {
-    public $note, $type, $user_id, $amount, $series, $number, $date, $authority;
+    public $type, $user_id, $amount, $series, $number, $date, $authority;
 
     private $_otherDocument;
 
@@ -33,12 +33,15 @@ class OtherDocumentForm extends Model
         return [
             [['type'], 'required'],
             [['type','amount'], 'integer'],
-            [['note',  'series', 'number', 'authority'], 'string', 'max' => 255],
+            [['series', 'number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             [['amount'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PHOTO;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 45}'],
+            [['date'], 'required', 'when' => function ($model) {
+                return $model->type == DictIncomingDocumentTypeHelper::ID_MEDICINE;},
+                'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 29}'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType([
                 DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
                     DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
