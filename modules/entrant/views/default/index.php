@@ -27,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
     </div>
+
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
+    </div>
     <div class="mt-20">
 
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>

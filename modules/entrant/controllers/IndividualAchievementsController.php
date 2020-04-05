@@ -7,6 +7,7 @@ use modules\dictionary\forms\DictIndividualAchievementForm;
 use modules\dictionary\models\DictIndividualAchievement;
 use modules\dictionary\services\DictIndividualAchievementService;
 use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\services\IndividualAchievementService;
 use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
@@ -44,7 +45,7 @@ class IndividualAchievementsController extends Controller
         return $this->render("index", ["model" => $model]);
     }
 
-    public function actionAddIndividualAchievement($individualId)
+    public function actionSave($id)
     {
         $form = new OtherDocumentForm();
 
@@ -54,7 +55,7 @@ class IndividualAchievementsController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($individualId, $form);
+                $this->service->create($id, $form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -65,5 +66,18 @@ class IndividualAchievementsController extends Controller
         return $this->renderAjax("@modules/entrant/views/other-document/_form", ["model" => $form]);
 
     }
+
+    public function actionRemove($id)
+    {
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(["index"]);
+    }
+
 
 }

@@ -142,7 +142,7 @@ class ApplicationsController extends Controller
     {
         $anketa = \Yii::$app->user->identity->anketa();
         if (!in_array($level, $anketa->getPermittedEducationLevels())) {
-            Yii::$app->session->setFlash("error", "Недопустимый уровень образования!");
+            Yii::$app->session->setFlash("error", "Уровень образования недоступен!");
             Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
             Yii::$app->end();
         }
