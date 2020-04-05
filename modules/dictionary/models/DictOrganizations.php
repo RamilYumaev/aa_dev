@@ -32,12 +32,22 @@ class DictOrganizations extends YiiActiveRecordAndModeration
         return $model;
     }
 
+    public static function createNameUser($name)
+    {
+        $model = new static();
+        $model->setName($name);
+        return $model;
+    }
 
     public function data(DictOrganizationForm $form)
     {
         $this->name = $form->name;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     public function moderationAttributes($value): array
     {

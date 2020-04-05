@@ -6,16 +6,16 @@ namespace modules\dictionary\models\queries;
 
 use yii\db\ActiveQuery;
 
-class DictIndividualAchievementCgQuery extends ActiveQuery
+class DictTargetedTrainingOrganizationCgQuery extends ActiveQuery
 {
     /**
-     * @param  $individualAchievementId
+     * @param  $targetedOrganizationId
      * @return $this
      */
 
-    public function individualAchievementId($individualAchievementId)
+    public function targetedOrganizationId($targetedOrganizationId)
     {
-        return $this->andWhere(['individual_achievement_id' => $individualAchievementId]);
+        return $this->andWhere(['targeted_organization_id' => $targetedOrganizationId]);
     }
 
 }

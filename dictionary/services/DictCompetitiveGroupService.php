@@ -13,6 +13,7 @@ use dictionary\repositories\DictCompetitiveGroupRepository;
 use dictionary\repositories\DictSpecialityRepository;
 use dictionary\repositories\DictSpecializationRepository;
 use dictionary\repositories\FacultyRepository;
+use yii\db\BaseActiveRecord;
 use yii\helpers\Json;
 
 class DictCompetitiveGroupService
@@ -90,14 +91,24 @@ class DictCompetitiveGroupService
 
     public function getAllFullCg($year, $educationLevelId, $educationFormId,
             $facultyId, $foreignerStatus, $financingTypeId)
-    {$model = DictCompetitiveGroup::find()
+    {
+        $model = $this->model($year, $educationLevelId, $educationFormId,
+            $facultyId, $foreignerStatus, $financingTypeId);
+        return $this->dataResult($model);
+    }
+    private function model($year, $educationLevelId, $educationFormId,
+                           $facultyId, $foreignerStatus, $financingTypeId) {
+        return DictCompetitiveGroup::find()
             ->currentYear($year)
             ->eduLevel($educationLevelId)
             ->faculty($this->jsonDecodeIntValue($facultyId))
             ->finance($financingTypeId)
             ->formEdu($this->jsonDecodeIntValue($educationFormId))
             ->foreignerStatus($foreignerStatus);
+    }
+    private function dataResult ($model) {
         $result = [];
+        /* @var $model \yii\db\ActiveQuery*/
         foreach ($model->all() as $currentCg) {
             $result[] = [
                 'id' => $currentCg->id,
@@ -108,6 +119,15 @@ class DictCompetitiveGroupService
             ];
         }
         return $result;
+
+    }
+
+    public function getAllOrganizationCg($year, $educationLevelId, $educationFormId,
+                                 $facultyId, $foreignerStatus, $financingTypeId)
+    {   $model = $this->model($year, $educationLevelId, $educationFormId,
+        $facultyId, $foreignerStatus, $financingTypeId)
+        ->specialRightCel();
+         return $this->dataResult($model);
     }
 
     private function jsonDecodeIntValue($data) {
