@@ -55,6 +55,38 @@ class ApplicationsController extends Controller
         ]);
     }
 
+    public function actionGetTargetBachelor()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $lastYear = $this->currentYear - 1;
+        $transformYear = $lastYear . "-" . $this->currentYear;
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)->onlyTarget()->column());
+
+
+        return $this->render('get-target-bachelor', [
+            'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
+        ]);
+    }
+
+    public function actionGetSpecialRightBachelor()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $lastYear = $this->currentYear - 1;
+        $transformYear = $lastYear . "-" . $this->currentYear;
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)
+            ->onlySpecialRight()
+            ->column());
+
+
+        return $this->render('get-special-right-bachelor', [
+            'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
+        ]);
+    }
+
     public function actionGetMagistracy()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
@@ -94,7 +126,7 @@ class ApplicationsController extends Controller
             $userCg = UserCg::create($cg->id);
             $this->repository->save($userCg);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level);
+                return $this->renderList($cg->edu_level, $cg->special_right_id);
             }
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
@@ -106,18 +138,28 @@ class ApplicationsController extends Controller
 
     }
 
-    protected function renderList($level)
+    protected function renderList($level, $specialRight = null)
     {
 
         $lastYear = $this->currentYear - 1;
         $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)->column());
 
-        $url = DictCompetitiveGroupHelper::getUrl($level);
+
+        $currentFacultyBase = DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear);
+
+        if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
+            $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();
+        } elseif ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
+            $currentFaculty = $currentFacultyBase->onlyTarget()->column();
+        } else {
+            $currentFaculty = $currentFacultyBase->column();
+        }
+
+        $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
         return $this->$method($url, [
-            'currentFaculty' => $currentFaculty,
+            'currentFaculty' => array_unique($currentFaculty),
             'transformYear' => $transformYear
         ]);
     }
@@ -129,7 +171,7 @@ class ApplicationsController extends Controller
             $cg = $this->repositoryCg->get($id);
             $this->repository->remove($userCg);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level);
+                return $this->renderList($cg->edu_level, $cg->special_right_id);
             }
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);

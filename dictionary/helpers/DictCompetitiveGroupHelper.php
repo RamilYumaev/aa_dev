@@ -156,25 +156,37 @@ class DictCompetitiveGroupHelper
             . " / " . $budget;
     }
 
-    public static function getUrl($level)
+    public static function getUrl($level, $specialRight = null)
     {
-        switch ($level) {
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
-                $url = "get-college";
-                break;
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
-                $url = "get-bachelor";
-                break;
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
-                $url = "get-magistracy";
-                break;
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
-                $url = "get-graduate";
-                break;
 
-            default :
-                $url = "#";
+        if ($specialRight) {
+            switch ($specialRight) {
+                case DictCompetitiveGroupHelper::SPECIAL_RIGHT :
+                    $url = "get-special-right-bachelor";
+                    break;
+                case DictCompetitiveGroupHelper::TARGET_PLACE :
+                    $url = "get-target-bachelor";
+                    break;
+            }
+        }else{
+            switch ($level) {
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
+                    $url = "get-college";
+                    break;
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
+                    $url = "get-bachelor";
+                    break;
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
+                    $url = "get-magistracy";
+                    break;
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
+                    $url = "get-graduate";
+                    break;
 
+                default :
+                    $url = "#";
+
+            }
         }
 
         return $url;
