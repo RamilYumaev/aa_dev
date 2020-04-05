@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
+use modules\entrant\behaviors\CgBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\helpers\AddressHelper;
@@ -33,10 +34,7 @@ class CseSubjectResult extends ActiveRecord
 //        ]];
 
         return [
-            'AnketaBehavior' => [
-                'class'=> AnketaBehavior::class,
-                'deleteType'=> 'bachelor',
-            ],
+            ['class'=> CgBehavior::class],
         ];
     }
 
