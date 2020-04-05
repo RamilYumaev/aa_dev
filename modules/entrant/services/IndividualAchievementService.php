@@ -38,6 +38,14 @@ class IndividualAchievementService
         });
     }
 
+    public function remove($individualId)
+    {
+        $model = UserIndividualAchievements::alreadyRecorded($individualId)->one();
+
+        $modelDocument = $this->repositoryDocument->get($model->document_id);
+        $this->repositoryUserIa->remove($model);
+        $this->repositoryDocument->remove($modelDocument);
+    }
 
 
 }
