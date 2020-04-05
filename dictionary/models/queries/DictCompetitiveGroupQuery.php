@@ -96,6 +96,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['financing_type_id' => $financeId]);
     }
 
+    public function specialRightCel()
+    {
+        return $this->andWhere(
+            ['special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+    }
+
+
 
     public function currentYear($year)
     {
