@@ -3,21 +3,20 @@
 
 namespace modules\entrant\controllers;
 
-use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\entrant\forms\OtherDocumentForm;
-use modules\entrant\models\OtherDocument;
-use modules\entrant\services\OtherDocumentService;
-use yii\base\Model;
+
+use modules\entrant\forms\AgreementForm;
+use modules\entrant\models\Agreement;
+use modules\entrant\services\AgreementService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 
-class OtherDocumentController extends Controller
+class AgreementController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, OtherDocumentService $service, $config = [])
+    public function __construct($id, $module, AgreementService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -36,49 +35,23 @@ class OtherDocumentController extends Controller
     }
 
     /**
-     *
      * @return mixed
      */
-
     public function actionCreate()
     {
-       $form = new OtherDocumentForm();
-       $this->formCreate($form, ['default/index']);
-       return $this->render('create', ['model' => $form]);
-    }
-
-    public function actionExemption($category, $type = null)
-    {
-        $form = new OtherDocumentForm(null,
-            $category,
-            $this->arrayRequired($category),
-            [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
-        $this->formCreate($form, ['anketa/step2']);
-        $form->type = $type;
-        return $this->render("exemption", ["model" => $form]);
-    }
-
-    private function formCreate($form, $urlRedirect)
-    {
-        /* @var $form OtherDocumentForm */
-
+        $form = new AgreementForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
-                return  $this->redirect($urlRedirect);
+                return $this->redirect(['anketa/step2']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-    }
-
-    private function arrayRequired($category){
-        $array =  ['series', 'number', 'authority','date'];
-        if($category) {
-            array_push($array, 'exemption_id');
-        }
-        return $array;
+        return $this->render('create', [
+            'model' => $form,
+        ]);
     }
 
     /**
@@ -89,7 +62,7 @@ class OtherDocumentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new OtherDocumentForm($model);
+        $form = new AgreementForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -109,9 +82,9 @@ class OtherDocumentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): OtherDocument
+    protected function findModel($id): Agreement
     {
-        if (($model = OtherDocument::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = Agreement::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
@@ -121,6 +94,7 @@ class OtherDocumentController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         try {

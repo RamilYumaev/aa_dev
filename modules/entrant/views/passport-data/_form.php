@@ -25,6 +25,7 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'division_code')->widget(MaskedInput::class, [
                 'mask' => '999-999',]) ?>
+            <?= $form->field($model, 'main_status')->checkbox() ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>

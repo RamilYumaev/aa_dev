@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 
 class DictIncomingDocumentTypeHelper
 {
-
+    const TYPE_OTHER = null;
     const TYPE_EDUCATION = 1;
     const TYPE_PASSPORT = 2;
     const TYPE_MEDICINE= 3;
@@ -37,6 +37,8 @@ class DictIncomingDocumentTypeHelper
     {
         return ArrayHelper::getValue(self::listType($type), $key);
     }
+
+
 
 
 }

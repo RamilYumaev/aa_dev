@@ -4,22 +4,14 @@ namespace modules\entrant\behaviors;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
-use modules\entrant\models\CseSubjectResult;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
 use yii\db\BaseActiveRecord;
-use yii\web\User;
 use Yii;
 
-
-class AnketaBehavior extends Behavior
+class CgBehavior extends Behavior
 {
-
-    /**
-     * @return array
-     */
-
     /**
      * @var BaseActiveRecord
      */
@@ -34,12 +26,17 @@ class AnketaBehavior extends Behavior
 
     public function beforeUpdate($event)
     {
-        if ($this->userCseResultExist() && !$this->checkUpdate()) {
-            CseSubjectResult::deleteAll($this->userWhere());
-        }
         if ($this->userCgExists() && !$this->checkUpdate()) {
-            UserCg::deleteAll($this->userWhere());
+            UserCg::deleteAll(['user_id' => Yii::$app->user->identity->getId(),
+                    'cg_id' => $this->bachelorCg()]);
         }
+
+    }
+
+    private function bachelorCg()
+    {
+        return DictCompetitiveGroup::find()
+            ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)->column();
     }
 
     private function userCgExists()
@@ -47,18 +44,9 @@ class AnketaBehavior extends Behavior
         return UserCg::find()->findUser()->exists();
     }
 
-    private function userCseResultExist()
-    {
-        return CseSubjectResult::find()->where($this->userWhere())->exists();
-    }
-
     private function checkUpdate()
     {
         return $this->owner->oldAttributes == $this->owner->attributes;
-    }
-
-    private function userWhere() {
-        return ['user_id' => Yii::$app->user->identity->getId()];
     }
 
 }

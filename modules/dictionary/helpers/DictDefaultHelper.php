@@ -19,7 +19,7 @@ class DictDefaultHelper
         ];
     }
 
-    public static function name($key) : string
+    public static function name($key) : ?string
     {
         return ArrayHelper::getValue(self::nameList(), $key);
     }
@@ -43,6 +43,15 @@ class DictDefaultHelper
             5 => 'Чемпион Европы',
             4 => 'Чемпион мира'
         ];
+    }
+
+    public static function categoryExemptionList() {
+        return [1 => 'инвалиды', 2 => 'сироты', 3 => 'ветераны боевых действий'];
+    }
+
+    public static function categoryExemptionName($key) : ?string
+    {
+        return ArrayHelper::getValue(self::categoryExemptionList(), $key);
     }
 
     public static function categoryDictIAName($key) : string
