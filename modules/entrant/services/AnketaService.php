@@ -30,6 +30,7 @@ class AnketaService
         $model = $this->repository->get($id);
         $model->data($form);
         $model->save($model);
+        return $model;
     }
 
     public function category($foreignerStatus)
