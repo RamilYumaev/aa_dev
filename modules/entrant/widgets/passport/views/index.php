@@ -17,6 +17,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
             'columns' => [
                 ['attribute'=>'type', 'value' => 'typeName',],
                 ['attribute'=>'nationality', 'value' => 'nationalityName'],
+                ['attribute'=>'main_status', 'value' => 'mainStatus'],
                 ['value'=> 'passportFull', 'header' =>  "Паспортные данные"],
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'passport-data', 'template'=> '{update} {delete}']
             ],
