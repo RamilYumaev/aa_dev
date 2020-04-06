@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
@@ -27,6 +28,7 @@ use yii\base\InvalidConfigException;
  * @property string $date_of_issue
  * @property string $authority
  * @property string $division_code
+ * @property integer $main_status
  *
 **/
 
@@ -37,7 +39,7 @@ class PassportData extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => ['nationality', 'type', 'series', 'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority',
-                'division_code']
+                'division_code', 'main_status']
         ]];
     }
 
@@ -57,6 +59,7 @@ class PassportData extends YiiActiveRecordAndModeration
         $this->place_of_birth = $form->place_of_birth;
         $this->date_of_issue =  DateFormatHelper::formatRecord($form->date_of_issue);
         $this->authority = $form->authority;
+        $this->main_status = $form->main_status;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;
     }
@@ -87,6 +90,10 @@ class PassportData extends YiiActiveRecordAndModeration
         return "{{%passport_data}}";
     }
 
+    public function getMainStatus() {
+        return   DictDefaultHelper::name($this->main_status);
+    }
+
     public function titleModeration(): string
     {
         return "Паспортные данные";
@@ -113,6 +120,7 @@ class PassportData extends YiiActiveRecordAndModeration
             'date_of_issue'=> DateFormatHelper::formatView($value),
             'authority'=> $value,
             'division_code'=> $value,
+            'main_status'=> DictDefaultHelper::name($value)
             ];
     }
 
@@ -127,7 +135,8 @@ class PassportData extends YiiActiveRecordAndModeration
             'place_of_birth'=>'Место рождения',
             'date_of_issue'=>'Дата выдачи',
             'authority'=>'Кем выдан',
-            'division_code'=>'Код подразделения'
+            'division_code'=>'Код подразделения',
+            'main_status'=> 'Основной документ'
         ];
     }
 
