@@ -3,9 +3,11 @@
 
 namespace modules\entrant\controllers;
 
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\services\OtherDocumentService;
+use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -40,19 +42,43 @@ class OtherDocumentController extends Controller
 
     public function actionCreate()
     {
-        $form = new OtherDocumentForm();
+       $form = new OtherDocumentForm();
+       $this->formCreate($form, ['default/index']);
+       return $this->render('create', ['model' => $form]);
+    }
+
+    public function actionExemption($category, $type = null)
+    {
+        $form = new OtherDocumentForm(null,
+            $category,
+            $this->arrayRequired($category),
+            [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
+        $this->formCreate($form, ['anketa/step2']);
+        $form->type = $type;
+        return $this->render("exemption", ["model" => $form]);
+    }
+
+    private function formCreate($form, $urlRedirect)
+    {
+        /* @var $form OtherDocumentForm */
+
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
-                return $this->redirect(['default/index']);
+                return  $this->redirect($urlRedirect);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->render('create', [
-            'model' => $form,
-        ]);
+    }
+
+    private function arrayRequired($category){
+        $array =  ['series', 'number', 'authority','date'];
+        if($category) {
+            array_push($array, 'exemption_id');
+        }
+        return $array;
     }
 
     /**

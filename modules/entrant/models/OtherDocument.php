@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property string $date
  * @property string $authority
  * @property integer $amount
+ * @property integer $exemption_id
  *
 **/
 
@@ -47,6 +48,7 @@ class OtherDocument extends ActiveRecord
         $this->authority = $form->authority;
         $this->number = $form->number;
         $this->date = $form->date ? DateFormatHelper::formatRecord($form->date) : null;
+        $this->exemption_id = $form->exemption_id;
         $this->user_id = $form->user_id;
     }
 
@@ -64,7 +66,8 @@ class OtherDocument extends ActiveRecord
         return DictIncomingDocumentTypeHelper::typeName([DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
             DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
             DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
-            DictIncomingDocumentTypeHelper::TYPE_MEDICINE], $this->type);
+            DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
+            DictIncomingDocumentTypeHelper::TYPE_OTHER], $this->type);
     }
 
     public function getValue($property){
@@ -80,7 +83,7 @@ class OtherDocument extends ActiveRecord
 
     public function getOtherDocumentFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'id','exemption_id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
@@ -95,9 +98,10 @@ class OtherDocument extends ActiveRecord
             'type'=>'Тип документа',
             'series'=> "Серия",
             'number'=> "Номер",
-            'authority' => "Кем выдан?",
+            'authority' => "Кем выдан",
             'amount' => "Количество",
-            'date' => "Дата выдачи"
+            'date' => "Дата выдачи",
+            'exemption_id'=> "Категория льготы",
         ];
     }
 

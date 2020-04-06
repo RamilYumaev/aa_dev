@@ -1,7 +1,6 @@
 <?php
 namespace modules\entrant\widgets\passport;
 
-use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;

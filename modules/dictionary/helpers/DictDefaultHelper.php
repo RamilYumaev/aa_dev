@@ -45,6 +45,15 @@ class DictDefaultHelper
         ];
     }
 
+    public static function categoryExemptionList() {
+        return [1 => 'инвалиды', 2 => 'сироты', 3 => 'ветераны боевых действий'];
+    }
+
+    public static function categoryExemptionName($key) : ?string
+    {
+        return ArrayHelper::getValue(self::categoryExemptionList(), $key);
+    }
+
     public static function categoryDictIAName($key) : string
     {
         return ArrayHelper::getValue(self::categoryDictIAList(), $key);

@@ -42,8 +42,8 @@ class AgreementController extends Controller
         $form = new AgreementForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->service->create($form);
-                return $this->redirect(['default/index']);
+                $this->service->create($form);
+                return $this->redirect(['anketa/step2']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

@@ -41,13 +41,19 @@ class AnketaController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 if ($this->anketa) {
-                    $this->service->update($this->anketa->id, $form);
-
+                    $model = $this->service->update($this->anketa->id, $form);
                 } else {
-                    $this->service->create($form);
-
+                    $model =  $this->service->create($form);
                 }
-                return $this->redirect(["step2"]);
+                if ($model->category_id == 2 || $model->category_id == 3) {
+                    return $this->redirect(["other-document/exemption",
+                        'category' => $model->category_id == 2 ? 1 : 0,
+                        'type' =>  $model->category_id == 3 ? 43 : null]);
+                } elseif($model->category_id == 4) {
+                    return $this->redirect(["agreement/create"]);
+                } else {
+                    return $this->redirect(["step2"]);
+                }
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

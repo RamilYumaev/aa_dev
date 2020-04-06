@@ -77,7 +77,7 @@ class PassportData extends YiiActiveRecordAndModeration
 
     public function getPassportFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'nationality', 'id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'type', 'nationality', 'id', 'main_status']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }

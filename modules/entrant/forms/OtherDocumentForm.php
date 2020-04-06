@@ -8,12 +8,25 @@ use yii\helpers\ArrayHelper;
 
 class OtherDocumentForm extends Model
 {
-    public $type, $user_id, $amount, $series, $number, $date, $authority;
+    public $type, $user_id, $amount, $series, $number, $date, $authority, $exemption_id;
+
+    private $arrayRequired;
+
+    private $typesDocument;
 
     private $_otherDocument;
 
-    public function __construct(OtherDocument $otherDocument = null, $config = [])
+    public $isExemption;
+
+    public function __construct(OtherDocument $otherDocument = null,
+                                $exemption = false,
+                                $arrayRequired = [],
+                                $typesDocument = [],
+                                $config = [])
     {
+        $this->isExemption = $exemption;
+        $this->typesDocument = $typesDocument;
+        $this->arrayRequired = $arrayRequired;
         if($otherDocument){
             $this->setAttributes($otherDocument->getAttributes(), false);
             $this->date=$otherDocument->date ? $otherDocument->getValue("date"): null;
@@ -31,8 +44,8 @@ class OtherDocumentForm extends Model
     public function defaultRules()
     {
         return [
-            [['type'], 'required'],
-            [['type','amount'], 'integer'],
+            [$this->required(), 'required'],
+            [['type','amount', 'exemption_id'], 'integer'],
             [['series', 'number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
@@ -42,14 +55,32 @@ class OtherDocumentForm extends Model
             [['date'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_MEDICINE;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 29}'],
-            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType([
-                DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
-                    DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
-                DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
-                DictIncomingDocumentTypeHelper::TYPE_MEDICINE
-            ])
+            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType($this->typeDocuments())
             ],
         ];
+    }
+
+    private function required() {
+
+        if ($this->arrayRequired) {
+            $attribute = $this->arrayRequired;
+        } else {
+            $attribute =['type'];
+        }
+       return $attribute;
+    }
+
+    public function typeDocuments() {
+        if($this->typesDocument) {
+            return $this->typesDocument;
+        }
+        return [
+            DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
+            DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
+            DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
+            DictIncomingDocumentTypeHelper::TYPE_MEDICINE
+        ];
+
     }
 
     /**
