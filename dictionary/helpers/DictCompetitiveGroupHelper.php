@@ -165,10 +165,16 @@ class DictCompetitiveGroupHelper
                     $url = "get-special-right-bachelor";
                     break;
                 case DictCompetitiveGroupHelper::TARGET_PLACE :
-                    $url = "get-target-bachelor";
+                    if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) {
+                        $url = "get-target-magistracy";
+                    } elseif ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
+                        $url = "get-target-graduate";
+                    } else {
+                        $url = "get-target-bachelor";
+                    }
                     break;
             }
-        }else{
+        } else {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
                     $url = "get-college";

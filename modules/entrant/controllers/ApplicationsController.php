@@ -17,7 +17,10 @@ class ApplicationsController extends Controller
     private $repository, $repositoryCg;
     public $currentYear = 2020;
 
-    public function __construct($id, $module, UserCgRepository $repository, DictCompetitiveGroupRepository $repositoryCg, $config = [])
+    public function __construct($id, $module,
+                                UserCgRepository $repository,
+                                DictCompetitiveGroupRepository
+                                $repositoryCg, $config = [])
     {
         parent::__construct($id, $module, $config);
 
@@ -102,6 +105,23 @@ class ApplicationsController extends Controller
         ]);
     }
 
+    public function actionGetTargetMagistracy()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        $lastYear = $this->currentYear - 1;
+        $transformYear = $lastYear . "-" . $this->currentYear;
+        $currentFaculty = array_unique(DictCompetitiveGroup::find()
+            ->allActualFacultyWithoutBranch($transformYear)
+            ->onlyTarget()
+            ->column());
+
+
+        return $this->render('get-target-magistracy', [
+            'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
+        ]);
+    }
+
     public function actionGetGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
@@ -112,6 +132,22 @@ class ApplicationsController extends Controller
 
 
         return $this->render('get-graduate', [
+            'currentFaculty' => $currentFaculty,
+            'transformYear' => $transformYear,
+        ]);
+    }
+
+    public function actionGetTargetGraduate()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        $lastYear = $this->currentYear - 1;
+        $transformYear = $lastYear . "-" . $this->currentYear;
+        $currentFaculty = DictCompetitiveGroup::find()
+            ->onlyTarget()
+            ->allActualFacultyWithoutBranch($transformYear);
+
+
+        return $this->render('get-target-graduate', [
             'currentFaculty' => $currentFaculty,
             'transformYear' => $transformYear,
         ]);

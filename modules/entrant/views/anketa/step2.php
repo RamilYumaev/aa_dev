@@ -36,8 +36,8 @@ $onlyCse = $anketa->onlyCse();
                 </div>
                 <div>
                     <?php
-                    if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse
-                    ) {
+
+                    if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
                         echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse");
                         if (CseSubjectHelper::minNumberSubject($userId)) {
                             echo AnketaHelper::getButton($level);
@@ -48,6 +48,7 @@ $onlyCse = $anketa->onlyCse();
                     } else {
                         echo AnketaHelper::getButton($level);
                     }
+
                     ?>
                 </div>
             </div>
