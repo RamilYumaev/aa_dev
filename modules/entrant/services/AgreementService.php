@@ -28,24 +28,18 @@ class AgreementService
         $this->transactionManager = $transactionManager;
     }
 
-    public function create(AgreementForm $form)
+    public function createOrUpdate(AgreementForm $form, Agreement $model = null)
     {
-        $this->transactionManager->wrap(function () use($form) {
+        $this->transactionManager->wrap(function () use($form, $model) {
             $organization_id = $this->addOrUpdateOrganization($form);
-            $model = Agreement::create($form,$organization_id) ;
-            $this->repository->save($model);
+            if($model) {
+                $agreement = $this->repository->get($model->id);
+                $agreement->data($form, $organization_id);
+            }else {
+                $agreement = Agreement::create($form,$organization_id);
+            }
+            $this->repository->save($agreement);
         });
-    }
-
-    public function edit($id, AgreementForm $form)
-    {
-        $this->transactionManager->wrap(function () use ($id, $form) {
-            $organization_id = $this->addOrUpdateOrganization($form);
-            $model = $this->repository->get($id);
-            $model->data($form, $organization_id);
-            $model->save($model);
-        });
-
     }
 
     private function addOrUpdateOrganization(AgreementForm $form) {

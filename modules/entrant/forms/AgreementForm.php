@@ -2,6 +2,7 @@
 
 namespace modules\entrant\forms;
 
+use common\helpers\EduYearHelper;
 use modules\entrant\models\Agreement;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -22,6 +23,8 @@ class AgreementForm extends Model
         }else {
             $this->user_id = \Yii::$app->user->identity->getId();
         }
+
+        $this->year= EduYearHelper::eduYear();
         parent::__construct($config);
     }
 

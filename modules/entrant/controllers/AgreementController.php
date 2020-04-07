@@ -4,13 +4,12 @@
 namespace modules\entrant\controllers;
 
 
+use common\helpers\EduYearHelper;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\models\Agreement;
 use modules\entrant\services\AgreementService;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
-use yii\web\NotFoundHttpException;
 
 class AgreementController extends Controller
 {
@@ -22,87 +21,30 @@ class AgreementController extends Controller
         $this->service = $service;
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * @return mixed
      */
-    public function actionCreate()
+    public function actionIndex()
     {
-        $form = new AgreementForm();
+        $model = $this->findModel() ?? null;
+        $form = new AgreementForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form);
+                $this->service->createOrUpdate($form, $model);
                 return $this->redirect(['anketa/step2']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->render('create', [
+        return $this->render('index', [
             'model' => $form,
+            'agreement' => $model
         ]);
     }
 
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionUpdate($id)
+    protected function findModel(): ?Agreement
     {
-        $model = $this->findModel($id);
-        $form = new AgreementForm($model);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($model->id, $form);
-                return $this->redirect(['default/index']);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('update', [
-            'model' => $form,
-        ]);
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    protected function findModel($id): Agreement
-    {
-        if (($model = Agreement::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('Такой страницы не существует.');
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-
-    public function actionDelete($id)
-    {
-        try {
-            $this->service->remove($id);
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(['default/index']);
+      return Agreement::findOne([ 'user_id' => Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);
     }
 }

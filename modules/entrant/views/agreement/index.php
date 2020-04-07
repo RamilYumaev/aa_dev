@@ -1,7 +1,9 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\AgreementForm */
-$this->title = "Анкета. Шаг 1.1. Договор. Добавление.";
+/* @var $agreement modules\entrant\models\Agreement */
+
+$this->title = "Анкета. Шаг 1.1. Договор ". ($agreement ? "Редактирование": "Добавление").".";
 $this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 use yii\helpers\Html; ?>

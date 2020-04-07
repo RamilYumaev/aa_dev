@@ -19,11 +19,9 @@ use yii\helpers\Html;
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
             <?php if($model->isExemption || $model->exemption_id): ?>
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
-            <?php else: ?>
-            <?= $form->field($model, 'amount')->textInput() ?>
             <?php endif; ?>
         </div>
-
+        <?= $form->field($model, 'amount')->textInput() ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
