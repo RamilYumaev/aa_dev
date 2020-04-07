@@ -52,6 +52,11 @@ class UserCgHelper
         return UserCg::find()->findUserAndCg($id)->exists();
     }
 
+    public static function findUser()
+    {
+        return UserCg::find()->findUser()->exists();
+    }
+
     public static function trColor(DictCompetitiveGroup $cgContract): String
     {
         $budgetCg = DictCompetitiveGroup::find()->findBudgetAnalog($cgContract)->one();

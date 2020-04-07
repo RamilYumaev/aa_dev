@@ -7,16 +7,16 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 \common\auth\actions\assets\LoginAsset::register($this);
-$this->title = 'Восстановление пароля';
+$this->title = 'Восстановление доступа';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="login-box">
     <div class="login-box-body">
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
         <div class="login-logo">
-            <h2>Восстановление пароля</h2>
+            <h2><?= $this->title ?> </h2>
         </div><!-- /.login-logo -->
-        <h4 class="login-box-msg">Для восстановления пароля введите, пожалуйста, адрес электронной почты, указанный при регистрации:</h4>
+        <h4 class="login-box-msg">Для восстановления доступа введите, пожалуйста, адрес электронной почты, указанный при регистрации:</h4>
         <?php $form = ActiveForm::begin(['id' => 'form-request']); ?>
         <div class="form-group has-feedback">
             <?= $form->field($model, 'email') ?>

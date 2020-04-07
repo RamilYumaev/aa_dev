@@ -35,4 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
     </div>
+
+    <div class="mt-20">
+
+        <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
+    </div>
 </div>
