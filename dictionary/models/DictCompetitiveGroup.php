@@ -8,8 +8,6 @@ use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
-use dictionary\models\Faculty;
-use dictionary\models\DictSpeciality;
 use yii\db\ActiveRecord;
 
 class DictCompetitiveGroup extends ActiveRecord
@@ -211,6 +209,15 @@ class DictCompetitiveGroup extends ActiveRecord
                 return DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH;
                 break;
         }
+    }
+
+    public function getFullNameCg() {
+        return DictCompetitiveGroupHelper::getFullName(null, $this->edu_level,
+            $this->speciality_id,
+            $this->specialization_id,
+            $this->faculty_id,
+            $this->education_form_id,
+            $this->financing_type_id);
     }
 
 

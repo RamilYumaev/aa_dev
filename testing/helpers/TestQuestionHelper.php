@@ -61,10 +61,16 @@ class TestQuestionHelper
     public static function getAllFileTypes()
     {
         return [
-            self::FILE_TYPE_IMAGE => 'Изображение',
-            self::FILE_TYPE_TEXT => 'Текст',
-            self::FILE_TYPE_MEDIA => 'Мультимедиа',
+            self::FILE_TYPE_IMAGE => 'Изображение'.self::extensions(self::FILE_TYPE_IMAGE),
+            self::FILE_TYPE_TEXT => 'Текст'.self::extensions(self::FILE_TYPE_TEXT),
+            self::FILE_TYPE_MEDIA => 'Мультимедиа'.self::extensions(self::FILE_TYPE_MEDIA),
         ];
+    }
+
+
+    public static function extensions($type)
+    {
+        return " (".implode(", ", TestQuestionHelper::FILE_VALIDATE_RULES[$type]['extensions']).")";
     }
 
     public static function getAllTypeCloze()

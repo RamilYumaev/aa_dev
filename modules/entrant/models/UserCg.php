@@ -3,6 +3,8 @@
 namespace modules\entrant\models;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\queries\UserCgQuery;
 use yii\db\ActiveRecord;
 use \Yii;
@@ -34,6 +36,16 @@ class UserCg extends ActiveRecord
     public static function find() : UserCgQuery
     {
         return new UserCgQuery(static::class);
+    }
+
+
+    public function getCg() {
+        return $this->hasOne(DictCompetitiveGroup::class,['id' => 'cg_id']);
+    }
+
+    public function attributeLabels()
+    {
+        return ['cg_id'=> "Образовательные программы"];
     }
 
 }
