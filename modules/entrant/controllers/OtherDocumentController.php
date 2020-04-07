@@ -43,28 +43,43 @@ class OtherDocumentController extends Controller
     public function actionCreate()
     {
        $form = new OtherDocumentForm();
-       $this->formCreate($form, ['default/index']);
+       $this->formCreateUpdate($form, ['default/index']);
        return $this->render('create', ['model' => $form]);
     }
 
-    public function actionExemption($category, $type = null)
+    public function actionPatriot()
     {
-        $form = new OtherDocumentForm(null,
-            $category,
-            $this->arrayRequired($category),
+        $type = 43;
+        $form = new OtherDocumentForm(
+            $this->findOne(['type'=> $type, 'user_id' => Yii::$app->user->identity->getId()]) ?? null,
+            false,
+            $this->arrayRequired(false),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
-        $this->formCreate($form, ['anketa/step2']);
+        $this->formCreateUpdate($form, ['anketa/step2']);
         $form->type = $type;
+        return $this->render("patriot", ["model" => $form]);
+    }
+
+    public function actionExemption()
+    {
+        $form = new OtherDocumentForm(
+            $this->findOne(['exemption_id'=> true, 'user_id' => Yii::$app->user->identity->getId()]) ?? null,
+            true,
+            $this->arrayRequired(true),
+            [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
+        $this->formCreateUpdate($form, ['anketa/step2']);
         return $this->render("exemption", ["model" => $form]);
     }
 
-    private function formCreate($form, $urlRedirect)
+    private function formCreateUpdate(OtherDocumentForm $form, $urlRedirect, OtherDocument $model = null)
     {
-        /* @var $form OtherDocumentForm */
-
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form);
+                if($model) {
+                    $this->service->edit($model->id, $form);
+                }else {
+                    $this->service->create($form);
+                }
                 return  $this->redirect($urlRedirect);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -90,15 +105,7 @@ class OtherDocumentController extends Controller
     {
         $model = $this->findModel($id);
         $form = new OtherDocumentForm($model);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($model->id, $form);
-                return $this->redirect(['default/index']);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
+        $this->formCreateUpdate($form, ['default/index'], $model);
         return $this->render('update', [
             'model' => $form,
         ]);
@@ -116,6 +123,11 @@ class OtherDocumentController extends Controller
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
+
+    protected function findOne(array $condition){
+        return OtherDocument::findOne($condition);
+    }
+
 
     /**
      * @param integer $id

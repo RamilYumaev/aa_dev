@@ -57,6 +57,21 @@ class Anketa extends ActiveRecord
 
     }
 
+    public function isAgreement()
+    {
+        return $this->category_id == 4;
+    }
+
+    public function isExemption()
+    {
+        return $this->category_id == 2;
+    }
+
+    public function isPatriot()
+    {
+        return $this->category_id == 3;
+    }
+
 //    public function titleModeration(): string
 //    {
 //        return "Анкета";

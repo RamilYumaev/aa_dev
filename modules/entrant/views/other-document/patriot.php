@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\OtherDocumentForm */
-$this->title = "Анкета. Шаг 1.1. Квота";
+$this->title = "Анкета. Шаг 1.1. Документ, подтверждающий принадлежность к соотечественникам за рубежом";
 
 $this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
