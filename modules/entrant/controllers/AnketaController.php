@@ -28,16 +28,13 @@ class AnketaController extends Controller
 
     public function actionStep1()
     {
-
         if ($this->anketa) {
             Yii::$app->session->setFlash("warning", "Редактирование анкеты приведет к удалению всех ранее 
         выбранных образовательных программ!");
             $form = new AnketaForm($this->anketa);
         } else {
             $form = new AnketaForm();
-
         }
-
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 if ($this->anketa) {
@@ -45,12 +42,12 @@ class AnketaController extends Controller
                 } else {
                     $model =  $this->service->create($form);
                 }
-                if ($model->category_id == 2 || $model->category_id == 3) {
-                    return $this->redirect(["other-document/exemption",
-                        'category' => $model->category_id == 2 ? 1 : 0,
-                        'type' =>  $model->category_id == 3 ? 43 : null]);
+                if ($model->category_id == 2) {
+                    return $this->redirect(["other-document/exemption"]);
+                } elseif($model->category_id == 3) {
+                    return $this->redirect(["other-document/patriot"]);
                 } elseif($model->category_id == 4) {
-                    return $this->redirect(["agreement/create"]);
+                    return $this->redirect(["agreement/index"]);
                 } else {
                     return $this->redirect(["step2"]);
                 }

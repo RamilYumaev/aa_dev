@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\forms\PassportDataForm;
@@ -76,6 +77,11 @@ class OtherDocument extends ActiveRecord
         }
         return $this->$property;
     }
+
+    public function getExemption(){
+       return DictDefaultHelper::categoryExemptionName($this->exemption_id);
+    }
+
 
     protected function getProperty($property){
         return $this->getAttributeLabel($property).": ".$this->getValue($property);

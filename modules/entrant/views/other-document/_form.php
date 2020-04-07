@@ -11,7 +11,9 @@ use yii\helpers\Html;
 \modules\entrant\assets\other\OtherDocumentAsset::register($this);
 ?>
  <?php $form = ActiveForm::begin(['id'=> 'form-other-documents']); ?>
-    <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType($model->typeDocuments())) ?>
+      <?php if($model->type !=43): ?>
+      <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType($model->typeDocuments())) ?>
+      <?php endif; ?>
         <div id="other-document-full">
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
@@ -21,7 +23,9 @@ use yii\helpers\Html;
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
             <?php endif; ?>
         </div>
+        <?php if($model->type !=43): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
+        <?php endif; ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

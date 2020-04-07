@@ -71,6 +71,10 @@ class Agreement extends YiiActiveRecordAndModeration
         return $this->$property;
     }
 
+    public function getOrganization() {
+        return DictOrganizationsHelper::organizationName($this->organization_id);
+    }
+
 
     public function moderationAttributes($value): array
     {
