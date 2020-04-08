@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 use modules\entrant\models\Anketa;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class PostDocumentHelper
 {
@@ -17,7 +18,7 @@ class PostDocumentHelper
             self::TYPE_MAIL => "По почте",
             self::TYPE_ONLINE => "Онлайн",
             self::TYPE_VISIT => "Личный визит",
-            self::TYPE_ECP => "ECP",
+            self::TYPE_ECP => "Онлайн с электронной подписью",
         ];
     }
 
@@ -44,13 +45,18 @@ class PostDocumentHelper
        return ArrayHelper::getValue($array, $key);
     }
 
+    public static function link($key, $link = null) {
+        return Html::a(self::value(self::submittedList(), $key), $link ?? self::value(self::submittedListUrl(), $key),
+                        ['class'=> self::value(self::submittedLisClass(), $key), 'data'=> ['method' => 'post']]);
+    }
+
 
     private static function common($user_id)
     {
         return UserCgHelper::findUser($user_id) &&
             AddressHelper::isExits($user_id) &&
             PassportDataHelper::isExits($user_id) &&
-            LanguageHelper::isExits($user_id) &&
+           // LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id);
     }

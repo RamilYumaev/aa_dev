@@ -8,13 +8,12 @@ use modules\entrant\helpers\PostDocumentHelper;
     <div class="col-md-12">
         <div class="mt-20">
             <?php if($submitted): ?>
-                <h4>Ваш способ подачи документов - <?= $submitted->typeName ?></h4>
+                <h4>Ваш способ подачи документов - <?= PostDocumentHelper::link($submitted->type, ['post-document/index']) ?></h4>
             <?php endif; ?>
             <h4>Способы подачи документов</h4>
-            <?php foreach (PostDocumentHelper::submittedList() as $key=> $value) :?>
-            <?= Html::a($value, PostDocumentHelper::value(PostDocumentHelper::submittedListUrl(), $key),
-                        ['class'=> PostDocumentHelper::value(PostDocumentHelper::submittedLisClass(), $key),
-                            'data'=> ['method' => 'post']])?>
+            <?php foreach (PostDocumentHelper::submittedList() as $key => $value) :
+                if($submitted && $submitted->type == $key) {continue;} ?>
+            <?= PostDocumentHelper::link($key)?>
             <?php endforeach; ?>
         </div>
     </div>

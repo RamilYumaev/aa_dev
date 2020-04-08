@@ -5,9 +5,11 @@ use yii\base\Widget;
 
 class SubmittedDocumentWidget extends Widget
 {
+
+    public $view = "index";
     public function run()
     {
-        return $this->render('index', [
+        return $this->render($this->view, [
             'submitted' => SubmittedDocuments::findOne(['user_id' => \Yii::$app->user->identity->getId()]),
         ]);
     }
