@@ -36,20 +36,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \modules\entrant\widgets\language\LanguageWidget::widget(); ?>
     </div>
     <div class="mt-20">
-
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
     </div>
-
     <div class="mt-20">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
     </div>
     <div class="mt-20">
-
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
     </div>
-
     <div class="mt-20">
-
         <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
     </div>
+    <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
+        <?= $this->render('_post_document') ?>
+    <?php endif; ?>
 </div>

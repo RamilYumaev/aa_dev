@@ -8,7 +8,7 @@ use modules\entrant\helpers\UserCgHelper;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserCgHelper::findUser()) ?>" >
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserCgHelper::findUser(Yii::$app->user->identity->getId())) ?>" >
         <h4>Образовательные программы:</h4>
         <?= Html::a('Поиск', ['anketa/step2'], ['class' => 'btn btn-warning mb-10']) ?>
         <?= \yii\grid\GridView::widget([

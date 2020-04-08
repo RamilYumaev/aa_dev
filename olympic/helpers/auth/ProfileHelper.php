@@ -125,6 +125,12 @@ class ProfileHelper
         }
     }
 
+    public static function isDataNoEmpty($userId)
+    {
+        return Profiles::findOne(['user_id' => $userId])->isDataNoEmpty();
+    }
+
+
     public static function findUserEmail($userId)
     {
         try {
