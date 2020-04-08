@@ -52,9 +52,9 @@ class UserCgHelper
         return UserCg::find()->findUserAndCg($id)->exists();
     }
 
-    public static function findUser()
+    public static function findUser($user_id)
     {
-        return UserCg::find()->findUser()->exists();
+        return UserCg::find()->where(['user_id'=>$user_id])->exists();
     }
 
     public static function trColor(DictCompetitiveGroup $cgContract): String

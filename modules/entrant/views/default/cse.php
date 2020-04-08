@@ -1,4 +1,6 @@
 <?php
+
+/* @var $this yii\web\View */
 $this->title = 'ЕГЭ';
 $this->params['breadcrumbs'][] = ["label"=> "Шаг2. Выбор уровня образования", "url"=> "/abiturient/anketa/step2/"];
 $this->params['breadcrumbs'][] = $this->title;
