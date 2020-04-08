@@ -1,19 +1,56 @@
 <?php
 
 namespace modules\entrant\helpers;
-
-
 use modules\entrant\models\Anketa;
 use olympic\helpers\auth\ProfileHelper;
+use yii\helpers\ArrayHelper;
 
 class PostDocumentHelper
 {
+    const TYPE_MAIL = 1;
+    const TYPE_ONLINE = 2;
+    const TYPE_VISIT = 3;
+    const TYPE_ECP = 4;
+
+    public static function submittedList() {
+        return [
+            self::TYPE_MAIL => "По почте",
+            self::TYPE_ONLINE => "Онлайн",
+            self::TYPE_VISIT => "Личный визит",
+            self::TYPE_ECP => "ECP",
+        ];
+    }
+
+    public static function submittedListUrl() {
+        return [
+            self::TYPE_MAIL => ['post-document/mail'],
+            self::TYPE_ONLINE => ['post-document/online'],
+            self::TYPE_VISIT => ['post-document/visit'],
+            self::TYPE_ECP => ['post-document/ecp'],
+        ];
+    }
+
+    public static function submittedLisClass() {
+        return [
+            self::TYPE_MAIL => 'btn btn-info',
+            self::TYPE_ONLINE => 'btn btn-success',
+            self::TYPE_VISIT => 'btn btn-primary',
+            self::TYPE_ECP => 'btn btn-warning',
+        ];
+    }
+
+    public static function value(array $array, $key)
+    {
+       return ArrayHelper::getValue($array, $key);
+    }
+
+
     private static function common($user_id)
     {
         return UserCgHelper::findUser($user_id) &&
             AddressHelper::isExits($user_id) &&
             PassportDataHelper::isExits($user_id) &&
-           // LanguageHelper::isExits($user_id) &&
+            LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id);
     }
@@ -43,7 +80,8 @@ class PostDocumentHelper
         return \Yii::$app->user->identity->anketa();
     }
 
-    public static function  isCorrectBlocks() {
+    public static function isCorrectBlocks() : bool
+    {
         if(self::userAnketa()->isPatriot()) {
             return  self::compatriot(self::userId());
         }elseif (self::userAnketa()->isExemption()) {

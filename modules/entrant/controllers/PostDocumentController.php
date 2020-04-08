@@ -2,22 +2,19 @@
 
 
 namespace modules\entrant\controllers;
-
-use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\PostDocumentHelper;
-use modules\entrant\models\Address;
-use modules\entrant\services\AddressService;
+use modules\entrant\services\SubmittedDocumentsService;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use Yii;
-use yii\web\NotFoundHttpException;
+
 
 class PostDocumentController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, AddressService $service, $config = [])
+    public function __construct($id, $module, SubmittedDocumentsService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -55,7 +52,7 @@ class PostDocumentController extends Controller
      */
     public function actionOnline()
     {
-
+        return $this->serviceSave(PostDocumentHelper::TYPE_ONLINE);
     }
 
     /**
@@ -63,7 +60,7 @@ class PostDocumentController extends Controller
      */
     public function actionMail()
     {
-
+        return $this->serviceSave(PostDocumentHelper::TYPE_MAIL);
     }
 
     /**
@@ -71,7 +68,7 @@ class PostDocumentController extends Controller
      */
     public function actionVisit()
     {
-
+        return $this->serviceSave(PostDocumentHelper::TYPE_VISIT);
     }
 
 
@@ -80,6 +77,24 @@ class PostDocumentController extends Controller
      */
     public function actionEcp()
     {
-
+        return $this->serviceSave(PostDocumentHelper::TYPE_ECP);
     }
+
+    /**
+     * @param integer $type
+     * @return mixed
+     */
+
+    private function serviceSave($type) {
+
+        try {
+            $this->service->create($type, Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['default/index']);
+    }
+
+
 }

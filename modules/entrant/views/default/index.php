@@ -48,6 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
     </div>
     <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
-        <?= $this->render('_post_document') ?>
+        <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget() ?>
     <?php endif; ?>
 </div>
