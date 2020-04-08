@@ -47,6 +47,11 @@ class PostDocumentController extends Controller
         }
     }
 
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
     /**
      * @return mixed
      */
@@ -93,7 +98,7 @@ class PostDocumentController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(['index']);
     }
 
 
