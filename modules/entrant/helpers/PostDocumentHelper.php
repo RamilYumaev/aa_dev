@@ -56,7 +56,7 @@ class PostDocumentHelper
         return UserCgHelper::findUser($user_id) &&
             AddressHelper::isExits($user_id) &&
             PassportDataHelper::isExits($user_id) &&
-            LanguageHelper::isExits($user_id) &&
+           // LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
             self::medicine($user_id);

@@ -197,7 +197,36 @@ class DictCompetitiveGroupHelper
     }
 
     public static function groupByFacultyCountUser($user_id) {
-        return DictCompetitiveGroup::find()->joinWith('userCg')->where(['user_id'=>$user_id])->select(['user_id','faculty_id'])->groupBy(['user_id','faculty_id'])->count();
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->select(['user_id','faculty_id'])
+            ->groupBy(['user_id','faculty_id'])
+            ->count();
+    }
+
+    public static function groupByFacultySpecialityAllUser($user_id) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->select(['user_id','faculty_id', 'speciality_id'])
+            ->groupBy(['user_id','faculty_id', 'speciality_id'])
+            ->all();
+    }
+
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->faculty($faculty_id)
+            ->speciality($speciality_id)
+            ->select(['user_id', 'speciality_id', 'education_form_id', 'faculty_id', 'specialization_id'])
+            ->groupBy(['user_id', 'speciality_id', 'education_form_id', 'faculty_id', 'specialization_id'])
+            ->all();
+    }
+
+    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id ) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->faculty($faculty_id)
+            ->speciality($speciality_id)
+            ->formEdu($education_form_id)
+            ->specialization($specialization_id)
+            ->select(['financing_type_id'])
+            ->column();
     }
 
 }
