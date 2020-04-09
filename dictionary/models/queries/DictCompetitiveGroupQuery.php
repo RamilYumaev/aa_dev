@@ -35,6 +35,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['faculty_id' => $facultyId]);
     }
 
+    public function speciality($specialityId)
+    {
+        return $this->andWhere(['speciality_id' => $specialityId]);
+    }
+
+    public function specialization($specializationId)
+    {
+        return $this->andWhere(['specialization_id' => $specializationId]);
+    }
+
     public function withoutBranch()
     {
         return $this
@@ -94,6 +104,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(
             ['financing_type_id' => $financeId]);
+    }
+
+    public function userCg($user_id) {
+        return $this->joinWith('userCg')->where(['user_id'=>$user_id]);
     }
 
     public function specialRightCel()
