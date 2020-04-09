@@ -196,4 +196,8 @@ class DictCompetitiveGroupHelper
         }
     }
 
+    public static function groupByFacultyCountUser($user_id) {
+        return DictCompetitiveGroup::find()->joinWith('userCg')->where(['user_id'=>$user_id])->select(['user_id','faculty_id'])->groupBy(['user_id','faculty_id'])->count();
+    }
+
 }

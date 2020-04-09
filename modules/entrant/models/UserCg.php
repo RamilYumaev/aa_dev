@@ -43,6 +43,11 @@ class UserCg extends ActiveRecord
         return $this->hasOne(DictCompetitiveGroup::class,['id' => 'cg_id']);
     }
 
+    public function isMedicine() {
+        return $this->getCg()->where(['enquiry_086_u_status'=>true])->exists();
+    }
+
+
     public function attributeLabels()
     {
         return ['cg_id'=> "Образовательные программы"];

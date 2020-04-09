@@ -58,7 +58,8 @@ class PostDocumentHelper
             PassportDataHelper::isExits($user_id) &&
             LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
-            DocumentEducationHelper::isDataNoEmpty($user_id);
+            DocumentEducationHelper::isDataNoEmpty($user_id) &&
+            self::medicine($user_id);
     }
 
     private static function exemption($user_id)
@@ -74,6 +75,13 @@ class PostDocumentHelper
     public static function compatriot($user_id)
     {
         return OtherDocumentHelper::isExitsPatriot($user_id) && self::common($user_id);
+    }
+
+    public static function medicine($user_id) {
+        if(UserCgHelper::userMedicine($user_id)) {
+            return OtherDocumentHelper::isExitsMedicine($user_id);
+        }
+        return true;
     }
 
     private static function userId()
