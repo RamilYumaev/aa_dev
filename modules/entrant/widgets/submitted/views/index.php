@@ -1,5 +1,4 @@
 <?php
-use yii\helpers\Html;
 use modules\entrant\helpers\PostDocumentHelper;
 /* @var $this yii\web\View */
 /* @var $submitted modules\entrant\models\SubmittedDocuments */

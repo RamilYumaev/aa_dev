@@ -24,7 +24,7 @@ class SubmittedDocumentWidget extends Widget
     }
 
     private function config() {
-        $array = ['submitted' => SubmittedDocuments::findOne(['user_id' => $this->getIdUser()])];
+        $array = ['submitted' => SubmittedDocuments::findOne(['user_id' => $this->getIdUser()]), 'userId' =>  $this->getIdUser()];
         if ($this->view !== "index") {
           return  array_merge($array, ['userCg' => $this->listCgUser()]);
         }
