@@ -9,6 +9,7 @@ class Faculty extends \yii\db\ActiveRecord
 {
     //@TODO исправить название класса на DictFaculty
 
+    const COLLAGE = 19;
     /**
      * {@inheritdoc}
      */
@@ -47,6 +48,11 @@ class Faculty extends \yii\db\ActiveRecord
     {
         $faculty = new static();
         return $faculty->attributeLabels();
+    }
+
+    public function isCollage(): bool
+    {
+        return  $this->id == self::COLLAGE;
     }
 
     public static function aisToSdoConverter($key)

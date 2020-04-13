@@ -1,22 +1,45 @@
 <?php
+/* @var $this yii\web\View */
+/* @var $userCg yii\db\BaseActiveRecord */
+/* @var $userId integer */
 
 use modules\entrant\helpers\BlockRedGreenHelper;
-use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
+use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
-<div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserCgHelper::findUser(Yii::$app->user->identity->getId())) ?>" >
-        <h4>Образовательные программы:</h4>
-        <?= Html::a('Поиск', ['anketa/step2'], ['class' => 'btn btn-warning mb-10']) ?>
-        <?= \yii\grid\GridView::widget([
-                'tableOptions' => ['class' => 'table  table-bordered'],
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                ['attribute'=>'cg_id', 'value' => 'cg.fullNameCg'],
-            ],
-        ]) ?>
+    <div class="row">
+        <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserCgHelper::findUser($userId)) ?>">
+            <div class="mt-20">
+                <h4>Образовательные программы:</h4>
+                <?= Html::tag('button', 'Подробно',[ 'type'=>"button", 'id'=>"bool", 'class'=>"btn btn-info",
+                'data-toggle'=>"button",'aria-pressed'=>"false"])?>
+                    <div id="compact">
+                        <?= $this->render('_data/_compact',['userCg'=> $userCg]); ?>
+                    </div>
+                    <div id="full">
+                        <?= $this->render('_data/_full',['userCg'=> $userCg, 'userId'=> $userId]); ?>
+                    </div>
+            </div>
+        </div>
     </div>
-</div>
+<?php
+$this->registerJs(<<<JS
+"use strict";
+var full = $('#full');
+var compact = $('#compact');
+full.hide();
+
+$('#bool').click(function(e) {
+    if($(this).attr("aria-pressed") == "false") {
+        full.show();
+        compact.hide();
+        $(this).text("Кратко");
+    }else {
+        full.hide();
+        compact.show();
+        $(this).text("Подробно");
+    }
+});
+JS
+);
