@@ -1,19 +1,28 @@
 <?php
 namespace modules\entrant\widgets\cg;
 
-use modules\entrant\models\UserCg;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\base\Widget;
-use yii\data\ActiveDataProvider;
 
 class CgWidget extends Widget
 {
+    public $view = "index";
+
     public function run()
     {
-        $query = UserCg::find()->where(['user_id' => \Yii::$app->user->identity->getId()]);
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render($this->view, $this->config());
     }
 
+    private function listCgUser() {
+        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser());
+    }
+
+    private function getIdUser() {
+        return \Yii::$app->user->identity->getId();
+    }
+
+    private function config() {
+        $array = ['userId' =>  $this->getIdUser(), 'userCg' => $this->listCgUser()];
+        return $array;
+    }
 }

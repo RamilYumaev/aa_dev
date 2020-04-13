@@ -30,7 +30,7 @@ class DictCompetitiveGroupHelper
     const FINANCING_TYPE_CONTRACT = 2;
 
     // тип конкурса
-    const USUAL = 0;
+    const USUAL = null;
     const SPECIAL_RIGHT = 1;
     const TARGET_PLACE = 2;
 
@@ -115,7 +115,7 @@ class DictCompetitiveGroupHelper
         return ArrayHelper::getValue(self::getEduLevelsAbbreviated(), $key);
     }
 
-    public static function specialRightName($key): string
+    public static function specialRightName($key): ?string
     {
         return ArrayHelper::getValue(self::getSpecialRight(), $key);
     }
@@ -205,8 +205,8 @@ class DictCompetitiveGroupHelper
 
     public static function groupByFacultySpecialityAllUser($user_id) {
         return DictCompetitiveGroup::find()->userCg($user_id)
-            ->select(['user_id','faculty_id', 'speciality_id'])
-            ->groupBy(['user_id','faculty_id', 'speciality_id'])
+            ->select(['user_id','faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+            ->groupBy(['user_id','faculty_id', 'edu_level', 'special_right_id',  'speciality_id'])
             ->all();
     }
 
@@ -214,8 +214,8 @@ class DictCompetitiveGroupHelper
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
-            ->select(['user_id', 'speciality_id', 'education_form_id', 'faculty_id', 'specialization_id'])
-            ->groupBy(['user_id', 'speciality_id', 'education_form_id', 'faculty_id', 'specialization_id'])
+            ->select(['user_id', 'speciality_id',  'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
+            ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->all();
     }
 
