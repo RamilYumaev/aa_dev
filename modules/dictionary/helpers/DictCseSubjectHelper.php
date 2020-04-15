@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 class DictCseSubjectHelper
 {
     const MAX = 100;
+
     const CSE_STATUS_YES =1;
 
     private static function modelAll() {
@@ -49,5 +50,13 @@ class DictCseSubjectHelper
     }
 
 
+    public static function listLanguage()
+    {
+        return ArrayHelper::map(DictCseSubject::find()->where(['or',
+            ['like','name', 'Иностранный'],
+            ['like','name', 'иностранный'],
+            ['like','name', 'иностраный'],
+        ])->all(), 'id','name');
+    }
 
 }

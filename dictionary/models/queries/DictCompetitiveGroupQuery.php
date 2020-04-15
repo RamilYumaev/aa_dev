@@ -110,6 +110,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('userCg')->where(['user_id'=>$user_id]);
     }
 
+    public function examinations() {
+        return $this->joinWith('examinations');
+    }
+
+
     public function specialRightCel()
     {
         return $this->andWhere(

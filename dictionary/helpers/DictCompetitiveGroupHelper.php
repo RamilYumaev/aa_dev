@@ -7,7 +7,9 @@ namespace dictionary\helpers;
 use common\helpers\EduYearHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
+use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\models\UserCg;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
@@ -208,6 +210,28 @@ class DictCompetitiveGroupHelper
             ->select(['user_id','faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
             ->groupBy(['user_id','faculty_id', 'edu_level', 'special_right_id',  'speciality_id'])
             ->all();
+    }
+
+    public static function groupByExams($user_id) {
+        return DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere( ['user_cg.user_id'=> $user_id])
+            ->andWhere(['not', ['cse_subject_id' => null]])
+            ->orWhere(['composite_discipline' => true])
+            ->select(['name','dict_discipline.id'])
+            ->indexBy('dict_discipline.id')
+          //  ->groupBy(['discipline_competitive_group.discipline_id'])
+            ->column();
+    }
+
+    public static function cseSubjectId($id) {
+        return DictDiscipline::findOne($id)->cse_subject_id;
+    }
+
+    public static function id($id) {
+        return DictDiscipline::findOne(['cse_subject_id' => $id])->id;
     }
 
     public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
