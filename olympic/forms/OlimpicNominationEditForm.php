@@ -32,6 +32,7 @@ class OlimpicNominationEditForm extends Model
         return [
             [['olimpic_id', 'name'], 'required'],
             [['olimpic_id'], 'integer'],
+            [['name'], 'trim'],
             [['name'], 'string', 'max' => 255],
             ['name', 'unique', 'targetClass' => OlimpicNomination::class, 'targetAttribute' => ['olimpic_id', 'name'], 'filter' => ['<>', 'id', $this->_olympicNomination->id], 'message' => 'Такая номинация олимпиады уже есть'],
 

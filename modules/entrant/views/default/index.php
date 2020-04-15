@@ -47,6 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="mt-20">
         <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
     </div>
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\examinations\ExaminationsWidget::widget();?>
+    </div>
     <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
         <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget() ?>
     <?php endif; ?>

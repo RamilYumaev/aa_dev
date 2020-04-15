@@ -36,12 +36,14 @@ class OlympicService
 
     public function create(OlympicCreateForm $form)
     {
-        $user = $this->userRepository->get($form->managerId);
-        $model = Olympic::create($form, $user->id);
+        $user = $form->managerId ? $this->userRepository->get($form->managerId): null;
+        $model = Olympic::create($form, $user ? $user->id: null);
         $this->transactionManager->wrap(function () use($user, $model) {
             $this->repository->save($model);
-            if(!AuthAssignment::findOne(['user_id'=>$user->id])) {
-                $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+            if ($user){
+                if (!AuthAssignment::findOne(['user_id' => $user->id])) {
+                    $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+                }
             }
         });
         return $model;
@@ -49,13 +51,15 @@ class OlympicService
 
     public function edit(OlympicEditForm $form)
     {
-        $user = $this->userRepository->get($form->managerId);
+        $user = $form->managerId ? $this->userRepository->get($form->managerId) : null;
         $model = $this->repository->get($form->_olympic->id);
-        $model->edit($form, $user->id);
+        $model->edit($form, $user ? $user->id: null);
         $this->transactionManager->wrap(function () use($user, $model) {
             $this->repository->save($model);
-            if(!AuthAssignment::findOne(['user_id'=>$user->id, 'item_name'=>Rbac::ROLE_OLYMPIC_OPERATOR])) {
-                $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+            if ($user){
+                if(!AuthAssignment::findOne(['user_id'=>$user->id, 'item_name'=>Rbac::ROLE_OLYMPIC_OPERATOR])) {
+                    $user->setAssignmentFirst(Rbac::ROLE_OLYMPIC_OPERATOR);
+                }
             }
         });
         $this->repository->save($model);

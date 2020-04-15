@@ -22,6 +22,7 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'managerId')->widget(Select2::class, [
             'data'=>\olympic\helpers\auth\ProfileHelper::getAllUserFullNameWithEmail(),
             'options'=> ['placeholder'=>'Выберите пользователя'],
+            'pluginOptions' => ['allowClear' => true],
     ])?>
 
     <div class="form-group">

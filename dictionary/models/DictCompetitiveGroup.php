@@ -118,6 +118,7 @@ class DictCompetitiveGroup extends ActiveRecord
         return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id']);
     }
 
+
     public function getUserCg()
     {
         return $this->hasMany(UserCg::class, ['cg_id' => 'id']);
