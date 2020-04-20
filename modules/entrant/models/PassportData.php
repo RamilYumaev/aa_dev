@@ -140,4 +140,19 @@ class PassportData extends YiiActiveRecordAndModeration
         ];
     }
 
+    public function dataArray()
+    {
+        return [
+            'nationality' => $this->nationality,
+            'type'=>$this->typeName,
+            'series'=>$this->series,
+            'number'=>$this->number,
+            'date_of_birth'=> DateFormatHelper::formatView($this->date_of_birth),
+            'place_of_birth'=> $this->place_of_birth,
+            'date_of_issue'=>DateFormatHelper::formatView($this->date_of_issue),
+            'authority'=>$this->authority,
+            'division_code'=>$this->division_code,
+        ];
+    }
+
 }

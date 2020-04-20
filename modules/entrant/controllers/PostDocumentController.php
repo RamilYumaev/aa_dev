@@ -2,6 +2,8 @@
 
 
 namespace modules\entrant\controllers;
+use common\helpers\FileHelper;
+use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\services\SubmittedDocumentsService;
 use yii\filters\VerbFilter;
@@ -83,6 +85,13 @@ class PostDocumentController extends Controller
     public function actionEcp()
     {
         return $this->serviceSave(PostDocumentHelper::TYPE_ECP);
+    }
+
+    public function actionDoc($faculty, $speciality, $edu_level, $special_right_id=null)
+    {
+       FileCgHelper::getFile(Yii::$app->user->identity->getId(),
+           $faculty, $speciality,
+           $edu_level, $special_right_id);
     }
 
     /**

@@ -111,6 +111,21 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             ];
     }
 
+    public function dataArray()
+    {
+        return [
+            'school_id' => $this->schoolName,
+            'type'=> $this->typeName,
+            'series'=>$this->series,
+            'number'=>$this->number,
+            'date'=>$this->date,
+            'year'=>$this->year,
+            'patronymic' => $this->patronymic,
+            'surname' => $this->surname,
+            'name' => $this->name,
+        ];
+    }
+
     public function attributeLabels()
     {
         return [

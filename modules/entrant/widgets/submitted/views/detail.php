@@ -5,6 +5,7 @@
 /* @var $userId integer */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use yii\helpers\Html;
 
 ?>
 <div class="row">
@@ -12,38 +13,31 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         <div class="mt-20">
             <?php if($submitted): ?>
                 <h4>Ваш способ подачи документов - <?= $submitted->typeName?> </h4>
-                <button type="button" id="bool" class="btn btn-info" data-toggle="button" aria-pressed="false">
-                   Подробно
-                </button>
                 <div id="compact">
-                    <?= $this->render('_data/_compact',['userCg'=> $userCg]); ?>
-                </div>
-                <div id="full">
-                    <?= $this->render('_data/_full',['userCg'=> $userCg, 'userId'=> $userId]); ?>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>#</th>
+                            <th>Факультет</th>
+                            <th>Направление подготовки</th>
+                            <th>Уровень образования</th>
+                            <th>Основание приема</th>
+                            <th></th>
+                        </tr>
+                        <?php foreach ($userCg as $key => $cg) /* @var $cg dictionary\models\DictCompetitiveGroup */ :?>
+                            <tr>
+                                <td><?= ++$key ?></td>
+                                <td><?= $cg->faculty->full_name ?></td>
+                                <td><?= $cg->specialty->code." ".$cg->specialty->name ?></td>
+                                <td><?= DictCompetitiveGroupHelper::eduLevelName($cg->edu_level) ?></td>
+                                <td><?= DictCompetitiveGroupHelper::specialRightName($cg->special_right_id) ?></td>
+                                <td><?= Html::a('Скачать', ['post-document/doc', 'faculty' => $cg->faculty_id, 'speciality'=> $cg->speciality_id,
+                                        'edu_level' => $cg->edu_level, 'special_right_id'=> $cg->special_right_id ], ['class' => 'btn btn-large btn-primary'])?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 </div>
-<?php
-$this->registerJs(<<<JS
-"use strict";
-var full = $('#full');
-var compact = $('#compact');
-full.hide();
-
-$('#bool').click(function(e) {
-    if($(this).attr("aria-pressed") == "false") {
-        full.show();
-        compact.hide();
-        $(this).text("Кратко");
-    }else {
-        full.hide();
-        compact.show();
-        $(this).text("Подробно");
-    }
-});
-JS
-);
-
 
