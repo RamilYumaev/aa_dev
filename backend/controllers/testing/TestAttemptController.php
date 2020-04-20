@@ -54,12 +54,9 @@ class TestAttemptController extends Controller
 
     public function actionView($id)
     {
-        try {
+       $model = $this->findModel($id);
             return $this->render('view', [
-                'attempt' => $this->findModel($id),
-            ]);
-        } catch (NotFoundHttpException $e) {
-        }
+                'attempt' =>$model,]);
     }
 
     public function actionEndDistTour($test_id, $olympic_id)
@@ -76,13 +73,14 @@ class TestAttemptController extends Controller
 
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
         try {
             $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(['index','test_id' => $model->test_id]);
     }
 
     /**

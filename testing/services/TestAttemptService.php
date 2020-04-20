@@ -5,6 +5,7 @@ namespace testing\services;
 
 
 use common\auth\repositories\UserRepository;
+use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
 use olympic\helpers\OlympicHelper;
 use olympic\helpers\OlympicNominationHelper;
@@ -14,6 +15,7 @@ use olympic\models\PersonalPresenceAttempt;
 use olympic\repositories\DiplomaRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlimpicNominationRepository;
+use testing\helpers\TestAndQuestionsHelper;
 use testing\helpers\TestAttemptHelper;
 use testing\models\Test;
 use testing\models\TestAndQuestions;
@@ -55,20 +57,41 @@ class TestAttemptService
 
     }
 
-    public  function create($test_id) {
-        $test  = $this->testRepository->isActive($test_id);
-        $olympic = $this->olimpicListRepository->get($test->olimpic_id);
+    public  function createDefault($test_id) {
+        $test  = $this->testRepository->get($test_id);
+        if (!TestAndQuestionsHelper::countQuestions($test->id)) {
+            throw new \DomainException(FlashMessages::get()["countQuestions"]);
+        }
+        if (TestAndQuestionsHelper::countNullMarkQuestions($test->id)) {
+            throw new \DomainException(FlashMessages::get()["countNullMarkQuestions"]);
+        }
+        if (!TestAndQuestionsHelper::isMarkSumSuccess($test->id)) {
+            throw new \DomainException(FlashMessages::get()["sumMark"]);
+        }
+
+        return $this->addAttempt($test->id);
+    }
+
+    private function addAttempt($test_id)
+    {
+        $olympic = $this->olimpicListRepository->get($test_id);
         $olympic->time_of_distants_tour_type;
-        $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
+        $testAttempt = $this->testAttemptRepository->isAttempt($test_id);
         if (!$testAttempt) {
             $testAttempt = TestAttempt::create($test_id, $olympic);
-            $this->transactionManager->wrap(function () use ($testAttempt, $test){
+            $this->transactionManager->wrap(function () use ($testAttempt, $test_id){
                 $this->testAttemptRepository->save($testAttempt);
-                $this->randQuestions($testAttempt->id, $test->id);
+                $this->randQuestions($testAttempt->id, $test_id);
             });
             return $testAttempt;
         }
         return $testAttempt;
+
+    }
+
+    public  function create($test_id) {
+        $test  = $this->testRepository->isActive($test_id);
+        return $this->addAttempt($test->id);
     }
 
     private function randQuestions($attempt_id, $test_id) {
@@ -102,6 +125,16 @@ class TestAttemptService
         return $testAttempt;
     }
 
+    public  function endDefault($test_id) {
+        $test  = $this->testRepository->get($test_id);
+        $testAttempt = $this->testAttemptRepository->isAttempt($test->id);
+        $testResult  = TestResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
+        $testAttempt->seStatus(TestAttemptHelper::END_TEST);
+        $testAttempt->edit($testResult);
+        $this->testAttemptRepository->save($testAttempt);
+        return $testAttempt;
+    }
+
     public function rewardStatus($id, $status) {
         $testAttempt = $this->testAttemptRepository->get($id);
         $testAttempt->setRewardStatus($status);
@@ -120,7 +153,7 @@ class TestAttemptService
     {
         $nomination = $this->olimpicNominationRepository->get($nomination);
         $testAttempt = $this->testAttemptRepository->get($id);
-        $this->testAttemptRepository->getNomination($testAttempt->test_id, $nomination->id);
+      //  $this->testAttemptRepository->getNomination($testAttempt->test_id, $nomination->id);
         $testAttempt->setNomination($nomination->id);
         $testAttempt->setRewardStatus(TestAttemptHelper::NOMINATION);
         $this->testAttemptRepository->save($testAttempt);
@@ -222,7 +255,7 @@ class TestAttemptService
 
     private function isCorrectCountNomination($test_id, $olympic_id) {
         $countNomination = OlympicNominationHelper::olympicNominationListInOlympic($olympic_id)->count();
-        return $countNomination == $this->countNominationId($test_id);
+        return $countNomination <= $this->countNominationId($test_id);
     }
 
     private function countNominationId($test_id) {

@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-12">
         <div class="box box-default">
             <div class="box box-header">
+                <?= $attempt->user_id == Yii::$app->user->identity->getId() ? \yii\helpers\Html::a("Удалить", ['delete', 
+                    'id' => $attempt->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить попытку?"]]) : "" ?>
             </div>
             <div class="box-body">
                 <?= DetailView::widget([

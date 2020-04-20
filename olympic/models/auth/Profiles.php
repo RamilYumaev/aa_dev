@@ -26,11 +26,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function behaviors()
     {
         return [
-//            'moderation' => [
-//                'class' => ModerationBehavior::class,
-//                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id'],
-//                'attributesNoEncode'=>['phone']
-//            ],
+            'moderation' => [
+                'class' => ModerationBehavior::class,
+                'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone'],
+                'attributesNoEncode'=>['phone']
+            ],
             'declination' => [
                 'class' =>  DeclinationBehavior::class,
             ],
@@ -179,6 +179,20 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
             'gender' => ProfileHelper::genderName($value),
             'country_id'=> DictCountryHelper::countryName($value),
             'region_id'=> DictRegionHelper::regionName($value)
+        ];
+    }
+
+    public function data(): array
+    {
+        return  [
+            'last_name' => $this->last_name,
+            'first_name'=> $this->first_name,
+            'patronymic'=> $this->patronymic,
+            'phone' => $this->phone,
+            'gender' => $this->genderName,
+            'country_id'=> $this->CountryName,
+            'region_id'=> $this->regionName,
+            'email'=> $this->user->email,
         ];
     }
 }

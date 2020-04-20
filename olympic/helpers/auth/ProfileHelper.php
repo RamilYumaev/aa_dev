@@ -141,4 +141,9 @@ class ProfileHelper
         }
     }
 
+    public static function dataArray($userId)
+    {
+       return Profiles::findOne(['user_id' => $userId])->data();
+    }
+
 }

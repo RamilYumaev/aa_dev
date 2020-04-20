@@ -12,10 +12,10 @@ class TestReadOperatorRepository
 {
     public function find($id)
     {
-        if(($test = Test::findOne(['id' => $id, 'status' => TestHelper::ACTIVE])) !== null) {
+        if(($test = Test::findOne($id)) !== null) {
             return $test;
         }
-        throw new \DomainException( 'Тест не найден или не активирован.');
+        throw new \DomainException( 'Тест не найден');
     }
 
     public function quentTests($id) {

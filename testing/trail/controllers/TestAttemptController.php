@@ -35,7 +35,7 @@ class TestAttemptController extends Controller
     {
         $this->isGuest();
         try {
-            $testAttempt = $this->service->create($test_id);
+            $testAttempt = $this->service->createDefault($test_id);
             return $this->redirect(['trail/view', 'id' => $testAttempt->test_id]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
@@ -44,11 +44,12 @@ class TestAttemptController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+
     public function actionEnd($test_id)
     {
         $this->isGuest();
         try {
-            $testAttempt = $this->service->end($test_id);
+            $testAttempt = $this->service->endDefault($test_id);
             return $this->redirect(['testing/test-attempt/view', 'id'=> $testAttempt->id]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
@@ -56,6 +57,7 @@ class TestAttemptController extends Controller
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
+
 
     protected function isGuest() {
         if (Yii::$app->user->isGuest) {
