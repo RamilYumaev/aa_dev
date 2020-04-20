@@ -164,7 +164,7 @@ class PersonalPresenceAttemptService
     {
         $nomination = $this->olimpicNominationRepository->get($nomination);
         $ppa = $this->repository->get($id);
-        $this->repository->getNomination($ppa->olimpic_id, $nomination->id);
+       // $this->repository->getNomination($ppa->olimpic_id, $nomination->id);
         $ppa->setNomination($nomination->id);
         $ppa->setRewardStatus(PersonalPresenceAttemptHelper::NOMINATION);
         $this->repository->save($ppa);
@@ -282,7 +282,7 @@ class PersonalPresenceAttemptService
 
     private function isCorrectCountNomination($olympic_id) {
         $countNomination = OlympicNominationHelper::olympicNominationListInOlympic($olympic_id)->count();
-        return $countNomination == $this->countNominationId($olympic_id);
+        return $countNomination <= $this->countNominationId($olympic_id);
     }
 
     private function countNominationId($olympic_id) {
