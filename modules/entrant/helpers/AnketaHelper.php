@@ -90,9 +90,18 @@ class AnketaHelper
     }
 
 
-    public static function getButton($level)
+    public static function getButton($level, $specialRight = null)
     {
-        return Html::a("Перейти к выбору программ", ["applications/"
+        if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
+            $anchor = "Выбрать целевые программы";
+        } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
+            $anchor = "Выбрать программы для льготных категории";
+
+        }else{
+            $anchor = "Выбрать программы";
+        }
+
+        return Html::a($anchor, ["applications/"
             . DictCompetitiveGroupHelper::getUrl($level)],
             ["class" => "btn btn-warning"]);
     }

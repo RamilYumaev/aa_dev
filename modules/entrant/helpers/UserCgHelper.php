@@ -95,4 +95,13 @@ class UserCgHelper
 
     }
 
+    public static function specialColor(Int $cgId): String
+    {
+        if (UserCg::find()->findUserAndCg($cgId)->exists()) {
+            return " class=\"success\" ";
+        }
+
+        return "";
+    }
+
 }

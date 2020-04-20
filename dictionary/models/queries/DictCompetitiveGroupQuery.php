@@ -25,6 +25,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->andWhere(['year' => $year]);
     }
 
+    public function onlyTarget()
+    {
+        return $this->andWhere(["special_right_id" => DictCompetitiveGroupHelper::TARGET_PLACE]);
+    }
+
+    public function onlySpecialRight()
+    {
+        return $this->andWhere(['special_right_id' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]);
+    }
+
     public function getAllCg($year)
     {
         return $this->andWhere(['year' => $year])->all();
@@ -80,7 +90,6 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ]
         );
     }
-
 
     public function foreignerStatus($foreignerStatus)
     {
