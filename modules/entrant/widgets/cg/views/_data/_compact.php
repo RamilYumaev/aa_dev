@@ -11,8 +11,8 @@ use modules\entrant\helpers\PostDocumentHelper;
         <th>#</th>
         <th>Факультет</th>
         <th>Направление подготовки</th>
-        <td>Уровень образования</td>
-        <td>Основание приема</td>
+        <th>Уровень образования</th>
+        <th>Основание приема</th>
     </tr>
     <?php foreach ($userCg as $key => $cg) /* @var $cg dictionary\models\DictCompetitiveGroup */ :?>
         <tr>

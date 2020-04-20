@@ -8,7 +8,7 @@ class ProfileWidget extends Widget
 {
     public function run()
     {
-        $model = Profiles::findOne(['user_id' => \Yii::$app->user->identity->getId()]);
+        $model = Profiles::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
         return $this->render('index', [
             'profile'=> $model
         ]);

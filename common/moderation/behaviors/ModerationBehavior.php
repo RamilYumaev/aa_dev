@@ -103,7 +103,9 @@ class ModerationBehavior extends  Behavior
     }
 
     protected function isNoNewsAndOld(array $old){
-        return  $this->old($old) != $this->news();
+
+        return  $this->arrayIntersectKey ($old, $this->attributes) !=
+            $this->arrayIntersectKey ($this->owner->attributes,$this->attributes);
     }
 
     protected  function find () {

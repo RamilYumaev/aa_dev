@@ -4,6 +4,6 @@
 
 <div class="container m-20">
 
-<?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget(['view' =>'detail']);?>
+<?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget();?>
 
 </div>

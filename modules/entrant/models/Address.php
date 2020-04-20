@@ -64,6 +64,16 @@ class Address extends YiiActiveRecordAndModeration
         return $this->getAttributeLabel($property).": ".$this->$property;
     }
 
+    public function getAdders(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'id']) as  $key => $value) {
+            if($value) {
+                $string .= $value.", ";
+            }
+        }
+        return rtrim ($string, ", ");
+    }
+
     public function getAddersFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'id']) as  $key => $value) {
@@ -111,6 +121,13 @@ class Address extends YiiActiveRecordAndModeration
         ];
     }
 
+    public function dataArray()
+    {
+        return [
+            'full' => $this->countryName.", ". $this->getAdders()
+            ];
+    }
+
     public function attributeLabels()
     {
         return [
@@ -126,7 +143,7 @@ class Address extends YiiActiveRecordAndModeration
             'housing' => "Корпус",
             'building' =>"Строение",
             'flat' => "Квартира",
-            ];
+        ];
     }
 
 }
