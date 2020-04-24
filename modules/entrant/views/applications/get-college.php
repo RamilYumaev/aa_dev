@@ -114,10 +114,12 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row">
     <div class="col-md-1 mt-10">
-        <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"],
+            ["class" => "btn btn-warning btn-lg position-fixed ml-30"]); ?>
     </div>
     <div class="col-md-1 col-md-offset-11">
-        <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"],
+            ["class" => "btn btn-lg btn-success position-fixed"]); ?>
     </div>
 </div>
 <h2 class="text-center"><?= $this->title ?></h2>
