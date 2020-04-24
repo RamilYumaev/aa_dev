@@ -148,17 +148,36 @@ a.desc:after {
 }
 
 
-.dod-panel div , .dod_share div{
+.dod-panel div, .dod_share div {
     text-decoration: underline;
     color: #fff;
     position: absolute;
     bottom: 30px;
 }
-.dod-panel div a{
+
+.level_block div {
+    text-decoration: underline;
+    color: #fff;
+    position: absolute;
+    bottom: 30px;
+}
+
+.level_block div {
+    text-decoration: underline;
+    color: #fff;
+    position: absolute;
+    bottom: 30px;
+}
+
+.dod-panel div a {
     left: 12.5%;
 }
 
 .dod_share a {
+    left: 25%;
+}
+
+.level_block a {
     left: 25%;
 }
 
@@ -213,22 +232,35 @@ a.desc:after {
 }
 
 .dod_share {
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, .7);
     color: #fff;
     padding: 30px;
-
     min-height: 375px;
 
 }
-.dod-image-background{
+
+.level_block {
+    background: #479bbd;
+    color: #fff;
+    padding: 30px;
+    min-height: 225px;
+    border-radius: 25px;
+
+}
+
+.level_block .btn{
+    border-radius: 15px;
+}
+
+.dod-image-background {
     background-image: url("../img/kgf.jpeg");
     background-size: cover;
     margin: 0px 5px;
 }
 
-.dod_share a, .dod-panel div a {
+.dod_share a, .dod-panel div a, .level_block a {
     margin-top: 10px;
-    color: #381c62 !important;
+    color: #000000 !important;
     background-color: #fff !important;
     text-decoration: none;
 }
@@ -806,6 +838,6 @@ select {
     max-width: 100%;
 }
 
-.ml-5{
+.ml-5 {
     margin-left: 5px;
 }

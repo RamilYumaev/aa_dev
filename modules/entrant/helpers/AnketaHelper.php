@@ -103,7 +103,7 @@ class AnketaHelper
 
         return Html::a($anchor, ["applications/"
             . DictCompetitiveGroupHelper::getUrl($level)],
-            ["class" => "btn btn-warning"]);
+            ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
 }
