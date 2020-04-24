@@ -6,7 +6,9 @@ use common\components\TbsWrapper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use olympic\helpers\auth\ProfileHelper;
+use wapmorgan\yii2inflection\Inflector;
 use Yii;
+use yii\helpers\StringHelper;
 
 class FileCgHelper
 {
@@ -20,6 +22,8 @@ class FileCgHelper
         $tbs->merge('registration', self::addressRegOrRes($userId));
         $tbs->merge('passport', self::passport($userId));
         $tbs->merge('faculty', self::facultyName($facultyId));
+        $tbs->merge('language',self::languageList($userId));
+        $tbs->merge('examinations',self::examinationsList($userId, $facultyId, $specialityId));
         $tbs->merge('cg', self::cgUser($userId, $facultyId, $specialityId));
         $tbs->download(self::fileName($eduLevel, $specialRightId));
     }
@@ -38,7 +42,7 @@ class FileCgHelper
             return "magister.docx";
         }
         elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && !$specialRightId) {
-            return "bach_cas_cse.docx"; // bach_сas_cse_vi.doc
+            return "bach_cas_cse.docx"; // bach_сas_cse_vi.docx
 
         }elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $specialRightId==DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             return "bach_ex.docx";
@@ -73,7 +77,6 @@ class FileCgHelper
     {
         return "Заявление ПK МПГУ " . date("Y") ." ".self::nameFile($eduLevel, $specialRightId). " " . date('Y-m-d H:i:s') . ".docx";
     }
-
 
 
     public static function dataProfile($userId)
@@ -122,6 +125,19 @@ class FileCgHelper
         }
              return $array;
     }
+
+    public static function languageList($user_id)
+    {
+        return [['data' => LanguageHelper::all($user_id)]];
+    }
+
+    public static function examinationsList($userId, $facultyId, $specialityId)
+    {
+        return [['data-spo' => DictCompetitiveGroupHelper::groupByExamsFacultyEduLevelSpecialization($userId, $facultyId, $specialityId),
+                 'data-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId, true),
+                 'data-no-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId,false)]];
+    }
+
 
     public static function facultyName($facultyId)
     {

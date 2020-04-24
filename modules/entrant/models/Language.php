@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictForeignLanguageHelper;
+use modules\dictionary\models\DictForeignLanguage;
 use modules\entrant\forms\LanguageForm;
 use yii\db\ActiveRecord;
 
@@ -43,9 +44,9 @@ class Language extends ActiveRecord
         ];
     }
 
-    public function getLanguageName()
+    public function getDictLanguage()
     {
-        return  DictForeignLanguageHelper::name($this->language_id);
+        return  $this->hasOne(DictForeignLanguage::class, ['id'=>'language_id']);
     }
 
 

@@ -143,7 +143,7 @@ class PassportData extends YiiActiveRecordAndModeration
     public function dataArray()
     {
         return [
-            'nationality' => $this->nationality,
+            'nationality' => $this->nationalityName,
             'type'=>$this->typeName,
             'series'=>$this->series,
             'number'=>$this->number,

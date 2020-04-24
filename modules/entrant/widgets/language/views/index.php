@@ -15,7 +15,7 @@ use yii\helpers\Html;
             'tableOptions' => ['class' => 'table  table-bordered'],
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute'=>'language_id', 'value' => 'languageName'],
+                ['attribute'=>'language_id', 'value' => 'dictLanguage.name'],
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'language', 'template'=> '{update}{delete}']
             ],
         ]) ?>

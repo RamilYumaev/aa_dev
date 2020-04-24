@@ -9,6 +9,7 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\helpers\CseViSelectHelper;
 use modules\entrant\models\UserCg;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
@@ -237,12 +238,96 @@ class DictCompetitiveGroupHelper
             ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere( ['user_cg.user_id'=> $user_id])
             ->andWhere(['not', ['cse_subject_id' => null]])
-            ->orWhere(['composite_discipline' => true])
             ->select(['name','dict_discipline.id'])
             ->indexBy('dict_discipline.id')
           //  ->groupBy(['discipline_competitive_group.discipline_id'])
             ->column();
     }
+
+    public static function groupByExamsFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id) {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id'=> $user_id, 'dict_competitive_group.faculty_id'=> $faculty_id,
+                'dict_competitive_group.speciality_id' => $speciality_id ])
+            ->select(['name','dict_discipline.id'])
+            ->indexBy('dict_discipline.id')
+            //  ->groupBy(['discipline_competitive_group.discipline_id'])
+            ->column();
+
+        $ex = "";
+        foreach ($data as $key => $value) {
+            if ($key !== 99) {
+                $ex .= $value .", ";
+            }
+        }
+        return $ex ? rtrim ($ex, ", ")."." : "";
+    }
+
+
+
+    public static function groupByExamsCseFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id, $cse) {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id'=> $user_id, 'dict_competitive_group.faculty_id'=> $faculty_id,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->select(['name','dict_discipline.id', 'cse_subject_id'])
+           ->asArray()
+            ->all();
+
+         return self::selectCseVi($data, $cse, $user_id) ??  self::stringExaminationsCse($data, $cse, $user_id);
+
+    }
+
+    private static  function stringExaminationsCse($data, $cse, $user_id) {
+        $ex = "";
+        foreach ($data as $key => $value) {
+            if($cse) {
+                if($value['cse_subject_id']) {
+                    $ex .= $value['name'] . " - ".CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']]." балл(-а, ов), ";
+                }
+            } else {
+                if (!$value['cse_subject_id']) {
+                    $ex .= $value['name'] .", ";
+                }
+            }
+        }
+        return $ex ? rtrim ($ex, ", ")."." : "";
+    }
+
+    private static  function selectCseVi($data, $cse, $user_id) {
+        if(CseViSelectHelper::modelOne($user_id)) {
+            $ex = "";
+            foreach ($data as $key => $value) {
+                if (!$cse) {
+                    if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
+                        if (in_array($value['id'], $dataVi)) {
+                            $ex .= $value['name'] . ", ";
+                        }
+                    }
+                    if (!$value['cse_subject_id']) {
+                        $ex .= $value['name'] . ", ";
+                    }
+                } else {
+                    if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
+                        if (array_key_exists($value['id'], $dataCse)) {
+                            $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                        }
+
+                    }
+                }
+            }
+            return $ex ? rtrim($ex, ", ") . "." : "";
+        }
+        return null;
+    }
+
+
+
+
 
     public static function cseSubjectId($id) {
         return DictDiscipline::findOne($id)->cse_subject_id;

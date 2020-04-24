@@ -1,4 +1,6 @@
 <?php
+
+use wapmorgan\yii2inflection\Inflector;
 use yii\helpers\Html;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $this yii\web\View */
@@ -51,3 +53,6 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
     <?php endforeach; ?>
 </table>
+<?php
+
+?>

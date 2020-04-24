@@ -42,17 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
     </div>
     <div class="mt-20">
+        <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
+    </div>
+    <div class="mt-20">
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
     </div>
     <div class="mt-20">
-
-    </div>
-    <div class="mt-20">
-        <?= \modules\entrant\widgets\examinations\ExaminationsWidget::widget();?>
+        <?= \modules\entrant\widgets\examinations\ExaminationsIndexWidget::widget();?>
     </div>
     <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
         <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget() ?>
     <?php endif; ?>
 </div>
-<?php
-echo memory_get_usage();
