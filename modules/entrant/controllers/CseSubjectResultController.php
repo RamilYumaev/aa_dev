@@ -63,6 +63,11 @@ class CseSubjectResultController extends Controller
         ]);
     }
 
+    public function actionCseVi()
+    {
+        return $this->render('cse-vi');
+    }
+
     /**
      * @param integer $id
      * @return mixed

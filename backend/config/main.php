@@ -59,14 +59,16 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\auth\Identity',
-//            'enableAutoLogin' => true,
-//            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-            'authTimeout' => 60 * 60 * 24, //100 дней для примера
-            'loginUrl' => ['auth/auth/login'],
+            'enableAutoLogin' => true,
+            'identityCookie' => [
+                'name' => '_backendUser', // unique for backend
+                'path'=>'/admin'  // correct path for the backend app.
+            ],
+             'loginUrl' => ['auth/auth/login'],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => '_backendSessionId', // unique for backend
+            'timeout'=> 60,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

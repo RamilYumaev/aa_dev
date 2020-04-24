@@ -28,8 +28,8 @@ class TypeExaminationsForm extends Model
                 if ($this->key == self::LANGUAGE) {
                     $this->language = $cseViSelect->dataCse()[$this->key][1];
                 }
-                $this->mark = $cseViSelect->dataCse()[$this->key][2];
-                $this->year = $cseViSelect->dataCse()[$this->key][0];
+                $this->mark = $cseViSelect->dataCse()[$this->key][2] ?? null;
+                $this->year = $cseViSelect->dataCse()[$this->key][0] ?? null;
             }
         } else {
             $this->type = 0;

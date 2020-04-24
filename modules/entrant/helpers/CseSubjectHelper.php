@@ -18,7 +18,7 @@ class CseSubjectHelper
             ->where(['user_id' => $userId])->orderBy(['year' => SORT_ASC])->all();
     }
 
-    public static function maxMarkSubject($userId)
+    public static function maxMarkSubject($userId) :array
     {
         $array = [];
         if (self::modelAll($userId)) {
