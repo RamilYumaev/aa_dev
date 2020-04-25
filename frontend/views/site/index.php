@@ -7,7 +7,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
 
 <div class="row mt-30">
-    <div class="col-md-2" align="center">
+    <div class="col-md-2 col-md-offset-1" align="center">
         <?php if (!Yii::$app->user->isGuest) {
             echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/profile/edit');
         } ?>
@@ -37,6 +37,14 @@ $this->title = 'Личный кабинет поступающего в МПГУ
             } ?>
 
         </div>
+
+    <div class="col-md-2" align="center">
+        <?php if (!Yii::$app->user->isGuest) {
+            echo Html::a(Html::img('@web/img/cabinet/online.png')
+                . '<br/>Подача документов', '/abiturient/anketa/step1');
+        } ?>
+
+    </div>
 
 
 <!--        <div class="col-md-2" align="center">-->
@@ -81,7 +89,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <!--</div>-->
 
 <div class="row mt-50">
-    <div class="col-md-12">
+    <div class="col-md-10 col-md-offset-1">
         <?php if (!Yii::$app->user->isGuest) : ?>
             <?= \frontend\widgets\olympic\UserOlympicListWidget::widget(); ?>
        <?php endif; ?>
