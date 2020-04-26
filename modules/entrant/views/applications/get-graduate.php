@@ -17,6 +17,9 @@ use yii\web\View;
 
 $this->title = "Выбор образовательных программ";
 
+$anketa = \Yii::$app->user->identity->anketa();
+$contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+
 $result = "";
 ?>
 <?php
@@ -66,7 +69,7 @@ foreach ($currentFaculty as $faculty) {
                 $result .= "<li>";
                 $result .= Html::a(DictDisciplineHelper::disciplineName($examination->discipline_id),
                     $examination->discipline->links,
-                    ['target'=> '_blank']);
+                    ['target' => '_blank']);
                 $result .= "</li>";
             }
             $result .= "</ol>";
@@ -77,7 +80,7 @@ foreach ($currentFaculty as $faculty) {
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
-            $result .= $budgetAnalog["status"] ? UserCgHelper::link(
+            $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
                 . UserCgHelper::link(
@@ -93,10 +96,14 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                 ($currentCg->only_pay_status ? 'приём на платной основе' : $budgetAnalog["kcp"]);
             $result .= "</strong></td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
+            if (!$contractOnly) {
+                $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
+            }
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
+            if(!$contractOnly) {
+                $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
+            }
             $result .= "</td>";
             $result .= "<td>";
             $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
@@ -112,23 +119,23 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 ?>
 
 
-    <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
-    <div class="row">
-        <div class="col-md-1 mt-10">
-            <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
-        </div>
-        <div class="col-md-1 col-md-offset-11">
-            <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
-        </div>
+<?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
+<div class="row">
+    <div class="col-md-1 mt-10">
+        <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
     </div>
+    <div class="col-md-1 col-md-offset-11">
+        <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+    </div>
+</div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
     <?= $result ?>
 </div>
-    <?php Pjax::end(); ?>
+<?php Pjax::end(); ?>
 
-    <?php
-    $this->registerJs("
+<?php
+$this->registerJs("
             $(document).on('pjax:send', function () {
             const buttonPlus = $('.glyphicon');
             const buttonWrapper = $('.btn');
@@ -140,6 +147,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
         })
     ", View::POS_READY);
 
-    ?>
+?>
 
 

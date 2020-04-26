@@ -132,6 +132,28 @@ class Anketa extends ActiveRecord
             ($this->category->foreigner_status && ($this->edu_finish_year < date("Y")));
     }
 
+    public function onlyContract($educationLevel)
+    {
+        switch ($educationLevel){
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO : {
+                return in_array($this->current_edu_level, AnketaHelper::SPO_LEVEL_ONLY_CONTRACT);
+                break;
+            }
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR : {
+                return in_array($this->current_edu_level, AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT);
+                break;
+            }
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER : {
+                return in_array($this->current_edu_level, AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT);
+                break;
+            }
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL : {
+                return in_array($this->current_edu_level, AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT);
+                break;
+            }
+        }
+    }
+
 
     public static function find()
     {
