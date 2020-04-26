@@ -15,9 +15,11 @@ use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
 
-$this->title = "Выбор образовательных программ";
+$this->title = "Выбор магистерских программ";
 
 $result = "";
+$anketa = \Yii::$app->user->identity->anketa();
+$contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
@@ -76,7 +78,7 @@ foreach ($currentFaculty as $faculty) {
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
-            $result .= $budgetAnalog["status"] ? UserCgHelper::link(
+            $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
                 . UserCgHelper::link(
@@ -92,10 +94,14 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                 ($currentCg->only_pay_status ? 'приём на платной основе' : $budgetAnalog["kcp"]);
             $result .= "</strong></td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
+            if(!$contractOnly) {
+                $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
+            }
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
+            if(!$contractOnly) {
+                $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
+            }
             $result .= "</td>";
             $result .= "<td>";
             $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
