@@ -325,10 +325,6 @@ class DictCompetitiveGroupHelper
         return null;
     }
 
-
-
-
-
     public static function cseSubjectId($id) {
         return DictDiscipline::findOne($id)->cse_subject_id;
     }
@@ -345,6 +341,20 @@ class DictCompetitiveGroupHelper
             ->specialRight($special_right)
             ->exists();
     }
+
+    public static function bachelorExistsUser($user_id) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->eduLevel(self::EDUCATION_LEVEL_BACHELOR)
+            ->exists();
+    }
+
+    public static function bachelorAndFormOchExistsUser($user_id) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->eduLevel(self::EDUCATION_LEVEL_BACHELOR)
+            ->formEdu(self::EDU_FORM_OCH)
+            ->exists();
+    }
+
 
     public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
         return DictCompetitiveGroup::find()->userCg($user_id)

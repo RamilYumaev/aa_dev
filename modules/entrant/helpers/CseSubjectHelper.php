@@ -9,13 +9,17 @@ use modules\entrant\models\CseSubjectResult;
 
 class CseSubjectHelper
 {
-
     const MIN_NEEDED_SUBJECT_CSE = 2;
 
     private static function modelAll($userId)
     {
         return $cseSubjectResult = CseSubjectResult::find()
             ->where(['user_id' => $userId])->orderBy(['year' => SORT_ASC])->all();
+    }
+
+    public static function cseSubjectExists($userId)
+    {
+        return  CseSubjectResult::find()->where(['user_id' => $userId])->exists();
     }
 
     public static function maxMarkSubject($userId) :array

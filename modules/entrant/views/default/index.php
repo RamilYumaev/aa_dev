@@ -47,9 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="mt-20">
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
     </div>
+    <?php if(\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser(Yii::$app->user->identity->getId())
+        && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists(Yii::$app->user->identity->getId())): ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\examinations\ExaminationsIndexWidget::widget();?>
     </div>
+    <?php endif; ?>
     <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
         <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget() ?>
     <?php endif; ?>

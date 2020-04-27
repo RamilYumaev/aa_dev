@@ -2,6 +2,7 @@
 
 
 namespace modules\entrant\helpers;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\CseViSelect;
 
 class CseViSelectHelper
@@ -28,5 +29,22 @@ class CseViSelectHelper
         }
         return null;
     }
+
+    public static function isCorrect($userId) {
+        $model =  self::modelOne($userId);
+        $data = true;
+        $exams = DictCompetitiveGroupHelper::groupByExams($userId);
+        foreach($exams as $i => $item){
+            $data = $model ? (self::inKeyVi($i, $model->dataVi()) ??  self::inKeyCse($i, $model->dataCse())) : false;
+            if(!$data) {
+                break;
+            }
+        }
+        if (DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !CseSubjectHelper::cseSubjectExists($userId)){
+            return $data;
+        }
+       return true;
+    }
+
 
 }
