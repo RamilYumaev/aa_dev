@@ -1,6 +1,7 @@
 <?php
 
 namespace modules\entrant\helpers;
+use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Anketa;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
@@ -59,6 +60,7 @@ class PostDocumentHelper
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
             CseViSelectHelper::isCorrect($user_id) &&
+            AdditionalInformationHelper::isExits($user_id) &&
             self::medicine($user_id);
     }
 
