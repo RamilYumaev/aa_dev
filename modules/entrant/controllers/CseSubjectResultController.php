@@ -63,9 +63,18 @@ class CseSubjectResultController extends Controller
         ]);
     }
 
+    /**
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
     public function actionCseVi()
     {
-        return $this->render('cse-vi');
+        if (DictCompetitiveGroupHelper::bachelorExistsUser(Yii::$app->user->identity->getId())
+            && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists(Yii::$app->user->identity->getId())) {
+               return $this->render('cse-vi');
+            }
+        throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
     /**
@@ -110,7 +119,6 @@ class CseSubjectResultController extends Controller
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
-
 
     /**
      * @param integer $id
