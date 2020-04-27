@@ -1,4 +1,4 @@
-<?php
+-<?php
 
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
