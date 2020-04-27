@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Обновить';
         <div class="box-body">
             <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'short')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 

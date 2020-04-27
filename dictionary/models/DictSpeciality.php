@@ -21,6 +21,7 @@ class DictSpeciality extends ActiveRecord
         $speciality = new static();
         $speciality->name = $form->name;
         $speciality->code = $form->code;
+        $speciality->short = $form->short;
         return $speciality;
     }
 
@@ -28,20 +29,7 @@ class DictSpeciality extends ActiveRecord
     {
         $this->name = $form->name;
         $this->code = $form->code;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['code', 'name'], 'required'],
-            [['name'], 'string'],
-            [['ais_id'], 'integer'],
-            [['code'], 'string', 'max' => 8],
-            ['code', 'unique', 'message' => 'Такой направление подготовки уже есть'],
-        ];
+        $this->short = $form->short;
     }
 
     /**
@@ -52,6 +40,7 @@ class DictSpeciality extends ActiveRecord
         return [
             'code' => 'Код',
             'name' => 'Название',
+            'short' => "Краткое наименоване на латинском"
         ];
     }
 
