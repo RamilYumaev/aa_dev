@@ -337,6 +337,15 @@ class DictCompetitiveGroupHelper
         return DictDiscipline::findOne(['cse_subject_id' => $id])->id;
     }
 
+    public static function facultySpecialityExistsUser($user_id, $faculty_id, $speciality_id,  $edu_level, $special_right) {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->faculty($faculty_id)
+            ->speciality($speciality_id)
+            ->eduLevel($edu_level)
+            ->specialRight($special_right)
+            ->exists();
+    }
+
     public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
