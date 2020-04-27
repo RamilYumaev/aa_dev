@@ -127,9 +127,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function specialRightCel()
     {
         return $this->andWhere(
-            ['special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+            ['special_right_id' => DictCompetitiveGroupHelper::TARGET_PLACE]);
     }
 
+    public function specialRight($specialRight)
+    {
+        return $this->andWhere(['special_right_id' => $specialRight]);
+    }
 
 
     public function currentYear($year)
