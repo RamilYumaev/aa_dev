@@ -155,9 +155,12 @@ class ApplicationsController extends Controller
 
     public function actionSaveCg($id)
     {
+
         try {
             $cg = $this->repositoryCg->get($id);
+            DictCompetitiveGroupHelper::noMore3Specialty($cg);
             DictCompetitiveGroupHelper::saveChecked($id, $cg->edu_level);
+            DictCompetitiveGroupHelper::budgetChecker($cg->edu_level);
             $this->repository->haveARecord($cg->id);
             $userCg = UserCg::create($cg->id);
             $this->repository->save($userCg);
@@ -169,7 +172,7 @@ class ApplicationsController extends Controller
             \Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
-        return $this->redirect("applications/"
+        return $this->redirect("/abiturient/applications/"
             . DictCompetitiveGroupHelper::getUrl($cg->edu_level));
 
     }

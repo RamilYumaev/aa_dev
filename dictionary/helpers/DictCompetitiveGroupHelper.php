@@ -37,6 +37,8 @@ class DictCompetitiveGroupHelper
     const SPECIAL_RIGHT = 1;
     const TARGET_PLACE = 2;
 
+    const MAX_SPECIALTY_ALLOW = 3;
+
     public static function getEduForms(): array
     {
         return [self::EDU_FORM_OCH => 'очная',
@@ -214,44 +216,66 @@ class DictCompetitiveGroupHelper
             if (!in_array($id, $filteredCg) && !in_array($level, $permittedLevel)) {
                 throw new \DomainException("Конкурсная группа не доступна");
             }
+
         }
     }
 
-    public static function groupByFacultyCountUser($user_id) {
+    public static function educationLevelChecker($cg)
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+        $permittedLevel = $anketa->getPermittedEducationLevels();
+
+    }
+
+    public static function budgetChecker($educationLevel)
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+
+        if($anketa->onlyContract($educationLevel)){
+            throw new \DomainException("В рамках расматриваемого уровня образования Вы можете поступать только 
+            на платные места");
+        }
+    }
+
+    public static function groupByFacultyCountUser($user_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
-            ->select(['user_id','faculty_id'])
-            ->groupBy(['user_id','faculty_id'])
+            ->select(['user_id', 'faculty_id'])
+            ->groupBy(['user_id', 'faculty_id'])
             ->count();
     }
 
-    public static function groupByFacultySpecialityAllUser($user_id) {
+    public static function groupByFacultySpecialityAllUser($user_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
-            ->select(['user_id','faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-            ->groupBy(['user_id','faculty_id', 'edu_level', 'special_right_id',  'speciality_id'])
+            ->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+            ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
             ->all();
     }
 
-    public static function groupByExams($user_id) {
+    public static function groupByExams($user_id)
+    {
         return DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
-            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
-            ->andWhere( ['user_cg.user_id'=> $user_id])
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id])
             ->andWhere(['not', ['cse_subject_id' => null]])
-            ->select(['name','dict_discipline.id'])
+            ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
-          //  ->groupBy(['discipline_competitive_group.discipline_id'])
+            //  ->groupBy(['discipline_competitive_group.discipline_id'])
             ->column();
     }
 
-    public static function groupByExamsFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id) {
+    public static function groupByExamsFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id)
+    {
         $data = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
-            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
-            ->andWhere(['user_cg.user_id'=> $user_id, 'dict_competitive_group.faculty_id'=> $faculty_id,
-                'dict_competitive_group.speciality_id' => $speciality_id ])
-            ->select(['name','dict_discipline.id'])
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
             //  ->groupBy(['discipline_competitive_group.discipline_id'])
             ->column();
@@ -259,47 +283,49 @@ class DictCompetitiveGroupHelper
         $ex = "";
         foreach ($data as $key => $value) {
             if ($key !== 99) {
-                $ex .= $value .", ";
+                $ex .= $value . ", ";
             }
         }
-        return $ex ? rtrim ($ex, ", ")."." : "";
+        return $ex ? rtrim($ex, ", ") . "." : "";
     }
 
 
-
-    public static function groupByExamsCseFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id, $cse) {
+    public static function groupByExamsCseFacultyEduLevelSpecialization($user_id, $faculty_id, $speciality_id, $cse)
+    {
         $data = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-            ->innerJoin(DictCompetitiveGroup::tableName(),'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
-            ->innerJoin(UserCg::tableName(),'user_cg.cg_id=dict_competitive_group.id')
-            ->andWhere(['user_cg.user_id'=> $user_id, 'dict_competitive_group.faculty_id'=> $faculty_id,
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.speciality_id' => $speciality_id])
-            ->select(['name','dict_discipline.id', 'cse_subject_id'])
-           ->asArray()
+            ->select(['name', 'dict_discipline.id', 'cse_subject_id'])
+            ->asArray()
             ->all();
 
-         return self::selectCseVi($data, $cse, $user_id) ??  self::stringExaminationsCse($data, $cse, $user_id);
+        return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
 
     }
 
-    private static  function stringExaminationsCse($data, $cse, $user_id) {
+    private static function stringExaminationsCse($data, $cse, $user_id)
+    {
         $ex = "";
         foreach ($data as $key => $value) {
-            if($cse) {
-                if($value['cse_subject_id']) {
-                    $ex .= $value['name'] . " - ".CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']]." балл(-а, ов), ";
+            if ($cse) {
+                if ($value['cse_subject_id']) {
+                    $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']] . " балл(-а, ов), ";
                 }
             } else {
                 if (!$value['cse_subject_id']) {
-                    $ex .= $value['name'] .", ";
+                    $ex .= $value['name'] . ", ";
                 }
             }
         }
-        return $ex ? rtrim ($ex, ", ")."." : "";
+        return $ex ? rtrim($ex, ", ") . "." : "";
     }
 
-    private static  function selectCseVi($data, $cse, $user_id) {
-        if(CseViSelectHelper::modelOne($user_id)) {
+    private static function selectCseVi($data, $cse, $user_id)
+    {
+        if (CseViSelectHelper::modelOne($user_id)) {
             $ex = "";
             foreach ($data as $key => $value) {
                 if (!$cse) {
@@ -326,27 +352,45 @@ class DictCompetitiveGroupHelper
     }
 
 
-
-
-
-    public static function cseSubjectId($id) {
+    public static function cseSubjectId($id)
+    {
         return DictDiscipline::findOne($id)->cse_subject_id;
     }
 
-    public static function id($id) {
+    public static function id($id)
+    {
         return DictDiscipline::findOne(['cse_subject_id' => $id])->id;
     }
 
-    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
-            ->select(['user_id', 'speciality_id',  'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
+            ->select(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->all();
     }
 
-    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id ) {
+    public static function noMore3Specialty(DictCompetitiveGroup $cg)
+    {
+        $selectedCg = UserCg::find()
+            ->select("cg_id")
+            ->andWhere(["user_id" => \Yii::$app->user->getId()])
+            ->column();
+        $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
+            ->select("speciality_id")
+            ->andWhere(["in", "id", $selectedCg])->column();
+        if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty)) {
+            throw new \DomainException("Заявления можно подавать только на три направления подготовки");
+        }
+
+        return true;
+
+    }
+
+    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
