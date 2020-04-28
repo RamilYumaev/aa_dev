@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 \modules\entrant\assets\other\OtherDocumentAsset::register($this);
 ?>
- <?php $form = ActiveForm::begin(['id'=> 'form-other-documents']); ?>
+ <?php $form = ActiveForm::begin(['id'=> 'form-other-documents', 'enableAjaxValidation' => true]); ?>
       <?php if($model->type !=43): ?>
       <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType($model->typeDocuments())) ?>
       <?php endif; ?>
