@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
 /* @var $model \olympic\forms\OlimpicNominationCreateForm */
 /* @var $form yii\widgets\ActiveForm */
 ?>

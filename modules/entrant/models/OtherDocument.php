@@ -98,6 +98,11 @@ class OtherDocument extends ActiveRecord
     }
 
 
+    public function getPreemptiveRights() {
+        return $this->hasMany(PreemptiveRight::class, ['other_id'=> 'id']);
+    }
+
+
     public function attributeLabels()
     {
         return [
