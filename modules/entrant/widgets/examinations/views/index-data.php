@@ -3,10 +3,12 @@
 /* @var $exams array */
 /* @var $model modules\entrant\models\CseViSelect*/
 
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\CseViSelectHelper;
 ?>
-<div>
+<div class="row">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(CseViSelectHelper::isCorrect(Yii::$app->user->identity->getId())) ?>">
     <h4>Вступительные испытания (ВИ) /EГЭ</h4>
     <?= Html::a('Уточнить', ['cse-subject-result/cse-vi'], ['class' => 'btn btn-success mb-10']) ?>
     <table class="table">
@@ -23,4 +25,5 @@ use modules\entrant\helpers\CseViSelectHelper;
             </tr>
         <?php endforeach; ?>
     </table>
+</div>
 </div>

@@ -3,6 +3,7 @@
 
 namespace modules\entrant\controllers;
 use common\helpers\FileHelper;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\services\SubmittedDocumentsService;
@@ -10,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 
 class PostDocumentController extends Controller
@@ -87,9 +89,20 @@ class PostDocumentController extends Controller
         return $this->serviceSave(PostDocumentHelper::TYPE_ECP);
     }
 
+    /**
+     *
+     * @throws NotFoundHttpException
+     */
+
     public function actionDoc($faculty, $speciality, $edu_level, $special_right_id=null)
     {
-       FileCgHelper::getFile(Yii::$app->user->identity->getId(),
+        if (!DictCompetitiveGroupHelper::facultySpecialityExistsUser(Yii::$app->user->identity->getId(),
+            $faculty, $speciality,
+            $edu_level, $special_right_id)) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+
+        FileCgHelper::getFile(Yii::$app->user->identity->getId(),
            $faculty, $speciality,
            $edu_level, $special_right_id);
     }

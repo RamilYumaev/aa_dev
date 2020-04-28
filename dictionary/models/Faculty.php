@@ -23,6 +23,8 @@ class Faculty extends \yii\db\ActiveRecord
         $faculty = new static();
         $faculty->full_name = $form->full_name;
         $faculty->filial = $form->filial;
+        $faculty->short = $form->short;
+        $faculty->genitive_name = $form->genitive_name;
         return $faculty;
     }
 
@@ -30,6 +32,8 @@ class Faculty extends \yii\db\ActiveRecord
     {
         $this->full_name = $form->full_name;
         $this->filial = $form->filial;
+        $this->short = $form->short;
+        $this->genitive_name = $form->genitive_name;
     }
 
     /**
@@ -41,6 +45,8 @@ class Faculty extends \yii\db\ActiveRecord
             'id' => 'ИД',
             'full_name' => 'Полное название',
             'filial' => 'Филиал?',
+            'short'=> "Краткое наименовнаие на латинском",
+            'genitive_name' => 'Полное название в родительном падеже',
         ];
     }
 

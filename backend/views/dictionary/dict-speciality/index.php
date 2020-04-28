@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => SerialColumn::class],
                     'code',
                     'name',
+                    'short',
                     ['class' => ActionColumn::class,
                         'template'=>'{update} {delete}'],
                 ]

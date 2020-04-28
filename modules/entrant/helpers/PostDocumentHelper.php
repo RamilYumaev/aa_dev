@@ -1,6 +1,7 @@
 <?php
 
 namespace modules\entrant\helpers;
+use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Anketa;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
@@ -50,7 +51,6 @@ class PostDocumentHelper
                         ['class'=> self::value(self::submittedLisClass(), $key), 'data'=> ['method' => 'post']]);
     }
 
-
     private static function common($user_id)
     {
         return UserCgHelper::findUser($user_id) &&
@@ -59,6 +59,8 @@ class PostDocumentHelper
             LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
+            CseViSelectHelper::isCorrect($user_id) &&
+            AdditionalInformationHelper::isExits($user_id) &&
             self::medicine($user_id);
     }
 
