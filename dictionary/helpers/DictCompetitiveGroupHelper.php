@@ -231,7 +231,7 @@ class DictCompetitiveGroupHelper
     {
         $anketa = \Yii::$app->user->identity->anketa();
 
-        if($anketa->onlyContract($educationLevel)){
+        if ($anketa->onlyContract($educationLevel)) {
             throw new \DomainException("В рамках расматриваемого уровня образования Вы можете поступать только 
             на платные места");
         }
@@ -352,7 +352,8 @@ class DictCompetitiveGroupHelper
     }
 
 
-    public static function cseSubjectId($id) {
+    public static function cseSubjectId($id)
+    {
         return DictDiscipline::findOne($id)->cse_subject_id;
     }
 
@@ -361,7 +362,8 @@ class DictCompetitiveGroupHelper
         return DictDiscipline::findOne(['cse_subject_id' => $id])->id;
     }
 
-    public static function facultySpecialityExistsUser($user_id, $faculty_id, $speciality_id,  $edu_level, $special_right) {
+    public static function facultySpecialityExistsUser($user_id, $faculty_id, $speciality_id, $edu_level, $special_right)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
@@ -370,21 +372,24 @@ class DictCompetitiveGroupHelper
             ->exists();
     }
 
-    public static function bachelorExistsUser($user_id) {
+    public static function bachelorExistsUser($user_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->eduLevel(self::EDUCATION_LEVEL_BACHELOR)
             ->exists();
     }
 
-    public static function formOchExistsUser($user_id) {
+    public static function formOchExistsUser($user_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
-            ->eduLevel([self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL ])
+            ->eduLevel([self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL])
             ->formEdu(self::EDU_FORM_OCH)
             ->exists();
     }
 
 
-    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id ) {
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id)
+    {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
@@ -419,6 +424,18 @@ class DictCompetitiveGroupHelper
             ->specialization($specialization_id)
             ->select(['financing_type_id'])
             ->column();
+    }
+
+    public static function getAllSumKcp($cg)
+    {
+        $targetKcp = DictCompetitiveGroup::targetKcp($cg) ? ", из них на целевое обучение -  "
+            . DictCompetitiveGroup::targetKcp($cg) : "";
+
+        $specialRightKcp = DictCompetitiveGroup::specialKcp($cg) ? ", из них особая квота - "
+            . DictCompetitiveGroup::specialKcp($cg) : "";
+
+        return DictCompetitiveGroup::kcpSum($cg) . $targetKcp . $specialRightKcp;
+
     }
 
 }
