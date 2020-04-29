@@ -152,7 +152,7 @@ class DictCompetitiveGroup extends ActiveRecord
                 "status" => 1,
                 "cgBudgetId" => $cgBudget->id,
                 "cgContractId" => $cgContract->id,
-                "kcp" => $cgBudget->kcp,
+                "kcp" => DictCompetitiveGroupHelper::getAllSumKcp($cgContract),
                 "competition_count" => $cgBudget->competition_count,
                 "passing_score" => $cgBudget->passing_score,
 
@@ -246,6 +246,47 @@ class DictCompetitiveGroup extends ActiveRecord
             return $model->id;
         }
         throw new \DomainException("Не найдена кокнурсная группа ".$key);
+    }
+
+    public static function kcpSum($cg): Int
+    {
+        $kcp = self::shareKcp($cg) + self::targetKcp($cg) + self::specialKcp($cg);
+        return $kcp;
+    }
+
+    public static function targetKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
+            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::TARGET_PLACE])->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
+    }
+
+    public static function shareKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
+    }
+
+    public static function specialKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
+            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
     }
 
 

@@ -4,6 +4,7 @@ namespace dictionary\models\queries;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
 
 class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
