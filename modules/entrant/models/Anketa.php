@@ -7,6 +7,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\DictCategory;
 use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
@@ -111,21 +112,53 @@ class Anketa extends ActiveRecord
         }
         if (in_array($this->current_edu_level, array_merge(
             AnketaHelper::BACHELOR_LEVEL,
-            AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT))) {
+            AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT))
+        ) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
         }
         if (in_array($this->current_edu_level, array_merge(
             AnketaHelper::MAGISTRACY_LEVEL,
-            AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT))) {
+            AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT))
+        ) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
         }
         if (in_array($this->current_edu_level, array_merge(
             AnketaHelper::HIGH_GRADUATE_LEVEL,
-            AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT))) {
+            AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT))
+        ) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
         }
 
-        return $result;
+        return array_uintersect($result, self::existsLevel($this->university_choice),"strcasecmp");
+    }
+
+    public static function existsLevel($universityLevel)
+    {
+        switch ($universityLevel) {
+            case AnketaHelper::HEAD_UNIVERSITY : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()->column();
+            }
+            case AnketaHelper::ANAPA_BRANCH : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()
+                    ->andWhere(["faculty_id"=> AnketaHelper::ANAPA_BRANCH])->column();
+            }
+            case AnketaHelper::POKROV_BRANCH : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()
+                    ->andWhere(["faculty_id"=> AnketaHelper::POKROV_BRANCH])->column();
+            }
+            case AnketaHelper::STAVROPOL_BRANCH : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()
+                    ->andWhere(["faculty_id"=> AnketaHelper::STAVROPOL_BRANCH])->column();
+            }
+            case AnketaHelper::DERBENT_BRANCH : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()
+                    ->andWhere(["faculty_id"=> AnketaHelper::DERBENT_BRANCH])->column();
+            }
+            case AnketaHelper::SERGIEV_POSAD_BRANCH : {
+                return DictCompetitiveGroup::find()->existsLevelInUniversity()
+                    ->andWhere(["faculty_id"=> AnketaHelper::SERGIEV_POSAD_BRANCH])->column();
+            }
+        }
     }
 
     public function onlyCse()

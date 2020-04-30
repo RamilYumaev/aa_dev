@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 $anketa = Yii::$app->user->identity->anketa();
 $onlyCse = $anketa->onlyCse();
+
 ?>
 <div class="row">
     <div class="col-md-2">
@@ -40,8 +41,8 @@ $onlyCse = $anketa->onlyCse();
                         <?php
 
                         if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
-                            echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse",
-                                    ["class" => "btn btn-lg btn-bd-primary"]) . "</div>";
+                            echo Html::a("Мои результаты ЕГЭ", "/abiturient/default/cse",
+                                    ["class" => "btn btn-bd-primary"]) . "</div>";
                             if (CseSubjectHelper::minNumberSubject($userId)) {
                                 echo AnketaHelper::getButton($level);
                             } else {

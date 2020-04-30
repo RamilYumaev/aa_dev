@@ -70,11 +70,11 @@ class AnketaHelper
     ];
 
     const HEAD_UNIVERSITY  = 1;
-    const ANAPA_BRANCH = 23;
-    const POKROV_BRANCH  = 24;
-    const STAVROPOL_BRANCH = 25;
-    const DERBENT_BRANCH = 28;
-    const SERGIEV_POSAD_BRANCH = 29;
+    const ANAPA_BRANCH = 21; //@TODO нужно будет отвязать от справочника
+    const POKROV_BRANCH  = 24; //@TODO нужно будет отвязать от справочника
+    const STAVROPOL_BRANCH = 23; //@TODO нужно будет отвязать от справочника
+    const DERBENT_BRANCH = 22; //@TODO нужно будет отвязать от справочника
+    const SERGIEV_POSAD_BRANCH = 40; //@TODO нужно будет отвязать от справочника
 
     const ONLY_PAY_CONDITION = 1;
     const FULL_CONDITION = 2;

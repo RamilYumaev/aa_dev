@@ -30,6 +30,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->specialization_id = $specialization_id;
         $competitiveGroup->education_form_id = $form->education_form_id;
         $competitiveGroup->financing_type_id = $form->financing_type_id;
+        $competitiveGroup->edu_level = $form->edu_level;
         $competitiveGroup->faculty_id = $faculty_id;
         $competitiveGroup->kcp = $form->kcp;
         $competitiveGroup->special_right_id = $form->special_right_id;
@@ -83,6 +84,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'specialization_id' => 'Образовательная программа',
             'education_form_id' => 'Форма обучения',
             'financing_type_id' => 'Вид финансирования',
+            'edu_level' => 'Уровень образования',
             'faculty_id' => 'Факультет',
             'kcp' => 'КЦП',
             'special_right_id' => 'Квота /целевое',
@@ -97,8 +99,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'discount' => 'Скидка',
             'enquiry_086_u_status' => 'Требуется справка 086-у',
             'spo_class' => 'Класс СПО',
-            'ID  АИС ВУЗ' => 'ais_id',
-            'Конкурсная группа УМС' => 'foreigner_status',
+            'ais_id'=> 'ID  АИС ВУЗ',
+            'foreigner_status'=> 'Конкурсная группа УМС',
         ];
     }
 

@@ -32,7 +32,8 @@ class AnketaForm extends Model
     {
         return [
             [['user_id', 'citizenship_id','current_edu_level','category_id', 'university_choice'], 'integer'],
-            [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id'], 'required'],
+            [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id','university_choice'],
+                'required'],
             [['edu_finish_year'], 'date', 'format' => 'yyyy'],
 
         ];

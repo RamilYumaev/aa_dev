@@ -25,7 +25,8 @@ use kartik\select2\Select2;
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
                 <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder'=> "2020"]) ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
-                <?= $form->field($model, 'university_choice')->dropDownList(AnketaHelper::universityChoice()) ?>
+                <?= $form->field($model, 'university_choice')->dropDownList(AnketaHelper::universityChoice(),
+                    ['prompt'=> 'Выберите вуз']) ?>
                 <?= Html::submitButton(Html::tag("span", "",
                         ["class" => "glyphicon glyphicon-floppy-disk"]) . " " . Html::tag("span", "",
                         ["class" => "glyphicon glyphicon-arrow-right"]), ['class' => 'btn btn-lg btn-success']) ?>
