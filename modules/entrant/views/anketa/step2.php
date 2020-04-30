@@ -26,33 +26,34 @@ $onlyCse = $anketa->onlyCse();
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
-            <h1><?=Html::encode($this->title) ?></h1>
+            <h1><?= Html::encode($this->title) ?></h1>
         </div>
     </div>
     <div class="row">
         <?php
         foreach ($anketa->getPermittedEducationLevels() as $level):
             ?>
-            <div class="col-md-3 level_block m-10">
+            <div class="col-md-3">
+                <div class="level_block">
+                    <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
+                    <div>
+                        <?php
 
-                <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
-                <div>
-                    <?php
+                        if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
+                            echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse",
+                                    ["class" => "btn btn-lg btn-bd-primary"]) . "</div>";
+                            if (CseSubjectHelper::minNumberSubject($userId)) {
+                                echo AnketaHelper::getButton($level);
+                            } else {
+                                echo "<p>Перейти к выбору образовательных программ можно только после ввода Ваших результатов ЕГЭ</p>";
+                            }
 
-                    if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
-                        echo Html::a("Внести результаты ЕГЭ", "/abiturient/default/cse",
-                                ["class" => "btn btn-lg btn-bd-primary"]) . "</div>";
-                        if (CseSubjectHelper::minNumberSubject($userId)) {
-                            echo AnketaHelper::getButton($level);
                         } else {
-                            echo "<p>Перейти к выбору образовательных программ можно только после ввода Ваших результатов ЕГЭ</p>";
+                            echo AnketaHelper::getButton($level);
                         }
 
-                    } else {
-                        echo AnketaHelper::getButton($level);
-                    }
-
-                    ?>
+                        ?>
+                    </div>
                 </div>
             </div>
         <?php

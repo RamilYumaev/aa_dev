@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class AnketaForm extends Model
 {
-    public $user_id, $citizenship_id, $edu_finish_year, $current_edu_level, $category_id;
+    public $user_id, $citizenship_id, $edu_finish_year, $current_edu_level, $category_id, $university_choice;
     private $_anketaForm;
 
     public function __construct(Anketa $anketa = null, $config = [])
@@ -19,6 +19,7 @@ class AnketaForm extends Model
             $this->current_edu_level = $anketa->current_edu_level;
             $this->category_id = $anketa->category_id;
             $this->user_id = \Yii::$app->user->identity->getId();
+            $this->university_choice = $anketa->university_choice;
 
         }else{
             $this->user_id = \Yii::$app->user->identity->getId();
@@ -30,7 +31,7 @@ class AnketaForm extends Model
     public function rules()
     {
         return [
-            [['user_id', 'citizenship_id','current_edu_level','category_id'], 'integer'],
+            [['user_id', 'citizenship_id','current_edu_level','category_id', 'university_choice'], 'integer'],
             [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id'], 'required'],
             [['edu_finish_year'], 'date', 'format' => 'yyyy'],
 

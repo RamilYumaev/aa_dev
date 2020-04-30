@@ -20,11 +20,12 @@ use kartik\select2\Select2;
         <div class="row">
             <div class="col-md-12 mt-30">
                 <h1><?= Html::encode($this->title) ?></h1>
-                <?php $form = ActiveForm::begin(['id' => 'anketa-form']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'anketa-form', 'options' => ['autocomplete' => 'off']]); ?>
                 <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList()) ?>
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
-                <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder'=> "2020"]) ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
+                <?= $form->field($model, 'university_choice')->dropDownList(AnketaHelper::universityChoice()) ?>
                 <?= Html::submitButton(Html::tag("span", "",
                         ["class" => "glyphicon glyphicon-floppy-disk"]) . " " . Html::tag("span", "",
                         ["class" => "glyphicon glyphicon-arrow-right"]), ['class' => 'btn btn-lg btn-success']) ?>

@@ -69,8 +69,28 @@ class AnketaHelper
         AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
     ];
 
+    const HEAD_UNIVERSITY  = 1;
+    const ANAPA_BRANCH = 23;
+    const POKROV_BRANCH  = 24;
+    const STAVROPOL_BRANCH = 25;
+    const DERBENT_BRANCH = 28;
+    const SERGIEV_POSAD_BRANCH = 29;
+
     const ONLY_PAY_CONDITION = 1;
     const FULL_CONDITION = 2;
+
+    public static function universityChoice()
+    {
+        return [
+            self::HEAD_UNIVERSITY => "Головной вуз МПГУ (г. Москва)",
+            self::SERGIEV_POSAD_BRANCH => "филиал МПГУ в г. Сергиевом Посаде (Московская область)",
+            self::ANAPA_BRANCH => "филиал МПГУ в г. Анапе (Краснодарский край)",
+            self::POKROV_BRANCH => "филиал МПГУ в г. Покрове (Владимирская область)",
+            self::STAVROPOL_BRANCH => "филиал МПГУ в г. Ставрополе (Ставропольский край)",
+            self::DERBENT_BRANCH => "филиал МПГУ в г. Дербенте (Республика Дагестан)",
+
+        ];
+    }
 
 
     public static function currentEducationLevel()

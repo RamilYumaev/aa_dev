@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property integer $edu_finish_year
  * @property string $current_edu_level
  * @property string $category_id
+ * @property integer $university_choice
  */
 class Anketa extends ActiveRecord
 {
@@ -54,6 +55,7 @@ class Anketa extends ActiveRecord
         $this->current_edu_level = $form->current_edu_level;
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
+        $this->university_choice = $form->university_choice;
 
     }
 
@@ -84,6 +86,7 @@ class Anketa extends ActiveRecord
             'edu_finish_year' => 'В каком году Вы окончили последнюю образовательную организацию?',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
+            'university_choice' => 'В какой вуз Вы собираетесь подавать документы?',
         ];
     }
 
@@ -134,20 +137,24 @@ class Anketa extends ActiveRecord
 
     public function onlyContract($educationLevel)
     {
-        switch ($educationLevel){
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO : {
+        switch ($educationLevel) {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
+            {
                 return in_array($this->current_edu_level, AnketaHelper::SPO_LEVEL_ONLY_CONTRACT);
                 break;
             }
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR : {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
+            {
                 return in_array($this->current_edu_level, AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT);
                 break;
             }
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER : {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
+            {
                 return in_array($this->current_edu_level, AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT);
                 break;
             }
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL : {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
+            {
                 return in_array($this->current_edu_level, AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT);
                 break;
             }
