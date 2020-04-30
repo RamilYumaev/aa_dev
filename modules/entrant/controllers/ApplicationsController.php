@@ -5,6 +5,7 @@ namespace modules\entrant\controllers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
+use modules\entrant\helpers\AnketaHelper;
 use yii\helpers\Url;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
@@ -15,7 +16,7 @@ class ApplicationsController extends Controller
 {
 
     private $repository, $repositoryCg;
-    public $currentYear = 2020;
+    private $anketa;
 
     public function __construct($id, $module,
                                 UserCgRepository $repository,
@@ -26,130 +27,98 @@ class ApplicationsController extends Controller
 
         $this->repository = $repository;
         $this->repositoryCg = $repositoryCg;
+        $this->anketa = \Yii::$app->user->identity->anketa();
     }
 
     public function actionGetCollege()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)->column());
-
+        $currentFaculty = $this->unversityChoiceForController();
 
         return $this->render('get-college', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
+
         ]);
     }
 
     public function actionGetBachelor()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)->column());
 
+        $currentFaculty = $this->unversityChoiceForController();
 
         return $this->render('get-bachelor', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetTargetBachelor()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)->onlyTarget()->column());
-
+        $currentFaculty = $this->unversityChoiceForController();
 
         return $this->render('get-target-bachelor', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetSpecialRightBachelor()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)
-            ->onlySpecialRight()
-            ->column());
+
+        $currentFaculty = $this->unversityChoiceForController();
 
 
         return $this->render('get-special-right-bachelor', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetMagistracy()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)->column());
+
+        $currentFaculty = $this->unversityChoiceForController();
 
 
         return $this->render('get-magistracy', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetTargetMagistracy()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = array_unique(DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear)
-            ->onlyTarget()
-            ->column());
+
+        $currentFaculty = $this->unversityChoiceForController();
 
 
         return $this->render('get-target-magistracy', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear);
+
+        $currentFaculty = $this->unversityChoiceForController();
 
 
         return $this->render('get-graduate', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
     public function actionGetTargetGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-        $currentFaculty = DictCompetitiveGroup::find()
-            ->onlyTarget()
-            ->allActualFacultyWithoutBranch($transformYear);
+
+        $currentFaculty = $this->unversityChoiceForController();
 
 
         return $this->render('get-target-graduate', [
             'currentFaculty' => $currentFaculty,
-            'transformYear' => $transformYear,
         ]);
     }
 
@@ -180,12 +149,7 @@ class ApplicationsController extends Controller
     protected function renderList($level, $specialRight = null)
     {
 
-        $lastYear = $this->currentYear - 1;
-        $transformYear = $lastYear . "-" . $this->currentYear;
-
-
-        $currentFacultyBase = DictCompetitiveGroup::find()
-            ->allActualFacultyWithoutBranch($transformYear);
+        $currentFacultyBase = $this->universityChoiceBase();
 
         if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();
@@ -199,7 +163,6 @@ class ApplicationsController extends Controller
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
         return $this->$method($url, [
             'currentFaculty' => array_unique($currentFaculty),
-            'transformYear' => $transformYear
         ]);
     }
 
@@ -221,12 +184,40 @@ class ApplicationsController extends Controller
 
     private function permittedLevelChecked($level)
     {
-        $anketa = \Yii::$app->user->identity->anketa();
-        if (!in_array($level, $anketa->getPermittedEducationLevels())) {
+        if (!in_array($level, $this->anketa->getPermittedEducationLevels())) {
             Yii::$app->session->setFlash("error", "Уровень образования недоступен!");
             Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
             Yii::$app->end();
         }
+
+    }
+
+    private function universityChoiceBase()
+    {
+        if($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY)
+        {
+           $model =  DictCompetitiveGroup::find()
+                ->allActualFacultyWithoutBranch();
+        }else{
+            $model =  DictCompetitiveGroup::find()
+                ->branch($this->anketa->university_choice);
+        }
+
+        return $model;
+
+    }
+
+    private function unversityChoiceForController()
+    {
+        if($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY)
+        {
+            $currentFaculty = array_unique(DictCompetitiveGroup::find()
+                ->allActualFacultyWithoutBranch()->column());
+        }else{
+            $currentFaculty = array_unique(DictCompetitiveGroup::find()
+                ->branch($this->anketa->university_choice)->column());
+        }
+        return $currentFaculty;
 
     }
 

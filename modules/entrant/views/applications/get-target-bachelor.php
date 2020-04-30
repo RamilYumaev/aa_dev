@@ -44,7 +44,7 @@ foreach ($currentFaculty as $faculty) {
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->onlyTarget()
         ->withoutForeignerCg()
-        ->currentYear($transformYear)
+        ->currentAutoYear()
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();

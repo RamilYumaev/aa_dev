@@ -18,12 +18,20 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['edu_level' => $eduLevel]);
     }
 
-    public function allActualFacultyWithoutBranch($year)
+    public function allActualFacultyWithoutBranch()
     {
         return $this
             ->select('faculty_id')
             ->withoutBranch()
-            ->andWhere(['year' => $year]);
+            ->currentAutoYear();
+    }
+
+    public function branch($branchId)
+    {
+        return $this
+            ->select('faculty_id')
+            ->andWhere(['faculty_id'=> $branchId])
+            ->currentAutoYear();
     }
 
     public function onlyTarget()
@@ -116,11 +124,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['financing_type_id' => $financeId]);
     }
 
-    public function userCg($user_id) {
-        return $this->joinWith('userCg')->where(['user_id'=>$user_id]);
+    public function userCg($user_id)
+    {
+        return $this->joinWith('userCg')->where(['user_id' => $user_id]);
     }
 
-    public function examinations() {
+    public function examinations()
+    {
         return $this->joinWith('examinations');
     }
 
@@ -149,6 +159,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
         return $this->andWhere(['year' => "$lastYear-$currentYear"]);
 
+    }
+
+    public function existsLevelInUniversity()
+    {
+        return $this->select("edu_level")->currentAutoYear()->groupBy("edu_level");
     }
 
 }
