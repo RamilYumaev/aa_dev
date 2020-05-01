@@ -22,6 +22,8 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
         </div>
 
+
+
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/olympiads.png')
