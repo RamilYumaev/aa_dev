@@ -23,7 +23,7 @@ class CategoryStruct
             self::SPECIAL_RIGHT_COMPETITION => "Поступающий на особую квоту",
             self::GOV_LINE_COMPETITION => "Иностранный гражданин, поступающий по гослинии",
             self::FOREIGNER_CONTRACT_COMPETITION => "Иностранный граданин, поступающий на платной основе",
-            self::COMPATRIOT_COMPETITION => "Соотечественник",
+            self::COMPATRIOT_COMPETITION => "Соотечественник**",
         ];
     }
 

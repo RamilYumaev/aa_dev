@@ -39,10 +39,12 @@ use kartik\select2\Select2;
 
 <?php
 $categoryVal = $model->category_id ? 1 : 0;
+$educationVal = $model->current_edu_level ? 1 : 0;
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
 var education = $("#anketaform-current_edu_level");
 var categoryVal = $categoryVal;
+var educationVal = $educationVal;
 const rf = 46;
 const rk = 29;
 const rb = 49;
@@ -125,7 +127,11 @@ var foreignerStatus;
   currentUniversityChoice.trigger("init");
 if(categoryVal){
     category.val($model->category_id);
-}  
+} 
+if(educationVal){
+    education.val($model->current_edu_level);
+}
+
 
 JS
 );
