@@ -26,7 +26,7 @@ foreach ($currentFaculty as $faculty) {
     $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)
         ->contractOnly()
-        ->withoutForeignerCg()
+        ->ForeignerCgSwitch()
         ->currentAutoYear()
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])

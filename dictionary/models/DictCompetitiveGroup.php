@@ -8,6 +8,7 @@ use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 
@@ -147,9 +148,11 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public static function findBudgetAnalog($cgContract): array
     {
+        $anketa = \Yii::$app->user->identity->anketa();
+
         $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
-        if ($cgBudget) {
+        if ($cgBudget && $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) {
             return [
                 "status" => 1,
                 "cgBudgetId" => $cgBudget->id,
