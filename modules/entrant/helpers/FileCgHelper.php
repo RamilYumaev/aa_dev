@@ -5,27 +5,26 @@ namespace modules\entrant\helpers;
 use common\components\TbsWrapper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
+use modules\entrant\models\Statement;
 use olympic\helpers\auth\ProfileHelper;
-use wapmorgan\yii2inflection\Inflector;
 use Yii;
-use yii\helpers\StringHelper;
 
 class FileCgHelper
 {
-    public static function getFile($userId, $facultyId, $specialityId, $eduLevel, $specialRightId)
+    public static function getFile($userId, Statement $statement)
     {
         $tbs = new TbsWrapper();
-        $tbs->openTemplate(self::templatePath($eduLevel, $specialRightId));
+        $tbs->openTemplate(self::templatePath($statement->edu_level, $statement->special_right));
         $tbs->merge('profile', self::dataProfile($userId));
         $tbs->merge('education', self::dataEducation($userId));
         $tbs->merge('actual', self::addressActual($userId));
         $tbs->merge('registration', self::addressRegOrRes($userId));
         $tbs->merge('passport', self::passport($userId));
-        $tbs->merge('faculty', self::facultyName($facultyId));
+        $tbs->merge('faculty', self::facultyName($statement->faculty_id));
         $tbs->merge('language',self::languageList($userId));
-        $tbs->merge('examinations',self::examinationsList($userId, $facultyId, $specialityId));
-        $tbs->merge('cg', self::cgUser($userId, $facultyId, $specialityId));
-        $tbs->download(self::fileName($eduLevel, $specialRightId));
+        $tbs->merge('examinations',self::examinationsList($userId, $statement->faculty_id, $statement->special_right, $statement->columnIdCg()));
+        $tbs->merge('cg', self::cgUser($userId, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg()));
+        $tbs->download(self::nameFile($statement->edu_level, $statement->special_right));
     }
 
     private static function templatePath($eduLevel, $specialRightId)
@@ -73,9 +72,9 @@ class FileCgHelper
         return "Аспирантура";
     }
 
-    private static function fileName($eduLevel, $specialRightId)
+    public static function fileName(Statement $statement, $extension = '.docx')
     {
-        return "Заявление ПK МПГУ " . date("Y") ." ".self::nameFile($eduLevel, $specialRightId). " " . date('Y-m-d H:i:s') . ".docx";
+        return "Заявление ПK МПГУ " . date("Y") ." ".self::nameFile($statement->edu_level, $statement->special_right). " " . date('Y-m-d H:i:s') . $extension;
     }
 
 
@@ -104,13 +103,13 @@ class FileCgHelper
         return [AddressHelper::registrationResidence($userId)];
     }
 
-    public static function cgUser($userId, $facultyId, $specialityId)
+    public static function cgUser($userId, $facultyId, $specialityId, $ids)
     {
           $array = [];
           foreach ( DictCompetitiveGroupHelper::facultySpecialityAllUser(
                 $userId,
                 $facultyId,
-                $specialityId) as $key => $cgUser)  /* @var $cgUser dictionary\models\DictCompetitiveGroup */
+                $specialityId, $ids) as $key => $cgUser)  /* @var $cgUser dictionary\models\DictCompetitiveGroup */
                 {
                   $array[$key]['speciality']=  $cgUser->specialty->code." ".$cgUser->specialty->name;
                   $array[$key]['specialization']=  $cgUser->specialization->name ?? "";
@@ -131,11 +130,11 @@ class FileCgHelper
         return [['data' => LanguageHelper::all($user_id)]];
     }
 
-    public static function examinationsList($userId, $facultyId, $specialityId)
+    public static function examinationsList($userId, $facultyId, $specialityId, $ids)
     {
-        return [['data-spo' => DictCompetitiveGroupHelper::groupByExamsFacultyEduLevelSpecialization($userId, $facultyId, $specialityId),
-                 'data-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId, true),
-                 'data-no-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId,false)]];
+        return [['data-spo' => DictCompetitiveGroupHelper::groupByExamsFacultyEduLevelSpecialization($userId, $facultyId, $specialityId, $ids),
+                 'data-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId, $ids, true),
+                 'data-no-cse'=> DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($userId, $facultyId, $specialityId,  $ids, false)]];
     }
 
 

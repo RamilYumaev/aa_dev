@@ -15,8 +15,8 @@ use yii\helpers\Html;
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'rowOptions' => function( \testing\models\TestResult $model){
-                if ((TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
-                        TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
+                if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
+                        $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
                     return ['class' => 'warning'];
                 }
                  else {
@@ -33,8 +33,8 @@ use yii\helpers\Html;
                     'controller' => 'testing/test-result',
                     'buttons'=> [
                         'update' => function ($url,$model) {
-                            return TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
-                                TestQuestionHelper::questionType($model->question_id) == TestQuestionHelper::TYPE_FILE ?
+                            return $model->question->type_id  == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
+                            $model->question->type_id  == TestQuestionHelper::TYPE_FILE ?
                                 Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',
                                    ['/testing/test-result/update', 'attempt_id' => $model->attempt_id,

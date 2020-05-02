@@ -5,7 +5,7 @@ use testing\helpers\TestQuestionHelper;
 
 /* @var $quent testing\models\TestAndQuestions */
 ?>
-<?= TestQuestionHelper::questionTextName($quent->question_id) ?>
+<?= $quent->question->text ?>
 <p>Выберите один правильный ответ:</p>
 <?php $a= yii\helpers\Json::decode($quent->result); ?>
 <?= Html::radioList('AnswerAttempt[select-one]' , $a ?? [] , AnswerHelper::answerList($quent->question_id),

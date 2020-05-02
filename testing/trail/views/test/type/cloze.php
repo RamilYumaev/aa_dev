@@ -5,7 +5,7 @@ use testing\helpers\TestQuestionHelper;
 use testing\helpers\QuestionPropositionHelper;
 /* @var $quent testing\models\TestAndQuestions */
 ?>
-    <?= TestQuestionHelper::questionTextName($quent->question_id) ?>
+    <?= $quent->question->text  ?>
     <?php $a= yii\helpers\Json::decode($quent->result); ?>
     <?php foreach (QuestionPropositionHelper::questionPropositionList($quent->question_id) as $index => $item): ?>
     <?php if (QuestionPropositionHelper::type($index) == TestQuestionHelper::CLOZE_SELECT) :

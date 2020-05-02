@@ -1,6 +1,4 @@
 <?php
-
-
 namespace modules\entrant\models;
 
 
@@ -16,21 +14,22 @@ use yii\db\ActiveRecord;
  * @property integer $faculty_id
  * @property integer $speciality_id
  * @property integer $special_right
- * @property integer $submitted
+ * @property integer $status
  * @property integer $counter
  *
  **/
 
 class Statement extends ActiveRecord
 {
+
+    const DRAFT = 0;
+
     public static function tableName()
     {
         return '{{%statement}}';
     }
 
-    public static  function create($user_id, $faculty_id, $speciality_id,
-                                   $special_right, $edu_level,
-                                    $submitted,$counter) {
+    public static  function create($user_id, $faculty_id, $speciality_id, $special_right, $edu_level, $counter) {
         $statement =  new static();
         $statement->user_id = $user_id;
         $statement->faculty_id = $faculty_id;
@@ -38,13 +37,21 @@ class Statement extends ActiveRecord
         $statement->edu_level = $edu_level;
         $statement->special_right = $special_right;
         $statement->counter = $counter;
-        $statement->submitted = $submitted;
+        $statement->status = self::DRAFT;
         return $statement;
     }
 
     public static function find(): StatementQuery
     {
         return new StatementQuery(static::class);
+    }
+
+    public function getStatementCg() {
+       return $this->hasMany(StatementCg::class, ['statement_id' => 'id']);
+    }
+
+    public function columnIdCg(){
+        return $this->getStatementCg()->select(['cg_id'])->column();
     }
 
 

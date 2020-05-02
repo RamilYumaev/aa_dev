@@ -69,12 +69,12 @@ class TestAttemptService
             throw new \DomainException(FlashMessages::get()["sumMark"]);
         }
 
-        return $this->addAttempt($test->id);
+        return $this->addAttempt($test->id, $test->olimpic_id);
     }
 
-    private function addAttempt($test_id)
+    private function addAttempt($test_id, $olympicId)
     {
-        $olympic = $this->olimpicListRepository->get($test_id);
+        $olympic = $this->olimpicListRepository->get($olympicId);
         $olympic->time_of_distants_tour_type;
         $testAttempt = $this->testAttemptRepository->isAttempt($test_id);
         if (!$testAttempt) {
@@ -91,7 +91,7 @@ class TestAttemptService
 
     public  function create($test_id) {
         $test  = $this->testRepository->isActive($test_id);
-        return $this->addAttempt($test->id);
+        return $this->addAttempt($test->id, $test->olimpic_id);
     }
 
     private function randQuestions($attempt_id, $test_id) {

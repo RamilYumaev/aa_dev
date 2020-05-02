@@ -62,9 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): //@TODO неизвестная переменная?>
             <tr>
                 <td><?= $a++; ?></td>
-                <td><?= \testing\helpers\TestQuestionGroupHelper::testQuestionGroupName($item->andQuestions->test_group_id) ?? null ?></td>
+                <td><?= $item->andQuestions->testGroup->name ?? null ?></td>
                 <td><?= $test->draft() ? $form->field($item,"[$i]mark")->label(false) : $item->mark; ?></td>
-                <td><?=  \testing\helpers\TestQuestionHelper::questionTextName($item->andQuestions->question_id) ?? null  ?></td>
+                <td><?=  $item->andQuestions->question->text ?? null  ?></td>
                 <td><?= $test->draft() ?   Html::a('Удалить', ['/testing/test-and-questions/delete', 'id' => $item->id], ['class' => 'btn btn-danger', 'data' => ['confirm' => 'Вы уверены, что хотите удалить?',
                 'method' => 'post']]) : ''?></td>
             </tr>
