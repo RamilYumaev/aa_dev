@@ -3,6 +3,7 @@
 namespace modules\entrant\helpers;
 
 
+use common\components\JsonAjaxField;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
 
@@ -92,21 +93,57 @@ class AnketaHelper
         ];
     }
 
+    public static function educationLevelSpecialRight()
+    {
+        return [
+            self::SCHOOL_TYPE_SCHOOL,
+            self::SCHOOL_TYPE_NPO,
+            self::SCHOOL_TYPE_SPO,
+        ];
+    }
+
+
 
     public static function currentEducationLevel()
     {
-        return [
-            self::SCHOOL_TYPE_SCHOOL_9 => 'Основное общее образование (Аттестат за 9 классов)',
-            self::SCHOOL_TYPE_SCHOOL => 'Среднее общее образование (Аттестат за 11 классов)',
-            self::SCHOOL_TYPE_NPO => 'Начальное профессиональное образование (Диплом НПО)',
-            self::SCHOOL_TYPE_SPO => 'Среднее профессиональное образование (Диплом СПО)',
-            self::SCHOOL_TYPE_BACHELOR => 'Бакалавриат (Диплом бакалавра)',
-            self::SCHOOL_TYPE_SPECIALIST => 'Высшее образование (Диплом специалиста)*',
-            self::SCHOOL_TYPE_MAGISTER => 'Высшее образование (Диплом магистра)',
-            self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
-            self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
-            self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
+
+
+            return [
+                self::SCHOOL_TYPE_SCHOOL_9 => 'Основное общее образование (Аттестат за 9 классов)',
+                self::SCHOOL_TYPE_SCHOOL => 'Среднее общее образование (Аттестат за 11 классов)',
+                self::SCHOOL_TYPE_NPO => 'Начальное профессиональное образование (Диплом НПО)',
+                self::SCHOOL_TYPE_SPO => 'Среднее профессиональное образование (Диплом СПО)',
+                self::SCHOOL_TYPE_BACHELOR => 'Бакалавриат (Диплом бакалавра)',
+                self::SCHOOL_TYPE_SPECIALIST => 'Высшее образование (Диплом специалиста)*',
+                self::SCHOOL_TYPE_MAGISTER => 'Высшее образование (Диплом магистра)',
+                self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
+                self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
+                self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
+            ];
+    }
+
+    public static function educationLevelChoice($universityChoice)
+    {
+        $arrayKey = [
+            self::SCHOOL_TYPE_SCHOOL_9,
+            self::SCHOOL_TYPE_SCHOOL,
+            self::SCHOOL_TYPE_NPO,
+            self::SCHOOL_TYPE_SPO,
+            self::SCHOOL_TYPE_BACHELOR,
+            self::SCHOOL_TYPE_SPECIALIST,
+            self::SCHOOL_TYPE_MAGISTER,
+            self::SCHOOL_TYPE_DIPLOMA_SPECIALIST,
+            self::SCHOOL_TYPE_PHD,
+            self::SCHOOL_TYPE_DOCTOR_SCIENCES,
         ];
+        if($universityChoice == self::DERBENT_BRANCH
+            || $universityChoice == self::SERGIEV_POSAD_BRANCH
+        || $universityChoice == self::POKROV_BRANCH)
+        {
+            unset($arrayKey[0]);
+        }
+
+        return JsonAjaxField::data($arrayKey, self::currentEducationLevel());
     }
 
 
@@ -125,5 +162,7 @@ class AnketaHelper
             . DictCompetitiveGroupHelper::getUrl($level)],
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
+
+
 
 }
