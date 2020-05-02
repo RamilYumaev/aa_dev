@@ -24,9 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'education_form_id')->dropDownList($model->formList()) ?>
 
+            <?= $form->field($model, 'edu_level')->dropDownList($model->educationLevelList()) ?>
+
             <?= $form->field($model, 'financing_type_id')->dropDownList($model->financingTypesList()) ?>
 
-            <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(), ['prompt' => 'Выберите институт/факультет']) ?>
+            <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(),
+                ['prompt' => 'Выберите институт/факультет']) ?>
 
             <?= $form->field($model, 'kcp')->textInput() ?>
 

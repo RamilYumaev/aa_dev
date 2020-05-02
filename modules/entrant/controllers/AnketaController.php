@@ -4,6 +4,8 @@ namespace modules\entrant\controllers;
 
 
 use modules\entrant\forms\AnketaForm;
+use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\models\Anketa;
 use modules\entrant\services\AnketaService;
 use yii\web\Controller;
@@ -42,11 +44,11 @@ class AnketaController extends Controller
                 } else {
                     $model =  $this->service->create($form);
                 }
-                if ($model->category_id == 2) {
+                if ($model->category_id == CategoryStruct::SPECIAL_RIGHT_COMPETITION) {
                     return $this->redirect(["other-document/exemption"]);
-                } elseif($model->category_id == 3) {
+                } elseif($model->category_id == CategoryStruct::COMPATRIOT_COMPETITION) {
                     return $this->redirect(["other-document/patriot"]);
-                } elseif($model->category_id == 4) {
+                } elseif($model->category_id == CategoryStruct::TARGET_COMPETITION) {
                     return $this->redirect(["agreement/index"]);
                 } else {
                     return $this->redirect(["step2"]);
@@ -91,10 +93,19 @@ class AnketaController extends Controller
     }
 
 
-    public function actionGetCategory($foreignerStatus)
+    public function actionGetCategory($foreignerStatus, $educationLevel, $universityChoice)
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['result' => $this->service->category($foreignerStatus)];
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+       // return ['result' => $this->service->category($foreignerStatus)];
+
+        return ['result'=> CategoryStruct::datasetQualifier($foreignerStatus, $educationLevel, $universityChoice)];
+    }
+
+    public function actionGetAllowEducationLevelByBranch($universityId)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['result'=> AnketaHelper::educationLevelChoice($universityId)];
+
     }
 
 

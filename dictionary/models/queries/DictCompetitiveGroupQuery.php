@@ -4,7 +4,10 @@ namespace dictionary\models\queries;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
+use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\CategoryStruct;
 
 class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 {
@@ -17,12 +20,20 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['edu_level' => $eduLevel]);
     }
 
-    public function allActualFacultyWithoutBranch($year)
+    public function allActualFacultyWithoutBranch()
     {
         return $this
             ->select('faculty_id')
             ->withoutBranch()
-            ->andWhere(['year' => $year]);
+            ->currentAutoYear();
+    }
+
+    public function branch($branchId)
+    {
+        return $this
+            ->select('faculty_id')
+            ->andWhere(['faculty_id' => $branchId])
+            ->currentAutoYear();
     }
 
     public function onlyTarget()
@@ -61,6 +72,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->andWhere(['not in', 'faculty_id', Faculty::find()
                 ->select('id')
                 ->andWhere(['filial' => DictFacultyHelper::YES_FILIAL])->column()]);
+    }
+
+    public function ForeignerCgSwitch()
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+        if ($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            return $this->andWhere(['foreigner_status' => 1]);
+        }
+        return $this->andWhere(['foreigner_status' => 0]);
     }
 
     public function withoutForeignerCg()
@@ -115,11 +136,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['financing_type_id' => $financeId]);
     }
 
-    public function userCg($user_id) {
-        return $this->joinWith('userCg')->where(['user_id'=>$user_id]);
+    public function userCg($user_id)
+    {
+        return $this->joinWith('userCg')->where(['user_id' => $user_id]);
     }
 
-    public function examinations() {
+    public function examinations()
+    {
         return $this->joinWith('examinations');
     }
 
@@ -148,6 +171,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
         return $this->andWhere(['year' => "$lastYear-$currentYear"]);
 
+    }
+
+    public function existsLevelInUniversity()
+    {
+        return $this->select("edu_level")->currentAutoYear()->groupBy("edu_level");
     }
 
 }

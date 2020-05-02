@@ -8,6 +8,7 @@ use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 
@@ -30,6 +31,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->specialization_id = $specialization_id;
         $competitiveGroup->education_form_id = $form->education_form_id;
         $competitiveGroup->financing_type_id = $form->financing_type_id;
+        $competitiveGroup->edu_level = $form->edu_level;
         $competitiveGroup->faculty_id = $faculty_id;
         $competitiveGroup->kcp = $form->kcp;
         $competitiveGroup->special_right_id = $form->special_right_id;
@@ -83,6 +85,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'specialization_id' => 'Образовательная программа',
             'education_form_id' => 'Форма обучения',
             'financing_type_id' => 'Вид финансирования',
+            'edu_level' => 'Уровень образования',
             'faculty_id' => 'Факультет',
             'kcp' => 'КЦП',
             'special_right_id' => 'Квота /целевое',
@@ -97,8 +100,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'discount' => 'Скидка',
             'enquiry_086_u_status' => 'Требуется справка 086-у',
             'spo_class' => 'Класс СПО',
-            'ID  АИС ВУЗ' => 'ais_id',
-            'Конкурсная группа УМС' => 'foreigner_status',
+            'ais_id'=> 'ID  АИС ВУЗ',
+            'foreigner_status'=> 'Конкурсная группа УМС',
         ];
     }
 
@@ -145,14 +148,16 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public static function findBudgetAnalog($cgContract): array
     {
+        $anketa = \Yii::$app->user->identity->anketa();
+
         $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
-        if ($cgBudget) {
+        if ($cgBudget && $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) {
             return [
                 "status" => 1,
                 "cgBudgetId" => $cgBudget->id,
                 "cgContractId" => $cgContract->id,
-                "kcp" => $cgBudget->kcp,
+                "kcp" => DictCompetitiveGroupHelper::getAllSumKcp($cgContract),
                 "competition_count" => $cgBudget->competition_count,
                 "passing_score" => $cgBudget->passing_score,
 
@@ -246,6 +251,47 @@ class DictCompetitiveGroup extends ActiveRecord
             return $model->id;
         }
         throw new \DomainException("Не найдена кокнурсная группа ".$key);
+    }
+
+    public static function kcpSum($cg): Int
+    {
+        $kcp = self::shareKcp($cg) + self::targetKcp($cg) + self::specialKcp($cg);
+        return $kcp;
+    }
+
+    public static function targetKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
+            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::TARGET_PLACE])->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
+    }
+
+    public static function shareKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
+    }
+
+    public static function specialKcp(DictCompetitiveGroup $cg)
+    {
+        $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
+            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])->one();
+
+        if($model){
+            return $model->kcp;
+        }
+
+        return null;
     }
 
 

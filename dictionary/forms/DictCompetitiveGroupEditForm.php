@@ -17,7 +17,7 @@ class DictCompetitiveGroupEditForm extends Model
 
     public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $_competitiveGroup;
+        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $edu_level, $_competitiveGroup;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
@@ -26,6 +26,7 @@ class DictCompetitiveGroupEditForm extends Model
         $this->specialization_id = $competitiveGroup->specialization_id;
         $this->education_form_id = $competitiveGroup->education_form_id;
         $this->financing_type_id = $competitiveGroup->financing_type_id;
+        $this->edu_level = $competitiveGroup->edu_level;
         $this->faculty_id = $competitiveGroup->faculty_id;
         $this->kcp = $competitiveGroup->kcp;
         $this->special_right_id = $competitiveGroup->special_right_id;
@@ -55,7 +56,8 @@ class DictCompetitiveGroupEditForm extends Model
     {
         return [
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
-            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'foreigner_status'], 'integer'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score',
+                'is_new_program', 'only_pay_status', 'foreigner_status', 'edu_level'], 'integer'],
             [['competition_count'], 'number'],
             [['education_duration'], 'double'],
             [['link'], 'string', 'max' => 255],
