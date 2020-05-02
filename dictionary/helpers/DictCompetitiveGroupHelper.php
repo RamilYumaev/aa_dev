@@ -390,16 +390,21 @@ class DictCompetitiveGroupHelper
 
 
 
-    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $ids) {
-      
-        return DictCompetitiveGroup::find()->userCg($user_id)
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $ids = null) {
+        $model =  DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
-            ->andWhere(['id' => $ids])
             ->select(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
-            ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
-            ->all();
-    }
+            ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id']);
+
+        if($ids) {
+            return $model
+                ->andWhere(['id' => $ids])
+                ->all();
+        }
+        return $model->all();
+        }
+
 
     public static function noMore3Specialty(DictCompetitiveGroup $cg)
     {
