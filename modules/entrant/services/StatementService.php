@@ -5,64 +5,49 @@ namespace modules\entrant\services;
 
 
 use common\transactions\TransactionManager;
-use modules\entrant\forms\OtherDocumentForm;
-use modules\entrant\models\OtherDocument;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\Statement;
-use modules\entrant\models\UserIndividualAchievements;
-use modules\entrant\repositories\IndividualAchievementsRepository;
-use modules\entrant\repositories\OtherDocumentRepository;
+use modules\entrant\models\StatementCg;
+use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementRepository;
-use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 
 class StatementService
 {
     private $repository;
     private $manager;
+    private $cgRepository;
 
-    public function __construct(StatementRepository $repository, TransactionManager $manager)
+    public function __construct(StatementRepository $repository,  StatementCgRepository $cgRepository, TransactionManager $manager)
     {
         $this->repository = $repository;
         $this->manager = $manager;
+        $this->cgRepository = $cgRepository;
     }
 
-    public function create(array $cgUser, $type, $user_id)
+    public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId)
     {
-        $this->manager->wrap(function () use ($cgUser, $type, $user_id) {
-            foreach ($cgUser as $cg) {
+        $this->manager->wrap(function () use ($facultyId, $specialityId, $specialRight, $eduLevel, $userId) {
                 $model = Statement::find();
-                $max = $model->lastMaxCounter($cg->faculty_id,
-                    $cg->speciality_id,
-                    $cg->special_right_id,
-                    $cg->edu_level,
-                    $type);
-                $exits =$model->statementUser($cg->faculty_id,
-                    $cg->speciality_id,
-                    $cg->special_right_id,
-                    $cg->edu_level,
-                    $type,
-                    $user_id);
-                if(!$exits) {
-                    $statement = Statement::create($user_id, $cg->faculty_id,
-                        $cg->speciality_id,
-                        $cg->special_right_id,
-                        $cg->edu_level,
-                        $type, ++$max);
+                $max =  $model->lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel);
+                $modelOne = $model->statementUser($facultyId, $specialityId, $specialRight, $eduLevel, Statement::DRAFT, $userId);
+                if(!$modelOne) {
+                    $statement = Statement::create($userId, $facultyId, $specialityId, $specialRight, $eduLevel, ++$max);
                     $this->repository->save($statement);
+                    $this->statementCg($userId, $facultyId, $specialityId, $statement->id);
+                } else {
+                    $this->statementCg($userId, $facultyId, $specialityId, $modelOne->id);
                 }
-            }
         });
     }
 
-    public function saveModel($type, $user_id)
-    {
-//        if(($model = $this->repository->getUser($user_id)) !== null) {
-//            $model->data($type, $user_id);
-//        }else {
-//            $model= Statement::create($type, $user_id);
-//        }
-//        $this->repository->save($model);
+    private function statementCg($userId, $facultyId, $specialityId, $statementId){
+        foreach (DictCompetitiveGroupHelper::idAllUser($userId, $facultyId, $specialityId) as $value) {
+            $statementExits = Statement::find()->joinWith('statementCg')->where(['cg_id' => $value])->exists();
+            if (!$statementExits){
+                $statementCg = StatementCg::create($statementId, $value, null);
+                $this->cgRepository->save($statementCg);
+            }
+        }
     }
-
 
 }

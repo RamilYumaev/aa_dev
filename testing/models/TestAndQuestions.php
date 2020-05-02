@@ -39,4 +39,12 @@ class TestAndQuestions extends ActiveRecord
         return $testAndQuestions->attributeLabels();
     }
 
+    public function getQuestion () {
+        return $this->hasOne(TestQuestion::class, ['id' => "question_id"]);
+    }
+
+    public function getTestGroup () {
+        return $this->hasOne(TestQuestionGroup::class, ['id' => "test_group_id"]);
+    }
+
 }

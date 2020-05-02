@@ -6,7 +6,7 @@ use testing\helpers\TestQuestionHelper;
 
 /* @var $quent testing\models\TestAndQuestions */
 ?>
-<?= TestQuestionHelper::questionTextName($quent->question_id) ?>
+<?= $quent->question->text ?>
 <p>Выберите один или несколько правильных ответов:</p>
     <?php $a = yii\helpers\Json::decode($quent->result, true);
 $q = $a ? array_map(function ($var) {

@@ -21,7 +21,6 @@ use yii\helpers\Html;
                             <th>Направление подготовки</th>
                             <th>Уровень образования</th>
                             <th>Основание приема</th>
-                            <th></th>
                         </tr>
                         <?php foreach ($userCg as $key => $cg) /* @var $cg dictionary\models\DictCompetitiveGroup */ :?>
                             <tr>
@@ -30,8 +29,17 @@ use yii\helpers\Html;
                                 <td><?= $cg->specialty->code." ".$cg->specialty->name ?></td>
                                 <td><?= DictCompetitiveGroupHelper::eduLevelName($cg->edu_level) ?></td>
                                 <td><?= DictCompetitiveGroupHelper::specialRightName($cg->special_right_id) ?></td>
-                                <td><?= Html::a('Скачать', ['post-document/doc', 'faculty' => $cg->faculty_id, 'speciality'=> $cg->speciality_id,
-                                        'edu_level' => $cg->edu_level, 'special_right_id'=> $cg->special_right_id ], ['class' => 'btn btn-large btn-primary'])?></td>
+                            <tr>
+                            <tr>
+                                <td colspan="7">
+                                    <?= \modules\entrant\widgets\statement\StatementWidget::widget([
+                                        'facultyId' => $cg->faculty_id,
+                                        'specialityId'=> $cg->speciality_id,
+                                        'specialRight' =>$cg->special_right_id,
+                                        'eduLevel' =>$cg->edu_level,
+                                        'userId' => Yii::$app->user->identity->getId()
+                                           ])?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </table>

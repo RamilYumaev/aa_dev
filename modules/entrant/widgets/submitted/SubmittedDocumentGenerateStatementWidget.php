@@ -10,23 +10,6 @@ use Yii;
 class SubmittedDocumentGenerateStatementWidget extends Widget
 {
     private $view = "detail";
-    private $service;
-
-    public function __construct(StatementService $service, $config = [])
-    {
-        $this->service = $service;
-        parent::__construct($config);
-    }
-
-    public function init()
-    {
-        try {
-            $this->service->create($this->listCgUser(), $this->modelOne()->type, $this->getIdUser());
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-    }
 
     public function run()
     {

@@ -55,12 +55,25 @@ class TestQuestion extends ActiveRecord
         ];
     }
 
+    public function getAnswer () {
+        return $this->hasMany(Answer::class, ['quest_id' => "id"]);
+    }
+
+    public function getAnswerCorrect () {
+        return $this->getAnswer()->andWhere( ['is_correct' => true]);
+    }
+
+    public function getAnswerUser ($ids) {
+        return $this->getAnswer()->andWhere(['id' =>$ids]);
+    }
+
 
     public static function labels()
     {
         $testQue = new static();
         return $testQue->attributeLabels();
     }
+
 
 
 

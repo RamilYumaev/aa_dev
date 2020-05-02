@@ -24,9 +24,9 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["special_right" =>$specialRight]);
     }
 
-    public function submitted($submitted)
+    public function status($status)
     {
-        return $this->andWhere(["submitted" => $submitted]);
+        return $this->andWhere(["status" => $status]);
     }
 
     public function eduLevel($eduLevel)
@@ -34,20 +34,27 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["edu_level" =>$eduLevel]);
     }
 
-    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $submitted) {
+    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status) {
         return $this->faculty($facultyId)
             ->speciality($specialityId)
             ->specialRight($specialRight)
             ->eduLevel($eduLevel)
-            ->submitted($submitted);
+            ->status($status);
     }
 
-    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $submitted) {
-        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $submitted)->max('counter');
+    public function defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel) {
+        return $this->faculty($facultyId)
+            ->speciality($specialityId)
+            ->specialRight($specialRight)
+            ->eduLevel($eduLevel);
     }
 
-    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $submitted, $userId) {
-        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $submitted)
+    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel) {
+        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel)->max('counter');
+    }
+
+    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId) {
+        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status)
             ->user($userId)
             ->one();
     }

@@ -153,7 +153,7 @@ class TestQuestionHelper
 
     public static function questionTextList()
     {
-        return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'text');
+        return ArrayHelper::map(TestQuestion::find()->asArray()->all(), 'id', 'text');
     }
 
 

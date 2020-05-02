@@ -37,27 +37,27 @@ $url = Url::to(['trail-attempt/end', 'test_id' => $test->id]);
                     <div class="col-md-10 col-md-offset-1">
                         <?php $form = ActiveForm::begin(['id' => 'edu', 'options' => [
                             'enctype' => 'multipart/form-data']]); ?>
-                        <?php switch (TestQuestionHelper::questionType($quent->question_id)):
+                        <?php switch ($quent->question->type_id):
                             case TestQuestionHelper::TYPE_SELECT: ?>
-                                <?= $this->render('@frontend/views/test/type/select', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/select', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_SELECT_ONE: ?>
-                                <?= $this->render('@frontend/views/test/type/select-one', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/select-one', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_MATCHING: ?>
-                                <?= $this->render('@frontend/views/test/type/matching', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/matching', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_ANSWER_DETAILED: ?>
-                                <?= $this->render('@frontend/views/test/type/detailed', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/detailed', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_ANSWER_SHORT: ?>
-                                <?= $this->render('@frontend/views/test/type/short', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/short', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_FILE: ?>
-                                <?= $this->render('@frontend/views/test/type/file', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/file', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php default: ?>
-                                <?= $this->render('@frontend/views/test/type/cloze', ['quent' => $quent]) ?>
+                                <?= $this->render('@testing/trail/views/test/type/cloze', ['quent' => $quent]) ?>
                             <?php endswitch; ?>
                         <?= Html::hiddenInput('AnswerAttempt[key]', $quent->question_id) ?>
                         <?= Html::hiddenInput('AnswerAttempt[keyTqId]', $quent->tq_id) ?>
