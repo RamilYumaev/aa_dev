@@ -6,6 +6,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
+use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\CategoryStruct;
 
 class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 {
@@ -30,7 +32,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         return $this
             ->select('faculty_id')
-            ->andWhere(['faculty_id'=> $branchId])
+            ->andWhere(['faculty_id' => $branchId])
             ->currentAutoYear();
     }
 
@@ -70,6 +72,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->andWhere(['not in', 'faculty_id', Faculty::find()
                 ->select('id')
                 ->andWhere(['filial' => DictFacultyHelper::YES_FILIAL])->column()]);
+    }
+
+    public function ForeignerCgSwitch()
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+        if ($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            return $this->andWhere(['foreigner_status' => 1]);
+        }
+        return $this->andWhere(['foreigner_status' => 0]);
     }
 
     public function withoutForeignerCg()
