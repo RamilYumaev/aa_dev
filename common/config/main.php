@@ -7,6 +7,14 @@ return [
         '@npm' => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'modules' => [
+        'debug' => [
+            'class' => \yii\debug\Module::class,
+            'panels' => [
+                'queue' => \yii\queue\debug\Panel::class,
+            ],
+        ],
+    ],
     'components' => [
       'formatter' => [
             'class' => 'yii\i18n\Formatter',

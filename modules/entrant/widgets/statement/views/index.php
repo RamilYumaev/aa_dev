@@ -8,8 +8,8 @@ use yii\helpers\Html;
 <table class="table table-bordered">
     <?php foreach ($statements as $statement):  ?>
     <tr>
-        <td><?= $statement->id ?>
-        <td><?= $statement->status ? "Загружено" : Html::a('docx', ['statement/doc', 'id' =>  $statement->id], ['class' => 'btn btn-large btn-primary']) ." ". Html::a('pdf', ['statement/pdf', 'id' =>  $statement->id], ['class' => 'btn btn-large btn-danger'])?></td>
+        <td><?= $statement->numberStatement ?>
+        <td><?= $statement->status ? "Загружено" : Html::a('pdf', ['statement/pdf', 'id' =>  $statement->id], ['class' => 'btn btn-large btn-danger'])?></td>
     </tr>
     <?php endforeach; ?>
 </table>
