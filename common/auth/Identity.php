@@ -4,7 +4,9 @@ namespace common\auth;
 
 use common\auth\models\User;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
+use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\Anketa;
 use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
@@ -71,6 +73,21 @@ class Identity implements IdentityInterface
 
         return array_uintersect(array_values($cgArrayPriority1), $array1, "strcasecmp");
 
+    }
+
+    public function filtrationCgByCse()
+    {
+        $userId = $this->getId();
+        $userArray = DictDiscipline::cseToDisciplineConverter(CseSubjectHelper::userSubjects($userId));
+        $finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
+        $filteredCg = $this->cseFilterCg($finalUserArrayCse);
+        return $filteredCg;
+    }
+
+    public function filtrationFacultyByCse()
+    {
+        $filteredCg = $this->filtrationCgByCse();
+        return $this->cseFilterFaculty($filteredCg);
     }
 
     public function cseFilterFaculty($filteredCg)

@@ -203,8 +203,9 @@ class DictCompetitiveGroupHelper
         return $url;
     }
 
-    public static function saveChecked($id, $level)
+    public static function isAvailableCg(DictCompetitiveGroup $cg)
     {
+
         $anketa = \Yii::$app->user->identity->anketa();
         $permittedLevel = $anketa->getPermittedEducationLevels();
         if ($anketa->onlyCse()) {
@@ -213,7 +214,7 @@ class DictCompetitiveGroupHelper
                 CseSubjectHelper::userSubjects($userId));
             $finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
             $filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
-            if (!in_array($id, $filteredCg) && !in_array($level, $permittedLevel)) {
+            if (!in_array($cg->id, $filteredCg) && !in_array($cg->edu_level, $permittedLevel)) {
                 throw new \DomainException("Конкурсная группа не доступна");
             }
 
@@ -227,11 +228,11 @@ class DictCompetitiveGroupHelper
 
     }
 
-    public static function budgetChecker($educationLevel)
+    public static function budgetChecker(DictCompetitiveGroup $cg)
     {
         $anketa = \Yii::$app->user->identity->anketa();
 
-        if ($anketa->onlyContract($educationLevel)) {
+        if ($anketa->onlyContract($cg->edu_level) && $cg->financing_type_id == self::FINANCING_TYPE_BUDGET) {
             throw new \DomainException("В рамках расматриваемого уровня образования Вы можете поступать только 
             на платные места");
         }
@@ -406,7 +407,9 @@ class DictCompetitiveGroupHelper
             ->column();
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
-            ->andWhere(["in", "id", $selectedCg])->column();
+            ->andWhere(["in", "id", $selectedCg])
+            ->andWhere(['edu_level'=> $cg->edu_level])
+            ->column();
         if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty)) {
             throw new \DomainException("Заявления можно подавать только на три направления подготовки");
         }

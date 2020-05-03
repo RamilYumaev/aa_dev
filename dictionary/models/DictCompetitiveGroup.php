@@ -9,6 +9,7 @@ use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use modules\entrant\helpers\CategoryStruct;
+use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 
@@ -293,6 +294,5 @@ class DictCompetitiveGroup extends ActiveRecord
 
         return null;
     }
-
 
 }
