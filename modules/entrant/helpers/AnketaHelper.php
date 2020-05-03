@@ -23,10 +23,8 @@ class AnketaHelper
 
     const SPO_LEVEL = [
         self::SCHOOL_TYPE_SCHOOL_9,
-        self::SCHOOL_TYPE_SCHOOL
     ];
     const SPO_LEVEL_ONLY_CONTRACT = [
-        self::SCHOOL_TYPE_NPO,
         self::SCHOOL_TYPE_SPO,
         self::SCHOOL_TYPE_SCHOOL,
         self::SCHOOL_TYPE_BACHELOR,

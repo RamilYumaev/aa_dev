@@ -128,8 +128,8 @@ class ApplicationsController extends Controller
         try {
             $cg = $this->repositoryCg->get($id);
             DictCompetitiveGroupHelper::noMore3Specialty($cg);
-            DictCompetitiveGroupHelper::saveChecked($id, $cg->edu_level);
-            DictCompetitiveGroupHelper::budgetChecker($cg->edu_level);
+            DictCompetitiveGroupHelper::isAvailableCg($cg);
+            DictCompetitiveGroupHelper::budgetChecker($cg);
             $this->repository->haveARecord($cg->id);
             $userCg = UserCg::create($cg->id);
             $this->repository->save($userCg);

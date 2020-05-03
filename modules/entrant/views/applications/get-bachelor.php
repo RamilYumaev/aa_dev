@@ -20,17 +20,21 @@ use \dictionary\models\DictDiscipline;
 $this->title = "Выбор образовательных программ";
 
 $result = "";
-$userId = \Yii::$app->user->identity->getId();
+//$userId = \Yii::$app->user->identity->getId();
+//
+//$userArray = DictDiscipline::cseToDisciplineConverter(
+//    CseSubjectHelper::userSubjects($userId));
+//
+//$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
+//
+//$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
+//
+//$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
+
+$filteredCg = \Yii::$app->user->identity->filtrationCgByCse();
+$filteredFaculty = \Yii::$app->user->identity->filtrationFacultyByCse();
 $anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-$userArray = DictDiscipline::cseToDisciplineConverter(
-    CseSubjectHelper::userSubjects($userId));
-
-$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
-
-$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
-
-$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
 
 ?>
 <?php
