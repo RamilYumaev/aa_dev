@@ -42,7 +42,7 @@ class StatementService
 
     private function statementCg($userId, $facultyId, $specialityId, $statementId){
         foreach (DictCompetitiveGroupHelper::idAllUser($userId, $facultyId, $specialityId) as $value) {
-            $statementExits = Statement::find()->joinWith('statementCg')->where(['cg_id' => $value])->exists();
+            $statementExits = Statement::find()->joinWith('statementCg')->where(['cg_id' => $value, 'user_id' => $userId ])->exists();
             if (!$statementExits){
                 $statementCg = StatementCg::create($statementId, $value, null);
                 $this->cgRepository->save($statementCg);

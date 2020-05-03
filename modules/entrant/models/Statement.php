@@ -2,6 +2,9 @@
 namespace modules\entrant\models;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictSpeciality;
+use dictionary\models\Faculty;
 use modules\entrant\models\queries\StatementQuery;
 use yii\db\ActiveRecord;
 
@@ -48,6 +51,25 @@ class Statement extends ActiveRecord
 
     public function getStatementCg() {
        return $this->hasMany(StatementCg::class, ['statement_id' => 'id']);
+    }
+
+    public function getFaculty() {
+        return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
+    }
+
+    public function getSpeciality() {
+        return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
+    }
+
+    public function getNumberStatement()
+    {
+        return ($this->faculty->short ?? $this->faculty_id)."-".
+            ($this->speciality->short ?? $this->speciality_id)."-".
+            DictCompetitiveGroupHelper::getEduLevelsAbbreviatedShortOne($this->edu_level)."-".
+            DictCompetitiveGroupHelper::getSpecialRightShortOne($this->special_right)."-".
+            $this->user_id."-".
+            $this->counter;
+
     }
 
     public function columnIdCg(){

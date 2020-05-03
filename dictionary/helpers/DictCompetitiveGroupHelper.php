@@ -63,6 +63,31 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_MAGISTER => 'МАГ', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'АСП'];
     }
 
+    public static function getEduLevelsAbbreviatedShort(): array
+    {
+        return [self::EDUCATION_LEVEL_SPO => 'SPO', self::EDUCATION_LEVEL_BACHELOR => 'BAC',
+            self::EDUCATION_LEVEL_MAGISTER => 'MAG', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'GRA'];
+    }
+
+
+    public static function getEduLevelsAbbreviatedShortOne($key): string
+    {
+        return self::getEduLevelsAbbreviatedShort()[$key];
+    }
+
+    public static function getSpecialRightShort(): array
+    {
+        return [self::USUAL => 'USU', self::SPECIAL_RIGHT => 'SPE', self::TARGET_PLACE => 'TAR'];
+    }
+
+    public static function getSpecialRightShortOne($key): string
+    {
+        return self::getSpecialRightShort()[$key];
+    }
+
+
+
+
     public static function getSpecialRight(): array
     {
         return [self::USUAL => 'Обычная', self::SPECIAL_RIGHT => 'Квота', self::TARGET_PLACE => 'Целевое'];
@@ -297,7 +322,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
-                'dict_competitive_group.id'=> $ids,
+             'dict_competitive_group.id'=> $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id])
             ->select(['name', 'dict_discipline.id', 'cse_subject_id'])
             ->asArray()
