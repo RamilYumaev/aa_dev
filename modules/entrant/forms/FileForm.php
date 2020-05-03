@@ -2,21 +2,21 @@
 
 namespace modules\entrant\forms;
 
-use modules\entrant\models\ECP;
+use modules\entrant\models\File;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
-class ECPForm extends Model
+class FileForm extends Model
 {
     public $file_name, $user_id;
 
-    private $_ECP;
+    private $_File;
 
-    public function __construct(ECP $ECP = null, $config = [])
+    public function __construct(File $File = null, $config = [])
     {
-        if($ECP){
-            $this->setAttributes($ECP->getAttributes(), false);
-            $this->_ECP = $ECP;
+        if($File){
+            $this->setAttributes($File->getAttributes(), false);
+            $this->_File = $File;
         }
         $this->user_id = \Yii::$app->user->identity->getId();
         parent::__construct($config);
@@ -38,7 +38,7 @@ class ECPForm extends Model
 
     public function attributeLabels()
     {
-        return (new ECP())->attributeLabels();
+        return (new File())->attributeLabels();
     }
 
     public function beforeValidate(): bool

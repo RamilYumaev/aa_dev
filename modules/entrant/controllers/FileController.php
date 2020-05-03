@@ -2,19 +2,23 @@
 namespace modules\entrant\controllers;
 
 
-use modules\entrant\forms\ECPForm;
-use modules\entrant\models\ECP;
-use modules\entrant\services\ECPService;
+use modules\entrant\forms\FileForm;
+use modules\entrant\forms\FileHelper;
+use modules\entrant\models\File;
+use modules\entrant\services\FileService;
+use yii\bootstrap\ActiveForm;
+use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
-class EcpController extends Controller
+class FileController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, ECPService $service, $config = [])
+    public function __construct($id, $module, FileService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
@@ -50,23 +54,46 @@ class EcpController extends Controller
 
 
     /**
+     * @param $hash
+     * @param $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionCreate()
+    public function actionDownload($hash, $id)
     {
-        $form = new ECPForm();
+        $model = FileHelper::validateModel($hash);
+        $modelOne = $this->model($model, $id);
+        $form = new FileForm();
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->service->create($form);
-                return $this->redirect(['default/index']);
+                $this->service->create($form, $modelOne);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->render('create', [
+        return $this->renderAjax('download', [
             'model' => $form,
         ]);
+    }
+
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id): File
+    {
+        if (($model = File::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
     /**
@@ -74,33 +101,9 @@ class EcpController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
+    protected function model($modelOne, $id): BaseActiveRecord
     {
-        $model = $this->findModel($id);
-        $form = new ECPForm($model);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($model->id, $form);
-                return $this->redirect(['default/index']);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('update', [
-            'model' => $form,
-            "ecp" => $model
-        ]);
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    protected function findModel($id): ECP
-    {
-        if (($model = ECP::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null)) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
