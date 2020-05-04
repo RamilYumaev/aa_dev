@@ -3,8 +3,7 @@
 
 /* @var $userCg array */
 ?>
-<div class="row ">
-    <div class="col-xs-12">
+<div style="font-family: 'Times New Roman'; font-size: 9px">
         <table class="table table-bordered">
             <tbody>
             <tr>
@@ -29,5 +28,4 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
 </div>

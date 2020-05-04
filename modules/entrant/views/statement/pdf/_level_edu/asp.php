@@ -3,12 +3,11 @@
 
 /* @var $userCg array */
 ?>
-<div class="row ">
-    <div class="col-xs-12">
-        <table class="table table-bordered">
+
+        <table class="table table-bordered" style="font-family: 'Times New Roman'; font-size: 9px">
             <tbody>
             <tr>
-                <th>#</th>
+                <th>№ п/п</th>
                 <th>Направление подготовки</th>
                 <th>Образовательная программма</th>
                 <th>Форма обучения</th>
@@ -29,6 +28,5 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
 </div>
 
