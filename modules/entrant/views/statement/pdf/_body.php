@@ -8,7 +8,10 @@ use modules\entrant\helpers\FileCgHelper;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 ?>
-    <h2>ЗАЯВЛЕНИЕ №<?= $statement->numberStatement ?></h2>
+<div style="font-family: 'Times New Roman'; margin-top: 25px; font-size: 9px">
+    <h6 align="center"><strong>ЗАЯВЛЕНИЕ №</strong><?= $statement->numberStatement ?></h6>
+    <p align="justify"><strong>Прошу допустить меня к участию в конкурсе на следующие основные образовательные программы
+            бакалавриата Института филологии:</strong></p>
     <div class="row ">
     <?php if($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO && !$statement->special_right): ?>
             <?= $this->render('_level_edu/spo',['userCg'=> $userCg]) ?>
@@ -23,6 +26,8 @@ $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $sta
         <?php else: ?>
             <?= $this->render('_level_edu/asp',['userCg'=> $userCg]) ?>
     <?php endif; ?>
+</div>
+
 </div>
 
 

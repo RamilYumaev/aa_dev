@@ -76,11 +76,11 @@ class StatementController extends Controller
                 // any css to be embedded if required
                 'cssInline' => '.kv-heading-1{font-size:18px}',
                  // set mPDF properties on the fly
-                'options' => ['title' => 'Krajee Report Title'],
+                //'options' => ['title' => 'Krajee Report Title'],
                  // call mPDF methods on the fly
                 'methods' => [
                     //'SetHeader'=>['Krajee Report Header'],
-                    'SetFooter'=>['{PAGENO}'],
+                   // 'SetFooter'=>['{PAGENO}'],
                 ]
             ]);
 

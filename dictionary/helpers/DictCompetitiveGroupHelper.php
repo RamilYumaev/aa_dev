@@ -85,12 +85,10 @@ class DictCompetitiveGroupHelper
         return self::getSpecialRightShort()[$key];
     }
 
-
-
-
     public static function getSpecialRight(): array
     {
-        return [self::USUAL => 'Обычная', self::SPECIAL_RIGHT => 'Квота', self::TARGET_PLACE => 'Целевое'];
+        return [self::USUAL => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
+            self::TARGET_PLACE => 'Прием на целевое обучение'];
     }
 
     public static function forms(): array
