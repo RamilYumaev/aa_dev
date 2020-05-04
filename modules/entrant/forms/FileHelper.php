@@ -19,7 +19,7 @@ class FileHelper
 
     public static function validateModel($hash){
         foreach(self::listModels() as  $model) {
-          if(Yii::$app->security->validatePassword($model,$hash)) {
+          if(Yii::$app->getSecurity()->decryptByKey($hash, $model)) {
               return $model;
           }
         }

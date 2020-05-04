@@ -58,6 +58,10 @@ class TypeExaminationsForm extends Model
         ];
     }
 
+    private function intDate() {
+        return (int) date("Y");
+    }
+
     public function validateTypeMark()
     {
         if ($this->type && !$this->mark) {

@@ -37,9 +37,15 @@ class FileService
     {
         $model = $this->repository->get($id);
         if($form->file_name) {
+            $array = ["image/png", 'image/jpeg'];
+            $type = FileHelper::getMimeType($form->file_name->tempName, null, false);
+            if (!in_array($type, $array)) {
+                throw new \DomainException('Неверный тип файла '.$form->file_name->type.'.  Ваш файл - '.$type);
+            }
             $model->setFile($form->file_name);
+            $this->repository->save($model);
         }
-        $model->save($model);
+
     }
 
     public function remove($id)
