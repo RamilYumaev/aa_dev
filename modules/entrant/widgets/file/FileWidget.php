@@ -15,7 +15,7 @@ class FileWidget extends Widget
     }
 
     public function generateModelHash() {
-       return  Yii::$app->security->generatePasswordHash($this->model);
+      return Yii::$app->getSecurity()->encryptByKey($this->record_id, $this->model);
     }
 
 

@@ -12,6 +12,7 @@ use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
+use yii\helpers\StringHelper;
 
 class DictCompetitiveGroup extends ActiveRecord
 {
@@ -293,6 +294,16 @@ class DictCompetitiveGroup extends ActiveRecord
         }
 
         return null;
+    }
+
+    public function getFullName()
+    {
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+
+        return ($this->specialization->name ?? "")
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget;
     }
 
 }

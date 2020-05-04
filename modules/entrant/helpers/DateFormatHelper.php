@@ -23,11 +23,16 @@ class DateFormatHelper
         return date(self::DATE_FORMAT_VIEW, strtotime($date));
     }
 
+    public static function intDateYear(): int {
+        return (int) date("Y");
+    }
+
     public static  function  dateSettingWidget() : array
     {
         return [
             'language' => 'ru',
             'pluginOptions' => [
+                'endDate' => '+1d',
                 'autoclose'=>true,
                 'format' => 'dd.mm.yyyy'
             ]];

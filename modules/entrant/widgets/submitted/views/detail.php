@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class="mt-20">
             <?php if($submitted): ?>
-                <h4>Ваш способ подачи документов - <?= $submitted->typeName?> </h4>
+                <h4>Подача документов</h4>
                 <div id="compact">
                     <table class="table table-bordered">
                         <tr>

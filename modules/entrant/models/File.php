@@ -3,8 +3,9 @@
 
 namespace modules\entrant\models;
 
+use modules\entrant\models\queries\FileQuery;
+use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\FileUploadBehavior;
 
@@ -51,6 +52,12 @@ class File extends ActiveRecord
         ];
     }
 
+    public function getModelHash() {
+        return  Yii::$app->getSecurity()->encryptByKey($this->record_id, $this->model);
+    }
+
+
+
     public function behaviors()
     {
         return [
@@ -60,6 +67,11 @@ class File extends ActiveRecord
                 'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
+    }
+
+    public static function find(): FileQuery
+    {
+        return new FileQuery(static::class);
     }
 
 }

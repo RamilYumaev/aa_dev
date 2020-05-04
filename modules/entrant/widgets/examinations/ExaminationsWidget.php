@@ -38,6 +38,7 @@ class ExaminationsWidget extends Widget
                 Model::validateMultiple($form->arrayMark)) {
                 try {
                     $this->service->create($form, $this->getIdUser(), $this->repository);
+                    Yii::$app->response->redirect(['abiturient/default']);
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());

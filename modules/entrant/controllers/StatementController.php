@@ -8,6 +8,7 @@ use kartik\mpdf\Pdf;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\models\Statement;
+use modules\entrant\services\StatementService;
 use modules\entrant\services\SubmittedDocumentsService;
 use Mpdf\Mpdf;
 use yii\filters\VerbFilter;
@@ -22,6 +23,24 @@ use yii\web\NotFoundHttpException;
 class StatementController extends Controller
 {
     private $service;
+
+    public function __construct($id, $module, StatementService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete-cg' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     public function actionIndex()
     {
@@ -54,7 +73,7 @@ class StatementController extends Controller
     {
         $statement = $this->findModel($id);
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        Yii::$app->response->headers->add('Content-Type', 'application/pdf');
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('pdf/_main', ["statement" => $statement ]);
 
@@ -98,6 +117,21 @@ class StatementController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteCg($id)
+    {
+        try {
+            $this->service->remove($id, Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 

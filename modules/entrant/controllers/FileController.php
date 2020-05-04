@@ -38,13 +38,15 @@ class FileController extends Controller
 
     /**
      * @param integer $id
+     * @param $hash
      * @return mixed
      * @throws NotFoundHttpException
      */
 
-    public function actionGet($id)
+    public function actionGet($id, $hash)
     {
-        $model = $this->findModel($id);
+        $modelName = FileHelper::validateModel($hash);
+        $model = $this->findModel($id, $modelName);
         $filePath = $model->getUploadedFilePath('file_name_user');
         if (!file_exists($filePath)) {
             throw new NotFoundHttpException('Запрошенный файл не найден.');
@@ -59,6 +61,7 @@ class FileController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
+
     public function actionDownload($hash, $id)
     {
         $model = FileHelper::validateModel($hash);
@@ -82,15 +85,46 @@ class FileController extends Controller
         ]);
     }
 
-
     /**
-     * @param integer $id
+     * @param $hash
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): File
+
+    public function actionUpdate($hash, $id)
     {
-        if (($model = File::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        $model = FileHelper::validateModel($hash);
+        $file = $this->findModel($id, $model);
+        $form = new FileForm($file);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->edit($file->id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('download', [
+            'model' => $form,
+        ]);
+    }
+
+
+    /**
+     * @param integer $id
+     * @param $model
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id, $model): File
+    {
+        if (($model = File::findOne(['id'=>$id, 'model'=> $model, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
@@ -111,16 +145,20 @@ class FileController extends Controller
 
     /**
      * @param integer $id
+     * @param $hash
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $hash)
     {
+        $modelName = FileHelper::validateModel($hash);
+        $model = $this->findModel($id, $modelName);
         try {
-            $this->service->remove($id);
+            $this->service->remove($model->id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
