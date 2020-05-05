@@ -22,7 +22,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <?php if (!($_SERVER['HTTP_HOST'] == '127.0.0.1:8080' or $_SERVER['HTTP_HOST'] == 'olympic:8080' or $_SERVER['HTTP_HOST'] == 'sdotest.3profi.ru')) : ?>
+    <?php if ($_SERVER['HTTP_HOST'] == 'sdo.mpgu.org') : ?>
 
         <script src="https://vk.com/js/api/openapi.js?159" type="text/javascript"></script>
 
