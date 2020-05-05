@@ -9,6 +9,7 @@ use yii\helpers\Html;
 use \modules\entrant\helpers\AnketaHelper;
 use \dictionary\helpers\DictCountryHelper;
 use kartik\select2\Select2;
+use \modules\entrant\helpers\ProvinceOfChinaHelper;
 
 ?>
 
@@ -25,9 +26,12 @@ use kartik\select2\Select2;
                     ['prompt'=> 'Выберите отделение университета']) ?>
                 <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList(),
                     ['prompt'=> 'Выберите страну']) ?>
+                <?= $form->field($model, 'province_of_china')->dropDownList(ProvinceOfChinaHelper::getName(),
+                    ['prompt'=> 'Выберите провинцию']) ?>
                 <?= $form->field($model, 'current_edu_level')->dropDownList([]) ?>
                 <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder'=> "2020"]) ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
+                <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder'=> "CHN-0143/19"])?>
 
                 <?= Html::submitButton(Html::tag("span", "",
                         ["class" => "glyphicon glyphicon-floppy-disk"]) . " " . Html::tag("span", "",
@@ -38,13 +42,16 @@ use kartik\select2\Select2;
     </div>
 
 <?php
+
 $categoryVal = $model->category_id ? 1 : 0;
 $educationVal = $model->current_edu_level ? 1 : 0;
+$govLineCategoryId = \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION;
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
 var education = $("#anketaform-current_edu_level");
 var categoryVal = $categoryVal;
 var educationVal = $educationVal;
+var govLineCategoryId = $govLineCategoryId;
 const rf = 46;
 const rk = 29;
 const rb = 49;
@@ -132,6 +139,55 @@ if(educationVal){
     education.val($model->current_edu_level);
 }
 
+    var province = $("div.field-anketaform-province_of_china");
+    var countryId = $("#anketaform-citizenship_id");
+    var provinceText = $("#anketaform-province_of_china");
+    var category = $("#anketaform-category_id");
+    var personalNumber = $("div.field-anketaform-personal_student_number");
+    var personalNumberVal = $("#anketaform-personal_student_number");
+    province.hide();
+    personalNumber.hide();
+
+    const china = 13; //@TODO
+
+    if(countryId.val()== china) {
+        province.show();
+    }else {
+        province.hide();
+    }
+    
+    if(category.val() == govLineCategoryId)
+        {
+            personalNumber.show();
+        }else{
+        personalNumber.hide();
+        }
+    
+    category.on("change", function(){
+         if (this.value == "") {
+         personalNumber.hide();
+         personalNumberVal.val("");
+        } else if (this.value == govLineCategoryId) {
+         personalNumber.show();
+        }
+        else {
+        personalNumber.hide();
+        personalNumberVal.val("");
+            }
+    });
+
+    countryId.on("change", function() {
+        if (this.value == "") {
+            province.hide();
+            provinceText.val("");
+        } else if (this.value == china) {
+            province.show();
+        }
+        else {
+            province.hide();
+            provinceText.val("");
+            }
+    });
 
 JS
 );

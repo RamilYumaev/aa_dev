@@ -26,6 +26,8 @@ use yii\db\ActiveRecord;
  * @property string $current_edu_level
  * @property string $category_id
  * @property integer $university_choice
+ * @property string $province_of_china
+ * @property string $personal_student_number
  */
 class Anketa extends ActiveRecord
 {
@@ -58,6 +60,8 @@ class Anketa extends ActiveRecord
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
         $this->university_choice = $form->university_choice;
+        $this->province_of_china = $form->province_of_china;
+        $this->personal_student_number = $form->personal_student_number;
 
     }
 
@@ -89,6 +93,8 @@ class Anketa extends ActiveRecord
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
             'university_choice' => 'В какое отделение университета Вы собираетесь подавать документы?',
+            'province_of_china' => 'Из какой Вы провинции?',
+            'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',
         ];
     }
 
