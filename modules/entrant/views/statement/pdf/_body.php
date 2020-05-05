@@ -8,6 +8,7 @@ use modules\entrant\helpers\FileCgHelper;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 ?>
+
 <div style="font-family: 'Times New Roman'; margin-top: 25px; font-size: 9px">
     <h6 align="center"><strong>ЗАЯВЛЕНИЕ №</strong><?= $statement->numberStatement ?></h6>
     <p align="justify"><strong>Прошу допустить меня к участию в конкурсе на следующие основные образовательные программы

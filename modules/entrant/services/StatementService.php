@@ -49,6 +49,12 @@ class StatementService
         });
     }
 
+    public function addCountPages($id, $count){
+        $statement = $this->repository->get($id);
+        $statement->setCountPages($count);
+        $this->repository->save($statement);
+    }
+
     public function remove($id, $userId){
         $statementCg = $this->cgRepository->getUser($id, $userId);
         $this->manager->wrap(function () use($statementCg){
