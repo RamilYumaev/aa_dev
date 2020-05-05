@@ -22,7 +22,7 @@ class CategoryStruct
             self::TARGET_COMPETITION => "Поступащий на целевое обучение",
             self::SPECIAL_RIGHT_COMPETITION => "Поступающий на особую квоту",
             self::GOV_LINE_COMPETITION => "Иностранный гражданин, поступающий по гослинии",
-            self::FOREIGNER_CONTRACT_COMPETITION => "Иностранный граданин, поступающий на платной основе",
+            self::FOREIGNER_CONTRACT_COMPETITION => "Иностранный гражданин, поступающий на платной основе",
             self::COMPATRIOT_COMPETITION => "Соотечественник**",
         ];
     }
