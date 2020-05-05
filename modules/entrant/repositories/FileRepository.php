@@ -14,6 +14,11 @@ class FileRepository
         return $model;
     }
 
+    public function getFullFile($user, $modelName, $recordId, $position): bool
+    {
+        return File::find()->defaultQueryPositionUser($user, $modelName, $recordId, $position)->exists();
+    }
+
     public function save(File $model): void
     {
         if (!$model->save()) {

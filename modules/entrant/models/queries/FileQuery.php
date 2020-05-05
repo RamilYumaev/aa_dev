@@ -18,6 +18,11 @@ class FileQuery extends ActiveQuery
         return $this->andWhere(['model' => $name]);
     }
 
+    public function position($position)
+    {
+        return $this->andWhere(['position' => $position]);
+    }
+
     public function recordId($recordId)
     {
         return $this->andWhere(['record_id' => $recordId]);
@@ -25,6 +30,11 @@ class FileQuery extends ActiveQuery
 
     public function defaultQueryUser($user, $modelName, $recordId) {
         return $this->user($user)->model($modelName)->recordId($recordId);
+
+    }
+
+    public function defaultQueryPositionUser($user, $modelName, $recordId, $position) {
+        return $this->user($user)->model($modelName)->recordId($recordId)->position($position);
 
     }
 

@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $special_right
  * @property integer $status
  * @property integer $counter
+ * @property integer $count_pages
  *
  **/
 
@@ -43,6 +44,11 @@ class Statement extends ActiveRecord
         $statement->status = self::DRAFT;
         return $statement;
     }
+
+    public function setCountPages($countPages) {
+        $this->count_pages = $countPages;
+    }
+
 
     public static function find(): StatementQuery
     {

@@ -7,7 +7,7 @@ use modules\entrant\models\queries\FileQuery;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
-use yiidreamteam\upload\FileUploadBehavior;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * This is the model class for table "{{%files}}".
@@ -18,6 +18,7 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property integer $record_id
  * @property string $file_name_user
  * @property string $file_name_base
+ * @property integer $position
  *
 **/
 
@@ -35,6 +36,11 @@ class File extends ActiveRecord
     public static function tableName()
     {
         return '{{%files}}';
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 
     public function setFile(UploadedFile $file): void
@@ -62,8 +68,12 @@ class File extends ActiveRecord
     {
         return [
             [
-                'class' => FileUploadBehavior::class,
+                'class' =>ImageUploadBehavior::class,
                 'attribute' => 'file_name_user',
+                'thumbs' => [
+                    'thumb' => ['width' => 300, 'height' => 350],
+                ],
+                'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]]_[[pk]].[[extension]]',
                 'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
