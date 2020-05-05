@@ -156,14 +156,7 @@ a.desc:after {
 }
 
 .level_block div {
-    text-decoration: underline;
-    color: #fff;
-    position: absolute;
-    bottom: 30px;
-}
-
-.level_block div {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
     color: #fff;
     position: absolute;
     bottom: 30px;
@@ -243,7 +236,7 @@ a.desc:after {
     background: #479bbd;
     color: #fff;
     padding: 30px;
-    min-height: 225px;
+    min-height: 320px;
     border-radius: 25px;
 
 }

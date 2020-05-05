@@ -16,7 +16,11 @@ use yii\widgets\Pjax;
 use yii\web\View;
 use \dictionary\helpers\DictFacultyHelper;
 
-$this->title = "Выбор образовательных программ";
+$this->title = "Выбор образовательных программ СПО";
+
+$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
+$this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
+$this->params['breadcrumbs'][] = $this->title;
 
 $anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);

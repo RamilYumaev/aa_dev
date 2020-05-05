@@ -11,7 +11,7 @@ use \modules\entrant\helpers\CseSubjectHelper;
  * @var $this yii\web\View
  */
 $this->title = "Выбор уровня образования";
-$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['abiturient/anketa/step1/']];
+$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1/']];
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 $anketa = Yii::$app->user->identity->anketa();
@@ -37,24 +37,25 @@ $onlyCse = $anketa->onlyCse();
             <div class="col-md-3">
                 <div class="level_block">
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
-                    <div>
+                    <hr>
                         <?php
 
                         if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
-                            echo Html::a("Мои результаты ЕГЭ", "/abiturient/default/cse",
-                                    ["class" => "btn btn-bd-primary"]) . "</div>";
-                            if (CseSubjectHelper::minNumberSubject($userId)) {
-                                echo AnketaHelper::getButton($level);
-                            } else {
-                                echo "<p>Перейти к выбору образовательных программ можно только после ввода Ваших результатов ЕГЭ</p>";
-                            }
+                            $cseButton = Html::a("Мои результаты ЕГЭ", "/abiturient/default/cse",
+                                ["class" => "btn btn-bd-primary"]);
+                            $attentionText = "<p>Перейти к выбору образовательных программ можно только после ввода 
+                            Ваших результатов ЕГЭ</p>";
 
+                            if(CseSubjectHelper::minNumberSubject($userId)){
+                                echo "<div>".$cseButton. " ". AnketaHelper::getButton($level)."</div>";
+                            }else{
+                                echo $attentionText . " ". "<div>".$cseButton."</div>";
+                            }
                         } else {
-                            echo AnketaHelper::getButton($level);
+                            echo "<div>".AnketaHelper::getButton($level)."</div>";
                         }
 
                         ?>
-                    </div>
                 </div>
             </div>
         <?php

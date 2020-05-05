@@ -176,9 +176,22 @@ class Anketa extends ActiveRecord
 
     public function onlyCse()
     {
-        return (in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)
-                && $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL) ||
-            ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION && ($this->edu_finish_year < date("Y")));
+     $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+         && $this->citizenship_id == DictCountryHelper::RUSSIA; // Если обычный Российкий выпускник школы
+
+     $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
+            in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
+                && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+             && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
+        // который закончил школу не в текущем году
+
+        return $condition1 || $condition2;
+
+
+//        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
+//            (($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
+//                    in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
+//                && ($this->edu_finish_year == date("Y"))));
     }
 
     public function onlyContract($educationLevel)

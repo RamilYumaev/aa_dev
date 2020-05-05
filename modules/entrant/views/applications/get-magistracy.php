@@ -15,7 +15,11 @@ use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
 
-$this->title = "Выбор магистерских программ";
+$this->title = "Выбор образовательных программ магистратуры";
+
+$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
+$this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
+$this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
 $anketa = \Yii::$app->user->identity->anketa();
@@ -120,10 +124,10 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
     <div class="row">
         <div class="col-md-1 mt-10">
-            <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
         </div>
         <div class="col-md-1 col-md-offset-11">
-            <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
         </div>
     </div>
 <h2 class="text-center"><?= $this->title ?></h2>

@@ -18,7 +18,11 @@ use yii\web\View;
 use \dictionary\models\DictDiscipline;
 use \dictionary\helpers\DictFacultyHelper;
 
-$this->title = "Выбор образовательных программ (особая квота)";
+$this->title = "Выбор образовательных программ бакалавриата (особая квота)";
+
+$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
+$this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
+$this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
 $lastYear = \date("Y")-1;
@@ -145,10 +149,10 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <?php Pjax::begin(['id' => 'get-special-right-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row">
     <div class="col-md-1 mt-10">
-        <?= Html::a("Вернуться к анкете", ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
     </div>
     <div class="col-md-1 col-md-offset-11">
-        <?= Html::a("Далее", ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
     </div>
 </div>
 <h2 class="text-center"><?= $this->title ?></h2>
