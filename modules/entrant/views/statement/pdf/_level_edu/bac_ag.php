@@ -2,32 +2,43 @@
 /* @var $this yii\web\View */
 
 /* @var $userCg array */
+
+$fontFamily = "font-family: 'Times New Roman';";
+$fontSize = "font-size: 9px;";
+$borderStyle = "border: 1px solid black;";
+$padding = "padding-top: 15px;";
+$borderCollapse = "border-collapse: collapse;";
+$alignCenter = "align=\"center\"";
+$verticalAlign = "vertical-align: middle";
+$generalStyle = $borderStyle;
 ?>
-<div class="row ">
-    <div class="col-xs-12">
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <th>#</th>
-                    <th>Направление подготовки</th>
-                    <th>Образовательная программма</th>
-                    <th>Форма обучения</th>
-                    <th>Основание приема</th>
-                    <th>Федеральный бюджет</th>
-                    <th>Платное обучение</th>
-                </tr>
-                <?php foreach ($userCg as $key => $value) :?>
-                    <tr>
-                        <td><?=++$key?></td>
-                        <td><?= $value["speciality"] ?></td>
-                        <td><?= $value['specialization']?></td>
-                        <td><?= $value['form']?></td>
-                        <td><?= $value['special_right'] ?></td>
-                        <td><h4><?= $value['budget'] ?? "" ?></h4></td>
-                        <td><h4><?= $value['contract'] ?? "" ?></h4></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+
+<table class="table table-bordered" style="<?=$fontFamily?> <?=$fontSize?> <?=$borderCollapse?>">
+    <tbody>
+    <tr>
+        <th style="<?=$generalStyle?>" rowspan="2">№</th>
+        <th style="<?=$generalStyle?>" colspan="3" align="center">Условия поступления</th>
+        <th style="<?=$generalStyle?> <?=$padding?>" rowspan="2" <?=$alignCenter?>>Основание приема</th>
+        <th style="<?=$generalStyle?>" align="center" colspan="2">Вид финансирования</th>
+    </tr>
+    <tr>
+        <th style="<?=$generalStyle?>">Направление подготовки</th>
+        <th style="<?=$generalStyle?>">Образовательная программма</th>
+        <th style="<?=$generalStyle?>">Форма обучения</th>
+        <th style="<?=$generalStyle?>">Федеральный бюджет</th>
+        <th style="<?=$generalStyle?>">Платное обучение</th>
+    </tr>
+    <?php foreach ($userCg as $key => $value) :?>
+        <tr>
+            <td style="<?=$generalStyle?>"><?=++$key?></td>
+            <td style="<?=$generalStyle?>"><?= $value["speciality"] ?></td>
+            <td style="<?=$generalStyle?>"><?= $value['specialization']?></td>
+            <td style="<?=$generalStyle?>" <?=$alignCenter?>><?= $value['form']?></td>
+            <td style="<?=$generalStyle?>" <?=$alignCenter?>><?= $value['special_right'] ?></td>
+            <td style="<?=$generalStyle?>" <?=$alignCenter?>>
+                <?= $value['budget'] ?? "" ?></td>
+            <td style="<?=$generalStyle?>" <?=$alignCenter?>><?= $value['contract'] ?? "" ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

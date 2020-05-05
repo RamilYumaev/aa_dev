@@ -16,6 +16,15 @@ class UserCgRepository
         return $model;
     }
 
+    public function getUser($cgId, $userId): UserCg
+    {
+        if (!$model = UserCg::findOne(["user_id" => $userId, "cg_id" => $cgId])) {
+            throw new \DomainException('Заявление уже удалено!');
+        }
+        return $model;
+    }
+
+
     public function save(UserCg $model): void
     {
         if (!$model->save()) {

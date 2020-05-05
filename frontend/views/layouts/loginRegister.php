@@ -26,14 +26,19 @@ AppAsset::register($this);
         <link rel="icon" type="image/png" href="/img/favicon.png">
         <?= Html::csrfMetaTags() ?>
         <?php $this->head(); ?>
-        <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
+<?php if ($_SERVER['HTTP_HOST'] == 'sdo.mpgu.org') : ?>
+
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?165"></script>
+<?php endif;?>
     </head>
     <body class="mpgu-bg">
     <?php $this->beginBody(); ?>
     <div id="vk_community_messages"></div>
+<?php if ($_SERVER['HTTP_HOST'] == 'sdo.mpgu.org') : ?>
     <script type="text/javascript">
         VK.Widgets.CommunityMessages("vk_community_messages", 191157288, {disableExpandChatSound: "1",tooltipButtonText: "Есть вопрос?"});
     </script>
+<?php endif;?>
     <div id="wrapper">
         <div class="container-fluid">
             <?= $content ?>

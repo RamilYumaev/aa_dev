@@ -39,7 +39,7 @@ class CseSubjectResultForm extends Model
     {
         return [
             [['year'], 'required'],
-            [['year'], 'date', 'format' => 'yyyy', 'min' => date("Y") - 4, 'max' => date("Y")],
+            [['year'], 'number', 'min' => date("Y") - 4, 'max' => date("Y")],
         ];
     }
 

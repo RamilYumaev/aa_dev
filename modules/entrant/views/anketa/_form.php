@@ -66,7 +66,8 @@ var curentCountrySelect = $("#anketaform-citizenship_id");
 var currentEducationLevel = $("#anketaform-current_edu_level");
 var currentUniversityChoice = $("#anketaform-university_choice");
 var foreignerStatus;
-  
+
+console.log(currentUniversityChoice.val());
   
   function foreignerStatusValue()
   {if(curentCountry.val() == rf || curentCountry.val() == kr || curentCountry.val() == rb || curentCountry.val() == rk 
@@ -76,6 +77,11 @@ var foreignerStatus;
   
   function ajaxReactive(foreignerStatus = 0 , educationLevel = 1, universityChoice = 1)
   {
+      if(!educationLevel)
+          {
+              educationLevel = $model->current_edu_level;
+          }
+      
     $.ajax({
     url: "/abiturient/anketa/get-category",
     method: "GET",
@@ -90,8 +96,9 @@ var foreignerStatus;
             category.append("<option value=''>Укажите категорию</option>");
          
           for (var num in cat){
-          category.
+                    category.
           append($("<option></option>").attr("value", cat[num].id).text(cat[num].text));
+        
             }
         },
     })
@@ -132,6 +139,7 @@ var foreignerStatus;
   curentCountrySelect.trigger("init");
   currentEducationLevel.trigger("init");
   currentUniversityChoice.trigger("init");
+  
 if(categoryVal){
     category.val($model->category_id);
 } 

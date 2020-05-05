@@ -2,26 +2,26 @@
 
 
 namespace modules\entrant\repositories;
-use modules\entrant\models\ECP;
+use modules\entrant\models\File;
 
-class ECPRepository
+class FileRepository
 {
-    public function get($id): ECP
+    public function get($id): File
     {
-        if (!$model = ECP::findOne($id)) {
-            throw new \DomainException('ЭЦП не найден.');
+        if (!$model = File::findOne($id)) {
+            throw new \DomainException('Файл не найден.');
         }
         return $model;
     }
 
-    public function save(ECP $model): void
+    public function save(File $model): void
     {
         if (!$model->save()) {
             throw new \RuntimeException('Ошибка сохранения.');
         }
     }
 
-    public function remove(ECP $model): void
+    public function remove(File $model): void
     {
         if (!$model->delete()) {
             throw new \RuntimeException('Ошибка удаления.');
