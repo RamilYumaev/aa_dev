@@ -18,7 +18,6 @@ class DictCountryHelper
     const TAJIKISTAN = 30;
 
     const TASHKENT_AGREEMENT = [
-        self::RUSSIA,
         self::BELARUS,
         self::KYRGYZSTAN,
         self::KAZAKHSTAN,

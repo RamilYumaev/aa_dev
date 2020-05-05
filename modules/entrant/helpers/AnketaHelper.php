@@ -82,11 +82,11 @@ class AnketaHelper
     {
         return [
             self::HEAD_UNIVERSITY => "Головной вуз МПГУ (г. Москва)",
-            self::SERGIEV_POSAD_BRANCH => "филиал МПГУ в г. Сергиевом Посаде (Московская область)",
-            self::ANAPA_BRANCH => "филиал МПГУ в г. Анапе (Краснодарский край)",
-            self::POKROV_BRANCH => "филиал МПГУ в г. Покрове (Владимирская область)",
-            self::STAVROPOL_BRANCH => "филиал МПГУ в г. Ставрополе (Ставропольский край)",
-            self::DERBENT_BRANCH => "филиал МПГУ в г. Дербенте (Республика Дагестан)",
+            self::SERGIEV_POSAD_BRANCH => "Сергиево-Посадский филиал МПГУ (Московская область)",
+            self::ANAPA_BRANCH => "Анапский филиал МПГУ (Краснодарский край)",
+            self::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",
+            self::STAVROPOL_BRANCH => "Ставропольский филиал МПГУ (Ставропольский край)",
+            self::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
 
         ];
     }
@@ -148,12 +148,12 @@ class AnketaHelper
     public static function getButton($level, $specialRight = null)
     {
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
-            $anchor = "Выбрать целевые программы";
+            $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
-            $anchor = "Выбрать программы для льготных категории";
+            $anchor = "Особая квота";
 
         }else{
-            $anchor = "Выбрать программы";
+            $anchor = "Общий конкурс";
         }
 
         return Html::a($anchor, ["applications/"

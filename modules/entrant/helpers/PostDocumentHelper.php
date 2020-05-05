@@ -17,7 +17,7 @@ class PostDocumentHelper
     public static function submittedList() {
         return [
          //   self::TYPE_MAIL => "По почте",
-            self::TYPE_ONLINE => "Подать документы",
+            self::TYPE_ONLINE => "Загрузка сканированных копий документов",
            // self::TYPE_VISIT => "Личный визит",
            // self::TYPE_ECP => "Онлайн с электронной подписью",
         ];
