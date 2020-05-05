@@ -70,10 +70,10 @@ class File extends ActiveRecord
             [
                 'class' =>ImageUploadBehavior::class,
                 'attribute' => 'file_name_user',
-                'thumbs' => [
-                    'thumb' => ['width' => 300, 'height' => 350],
-                ],
-                'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]]_[[pk]].[[extension]]',
+//                'thumbs' => [
+//                    'thumb' => ['width' => 350, 'height' => 350],
+//                ],
+             //  'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]]_[[pk]].[[extension]]',
                 'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
