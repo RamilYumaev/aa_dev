@@ -43,7 +43,7 @@ class FileService
     }
 
     private function statement(File $model) {
-        $QRCodeReader = new QrReader($model->getUploadedFilePath('file_name_user', 'thumb'));
+        $QRCodeReader = new QrReader($model->getUploadedFilePath('file_name_user'));
         $text =$QRCodeReader->text();
         if(!$text) {
             $this->remove($model->id);
@@ -62,7 +62,6 @@ class FileService
                 $this->repository->save($model);
             }
         }
-
     }
 
     public function edit($id, FileForm $form)
