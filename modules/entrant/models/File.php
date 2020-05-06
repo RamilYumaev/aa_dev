@@ -70,15 +70,15 @@ class File extends ActiveRecord
             [
                 'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'file_name_user',
-                'thumbs' => [
-                    'thumb' => ['processor' => function (ImageGD $thumb) {
-                        return $thumb->resize(300, 500);
-                    }],
-                    'crop' => ['processor' => function (ImageGD $thumb) {
-                        return $thumb->crop(800, 0, 550, 550);
-                    }],
-                ],
-                'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[profile]]_[[attribute_file_name_base]]_[[pk]].[[extension]]',
+//                'thumbs' => [
+//                    'thumb' => ['processor' => function (ImageGD $thumb) {
+//                        return $thumb->resize(500, 500);
+//                    }],
+//                    'crop' => ['processor' => function (ImageGD $thumb) {
+//                        return $thumb->crop(800, 450, 400, 400);
+//                    }],
+//                ],
+//              'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[profile]]_[[attribute_file_name_base]]_[[pk]].[[extension]]',
                 'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
