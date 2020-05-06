@@ -114,7 +114,11 @@ class StatementController extends Controller
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
             // call mPDF methods on the fly
+<<<<<<< HEAD
             //'marginTop' => 40,
+=======
+            'marginTop' => 40,
+>>>>>>> mark227
             'methods' => [
                 //'SetHeader'=>['Krajee Report Header'],
              //   'SetHeader'=>['<barcode code="'.$statement->id.'-{PAGENO}" size="2" type="QR" class="barcode" />'],
