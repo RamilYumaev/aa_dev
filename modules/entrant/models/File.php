@@ -4,11 +4,11 @@
 namespace modules\entrant\models;
 
 use modules\entrant\models\queries\FileQuery;
-use PHPThumb\GD;
+use modules\usecase\ImageGD;
+use modules\usecase\ImageUploadBehaviorYiiPhp;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
-use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * This is the model class for table "{{%files}}".
@@ -68,13 +68,13 @@ class File extends ActiveRecord
     {
         return [
             [
-                'class' => ImageUploadBehavior::class,
+                'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'file_name_user',
                 'thumbs' => [
-                    'thumb' => ['processor' => function (GD $thumb) {
+                    'thumb' => ['processor' => function (ImageGD $thumb) {
                         return $thumb->resize(300, 500);
                     }],
-                    'crop' => ['processor' => function (GD $thumb) {
+                    'crop' => ['processor' => function (ImageGD $thumb) {
                         return $thumb->crop(800, 0, 550, 550);
                     }],
                 ],
