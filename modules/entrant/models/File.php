@@ -4,6 +4,7 @@
 namespace modules\entrant\models;
 
 use modules\entrant\models\queries\FileQuery;
+use PHPThumb\GD;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
@@ -63,21 +64,26 @@ class File extends ActiveRecord
     }
 
 
-
     public function behaviors()
     {
         return [
             [
-                'class' =>ImageUploadBehavior::class,
+                'class' => ImageUploadBehavior::class,
                 'attribute' => 'file_name_user',
-//                'thumbs' => [
-//                    'thumb' => ['width' => 350, 'height' => 350],
-//                ],
-             //  'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]]_[[pk]].[[extension]]',
+                'thumbs' => [
+                    'thumb' => ['processor' => function (GD $thumb) {
+                        return $thumb->resize(300, 500);
+                    }],
+                    'crop' => ['processor' => function (GD $thumb) {
+                        return $thumb->crop(800, 0, 550, 550);
+                    }],
+                ],
+                'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[profile]]_[[attribute_file_name_base]]_[[pk]].[[extension]]',
                 'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
     }
+
 
     public static function find(): FileQuery
     {

@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $files yii\db\BaseActiveRecord */
 /* @var $file modules\entrant\models\File */
 /* @var $id integer */
+
+
 ?>
 <table class="table">
     <?php foreach ($files as $key => $file): ?>
