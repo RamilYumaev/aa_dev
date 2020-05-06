@@ -3,6 +3,7 @@
 
 namespace modules\entrant\services;
 
+use common\transactions\TransactionManager;
 use modules\entrant\forms\FileForm;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
@@ -16,13 +17,17 @@ class FileService
 {
     private $repository;
 
-    public function __construct(FileRepository $repository)
+    private $manager;
+
+    public function __construct(FileRepository $repository, TransactionManager $manager)
     {
+        $this->manager = $manager;
         $this->repository = $repository;
     }
 
     public function create(FileForm $form, BaseActiveRecord $model)
     {
+        $this->manager->wrap(function ()use ($form, $model) {
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
             $model  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
@@ -30,7 +35,7 @@ class FileService
             if($model->model = Statement::class) {
                 $this->statement($model);
             }
-        }
+        }});
         return null;
     }
 
@@ -43,11 +48,15 @@ class FileService
     }
 
     private function statement(File $model) {
-        $QRCodeReader = new QrReader($model->getUploadedFilePath('file_name_user'));
+        $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user', 'crop'));
         $text =$QRCodeReader->text();
         if(!$text) {
+            $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user'));
+            $text =$QRCodeReader->text();
+        }
+        if(!$text) {
             $this->remove($model->id);
-            throw new \DomainException('Qr-code не найден');
+            throw new \DomainException('Qr-code не найден или не смог обработать');
         } else {
             $data = explode("-", $text);
             if($data[0] != $model->record_id) {
@@ -62,6 +71,7 @@ class FileService
                 $this->repository->save($model);
             }
         }
+
     }
 
     public function edit($id, FileForm $form)
