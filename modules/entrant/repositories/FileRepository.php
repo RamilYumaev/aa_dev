@@ -19,6 +19,11 @@ class FileRepository
         return File::find()->defaultQueryPositionUser($user, $modelName, $recordId, $position)->exists();
     }
 
+    public function getFileCount($user, $modelName, $recordId): int
+    {
+        return File::find()->defaultQueryUser($user, $modelName, $recordId)->count();
+    }
+
     public function save(File $model): void
     {
         if (!$model->save()) {
