@@ -76,12 +76,17 @@ var foreignerStatus;
   
   function ajaxReactive(foreignerStatus = 0 , educationLevel = 1, universityChoice = 1)
   {
-    $.ajax({
+    
+      if(!educationLevel)
+          {
+              educationLevel = $model->current_edu_level;
+          }
+      $.ajax({
     url: "/abiturient/anketa/get-category",
     method: "GET",
     dataType: "json",
     async: false,
-    data: {foreignerStatus: foreignerStatus, educationLevel: educationLevel, universityChoice},
+    data: {foreignerStatus: foreignerStatus, educationLevel: educationLevel, universityChoice: universityChoice},
     success: function (groups){
          var cat = groups.result;
          loadedCat = cat;
