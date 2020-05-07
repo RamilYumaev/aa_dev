@@ -44,9 +44,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
     }
 
     public static  function create(DocumentEducationForm $form, $school_id) {
-        $address =  new static();
-        $address->data($form, $school_id);
-        return $address;
+        $doc =  new static();
+        $doc->data($form, $school_id);
+        return $doc;
     }
 
     public function data(DocumentEducationForm $form, $school_id)
@@ -107,7 +107,10 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'number'=> $value,
             'date'=> DateFormatHelper::formatView($value),
             'year'=> $value,
-            'original'=> DictDefaultHelper::name($value)
+            'original'=> DictDefaultHelper::name($value),
+            'patronymic' => $value,
+            'surname' => $value,
+            'name' => $value
             ];
     }
 
