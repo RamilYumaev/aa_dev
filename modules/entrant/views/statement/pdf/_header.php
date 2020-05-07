@@ -46,7 +46,6 @@ $education = DocumentEducationHelper::dataArray($user_id)
             Контактный телефон: <?= $profile['phone'] ?>
             <br/><br/>
             E-mail: <?= $profile['email'] ?>
-
         </td>
         <td>Документ, удостоверяющий личность: <?= $passport['type'] ?> <br />
             серия:<?= $passport['series'] ?> <?= $passport['number'] ?>  <br />
@@ -63,7 +62,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
             <br/><br/>
             <?=$profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
                 ? "окончившего" : "окончившей"?> <?= $education['year']." году ".$education['school_id']." <strong>"
-            .$education['series']." ".$education['number']."</strong>"?>
+            .$education['series']." ".$education['number']."</strong>"." (".$education['schoolCountyRegion'].")"?>
         </td>
     </tr>
 </table>

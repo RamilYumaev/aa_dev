@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
+use dictionary\models\DictSchools;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\BlockRedGreenHelper;
@@ -79,12 +80,17 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_EDUCATION, $this->type);
     }
 
+    public function getSchool() {
+        return $this->hasOne(DictSchools::class,['id'=>'school_id']);
+    }
+
+
     public function getSchoolName() {
-        return  DictSchoolsHelper::schoolName($this->school_id);
+        return  $this->school->name;
     }
 
     public function getOriginal() {
-        return   DictDefaultHelper::name($this->original);
+        return  DictDefaultHelper::name($this->original);
     }
 
 
@@ -119,6 +125,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return [
             'school_id' => $this->schoolName,
             'type'=> $this->typeName,
+            'schoolCountyRegion' => $this->school->countryRegion,
             'series'=>$this->series,
             'number'=>$this->number,
             'date'=>$this->date,

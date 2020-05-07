@@ -21,8 +21,11 @@ class PassportDataForm extends Model
             $this->date_of_birth= $passportData->getValue("date_of_birth");
             $this->date_of_issue= $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
+        } else {
+            $this->nationality = \Yii::$app->user->identity->anketa()->citizenship_id;
+            $this->user_id = \Yii::$app->user->identity->getId();
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+
         parent::__construct($config);
     }
 
@@ -40,9 +43,12 @@ class PassportDataForm extends Model
             [['series',],'string', 'max' => 4],
             [['number', 'place_of_birth', 'authority'], 'string', 'max' => 255],
             [['number'], 'string', 'max' => 15],
+            [['division_code'], 'required', 'when' => function ($model) {
+                return $model->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA;},
+                'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],
             [['date_of_birth','date_of_issue',], 'safe'],
             [['date_of_birth','date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
-            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_PASSPORT)
+            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)
             ],
         ];
     }

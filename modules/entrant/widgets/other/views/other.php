@@ -8,7 +8,12 @@ use yii\widgets\DetailView;
 /* @var $other modules\entrant\models\OtherDocument */
 /* @var $type  string */
 
-$noPatriot = $type !== "patriot";
+$noPatriot = $type !== "patriot"; ?>
+<div class="row">
+<div class="col-md-12 <?= BlockRedGreenHelper::colorBg($other ?? false) ?>">
+    <h4><?= $noPatriot ? "Документ, подтверждающий льготы.":
+            "Документ, подтверждающий принадлежность к соотечественникам за рубежом"?></h4>
+    <?php
 if ($other) :
 $column =  [
     'series',
@@ -23,10 +28,6 @@ if ($noPatriot) {
             'value' => $other->exemption,]);
 }
 ?>
-<div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($other ?? false) ?>">
-        <h4><?= $noPatriot ? "Документ, подтверждающий льготы.":
-                "Документ, подтверждающий принадлежность к соотечественникам за рубежом"?></h4>
         <?= Html::a('Редактировать', [ $noPatriot ? 'other-document/exemption' : 'other-document/patriot'],
             ['class' => 'btn btn-primary']) ?>
         <?= DetailView::widget([
@@ -34,7 +35,9 @@ if ($noPatriot) {
             'model' => $other,
             'attributes' => $column
         ]) ?>
-
-    </div>
-</div>
+    <?php else: ?>
+    <?= Html::a('Добавить', [ $noPatriot ? 'other-document/exemption' : 'other-document/patriot'],
+        ['class' => 'btn btn-primary']) ?>
 <?php endif; ?>
+</div>
+</div>

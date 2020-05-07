@@ -4,13 +4,17 @@ namespace modules\entrant\behaviors;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\models\Agreement;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\CseViSelect;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\models\SubmittedDocuments;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
 use yii\db\BaseActiveRecord;
+use yii\db\StaleObjectException;
 use yii\web\User;
 use Yii;
 
@@ -48,6 +52,12 @@ class AnketaBehavior extends Behavior
         if ($this->userSubmittedExists() && !$this->checkUpdate()) {
             SubmittedDocuments::deleteAll($this->userWhere());
         }
+        if ($this->userAgreement() && !$this->checkUpdate()) {
+            Agreement::deleteAll($this->userWhere());
+        }
+        if ($this->userExemption() && !$this->checkUpdate()) {
+            OtherDocument::deleteAll(['user_id' => Yii::$app->user->identity->getId(), 'exemption_id'=> true]);
+        }
     }
 
     private function userCgExists()
@@ -64,6 +74,18 @@ class AnketaBehavior extends Behavior
     {
         return CseViSelect::find()->where($this->userWhere())->exists();
     }
+
+    private function userAgreement()
+    {
+        return Agreement::find()->where($this->userWhere())->exists();
+    }
+
+    private function userExemption()
+    {
+        return  OtherDocument::find()->where($this->userWhere())->andWhere(['exemption_id'=> true])->exists();
+    }
+
+
 
     private function userSubmittedExists()
     {
