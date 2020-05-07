@@ -154,3 +154,12 @@ $this->registerJs("
 ?>
 
 
+<?php
+$this->registerJs("
+        $('[data-toggle=\"collapse\"]').on('click', function () {
+        $(this).children('span').toggleClass('glyphicon-search glyphicon-remove');
+        });
+", View::POS_READY);
+
+?>
+
