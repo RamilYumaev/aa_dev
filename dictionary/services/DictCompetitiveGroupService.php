@@ -90,10 +90,10 @@ class DictCompetitiveGroupService
     }
 
     public function getAllFullCg($year, $educationLevelId, $educationFormId,
-            $facultyId, $foreignerStatus, $financingTypeId)
+            $facultyId, $specialityId, $foreignerStatus, $financingTypeId)
     {
         $model = $this->model($year, $educationLevelId, $educationFormId,
-            $facultyId, $foreignerStatus, $financingTypeId);
+            $facultyId, $foreignerStatus, $financingTypeId)->speciality($this->jsonDecodeIntValue($specialityId));
         return $this->dataResult($model);
     }
     private function model($year, $educationLevelId, $educationFormId,

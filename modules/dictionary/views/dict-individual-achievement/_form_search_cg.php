@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use kartik\select2\Select2;
 use dictionary\helpers\DictFacultyHelper;
+use dictionary\helpers\DictSpecialityHelper;
 ?>
 <hr/>
         <label>Уровень образования</label>
@@ -22,12 +23,6 @@ use dictionary\helpers\DictFacultyHelper;
         ]); ?>
        <br/>
 
-<!--        <label>Вид финансирования</label>-->
-<!--        --><?//= Html::dropDownList('', null,
-//            ['' => ''] + DictCompetitiveGroupHelper::getFinancingTypes(),
-//            ['id' => 'filter-financing_type_id', 'class' => 'form-control']
-//        ) ?>
-<!--        <br/>-->
 
         <label>Факультет</label>
         <?= Select2::widget([
@@ -38,4 +33,14 @@ use dictionary\helpers\DictFacultyHelper;
             'pluginOptions' => ['allowClear' => true],
         ]); ?>
         <br/>
+        <label>Направления подготовки</label>
+        <?= Select2::widget([
+            'name' => 'filter-speciality_id',
+            'id' => 'filter-speciality_id',
+            'data' =>DictSpecialityHelper::specialityNameAndCodeList(),
+            'options' => ['placeholder' => 'Выберите направление', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => true],
+        ]); ?>
+        <br/>
+
         <hr/>

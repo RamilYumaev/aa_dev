@@ -50,16 +50,17 @@ var filterEducationLevelSelect = $("#filter-education_level_id");
 var filterEducationFormSelect = $("#filter-education_form_id");
 var filterFinancingTypeSelect = $("#filter-financing_type_id");
 var filterFacultySelect = $("#filter-faculty_id");
+var filterSpeciality = $("#filter-speciality_id");
 
 filterEducationLevelSelect.add(filterEducationLevelSelect).add(filterEducationFormSelect).add(filterFinancingTypeSelect)
-    .add(filterFacultySelect).add(yearSelect)
+    .add(filterFacultySelect).add(yearSelect).add(filterSpeciality)
     .on("change", function() {
     $.ajax({
         url: "/dictionary/dict-competitive-group/full-cg",
         method: "GET",
         dataType: "json",
         data: {year: yearSelect.val(), educationLevelId: filterEducationLevelSelect.val(), educationFormId: JSON.stringify(filterEducationFormSelect.val()),
-            facultyId: JSON.stringify(filterFacultySelect.val()), foreignerStatus: 0, financingTypeId: {$financingTypeBudget}},
+            facultyId: JSON.stringify(filterFacultySelect.val()), specialityId: JSON.stringify(filterSpeciality.val()), foreignerStatus: 0, financingTypeId: {$financingTypeBudget}},
         async: false,
         success: function(competitiveGroups) {
             var items = competitiveGroups.result;
