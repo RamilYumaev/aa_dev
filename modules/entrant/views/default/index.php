@@ -12,6 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(); ?>
     </div>
     <div class="mt-20">
+        <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(); ?>
+    </div>
+    <div class="mt-20">
         <?= \modules\entrant\widgets\address\AddressWidget::widget(); ?>
     </div>
     <div class="mt-20">
