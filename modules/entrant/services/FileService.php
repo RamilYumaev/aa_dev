@@ -30,11 +30,15 @@ class FileService
         $this->manager->wrap(function ()use ($form, $model) {
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
+            if($model::className() == Statement::class) {
+                $true = $model->count_pages == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
+                if($true) {
+                    throw new \DomainException('Вы не можете загружать файлы  больше ');
+                }
+            }
             $model  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
             $this->repository->save($model);
-            if($model->model = Statement::class) {
-                $this->statement($model);
-            }
+
         }});
         return null;
     }
@@ -48,12 +52,8 @@ class FileService
     }
 
     private function statement(File $model) {
-        $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user', 'crop'));
+        $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user'));
         $text =$QRCodeReader->text();
-        if(!$text) {
-            $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user'));
-            $text =$QRCodeReader->text();
-        }
         if(!$text) {
             $this->remove($model->id);
             throw new \DomainException('Qr-code не найден или не смог обработать');
@@ -81,9 +81,9 @@ class FileService
             $this->correctImageFile($form->file_name);
             $model->setFile($form->file_name);
             $this->repository->save($model);
-            if($model->model = Statement::class) {
-                $this->statement($model);
-            }
+//            if($model->model = Statement::class) {
+//                $this->statement($model);
+//            }
         }
     }
 

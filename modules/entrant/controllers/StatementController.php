@@ -104,7 +104,7 @@ class StatementController extends Controller
             // portrait orientation
             'orientation' => Pdf::ORIENT_PORTRAIT,
             // stream to browser inline
-            'destination' => Pdf::DEST_DOWNLOAD,
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
             // format content from your own css file if needed or use the
@@ -114,9 +114,10 @@ class StatementController extends Controller
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
             // call mPDF methods on the fly
+            //'marginTop' => 40,
             'methods' => [
                 //'SetHeader'=>['Krajee Report Header'],
-                'SetHeader'=>['<barcode code="'.$statement->id.'-{PAGENO}" size="2" type="QR" error="M" class="barcode" />'],
+             //   'SetHeader'=>['<barcode code="'.$statement->id.'-{PAGENO}" size="2" type="QR" class="barcode" />'],
             ]
         ]);
         return $pdf;
