@@ -5,18 +5,18 @@
 use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use yii\widgets\MaskedInput;
 use kartik\date\DatePicker;
+
+\modules\entrant\assets\passport\PassportAsset::register($this)
 ?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-passport']); ?>
-            <?= $form->field($model, 'nationality')->dropDownList(DictCountryHelper::countryList(), ['prompt'=> 'Выберите страну']) ?>
-            <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType(DictIncomingDocumentTypeHelper::TYPE_PASSPORT)) ?>
+            <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listPassport($model->nationality)) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date_of_birth')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
