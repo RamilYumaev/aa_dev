@@ -32,7 +32,7 @@ class AnketaController extends Controller
     {
         if ($this->anketa) {
             Yii::$app->session->setFlash("warning", "Редактирование анкеты приведет к удалению всех ранее 
-        выбранных образовательных программ!");
+        выбранных образовательных программ и введенных результатов ЕГЭ!");
             $form = new AnketaForm($this->anketa);
         } else {
             $form = new AnketaForm();

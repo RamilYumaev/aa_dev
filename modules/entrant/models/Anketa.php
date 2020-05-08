@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 
 
+use common\helpers\EduYearHelper;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -177,7 +178,9 @@ class Anketa extends ActiveRecord
     public function onlyCse()
     {
      $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-         && $this->citizenship_id == DictCountryHelper::RUSSIA; // Если обычный Российкий выпускник школы
+         && $this->citizenship_id == DictCountryHelper::RUSSIA
+         && $this->category_id !== CategoryStruct::SPECIAL_RIGHT_COMPETITION; // Если обычный Российкий выпускник школы
+        // и не квотник
 
      $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
             in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
@@ -186,7 +189,6 @@ class Anketa extends ActiveRecord
         // который закончил школу не в текущем году
 
         return $condition1 || $condition2;
-
 
 //        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
 //            (($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
@@ -218,6 +220,11 @@ class Anketa extends ActiveRecord
 
             }
         }
+    }
+
+    public function allowTarget()
+    {
+        return Agreement::findOne([ 'user_id' => \Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);
     }
 
 
