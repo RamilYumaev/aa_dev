@@ -50,24 +50,27 @@ class OtherDocumentController extends Controller
     public function actionPatriot()
     {
         $type = 43;
+        $model = $this->findOne(['type'=> $type, 'user_id' => Yii::$app->user->identity->getId()]) ?? null;
         $form = new OtherDocumentForm(
-            $this->findOne(['type'=> $type, 'user_id' => Yii::$app->user->identity->getId()]) ?? null,
+            false,
+            $model,
             false,
             $this->arrayRequired(false),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
-        $this->formCreateUpdate($form, ['anketa/step2']);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
         $form->type = $type;
         return $this->render("patriot", ["model" => $form]);
     }
 
     public function actionExemption()
-    {
+    {   $model = $this->findOne(['exemption_id'=> true, 'user_id' => Yii::$app->user->identity->getId()]) ?? null;
         $form = new OtherDocumentForm(
-            $this->findOne(['exemption_id'=> true, 'user_id' => Yii::$app->user->identity->getId()]) ?? null,
+            false,
+            $model,
             true,
             $this->arrayRequired(true),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
-        $this->formCreateUpdate($form, ['anketa/step2']);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("exemption", ["model" => $form]);
     }
 
@@ -104,7 +107,7 @@ class OtherDocumentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new OtherDocumentForm($model);
+        $form = new OtherDocumentForm(false, $model);
         $this->formCreateUpdate($form, ['default/index'], $model);
         return $this->render('update', [
             'model' => $form,
