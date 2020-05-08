@@ -1,15 +1,16 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\OtherDocumentForm */
-$this->title = "Анкета. Шаг 1.1. Документ, подтверждающий принадлежность к соотечественникам за рубежом";
+$this->title = "Документ, подтверждающий принадлежность к соотечественникам за рубежом";
 
-$this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = $this->title;
 
 use yii\helpers\Html; ?>
 <div class="row">
     <div class="col-md-1">
-        <?= Html::a("Назад к шагу 1", ["anketa/step1"], ["class" => "btn btn-success position-fixed mt-10"]) ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
+            ["anketa/step1"], ["class" => "btn btn-success position-fixed mt-10 ml-30"]) ?>
     </div>
 </div>
 <div class="container">
