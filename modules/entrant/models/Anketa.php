@@ -4,12 +4,9 @@ namespace modules\entrant\models;
 
 
 use common\helpers\EduYearHelper;
-use common\moderation\behaviors\ModerationBehavior;
-use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\models\DictCompetitiveGroup;
-use modules\dictionary\models\DictCategory;
 use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
@@ -79,6 +76,11 @@ class Anketa extends ActiveRecord
     public function isPatriot()
     {
         return $this->category_id == CategoryStruct::COMPATRIOT_COMPETITION;
+    }
+
+    public function isRussia()
+    {
+        return $this->citizenship_id == DictCountryHelper::RUSSIA;
     }
 
 //    public function titleModeration(): string

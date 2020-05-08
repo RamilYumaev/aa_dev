@@ -3,9 +3,11 @@
 
 namespace common\auth\services;
 
+use common\auth\forms\UserEditForm;
 use common\auth\forms\UserEmailForm;
 use common\auth\Identity;
 use common\auth\rbac\Rbac;
+use common\helpers\FlashMessages;
 use common\sending\traits\SelectionCommitteeMailTrait;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
@@ -50,11 +52,6 @@ class SignupService
                 $user->setAssignmentFirst(Rbac::roleName($role));
             }
 
-            //$configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
-            //$configData = ['user' => $user];
-
-            //$this->sendEmail($user, $configTemplate, $configData, "Аккаунт зарегистрирован!");
-
             Yii::$app->user->login(new Identity($user));
         });
     }
@@ -76,6 +73,29 @@ class SignupService
         $user = $this->users->get(Yii::$app->user->identity->getId());
         $user->addEmail($form);
         $this->users->save($user);
+
+    }
+
+    public function edit(UserEditForm $form)
+    {
+        $user = $this->users->get($form->_user->id);
+        $user->editDefault($form);
+        $this->users->save($user);
+    }
+
+    public function confirmDefault()
+    {
+        $user = $this->users->get(Yii::$app->user->identity->getId());
+        if(!$user->email) {
+            throw new \DomainException('У вас нет еmail. Заполните, пожалуйста');
+        }
+        $user->send();
+        $this->users->save($user);
+        $configTemplate =  ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'];
+        $configData = ['user' => $user];
+        $this->sendEmail($user, $configTemplate, $configData, "Подтверждение почты!");
+
+
     }
 
     public function confirm($token)

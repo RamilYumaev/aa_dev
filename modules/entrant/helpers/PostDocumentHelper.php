@@ -3,6 +3,7 @@
 namespace modules\entrant\helpers;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\FIOLatin;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -61,7 +62,8 @@ class PostDocumentHelper
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
             CseViSelectHelper::isCorrect($user_id) &&
             AdditionalInformationHelper::isExits($user_id) &&
-            self::medicine($user_id);
+            self::medicine($user_id) &&
+            self::fioLatin($user_id);
     }
 
     private static function exemption($user_id)
@@ -72,6 +74,11 @@ class PostDocumentHelper
     private static function agreement($user_id)
     {
         return AgreementHelper::isExits($user_id) && self::common($user_id);
+    }
+
+    private static function fioLatin($user_id)
+    {
+        return !self::userAnketa()->isRussia() ? FioLatinHelper::isExits($user_id) : true;
     }
 
     public static function compatriot($user_id)

@@ -12,7 +12,6 @@ use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
-use olympic\models\auth\Profiles;
 use yii\web\Controller;
 use Yii;
 
@@ -33,10 +32,10 @@ class SiteController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        return (new UserNoEmail())->redirect();
-    }
+//    public function beforeAction($action)
+//    {
+//      // return (new UserNoEmail())->redirect();
+//    }
 
     /**
      * Displays homepage.
