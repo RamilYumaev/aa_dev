@@ -14,8 +14,8 @@ use yii\widgets\DetailView;
             <?php if ($fio) : ?>
                 <?php
                 $columns = [
+                        'surname',
                     'name',
-                    'surname',
                 ];
                 ?>
                 <?php if ($fio['patronymic']): ?>

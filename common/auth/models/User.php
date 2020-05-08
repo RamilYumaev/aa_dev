@@ -4,6 +4,8 @@ namespace common\auth\models;
 
 use common\auth\forms\SignupForm;
 use common\auth\forms\UserEmailForm;
+
+use common\auth\forms\UserEditForm as UserDefault;
 use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
 use common\auth\helpers\UserHelper;
@@ -78,10 +80,36 @@ class User extends ActiveRecord
         $this->updated_at = time();
     }
 
+    public function editDefault(UserDefault $form): void
+    {
+        $this->username = $form->username;
+        $this->email = $form->email;
+
+        $this->generateAuthKey();
+        $this->generateEmailVerificationToken();
+
+        if ($this->oldAttributes["email"] !== $form->email) {
+            $this->status = UserHelper::STATUS_WAIT;
+        }
+        $this->updated_at = time();
+    }
+
+
+    public function send(): void
+    {
+        $this->generateAuthKey();
+        $this->generateEmailVerificationToken();
+    }
+
+
 
     public function addEmail(UserEmailForm $form): void
     {
+        $this->username = $form->username;
         $this->email = $form->email;
+        if  ($this->oldAttributes["email"] !== $form->email) {
+            $this->status = UserHelper::STATUS_WAIT;
+        }
         $this->updated_at = time();
     }
 

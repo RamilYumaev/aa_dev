@@ -1,9 +1,8 @@
 <?php
 
 namespace modules\entrant\forms;
-use modules\entrant\helpers\AddressHelper;
+
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -59,7 +58,7 @@ class PassportDataForm extends Model
     public function uniqueRules()
     {
         $arrayUnique = [['type',], 'unique', 'targetClass' => PassportData::class,
-            'targetAttribute' => ['type', 'user_id',]];
+            'targetAttribute' => ['type',  'series', 'user_id','number',]];
         if ($this->_passport) {
             return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_passport->id]]);
         }
