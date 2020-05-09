@@ -26,6 +26,7 @@ class AnketaHelper
 
     const SPO_LEVEL = [
         self::SCHOOL_TYPE_SCHOOL_9,
+        self::SCHOOL_TYPE_NPO,
     ];
     const SPO_LEVEL_ONLY_CONTRACT = [
         self::SCHOOL_TYPE_SPO,
@@ -148,6 +149,11 @@ class AnketaHelper
 
     public static function getButton($level, $specialRight = null)
     {
+        $govLineStatus = false;
+        if ((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            $govLineStatus = true;
+        }
+
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
             $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
@@ -158,7 +164,7 @@ class AnketaHelper
         }
 
         return Html::a($anchor, ["applications/"
-            . DictCompetitiveGroupHelper::getUrl($level, $specialRight)],
+            . DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus)],
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
