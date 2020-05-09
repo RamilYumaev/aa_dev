@@ -20,7 +20,6 @@ use yii\grid\ActionColumn;
                         'title',
                         'text:raw',
                         ['class' => ActionColumn::class,
-                            'headerOptions' => ['width' => '100%'],
                             'template' => '{update} {delete}',
                             'buttons' => [
                                 'update' => function ($url, $model) {

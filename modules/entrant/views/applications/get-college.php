@@ -148,7 +148,6 @@ $this->registerJs("
             buttonWrapper.attr('disabled', 'true');
             buttonPlus.removeClass(\"glyphicon-plus\");
             buttonPlus.removeClass(\"glyphicon-minus\");
-
         })
     ", View::POS_READY);
 
