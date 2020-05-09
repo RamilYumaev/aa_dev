@@ -1,5 +1,7 @@
 <?php
 
+use \yii\web\View;
+
 /* @var $model modules\entrant\forms\AnketaForm */
 
 /* @var $form yii\bootstrap\ActiveForm */
@@ -46,6 +48,7 @@ use \modules\entrant\helpers\ProvinceOfChinaHelper;
 $categoryVal = $model->category_id ? 1 : 0;
 $educationVal = $model->current_edu_level ? 1 : 0;
 $govLineCategoryId = \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION;
+
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
 var education = $("#anketaform-current_edu_level");
@@ -76,12 +79,17 @@ var foreignerStatus;
   
   function ajaxReactive(foreignerStatus = 0 , educationLevel = 1, universityChoice = 1)
   {
-    $.ajax({
+    
+      if(!educationLevel)
+          {
+              educationLevel = $model->current_edu_level;
+          }
+      $.ajax({
     url: "/abiturient/anketa/get-category",
     method: "GET",
     dataType: "json",
     async: false,
-    data: {foreignerStatus: foreignerStatus, educationLevel: educationLevel, universityChoice},
+    data: {foreignerStatus: foreignerStatus, educationLevel: educationLevel, universityChoice: universityChoice},
     success: function (groups){
          var cat = groups.result;
          loadedCat = cat;

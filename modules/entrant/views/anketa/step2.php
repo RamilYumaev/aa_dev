@@ -47,12 +47,12 @@ $onlyCse = $anketa->onlyCse();
                             Ваших результатов ЕГЭ</p>";
 
                             if(CseSubjectHelper::minNumberSubject($userId)){
-                                echo "<div>".$cseButton. " ". AnketaHelper::getButton($level)."</div>";
+                                echo "<div>".$cseButton. " ". AnketaHelper::determinateRequiredNumberOfButtons($level)."</div>";
                             }else{
                                 echo $attentionText . " ". "<div>".$cseButton."</div>";
                             }
                         } else {
-                            echo "<div>".AnketaHelper::getButton($level)."</div>";
+                            echo "<div>".AnketaHelper::determinateRequiredNumberOfButtons($level)."</div>";
                         }
 
                         ?>

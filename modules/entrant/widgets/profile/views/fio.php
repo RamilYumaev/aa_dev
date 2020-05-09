@@ -14,11 +14,11 @@ use yii\widgets\DetailView;
             <?php if ($fio) : ?>
                 <?php
                 $columns = [
+                        'surname',
                     'name',
-                    'surname',
                 ];
                 ?>
-                <?php if ($fio->patronymic): ?>
+                <?php if ($fio['patronymic']): ?>
                     <?php array_push($columns, 'patronymic') ?>
                 <?php endif; ?>
                 <?= Html::a('Редактировать', ['fio-latin/index'], ['class' => 'btn btn-primary']) ?>

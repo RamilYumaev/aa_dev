@@ -4,7 +4,10 @@ namespace modules\entrant\helpers;
 
 
 use common\components\JsonAjaxField;
+use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\models\Agreement;
+use modules\entrant\models\OtherDocument;
 use yii\helpers\Html;
 
 class AnketaHelper
@@ -23,6 +26,7 @@ class AnketaHelper
 
     const SPO_LEVEL = [
         self::SCHOOL_TYPE_SCHOOL_9,
+        self::SCHOOL_TYPE_NPO,
     ];
     const SPO_LEVEL_ONLY_CONTRACT = [
         self::SCHOOL_TYPE_SPO,
@@ -68,9 +72,9 @@ class AnketaHelper
         AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
     ];
 
-    const HEAD_UNIVERSITY  = 1;
+    const HEAD_UNIVERSITY = 1;
     const ANAPA_BRANCH = 21; //@TODO нужно будет отвязать от справочника
-    const POKROV_BRANCH  = 24; //@TODO нужно будет отвязать от справочника
+    const POKROV_BRANCH = 24; //@TODO нужно будет отвязать от справочника
     const STAVROPOL_BRANCH = 23; //@TODO нужно будет отвязать от справочника
     const DERBENT_BRANCH = 22; //@TODO нужно будет отвязать от справочника
     const SERGIEV_POSAD_BRANCH = 40; //@TODO нужно будет отвязать от справочника
@@ -101,23 +105,22 @@ class AnketaHelper
     }
 
 
-
     public static function currentEducationLevel()
     {
 
 
-            return [
-                self::SCHOOL_TYPE_SCHOOL_9 => 'Основное общее образование (Аттестат за 9 классов)',
-                self::SCHOOL_TYPE_SCHOOL => 'Среднее общее образование (Аттестат за 11 классов)',
-                self::SCHOOL_TYPE_NPO => 'Начальное профессиональное образование (Диплом НПО)',
-                self::SCHOOL_TYPE_SPO => 'Среднее профессиональное образование (Диплом СПО)',
-                self::SCHOOL_TYPE_BACHELOR => 'Бакалавриат (Диплом бакалавра)',
-                self::SCHOOL_TYPE_SPECIALIST => 'Высшее образование (Диплом специалиста)*',
-                self::SCHOOL_TYPE_MAGISTER => 'Высшее образование (Диплом магистра)',
-                self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
-                self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
-                self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
-            ];
+        return [
+            self::SCHOOL_TYPE_SCHOOL_9 => 'Основное общее образование (Аттестат за 9 классов)',
+            self::SCHOOL_TYPE_SCHOOL => 'Среднее общее образование (Аттестат за 11 классов)',
+            self::SCHOOL_TYPE_NPO => 'Начальное профессиональное образование (Диплом НПО)',
+            self::SCHOOL_TYPE_SPO => 'Среднее профессиональное образование (Диплом СПО)',
+            self::SCHOOL_TYPE_BACHELOR => 'Бакалавриат (Диплом бакалавра)',
+            self::SCHOOL_TYPE_SPECIALIST => 'Высшее образование (Диплом специалиста)*',
+            self::SCHOOL_TYPE_MAGISTER => 'Высшее образование (Диплом магистра)',
+            self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
+            self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
+            self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
+        ];
     }
 
     public static function educationLevelChoice($universityChoice)
@@ -134,10 +137,9 @@ class AnketaHelper
             self::SCHOOL_TYPE_PHD,
             self::SCHOOL_TYPE_DOCTOR_SCIENCES,
         ];
-        if($universityChoice == self::DERBENT_BRANCH
+        if ($universityChoice == self::DERBENT_BRANCH
             || $universityChoice == self::SERGIEV_POSAD_BRANCH
-        || $universityChoice == self::POKROV_BRANCH)
-        {
+            || $universityChoice == self::POKROV_BRANCH) {
             unset($arrayKey[0]);
         }
 
@@ -147,20 +149,60 @@ class AnketaHelper
 
     public static function getButton($level, $specialRight = null)
     {
+        $govLineStatus = false;
+        if ((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            $govLineStatus = true;
+        }
+
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
             $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $anchor = "Особая квота";
 
-        }else{
+        } else {
             $anchor = "Общий конкурс";
         }
 
         return Html::a($anchor, ["applications/"
-            . DictCompetitiveGroupHelper::getUrl($level)],
+            . DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus)],
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
+    public static function determinateRequiredNumberOfButtons($level)
+    {
+        $buttonArray = [];
+        $anketa = \Yii::$app->user->identity->anketa();
+        $userId = \Yii::$app->user->identity->getId();
+        $agreement = Agreement::findOne(['user_id' => $userId,
+            'year' => EduYearHelper::eduYear()]);
+        $specialRightDocument = OtherDocument::find()
+            ->andWhere(["user_id" => $userId])
+            ->andWhere(["in", "type", [33, 44]])
+            ->exists(); //@TODO
+
+        if ($anketa->category_id == CategoryStruct::TARGET_COMPETITION
+            && $agreement
+            && $level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
+            $buttonArray[] = DictCompetitiveGroupHelper::TARGET_PLACE;
+        }
+        if ($anketa->category_id == CategoryStruct::SPECIAL_RIGHT_COMPETITION && $specialRightDocument
+            && $level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) {
+            $buttonArray[] = DictCompetitiveGroupHelper::SPECIAL_RIGHT;
+        }
+
+        $result = "";
+        if (count($buttonArray)) {
+            foreach ($buttonArray as $button) {
+                $result .= self::getButton($level, $button) . "<br/>";
+            }
+        }
+
+        $result .= self::getButton($level);
+
+        return $result;
+
+
+    }
 
 
 }

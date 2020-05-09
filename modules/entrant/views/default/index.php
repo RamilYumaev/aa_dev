@@ -6,14 +6,18 @@ $this->title = 'Заполнение персональной карточки �
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$anketa = Yii::$app->user->identity->anketa();
 ?>
 <div class="container m-20">
     <div class="mt-20">
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(); ?>
     </div>
+    <?php if(!$anketa->isRussia()): ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(); ?>
     </div>
+    <?php endif; ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\address\AddressWidget::widget(); ?>
     </div>
@@ -23,17 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="mt-20">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(); ?>
     </div>
-    <?php if(\Yii::$app->user->identity->anketa()->isAgreement()): ?>
+    <?php if($anketa->isAgreement()): ?>
         <div class="mt-20">
         <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(); ?>
         </div>
     <?php endif; ?>
-    <?php if(\Yii::$app->user->identity->anketa()->isPatriot()): ?>
+    <?php if($anketa->isPatriot()): ?>
         <div class="mt-20">
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(); ?>
         </div>
     <?php endif; ?>
-    <?php if(\Yii::$app->user->identity->anketa()->isExemption()): ?>
+    <?php if($anketa->isExemption()): ?>
         <div class="mt-20">
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['type'=> 'exemption']); ?>
         </div>
@@ -53,7 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="mt-20">
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(); ?>
     </div>
-
     <?php if(\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser(Yii::$app->user->identity->getId())
         && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists(Yii::$app->user->identity->getId())): ?>
     <div class="mt-20">

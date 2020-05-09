@@ -122,9 +122,44 @@ class ApplicationsController extends Controller
         ]);
     }
 
+    public function actionGetGovLineBachelor()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $currentFaculty = $this->unversityChoiceForController();
+
+        return $this->render('get-gov-line', [
+            'currentFaculty' => $currentFaculty,
+            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+        ]);
+
+    }
+
+    public function actionGetGovLineMagistracy()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        $currentFaculty = $this->unversityChoiceForController();
+
+        return $this->render('get-gov-line', [
+            'currentFaculty' => $currentFaculty,
+            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+        ]);
+
+    }
+
+    public function actionGetGovLineGraduate()
+    {
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        $currentFaculty = $this->unversityChoiceForController();
+
+        return $this->render('get-gov-line', [
+            'currentFaculty' => $currentFaculty,
+            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
+        ]);
+
+    }
+
     public function actionSaveCg($id)
     {
-
         try {
             $cg = $this->repositoryCg->get($id);
             DictCompetitiveGroupHelper::noMore3Specialty($cg);
@@ -134,7 +169,7 @@ class ApplicationsController extends Controller
             $userCg = UserCg::create($cg->id);
             $this->repository->save($userCg);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level, $cg->special_right_id);
+                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
@@ -142,14 +177,19 @@ class ApplicationsController extends Controller
         }
 
         return $this->redirect("/abiturient/applications/"
-            . DictCompetitiveGroupHelper::getUrl($cg->edu_level));
+            . DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
 
     }
 
-    protected function renderList($level, $specialRight = null)
+    protected function renderList($level, $specialRight, $govLineStatus)
     {
 
         $currentFacultyBase = $this->universityChoiceBase();
+
+        if($govLineStatus)
+        {
+            $currentFaculty = $currentFacultyBase->getGovLineCg()->column();
+        }
 
         if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();
@@ -158,10 +198,9 @@ class ApplicationsController extends Controller
         } else {
             $currentFaculty = $currentFacultyBase->column();
         }
-
-        $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight);
+        $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
-        return $this->$method($url, [
+        return $this->$method($url,[
             'currentFaculty' => array_unique($currentFaculty),
         ]);
     }
@@ -173,13 +212,13 @@ class ApplicationsController extends Controller
             $cg = $this->repositoryCg->get($id);
             $this->repository->remove($userCg);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level, $cg->special_right_id);
+                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
             \Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level));
+        return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
     }
 
     private function permittedLevelChecked($level)

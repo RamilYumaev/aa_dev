@@ -2,6 +2,7 @@
 
 namespace modules\entrant;
 
+use frontend\components\UserNoEmail;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
@@ -22,6 +23,11 @@ class Entrant extends Module
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoEmail())->redirect();
     }
 
 }

@@ -65,6 +65,20 @@ class DictSchools extends YiiActiveRecordAndModeration
         $this->dict_school_report_id = $id;
     }
 
+    public function getCountry()
+    {
+        return $this->hasOne(Country::class, ['id' => 'country_id']);
+    }
+
+    public function getCountryRegion() {
+        return $this->country_id == DictCountryHelper::RUSSIA  ?  $this->country->name.", ". $this->region->name :  $this->country->name;
+    }
+
+    public function getRegion()
+    {
+        return $this->hasOne(Region::class, ['id' => 'region_id']);
+    }
+
     public function schoolRelation($id) {
         return self::find()->where(['id' => $id]);
     }

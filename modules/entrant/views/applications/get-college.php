@@ -150,7 +150,6 @@ $this->registerJs("
             buttonPlus.removeClass(\"glyphicon-minus\");
         })
     ", View::POS_READY);
-
 ?>
 
 <?php

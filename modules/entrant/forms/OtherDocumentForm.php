@@ -17,14 +17,16 @@ class OtherDocumentForm extends Model
     private $_otherDocument;
 
     public $isExemption;
+    public $isAjax;
 
-    public function __construct(OtherDocument $otherDocument = null,
+    public function __construct($ajax = false, OtherDocument $otherDocument = null,
                                 $exemption = false,
                                 $arrayRequired = [],
                                 $typesDocument = [],
                                 $config = [])
     {
         $this->isExemption = $exemption;
+        $this->isAjax = $ajax;
         $this->typesDocument = $typesDocument;
         $this->arrayRequired = $arrayRequired;
         if($otherDocument){
