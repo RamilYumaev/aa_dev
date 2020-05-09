@@ -184,7 +184,7 @@ class DictCompetitiveGroupHelper
             . " / " . $budget;
     }
 
-    public static function getUrl($level, $specialRight = null)
+    public static function getUrl($level, $specialRight, $govLineStatus)
     {
 
         if ($specialRight) {
@@ -202,7 +202,25 @@ class DictCompetitiveGroupHelper
                     }
                     break;
             }
-        } else {
+        } else if($govLineStatus)
+        {
+            switch ($level) {
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
+                    $url = "get-gov-line-bachelor";
+                    break;
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
+                    $url = "get-gov-line-magistracy";
+                    break;
+                case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
+                    $url = "get-gov-line-graduate";
+                    break;
+
+                default :
+                    $url = "#";
+
+            }
+        }
+        else {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
                     $url = "get-college";

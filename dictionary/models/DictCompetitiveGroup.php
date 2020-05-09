@@ -306,4 +306,9 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $budget;
     }
 
+    public function isGovLineCg()
+    {
+        return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET && $this->foreigner_status;
+    }
+
 }

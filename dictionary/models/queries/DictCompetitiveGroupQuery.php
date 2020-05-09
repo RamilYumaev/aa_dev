@@ -51,6 +51,12 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['year' => $year])->all();
     }
 
+    public function getGovLineCg()
+    {
+        return $this->budgetOnly()
+            ->andWhere(["foreigner_status"=>1]);
+    }
+
     public function faculty($facultyId)
     {
         return $this->andWhere(['faculty_id' => $facultyId]);
@@ -130,6 +136,12 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);
     }
 
+    public function budgetOnly()
+    {
+        return $this->andWhere(
+        ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
+    }
+
     public function finance($financeId)
     {
         return $this->andWhere(
@@ -146,7 +158,6 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('examinations');
     }
 
-
     public function specialRightCel()
     {
         return $this->andWhere(
@@ -157,7 +168,6 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['special_right_id' => $specialRight]);
     }
-
 
     public function currentYear($year)
     {
