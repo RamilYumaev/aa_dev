@@ -117,7 +117,8 @@ class Anketa extends ActiveRecord
         $result = [];
         if (in_array($this->current_edu_level, array_merge(
             AnketaHelper::SPO_LEVEL,
-            AnketaHelper::SPO_LEVEL_ONLY_CONTRACT))) {
+            AnketaHelper::SPO_LEVEL_ONLY_CONTRACT))
+            && $this->category_id !== CategoryStruct::GOV_LINE_COMPETITION) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
         }
         if (in_array($this->current_edu_level, array_merge(
@@ -200,6 +201,9 @@ class Anketa extends ActiveRecord
 
     public function onlyContract($educationLevel)
     {
+
+        $govLine = $this->category_id === CategoryStruct::GOV_LINE_COMPETITION;
+
         switch ($educationLevel) {
             case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
             {
@@ -208,17 +212,20 @@ class Anketa extends ActiveRecord
             }
             case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
             {
-                return in_array($this->current_edu_level, AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT);
+                return in_array($this->current_edu_level, AnketaHelper::BACHELOR_LEVEL_ONLY_CONTRACT)
+                    && !$govLine;
 
             }
             case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
             {
-                return in_array($this->current_edu_level, AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT);
+                return in_array($this->current_edu_level, AnketaHelper::MAGISTRACY_LEVEL_ONLY_CONTRACT)
+                    && !$govLine;
 
             }
             case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
             {
-                return in_array($this->current_edu_level, AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT);
+                return in_array($this->current_edu_level, AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT)
+                    && !$govLine;
 
             }
         }

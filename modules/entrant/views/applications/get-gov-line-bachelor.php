@@ -2,7 +2,7 @@
 
 /**
  * @var $currentFaculty;
- * @var $educationLevel;
+
  */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -12,7 +12,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Pjax;
 
-$this->title = "Выбор образовательных программ для иностранных граждан поступающих по гослинии";
+$this->title = "Образовательные программы для иностранных граждан поступающих по гослинии";
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
@@ -23,9 +23,9 @@ $result = "";
 foreach ($currentFaculty as $faculty) {
 
     $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel($educationLevel)
+        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->budgetOnly()
-        ->foreignerStatus(true)
+        ->foreignerStatus(1)
         ->currentAutoYear()
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
@@ -72,20 +72,25 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</tr>";
         }
 
+    }else{
+        continue;
     }
+    $result .= "</table>";
 }
 
 ?>
     <?php Pjax::begin(['id' => 'get-gov-line-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
     <div class="row">
         <div class="col-md-1 mt-10">
-            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-lg ml-50 btn-warning position-fixed"]); ?>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
+                ["anketa/step2"], ["class" => "btn btn-lg ml-50 btn-warning position-fixed"]); ?>
         </div>
         <div class="col-md-1 col-md-offset-11">
-            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]),
+                ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
         </div>
     </div>
-    <h2 class="text-center"><?= $this->title ?></h2>
+    <h2 class="text-center mt-50"><?= $this->title ?></h2>
     <div class="container">
         <?= $result ?>
     </div>

@@ -20,8 +20,7 @@ class ApplicationsController extends Controller
 
     public function __construct($id, $module,
                                 UserCgRepository $repository,
-                                DictCompetitiveGroupRepository
-                                $repositoryCg, $config = [])
+                                DictCompetitiveGroupRepository $repositoryCg, $config = [])
     {
         parent::__construct($id, $module, $config);
 
@@ -127,9 +126,8 @@ class ApplicationsController extends Controller
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $currentFaculty = $this->unversityChoiceForController();
 
-        return $this->render('get-gov-line', [
+        return $this->render('get-gov-line-bachelor', [
             'currentFaculty' => $currentFaculty,
-            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
         ]);
 
     }
@@ -138,10 +136,11 @@ class ApplicationsController extends Controller
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
         $currentFaculty = $this->unversityChoiceForController();
+        $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
 
-        return $this->render('get-gov-line', [
+        return $this->render('get-gov-line-magistracy', [
             'currentFaculty' => $currentFaculty,
-            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+            'educationLevel' => $educationLevel,
         ]);
 
     }
@@ -150,10 +149,11 @@ class ApplicationsController extends Controller
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
         $currentFaculty = $this->unversityChoiceForController();
+        $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
 
-        return $this->render('get-gov-line', [
+        return $this->render('get-gov-line-graduate', [
             'currentFaculty' => $currentFaculty,
-            'educationLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
+            'educationLevel' => $educationLevel,
         ]);
 
     }
@@ -186,21 +186,18 @@ class ApplicationsController extends Controller
 
         $currentFacultyBase = $this->universityChoiceBase();
 
-        if($govLineStatus)
-        {
-            $currentFaculty = $currentFacultyBase->getGovLineCg()->column();
-        }
-
         if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();
         } elseif ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
             $currentFaculty = $currentFacultyBase->onlyTarget()->column();
+        } else if ($govLineStatus) {
+            $currentFaculty = $currentFacultyBase->getGovLineCg()->column();
         } else {
             $currentFaculty = $currentFacultyBase->column();
         }
         $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
-        return $this->$method($url,[
+        return $this->$method($url, [
             'currentFaculty' => array_unique($currentFaculty),
         ]);
     }
@@ -233,12 +230,11 @@ class ApplicationsController extends Controller
 
     private function universityChoiceBase()
     {
-        if($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY)
-        {
-           $model =  DictCompetitiveGroup::find()
+        if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
+            $model = DictCompetitiveGroup::find()
                 ->allActualFacultyWithoutBranch();
-        }else{
-            $model =  DictCompetitiveGroup::find()
+        } else {
+            $model = DictCompetitiveGroup::find()
                 ->branch($this->anketa->university_choice);
         }
 
@@ -248,11 +244,10 @@ class ApplicationsController extends Controller
 
     private function unversityChoiceForController()
     {
-        if($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY)
-        {
+        if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
             $currentFaculty = array_unique(DictCompetitiveGroup::find()
                 ->allActualFacultyWithoutBranch()->column());
-        }else{
+        } else {
             $currentFaculty = array_unique(DictCompetitiveGroup::find()
                 ->branch($this->anketa->university_choice)->column());
         }
