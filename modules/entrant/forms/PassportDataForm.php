@@ -58,7 +58,7 @@ class PassportDataForm extends Model
     public function uniqueRules()
     {
         $arrayUnique = [['type',], 'unique', 'targetClass' => PassportData::class,
-            'targetAttribute' => ['type',  'series', 'user_id','number',]];
+            'targetAttribute' => ['type',  'series','number',]];
         if ($this->_passport) {
             return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_passport->id]]);
         }

@@ -18,9 +18,11 @@ $anketa = Yii::$app->user->identity->anketa();
         <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(); ?>
     </div>
     <?php endif; ?>
+    <?php if(!$anketa->isAddressNoRequired()): ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\address\AddressWidget::widget(); ?>
     </div>
+    <?php endif; ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(); ?>
     </div>
@@ -47,6 +49,9 @@ $anketa = Yii::$app->user->identity->anketa();
     </div>
     <div class="mt-20">
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
+    </div>
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(); ?>
     </div>
     <div class="mt-20">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>

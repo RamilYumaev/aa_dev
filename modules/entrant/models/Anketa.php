@@ -83,10 +83,15 @@ class Anketa extends ActiveRecord
         return $this->citizenship_id == DictCountryHelper::RUSSIA;
     }
 
-//    public function titleModeration(): string
-//    {
-//        return "Анкета";
-//    }
+    public function isWithOitCompetition()  {
+        return $this->category_id == CategoryStruct::WITHOUT_COMPETITION;
+    }
+
+    public function isAddressNoRequired()
+    {
+        return in_array($this->category_id, CategoryStruct::UMSGroup());
+    }
+
 
     public function attributeLabels()
     {
@@ -233,6 +238,13 @@ class Anketa extends ActiveRecord
     public static function find()
     {
         return new AnketaQuery(static::class);
+    }
+
+    public function dataArray() {
+        return [
+            'addressNoRequired' => $this->isAddressNoRequired(),
+            'withOitCompetition'=> $this->isWithOitCompetition(),
+            'currentEduLevel' =>  AnketaHelper::currentEducationLevel()[$this->current_edu_level]];
     }
 
 //    public function getCategory()

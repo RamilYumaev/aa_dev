@@ -7,6 +7,7 @@ use common\components\JsonAjaxField;
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\OtherDocument;
 use yii\helpers\Html;
 
@@ -146,6 +147,10 @@ class AnketaHelper
         return JsonAjaxField::data($arrayKey, self::currentEducationLevel());
     }
 
+    public static function dataArray($userId)
+    {
+        return Anketa::findOne(['user_id' => $userId])->dataArray();
+    }
 
     public static function getButton($level, $specialRight = null)
     {

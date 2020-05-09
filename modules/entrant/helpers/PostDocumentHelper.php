@@ -55,7 +55,7 @@ class PostDocumentHelper
     private static function common($user_id)
     {
         return UserCgHelper::findUser($user_id) &&
-            AddressHelper::isExits($user_id) &&
+            self::addressRequired($user_id) &&
             PassportDataHelper::isExits($user_id) &&
             LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
@@ -74,6 +74,10 @@ class PostDocumentHelper
     private static function agreement($user_id)
     {
         return AgreementHelper::isExits($user_id) && self::common($user_id);
+    }
+
+    private static function  addressRequired($user_id) {
+        return self::userAnketa()->isAddressNoRequired() ? true  : AddressHelper::isExits($user_id);
     }
 
     private static function fioLatin($user_id)

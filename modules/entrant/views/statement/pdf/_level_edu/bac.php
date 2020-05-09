@@ -1,9 +1,17 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $gender string */
+/* @var $anketa array */
 
+/* @var $statement modules\entrant\models\Statement */
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\AdditionalInformationHelper;
 use modules\entrant\helpers\ItemsForSignatureApp;
+use modules\entrant\helpers\LanguageHelper;
+use modules\entrant\helpers\PreemptiveRightHelper;
 
-/* @var $userCg array */
+$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 
 $fontFamily = "font-family: 'Times New Roman';";
 $fontSize = "font-size: 10px;";
@@ -16,6 +24,13 @@ $verticalAlign = "vertical-align: middle;";
 $verticalAlignTop = "vertical-align: top;";
 $generalStyle = $borderStyle . " " . $verticalAlign;
 
+$cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);
+$noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
+$language = LanguageHelper::all($statement->user_id);
+$information = AdditionalInformationHelper::dataArray($statement->user_id);
+$prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
+
+$och = false;
 ?>
 
 <table class="table table-bordered" style="<?= $fontFamily ?> <?= $fontSize ?> <?= $borderCollapse ?>">
@@ -33,7 +48,7 @@ $generalStyle = $borderStyle . " " . $verticalAlign;
         <th style="<?= $generalStyle ?>">Федеральный бюджет</th>
         <th style="<?= $generalStyle ?>">Платное обучение</th>
     </tr>
-    <?php foreach ($userCg as $key => $value) : ?>
+    <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
         <tr>
             <td width="4%" style="<?= $generalStyle ?>"><?= ++$key ?>.</td>
             <td width="30%" style="<?= $generalStyle ?>"><?= $value["speciality"] ?></td>
@@ -47,36 +62,43 @@ $generalStyle = $borderStyle . " " . $verticalAlign;
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php if($cse): ?>
 <p style="<?= $fontFamily . " " . $fontSize ?>">
-    Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: Русский язык - 60 балла(-ов),
-    Обществознание - 50 балла(-ов), Иностранный язык - английский - 70 балла(-ов), История – 70 балла(-ов).
+    Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
 </p>
+<?php endif; ?>
+<?php if($noCse): ?>
 <p style="<?= $fontFamily . " " . $fontSize ?>">
-    Прошу допустить меня к вступительным испытаниям по следующим предметам: История.<br/>
-    Основание для допуска к сдаче вступительных испытаний: диплом среднего профессионального образования.
+    Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
+    Основание для допуска к сдаче вступительных испытаний: <?= $anketa['currentEduLevel'] ?>.
 </p>
+<?php endif; ?>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 
 <table style="<?= $fontFamily . " " . $fontSize . " " . $verticalAlignTop ?>">
     <tr>
-        <td>
-            В общежитии: Не нуждаюсь<br/>
-            Изучил(а) иностранные языки: Английский<br/>
-            Сведения о наличии особых прав для поступающих на программы бакалавриата Не имею <br/>
+        <td> <?php if ($och): ?>
+            В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
+            <?php endif; ?>
+            Изучил(а) иностранные языки: <?= $language ?><br/>
+            Сведения о наличии особых прав для поступающих на программы бакалавриата <?= $anketa['withOitCompetition'] ? "Имею": "Не имею"?> <br/>
             Имею преимущественное право при зачислении:<br/>
         </td>
-        <td>Пол: Мужской</td>
+        <td>Пол: <?= $gender ?></td>
     </tr>
 </table>
 <table width="100%" style="<?= $fontFamily . " " . $fontSize ?>">
     <tr>
         <td></td>
-        <td style="<?= $borderStyle ?>" width="30px" height="15px"></td>
+        <td style="<?= $borderStyle ?>" <?= $alignCenter ?> width="30px" height="15px"><?= $prRight ? "X": "" ?></td>
         <td width="100px">Имею</td>
-        <td style="<?= $borderStyle . " " . $verticalAlign ?>" <?= $alignCenter ?> width="30px" height="15px">X</td>
+        <td style="<?= $borderStyle . " " . $verticalAlign ?>" <?= $alignCenter ?> width="30px" height="15px"><?= !$prRight ? "X": "" ?></td>
         <td>Не имею</td>
     </tr>
 </table>
+<?php if($prRight) :?>
+<p style="text-decoration: underline; width: 100%"> на основании: <?= $prRight ?></p>
+<?php endif; ?>
 <p style="<?= $fontFamily . " " . $fontSize ?> margin: 20px 0" <?= $alignCenter ?>><strong>Примечания:</strong></p>
 
 <p align="justify" style="<?= $fontFamily . " " . $fontSize ?>">
@@ -88,9 +110,10 @@ $generalStyle = $borderStyle . " " . $verticalAlign;
 </p>
 
 <?php
-
 $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
-
+if(!$och) {
+    unset($signaturePoint[9]);
+}
 foreach ($signaturePoint as $signature) :?>
 
     <p style="margin: 10px 0"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
@@ -98,11 +121,9 @@ foreach ($signaturePoint as $signature) :?>
         <table width="100%" style="<?= $fontFamily . " " . $fontSize ?>">
             <tr>
                 <td></td>
-                <td style="<?= $borderStyle ?>" width="30px" height="15px"></td>
+                <td style="<?= $borderStyle ?>" <?= $alignCenter ?> width="30px" height="15px"><?= $information['voz'] ? "X" : "" ?></td>
                 <td width="100px">Нуждаюсь</td>
-                <td style="<?= $borderStyle . " " . $verticalAlign ?>" <?= $alignCenter ?> width="30px" height="15px">
-                    X
-                </td>
+                <td style="<?= $borderStyle . " " . $verticalAlign ?>" <?= $alignCenter ?> width="30px" height="15px"><?= !$information['voz'] ? "X" : "" ?></td>
                 <td>Не нуждаюсь</td>
             </tr>
         </table>
