@@ -1,12 +1,13 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $gender string */
+/* @var $anketa array */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\FileCgHelper;
 
 /* @var $statement modules\entrant\models\Statement */
 
-$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 ?>
 
 <div style="font-family: 'Times New Roman'; margin-top: 25px; font-size: 9px">
@@ -15,17 +16,17 @@ $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $sta
             бакалавриата Института филологии:</strong></p>
     <div class="row ">
     <?php if($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO && !$statement->special_right): ?>
-            <?= $this->render('_level_edu/spo',['userCg'=> $userCg]) ?>
+            <?= $this->render('_level_edu/spo',['statement' => $statement, 'gender' => $gender,  'anketa'=>$anketa]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER && !$statement->special_right): ?>
-             <?= $this->render('_level_edu/mag',['userCg'=> $userCg]) ?>
+             <?= $this->render('_level_edu/mag',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && !$statement->special_right): ?>
-             <?= $this->render('_level_edu/bac',['userCg'=> $userCg]) ?>
+             <?= $this->render('_level_edu/bac',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $statement->special_right==DictCompetitiveGroupHelper::SPECIAL_RIGHT):?>
-             <?= $this->render('_level_edu/bac_ex',['userCg'=> $userCg]) ?>
+             <?= $this->render('_level_edu/bac_ex',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa ]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $statement->special_right==DictCompetitiveGroupHelper::TARGET_PLACE): ?>
-             <?= $this->render('_level_edu/bac_ag',['userCg'=> $userCg]) ?>
+             <?= $this->render('_level_edu/bac_ag',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
         <?php else: ?>
-            <?= $this->render('_level_edu/asp',['userCg'=> $userCg]) ?>
+            <?= $this->render('_level_edu/asp',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
     <?php endif; ?>
 </div>
 

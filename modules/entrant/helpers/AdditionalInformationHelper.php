@@ -1,8 +1,6 @@
 <?php
 namespace modules\entrant\helpers;
-use common\helpers\EduYearHelper;
 use modules\entrant\models\AdditionalInformation;
-use modules\entrant\models\Agreement;
 
 class AdditionalInformationHelper
 {
@@ -10,4 +8,10 @@ class AdditionalInformationHelper
     {
         return AdditionalInformation::find()->andWhere(['user_id' => $user_id])->exists();
     }
+
+    public static function dataArray($userId)
+    {
+        return AdditionalInformation::findOne(['user_id' => $userId])->dataArray();
+    }
+
 }

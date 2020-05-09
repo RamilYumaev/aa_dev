@@ -68,4 +68,12 @@ class AdditionalInformation extends ActiveRecord
        return DictDefaultHelper::name($this->voz_id);
     }
 
+    public function dataArray(): array
+    {
+        return  [
+            'voz' => $this->voz_id,
+            'hostel' => $this->hostel_id,
+        ];
+    }
+
 }

@@ -29,7 +29,7 @@ class PreemptiveRight extends ActiveRecord
     }
 
     public function getOtherDocument() {
-        $this->hasOne(OtherDocument::class, ['id'=>'other_id']);
+        return $this->hasOne(OtherDocument::class, ['id'=>'other_id']);
     }
 
     public function getType() {
