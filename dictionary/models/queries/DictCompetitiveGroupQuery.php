@@ -84,7 +84,8 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         $anketa = \Yii::$app->user->identity->anketa();
         if ($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
-            $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION
+        ) {
             return $this->andWhere(['foreigner_status' => 1]);
         }
         return $this->andWhere(['foreigner_status' => 0]);

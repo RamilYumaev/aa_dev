@@ -70,10 +70,16 @@ class UserCgHelper
 
     public static function trColor(DictCompetitiveGroup $cgContract): String
     {
+
+
         $budgetCg = DictCompetitiveGroup::find()->findBudgetAnalog($cgContract)->one();
 
         $userWarning = UserCg::find()->findUserAndCg($cgContract->id)->exists();
 
+        if($cgContract->isGovLineCg() && $userWarning)
+        {
+            return " class=\"success\" ";
+        }
 
         if ($budgetCg !== null) {
 
