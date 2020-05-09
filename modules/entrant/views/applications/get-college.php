@@ -148,13 +148,8 @@ $this->registerJs("
             buttonWrapper.attr('disabled', 'true');
             buttonPlus.removeClass(\"glyphicon-plus\");
             buttonPlus.removeClass(\"glyphicon-minus\");
-
-        }),
-        $('[data-toggle=\"collapse\"]').on('click', function () {
-        $(this).children('span').toggleClass('glyphicon-search glyphicon-remove');
-        });
+        })
     ", View::POS_READY);
-
 ?>
 
 <?php
