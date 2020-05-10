@@ -107,9 +107,16 @@ class StatementController extends Controller
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
+            'marginLeft' => 25,
+            'marginRight' => 15,
+            'marginTop' => 15,
+            'marginBottom' => 15,
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.css',
+           // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.css',
+            'cssFile' => '@frontend/web/css/pdf-documents.css',
+            'defaultFont' => 'Times New Roman',
+            'defaultFontSize'=> 8, //pt
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly

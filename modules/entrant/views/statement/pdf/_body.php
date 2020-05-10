@@ -10,10 +10,10 @@ use modules\entrant\helpers\FileCgHelper;
 
 ?>
 
-<div style="font-family: 'Times New Roman'; margin-top: 25px; font-size: 9px">
-    <h6 align="center"><strong>ЗАЯВЛЕНИЕ №</strong><?= $statement->numberStatement ?></h6>
+<div class="mt-25">
+    <p align="center"><strong>ЗАЯВЛЕНИЕ №</strong><?= $statement->numberStatement ?></p>
     <p align="justify"><strong>Прошу допустить меня к участию в конкурсе на следующие основные образовательные программы
-            бакалавриата Института филологии:</strong></p>
+            бакалавриата <?=$statement->faculty->genitive_name?>:</strong></p>
     <div class="row ">
     <?php if($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO && !$statement->special_right): ?>
             <?= $this->render('_level_edu/spo',['statement' => $statement, 'gender' => $gender,  'anketa'=>$anketa]) ?>
