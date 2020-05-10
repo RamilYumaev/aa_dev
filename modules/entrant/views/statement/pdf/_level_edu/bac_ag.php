@@ -2,6 +2,9 @@
 /* @var $this yii\web\View */
 
 /* @var $userCg array */
+/* @var $statement modules\entrant\models\Statement */
+
+$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 
 $fontFamily = "font-family: 'Times New Roman';";
 $fontSize = "font-size: 9px;";
@@ -11,7 +14,8 @@ $borderCollapse = "border-collapse: collapse;";
 $alignCenter = "align=\"center\"";
 $verticalAlign = "vertical-align: middle";
 $generalStyle = $borderStyle;
-?>
+
+use modules\entrant\helpers\FileCgHelper; ?>
 
 <table class="table table-bordered" style="<?=$fontFamily?> <?=$fontSize?> <?=$borderCollapse?>">
     <tbody>
