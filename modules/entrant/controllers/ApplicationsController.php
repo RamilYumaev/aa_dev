@@ -162,6 +162,7 @@ class ApplicationsController extends Controller
     {
         try {
             $cg = $this->repositoryCg->get($id);
+            DictCompetitiveGroupHelper::oneProgramGovLineChecker($cg);
             DictCompetitiveGroupHelper::noMore3Specialty($cg);
             DictCompetitiveGroupHelper::isAvailableCg($cg);
             DictCompetitiveGroupHelper::budgetChecker($cg);
