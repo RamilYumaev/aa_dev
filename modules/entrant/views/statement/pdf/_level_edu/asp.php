@@ -1,7 +1,13 @@
 <?php
 /* @var $this yii\web\View */
 
+use modules\entrant\helpers\FileCgHelper;
+
 /* @var $userCg array */
+
+/* @var $statement modules\entrant\models\Statement */
+
+$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 ?>
 
         <table class="table table-bordered" style="font-family: 'Times New Roman'; font-size: 9px">
