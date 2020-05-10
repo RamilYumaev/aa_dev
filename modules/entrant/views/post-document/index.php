@@ -9,9 +9,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Определение услов�
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$anketa = Yii::$app->user->identity->anketa();
 ?>
 <div class="container m-20">
 
 <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget();?>
+
+<?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget();?>
+
+<?= \modules\entrant\widgets\passport\PassportFileWidget::widget();?>
+
+<?php if($anketa->isAgreement()): ?>
+    <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view'=>'file']); ?>
+<?php endif; ?>
+
+<?php if(!$anketa->isRussia()): ?>
+<?= \modules\entrant\widgets\address\AddressFileWidget::widget();?>
+<?php endif; ?>
+
+<?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget();?>
 
 </div>

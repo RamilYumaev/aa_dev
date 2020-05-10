@@ -80,6 +80,16 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_EDUCATION, $this->type);
     }
 
+    public function getDocumentFull(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'type', 'id', 'school_id','original']) as  $key => $value) {
+            if($value) {
+                $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
     public function getSchool() {
         return $this->hasOne(DictSchools::class,['id'=>'school_id']);
     }
