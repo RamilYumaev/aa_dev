@@ -124,6 +124,7 @@ class ApplicationsController extends Controller
     public function actionGetGovLineBachelor()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController();
 
         return $this->render('get-gov-line-bachelor', [
@@ -135,6 +136,7 @@ class ApplicationsController extends Controller
     public function actionGetGovLineMagistracy()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController();
         $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
 
@@ -148,6 +150,7 @@ class ApplicationsController extends Controller
     public function actionGetGovLineGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController();
         $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
 
@@ -254,6 +257,18 @@ class ApplicationsController extends Controller
         }
         return $currentFaculty;
 
+    }
+
+    private function isGovLineControl()
+    {
+
+        if(!$this->anketa->isGovLineIncoming())
+        {
+            Yii::$app->session
+                ->setFlash("error", "Ваши анкетные данные не соответствуют данным образовательным программам");
+            Yii::$app->getResponse()->redirect(['/abiturient/anketa/step1']);
+            Yii::$app->end();
+        }
     }
 
 

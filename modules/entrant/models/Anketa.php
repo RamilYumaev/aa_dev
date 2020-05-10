@@ -83,13 +83,19 @@ class Anketa extends ActiveRecord
         return $this->citizenship_id == DictCountryHelper::RUSSIA;
     }
 
-    public function isWithOitCompetition()  {
+    public function isWithOitCompetition() {
         return $this->category_id == CategoryStruct::WITHOUT_COMPETITION;
     }
 
     public function isAddressNoRequired()
     {
         return in_array($this->category_id, CategoryStruct::UMSGroup());
+    }
+
+    public function isGovLineIncoming()
+    {
+        return $this->category_id == CategoryStruct::GOV_LINE_COMPETITION
+            && $this->citizenship_id !== DictCountryHelper::RUSSIA;
     }
 
 

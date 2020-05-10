@@ -17,10 +17,10 @@ $education = DocumentEducationHelper::dataArray($user_id)
 
 ?>
 
-<table width="100%" style="font-family: 'Times New Roman'; font-size: 9px">
+<table width="100%">
     <tr>
         <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
-        <td valign="top" align="right"><p><strong>Ректору<br/>
+        <td class="v-align-center text-right fs-10"><p><strong>Ректору<br/>
                     федерального государственного бюджетного образовательного учреждения высшего образования<br/>
                     «Московский педагогический государственный университет»<br/>
                     А.В.Лубкову
@@ -28,7 +28,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
     </tr>
 </table>
 
-<table width="100%" style="font-family: 'Times New Roman'; font-size: 10px; margin-top: 10px">
+<table width="100%" class="mt-10">
     <tr>
         <td width="50%">Фамилия: <?= $profile['last_name'] ?><br/><br/>Имя: <?= $profile['first_name'] ?></td>
         <td><?=$profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
@@ -61,7 +61,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
         <td colspan="2">
             <br/><br/>
             <?=$profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
-                ? "окончившего" : "окончившей"?> <?= $education['year']." году ".$education['school_id']." <strong>"
+                ? "окончившего в " : "окончившей"?> <?= $education['year']." году ".$education['school_id']." <strong>"
             .$education['series']." ".$education['number']."</strong>"." (".$education['schoolCountyRegion'].")"?>
         </td>
     </tr>
