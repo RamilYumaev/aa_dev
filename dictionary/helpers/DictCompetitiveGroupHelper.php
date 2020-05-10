@@ -58,6 +58,14 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_MAGISTER => 'Магистратура', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'Аспирантура'];
     }
 
+    public static function getEduLevelsGenitiveName(): array
+    {
+        return [self::EDUCATION_LEVEL_SPO => 'среднего профессионального образования',
+            self::EDUCATION_LEVEL_BACHELOR => 'бакалавриата',
+            self::EDUCATION_LEVEL_MAGISTER => 'магистратуры', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'аспирантуры'];
+    }
+
+
     public static function getEduLevelsAbbreviated(): array
     {
         return [self::EDUCATION_LEVEL_SPO => 'СПО', self::EDUCATION_LEVEL_BACHELOR => 'БАК',
@@ -74,6 +82,11 @@ class DictCompetitiveGroupHelper
     public static function getEduLevelsAbbreviatedShortOne($key): string
     {
         return self::getEduLevelsAbbreviatedShort()[$key];
+    }
+
+    public static function getEduLevelsGenitiveNameOne($key): string
+    {
+        return self::getEduLevelsGenitiveNameOne()[$key];
     }
 
     public static function getSpecialRightShort(): array
