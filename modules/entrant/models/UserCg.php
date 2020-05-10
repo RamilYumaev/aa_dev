@@ -33,24 +33,31 @@ class UserCg extends ActiveRecord
         return $model;
     }
 
-    public static function find() : UserCgQuery
+    public static function find(): UserCgQuery
     {
         return new UserCgQuery(static::class);
     }
 
 
-    public function getCg() {
-        return $this->hasOne(DictCompetitiveGroup::class,['id' => 'cg_id']);
+    public function getCg()
+    {
+        return $this->hasOne(DictCompetitiveGroup::class, ['id' => 'cg_id']);
     }
 
-    public function isMedicine() {
-        return $this->getCg()->where(['enquiry_086_u_status'=>true])->exists();
+    public function isMedicine()
+    {
+        return $this->getCg()->where(['enquiry_086_u_status' => true])->exists();
     }
 
 
     public function attributeLabels()
     {
-        return ['cg_id'=> "Образовательные программы"];
+        return ['cg_id' => "Образовательные программы"];
+    }
+
+    public function getCompetitiveGroup()
+    {
+        return $this->hasOne(DictCompetitiveGroup::class, ["id" => "cg_id"]);
     }
 
 }

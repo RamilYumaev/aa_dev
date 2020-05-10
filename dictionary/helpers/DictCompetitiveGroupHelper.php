@@ -7,6 +7,7 @@ namespace dictionary\helpers;
 use common\helpers\EduYearHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
+use dictionary\models\DictSpeciality;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\CseViSelectHelper;
@@ -169,9 +170,9 @@ class DictCompetitiveGroupHelper
     public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id, $budget)
     {
         $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
-        $speciality = $speciality_id;
-        $specialization = $specialization_id;
-        $faculty = $faculty_id;
+        $speciality = DictSpecialityHelper::specialityCodeName($speciality_id);
+        $specialization = DictSpecializationHelper::specializationName($specialization_id);
+        $faculty = DictFacultyHelper::facultyName($faculty_id);
         $form_edu = self::formName($education_form_id);
         $budget = self::financingTypeName($budget);
 
@@ -202,8 +203,7 @@ class DictCompetitiveGroupHelper
                     }
                     break;
             }
-        } else if($govLineStatus)
-        {
+        } else if ($govLineStatus) {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
                     $url = "get-gov-line-bachelor";
@@ -219,8 +219,7 @@ class DictCompetitiveGroupHelper
                     $url = "#";
 
             }
-        }
-        else {
+        } else {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
                     $url = "get-college";
@@ -316,7 +315,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
-                'dict_competitive_group.speciality_id' => $speciality_id, 'dict_competitive_group.id'=> $ids])
+                'dict_competitive_group.speciality_id' => $speciality_id, 'dict_competitive_group.id' => $ids])
             ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
             //  ->groupBy(['discipline_competitive_group.discipline_id'])
@@ -339,7 +338,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
-             'dict_competitive_group.id'=> $ids,
+                'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id])
             ->select(['name', 'dict_discipline.id', 'cse_subject_id'])
             ->asArray()
@@ -431,21 +430,21 @@ class DictCompetitiveGroupHelper
     }
 
 
-
-    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $ids = null) {
-        $model =  DictCompetitiveGroup::find()->userCg($user_id)
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $ids = null)
+    {
+        $model = DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
             ->select(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id']);
 
-        if($ids) {
+        if ($ids) {
             return $model
                 ->andWhere(['id' => $ids])
                 ->all();
         }
         return $model->all();
-        }
+    }
 
 
     public static function noMore3Specialty(DictCompetitiveGroup $cg)
@@ -457,7 +456,7 @@ class DictCompetitiveGroupHelper
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
             ->andWhere(["in", "id", $selectedCg])
-            ->andWhere(['edu_level'=> $cg->edu_level])
+            ->andWhere(['edu_level' => $cg->edu_level])
             ->column();
         if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty)) {
             throw new \DomainException("Заявления можно подавать только на три направления подготовки");
@@ -484,6 +483,18 @@ class DictCompetitiveGroupHelper
             ->speciality($speciality_id)
             ->select(['id'])
             ->column();
+    }
+
+    public static function oneProgramGovLineChecker(DictCompetitiveGroup $cg)
+    {
+        $userCg = UserCg::findOne(["user_id" => \Yii::$app->user->identity->getId()]);
+
+
+        if ($userCg && $cg->isGovLineCg()) {
+            $cg1 = $userCg->competitiveGroup->fullNameCg;
+            throw  new \DomainException("Можно выбрать только одну образовательную программу. 
+            Вы уже выбрали \"$cg1\"");
+        }
     }
 
     public static function getAllSumKcp($cg)
