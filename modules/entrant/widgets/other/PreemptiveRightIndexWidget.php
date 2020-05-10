@@ -13,7 +13,7 @@ class PreemptiveRightIndexWidget extends Widget
         $model = PreemptiveRight::find()->joinWith('otherDocument')
             ->where(["user_id" => $this->getIdUser()])
             ->select(['user_id', 'type_id'])
-            ->groupBy(['user_id', 'type_id'])->asArray()->all();
+            ->groupBy(['user_id', 'type_id'])->all();
         return $this->render('preemptive-right-index', ['model' => $model]);
     }
 
