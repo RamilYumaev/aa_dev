@@ -71,6 +71,20 @@ class Agreement extends YiiActiveRecordAndModeration
         return $this->$property;
     }
 
+    protected function getProperty($property){
+        return $this->getAttributeLabel($property).": ".$this->getValue($property);
+    }
+
+    public function getDocumentFull(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'id', 'organization_id']) as  $key => $value) {
+            if($value) {
+                $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
     public function getOrganization() {
         return DictOrganizationsHelper::organizationName($this->organization_id);
     }

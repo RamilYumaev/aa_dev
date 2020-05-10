@@ -31,7 +31,7 @@ $anketa = Yii::$app->user->identity->anketa();
     </div>
     <?php if($anketa->isAgreement()): ?>
         <div class="mt-20">
-        <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(); ?>
+        <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view'=>'index']); ?>
         </div>
     <?php endif; ?>
     <?php if($anketa->isPatriot()): ?>
