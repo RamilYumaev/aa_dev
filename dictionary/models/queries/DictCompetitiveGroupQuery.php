@@ -111,6 +111,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 'year' => $cgContract->year,
                 'speciality_id' => $cgContract->speciality_id,
                 'specialization_id' => $cgContract->specialization_id,
+                'foreigner_status'=> 0,
                 'edu_level' => $cgContract->edu_level,
                 'education_form_id' => $cgContract->education_form_id,
                 'spo_class' => $cgContract->spo_class,
