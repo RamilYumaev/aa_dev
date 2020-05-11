@@ -7,6 +7,8 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\repositories\StatementCgRepository;
+use modules\entrant\services\ApplicationsService;
 use yii\helpers\Url;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
@@ -16,18 +18,14 @@ use Yii;
 class ApplicationsController extends Controller
 {
 
-    private $repository, $repositoryCg;
     private $anketa;
+    private $service;
 
-    public function __construct($id, $module,
-                                UserCgRepository $repository,
-                                DictCompetitiveGroupRepository $repositoryCg, $config = [])
+    public function __construct($id, $module, ApplicationsService $service, $config = [])
     {
+        $this->service = $service;
         parent::__construct($id, $module, $config);
-
-        $this->repository = $repository;
-        $this->repositoryCg = $repositoryCg;
-        $this->anketa = $this->findModelByUser();
+        $this->anketa = \Yii::$app->user->identity->anketa();
     }
 
     public function actionGetCollege()
@@ -165,25 +163,18 @@ class ApplicationsController extends Controller
     public function actionSaveCg($id)
     {
         try {
-            $cg = $this->repositoryCg->get($id);
-            DictCompetitiveGroupHelper::oneProgramGovLineChecker($cg);
-            DictCompetitiveGroupHelper::noMore3Specialty($cg);
-            DictCompetitiveGroupHelper::isAvailableCg($cg);
-            DictCompetitiveGroupHelper::budgetChecker($cg);
-            $this->repository->haveARecord($cg->id);
-            $userCg = UserCg::create($cg->id);
-            $this->repository->save($userCg);
+            $cg = $this->service->repositoryCg->get($id);
+            $this->service->saveCg($cg);
             if (\Yii::$app->request->isAjax) {
                 return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
+            return $this->redirect("/abiturient/applications/"
+                    . DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
             \Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
         }
-
-        return $this->redirect("/abiturient/applications/"
-            . DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
-
     }
 
     protected function renderList($level, $specialRight, $govLineStatus)
@@ -210,17 +201,17 @@ class ApplicationsController extends Controller
     public function actionRemoveCg($id)
     {
         try {
-            $userCg = $this->repository->get($id);
-            $cg = $this->repositoryCg->get($id);
-            $this->repository->remove($userCg);
+            $cg = $this->service->repositoryCg->get($id);
+            $this->service->removeCg($cg);
             if (\Yii::$app->request->isAjax) {
                 return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
+            return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
             \Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
     }
 
     private function permittedLevelChecked($level)
@@ -278,8 +269,5 @@ class ApplicationsController extends Controller
             return $this->redirect('default/index');
         }
         return Anketa::findOne(['user_id' => Yii::$app->user->identity->getId()]);
-
     }
-
-
 }

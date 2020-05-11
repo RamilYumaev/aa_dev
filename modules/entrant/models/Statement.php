@@ -63,6 +63,11 @@ class Statement extends ActiveRecord
         return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+
     public function getSpeciality() {
         return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
     }
