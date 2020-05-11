@@ -118,25 +118,29 @@ class AttemptAnswerService
                 \Yii::$app->session->addFlash('success','Файл успешно загружен!');
                 break;
         default:
-            $dataAnswerCloze = $data['answer-cloze'];
-            $dataSelectCloze  = $data['select-cloze'];
+            $dataAnswerCloze = array_key_exists('answer-cloze', $data) ? $data['answer-cloze'] :[];
+            $dataSelectCloze  = array_key_exists('select-cloze', $data) ? $data['select-cloze'] :[];
             $countArray =  count($dataAnswerCloze) + count($dataSelectCloze);
             $b = 0;
-            foreach ($dataAnswerCloze as $index => $value) {
-                if(AnswerCloze::find()
-                    ->where(['is_correct' => true])
-                    ->andWhere(["quest_prop_id" => $index, 'name' => $value])
-                    ->exists()) {
-                    ++$b;
+            if($dataAnswerCloze) {
+                foreach ($dataAnswerCloze as $index => $value) {
+                    if(AnswerCloze::find()
+                        ->where(['is_correct' => true])
+                        ->andWhere(["quest_prop_id" => $index, 'name' => $value])
+                        ->exists()) {
+                        ++$b;
+                    }
                 }
             }
             $c = 0;
-            foreach ($dataSelectCloze as $index1 => $value1) {
-                if(AnswerCloze::find()
-                    ->where(['is_correct' => true])
-                    ->andWhere(["quest_prop_id" => $index1, 'name' => $value1])
-                    ->exists()) {
-                    ++$c;
+            if ($dataSelectCloze) {
+                foreach ($dataSelectCloze as $index1 => $value1) {
+                    if(AnswerCloze::find()
+                        ->where(['is_correct' => true])
+                        ->andWhere(["quest_prop_id" => $index1, 'name' => $value1])
+                        ->exists()) {
+                        ++$c;
+                    }
                 }
             }
             $sum = $b + $c;
