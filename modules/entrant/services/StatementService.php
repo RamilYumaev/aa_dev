@@ -60,6 +60,9 @@ class StatementService
         $this->manager->wrap(function () use($statementCg){
             $userCg =$this->userCgRepository->getUser($statementCg->cg_id, $statementCg->statement->user_id);
             $statement = $this->repository->get($statementCg->statement_id);
+            if($statement->files) {
+                throw new \DomainException('Вы не можете удалить заявление, так как загружен файл!');
+            }
             $this->userCgRepository->remove($userCg);
             if($statement->getStatementCg()->count() == 1) {
                 $this->repository->remove($statement);
