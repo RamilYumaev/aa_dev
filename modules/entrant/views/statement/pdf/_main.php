@@ -13,5 +13,6 @@ $anketa =  AnketaHelper::dataArray($statement->user_id);
 ?>
 
 
- <?= $this->render($anketa["addressNoRequired"] ? "_header_no_address":"_header",['profile' => $profile, 'anketa'=>$anketa,'user_id' => $statement->user_id]) ?>
+ <?= $this->render($anketa["addressNoRequired"] ? "_header_no_address":"_header",['profile' => $profile,
+    'anketa'=>$anketa,'user_id' => $statement->user_id]) ?>
  <?= $this->render("_body",['statement' => $statement, 'anketa'=>$anketa, 'gender' => $profile["gender"] ]) ?>

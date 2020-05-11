@@ -17,7 +17,7 @@ $reg= AddressHelper::registrationResidence($user_id);
 $education = DocumentEducationHelper::dataArray($user_id);
 ?>
 
-<table width="100%" style="font-family: 'Times New Roman'; font-size: 9px">
+<table width="100%">
     <tr>
         <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
         <td valign="top" align="right"><p><strong>Ректору<br/>
@@ -28,34 +28,23 @@ $education = DocumentEducationHelper::dataArray($user_id);
     </tr>
 </table>
 
-<table width="100%" style="font-family: 'Times New Roman'; font-size: 10px; margin-top: 10px">
+<table width="100%" class="mt-10">
     <tr>
-        <td width="50%">Фамилия: <?= $profile['last_name'] ?><br/><br/>Имя: <?= $profile['first_name'] ?></td>
-        <td>
+        <td width="50%">
+            Фамилия: <?= $profile['last_name'] ?><br/>
+            Имя: <?= $profile['first_name'] ?><br/>
+            <?=$profile['patronymic'] ? "Отчество: ". $profile['patronymic'] : "";?><br/>
+            Дата рождения: <?= $passport['date_of_birth'] ?><br/>
+            Контактный телефон: <?= $profile['phone'] ?><br/>
+            E-mail: <?= $profile['email'] ?><br/>
+            Гражданство: <?= $passport['nationality'] ?>
         </td>
-    </tr>
-    <tr>
-        <td><br/><?=$profile['patronymic'] ? "Отчество: ". $profile['patronymic'] : "";?><br/><br/>
-            Дата рождения: <?= $passport['date_of_birth'] ?>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Контактный телефон: <?= $profile['phone'] ?>
-            <br/><br/>
-            E-mail: <?= $profile['email'] ?>
-        </td>
-        <td>Документ, удостоверяющий личность: <?= $passport['type'] ?> <br />
+
+        <td rowspan="4" class="v-align-top">Документ, удостоверяющий личность: <?= $passport['type'] ?> <br />
             серия:<?= $passport['series'] ?> <?= $passport['number'] ?>  <br />
             выдан: <?= $passport['authority'] ?>  <br />
             <?= $passport['date_of_issue'] ?>  <br />
             <?= $passport['division_code'] ?  "Код подраздедения: ".$passport['division_code'] : "" ?></td>
-    </tr>
-    <tr>
-        <td>Гражданство: <?= $passport['nationality'] ?></td>
-        <td></td>
     </tr>
     <tr>
         <td colspan="2">

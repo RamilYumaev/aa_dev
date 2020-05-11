@@ -86,7 +86,7 @@ class DictCompetitiveGroupHelper
 
     public static function getEduLevelsGenitiveNameOne($key): string
     {
-        return self::getEduLevelsGenitiveNameOne()[$key];
+        return self::getEduLevelsGenitiveName()[$key];
     }
 
     public static function getSpecialRightShort(): array
