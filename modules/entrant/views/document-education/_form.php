@@ -10,6 +10,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use common\auth\helpers\UserSchoolHelper;
 use kartik\date\DatePicker;
 \modules\entrant\assets\education\DocumentEducationAsset::register($this);
+
 ?>
 <div class="container">
     <div class="row">
@@ -22,7 +23,6 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'original')->checkbox() ?>
             <?= $form->field($model, 'fio')->checkbox() ?>
             <div id="no-fio-profile">
                 <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
