@@ -25,8 +25,8 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
                     'number',
                     'date:date',
                     'year',
-                    ['label' => $document_education->getAttributeLabel('original'),
-                        'value' => $document_education->getOriginal(),],
+                    //['label' => $document_education->getAttributeLabel('original'),
+                       // 'value' => $document_education->getOriginal(),],
                 ];
                 ?>
                 <?php if ($document_education->surname && $document_education->name): ?>
