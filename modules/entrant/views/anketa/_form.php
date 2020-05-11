@@ -45,8 +45,8 @@ use \modules\entrant\helpers\ProvinceOfChinaHelper;
 
 <?php
 
-$categoryVal = $model->category_id ? 1 : 0;
-$educationVal = $model->current_edu_level ? 1 : 0;
+$categoryVal = $model->category_id ? $model->category_id : 0;
+$educationVal = $model->current_edu_level ? $model->current_edu_level : 0;
 $govLineCategoryId = \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION;
 
 $this->registerJS(<<<JS
@@ -64,25 +64,23 @@ var loadedCat = [];
 var loadedEdu = [];
 
 
-var curentCountry = $("#anketaform-citizenship_id");
-var curentCountrySelect = $("#anketaform-citizenship_id");
+var currentCountry = $("#anketaform-citizenship_id");
 var currentEducationLevel = $("#anketaform-current_edu_level");
 var currentUniversityChoice = $("#anketaform-university_choice");
 var foreignerStatus;
   
   
   function foreignerStatusValue()
-  {if(curentCountry.val() == rf || curentCountry.val() == kr || curentCountry.val() == rb || curentCountry.val() == rk 
-  || curentCountry.val() == rt)
+  {if(currentCountry.val() == rf || currentCountry.val() == kr || currentCountry.val() == rb || currentCountry.val() == rk 
+  || currentCountry.val() == rt)
     {foreignerStatus= 0;}else{foreignerStatus= 1;} return foreignerStatus;
   }
   
-  function ajaxReactive(foreignerStatus = 0 , educationLevel = 1, universityChoice = 1)
+  function ajaxReactive(foreignerStatus = 0, educationLevel = 1, universityChoice = 1)
   {
-    
       if(!educationLevel)
           {
-              educationLevel = $model->current_edu_level;
+              educationLevel = $educationVal;
           }
       $.ajax({
     url: "/abiturient/anketa/get-category",
@@ -126,9 +124,9 @@ var foreignerStatus;
             }
         },
     })
-  };
+  }
   
-    curentCountry.on("change init", function() {ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), 
+    currentCountry.on("change init", function() {ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), 
     currentUniversityChoice.val());}) 
     currentEducationLevel.on("change init", function() {ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), 
     currentUniversityChoice.val());}) 
@@ -137,7 +135,7 @@ var foreignerStatus;
         ajaxEducationlevel(currentUniversityChoice.val());
     }) 
     
-  curentCountrySelect.trigger("init");
+  currentCountry.trigger("init");
   currentEducationLevel.trigger("init");
   currentUniversityChoice.trigger("init");
 if(categoryVal){
@@ -196,6 +194,5 @@ if(educationVal){
             provinceText.val("");
             }
     });
-
 JS
 );

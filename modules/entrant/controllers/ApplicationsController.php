@@ -6,6 +6,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\models\Anketa;
 use yii\helpers\Url;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\UserCgRepository;
@@ -26,7 +27,7 @@ class ApplicationsController extends Controller
 
         $this->repository = $repository;
         $this->repositoryCg = $repositoryCg;
-        $this->anketa = \Yii::$app->user->identity->anketa();
+        $this->anketa = $this->findModelByUser();
     }
 
     public function actionGetCollege()
@@ -269,6 +270,15 @@ class ApplicationsController extends Controller
             Yii::$app->getResponse()->redirect(['/abiturient/anketa/step1']);
             Yii::$app->end();
         }
+    }
+
+    protected function findModelByUser()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('default/index');
+        }
+        return Anketa::findOne(['user_id' => Yii::$app->user->identity->getId()]);
+
     }
 
 
