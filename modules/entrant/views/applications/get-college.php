@@ -137,6 +137,15 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <div class="container">
     <?= $result ?>
 </div>
+
+<?php
+$this->registerJs("
+        $('[data-toggle=\"collapse\"]').on('click', function () {
+        $(this).children('span').toggleClass('glyphicon-search glyphicon-remove');
+        });
+", View::POS_READY);
+
+?>
 <?php Pjax::end(); ?>
 
 <?php
@@ -152,13 +161,6 @@ $this->registerJs("
     ", View::POS_READY);
 ?>
 
-<?php
-$this->registerJs("
-        $('[data-toggle=\"collapse\"]').on('click', function () {
-        $(this).children('span').toggleClass('glyphicon-search glyphicon-remove');
-        });
-", View::POS_READY);
 
-?>
 
 
