@@ -20,13 +20,13 @@ use modules\entrant\helpers\OtherDocumentHelper;
                     <td><?= $key ?></td>
                     <td><?= $value ?></td>
                     <td><?= Html::a(Html::tag("span", "",
-                            ["class" => "glyphicon glyphicon-plus"]),
+                            ["class" => "glyphicon glyphicon-plus-sign"]),
                             ["preemptive-right/create", "typeId" => $key],
                             ["class" => "btn btn-success",
                                 'data-pjax' => 'w0', 'data-toggle' => 'modal',
                                 'data-target' => '#modal', 'data-modalTitle' => 'Добавить']); ?>
                         <?= OtherDocumentHelper::preemptiveRightExits($user_id) ?  Html::a(Html::tag("span", "",
-                            ["class" => "glyphicon glyphicon-plus"]),
+                            ["class" => "glyphicon glyphicon-briefcase"]),
                             ["preemptive-right/add", "typeId" => $key],
                             ["class" => "btn btn-primary",
                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',

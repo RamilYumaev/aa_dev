@@ -49,8 +49,8 @@ class StatementQuery extends \yii\db\ActiveQuery
             ->eduLevel($eduLevel);
     }
 
-    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId) {
-        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel)->user($userId)->max('counter');
+    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel) {
+        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel)->max('counter');
     }
 
     public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId) {

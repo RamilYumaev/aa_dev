@@ -91,7 +91,7 @@ class DictCompetitiveGroupHelper
 
     public static function getSpecialRightShort(): array
     {
-        return [self::USUAL => 'USU', self::SPECIAL_RIGHT => 'SPEС', self::TARGET_PLACE => 'TAR'];
+        return [self::USUAL => 'USU', self::SPECIAL_RIGHT => 'SPE', self::TARGET_PLACE => 'TAR'];
     }
 
     public static function getSpecialRightShortOne($key): string
