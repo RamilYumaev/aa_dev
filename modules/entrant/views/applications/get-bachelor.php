@@ -24,16 +24,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образ
 $this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
-//$userId = \Yii::$app->user->identity->getId();
-//
-//$userArray = DictDiscipline::cseToDisciplineConverter(
-//    CseSubjectHelper::userSubjects($userId));
-//
-//$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
-//
-//$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
-//
-//$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
 
 $filteredCg = \Yii::$app->user->identity->filtrationCgByCse();
 $filteredFaculty = \Yii::$app->user->identity->filtrationFacultyByCse();
