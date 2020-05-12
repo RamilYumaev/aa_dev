@@ -48,15 +48,6 @@ $anketa = Yii::$app->user->identity->anketa();
         <?= \modules\entrant\widgets\language\LanguageWidget::widget(); ?>
     </div>
     <div class="mt-20">
-        <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
-    </div>
-    <div class="mt-20">
-        <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(); ?>
-    </div>
-    <div class="mt-20">
-        <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
-    </div>
-    <div class="mt-20">
         <?= \modules\entrant\widgets\cg\CgWidget::widget(); ?>
     </div>
     <div class="mt-20">
@@ -70,6 +61,15 @@ $anketa = Yii::$app->user->identity->anketa();
     <?php endif; ?>
     <div class="mt-20">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(); ?>
+    </div>
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
+    </div>
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(); ?>
+    </div>
+    <div class="mt-20">
+        <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
     </div>
     <?php if(\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks()) :?>
         <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget() ?>
