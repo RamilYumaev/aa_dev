@@ -6,6 +6,7 @@ use common\components\TbsWrapper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementIndividualAchievements;
 use olympic\helpers\auth\ProfileHelper;
 use Yii;
 
@@ -75,6 +76,11 @@ class FileCgHelper
     public static function fileName(Statement $statement, $extension = '.docx')
     {
         return "Заявление ПK МПГУ " . date("Y") ." ".self::nameFile($statement->edu_level, $statement->special_right). " " . date('Y-m-d H:i:s') . $extension;
+    }
+
+    public static function fileNameIA(StatementIndividualAchievements $statementIa, $extension = '.docx')
+    {
+        return "Заявление ПK МПГУ ИА" . date("Y") ." ".self::nameFile($statementIa->edu_level, null). " " . date('Y-m-d H:i:s') . $extension;
     }
 
 
