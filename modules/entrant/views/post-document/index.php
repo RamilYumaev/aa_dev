@@ -16,6 +16,8 @@ $anketa = Yii::$app->user->identity->anketa();
 
 <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget();?>
 
+<?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId'=> Yii::$app->user->identity->getId()]);?>
+
 <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget();?>
 
 <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']);?>

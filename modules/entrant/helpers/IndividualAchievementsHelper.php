@@ -11,7 +11,6 @@ class IndividualAchievementsHelper
 {
     public static function htmlButton($individualId)
     {
-
         $alreadyRecorded = UserIndividualAchievements::alreadyRecorded($individualId)->exists();
 
         $save = Html::a(Html::tag("span", "",
@@ -25,8 +24,17 @@ class IndividualAchievementsHelper
             "id" => $individualId], ["class"=> "btn btn-danger"]);
 
         return $alreadyRecorded ? $remove : $save;
+    }
 
-        }
+    public static function isExits($user, $eduLevel)
+    {
+        return UserIndividualAchievements::find()->cgUserEduLevelExits($user, $eduLevel);
+    }
+
+    public static function all($user, $eduLevel)
+    {
+        return UserIndividualAchievements::find()->cgUserEduLevelAll($user, $eduLevel);
+    }
 
 
 }
