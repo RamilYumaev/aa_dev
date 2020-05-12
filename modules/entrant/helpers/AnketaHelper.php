@@ -185,13 +185,9 @@ class AnketaHelper
             ->andWhere(["in", "type", [33, 44]])
             ->exists(); //@TODO
 
-        $arrayEduLevel = self::getPermittedEducationLevels($level);
-
         if ($anketa->category_id == CategoryStruct::TARGET_COMPETITION
             && $agreement
-            && $level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO
-            && in_array($anketa->current_edu_level, $arrayEduLevel)
-        ) {
+            && $level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
             $buttonArray[] = DictCompetitiveGroupHelper::TARGET_PLACE;
         }
         if ($anketa->category_id == CategoryStruct::SPECIAL_RIGHT_COMPETITION && $specialRightDocument
@@ -211,24 +207,6 @@ class AnketaHelper
         return $result;
 
 
-    }
-
-
-    public static function getPermittedEducationLevels($level): array
-    {
-
-        switch ($level){
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
-                return [];
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR :
-                return self::BACHELOR_LEVEL;
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER :
-                return self::MAGISTRACY_LEVEL;
-            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
-                return self::HIGH_GRADUATE_LEVEL;
-            default :
-                throw new \DomainException("Неправильно определен уровень образования");
-        }
     }
 
 

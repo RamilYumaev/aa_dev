@@ -35,7 +35,7 @@ class StatementService
         $this->manager->wrap(function () use ($facultyId, $specialityId, $specialRight, $eduLevel, $userId) {
                 $model = Statement::find();
                 $data = DictCompetitiveGroupHelper::idAllUser($userId, $facultyId, $specialityId);
-                $max =  $model->lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel);
+                $max =  $model->lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId);
                 $modelOne = $model->statementUser($facultyId, $specialityId, $specialRight, $eduLevel, Statement::DRAFT, $userId);
                 if(!$modelOne) {
                     if ($this->isStatementCg($data, $userId)) {
