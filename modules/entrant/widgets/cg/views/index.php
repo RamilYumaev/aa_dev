@@ -10,7 +10,7 @@ use yii\helpers\Html;
 ?>
     <div class="row">
         <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserCgHelper::findUser($userId)) ?>">
-            <div class="mt-20">
+            <div class="p-30 green-border">
                 <h4>Образовательные программы:</h4>
                 <?= Html::tag('button', 'Подробно',[ 'type'=>"button", 'id'=>"bool", 'class'=>"btn btn-info",
                 'data-toggle'=>"button",'aria-pressed'=>"false"])?>

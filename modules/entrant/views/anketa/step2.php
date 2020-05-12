@@ -34,7 +34,7 @@ $onlyCse = $anketa->onlyCse();
         <?php
         foreach ($anketa->getPermittedEducationLevels() as $level):
             ?>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-xs-12 mt-10">
                 <div class="level_block">
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                     <hr>

@@ -14,7 +14,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <td><?= $statement->numberStatement ?>
          <table class="table">
              <tr>
-                 <th>Образоватльные программы</th>
+                 <th>Образовательные программы</th>
                  <th></th>
              </tr>
              <?php foreach ($statement->statementCg as $statementCg): ?>

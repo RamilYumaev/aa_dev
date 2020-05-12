@@ -12,6 +12,7 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
 ?>
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($isData) ?>">
+        <div class="p-30 green-border">
         <h4>Документ об образовании</h4>
         <?php if ($isUserSchool) : ?>
             <?php if ($document_education) : ?>
@@ -47,5 +48,6 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
                 раздел <?= Html::a('"Учебные организации"',
                     ['/schools/create', 'redirect' => 'online-registration'], ['class' => 'btn btn-warning']) ?></p>
         <?php endif; ?>
+        </div>
     </div>
 </div>

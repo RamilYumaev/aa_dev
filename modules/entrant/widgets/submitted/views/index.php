@@ -7,7 +7,9 @@ use modules\entrant\helpers\PostDocumentHelper;
     <div class="col-md-12">
         <div class="mt-20">
             <?php foreach (PostDocumentHelper::submittedList() as $key => $value) :?>
+            <div class="text-center m-30">
             <?= PostDocumentHelper::link($key)?>
+            </div>
             <?php endforeach; ?>
         </div>
     </div>

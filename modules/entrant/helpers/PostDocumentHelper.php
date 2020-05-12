@@ -18,7 +18,7 @@ class PostDocumentHelper
     public static function submittedList() {
         return [
          //   self::TYPE_MAIL => "По почте",
-            self::TYPE_ONLINE => "Загрузка сканированных копий документов",
+            self::TYPE_ONLINE => "Загрузка документов",
            // self::TYPE_VISIT => "Личный визит",
            // self::TYPE_ECP => "Онлайн с электронной подписью",
         ];
@@ -35,10 +35,10 @@ class PostDocumentHelper
 
     public static function submittedLisClass() {
         return [
-            self::TYPE_MAIL => 'btn btn-info',
-            self::TYPE_ONLINE => 'btn btn-large btn-success',
-            self::TYPE_VISIT => 'btn btn-primary',
-            self::TYPE_ECP => 'btn btn-warning',
+            self::TYPE_MAIL => 'btn btn-lg btn-info',
+            self::TYPE_ONLINE => 'btn btn-lg btn-warning',
+            self::TYPE_VISIT => 'btn btn-lg btn-primary',
+            self::TYPE_ECP => 'btn btn-lg btn-success',
         ];
     }
 
