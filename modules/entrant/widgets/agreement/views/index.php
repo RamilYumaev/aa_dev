@@ -4,7 +4,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 /* @var $this yii\web\View */
-/* @var $model modules\entrant\models\model */
+/* @var $model modules\entrant\models\Agreement */
 /* @var $isUserSchool bool */
 ?>
 <?php if ($model) : ?>

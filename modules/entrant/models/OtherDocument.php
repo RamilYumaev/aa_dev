@@ -7,6 +7,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\forms\PassportDataForm;
@@ -34,6 +35,11 @@ use yii\db\ActiveRecord;
 
 class OtherDocument extends ActiveRecord
 {
+    public function behaviors()
+    {
+        return [FileBehavior::class];
+    }
+
 
     public static  function create(OtherDocumentForm $form) {
         $otherDocument =  new static();

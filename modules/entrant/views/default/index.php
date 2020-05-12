@@ -24,7 +24,7 @@ $anketa = Yii::$app->user->identity->anketa();
     </div>
     <?php endif; ?>
     <div class="mt-20">
-        <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(); ?>
+        <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view'=> "detail"]); ?>
     </div>
     <div class="mt-20">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(); ?>

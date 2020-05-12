@@ -8,6 +8,7 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictSchools;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\DateFormatHelper;
@@ -41,7 +42,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'class'=> ModerationBehavior::class,
             'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
                 'patronymic', 'surname', 'name', 'original', ]
-        ]];
+        ], FileBehavior::class];
     }
 
     public static  function create(DocumentEducationForm $form, $school_id) {

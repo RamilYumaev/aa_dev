@@ -18,7 +18,7 @@ $anketa = Yii::$app->user->identity->anketa();
 
 <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget();?>
 
-<?= \modules\entrant\widgets\passport\PassportFileWidget::widget();?>
+<?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']);?>
 
 <?php if($anketa->isAgreement()): ?>
     <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view'=>'file']); ?>
