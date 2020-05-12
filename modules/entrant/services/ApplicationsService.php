@@ -38,9 +38,20 @@ class ApplicationsService
         DictCompetitiveGroupHelper::noMore3Specialty($cg);
         DictCompetitiveGroupHelper::isAvailableCg($cg);
         DictCompetitiveGroupHelper::budgetChecker($cg);
-        $this->repository->haveARecord($cg->id);
-        $userCg = UserCg::create($cg->id);
-        $this->repository->save($userCg);
+        $this->transactionManager->wrap(function() use ($cg) {
+            $this->repository->haveARecord($cg->id);
+            $userCg = UserCg::create($cg->id);
+            $statement = $this->statementRepository->getStatementFull($userCg->user_id,
+                $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level);
+            if($statement) {
+                if($statement->files) {
+                    throw new \DomainException('Вы не можете добавить, так как в заявлении присутствует загруженный файл');
+                }
+                $statement->setCountPages(0);
+                $this->statementRepository->save($statement);
+            }
+            $this->repository->save($userCg);
+        });
     }
 
     public function removeCg(DictCompetitiveGroup $cg) {

@@ -74,13 +74,12 @@ class Statement extends ActiveRecord
 
     public function getNumberStatement()
     {
-        return ($this->faculty->short ?? $this->faculty_id)."-".
+        return DictCompetitiveGroupHelper::getEduLevelsAbbreviatedShortOne($this->edu_level)."-".
+            ($this->faculty->short ?? $this->faculty_id)."-".
             ($this->speciality->short ?? $this->speciality_id)."-".
-            DictCompetitiveGroupHelper::getEduLevelsAbbreviatedShortOne($this->edu_level)."-".
             DictCompetitiveGroupHelper::getSpecialRightShortOne($this->special_right)."-".
             $this->user_id."-".
             $this->counter;
-
     }
 
     public function columnIdCg(){
