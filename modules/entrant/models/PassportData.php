@@ -7,6 +7,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
@@ -40,16 +41,16 @@ class PassportData extends YiiActiveRecordAndModeration
             'class' => ModerationBehavior::class,
             'attributes' => ['nationality', 'type', 'series', 'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority',
                 'division_code', 'main_status']
-        ]];
+        ], FileBehavior::class];
     }
 
-    public static  function create(PassportDataForm $form) {
+    public static  function create(PassportDataForm $form, $status) {
         $address =  new static();
-        $address->data($form);
+        $address->data($form, $status);
         return $address;
     }
 
-    public function data(PassportDataForm $form)
+    public function data(PassportDataForm $form, $status)
     {
         $this->nationality = $form->nationality;
         $this->type = $form->type;
@@ -59,7 +60,7 @@ class PassportData extends YiiActiveRecordAndModeration
         $this->place_of_birth = $form->place_of_birth;
         $this->date_of_issue =  DateFormatHelper::formatRecord($form->date_of_issue);
         $this->authority = $form->authority;
-        $this->main_status = $form->main_status;
+        $this->main_status = $status;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;
     }
@@ -136,7 +137,9 @@ class PassportData extends YiiActiveRecordAndModeration
             'date_of_issue'=>'Дата выдачи',
             'authority'=>'Кем выдан',
             'division_code'=>'Код подразделения',
-            'main_status'=> 'Основной документ'
+            'main_status'=> 'Основной документ',
+            'nationalityName' => 'Гражданство',
+            'typeName'=> "Тип документа"
         ];
     }
 

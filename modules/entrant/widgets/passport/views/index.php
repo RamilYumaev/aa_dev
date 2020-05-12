@@ -8,7 +8,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 ?>
 
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(PassportDataHelper::isExits(Yii::$app->user->identity->getId())) ?>">
+    <div class="col-md-12">
         <h4>Паспортые данные</h4>
         <?= Html::a('Добавить', ['passport-data/create'], ['class' => 'btn btn-success mb-10']) ?>
         <?= \yii\grid\GridView::widget([
@@ -17,7 +17,6 @@ use modules\entrant\helpers\BlockRedGreenHelper;
             'columns' => [
                 ['attribute'=>'type', 'value' => 'typeName',],
                 ['attribute'=>'nationality', 'value' => 'nationalityName'],
-                ['attribute'=>'main_status', 'value' => 'mainStatus'],
                 ['value'=> 'passportFull', 'header' =>  "Паспортные данные"],
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'passport-data', 'template'=> '{update} {delete}']
             ],

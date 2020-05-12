@@ -22,8 +22,7 @@ class PassportDataService
     public function create(PassportDataForm $form)
     {
         $this->transactionManager->wrap(function () use ($form) {
-            $model  = PassportData::create($form);
-            $this->updatePassportDataForm($form);
+            $model  = PassportData::create($form, $this->mainStatusDefaultForm($form));
             $this->repository->save($model);
         });
 
@@ -33,18 +32,14 @@ class PassportDataService
     {
         $this->transactionManager->wrap(function () use ($id, $form) {
             $model = $this->repository->get($id);
-            $model->data($form);
-            $this->updatePassportDataForm($form);
+            $model->data($form, $model->main_status);
             $this->repository->save($model);
         });
-
     }
 
-    private function updatePassportDataForm(PassportDataForm $form)
+    private function mainStatusDefaultForm(PassportDataForm $form)
     {
-        if ($form->main_status) {
-            PassportData::updateAll(['main_status'=> DictDefaultHelper::NO],['user_id'=> $form->user_id]);
-        }
+         return PassportData::find()->where(['main_status'=> DictDefaultHelper::YES,'user_id'=> $form->user_id])->exists() ? false :true;
     }
 
     public function remove($id)
@@ -52,5 +47,4 @@ class PassportDataService
         $model = $this->repository->get($id);
         $this->repository->remove($model);
     }
-
 }

@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 
 class PassportDataForm extends Model
 {
-    public $nationality, $type, $series, $number, $main_status, $date_of_birth, $user_id, $place_of_birth, $date_of_issue, $authority, $division_code;
+    public $nationality, $type, $series, $number, $date_of_birth, $user_id, $place_of_birth, $date_of_issue, $authority, $division_code;
 
     private $_passport;
 
@@ -37,7 +37,7 @@ class PassportDataForm extends Model
         return [
             [['nationality','type', 'series',
                 'number', 'date_of_birth', 'place_of_birth','date_of_issue', 'authority'], 'required'],
-            [['nationality','type', 'main_status' ], 'integer'],
+            [['nationality','type', ], 'integer'],
             [['division_code'], 'string', 'max' => 7],
             [['series',],'string', 'max' => 4],
             [['number', 'place_of_birth', 'authority'], 'string', 'max' => 255],
