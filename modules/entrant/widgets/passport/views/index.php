@@ -9,7 +9,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 
 <div class="row">
     <div class="col-md-12">
-        <h4>Паспортые данные</h4>
+        <h4>Иные документы, удостоверяющие личность</h4>
         <?= Html::a('Добавить', ['passport-data/create'], ['class' => 'btn btn-success mb-10']) ?>
         <?= \yii\grid\GridView::widget([
             'tableOptions' => ['class' => 'table  table-bordered'],
