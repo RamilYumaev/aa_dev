@@ -8,7 +8,7 @@ use modules\dictionary\helpers\DictCseSubjectHelper;
 <div class="row">
     <div class="col-md-12">
         <?php if($maxSubjectResult):?>
-            <h4>Максимальные результаты ЕГЭ:</h4>
+            <h4>Будут использованы следующие баллы ЕГЭ:</h4>
         <?php foreach ($maxSubjectResult as $key => $value) :?>
             <?= DictCseSubjectHelper::name($key) .": ".$value; ?><br/>
         <?php endforeach;?>

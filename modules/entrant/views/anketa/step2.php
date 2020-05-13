@@ -18,10 +18,10 @@ $anketa = Yii::$app->user->identity->anketa();
 $onlyCse = $anketa->onlyCse();
 
 ?>
-<div class="row">
-    <div class="col-md-2">
+<div class="row min-scr">
+    <div class="button-left">
         <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
-            ["step1"], ["class" => "btn btn-success btn-lg mt-10 ml-30"]) ?>
+            ["step1"], ["class" => "btn btn-warning btn-lg"]) ?>
     </div>
 </div>
 <div class="container">
@@ -34,7 +34,7 @@ $onlyCse = $anketa->onlyCse();
         <?php
         foreach ($anketa->getPermittedEducationLevels() as $level):
             ?>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-xs-12 mt-10">
                 <div class="level_block">
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                     <hr>

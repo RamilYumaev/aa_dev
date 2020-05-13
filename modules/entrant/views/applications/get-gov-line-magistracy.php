@@ -76,19 +76,29 @@ foreach ($currentFaculty as $faculty) {
 
 ?>
     <?php Pjax::begin(['id' => 'get-gov-line-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
-    <div class="row">
-        <div class="col-md-1 mt-10">
+    <div class="row min-scr">
+        <div class="button-left">
             <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"],
-                ["class" => "btn btn-lg ml-50 btn-warning position-fixed"]); ?>
+                ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
         </div>
-        <div class="col-md-1 col-md-offset-11">
+        <div class="button-right">
             <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"],
                 ["class" => "btn btn-lg btn-success position-fixed"]); ?>
         </div>
     </div>
     <h2 class="text-center mt-50"><?= $this->title ?></h2>
     <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "", ["class" => "btn btn-success"]) ?>
+                - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
+                <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "", ["class" => "btn btn-success"]) ?>
+                - кнопка отмены выбора образовательной программы на бюджетной основе.
+            </div>
+        </div>
+    <div class="table-responsive">
         <?= $result ?>
+    </div>
     </div>
     <?php Pjax::end(); ?>
 

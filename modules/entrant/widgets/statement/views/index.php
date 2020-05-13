@@ -14,7 +14,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <td><?= $statement->numberStatement ?>
          <table class="table">
              <tr>
-                 <th>Образоватльные программы</th>
+                 <th>Образовательные программы</th>
                  <th></th>
              </tr>
              <?php foreach ($statement->statementCg as $statementCg): ?>
@@ -29,8 +29,8 @@ use modules\entrant\widgets\file\FileListWidget;
              <?php endforeach; ?>
          </table>
         </td>
-        <td><?= Html::a('pdf', ['statement/pdf', 'id' =>  $statement->id],
-                ['class' => 'btn btn-large btn-danger'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
+        <td><?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
+                ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
 
             <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
         </td>

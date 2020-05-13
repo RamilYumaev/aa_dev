@@ -24,6 +24,7 @@ $column = [
 ?>
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($profile->isDataNoEmpty()) ?>">
+        <div class="p-30 green-border">
         <h4>Профиль</h4>
         <?= Html::a('Редактировать', ['/profile/edit', "redirect"=> "online-registration"], ['class' => 'btn btn-primary mb-10']) ?>
         <?= DetailView::widget([
@@ -31,5 +32,6 @@ $column = [
             'model' => $profile,
             'attributes' => $column
         ]) ?>
+        </div>
     </div>
 </div>

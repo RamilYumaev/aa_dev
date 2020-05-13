@@ -8,6 +8,7 @@ use modules\entrant\helpers\OtherDocumentHelper;
 ?>
 <div class="row">
     <div class="col-md-12">
+        <div class="p-30 green-border">
         <h4>Прочие документы</h4>
         <?= Html::a('Добавить', ['other-document/create'], ['class' => 'btn btn-success']) ?>
         <?php if(UserCgHelper::userMedicine(Yii::$app->user->identity->getId())): ?>
@@ -25,5 +26,6 @@ use modules\entrant\helpers\OtherDocumentHelper;
                 ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'other-document', 'template'=> '{update}{delete}']
             ],
         ]) ?>
+        </div>
     </div>
 </div>

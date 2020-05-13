@@ -10,8 +10,9 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
 ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($additional_information? true : false) ?>">
-        <h4>Дополнительная информация</h4>
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($additional_information ? true : false) ?>">
+        <div class="p-30 green-border">
+            <h4>Дополнительная информация</h4>
             <?php if ($additional_information) : ?>
                 <?php
                 $columns = [
@@ -31,5 +32,6 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             <?php else: ?>
                 <?= Html::a('Добавить информацию', ['additional-information/index'], ['class' => 'btn btn-success']) ?>
             <?php endif; ?>
+        </div>
     </div>
 </div>

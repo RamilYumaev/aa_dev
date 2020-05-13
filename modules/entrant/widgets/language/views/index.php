@@ -9,15 +9,17 @@ use yii\helpers\Html;
 ?>
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(LanguageHelper::isExits(Yii::$app->user->identity->getId())) ?>">
-        <h4>Иностранные языки:</h4>
-        <?= Html::a('Добавить', ['language/create'], ['class' => 'btn btn-success mb-10']) ?>
-        <?= \yii\grid\GridView::widget([
-            'tableOptions' => ['class' => 'table  table-bordered'],
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                ['attribute'=>'language_id', 'value' => 'dictLanguage.name'],
-                ['class'=> \yii\grid\ActionColumn::class, 'controller' => 'language', 'template'=> '{update}{delete}']
-            ],
-        ]) ?>
+        <div class="p-30 green-border">
+            <h4>Иностранные языки:</h4>
+            <?= Html::a('Добавить', ['language/create'], ['class' => 'btn btn-success mb-10']) ?>
+            <?= \yii\grid\GridView::widget([
+                'tableOptions' => ['class' => 'table  table-bordered'],
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    ['attribute' => 'language_id', 'value' => 'dictLanguage.name'],
+                    ['class' => \yii\grid\ActionColumn::class, 'controller' => 'language', 'template' => '{update}{delete}']
+                ],
+            ]) ?>
+        </div>
     </div>
 </div>

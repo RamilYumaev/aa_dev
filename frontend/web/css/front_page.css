@@ -241,7 +241,7 @@ a.desc:after {
 
 }
 
-.level_block .btn{
+.level_block .btn {
     border-radius: 15px;
 }
 
@@ -833,4 +833,54 @@ select {
 
 .ml-5 {
     margin-left: 5px;
+}
+
+.button-left {
+    position: absolute;
+    left: 10px;
+    top: 120px;
+}
+
+.button-right {
+    position: absolute;
+    right: 60px;
+    top: 120px;
+}
+
+.m-30 {
+    margin: 30px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.p-30 {
+    padding: 30px;
+}
+.green-border{
+    border: 1px dotted #209e22;
+}
+
+.border-radius{
+    border-radius: 20px;
+}
+
+@media screen and (min-width: 375px) and (max-width: 578px) {
+    .breadcrumb {
+        display: none;
+    }
+
+    .min-scr {
+        margin-top: 50px;
+    }
+
+    .button-left {
+        top: 60px;
+    }
+
+    .button-right {
+        top: 60px;
+        right: 60px;
+    }
 }

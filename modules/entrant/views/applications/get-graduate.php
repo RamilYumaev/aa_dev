@@ -71,7 +71,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a(DictDisciplineHelper::disciplineName($examination->discipline_id),
+                $result .= Html::a($examination->discipline->name,
                     $examination->discipline->links,
                     ['target' => '_blank']);
                 $result .= "</li>";
@@ -124,17 +124,33 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 
 
 <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
-<div class="row">
-    <div class="col-md-1 mt-10">
-        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-warning position-fixed"]); ?>
+<div class="row min-scr">
+    <div class="button-left">
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
     </div>
-    <div class="col-md-1 col-md-offset-11">
-        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-success position-fixed"]); ?>
+    <div class="button-right">
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
     </div>
 </div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "", ["class" => "btn btn-success"]) ?>
+            - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "", ["class" => "btn btn-success"]) ?>
+            - кнопка отмены выбора образовательной программы на бюджетной основе.
+        </div>
+        <div class="col-md-6">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "", ["class" => "btn btn-warning"]) ?>
+            - кнопка выбора образовательной программы на договорной основе.<br/><br/>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "", ["class" => "btn btn-warning"]) ?>
+            - кнопка отмены выбора образовательной программы на договорной основе.
+        </div>
+    </div>
+    <div class="table-responsive">
     <?= $result ?>
+    </div>
 </div>
 
 <?php

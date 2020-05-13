@@ -1,6 +1,8 @@
 <?php
 /* @var $this yii\web\View */
 
+use yii\helpers\Html;
+
 \frontend\assets\modal\ModalAsset::register($this);
 
 $this->title = 'Загрузка сканированных копий документов';
@@ -12,24 +14,35 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $anketa = Yii::$app->user->identity->anketa();
 ?>
-<div class="container m-20">
 
-<?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget();?>
+<div class="container">
+    <div class="row min-scr">
+        <div class="button-left">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
+                "/abiturient", ["class" => "btn btn-warning btn-lg"]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(); ?>
+
 
 <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId'=> Yii::$app->user->identity->getId()]);?>
 
 <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget();?>
 
-<?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']);?>
+        <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']); ?>
 
-<?php if($anketa->isAgreement()): ?>
-    <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view'=>'file']); ?>
-<?php endif; ?>
+        <?php if ($anketa->isAgreement()): ?>
+            <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file']); ?>
+        <?php endif; ?>
 
-<?php if(!$anketa->isRussia()): ?>
-<?= \modules\entrant\widgets\address\AddressFileWidget::widget();?>
-<?php endif; ?>
+        <?php if (!$anketa->isRussia()): ?>
+            <?= \modules\entrant\widgets\address\AddressFileWidget::widget(); ?>
+        <?php endif; ?>
 
-<?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget();?>
+        <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(); ?>
+    </div>
 
 </div>
