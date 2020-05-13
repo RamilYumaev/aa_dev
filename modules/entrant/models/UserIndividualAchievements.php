@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 
 use modules\dictionary\models\DictIndividualAchievement;
+use modules\entrant\models\queries\UserIndividualAchievementsQuery;
 use yii\db\ActiveRecord;
 
 class UserIndividualAchievements extends ActiveRecord
@@ -24,6 +25,9 @@ class UserIndividualAchievements extends ActiveRecord
         return $model;
     }
 
+
+
+
     public static function alreadyRecorded($individualId)
     {
         return self::find()
@@ -31,11 +35,14 @@ class UserIndividualAchievements extends ActiveRecord
             ->andWhere(["user_id" => \Yii::$app->user->identity->getId()]);
     }
 
-
     public function getDictIndividualAchievement()
     {
         return $this->hasOne(DictIndividualAchievement::class, ["id" => "individual_id"]);
     }
 
+    public static function find(): UserIndividualAchievementsQuery
+    {
+        return new UserIndividualAchievementsQuery(static::class);
+    }
 
 }

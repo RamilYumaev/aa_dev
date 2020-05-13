@@ -19,12 +19,16 @@ class OtherDocumentForm extends Model
     public $isExemption;
     public $isAjax;
 
+    private $idIa;
+
     public function __construct($ajax = false, OtherDocument $otherDocument = null,
                                 $exemption = false,
                                 $arrayRequired = [],
                                 $typesDocument = [],
+                                $idIa = null,
                                 $config = [])
     {
+        $this->idIa = $idIa;
         $this->isExemption = $exemption;
         $this->isAjax = $ajax;
         $this->typesDocument = $typesDocument;
@@ -57,7 +61,7 @@ class OtherDocumentForm extends Model
             [['date'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_MEDICINE;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 29}'],
-            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType($this->typeDocuments())
+            ['type', 'in', 'range' => $this->rangeValidation()
             ],
         ];
     }
@@ -82,7 +86,13 @@ class OtherDocumentForm extends Model
             DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
             DictIncomingDocumentTypeHelper::TYPE_MEDICINE
         ];
+    }
 
+    private function rangeValidation() {
+        if($this->idIa) {
+            return DictIncomingDocumentTypeHelper::rangeIds($this->idIa);
+        }
+        return DictIncomingDocumentTypeHelper::rangeType($this->typeDocuments());
     }
 
     /**
@@ -112,6 +122,13 @@ class OtherDocumentForm extends Model
     public function attributeLabels()
     {
         return (new OtherDocument())->attributeLabels();
+    }
+
+    public function  listTypesDocument() {
+        if($this->idIa) {
+          return  DictIncomingDocumentTypeHelper::listId($this->idIa);
+        }
+        return DictIncomingDocumentTypeHelper::listType($this->typeDocuments());
     }
 
 

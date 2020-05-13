@@ -3,11 +3,8 @@
 namespace modules\entrant\controllers;
 
 
-use modules\dictionary\forms\DictIndividualAchievementForm;
 use modules\dictionary\models\DictIndividualAchievement;
-use modules\dictionary\services\DictIndividualAchievementService;
 use modules\entrant\forms\OtherDocumentForm;
-use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\services\IndividualAchievementService;
 use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
@@ -47,8 +44,7 @@ class IndividualAchievementsController extends Controller
 
     public function actionSave($id)
     {
-        $form = new OtherDocumentForm(true);
-
+        $form = new OtherDocumentForm(true, null, false, [], [], $id);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

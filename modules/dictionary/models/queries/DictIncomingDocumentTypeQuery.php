@@ -13,4 +13,14 @@ class DictIncomingDocumentTypeQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['type_id' => $type]);
     }
 
+    /**
+     * @param  $ids
+     * @return $this
+     */
+
+    public function ids($ids)
+    {
+        return $this->andWhere(['id' => $ids]);
+    }
+
 }

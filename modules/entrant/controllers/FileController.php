@@ -5,6 +5,7 @@ use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
@@ -66,7 +67,8 @@ class FileController extends Controller
     {
         $model = FileHelper::validateModel($hash);
         $modelOne = $this->model($model, $id);
-        if($model == Statement::class && !$modelOne->count_pages)  {
+        if(($model == Statement::class && !$modelOne->count_pages) ||
+            ($model == StatementIndividualAchievements::class && !$modelOne->count_pages))  {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
             return $this->redirect(Yii::$app->request->referrer);
         }

@@ -78,6 +78,11 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_MAGISTER => 'MAG', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'GRA'];
     }
 
+    public static function getEduLevelsArrayIA(): array
+    {
+        return [self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_BACHELOR];
+    }
+
 
     public static function getEduLevelsAbbreviatedShortOne($key): string
     {
@@ -108,10 +113,9 @@ class DictCompetitiveGroupHelper
     public static function forms(): array
     {
         return [
-            self::EDUCATION_LEVEL_SPO,
-            self::EDUCATION_LEVEL_BACHELOR,
-            self::EDUCATION_LEVEL_MAGISTER,
-            self::EDUCATION_LEVEL_GRADUATE_SCHOOL
+            self::EDU_FORM_OCH,
+            self::EDU_FORM_OCH_ZAOCH,
+            self::EDU_FORM_ZAOCH,
         ];
     }
 
