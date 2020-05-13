@@ -1,6 +1,8 @@
 <?php
 /* @var $this yii\web\View */
 
+use yii\helpers\Html;
+
 $this->title = 'Персональная карточка поступающего';
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
@@ -11,6 +13,13 @@ $anketa = Yii::$app->user->identity->anketa();
 ?>
 <div class="container">
     <h1><?=$this->title?></h1>
+
+    <div class="row min-scr">
+        <div class="button-left">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
+                "/abiturient/anketa/step2", ["class" => "btn btn-warning btn-lg"]) ?>
+        </div>
+    </div>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(); ?>
     </div>

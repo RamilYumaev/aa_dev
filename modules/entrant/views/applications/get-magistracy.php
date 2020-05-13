@@ -134,6 +134,24 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     </div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "",
+                ["class" => "btn btn-success"]) ?>
+            - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "",
+                ["class" => "btn btn-success"]) ?>
+            - кнопка отмены выбора образовательной программы на бюджетной основе.
+        </div>
+        <div class="col-md-6">
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "",
+                ["class" => "btn btn-warning"]) ?>
+            - кнопка выбора образовательной программы на договорной основе.<br/><br/>
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "",
+                ["class" => "btn btn-warning"]) ?>
+            - кнопка отмены выбора образовательной программы на договорной основе.
+        </div>
+    </div>
     <div class="table-responsive">
     <?= $result ?>
     </div>
