@@ -9,9 +9,10 @@ use modules\entrant\widgets\file\FileListWidget;
 /* @var $isUserSchool bool */
 ?>
 <table class="table table-bordered">
+    <h3>Прочие документы</h3>
     <tr>
-        <th>Тип</th>
-        <th>Данные прочего документа</th>
+        <th>Наименование</th>
+        <th>Примечание</th>
         <th></th>
     </tr>
     <?php foreach($others as $other) :?>

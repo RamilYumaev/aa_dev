@@ -5,6 +5,8 @@ use modules\entrant\widgets\file\FileListWidget;
 /* @var $statement modules\entrant\models\Statement*/
 /* @var $model modules\entrant\models\PassportData*/
 ?>
+
+<h3>Скан документа, удостоверяющего личность</h3>
 <table class="table table-bordered">
     <tr>
         <th>Документ, удостоверяющий личность</th>

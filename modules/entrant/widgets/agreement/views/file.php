@@ -5,7 +5,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <table class="table table-bordered">
     <tr>
-        <th>Данные договора о целевом обучении</th>
+        <th>Договор о целевом обучении</th>
         <th><?= FileWidget::widget(['record_id' => $model->id, 'model' =>$model::className() ]) ?></th>
     </tr>
     <tr>

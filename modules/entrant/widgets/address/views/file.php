@@ -10,7 +10,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <table class="table table-bordered">
     <tr>
-        <th>Адреса</th>
+        <th>Скан страницы паспорта с отметкой о регистрации или скан временной регистрации</th>
         <th>Тип</th>
         <th></th>
     </tr>

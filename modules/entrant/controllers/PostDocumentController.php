@@ -45,7 +45,7 @@ class PostDocumentController extends Controller
     public function beforeAction($action)
     {
         if(!PostDocumentHelper::isCorrectBlocks()) {
-            Yii::$app->session->setFlash("error", "Не заполнены некоторые блоки");
+            Yii::$app->session->setFlash("error", "Заполните, пожалуйста, блоки, отмеченные красным цветом");
             Yii::$app->getResponse()->redirect(['abiturient/default/index']);
             Yii::$app->end();
         }

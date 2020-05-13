@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 \frontend\assets\modal\ModalAsset::register($this);
 
-$this->title = 'Загрузка сканированных копий документов';
+$this->title = 'Загрузка документов';
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
@@ -22,27 +22,26 @@ $anketa = Yii::$app->user->identity->anketa();
                 "/abiturient", ["class" => "btn btn-warning btn-lg"]) ?>
         </div>
     </div>
-
+    <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
+        <div class="col-md-12">
+            <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']); ?>
 
-        <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(); ?>
+            <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(); ?>
 
+            <?php if ($anketa->isAgreement()): ?>
+                <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file']); ?>
+            <?php endif; ?>
 
-<?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId'=> Yii::$app->user->identity->getId()]);?>
+            <?php if (!$anketa->isRussia()): ?>
+                <?= \modules\entrant\widgets\address\AddressFileWidget::widget(); ?>
+            <?php endif; ?>
 
-<?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget();?>
+            <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(); ?>
 
-        <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file']); ?>
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(); ?>
 
-        <?php if ($anketa->isAgreement()): ?>
-            <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file']); ?>
-        <?php endif; ?>
-
-        <?php if (!$anketa->isRussia()): ?>
-            <?= \modules\entrant\widgets\address\AddressFileWidget::widget(); ?>
-        <?php endif; ?>
-
-        <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(); ?>
+            <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
+        </div>
     </div>
-
 </div>

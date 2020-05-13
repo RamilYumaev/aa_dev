@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class="mt-20">
             <?php if($submitted): ?>
-                <h1>Загрузка документов</h1>
+                <h3>Заявления об участии в конкурсе</h3>
                 <div id="compact">
                     <table class="table table-bordered">
                         <tr>
