@@ -25,6 +25,9 @@ class UserIndividualAchievements extends ActiveRecord
         return $model;
     }
 
+
+
+
     public static function alreadyRecorded($individualId)
     {
         return self::find()

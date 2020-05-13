@@ -12,7 +12,7 @@ use yii\helpers\Html;
 ?>
  <?php $form = ActiveForm::begin(['id'=> 'form-other-documents', 'enableAjaxValidation' => $model->isAjax]); ?>
       <?php if($model->type !=43): ?>
-      <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType($model->typeDocuments())) ?>
+      <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
       <?php endif; ?>
         <div id="other-document-full">
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
