@@ -10,7 +10,7 @@ use yii\helpers\Html;
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(LanguageHelper::isExits(Yii::$app->user->identity->getId())) ?>">
         <div class="p-30 green-border">
-            <h4>Иностранные языки:</h4>
+            <h4>Иностранные языки, которые изучили или изучаете</h4>
             <?= Html::a('Добавить', ['language/create'], ['class' => 'btn btn-success mb-10']) ?>
             <?= \yii\grid\GridView::widget([
                 'tableOptions' => ['class' => 'table  table-bordered'],

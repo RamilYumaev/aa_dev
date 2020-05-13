@@ -10,7 +10,7 @@ use \yii\helpers\Html;
 <div class="p-30 green-border">
 <h4>Индивидуальные достижения</h4>
 <?= Html::a(($model ? "Редактировать" : "Добавить"), ["/abiturient/individual-achievements"],
-    ["class" => $model ? "btn btn-primary" : "btn btn-success"]) ?>
+    ["class" => $model ? "btn btn-warning" : "btn btn-success"]) ?>
 
 
 <div class="row">
