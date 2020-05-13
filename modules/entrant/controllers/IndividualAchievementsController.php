@@ -44,8 +44,7 @@ class IndividualAchievementsController extends Controller
 
     public function actionSave($id)
     {
-        $form = new OtherDocumentForm(true);
-
+        $form = new OtherDocumentForm(true, null, false, [], [], $id);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

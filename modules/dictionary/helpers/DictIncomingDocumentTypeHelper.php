@@ -23,12 +23,18 @@ class DictIncomingDocumentTypeHelper
 
     public static function listType($type)
     {
-        return ArrayHelper::map(self::find($type)->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->type($type)->all(), 'id', 'name');
     }
+
+    public static function listId($idIa)
+    {
+        return ArrayHelper::map(self::find()->ids(self::iADoc($idIa))->all(), 'id', 'name');
+    }
+    
 
     public static function listPassport($country)
     {
-        $array = self::find(self::TYPE_PASSPORT)->select('name')->indexBy('id')->column();
+        $array = self::find()->type(self::TYPE_PASSPORT)->select('name')->indexBy('id')->column();
         if($country == DictCountryHelper::RUSSIA) {
             $delete_keys = [3, 16, 8, 7, 11, 14, 15];
         }else {
@@ -44,18 +50,29 @@ class DictIncomingDocumentTypeHelper
 
     public static function rangeType($type)
     {
-        return self::find($type)->select('id')->column();
+        return self::find()->type($type)->select('id')->column();
     }
 
-    private static function find($type)
+    public static function rangeIds($idIa)
     {
-        return DictIncomingDocumentType::find()->type($type);
+        return self::find()->ids(self::iADoc($idIa))->select('id')->column();
+    }
+
+    private static function find()
+    {
+        return DictIncomingDocumentType::find();
+    }
+
+    private static function iADoc($idIa) {
+        return DictIndividualAchievementDocumentHelper::listDocument($idIa);
     }
 
     public static function typeName($type, $key): ? string
     {
         return ArrayHelper::getValue(self::listType($type), $key);
     }
+
+
 
 
 
