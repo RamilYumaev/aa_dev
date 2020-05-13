@@ -838,7 +838,7 @@ select {
 .button-left {
     position: absolute;
     left: 10px;
-    top: 150px;
+    top: 120px;
 }
 
 .button-right {
@@ -859,8 +859,11 @@ select {
     padding: 30px;
 }
 .green-border{
-    border: 1px dotted #2b542c;
+    border: 1px dotted #209e22;
+}
 
+.border-radius{
+    border-radius: 20px;
 }
 
 @media screen and (min-width: 375px) and (max-width: 578px) {
