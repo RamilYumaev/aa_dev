@@ -33,7 +33,7 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
                 <?php if ($document_education->surname && $document_education->name): ?>
                     <?php array_push($columns, 'surname', 'name', 'patronymic') ?>
                 <?php endif; ?>
-                <?= Html::a('Редактировать', ['document-education/update', 'id' => $document_education->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Редактировать', ['document-education/update', 'id' => $document_education->id], ['class' => 'btn btn-warning']) ?>
                 <?= Html::a('Удалить', ['document-education/delete', 'id' => $document_education->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить документ об образовании?"]]) ?>
                 <?= DetailView::widget([
                     'options' => ['class' => 'table table-bordered detail-view'],

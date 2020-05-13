@@ -63,7 +63,7 @@ class FileController extends Controller
      * @throws NotFoundHttpException
      */
 
-    public function actionDownload($hash, $id)
+    public function actionUpload($hash, $id)
     {
         $model = FileHelper::validateModel($hash);
         $modelOne = $this->model($model, $id);

@@ -15,7 +15,7 @@ use yii\widgets\DetailView;
         <div class="p-30 green-border">
             <h4>Документ, удостоверяющий личность</h4>
             <?php if ($model) : ?>
-                <?= Html::a('Редактировать', ['passport-data/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Редактировать', ['passport-data/update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
                 <?= Html::a('Удалить', ['passport-data/delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить документ?"]]) ?>
                 <?= DetailView::widget([
                     'options' => ['class' => 'table table-bordered detail-view'],

@@ -33,7 +33,7 @@ class FileService
             if($model::className() == Statement::class) {
                 $true = $model->count_pages == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
                 if($true) {
-                    throw new \DomainException('Вы не можете загружать файлы  больше ');
+                    throw new \DomainException('Загрузка невозможна');
                 }
             }
             $model  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);

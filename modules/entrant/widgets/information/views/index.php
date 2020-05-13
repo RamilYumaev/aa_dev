@@ -23,7 +23,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                 <?php if (DictCompetitiveGroupHelper::formOchExistsUser(Yii::$app->user->identity->getId())): ?>
                     <?php array_push($columns, 'hostel') ?>
                 <?php endif; ?>
-                <?= Html::a('Редактировать', ['additional-information/index'], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Редактировать', ['additional-information/index'], ['class' => 'btn btn-warning']) ?>
                 <?= DetailView::widget([
                     'options' => ['class' => 'table table-bordered detail-view'],
                     'model' => $additional_information,

@@ -12,7 +12,7 @@ use kartik\file\FileInput;
     'options' => [
         'enctype' => 'multipart/form-data',
     ],]); ?>
-    <?= $form->field($model, 'file_name')->widget(FileInput::class, [
+    <?= $form->field($model, 'file_name')->widget(FileInput::class, ['language'=> 'ru',
         'options' => ['accept' => 'image/*'],
     ]);?>
     <div class="form-group">
