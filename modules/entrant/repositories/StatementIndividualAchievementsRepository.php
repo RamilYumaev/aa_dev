@@ -6,7 +6,7 @@ namespace modules\entrant\repositories;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\usecase\RepositoryDeleteSaveClass;
 
-class StatementIARepository extends RepositoryDeleteSaveClass
+class StatementIndividualAchievementsRepository extends RepositoryDeleteSaveClass
 {
     public function get($id): ?StatementIndividualAchievements
     {
@@ -18,7 +18,8 @@ class StatementIARepository extends RepositoryDeleteSaveClass
 
     public function getStatementIAFull($userId, $eduLevel)
     {
-        if (!$model = StatementIndividualAchievements::find()->user($userId)->eduLevel($eduLevel)->one()) {
+        if (!$model = StatementIndividualAchievements::find()->user($userId)->defaultWhere($eduLevel,
+            StatementIndividualAchievements::DRAFT)->one()) {
             return false;
         }
         return  $model;

@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\queries\StatementIAQuery;
 use yii\db\ActiveRecord;
 
@@ -44,6 +45,17 @@ class StatementIndividualAchievements extends ActiveRecord
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function getStatementIa() {
+        return $this->hasMany(StatementIa::class, ['statement_individual_id' => 'id']);
+    }
+
+    public function getNumberStatement()
+    {
+        return DictCompetitiveGroupHelper::getEduLevelsAbbreviatedShortOne($this->edu_level)."-".
+            $this->user_id."-".
+            $this->counter;
     }
 
     public static function find(): StatementIAQuery

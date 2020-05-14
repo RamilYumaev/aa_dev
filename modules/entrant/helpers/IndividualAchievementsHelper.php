@@ -9,9 +9,9 @@ use yii\helpers\Html;
 
 class IndividualAchievementsHelper
 {
-    public static function htmlButton($individualId)
+    public static function htmlButton($individualId, $userId)
     {
-        $alreadyRecorded = UserIndividualAchievements::alreadyRecorded($individualId)->exists();
+        $alreadyRecorded = UserIndividualAchievements::find()->alreadyRecorded($individualId, $userId)->exists();
 
         $save = Html::a(Html::tag("span", "",
             ["class" => "glyphicon glyphicon-plus"]),
@@ -35,6 +35,12 @@ class IndividualAchievementsHelper
     {
         return UserIndividualAchievements::find()->cgUserEduLevelAll($user, $eduLevel);
     }
+
+    public static function column($user, $eduLevel)
+    {
+        return UserIndividualAchievements::find()->cgUserEduLevelColumn($user, $eduLevel);
+    }
+
 
 
 }

@@ -11,7 +11,7 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
 
 ?>
 <div class="mt-25">
-    <p align="center"><strong>ЗАЯВЛЕНИЕ</strong></p>
+    <p align="center"><strong>ЗАЯВЛЕНИЕ <?= $statementIA->numberStatement ?> </strong></p>
     <p align="justify"><strong>Прошу ...
             <?= DictCompetitiveGroupHelper::getEduLevelsGenitiveNameOne($statementIA->edu_level) ?>:</strong></p>
     <div class="row ">
@@ -21,7 +21,7 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
                 <th>Наименовние</th>
                 <th>Отметка</th>
             </tr>
-            <?php foreach (IndividualAchievementsHelper::all($statementIA->user_id, $statementIA->edu_level) as $key => $item ) : ?>
+            <?php foreach ($statementIA->statementIa as $key => $item ) : ?>
             <tr>
                 <td><?= ++$key ?></td>
                 <td><?= $item->dictIndividualAchievement->name ?></td>

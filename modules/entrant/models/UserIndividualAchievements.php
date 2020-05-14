@@ -26,15 +26,6 @@ class UserIndividualAchievements extends ActiveRecord
     }
 
 
-
-
-    public static function alreadyRecorded($individualId)
-    {
-        return self::find()
-            ->andWhere(['individual_id' => $individualId])
-            ->andWhere(["user_id" => \Yii::$app->user->identity->getId()]);
-    }
-
     public function getDictIndividualAchievement()
     {
         return $this->hasOne(DictIndividualAchievement::class, ["id" => "individual_id"]);

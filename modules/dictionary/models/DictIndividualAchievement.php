@@ -61,19 +61,5 @@ class DictIndividualAchievement extends ActiveRecord
         ];
     }
 
-    public static function getFilteredByUserIndividualAchievement()
-    {
-        $userId = \Yii::$app->user->identity->getId();
-        $userChoiceCg = UserCg::find()->select("cg_id")
-            ->andWhere(['user_id' => $userId])
-            ->column();
-        $selectIndividualAchievement = DictIndividualAchievementCg::find()
-            ->andWhere(['in', 'competitive_group_id', $userChoiceCg])
-            ->column();
-
-        return DictIndividualAchievement::find()
-            ->andWhere(["in", "id", $selectIndividualAchievement])
-            ->all();
-    }
 
 }

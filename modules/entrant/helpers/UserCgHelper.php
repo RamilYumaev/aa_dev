@@ -57,6 +57,11 @@ class UserCgHelper
         return UserCg::find()->where(['user_id'=>$user_id])->exists();
     }
 
+    public static function cgUserColumn($userId)
+    {
+       return UserCg::find()->select("cg_id")->andWhere(['user_id' => $userId])->column();
+    }
+
     public static function userMedicine($user_id) {
         foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
         {   /* @var $cg UserCg */

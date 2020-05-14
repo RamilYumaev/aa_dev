@@ -28,7 +28,7 @@ if ($model !== null) {
 
         $result .= "<tr>";
         $result .= "<td>" . $individualAchievement->name . "</td>";
-        $result .= "<td>" . IndividualAchievementsHelper::htmlButton($individualAchievement->id) . "</td>";
+        $result .= "<td>" . IndividualAchievementsHelper::htmlButton($individualAchievement->id, Yii::$app->user->identity->getId()) . "</td>";
         $result .= "</tr>";
     }
     $result .= "</table>";
