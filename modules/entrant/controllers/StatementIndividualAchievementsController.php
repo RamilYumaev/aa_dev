@@ -90,7 +90,7 @@ class StatementIndividualAchievementsController extends Controller
            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.css',
             'cssFile' => '@frontend/web/css/pdf-documents.css',
             'defaultFont' => 'Times New Roman',
-            'defaultFontSize'=> 8, //pt
+            'defaultFontSize'=> 9, //pt
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly
