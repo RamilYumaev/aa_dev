@@ -9,9 +9,37 @@ body {
 .fs-10 {
     font-size: 10px;
 }
+.fs-15{
+    font-size: 15px;
+}
+.fs-20{
+    font-size: 20px;
+}
+.fs-25 {
+    font-size: 25px;
+}
+.h-20{
+   height: 20px;
+}
+.h-30{
+    height: 30px;
+}
+.h-41{
+    height: 41px;
+}
+.h-50{
+    height: 50px;
+}
 
 .app-table {
     border-collapse: collapse;
+}
+
+.bg-gray{
+    background-color: #868686;
+}
+.bg-light-gray{
+    background-color: #c7c7c7;
 }
 
 .app-table th, .app-table td {
