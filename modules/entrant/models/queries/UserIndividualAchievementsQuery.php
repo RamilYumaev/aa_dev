@@ -26,5 +26,21 @@ class UserIndividualAchievementsQuery extends \yii\db\ActiveQuery
         return $this->cgUserEduLevel($user_id, $eduLevel)->all();
     }
 
+    public function cgUserEduLevelColumn($user_id, $eduLevel) {
+        return $this->cgUserEduLevel($user_id, $eduLevel)->select('userIa.individual_id')->column();
+    }
+
+    public function individual($individualId) {
+         return  $this->andWhere(['individual_id' => $individualId]);
+    }
+
+    public function user ($userId) {
+        return $this->andWhere(["user_id" => $userId]);
+    }
+
+    public function alreadyRecorded($individualId, $userId) {
+
+        return $this->individual($individualId)->user($userId);
+    }
 
 }

@@ -12,7 +12,7 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
 
 ?>
 <div class="mt-25">
-    <p align="center" class="bg-light-gray">Заявление</p>
+    <p align="center" class="bg-light-gray">Заявление <?= $statementIA->numberStatement ?> </p>
     <p align="justify">Прошу рассмотреть предъявленные мной индивидуальные достижения и/или документ(ы),
         подтверждающие наличие особых прав и/или преимуществ, указанных в пунктах 33, 37 и 38 Порядка приема
         на обучение по образовательным программам высшего образования – программам бакалавриата, программам
@@ -27,7 +27,7 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
             <th>Наименование индивидуального достижения</th>
             <th>Отметка о принятии к учету <br/><span class="fs-7">(заполняется сотрудником ПК)</span></th>
         </tr>
-        <?php foreach (IndividualAchievementsHelper::all($statementIA->user_id, $statementIA->edu_level) as $key => $item) : ?>
+         <?php foreach ($statementIA->statementIa as $key => $item ) : ?>
             <tr>
                 <td class="h-41"><?= ++$key ?></td>
                 <td><?= $item->dictIndividualAchievement->name ?></td>

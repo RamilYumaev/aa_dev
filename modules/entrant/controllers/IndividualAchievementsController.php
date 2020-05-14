@@ -3,13 +3,17 @@
 namespace modules\entrant\controllers;
 
 
+use modules\dictionary\helpers\DictIndividualAchievementHelper;
 use modules\dictionary\models\DictIndividualAchievement;
 use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\models\CseSubjectResult;
+use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\services\IndividualAchievementService;
 use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class IndividualAchievementsController extends Controller
@@ -37,7 +41,7 @@ class IndividualAchievementsController extends Controller
 
     public function actionIndex()
     {
-        $model = DictIndividualAchievement::getFilteredByUserIndividualAchievement();
+        $model = DictIndividualAchievementHelper::dictIndividualAchievementUser($this->getUser());
 
         return $this->render("index", ["model" => $model]);
     }
@@ -63,10 +67,17 @@ class IndividualAchievementsController extends Controller
 
     }
 
+    /**
+     * @param integer $individual_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
     public function actionRemove($id)
     {
+        $model = $this->findModel($id);
         try {
-            $this->service->remove($id);
+            $this->service->remove($model->id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -74,6 +85,24 @@ class IndividualAchievementsController extends Controller
 
         return $this->redirect(["index"]);
     }
+
+    /**
+     * @param integer $individual_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($individual_id): UserIndividualAchievements
+    {
+        if (($model = UserIndividualAchievements::findOne(['individual_id'=>$individual_id, 'user_id' => $this->getUser()])) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    private function getUser() {
+        return Yii::$app->user->identity->getId();
+    }
+
 
 
 }

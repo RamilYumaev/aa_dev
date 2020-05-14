@@ -4,7 +4,7 @@ namespace modules\entrant\widgets\statement;
 
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementIndividualAchievements;
-use modules\entrant\services\StatementIAService;
+use modules\entrant\services\StatementIndividualAchievementsService;
 use modules\entrant\services\StatementService;
 use yii\base\Widget;
 use Yii;
@@ -15,7 +15,7 @@ class StatementIaWidget extends Widget
 
     private $service;
 
-    public function __construct(StatementIAService $service, $config = [])
+    public function __construct(StatementIndividualAchievementsService $service, $config = [])
     {
         $this->service = $service;
         parent::__construct($config);

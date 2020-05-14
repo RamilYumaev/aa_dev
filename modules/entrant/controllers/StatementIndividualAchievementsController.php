@@ -5,7 +5,7 @@ namespace modules\entrant\controllers;
 use kartik\mpdf\Pdf;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\models\StatementIndividualAchievements;
-use modules\entrant\services\StatementIAService;
+use modules\entrant\services\StatementIndividualAchievementsService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -16,7 +16,7 @@ class StatementIndividualAchievementsController extends Controller
 {
     private $service;
 
-    public function __construct($id, $module, StatementIAService $service, $config = [])
+    public function __construct($id, $module, StatementIndividualAchievementsService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;

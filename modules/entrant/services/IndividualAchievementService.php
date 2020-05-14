@@ -5,6 +5,7 @@ namespace modules\entrant\services;
 
 
 use common\transactions\TransactionManager;
+use modules\dictionary\helpers\DictIndividualAchievementCgHelper;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\UserIndividualAchievements;
@@ -29,6 +30,11 @@ class IndividualAchievementService
     public function create($individualId, OtherDocumentForm $form)
     {
         $this->manager->wrap(function () use ($form, $individualId) {
+
+            if(!in_array($individualId, DictIndividualAchievementCgHelper::dictIndividualAchievementCgUserColumn($form->user_id))) {
+                throw new \DomainException('Такое индивидуальное достижение вы не можете добавить!.');
+            }
+            $this->repositoryUserIa->isIndividual($form->user_id, $individualId);
             $document = OtherDocument::create($form);
             $this->repositoryDocument->save($document);
 
@@ -38,14 +44,14 @@ class IndividualAchievementService
         });
     }
 
-    public function remove($individualId)
+    public function remove($id)
     {
-        $model = UserIndividualAchievements::alreadyRecorded($individualId)->one();
-
-        $modelDocument = $this->repositoryDocument->get($model->document_id);
-        $this->repositoryUserIa->remove($model);
-        $this->repositoryDocument->remove($modelDocument);
+        $this->manager->wrap(function () use ($id) {
+            $model = $this->repositoryUserIa->get($id);
+            $modelDocument = $this->repositoryDocument->get($model->document_id);
+            $this->repositoryUserIa->remove($model);
+            $this->repositoryDocument->remove($modelDocument);
+        });
     }
-
 
 }
