@@ -283,4 +283,12 @@ class User extends ActiveRecord
     {
         $this->password_reset_token = null;
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'username'=> 'Логин',
+            'email'=> 'Адрес электронной почты',
+        ];
+    }
 }

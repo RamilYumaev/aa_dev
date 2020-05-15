@@ -10,18 +10,19 @@ use yii\widgets\DetailView;
 ?>
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($fio ? true : false) ?>">
-        <h4>ФИО на латинском</h4>
+        <div class="p-30 green-border">
+            <h4>ФИО на латинском</h4>
             <?php if ($fio) : ?>
                 <?php
                 $columns = [
-                        'surname',
+                    'surname',
                     'name',
                 ];
                 ?>
                 <?php if ($fio['patronymic']): ?>
                     <?php array_push($columns, 'patronymic') ?>
                 <?php endif; ?>
-                <?= Html::a('Редактировать', ['fio-latin/index'], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Редактировать', ['fio-latin/index'], ['class' => 'btn btn-warning']) ?>
                 <?= DetailView::widget([
                     'options' => ['class' => 'table table-bordered detail-view'],
                     'model' => $fio,
@@ -30,5 +31,6 @@ use yii\widgets\DetailView;
             <?php else: ?>
                 <?= Html::a('Добавить', ['fio-latin/index'], ['class' => 'btn btn-success']) ?>
             <?php endif; ?>
+        </div>
     </div>
 </div>

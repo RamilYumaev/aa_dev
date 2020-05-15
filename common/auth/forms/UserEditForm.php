@@ -31,4 +31,10 @@ class UserEditForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return (new User())->attributeLabels();
+    }
+
+
 }
