@@ -83,6 +83,12 @@ class FileCgHelper
         return "Заявление ПK МПГУ ИА" . date("Y") ." ".self::nameFile($statementIa->edu_level, null). " " . date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileNamePD($extension = '.docx')
+    {
+        return "Заявление ПK МПГУ ПД" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
+
 
     public static function dataProfile($userId)
     {

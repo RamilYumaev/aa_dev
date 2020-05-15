@@ -15,7 +15,7 @@ class DocumentEducationHelper
 
     public static function isDataNoEmpty($user_id): bool
     {
-        return self::model($user_id)->isDataNoEmpty();
+        return self::model($user_id) ? self::model($user_id)->isDataNoEmpty() : false;
     }
 
     public static function dataArray($user_id): array
