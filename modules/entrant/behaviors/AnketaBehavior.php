@@ -5,11 +5,18 @@ namespace modules\entrant\behaviors;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\CseViSelect;
+use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\File;
 use modules\entrant\models\OtherDocument;
+use modules\entrant\models\PassportData;
+use modules\entrant\models\Statement;
+use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\SubmittedDocuments;
+use modules\entrant\models\UserIndividualAchievements;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
@@ -40,6 +47,42 @@ class AnketaBehavior extends Behavior
 
     public function beforeUpdate($event)
     {
+        if($this->fileExits()) {
+            throw  new  \DomainException("Редактирв невозможно, так как у Вас имеется файл сканирования");
+        }
+
+        if($this->userIndividualAchievementsExists() && !$this->checkUpdate()) {
+            UserIndividualAchievements::deleteAll($this->userWhere());
+        }
+
+        if($this->statementStatementIndividualAchievements() && !$this->checkUpdate()) {
+            StatementIndividualAchievements::deleteAll($this->userWhere());
+        }
+
+        if($this->statementExists() && !$this->checkUpdate()) {
+            Statement::deleteAll($this->userWhere());
+        }
+
+
+        if (!$this->checkCounty()) {
+            if($this->userPassportExists()) {
+                PassportData::deleteAll($this->userWhere());
+            }
+            if($this->userAddressExists()) {
+                Address::deleteAll($this->userWhere());
+            }
+            if($this->userOtherDocsExists()) {
+                OtherDocument::deleteAll($this->userWhere());
+            }
+        }
+        if (!$this->checkEduLevel()) {
+            if($this->usersDocumentEducationExists()) {
+                DocumentEducation::deleteAll($this->userWhere());
+            }
+            if($this->userOtherDocsExists()) {
+                OtherDocument::deleteAll($this->userWhere());
+            }
+        }
         if ($this->userCseResultExist() && !$this->checkUpdate()) {
             CseSubjectResult::deleteAll($this->userWhere());
         }
@@ -85,17 +128,66 @@ class AnketaBehavior extends Behavior
         return  OtherDocument::find()->where($this->userWhere())->andWhere(['exemption_id'=> true])->exists();
     }
 
-
-
     private function userSubmittedExists()
     {
         return SubmittedDocuments::find()->where($this->userWhere())->exists();
+    }
+
+    private function userPassportExists()
+    {
+        return PassportData::find()->where($this->userWhere())->exists();
+    }
+
+    private function userAddressExists()
+    {
+        return Address::find()->where($this->userWhere())->exists();
+    }
+
+    private function userOtherDocsExists()
+    {
+        return OtherDocument::find()->where($this->userWhere())->exists();
+    }
+
+    private function usersDocumentEducationExists()
+    {
+        return DocumentEducation::find()->where($this->userWhere())->exists();
+    }
+
+    private function userIndividualAchievementsExists()
+    {
+        return UserIndividualAchievements::find()->where($this->userWhere())->exists();
+    }
+
+    private function statementExists()
+    {
+        return Statement::find()->where($this->userWhere())->exists();
+    }
+
+    private function statementStatementIndividualAchievements()
+    {
+        return StatementIndividualAchievements::find()->where($this->userWhere())->exists();
+    }
+
+
+    private function fileExits()
+    {
+        return File::find()->where($this->userWhere())->exists();
     }
 
 
     private function checkUpdate()
     {
         return $this->owner->oldAttributes == $this->owner->attributes;
+    }
+
+    private function checkCounty()
+    {
+        return $this->owner->oldAttributes['citizenship_id'] == $this->owner->attributes['citizenship_id'];
+    }
+
+    private function checkEduLevel()
+    {
+        return $this->owner->oldAttributes['current_edu_level'] == $this->owner->attributes['current_edu_level'];
     }
 
     private function userWhere() {
