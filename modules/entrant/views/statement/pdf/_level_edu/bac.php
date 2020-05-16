@@ -4,6 +4,7 @@
 /* @var $anketa array */
 
 /* @var $statement modules\entrant\models\Statement */
+
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\AdditionalInformationHelper;
@@ -29,50 +30,69 @@ $och = false;
     <tr>
         <th rowspan="2">№</th>
         <th colspan="3" align="center">Условия поступления</th>
-        <th rowspan="2">Основание приема</th>
-        <th align="center" colspan="2">Вид финансирования</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
+            <th align="center">Вид финансирования</th>
+        <?php else : ?>
+            <th rowspan="2">Основание приема</th>
+            <th align="center" colspan="2">Вид финансирования</th>
+        <?php endif; ?>
     </tr>
     <tr>
         <th>Направление подготовки</th>
         <th>Образовательная программма</th>
         <th>Форма обучения</th>
-        <th>Федеральный бюджет</th>
-        <th>Платное обучение</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+            <th>Платное обучение</th>
+        <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+            <th>Федеральный бюджет</th>
+        <?php else : ?>
+            <th>Федеральный бюджет</th>
+            <th>Платное обучение</th>
+        <?php endif; ?>
     </tr>
-    <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
+    <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
+        $och = true;
+    } ?>
         <tr>
             <td width="4%"><?= ++$key ?>.</td>
             <td width="30%"><?= $value["speciality"] ?></td>
             <td width="30%"><?= $value['specialization'] ?></td>
             <td width="10%"><?= $value['form'] ?></td>
-            <td width="11%"><?= $value['special_right'] ?></td>
-            <td width="13%">
-                <?= $value['budget'] ?? "" ?></td>
-            <td width="10%" class="text-center"><?= $value['contract'] ?? "" ?></td>
+            <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+                <td class="text-center"><?= $value['contract'] ?? "" ?></td>
+            <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+                <td class="text-center"><?= $value['budget'] ?? "" ?></td>
+            <?php else : ?>
+                <td width="11%"><?= $value['special_right'] ?></td>
+                <td width="13%"><?= $value['budget'] ?? "" ?></td>
+                <td width="10%" class="text-center"><?= $value['contract'] ?? "" ?></td>
+            <?php endif; ?>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
-<?php if($cse): ?>
-<p>
-    Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
-</p>
+<?php if ($cse): ?>
+    <p>
+        Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
+    </p>
 <?php endif; ?>
-<?php if($noCse): ?>
-<p>
-    Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
-    Основание для допуска к сдаче вступительных испытаний: <?= $anketa['currentEduLevel'] ?>.
-</p>
+<?php if ($noCse): ?>
+    <p>
+        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
+        Основание для допуска к сдаче вступительных испытаний: <?= $anketa['currentEduLevel'] ?>.
+    </p>
 <?php endif; ?>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 
 <table width="100%">
     <tr>
         <td width="80%"> <?php if ($och): ?>
-            В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
+                В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
             <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
-            Сведения о наличии особых прав для поступающих на программы бакалавриата: <?= $anketa['withOitCompetition'] ? "Имею": "Не имею"?> <br/>
+            Сведения о наличии особых прав для поступающих на программы
+            бакалавриата: <?= $anketa['withOitCompetition'] ? "Имею" : "Не имею" ?> <br/>
             Имею преимущественное право при зачислении:<br/>
         </td>
         <td width="20%">Пол: <?= $gender ?></td>
@@ -81,14 +101,14 @@ $och = false;
 <table width="100%">
     <tr>
         <td></td>
-        <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X": "" ?></td>
+        <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X" : "" ?></td>
         <td width="100px">Имею</td>
-        <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X": "" ?></td>
+        <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X" : "" ?></td>
         <td>Не имею</td>
     </tr>
 </table>
-<?php if($prRight) :?>
-<p class="underline-text"> на основании: <?= $prRight ?></p>
+<?php if ($prRight) : ?>
+    <p class="underline-text"> на основании: <?= $prRight ?></p>
 <?php endif; ?>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
 
@@ -102,7 +122,7 @@ $och = false;
 
 <?php
 $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
-if(!$och) {
+if (!$och) {
     unset($signaturePoint[9]);
 }
 foreach ($signaturePoint as $signature) :?>
@@ -159,7 +179,8 @@ foreach ($signaturePoint as $signature) :?>
                 <td></td>
             </tr>
             <tr>
-                <td></td>1
+                <td></td>
+                1
                 <td class="text-center fs-7">(Подпись)</td>
                 <td></td>
                 <td class="text-center fs-7">(Фамилия И.О.)</td>

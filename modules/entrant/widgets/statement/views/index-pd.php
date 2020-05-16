@@ -7,7 +7,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $statement modules\entrant\models\StatementConsentPersonalData*/
 /* @var $isUserSchool bool */
 ?>
-<h3>Заявления об персональных данных</h3>
+<h3>Заявление о согласии на обработку персональных данных</h3>
 <table class="table table-bordered">
     <tr>
         <td><?= Html::a('Скачать заявление', ['statement-personal-data/pdf', 'id' =>  $statement->id],

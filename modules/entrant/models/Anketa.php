@@ -257,7 +257,8 @@ class Anketa extends ActiveRecord
         return [
             'addressNoRequired' => $this->isAddressNoRequired(),
             'withOitCompetition'=> $this->isWithOitCompetition(),
-            'currentEduLevel' =>  AnketaHelper::currentEducationLevel()[$this->current_edu_level]];
+            'currentEduLevel' =>  AnketaHelper::currentEducationLevel()[$this->current_edu_level],
+            'category_id' => $this->category_id];
     }
 
 //    public function getCategory()
