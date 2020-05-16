@@ -53,6 +53,13 @@ class StatementConsentCgController extends Controller
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent());
         $render = $pdf->render();
 
+        try {
+            $this->service->addCountPages($id, count($pdf->getApi()->pages));
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
         return $render;
 
     }

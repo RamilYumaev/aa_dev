@@ -7,6 +7,7 @@ use modules\entrant\models\queries\FileQuery;
 use modules\usecase\ImageGD;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
@@ -20,6 +21,9 @@ use yii\web\UploadedFile;
  * @property string $file_name_user
  * @property string $file_name_base
  * @property integer $position
+ * @property integer $created_at;
+ * @property integer $updated_at;
+ * @property string $message;
  *
 **/
 
@@ -67,6 +71,7 @@ class File extends ActiveRecord
     public function behaviors()
     {
         return [
+            TimestampBehavior::class,
             [
                 'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'file_name_user',

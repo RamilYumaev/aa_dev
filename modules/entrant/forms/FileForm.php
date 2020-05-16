@@ -10,13 +10,13 @@ class FileForm extends Model
 {
     public $file_name, $user_id;
 
-    private $_File;
+    private $_file;
 
-    public function __construct(File $File = null, $config = [])
+    public function __construct(File $file = null, $config = [])
     {
-        if($File){
-            $this->setAttributes($File->getAttributes(), false);
-            $this->_File = $File;
+        if($file){
+            $this->setAttributes($file->getAttributes(), false);
+            $this->_file = $file;
         }
         $this->user_id = \Yii::$app->user->identity->getId();
         parent::__construct($config);
@@ -32,13 +32,14 @@ class FileForm extends Model
             ['file_name', 'file'],
         ];
     }
+
     /**
      * {@inheritdoc}
      */
 
     public function attributeLabels()
     {
-        return (new File())->attributeLabels();
+       return [ 'file_name'=>'Файл',];
     }
 
     public function beforeValidate(): bool

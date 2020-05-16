@@ -77,7 +77,7 @@ class PostDocumentHelper
     }
 
     private static function  addressRequired($user_id) {
-        return self::userAnketa()->isAddressNoRequired() ? true  : AddressHelper::isExits($user_id);
+        return self::userAnketa()->isNoRequired() ? true  : AddressHelper::isExits($user_id);
     }
 
     private static function fioLatin($user_id)
