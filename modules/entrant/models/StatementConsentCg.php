@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $statement_cg_id
- * @property integer $status_id;
+ * @property integer $status;
  * @property integer $created_at;
  * @property integer $updated_at;
  **/
@@ -29,17 +29,14 @@ class StatementConsentCg extends ActiveRecord
 
     public static function create($statement_cg_id, $status_id) {
         $statementCg = new static();
-        $statementCg->statement_cg_id = $statement_id;
-        $statementCg->status_id = $status_id;
+        $statementCg->statement_cg_id = $statement_cg_id;
+        $statementCg->status= $status_id;
         return $statementCg;
     }
 
-    public function getCg() {
-       return $this->hasOne(DictCompetitiveGroup::class, ['id'=>'cg_id']);
-    }
 
-    public function getStatement() {
-      return $this->hasOne(Statement::class, ['id'=>'statement_id']);
+    public function getStatementCg() {
+      return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);
     }
 
     public function attributeLabels()

@@ -24,6 +24,15 @@ class StatementCgRepository extends RepositoryDeleteSaveClass
         return $model;
     }
 
+    public function getUserStatementCg($id, $userId)
+    {
+        if (!$model = StatementCg::find()->alias('cg')->joinWith('statement')
+            ->where(['cg.id' => $id, 'user_id' => $userId])->one()) {
+            throw new \DomainException('Образоавтельная программа не найдена.');
+        }
+        return $model;
+    }
+
     public function getUserStatement($cg_id, $userId)
     {
         if (!$model = StatementCg::find()->alias('cg')->joinWith('statement')

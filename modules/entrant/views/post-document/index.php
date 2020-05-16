@@ -44,6 +44,8 @@ $anketa = Yii::$app->user->identity->anketa();
             <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
+
+            <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
         </div>
     </div>
 </div>
