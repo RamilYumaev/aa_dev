@@ -88,6 +88,6 @@ class DocumentEducationForm extends Model
      */
     public function attributeLabels()
     {
-        return ArrayHelper::merge((new DocumentEducation())->attributeLabels(),['fio'=> 'ФИО документа совпадает с ФИО в паспорте?']);
+        return ArrayHelper::merge((new DocumentEducation())->attributeLabels(),['fio'=> 'ФИО в документе совпадает с ФИО в паспорте?']);
     }
 }

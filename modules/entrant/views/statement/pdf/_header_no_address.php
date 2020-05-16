@@ -2,7 +2,6 @@
 /* @var $this yii\web\View */
 
 use modules\entrant\helpers\PassportDataHelper;
-use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DocumentEducationHelper;
 use \olympic\helpers\auth\ProfileHelper;
 use yii\helpers\Html;
@@ -12,15 +11,13 @@ use yii\helpers\Html;
 
 
 $passport = PassportDataHelper::dataArray($user_id);
-$actual = AddressHelper::actual($user_id);
-$reg= AddressHelper::registrationResidence($user_id);
 $education = DocumentEducationHelper::dataArray($user_id);
 ?>
 
 <table width="100%">
     <tr>
         <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
-        <td valign="top" align="right"><p><strong>Ректору<br/>
+        <td class="v-align-center text-right fs-10"><p><strong>Ректору<br/>
                     федерального государственного бюджетного образовательного учреждения высшего образования<br/>
                     «Московский педагогический государственный университет»<br/>
                     А.В.Лубкову
