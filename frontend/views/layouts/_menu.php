@@ -14,8 +14,9 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right pr-30'],
     'items' => [
+        !Yii::$app->user->isGuest ?
         ['label'=> \yii\helpers\Html::tag("span", "", ["class"=> "glyphicon glyphicon-cog"]),
-            'url'=> '/sign-up/user-edit'],
+            'url'=> '/sign-up/user-edit'] : ['label' => ''],
         ['label' => 'Олимпиады/конкурсы', 'url' => ['/olympiads']],
         ['label' => 'Дни открытых дверей', 'url' => ['/dod']],
         // ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']],
