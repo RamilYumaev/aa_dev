@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -13,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property integer $status;
  * @property integer $created_at;
  * @property integer $updated_at;
+ * @property integer $count_pages
  **/
 
 class StatementConsentCg extends ActiveRecord
@@ -34,6 +36,9 @@ class StatementConsentCg extends ActiveRecord
         return $statementCg;
     }
 
+    public function setCountPages($countPages) {
+        $this->count_pages = $countPages;
+    }
 
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);
@@ -42,6 +47,11 @@ class StatementConsentCg extends ActiveRecord
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];
+    }
+
+    public static function find(): StatementConsentCgQuery
+    {
+        return new StatementConsentCgQuery(static::class);
     }
 
 }

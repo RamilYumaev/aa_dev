@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id;
  * @property integer $created_at;
  * @property integer $updated_at;
+ * @property integer $count_pages;
  **/
 
 class  StatementConsentPersonalData extends ActiveRecord
@@ -31,6 +32,11 @@ class  StatementConsentPersonalData extends ActiveRecord
         $statement->user_id = $userId;
         return $statement;
     }
+
+    public function setCountPages($countPages) {
+        $this->count_pages = $countPages;
+    }
+
 
 
     public function attributeLabels()

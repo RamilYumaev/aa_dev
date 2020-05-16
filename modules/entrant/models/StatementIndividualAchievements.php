@@ -4,6 +4,7 @@ namespace modules\entrant\models;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\queries\StatementIAQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 
@@ -16,6 +17,8 @@ use yii\db\ActiveRecord;
  * @property integer $counter
  * @property integer $edu_level
  * @property integer $count_pages
+ * @property integer $created_at;
+ * @property integer $updated_at;
  *
  **/
 
@@ -23,6 +26,11 @@ use yii\db\ActiveRecord;
 class StatementIndividualAchievements extends ActiveRecord
 {
     const DRAFT = 0;
+
+    public function behaviors()
+    {
+        return [TimestampBehavior::class];
+    }
 
     public static function tableName()
     {

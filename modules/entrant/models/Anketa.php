@@ -87,7 +87,7 @@ class Anketa extends ActiveRecord
         return $this->category_id == CategoryStruct::WITHOUT_COMPETITION;
     }
 
-    public function isAddressNoRequired()
+    public function isNoRequired()
     {
         return in_array($this->category_id, CategoryStruct::UMSGroup());
     }
@@ -255,7 +255,7 @@ class Anketa extends ActiveRecord
 
     public function dataArray() {
         return [
-            'addressNoRequired' => $this->isAddressNoRequired(),
+            'addressNoRequired' => $this->isNoRequired(),
             'withOitCompetition'=> $this->isWithOitCompetition(),
             'currentEduLevel' =>  AnketaHelper::currentEducationLevel()[$this->current_edu_level],
             'category_id' => $this->category_id];

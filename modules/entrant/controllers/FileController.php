@@ -5,6 +5,8 @@ use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
@@ -68,7 +70,10 @@ class FileController extends Controller
         $model = FileHelper::validateModel($hash);
         $modelOne = $this->model($model, $id);
         if(($model == Statement::class && !$modelOne->count_pages) ||
-            ($model == StatementIndividualAchievements::class && !$modelOne->count_pages))  {
+            ($model == StatementIndividualAchievements::class && !$modelOne->count_pages) ||
+            ($model == StatementConsentPersonalData::class && !$modelOne->count_pages) ||
+            ($model == StatementConsentCg::class && !$modelOne->count_pages))
+        {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -139,15 +144,24 @@ class FileController extends Controller
 
     /**
      * @param integer $id
+     * @param integer $modelOne
+     * @var $model BaseActiveRecord;
      * @return mixed
      * @throws NotFoundHttpException
      */
     protected function model($modelOne, $id): BaseActiveRecord
     {
-        if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null)) {
+        if ($modelOne == StatementConsentCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => $this->getUser() ])) !== null)) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    private function getUser()  {
+        return Yii::$app->user->identity->getId();
     }
 
     /**

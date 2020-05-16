@@ -27,9 +27,11 @@ class StatementConsentCgService
         $this->repository->save($stConsent);
     }
 
-
-
-
+    public function addCountPages($id, $count){
+        $statement = $this->repository->get($id);
+        $statement->setCountPages($count);
+        $this->repository->save($statement);
+    }
 
 
 }

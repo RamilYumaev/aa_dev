@@ -8,6 +8,7 @@ use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\services\StatementIndividualAchievementsService;
+use modules\entrant\services\StatementPersonalDataService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -17,6 +18,12 @@ use yii\web\NotFoundHttpException;
 class StatementPersonalDataController extends Controller
 {
     private $service;
+
+    public function __construct($id, $module, StatementPersonalDataService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
 
     /**
      *
@@ -35,6 +42,14 @@ class StatementPersonalDataController extends Controller
         $content = $this->renderPartial('pdf/_main', ["statementPd" => $statementPd ]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNamePD('.pdf'));
         $render = $pdf->render();
+
+        try {
+            $this->service->addCountPages($statementPd->user_id, count($pdf->getApi()->pages));
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
 
         return $render;
 

@@ -6,12 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use kartik\file\FileInput;
 ?>
-<?php $form = ActiveForm::begin(['id'=> 'form-file',
-    //'enableClientValidation' => false,
-    'enableAjaxValidation' => false,
-    'options' => [
-        'enctype' => 'multipart/form-data',
-    ],]); ?>
+<?php $form = ActiveForm::begin(['id'=> 'form-file']); ?>
     <?= $form->field($model, 'file_name')->widget(FileInput::class, ['language'=> 'ru',
         'options' => ['accept' => 'image/*'],
     ]);?>

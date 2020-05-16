@@ -8,11 +8,15 @@ use modules\entrant\widgets\file\FileListWidget;
 <table class="table table-bordered">
     <tr>
         <th>Документ об образовании</th>
+        <th>Тип</th>
         <th><?= FileWidget::widget(['record_id' => $model->id, 'model' =>$model::className() ]) ?></th>
     </tr>
     <tr>
         <td>
             <?= $model->documentFull ?>, <?= $model->schoolName ?>, <?= $model->school->countryRegion ?>
+        </td>
+        <td>
+            <?= $model->typeName ?>
         </td>
         <td>
             <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className()]) ?>

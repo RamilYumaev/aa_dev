@@ -6,6 +6,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictSpeciality;
 use dictionary\models\Faculty;
 use modules\entrant\models\queries\StatementQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -18,6 +19,9 @@ use yii\db\ActiveRecord;
  * @property integer $speciality_id
  * @property integer $special_right
  * @property integer $status
+ * @property string  $message
+ * @property integer $created_at;
+ * @property integer $updated_at;
  * @property integer $counter
  * @property integer $count_pages
  *
@@ -31,6 +35,11 @@ class Statement extends ActiveRecord
     public static function tableName()
     {
         return '{{%statement}}';
+    }
+
+    public function behaviors()
+    {
+        return [TimestampBehavior::class];
     }
 
     public static  function create($user_id, $faculty_id, $speciality_id, $special_right, $edu_level, $counter) {

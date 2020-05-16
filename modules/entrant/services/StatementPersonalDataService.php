@@ -31,6 +31,14 @@ class StatementPersonalDataService
 
     }
 
+    public function addCountPages($userId, $count){
+        $statement = $this->repository->get($userId);
+        if($statement) {
+            $statement->setCountPages($count);
+            $this->repository->save($statement);
+        }
+    }
+
 
 
 

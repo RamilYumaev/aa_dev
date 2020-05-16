@@ -28,7 +28,7 @@ $anketa = Yii::$app->user->identity->anketa();
             <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(); ?>
         </div>
     <?php endif; ?>
-    <?php if (!$anketa->isAddressNoRequired()): ?>
+    <?php if (!$anketa->isNoRequired()): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\address\AddressWidget::widget(); ?>
         </div>
@@ -72,12 +72,14 @@ $anketa = Yii::$app->user->identity->anketa();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(); ?>
     </div>
+    <?php if (!$anketa->isNoRequired()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget() ?>
     </div>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(); ?>
     </div>
+    <?php endif; ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(); ?>
     </div>

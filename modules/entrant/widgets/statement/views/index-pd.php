@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
-use dictionary\helpers\DictCompetitiveGroupHelper;
+
 /* @var $this yii\web\View */
 /* @var $statement modules\entrant\models\StatementConsentPersonalData*/
 /* @var $isUserSchool bool */

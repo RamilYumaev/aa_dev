@@ -10,6 +10,8 @@ use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use Yii;
 
@@ -23,7 +25,9 @@ class FileHelper
             Address::class,
             OtherDocument::class,
             Agreement::class,
-            StatementIndividualAchievements::class
+            StatementIndividualAchievements::class,
+            StatementConsentPersonalData::class,
+            StatementConsentCg::class
         ];
     }
 

@@ -10,11 +10,15 @@ use modules\entrant\widgets\file\FileListWidget;
 <table class="table table-bordered">
     <tr>
         <th>Документ, удостоверяющий личность</th>
+        <th>Тип</th>
         <th><?= FileWidget::widget(['record_id' => $model->id, 'model' =>$model::className() ]) ?></th>
     </tr>
     <tr>
         <td>
             <?= $model->passportFull ?>
+        </td>
+        <td>
+            <?= $model->typeName ?>
         </td>
         <td>
             <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className()]) ?>

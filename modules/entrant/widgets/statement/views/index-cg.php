@@ -24,7 +24,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                         <tr>
                             <td><?= $consent->id ?></td>
                             <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
-                                    ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
+                                    ['class' => 'btn btn-large btn-warning'])?>
+                                <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
 
                                 <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
                             </td>
