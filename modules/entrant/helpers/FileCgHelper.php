@@ -88,6 +88,11 @@ class FileCgHelper
         return "Заявление ПK МПГУ ПД" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileNameConsent($extension = '.docx')
+    {
+        return "Заявление ПK МПГУ ЗОС" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
 
 
     public static function dataProfile($userId)

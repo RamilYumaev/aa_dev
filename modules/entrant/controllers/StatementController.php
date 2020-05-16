@@ -7,6 +7,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use kartik\mpdf\Pdf;
 use Libern\QRCodeReader\QRCodeReader;
 use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\services\StatementService;
@@ -80,7 +81,7 @@ class StatementController extends Controller
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('pdf/_main', ["statement" => $statement ]);
-        $pdf = $this->generatePdf($content, $statement);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileName($statement, '.pdf'));
         $render = $pdf->render();
         try {
             $this->service->addCountPages($id, count($pdf->getApi()->pages));
@@ -93,42 +94,6 @@ class StatementController extends Controller
 
     }
 
-    private function generatePdf($content, Statement $statement) {
-
-        $pdf = new Pdf([
-            // set to use core fonts only
-            'mode' => Pdf::MODE_UTF8,
-            'filename' => FileCgHelper::fileName($statement, '.pdf'),
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4,
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER,
-            // your html content input
-            'content' => $content,
-            'marginLeft' => 25,
-            'marginRight' => 15,
-            'marginTop' => 15,
-            'marginBottom' => 15,
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting
-           // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.css',
-            'cssFile' => '@frontend/web/css/pdf-documents.css',
-            'defaultFont' => 'Times New Roman',
-            'defaultFontSize'=> 8, //pt
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            // set mPDF properties on the fly
-            // call mPDF methods on the fly
-            //'marginTop' => 40,
-            'methods' => [
-                //'SetHeader'=>['Krajee Report Header'],
-             //   'SetHeader'=>['<barcode code="'.$statement->id.'-{PAGENO}" size="2" type="QR" class="barcode" />'],
-            ]
-        ]);
-        return $pdf;
-    }
 
     /**
      * @param integer $id

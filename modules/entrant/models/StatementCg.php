@@ -36,6 +36,10 @@ class StatementCg extends ActiveRecord
       return $this->hasOne(Statement::class, ['id'=>'statement_id']);
     }
 
+    public function getStatementConsent() {
+        return $this->hasMany(StatementConsentCg::class, ['statement_cg_id'=>'id']);
+    }
+
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];
