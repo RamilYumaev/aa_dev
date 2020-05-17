@@ -99,4 +99,12 @@ class Agreement extends YiiActiveRecordAndModeration
             'year' =>  $value,
         ];
     }
+
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
 }

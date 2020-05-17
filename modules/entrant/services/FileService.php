@@ -5,11 +5,11 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use modules\entrant\forms\FileForm;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
-use modules\entrant\models\Statement;
+use yii\helpers\FileHelper as IfFile;
 use modules\entrant\repositories\FileRepository;
 use yii\db\BaseActiveRecord;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use Zxing\QrReader;
 
@@ -30,14 +30,17 @@ class FileService
         $this->manager->wrap(function ()use ($form, $model) {
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
-            if($model::className() == Statement::class) {
-                $true = $model->count_pages == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
+            if (FileHelper::listCountModels()[$model::className()]) {
+                $arrayCount = FileHelper::listCountModels()[$model::className()];
+            } else {
+                $arrayCount = $model->count_pages;
+            }
+            $true = $arrayCount == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
                 if($true) {
                     throw new \DomainException('Загрузка невозможна');
                 }
-            }
-            $model  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
-            $this->repository->save($model);
+            $modelFile  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
+            $this->repository->save($modelFile);
 
         }});
         return null;
@@ -45,7 +48,7 @@ class FileService
 
     public function correctImageFile(UploadedFile $file) {
         $array = ["image/png", 'image/jpeg'];
-        $type = FileHelper::getMimeType($file->tempName, null, false);
+        $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
             throw new \DomainException('Неверный тип файла '.$file->type.'.  Ваш файл - '.$type);
         }
@@ -81,9 +84,6 @@ class FileService
             $this->correctImageFile($form->file_name);
             $model->setFile($form->file_name);
             $this->repository->save($model);
-//            if($model->model = Statement::class) {
-//                $this->statement($model);
-//            }
         }
     }
 

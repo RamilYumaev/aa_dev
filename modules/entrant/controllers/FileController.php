@@ -2,7 +2,7 @@
 namespace modules\entrant\controllers;
 
 use modules\entrant\forms\FileForm;
-use modules\entrant\forms\FileHelper;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;

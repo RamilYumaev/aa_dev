@@ -40,6 +40,15 @@ class StatementConsentCg extends ActiveRecord
         $this->count_pages = $countPages;
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
+
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);
     }

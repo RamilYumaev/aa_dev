@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
+use modules\entrant\helpers\BlockRedGreenHelper;
 /* @var $this yii\web\View */
 /* @var $statements yii\db\BaseActiveRecord */
 /* @var $statement modules\entrant\models\Statement*/
@@ -10,9 +11,9 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <table class="table table-bordered">
     <?php foreach ($statements as $statement):  ?>
-    <tr>
+    <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages) ?>">
         <td><?= $statement->numberStatement ?>
-         <table class="table">
+         <table class="table" style="background-color: transparent">
              <tr>
                  <th>Образовательные программы</th>
                  <th></th>

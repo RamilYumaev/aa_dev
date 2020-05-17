@@ -1,4 +1,6 @@
 <?php
+
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
@@ -16,12 +18,12 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         <th></th>
     </tr>
     <?php foreach ($statementsCg as $statement):  ?>
-        <tr>
+        <tr >
             <td><?= $statement->cg->fullName ?> <?= Html::a('Сформиировать заявление', ['statement-consent-cg/create',
                     'id' => $statement->id], ['class' => 'btn btn-info',]) ?>
                 <table class="table">
                     <?php foreach ($statement->statementConsent as $consent): ?>
-                        <tr>
+                        <tr class="<?= BlockRedGreenHelper::colorTableBg($consent->countFiles(), $consent->count_pages) ?>">
                             <td><?= $consent->id ?></td>
                             <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
                                     ['class' => 'btn btn-large btn-warning'])?>

@@ -177,4 +177,12 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         }
         return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
     }
+
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
 }

@@ -1,5 +1,8 @@
 <?php
+
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
 /* @var $this yii\web\View */
@@ -15,7 +18,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <th></th>
     </tr>
     <?php foreach($addresses as $address) :?>
-    <tr>
+    <tr class="<?= BlockRedGreenHelper::colorTableBg($address->countFiles(), FileHelper::listCountModels()[$address::className()]) ?>">
         <td><?= $address->addersFull ?></td>
         <td><?= $address->typeName ?></td>
         <td><?= FileWidget::widget(['record_id' => $address->id, 'model' => $address::className() ]) ?>

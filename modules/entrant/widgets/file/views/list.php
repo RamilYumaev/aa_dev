@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
 
 ?>
-<table class="table">
+<table class="table table-bordered" style="background-color: transparent">
     <?php foreach ($files as $key => $file): ?>
     <tr>
         <td>Страница <?= ++$key ?></td>
