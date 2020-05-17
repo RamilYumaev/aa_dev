@@ -60,7 +60,6 @@ class Identity implements IdentityInterface
             throw new \DomainException("Для выполнения данного действия необходимо ввести документ, 
             удостоверяющий личность");
         }
-        \Yii::warning($passport->age());
 
         return $passport->age() >= 18;
     }

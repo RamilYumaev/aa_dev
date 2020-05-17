@@ -526,4 +526,20 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function dataArray($cgId):array
+    {
+        $cg = DictCompetitiveGroup::findOne(['id'=>$cgId]);
+
+        return [
+            'faculty'=>$cg->faculty->full_name ?? "",
+            'specialty'=> $cg->specialty->getCodeWithName() ?? "",
+            'specialization'=>$cg->specialization->name ?? "",
+            'education_level'=>$cg->edu_level,
+            'edu_form'=> self::formName($cg->education_form_id) ?? "",
+            'financing_type_id'=> self::financingTypeName($cg->financing_type_id) ?? "",
+            'is086' => $cg->enquiry_086_u_status,
+            'foreigner_status'=>$cg->foreigner_status,
+        ];
+    }
+
 }
