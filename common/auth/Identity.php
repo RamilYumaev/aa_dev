@@ -8,6 +8,7 @@ use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\PassportData;
 use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
@@ -46,6 +47,22 @@ class Identity implements IdentityInterface
     public function anketa()
     {
         return Anketa::find()->userAnketa($this->getId())->one();
+    }
+
+    public function eighteenYearsOld(): bool
+    {
+        $passport = PassportData::find()
+            ->andWhere(['user_id'=>$this->getId()])
+            ->andWhere(['main_status'=>true])
+            ->one();
+
+        if(!$passport){
+            throw new \DomainException("Для выполнения данного действия необходимо ввести документ, 
+            удостоверяющий личность");
+        }
+        \Yii::warning($passport->age());
+
+        return $passport->age() >= 18;
     }
 
     public function cseFilterCg(array $userSubjectArray): array
