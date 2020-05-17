@@ -38,6 +38,7 @@ class PostDocumentController extends Controller
                     'visit' => ['POST'],
                     'mail' => ['POST'],
                     'ecp' => ['POST'],
+                    'send'=> ['POST']
                 ],
             ],
         ];
@@ -84,7 +85,6 @@ class PostDocumentController extends Controller
         return $this->serviceSave(PostDocumentHelper::TYPE_VISIT);
     }
 
-
     /**
      * @return mixed
      */
@@ -93,80 +93,18 @@ class PostDocumentController extends Controller
         return $this->serviceSave(PostDocumentHelper::TYPE_ECP);
     }
 
-    /**
-     *
-     * @param $faculty
-     * @param $speciality
-     * @param $edu_level
-     * @param null $special_right_id
-     * @throws NotFoundHttpException
-     */
-    public function actionDoc($faculty, $speciality, $edu_level, $special_right_id=null)
-    {
-        if (!DictCompetitiveGroupHelper::facultySpecialityExistsUser(Yii::$app->user->identity->getId(),
-            $faculty, $speciality,
-            $edu_level, $special_right_id)) {
-            throw new NotFoundHttpException('Такой страницы не существует.');
+    public function actionSend() {
+        try {
+            $this->service->send(Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
         }
-
-        FileCgHelper::getFile(Yii::$app->user->identity->getId(),
-            $faculty, $speciality,
-            $edu_level, $special_right_id);
+        return $this->redirect(['index']);
     }
 
-    /**
-     *
-     * @param $faculty
-     * @param $speciality
-     * @param $edu_level
-     * @param null $special_right_id
-     * @return mixed
-     * @throws NotFoundHttpException
-     * @throws \yii\base\InvalidConfigException
-     */
 
-    public function actionPdf($faculty, $speciality, $edu_level, $special_right_id=null)
-    {
-        if (!DictCompetitiveGroupHelper::facultySpecialityExistsUser(Yii::$app->user->identity->getId(),
-            $faculty, $speciality,
-            $edu_level, $special_right_id)) {
-            throw new NotFoundHttpException('Такой страницы не существует.');
-        }
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        Yii::$app->response->headers->add('Content-Type', 'application/pdf');
-
-        $content = $this->renderPartial('pdf/_main', ["faculty" => $faculty, 'speciality' => $speciality,
-            'edu_level' => $edu_level,'special_right_id' => $special_right_id, 'user_id' => Yii::$app->user->identity->getId()]);
-
-         $pdf = new Pdf([
-                // set to use core fonts only
-                'mode' => Pdf::MODE_UTF8,
-                'filename' => FileCgHelper::fileName($edu_level, $special_right_id, '.pdf'),
-                // A4 paper format
-                'format' => Pdf::FORMAT_A4,
-                // portrait orientation
-                'orientation' => Pdf::ORIENT_PORTRAIT,
-                // stream to browser inline
-                'destination' => Pdf::DEST_DOWNLOAD,
-                // your html content input
-                'content' => $content,
-                // format content from your own css file if needed or use the
-                // enhanced bootstrap css built by Krajee for mPDF formatting
-                'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.css',
-                // any css to be embedded if required
-                'cssInline' => '.kv-heading-1{font-size:18px}',
-                 // set mPDF properties on the fly
-                'options' => ['title' => 'Krajee Report Title'],
-                 // call mPDF methods on the fly
-                'methods' => [
-                    //'SetHeader'=>['Krajee Report Header'],
-                    'SetFooter'=>['{PAGENO}'],
-                ]
-            ]);
-
-        return $pdf->render();
-    }
 
     /**
      * @param integer $type

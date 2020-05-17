@@ -63,6 +63,9 @@ class StatementService
             if($statement->files) {
                 throw new \DomainException('Вы не можете удалить заявление, так как загружен файл!');
             }
+            if($statementCg->statementConsentFiles)  {
+                throw new \DomainException('Вы не можете удалить образовательную программу, так как загружен файл в заявлении о зачислении!');
+            }
             $this->userCgRepository->remove($userCg);
             if($statement->getStatementCg()->count() == 1) {
                 $this->repository->remove($statement);

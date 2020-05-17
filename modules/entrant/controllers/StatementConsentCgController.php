@@ -6,6 +6,7 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\services\StatementConsentCgService;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -20,6 +21,18 @@ class StatementConsentCgController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @param integer $id
      * @return mixed
@@ -32,7 +45,7 @@ class StatementConsentCgController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
@@ -61,7 +74,6 @@ class StatementConsentCgController extends Controller
         }
 
         return $render;
-
     }
 
     /**
@@ -71,11 +83,28 @@ class StatementConsentCgController extends Controller
      */
     protected function findModel($id): StatementConsentCg
     {
-        if (($model = StatementConsentCg::findOne($id)) !== null) {
+        if (($model = StatementConsentCg::find()->statementOne($id, $this->getUser())) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        try {
+            $this->service->remove($id, Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
 
     private function  getUser() {
        return Yii::$app->user->identity->getId();

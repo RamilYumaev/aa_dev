@@ -1,8 +1,6 @@
 <?php
-
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\FileHelper;
-use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
 /* @var $this yii\web\View */

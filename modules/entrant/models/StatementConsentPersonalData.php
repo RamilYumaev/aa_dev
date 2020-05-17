@@ -45,6 +45,11 @@ class  StatementConsentPersonalData extends ActiveRecord
         return $this->getFiles()->count();
     }
 
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
+    }
+
+
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];

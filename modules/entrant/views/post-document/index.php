@@ -46,6 +46,8 @@ $anketa = Yii::$app->user->identity->anketa();
             <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
+
+            <?= Html::a("Отправить", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
         </div>
     </div>
 </div>
