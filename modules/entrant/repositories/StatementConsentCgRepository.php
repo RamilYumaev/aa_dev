@@ -1,6 +1,4 @@
 <?php
-
-
 namespace modules\entrant\repositories;
 
 use modules\entrant\models\StatementConsentCg;
@@ -14,6 +12,19 @@ class StatementConsentCgRepository extends RepositoryDeleteSaveClass
             return false;
         }
         return  $model;
+    }
+
+    public function getFull($id, $userId)
+    {
+        if (!$model = StatementConsentCg::find()->statementOne($id, $userId)) {
+            throw new \DomainException('Заявление о зачислении не найдено.');
+        }
+        return  $model;
+    }
+
+    public function exits($userId, $status)
+    {
+       return StatementConsentCg::find()->statementStatus($userId, $status)->exists();
     }
 
 }

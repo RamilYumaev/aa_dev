@@ -11,13 +11,6 @@ use modules\entrant\helpers\OtherDocumentHelper;
         <div class="p-30 green-border">
         <h4>Прочие документы</h4>
         <?= Html::a('Добавить', ['other-document/create'], ['class' => 'btn btn-success']) ?>
-        <?php if(UserCgHelper::userMedicine(Yii::$app->user->identity->getId())): ?>
-            <?php if(!OtherDocumentHelper::isExitsMedicine(Yii::$app->user->identity->getId())): ?>
-                <p class="bg-danger m-10">
-                     Необходимо добавить медицинскую справку 086-у
-                </p>
-            <?php endif; ?>
-        <?php endif; ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [

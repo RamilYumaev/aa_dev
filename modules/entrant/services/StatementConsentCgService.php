@@ -4,6 +4,7 @@
 namespace modules\entrant\services;
 
 
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\repositories\StatementCgRepository;
@@ -23,6 +24,13 @@ class StatementConsentCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
+        if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT, StatementHelper::STATUS_WALT])) {
+        throw new \DomainException('Вы уже сформировали заявление о зачислении');
+        }
+        if(!$cg->statement->countFilesAndCountPagesTrue()) {
+            throw new \DomainException('Вы не можете сформировать заявление о зачислении, так как к заялениию  №'. $cg->statement->numberStatement.' не все загружены файлы !');
+        }
+
         $stConsent = StatementConsentCg::create($cg->id, 0);
         $this->repository->save($stConsent);
     }
@@ -32,6 +40,15 @@ class StatementConsentCgService
         $statement->setCountPages($count);
         $this->repository->save($statement);
     }
+
+    public function remove($id, $userId){
+        $statement = $this->repository->getFull($id, $userId);
+        if($statement->files) {
+            throw new \DomainException('Вы не можете удалить заявление, так как загружен файл!');
+        }
+        $this->repository->remove($statement);
+    }
+
 
 
 }

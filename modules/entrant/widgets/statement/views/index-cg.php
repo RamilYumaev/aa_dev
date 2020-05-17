@@ -24,9 +24,13 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                 <table class="table">
                     <?php foreach ($statement->statementConsent as $consent): ?>
                         <tr class="<?= BlockRedGreenHelper::colorTableBg($consent->countFiles(), $consent->count_pages) ?>">
-                            <td><?= $consent->id ?></td>
+                            <td></td>
                             <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
                                     ['class' => 'btn btn-large btn-warning'])?>
+                                <?= Html::a('Удалить', ['statement-consent-cg/delete',
+                                    'id' =>  $consent->id,],
+                                    ['class' => 'btn btn-danger', 'data-method'=>"post",
+                                        "data-confirm" => "Вы уверены что хотите удалить?"]) ?>
                                 <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
 
                                 <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>

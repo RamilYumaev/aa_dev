@@ -58,6 +58,10 @@ class Statement extends ActiveRecord
         $this->count_pages = $countPages;
     }
 
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
 
     public static function find(): StatementQuery
     {
@@ -78,6 +82,10 @@ class Statement extends ActiveRecord
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
 

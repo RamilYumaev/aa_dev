@@ -40,6 +40,16 @@ class StatementCg extends ActiveRecord
         return $this->hasMany(StatementConsentCg::class, ['statement_cg_id'=>'id']);
     }
 
+    public function getStatementConsentFiles() {
+        /* @var $consent \modules\entrant\models\StatementConsentCg */
+         foreach ($this->statementConsent as $consent) {
+             if($consent->countFiles()) {
+                 return true;
+             }
+         }
+         return false;
+    }
+
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];
