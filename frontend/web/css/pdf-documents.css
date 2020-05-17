@@ -9,28 +9,40 @@ body {
 .fs-10 {
     font-size: 10px;
 }
-.fs-15{
+
+.fs-15 {
     font-size: 15px;
 }
-.fs-20{
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.fs-20 {
     font-size: 20px;
 }
+
 .fs-25 {
     font-size: 25px;
 }
-.h-20{
-   height: 20px;
+
+.h-20 {
+    height: 20px;
 }
-.h-30{
+
+.h-30 {
     height: 30px;
 }
-.h-41{
+
+.h-41 {
     height: 41px;
 }
-.h-50{
+
+.h-50 {
     height: 50px;
 }
-.h-60{
+
+.h-60 {
     height: 60px;
 }
 
@@ -38,10 +50,11 @@ body {
     border-collapse: collapse;
 }
 
-.bg-gray{
+.bg-gray {
     background-color: #868686;
 }
-.bg-light-gray{
+
+.bg-light-gray {
     background-color: #c7c7c7;
 }
 
@@ -96,6 +109,14 @@ body {
     margin-top: 50px;
 }
 
+.mt-100 {
+    margin-top: 100px;
+}
+
+.mt-200 {
+    margin-top: 200px;
+}
+
 .text-center {
     text-align: center;
 }
@@ -143,6 +164,10 @@ body {
 
 .bb {
     border-bottom: 1px solid black;
+}
+
+.lh-1-5 {
+    line-height: 1.5;
 }
 
 
