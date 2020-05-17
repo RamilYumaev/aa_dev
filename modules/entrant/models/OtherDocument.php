@@ -122,4 +122,12 @@ class OtherDocument extends ActiveRecord
         ];
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
 }

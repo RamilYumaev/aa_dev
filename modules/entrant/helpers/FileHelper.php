@@ -1,7 +1,7 @@
 <?php
 
 
-namespace modules\entrant\forms;
+namespace modules\entrant\helpers;
 
 
 use modules\entrant\models\Address;
@@ -38,6 +38,20 @@ class FileHelper
           }
         }
         return null;
+    }
+
+    public static function listCountModels() {
+        return [
+            DocumentEducation::class => 10,
+            PassportData::class => 1,
+            Address::class => 1,
+            OtherDocument::class => 20,
+            Agreement::class => 20,
+            StatementIndividualAchievements::class => 0,
+            Statement::class => 0,
+            StatementConsentPersonalData::class => 0,
+            StatementConsentCg::class => 0,
+        ];
     }
 
 }

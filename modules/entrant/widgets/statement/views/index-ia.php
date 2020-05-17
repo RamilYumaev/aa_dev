@@ -1,4 +1,6 @@
 <?php
+
+use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
@@ -17,7 +19,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             <th>Наименование</th>
         </tr>
         <?php foreach ($statementsIa as $statement):  ?>
-        <tr>
+        <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages) ?>">
             <td><?= $statement->numberStatement ?></td>
             <td> <?php foreach ($statement->statementIa as $key => $stIa):  ?>
                 <?= ++$key ?>. <?= $stIa->dictIndividualAchievement->name ?>

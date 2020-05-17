@@ -1,4 +1,7 @@
 <?php
+
+use modules\entrant\helpers\BlockRedGreenHelper;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
 /* @var $model modules\entrant\models\Agreement */
@@ -9,7 +12,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <th>Наименование договора</th>
         <th><?= FileWidget::widget(['record_id' => $model->id, 'model' =>$model::className() ]) ?></th>
     </tr>
-    <tr>
+    <tr class="<?= BlockRedGreenHelper::colorTableBg($model->countFiles(), FileHelper::listCountModels()[$model::className()], true) ?>">
         <td>
             <?= $model->documentFull ?>, <?= $model->organization ?>
         </td>

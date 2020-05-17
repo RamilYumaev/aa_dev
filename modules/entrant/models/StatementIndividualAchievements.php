@@ -55,6 +55,10 @@ class StatementIndividualAchievements extends ActiveRecord
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
 
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
     public function getStatementIa() {
         return $this->hasMany(StatementIa::class, ['statement_individual_id' => 'id']);
     }

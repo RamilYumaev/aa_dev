@@ -37,7 +37,13 @@ class  StatementConsentPersonalData extends ActiveRecord
         $this->count_pages = $countPages;
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
 
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
 
     public function attributeLabels()
     {
