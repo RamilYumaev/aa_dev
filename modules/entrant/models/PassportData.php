@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use DateTime;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\behaviors\FileBehavior;
@@ -156,6 +157,13 @@ class PassportData extends YiiActiveRecordAndModeration
             'authority'=>$this->authority,
             'division_code'=>$this->division_code,
         ];
+    }
+
+    public function age()
+    {
+        $datetime = new DateTime($this->date_of_birth);
+        $interval = $datetime->diff(new DateTime(date("Y-m-d")));
+        return $interval->format("%Y");
     }
 
 }

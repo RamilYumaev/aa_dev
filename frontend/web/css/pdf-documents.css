@@ -30,6 +30,9 @@ body {
 .h-50{
     height: 50px;
 }
+.h-60{
+    height: 60px;
+}
 
 .app-table {
     border-collapse: collapse;

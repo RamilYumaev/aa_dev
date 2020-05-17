@@ -21,8 +21,8 @@ class PdfHelper
             'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
-            'marginLeft' => 25,
-            'marginRight' => 15,
+            'marginLeft' => 20,
+            'marginRight' => 10,
             'marginTop' => 15,
             'marginBottom' => 15,
             // format content from your own css file if needed or use the
