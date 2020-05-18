@@ -11,9 +11,10 @@ use modules\entrant\widgets\file\FileListWidget;
 /* @var $statementCg modules\entrant\models\StatementCg*/
 /* @var $isUserSchool bool */
 ?>
+<h3>Скан страницы паспорта с отметкой о регистрации или скан временной регистрации</h3>
 <table class="table table-bordered">
     <tr>
-        <th>Скан страницы паспорта с отметкой о регистрации или скан временной регистрации</th>
+        <th>Адрес</th>
         <th>Тип</th>
         <th></th>
     </tr>

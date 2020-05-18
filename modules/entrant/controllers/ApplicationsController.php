@@ -25,7 +25,7 @@ class ApplicationsController extends Controller
     {
         $this->service = $service;
         parent::__construct($id, $module, $config);
-        $this->anketa = \Yii::$app->user->identity->anketa();
+        $this->anketa = $this->getAnketa();
     }
 
     public function actionGetCollege()
@@ -263,9 +263,17 @@ class ApplicationsController extends Controller
         }
     }
 
+    protected function getAnketa()
+    {
+        if (\Yii::$app->user->isGuest) {
+            return $this->redirect('default/index');
+        }
+        return \Yii::$app->user->identity->anketa();
+    }
+
     protected function findModelByUser()
     {
-        if (Yii::$app->user->isGuest) {
+        if (\Yii::$app->user->isGuest) {
             return $this->redirect('default/index');
         }
         return Anketa::findOne(['user_id' => Yii::$app->user->identity->getId()]);
