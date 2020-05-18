@@ -33,7 +33,7 @@ $anketa = Yii::$app->user->identity->anketa();
                 <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file']); ?>
             <?php endif; ?>
 
-            <?php if (!$anketa->isRussia()): ?>
+            <?php if (!$anketa->isNoRequired()): ?>
                 <?= \modules\entrant\widgets\address\AddressFileWidget::widget(); ?>
             <?php endif; ?>
 
