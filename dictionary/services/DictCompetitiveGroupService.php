@@ -92,8 +92,8 @@ class DictCompetitiveGroupService
     public function getAllFullCg($year, $educationLevelId, $educationFormId,
             $facultyId, $specialityId, $foreignerStatus, $financingTypeId)
     {
-        $model = $this->model($year, $educationLevelId, $educationFormId,
-            $facultyId, $foreignerStatus, $financingTypeId)->speciality($this->jsonDecodeIntValue($specialityId));
+        $model =  DictCompetitiveGroup::find()->filterCg($year, $educationLevelId, $this->jsonDecodeIntValue($educationFormId),
+            $this->jsonDecodeIntValue($facultyId), $this->jsonDecodeIntValue($specialityId), $foreignerStatus, $financingTypeId);
         return $this->dataResult($model);
     }
     private function model($year, $educationLevelId, $educationFormId,
@@ -113,9 +113,9 @@ class DictCompetitiveGroupService
             $result[] = [
                 'id' => $currentCg->id,
                 'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
-                    $currentCg->specialty->name,
-                    $currentCg->specialization->name,
-                    $currentCg->faculty->full_name, $currentCg->education_form_id, $currentCg->financing_type_id),
+                    $currentCg->speciality_id,
+                    $currentCg->specialization_id,
+                    $currentCg->faculty_id, $currentCg->education_form_id, $currentCg->financing_type_id),
             ];
         }
         return $result;
