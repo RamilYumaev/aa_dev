@@ -46,7 +46,7 @@ class DictClassCreateForm extends Model
     public function classes(): array
     {
         $result = [];
-        for ($i = 1; $i <= 11; $i++) {
+        for ($i = 0; $i <= 11; $i++) {
             $result[$i] = $i;
 
         }

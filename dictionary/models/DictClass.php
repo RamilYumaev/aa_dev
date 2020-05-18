@@ -17,9 +17,7 @@ class DictClass extends ActiveRecord
     }
 
 
-
-
-    public function moderationAttributes($value):array
+    public function moderationAttributes($value): array
     {
         return [
             'name' => $value,
@@ -66,7 +64,8 @@ class DictClass extends ActiveRecord
 
     public function getClassFullName(): string
     {
-        return $this->name . '-й ' . DictClassHelper::typeName($this->type);
+        $name = $this->name ? $this->name . '-й ' : '';
+        return $name . DictClassHelper::typeName($this->type);
     }
 
     public static function find(): DictClassQuery

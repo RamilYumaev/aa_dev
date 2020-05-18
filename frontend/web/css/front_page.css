@@ -883,4 +883,7 @@ select {
         top: 60px;
         right: 60px;
     }
+    h1,h2{
+        margin-top: 65px;
+    }
 }

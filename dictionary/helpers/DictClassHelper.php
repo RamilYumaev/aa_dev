@@ -14,6 +14,13 @@ class DictClassHelper
     const COLLEDGE = 2;
     const BACALAVR = 3;
     const MAGISTR = 4;
+    const GRADUATED_SCHOOL = 10;
+    const GRADUATED_COLLEGE = 20;
+    const GRADUATED_BACALAVR = 30;
+    const GRADUATED_SPECIALIST = 35;
+    const GRADUATED_MAGISTR = 50;
+    const GRADUATED_ASPIRANTURA = 60;
+    const GRADUATED_DOCTORANTURA = 70;
 
     public static function typeOfClass()
     {
@@ -22,6 +29,14 @@ class DictClassHelper
             self::COLLEDGE => 'курс колледжа/техникума',
             self::BACALAVR => 'курс бакалавриата',
             self::MAGISTR => 'курс магистратуры',
+            self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
+            self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
+            self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
+            self::GRADUATED_SPECIALIST => 'закончил(а) специалитет',
+            self::GRADUATED_MAGISTR => 'закончила(а) магистратуру',
+            self::GRADUATED_ASPIRANTURA => 'закончила(а) аспирантуру',
+            self::GRADUATED_DOCTORANTURA => 'закончила(а) докторантуру',
+
         ];
     }
 
@@ -32,6 +47,13 @@ class DictClassHelper
             self::COLLEDGE => 'курс(ы) колледжа/техникума',
             self::BACALAVR => 'курс(ы) бакалавриата',
             self::MAGISTR => 'курс(ы) магистратуры',
+            self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
+            self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
+            self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
+            self::GRADUATED_SPECIALIST => 'закончил(а) специалитет',
+            self::GRADUATED_MAGISTR => 'закончил(а) магистратуру',
+            self::GRADUATED_ASPIRANTURA => 'закончил(а) аспирантуру',
+            self::GRADUATED_DOCTORANTURA => 'закончил(а) докторантуру',
         ];
     }
 
@@ -42,7 +64,14 @@ class DictClassHelper
             self::SCHOOL,
             self::COLLEDGE,
             self::BACALAVR,
-            self::MAGISTR
+            self::MAGISTR,
+            self::GRADUATED_SCHOOL,
+            self::GRADUATED_COLLEGE,
+            self::GRADUATED_BACALAVR,
+            self::GRADUATED_SPECIALIST,
+            self::GRADUATED_MAGISTR,
+            self::GRADUATED_ASPIRANTURA,
+            self::GRADUATED_DOCTORANTURA,
         ];
     }
 
