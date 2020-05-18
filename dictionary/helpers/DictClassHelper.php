@@ -33,9 +33,9 @@ class DictClassHelper
             self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
             self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
             self::GRADUATED_SPECIALIST => 'закончил(а) специалитет',
-            self::GRADUATED_MAGISTR => 'закончила(а) магистратуру',
-            self::GRADUATED_ASPIRANTURA => 'закончила(а) аспирантуру',
-            self::GRADUATED_DOCTORANTURA => 'закончила(а) докторантуру',
+            self::GRADUATED_MAGISTR => 'закончил(а) магистратуру',
+            self::GRADUATED_ASPIRANTURA => 'закончил(а) аспирантуру',
+            self::GRADUATED_DOCTORANTURA => 'закончил(а) докторантуру',
 
         ];
     }
@@ -105,6 +105,18 @@ class DictClassHelper
     public static function dictClassTypeAll($classList) {
 
         return DictClass::find()->select('type')->where(['in', 'id', $classList])->indexBy('type')->column();
+    }
+
+    public static function getList()
+    {
+        $classes = \dictionary\models\DictClass::find()->orderBy("id")->all();
+        $result = [];
+        foreach ($classes as $class) {
+            $result[$class->id] = $class->getClassFullName();
+        }
+
+        return $result;
+
     }
 
 }

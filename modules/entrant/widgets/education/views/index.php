@@ -41,7 +41,7 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
                     'attributes' => $columns
                 ]) ?>
             <?php else: ?>
-                <?= Html::a('Добавить документ', ['document-education/create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Добавить', ['document-education/create'], ['class' => 'btn btn-success']) ?>
             <?php endif; ?>
         <?php else: ?>
             <p>Чтобь добавить документ об образовании необходимо акутализировать
