@@ -3,6 +3,7 @@
 
 namespace modules\entrant\services;
 
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\OtherDocumentRepository;
@@ -33,7 +34,7 @@ class OtherDocumentService
     public function remove($id)
     {
         $model = $this->repository->get($id);
-        if($model->type_note) {
+        if($model->type_note || $model->type == DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC) {
             throw new \DomainException('Вы не можеете, удалить данный прочий документ, так как он необходим для загрузки файла');
         }
         $this->repository->remove($model);

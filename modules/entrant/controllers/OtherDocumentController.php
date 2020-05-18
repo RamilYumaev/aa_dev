@@ -49,16 +49,15 @@ class OtherDocumentController extends Controller
 
     public function actionPatriot()
     {
-        $type = 43;
+        $type = DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC;
         $model = $this->findOne(['type'=> $type, 'user_id' => Yii::$app->user->identity->getId()]) ?? null;
         $form = new OtherDocumentForm(
             false,
             $model,
             false,
             $this->arrayRequired(false),
-            [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
+            [DictIncomingDocumentTypeHelper::TYPE_OTHER], null,['type' => $type]);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
-        $form->type = $type;
         return $this->render("patriot", ["model" => $form]);
     }
 
