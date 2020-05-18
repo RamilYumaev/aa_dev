@@ -28,7 +28,8 @@ class StatementConsentCgService
         throw new \DomainException('Вы уже сформировали заявление о зачислении');
         }
         if(!$cg->statement->countFilesAndCountPagesTrue()) {
-            throw new \DomainException('Вы не можете сформировать заявление о зачислении, так как к заялениию  №'. $cg->statement->numberStatement.' не все загружены файлы !');
+            throw new \DomainException('Вы не можете сформировать заявление о согласии на зачисление, 
+            так как не загружен скан заявления №'. $cg->statement->numberStatement.'!');
         }
 
         $stConsent = StatementConsentCg::create($cg->id, 0);

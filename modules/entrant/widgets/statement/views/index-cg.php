@@ -11,7 +11,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $consent modules\entrant\models\StatementConsentCg*/
 /* @var $isUserSchool bool */
 ?>
-<h3>Заявления о зачислении</h3>
+<h3>Заявление о согласии на зачисление</h3>
 <table class="table table-bordered">
     <tr>
         <th>Образовательные программы</th>
