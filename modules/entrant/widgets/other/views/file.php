@@ -13,6 +13,7 @@ use modules\entrant\widgets\file\FileListWidget;
     <h3>Прочие документы</h3>
     <tr>
         <th>Наименование</th>
+        <th>Данные</th>
         <th>Примечание</th>
         <th></th>
     </tr>
@@ -20,6 +21,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <tr class="<?= BlockRedGreenHelper::colorTableBg($other->countFiles(), FileHelper::listCountModels()[$other::className()], true) ?>">
         <td><?= $other->typeName ?></td>
         <td><?= $other->otherDocumentFull ?></td>
+            <td><?= $other->noteOrTypeNote ?></td>
         <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?>
             <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className() ]) ?>
         </td>

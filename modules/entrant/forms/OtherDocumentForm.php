@@ -84,7 +84,8 @@ class OtherDocumentForm extends Model
             DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
             DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
             DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
-            DictIncomingDocumentTypeHelper::TYPE_MEDICINE
+            DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
+            null
         ];
     }
 

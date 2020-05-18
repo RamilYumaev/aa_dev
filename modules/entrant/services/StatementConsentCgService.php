@@ -27,10 +27,6 @@ class StatementConsentCgService
         if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT, StatementHelper::STATUS_WALT])) {
         throw new \DomainException('Вы уже сформировали заявление о зачислении');
         }
-        if(!$cg->statement->countFilesAndCountPagesTrue()) {
-            throw new \DomainException('Вы не можете сформировать заявление о согласии на зачисление, 
-            так как не загружен скан заявления №'. $cg->statement->numberStatement.'!');
-        }
 
         $stConsent = StatementConsentCg::create($cg->id, 0);
         $this->repository->save($stConsent);

@@ -13,6 +13,16 @@ class DocumentEducationHelper
         return DocumentEducation::findOne(['user_id' => $user_id]);
     }
 
+    public static function isNameSurname($user_id): bool
+    {   $model = self::model($user_id);
+        if($model && ($model->surname || $model->name)) {
+            return  true;
+        }
+        return false;
+    }
+
+
+
     public static function isDataNoEmpty($user_id): bool
     {
         return self::model($user_id) ? self::model($user_id)->isDataNoEmpty() : false;

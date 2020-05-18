@@ -4,24 +4,35 @@
 namespace modules\entrant\services;
 
 
+use common\transactions\TransactionManager;
+use dictionary\helpers\DictCountryHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\dictionary\models\DictCategory;
 use modules\entrant\forms\AnketaForm;
+use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\AnketaRepository;
+use modules\entrant\repositories\OtherDocumentRepository;
 
 class AnketaService
 {
     private $repository;
+    private $otherDocumentRepository;
+    private $transactionManager;
 
-    public function __construct(AnketaRepository $repository)
+    public function __construct(AnketaRepository $repository, OtherDocumentRepository $otherDocumentRepository, TransactionManager $transactionManager)
     {
         $this->repository = $repository;
+        $this->otherDocumentRepository = $otherDocumentRepository;
+        $this->transactionManager = $transactionManager;
     }
 
     public function create(AnketaForm $form)
     {
         $model = Anketa::create($form);
         $this->repository->save($model);
+        $this->addOtherDoc($form);
         return $model;
     }
 
@@ -30,8 +41,26 @@ class AnketaService
         $model = $this->repository->get($id);
         $model->data($form);
         $model->save($model);
+        $this->addOtherDoc($form);
         return $model;
     }
+
+    private function addOtherDoc(AnketaForm $form) {
+        $other = $this->otherDocumentRepository->getUserNote($form->user_id, OtherDocumentHelper::TRANSLATION_PASSPORT);
+        if ($form->citizenship_id != DictCountryHelper::RUSSIA)  {
+            if(!$other) {
+                $this->otherDocumentRepository->save(OtherDocument::createNote(
+                    OtherDocumentHelper::TRANSLATION_PASSPORT, DictIncomingDocumentTypeHelper::ID_AFTER_DOC, $form->user_id,null ));
+            }
+        } else {
+            if($other) {
+                $this->otherDocumentRepository->remove($other);
+            }
+        }
+
+    }
+
+
 
     public function category($foreignerStatus)
     {

@@ -3,6 +3,7 @@
 namespace modules\entrant\controllers;
 
 
+use modules\entrant\behaviors\AnketaRedirectBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CategoryStruct;
@@ -26,6 +27,11 @@ class AnketaController extends Controller
         $this->service = $service;
         $this->anketa = $this->findModelByUser();
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors()
+    {
+        return [AnketaRedirectBehavior::class];
     }
 
     public function actionStep1()

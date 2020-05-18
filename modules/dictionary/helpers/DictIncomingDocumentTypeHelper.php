@@ -20,6 +20,12 @@ class DictIncomingDocumentTypeHelper
     const ID_MEDICINE= 29;
 
     const ID_PASSPORT_RUSSIA = 1;
+    const ID_NAME_WEDDING = 49;
+    const ID_NAME_WEDDING_DOC = 51;
+    const ID_NAME_UPDATE = 50;
+
+
+    const ID_AFTER_DOC = 30;
 
     public static function listType($type)
     {
