@@ -28,14 +28,6 @@ return [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationNamespaces' => ['modules\dictionary\migrations'],
         ],
-        'migrate' => [
-            'class' => 'yii\console\controllers\MigrateController',
-            'migrationPath' => null,
-            'migrationNamespaces' => [
-                // ...
-                'yii\queue\db\migrations',
-            ],
-        ],
     ],
     'components' => [
         'log' => [
