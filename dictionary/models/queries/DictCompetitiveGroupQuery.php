@@ -176,6 +176,18 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['year' => $year]);
     }
 
+    public function filterCg($year, $educationLevelId, $educationFormId,
+                             $facultyId, $specialityId, $foreignerStatus, $financingTypeId){
+       return $this->andFilterWhere([
+                'financing_type_id' => $financingTypeId,
+                'faculty_id' => $facultyId,
+                'year' => $year,
+                'speciality_id' => $specialityId,
+                'foreigner_status'=> $foreignerStatus,
+                'edu_level' => $educationLevelId,
+                'education_form_id' => $educationFormId]);
+    }
+
     public function currentAutoYear()
     {
         $currentYear = Date("Y");
