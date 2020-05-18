@@ -23,6 +23,7 @@ class DictIncomingDocumentTypeHelper
     const ID_NAME_WEDDING = 49;
     const ID_NAME_WEDDING_DOC = 51;
     const ID_NAME_UPDATE = 50;
+    const ID_PATRIOT_DOC = 43;
 
 
     const ID_AFTER_DOC = 30;
