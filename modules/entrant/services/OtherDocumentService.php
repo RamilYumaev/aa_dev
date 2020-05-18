@@ -33,6 +33,9 @@ class OtherDocumentService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if($model->type_note) {
+            throw new \DomainException('Вы не можеете, удалить данный прочий документ, так как он необходим для загрузки файла');
+        }
         $this->repository->remove($model);
     }
 

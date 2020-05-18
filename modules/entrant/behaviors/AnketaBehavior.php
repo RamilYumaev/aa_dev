@@ -47,8 +47,8 @@ class AnketaBehavior extends Behavior
 
     public function beforeUpdate($event)
     {
-        if($this->fileExits()) {
-            throw  new  \DomainException("Редактирв невозможно, так как у Вас имеется файл сканирования");
+        if($this->fileExits() && !$this->checkUpdate()) {
+            throw  new  \DomainException("Редактирование невозможно, так как у Вас имеется файл сканирования");
         }
 
         if($this->userIndividualAchievementsExists() && !$this->checkUpdate()) {
@@ -62,8 +62,7 @@ class AnketaBehavior extends Behavior
         if($this->statementExists() && !$this->checkUpdate()) {
             Statement::deleteAll($this->userWhere());
         }
-
-
+        
         if (!$this->checkCounty()) {
             if($this->userPassportExists()) {
                 PassportData::deleteAll($this->userWhere());
@@ -73,6 +72,9 @@ class AnketaBehavior extends Behavior
             }
             if($this->userOtherDocsExists()) {
                 OtherDocument::deleteAll($this->userWhere());
+            }
+            if($this->usersDocumentEducationExists()) {
+                DocumentEducation::deleteAll($this->userWhere());
             }
         }
         if (!$this->checkEduLevel()) {

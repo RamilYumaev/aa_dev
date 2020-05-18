@@ -14,6 +14,14 @@ class OtherDocumentRepository
         return $model;
     }
 
+    public function getUserNote($userId, $typeNote)
+    {
+        if (!$model = OtherDocument::findOne(['user_id' => $userId, 'type_note' => $typeNote])) {
+           return false;
+        }
+        return $model;
+    }
+
     public function save(OtherDocument $model): void
     {
         if (!$model->save()) {

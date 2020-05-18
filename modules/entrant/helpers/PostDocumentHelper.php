@@ -63,6 +63,7 @@ class PostDocumentHelper
             CseViSelectHelper::isCorrect($user_id) &&
             AdditionalInformationHelper::isExits($user_id) &&
             self::medicine($user_id) &&
+            self::name($user_id) &&
             self::fioLatin($user_id);
     }
 
@@ -94,6 +95,13 @@ class PostDocumentHelper
 //        if(UserCgHelper::userMedicine($user_id)) {
 //            return OtherDocumentHelper::isExitsMedicine($user_id);
 //        }
+        return true;
+    }
+
+    public static function name($user_id) {
+        if(DocumentEducationHelper::isNameSurname($user_id)) {
+            return OtherDocumentHelper::isExitsUpdateName($user_id);
+        }
         return true;
     }
 

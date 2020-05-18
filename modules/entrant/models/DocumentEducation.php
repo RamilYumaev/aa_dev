@@ -41,7 +41,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
-                'patronymic', 'surname', 'name', 'original', ]
+                'patronymic', 'surname', 'name' ]
         ], FileBehavior::class];
     }
 

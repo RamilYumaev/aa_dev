@@ -14,6 +14,7 @@ use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use mysql_xdevapi\SqlStatementResult;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
@@ -24,6 +25,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property integer $type
+ * @property integer $type_note
+ * @property integer $note
  * @property string $series
  * @property string $number
  * @property string $date
@@ -58,6 +61,21 @@ class OtherDocument extends ActiveRecord
         $this->exemption_id = $form->exemption_id;
         $this->user_id = $form->user_id;
     }
+
+    public static  function createNote($typeNote, $type,  $user_id, $note) {
+        $otherDocument =  new static();
+        $otherDocument->dataNote($typeNote,  $type,  $user_id, $note);
+        return $otherDocument;
+    }
+
+    public function dataNote($typeNote,  $type,  $user_id, $note)
+    {
+        $this->type_note = $typeNote;
+        $this->type = $type;
+        $this->user_id = $user_id;
+        $this->note = $note;
+    }
+
 
     public static function tableName()
     {
@@ -95,7 +113,7 @@ class OtherDocument extends ActiveRecord
 
     public function getOtherDocumentFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'id','exemption_id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'type_note','id','exemption_id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
@@ -106,6 +124,10 @@ class OtherDocument extends ActiveRecord
 
     public function getPreemptiveRights() {
         return $this->hasMany(PreemptiveRight::class, ['other_id'=> 'id']);
+    }
+
+    public function getNoteOrTypeNote() {
+        return $this->type_note ? OtherDocumentHelper::translationList()[$this->type_note] : $this->note;
     }
 
 
