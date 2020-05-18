@@ -3,7 +3,7 @@
 /* @var $model modules\entrant\forms\AddressForm */
 
 $this->title = "Иностранные языки. Редактировние.";
-$this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_form', ['model'=> $model] )?>

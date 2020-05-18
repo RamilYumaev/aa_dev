@@ -34,7 +34,7 @@ $user = User::findOne(Yii::$app->user->identity->getId());
                         <td width="60%">
                             <?= $form->field($model, 'email') ?>
                         </td>
-                        <td class="text-right fs-10">
+                        <td class="text-right fs-15">
                             <?= Html::a('Подтвердить почту', ['sign-up/confirm-user']) ?>
                         </td>
                     </tr>
