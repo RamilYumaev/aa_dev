@@ -47,7 +47,8 @@ class AnketaRedirectBehavior  extends Behavior
     public function beforeAction($event)
     {
         if($this->fileExits() && $this->owner->action->id == "step1") {
-            Yii::$app->session->setFlash("warning", 'Редактирование "Определение условий подачи документов" невозможно, так как у вас имеется файл сканировния ');
+            Yii::$app->session->setFlash("warning", 'Редактирование "Определение условий подачи документов" 
+            невозможно, так как на странице "Загрузка документов" есть загруженная скан-копия документа');
             Yii::$app->getResponse()->redirect(['abiturient/post-document/index']);
             try {
                 Yii::$app->end();

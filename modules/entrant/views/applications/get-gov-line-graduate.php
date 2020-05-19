@@ -88,9 +88,9 @@ foreach ($currentFaculty as $faculty) {
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-plus"]), "", ["class" => "btn btn-success"]) ?>
+                <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
                 - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
-                <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-minus"]), "", ["class" => "btn btn-success"]) ?>
+                <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
                 - кнопка отмены выбора образовательной программы на бюджетной основе.
             </div>
         </div>
