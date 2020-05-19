@@ -32,7 +32,7 @@ class TypeExaminationsForm extends Model
                 $this->year = $cseViSelect->dataCse()[$this->key][0] ?? null;
             }
         } else {
-            $this->type = 0;
+            $this->type = null;
         }
 
         parent::__construct($config);
@@ -43,7 +43,6 @@ class TypeExaminationsForm extends Model
         return [
             [['type','language'], 'integer'],
             ['mark', 'number', 'min' => 0, 'max' => 100],
-           // ['mark', 'required'],
             [['year'], 'number', 'min' => date("Y") - 4, 'max' => date("Y")],
             [['mark','type'], 'validateTypeMark'],
             [['year','type'], 'validateYearMark'],
@@ -54,7 +53,9 @@ class TypeExaminationsForm extends Model
     public function attributeLabels()
     {
         return [
-            'type' => 'ID',
+            'type' => 'ВИ или ЕГЭ',
+            'year' => 'Год',
+            'mark' => 'Балл',
         ];
     }
 
@@ -97,4 +98,5 @@ class TypeExaminationsForm extends Model
             return true;
         }
     }
+
 }
