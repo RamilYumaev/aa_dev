@@ -4,7 +4,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
-use dictionary\helpers\DictCompetitiveGroupHelper;
+
 /* @var $this yii\web\View */
 /* @var $statementsCg yii\db\BaseActiveRecord */
 /* @var $statement modules\entrant\models\StatementCg*/
@@ -15,7 +15,6 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 <table class="table table-bordered">
     <tr>
         <th>Образовательные программы</th>
-        <th></th>
     </tr>
     <?php foreach ($statementsCg as $statement):  ?>
         <tr >

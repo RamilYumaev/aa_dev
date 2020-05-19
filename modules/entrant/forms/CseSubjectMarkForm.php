@@ -18,6 +18,7 @@ class CseSubjectMarkForm extends Model
         return [
             [[ 'mark', 'subject_id'], 'required'],
             [['subject_id'], 'integer'],
+            [['mark'], 'integer', 'min' => 0, 'max' => 100],
             ['mark', 'validateMinCseSubject'],
         ];
     }

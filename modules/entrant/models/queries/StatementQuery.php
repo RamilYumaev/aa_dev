@@ -2,6 +2,8 @@
 namespace modules\entrant\models\queries;
 
 
+use modules\entrant\helpers\StatementHelper;
+
 class StatementQuery extends \yii\db\ActiveQuery
 {
     public function user($userId)
@@ -28,6 +30,12 @@ class StatementQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(["status" => $status]);
     }
+
+    public function statusNoDraft()
+    {
+        return $this->andWhere([">", "status", StatementHelper::STATUS_DRAFT]);
+    }
+
 
     public function eduLevel($eduLevel)
     {

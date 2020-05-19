@@ -25,11 +25,11 @@ use yii\helpers\Html;
             </tr>
             <?php $a = 1;
             foreach ($model->arrayMark as $i => $item): ?>
-                <tr class="<?= is_null($item->type) ? "danger" : "success" ?>">
+                <tr class="<?= !$item->isData ? "danger" : "success" ?>">
                     <td><?= $a++; ?></td>
                     <td><?= $item->str; ?></td>
                     <td><?= $form->field($item, "[$i]type")->label(false)->widget(SwitchInput::class, [
-                            'readonly' =>  $isStatement ? (is_null($item->type) ?  false : true) : false,
+                            'readonly' =>  $isStatement ? $item->isData  : false,
                             'pluginOptions' => [
                                 'onColor' => 'success',
                                 'offColor' => 'primary',
@@ -51,12 +51,12 @@ use yii\helpers\Html;
                 } 
          }", "init.bootstrapSwitch" => "$('#typeexaminationsform-" . $i . "-type').trigger('switchChange.bootstrapSwitch')",]
                         ]); ?></td>
-                    <td><?= $form->field($item, "[$i]year")->label(false)->textInput(['readonly' =>  $isStatement ? (is_null($item->type) ?  false : true) : false,]) ?></td>
+                    <td><?= $form->field($item, "[$i]year")->label(false)->textInput(['readonly' =>  $isStatement ? $item->isData : false,]) ?></td>
                     <td>
                         <?php if ($i == $item::LANGUAGE): ?>
-                            <?= $form->field($item, "[$i]language")->label(false)->dropDownList(DictCseSubjectHelper::listLanguage(), ['readonly' => $isStatement ? (is_null($item->type) ?  false : true) : false]) ?>
+                            <?= $form->field($item, "[$i]language")->label(false)->dropDownList(DictCseSubjectHelper::listLanguage(), ['readonly' => $isStatement ? $item->isData : false]) ?>
                         <?php endif; ?>
-                        <?= $form->field($item, "[$i]mark")->label(false)->textInput(['readonly' =>  $isStatement ? (is_null($item->type) ?  false : true) : false]) ?>
+                        <?= $form->field($item, "[$i]mark")->label(false)->textInput(['readonly' =>  $isStatement ? $item->isData : false]) ?>
                     </td>
                     <td></td>
                 </tr>
