@@ -1,14 +1,9 @@
 <?php
 namespace modules\entrant\services;
 
-
-use common\auth\models\UserSchool;
-use common\auth\repositories\UserSchoolRepository;
-use modules\entrant\forms\CseSubjectMarkForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\repositories\CseSubjectResultRepository;
-use supplyhog\ClipboardJs\ClipboardJsAsset;
 use yii\helpers\Json;
 
 class CseSubjectResultService

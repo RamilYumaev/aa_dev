@@ -104,7 +104,7 @@ class DictDefaultHelper
         ];
     }
 
-    public static function infoName($key) : string
+    public static function infoName($key) : ?string
     {
         return ArrayHelper::getValue(self::listInfo(), $key);
     }

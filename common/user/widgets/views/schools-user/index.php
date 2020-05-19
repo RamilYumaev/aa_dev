@@ -38,7 +38,7 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
                     ],
                     ['attribute' => 'class_id',
                         'value' => function (UserSchool $model) {
-                            return DictClassHelper::classFullName($model->class_id);
+                            return DictClassHelper::getList()[$model->class_id];
                         },
                     ],
                     'edu_year',

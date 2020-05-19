@@ -4,6 +4,8 @@
 namespace modules\entrant\models;
 
 
+use common\moderation\behaviors\ModerationBehavior;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\forms\AdditionalInformationForm;
 use yii\db\ActiveRecord;
@@ -18,11 +20,20 @@ use yii\db\ActiveRecord;
  * @property  integer $hostel_id
  **/
 
-class AdditionalInformation extends ActiveRecord
+class AdditionalInformation extends YiiActiveRecordAndModeration
 {
     public static function tableName()
     {
         return  "{{%additional_information}}";
+    }
+
+    public function behaviors()
+    {
+        return ['moderation' => [
+            'class' => ModerationBehavior::class,
+            'attributes' => [
+                'resource_id', 'voz_id', 'hostel_id']
+        ]];
     }
 
     public static  function create(AdditionalInformationForm  $form) {
@@ -76,4 +87,17 @@ class AdditionalInformation extends ActiveRecord
         ];
     }
 
+    public function titleModeration(): string
+    {
+        return "Дополнительная информация";
+    }
+
+    public function moderationAttributes($value): array
+    {
+        return [
+            'voz_id' => DictDefaultHelper::name($value),
+            'hostel_id' => DictDefaultHelper::name($value),
+            'resource_id'=> DictDefaultHelper::infoName($value),
+        ];
+    }
 }

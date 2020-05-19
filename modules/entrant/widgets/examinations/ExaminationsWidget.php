@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\models\CseViSelect;
 use modules\entrant\repositories\CseViSelectRepository;
+use modules\entrant\repositories\StatementRepository;
 use modules\entrant\services\CseViSelectService;
 use yii\base\Model;
 use yii\base\Widget;
@@ -16,11 +17,13 @@ class ExaminationsWidget extends Widget
     public $view = "index";
     private $service;
     private $repository;
+    private $statementRepository;
 
-    public function __construct(CseViSelectService $service, CseViSelectRepository $repository, $config = [])
+    public function __construct(CseViSelectService $service, CseViSelectRepository $repository, StatementRepository $statementRepository, $config = [])
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->statementRepository = $statementRepository;
         parent::__construct($config);
     }
 
@@ -46,7 +49,7 @@ class ExaminationsWidget extends Widget
             }
         }
 
-        return $this->render($this->view, ['model' => $form]);
+        return $this->render($this->view, ['model' => $form, 'isStatement'=> $this->statementRepository->getStatementStatusNoDraft($this->getIdUser())]);
     }
 
     private function listExams() {

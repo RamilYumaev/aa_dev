@@ -53,6 +53,7 @@ class ApplicationsController extends Controller
     public function actionGetTargetBachelor()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $currentFaculty = $this->unversityChoiceForController();
 
         return $this->render('get-target-bachelor', [
@@ -87,6 +88,8 @@ class ApplicationsController extends Controller
     public function actionGetTargetMagistracy()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+
 
         $currentFaculty = $this->unversityChoiceForController();
 
@@ -111,6 +114,7 @@ class ApplicationsController extends Controller
     public function actionGetTargetGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
 
         $currentFaculty = $this->unversityChoiceForController();
 
@@ -224,6 +228,8 @@ class ApplicationsController extends Controller
 
     }
 
+
+
     private function universityChoiceBase()
     {
         if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
@@ -269,6 +275,18 @@ class ApplicationsController extends Controller
             return $this->redirect('default/index');
         }
         return \Yii::$app->user->identity->anketa();
+    }
+
+    private function allowTarget($level)
+    {
+        $anketa = $this->getAnketa();
+        $arg1 = $anketa->onlyContract($level);
+        $arg2 = $anketa->allowTarget();
+        if($anketa->onlyContract($level) && $anketa->allowTarget()){
+            Yii::$app->session->setFlash("error", "Целевые программы данного уровня недоступны!");
+            Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+            Yii::$app->end();
+        };
     }
 
     protected function findModelByUser()

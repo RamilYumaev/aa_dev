@@ -63,7 +63,7 @@ class StatementConsentCgController extends Controller
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('pdf/_main', ["statementConsent" => $statementConsent ]);
-        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent());
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent( ".pdf"));
         $render = $pdf->render();
 
         try {

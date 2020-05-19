@@ -48,7 +48,6 @@ class CseSubjectResultForm extends Model
      */
     public function uniqueRules()
     {
-
         $message = "Нельзя добавлять несколько записей одного и того же года";
         if ($this->_cseSubjectResult) {
             return [

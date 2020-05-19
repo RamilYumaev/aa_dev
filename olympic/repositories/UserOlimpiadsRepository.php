@@ -24,6 +24,11 @@ class UserOlimpiadsRepository
         return $model;
     }
 
+    public function getUserExits($user_id): bool
+    {
+        return  UserOlimpiads::find()->where(['user_id' => $user_id])->exists();
+    }
+
     public function isUserOlympic($olympic_id, $user_id): bool
     {
        return UserOlimpiads::find()->andWhere(['olympiads_id' => $olympic_id, 'user_id' => $user_id])->exists();

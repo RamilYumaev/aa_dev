@@ -3,6 +3,8 @@
 
 namespace modules\entrant\models;
 
+use common\moderation\behaviors\ModerationBehavior;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictForeignLanguageHelper;
 use modules\dictionary\models\DictForeignLanguage;
@@ -18,8 +20,16 @@ use yii\db\ActiveRecord;
  *
  **/
 
-class Language extends ActiveRecord
+class Language extends YiiActiveRecordAndModeration
 {
+
+    public function behaviors()
+    {
+        return ['moderation' => [
+            'class' => ModerationBehavior::class,
+            'attributes' => [ 'language_id']
+        ]];
+    }
 
     public static function tableName()
     {
@@ -50,4 +60,13 @@ class Language extends ActiveRecord
     }
 
 
+    public function titleModeration(): string
+    {
+        return  "Иностранные языки";
+    }
+
+    public function moderationAttributes($value): array
+    {
+        return ['language_id'=> DictForeignLanguage::findOne($value)->name,];
+    }
 }

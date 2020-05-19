@@ -14,6 +14,7 @@ use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\DocumentEducationRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
+use modules\entrant\repositories\StatementRepository;
 use supplyhog\ClipboardJs\ClipboardJsAsset;
 
 class DocumentEducationService
@@ -23,13 +24,17 @@ class DocumentEducationService
     private $userSchoolRepository;
     private $otherDocumentRepository;
     private $transactionManager;
+    private $statementRepository;
 
-    public function __construct(DocumentEducationRepository $repository, UserSchoolRepository $userSchoolRepository, OtherDocumentRepository $otherDocumentRepository, TransactionManager $transactionManager)
+    public function __construct(DocumentEducationRepository $repository, UserSchoolRepository $userSchoolRepository,
+                                OtherDocumentRepository $otherDocumentRepository, TransactionManager $transactionManager,
+                                StatementRepository $statementRepository)
     {
         $this->repository = $repository;
         $this->userSchoolRepository = $userSchoolRepository;
         $this->otherDocumentRepository = $otherDocumentRepository;
         $this->transactionManager = $transactionManager;
+        $this->statementRepository = $statementRepository;
     }
 
     public function create(DocumentEducationForm $form)
@@ -47,6 +52,9 @@ class DocumentEducationService
             $userSchool = $this->schoolUser($form->school_id);
             $model->data($form, $userSchool->school_id);
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
+            if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
+                $model->detachBehavior("moderation");
+            }
             $model->save($model);
         });
     }
