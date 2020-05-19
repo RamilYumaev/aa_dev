@@ -46,7 +46,7 @@ class DocumentEducationService
             $model = $this->repository->get($id);
             $userSchool = $this->schoolUser($form->school_id);
             $model->data($form, $userSchool->school_id);
-            $this->addOtherDoc(!$model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
+            $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
             $model->save($model);
         });
     }
