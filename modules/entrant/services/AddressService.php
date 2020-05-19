@@ -6,14 +6,17 @@ namespace modules\entrant\services;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\models\Address;
 use modules\entrant\repositories\AddressRepository;
+use modules\entrant\repositories\StatementRepository;
 
 class AddressService
 {
     private $repository;
+    private $statementRepository;
 
-    public function __construct(AddressRepository $repository)
+    public function __construct(AddressRepository $repository, StatementRepository $statementRepository)
     {
         $this->repository = $repository;
+        $this->statementRepository = $statementRepository;
     }
 
     public function create(AddressForm $form)
@@ -27,6 +30,9 @@ class AddressService
     {
         $model = $this->repository->get($id);
         $model->data($form);
+        if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
+            $model->detachBehavior("moderation");
+        }
         $model->save($model);
     }
 

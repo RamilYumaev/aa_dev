@@ -7,14 +7,17 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\OtherDocumentRepository;
+use modules\entrant\repositories\StatementRepository;
 
 class OtherDocumentService
 {
     private $repository;
+    private $statementRepository;
 
-    public function __construct(OtherDocumentRepository $repository)
+    public function __construct(OtherDocumentRepository $repository, StatementRepository $statementRepository)
     {
         $this->repository = $repository;
+        $this->statementRepository = $statementRepository;
     }
 
     public function create(OtherDocumentForm $form)
@@ -28,6 +31,9 @@ class OtherDocumentService
     {
         $model = $this->repository->get($id);
         $model->data($form);
+        if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
+            $model->detachBehavior("moderation");
+        }
         $model->save($model);
     }
 
