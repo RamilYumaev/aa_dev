@@ -57,7 +57,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
     public function data(OtherDocumentForm $form)
     {
         $this->type = $form->type;
-        $this->amount = $form->amount;
+        $this->amount = $this->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $form->amount : 1;
         $this->series = $form->series;
         $this->authority = $form->authority;
         $this->number = $form->number;

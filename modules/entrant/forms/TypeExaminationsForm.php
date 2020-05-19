@@ -15,6 +15,7 @@ class TypeExaminationsForm extends Model
     public $language;
     private $key;
     const LANGUAGE = 21;
+    public $isData;
 
     public function __construct($exam = null, $key = null, CseViSelect $cseViSelect = null, $config = [])
     {
@@ -23,8 +24,10 @@ class TypeExaminationsForm extends Model
         if($cseViSelect) {
             if($cseViSelect->dataVi() && in_array($key, $cseViSelect->dataVi())) {
                 $this->type = 0;
+                $this->isData = true;
             } elseif($cseViSelect->dataCse())  {
                 $this->type = 1;
+                $this->isData = true;
                 if ($this->key == self::LANGUAGE) {
                     $this->language = $cseViSelect->dataCse()[$this->key][1];
                 }
@@ -32,6 +35,7 @@ class TypeExaminationsForm extends Model
                 $this->year = $cseViSelect->dataCse()[$this->key][0] ?? null;
             }
         } else {
+            $this->isData = false;
             $this->type = null;
         }
 
@@ -42,8 +46,8 @@ class TypeExaminationsForm extends Model
     {
         return [
             [['type','language'], 'integer'],
-            ['mark', 'number', 'min' => 0, 'max' => 100],
-            [['year'], 'number', 'min' => date("Y") - 4, 'max' => date("Y")],
+            ['mark', 'integer', 'min' => 0, 'max' => 100],
+            [['year'], 'integer', 'min' => date("Y") - 4, 'max' => date("Y")],
             [['mark','type'], 'validateTypeMark'],
             [['year','type'], 'validateYearMark'],
             [['mark'], 'validateMark']

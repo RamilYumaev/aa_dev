@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictSpeciality;
 use dictionary\models\Faculty;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -88,6 +89,10 @@ class Statement extends ActiveRecord
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
+    public function getStatusName() {
+        return  StatementHelper::statusName($this->status);
+    }
+
 
     public function getSpeciality() {
         return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
@@ -102,6 +107,17 @@ class Statement extends ActiveRecord
             $this->user_id."-".
             $this->counter;
     }
+
+    public function getEduLevel()
+    {
+        return DictCompetitiveGroupHelper::eduLevelName($this->edu_level);
+    }
+
+    public function getSpecialRight()
+    {
+        return  DictCompetitiveGroupHelper::specialRightName($this->special_right);
+    }
+
 
     public function columnIdCg(){
         return $this->getStatementCg()->select(['cg_id'])->column();

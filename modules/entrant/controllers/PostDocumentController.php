@@ -96,6 +96,7 @@ class PostDocumentController extends Controller
     public function actionSend() {
         try {
             $this->service->send(Yii::$app->user->identity->getId());
+            return $this->redirect('/');
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
