@@ -10,6 +10,7 @@ use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\models\Agreement;
 use modules\entrant\repositories\AgreementRepository;
+use modules\entrant\repositories\StatementRepository;
 use Mpdf\Tag\Tr;
 
 class AgreementService
@@ -17,15 +18,18 @@ class AgreementService
     private $repository;
     private $organizationsRepository;
     private $transactionManager;
+    private $statementRepository;
 
     public function __construct(AgreementRepository $repository,
                                 DictOrganizationsRepository $organizationsRepository,
+                                StatementRepository $statementRepository,
                                 TransactionManager $transactionManager
     )
     {
         $this->repository = $repository;
         $this->organizationsRepository = $organizationsRepository;
         $this->transactionManager = $transactionManager;
+        $this->statementRepository = $statementRepository;
     }
 
     public function createOrUpdate(AgreementForm $form, Agreement $model = null)
@@ -35,6 +39,9 @@ class AgreementService
             if($model) {
                 $agreement = $this->repository->get($model->id);
                 $agreement->data($form, $organization_id);
+                if(!$this->statementRepository->getStatementStatusNoDraft($agreement->user_id) ) {
+                    $agreement->detachBehavior("moderation");
+                }
             }else {
                 $agreement = Agreement::create($form,$organization_id);
             }

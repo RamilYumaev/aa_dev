@@ -26,14 +26,14 @@ class Agreement extends YiiActiveRecordAndModeration
         return '{{%agreement}}';
     }
 
-//    public function behaviors()
-//    {
-////        return [
-////            'moderation' => [
-////            'class'=> ModerationBehavior::class,
-////            'attributes'=>['organization_id', 'number', 'date', 'year']
-////        ]];
-//    }
+    public function behaviors()
+    {
+        return [
+            'moderation' => [
+            'class'=> ModerationBehavior::class,
+            'attributes'=>['organization_id', 'number', 'date', 'year']
+        ]];
+    }
 
     public static  function create(AgreementForm $form, $organization_id) {
         $address =  new static();

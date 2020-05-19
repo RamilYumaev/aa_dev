@@ -36,11 +36,15 @@ use yii\db\ActiveRecord;
  *
 **/
 
-class OtherDocument extends ActiveRecord
+class OtherDocument extends YiiActiveRecordAndModeration
 {
     public function behaviors()
     {
-        return [FileBehavior::class];
+        return ['moderation' => [
+            'class' => ModerationBehavior::class,
+            'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status']
+        ],
+            FileBehavior::class];
     }
 
 
@@ -152,4 +156,18 @@ class OtherDocument extends ActiveRecord
         return $this->getFiles()->count();
     }
 
+    public function moderationAttributes($value): array
+    {
+        return [
+            'type' => DictIncomingDocumentTypeHelper::typeName([DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
+                DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
+                DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
+                DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
+                DictIncomingDocumentTypeHelper::TYPE_OTHER], $value),
+            'series' => $value,
+            'number'=> $value,
+            'date'=> DateFormatHelper::formatView($value),
+            'authority'=> $value,
+        ];
+    }
 }
