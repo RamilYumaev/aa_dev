@@ -16,13 +16,13 @@ class FIOLatinForm extends Model
     private $_fio;
 
 
-    public function __construct(FIOLatin $FIOLatin = null, $config = [])
+    public function __construct($user_id, FIOLatin $FIOLatin = null, $config = [])
     {
         if($FIOLatin){
             $this->setAttributes($FIOLatin->getAttributes(), false);
             $this->_fio = $FIOLatin;
         }else {
-            $this->user_id = \Yii::$app->user->identity->getId();
+            $this->user_id = $user_id;
         }
         parent::__construct($config);
     }

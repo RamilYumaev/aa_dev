@@ -78,12 +78,12 @@ class PostDocumentHelper
     }
 
     private static function  addressRequired($user_id) {
-        return self::userAnketa()->isNoRequired() ? true  : AddressHelper::isExits($user_id);
+        return self::userAnketa($user_id)->isNoRequired() ? true  : AddressHelper::isExits($user_id);
     }
 
     private static function fioLatin($user_id)
     {
-        return !self::userAnketa()->isRussia() ? FioLatinHelper::isExits($user_id) : true;
+        return !self::userAnketa($user_id)->isRussia() ? FioLatinHelper::isExits($user_id) : true;
     }
 
     public static function compatriot($user_id)
@@ -105,27 +105,25 @@ class PostDocumentHelper
         return true;
     }
 
-    private static function userId()
+
+    private static function userAnketa($userId): ?Anketa
     {
-        return \Yii::$app->user->identity->getId();
+        return Anketa::findOne(['user_id'=> $userId]);
     }
 
-    private static function userAnketa(): ?Anketa
+    public static function isCorrectBlocks($userId) : bool
     {
-        return \Yii::$app->user->identity->anketa();
-    }
-
-    public static function isCorrectBlocks() : bool
-    {
-        if(self::userAnketa()->isPatriot()) {
-            return  self::compatriot(self::userId());
-        }elseif (self::userAnketa()->isExemption()) {
-            return self::exemption(self::userId());
-        }elseif (self::userAnketa()->isAgreement()){
-            return self::agreement(self::userId());
+        if(self::userAnketa($userId)->isPatriot()) {
+            return  self::compatriot($userId);
+        }elseif (self::userAnketa($userId)->isExemption()) {
+            return self::exemption($userId);
+        }elseif (self::userAnketa($userId)->isAgreement()){
+            return self::agreement($userId);
         }else {
-            return self::common(self::userId());
+            return self::common($userId);
         }
     }
+
+
 
 }

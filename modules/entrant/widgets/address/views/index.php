@@ -5,10 +5,11 @@ use yii\helpers\Html;
 use modules\entrant\helpers\AddressHelper;
 
 /* @var $this yii\web\View */
+/* @var $userId integer */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(AddressHelper::isExits(Yii::$app->user->identity->getId())) ?>">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(AddressHelper::isExits($userId)) ?>">
         <div class="p-30 green-border">
         <h4>Адреса регистрации и проживания:</h4>
         <?= Html::a('Добавить', ['address/create'], ['class' => 'btn btn-success mb-10']) ?>

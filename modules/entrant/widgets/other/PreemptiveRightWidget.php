@@ -6,16 +6,10 @@ use yii\base\Widget;
 
 class PreemptiveRightWidget extends Widget
 {
+    public $userId;
 
     public function run()
     {
-        return $this->render('preemptive-right', ['user_id' => $this->getIdUser()]);
+        return $this->render('preemptive-right', ['user_id' => $this->userId]);
     }
-
-
-    private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
-    }
-
-
 }

@@ -8,8 +8,6 @@ use yii\filters\AccessControl;
 
 class Entrant extends Module
 {
-    public $controllerNamespace = 'modules\entrant\controllers';
-
 
     public function behaviors(){
         return [

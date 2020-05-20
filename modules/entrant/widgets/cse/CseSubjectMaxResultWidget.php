@@ -8,10 +8,11 @@ use yii\data\ActiveDataProvider;
 
 class CseSubjectMaxResultWidget extends Widget
 {
+    public $userId;
     public function run()
     {
         return $this->render('max', [
-            'maxSubjectResult' => CseSubjectHelper::maxMarkSubject( \Yii::$app->user->identity->getId()),
+            'maxSubjectResult' => CseSubjectHelper::maxMarkSubject( $this->userId),
         ]);
     }
 

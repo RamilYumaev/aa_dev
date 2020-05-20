@@ -10,6 +10,7 @@ use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\interfaces\models\DataModel;
+use modules\entrant\models\Anketa;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\ProfileEditForm;
 use common\auth\models\User;
@@ -113,6 +114,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getAnketa()
+    {
+        return $this->hasOne(Anketa::class, ['user_id' => 'user_id']);
     }
 
     public function getFio()

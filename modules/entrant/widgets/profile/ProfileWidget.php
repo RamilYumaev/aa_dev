@@ -6,9 +6,10 @@ use yii\base\Widget;
 
 class ProfileWidget extends Widget
 {
+    public $userId;
     public function run()
     {
-        $model = Profiles::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
+        $model = Profiles::find()->where(['user_id' => $this->userId])->one();
         return $this->render('index', [
             'profile'=> $model
         ]);

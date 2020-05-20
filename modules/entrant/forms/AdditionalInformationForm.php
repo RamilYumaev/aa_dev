@@ -12,13 +12,13 @@ class AdditionalInformationForm extends Model
 
     private $_additionalInformation;
 
-    public function __construct(AdditionalInformation $additionalInformation = null, $config = [])
+    public function __construct($user_id, AdditionalInformation $additionalInformation = null, $config = [])
     {
         if($additionalInformation){
             $this->setAttributes($additionalInformation->getAttributes(), false);
             $this->_additionalInformation= $additionalInformation;
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+        $this->user_id = $user_id;
         parent::__construct($config);
     }
 

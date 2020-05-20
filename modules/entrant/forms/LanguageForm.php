@@ -13,13 +13,13 @@ class LanguageForm extends Model
 
     private $_language;
 
-    public function __construct(Language $language = null, $config = [])
+    public function __construct($user_id, Language $language = null, $config = [])
     {
         if($language){
             $this->setAttributes($language->getAttributes(), false);
             $this->_language = $language;
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+        $this->user_id = $user_id;
         parent::__construct($config);
     }
 

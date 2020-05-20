@@ -19,7 +19,7 @@ class DocumentEducationForm extends Model
     const FIO_PROFILE = true;
     const FIO_NO_PROFILE = false;
 
-    public function __construct(DocumentEducation $documentEducation = null, $config = [])
+    public function __construct($user_id, DocumentEducation $documentEducation = null, $config = [])
     {
         $this->fio = self::FIO_PROFILE;
         if($documentEducation){
@@ -30,7 +30,7 @@ class DocumentEducationForm extends Model
             }
             $this->_documentEducation = $documentEducation;
         }else {
-            $this->user_id = \Yii::$app->user->identity->getId();
+            $this->user_id = $user_id;
         }
         parent::__construct($config);
     }

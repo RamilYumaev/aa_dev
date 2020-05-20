@@ -25,7 +25,10 @@ return [
     ],
     'modules' => [
         'abiturient' => [
-            'class' => \modules\entrant\Entrant::class
+            'class' => \modules\entrant\Entrant::class,
+            'controllerNamespace' => 'modules\entrant\controllers\frontend',
+            'viewPath' => "@modules/entrant/views/frontend",
+
         ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class

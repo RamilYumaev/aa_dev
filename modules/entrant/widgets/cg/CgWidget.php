@@ -7,6 +7,7 @@ use yii\base\Widget;
 class CgWidget extends Widget
 {
     public $view = "index";
+    public $userId;
 
     public function run()
     {
@@ -18,7 +19,7 @@ class CgWidget extends Widget
     }
 
     private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
+        return $this->userId;
     }
 
     private function config() {

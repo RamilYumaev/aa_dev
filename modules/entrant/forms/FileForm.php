@@ -12,13 +12,13 @@ class FileForm extends Model
 
     private $_file;
 
-    public function __construct(File $file = null, $config = [])
+    public function __construct($user_id, File $file = null, $config = [])
     {
         if($file){
             $this->setAttributes($file->getAttributes(), false);
             $this->_file = $file;
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+        $this->user_id = $user_id;
         parent::__construct($config);
     }
 

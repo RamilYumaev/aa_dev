@@ -13,6 +13,7 @@ use Yii;
 
 class DocumentOtherWidget extends Widget
 {
+    public $userId;
     const COUNT_PHOTO  = 1;
     private $service;
 
@@ -25,7 +26,7 @@ class DocumentOtherWidget extends Widget
     public function init()
     {
         try {
-            $form = new OtherDocumentForm(false, $this->modelOne(), false, [], [], null, [
+            $form = new OtherDocumentForm($this->getIdUser(), false, $this->modelOne(), false, [], [], null, [
             'type'=> DictIncomingDocumentTypeHelper::ID_PHOTO, 'amount'=> $this->facultyCount()* self::COUNT_PHOTO]);
             $this->serviceOther($form,$this->modelOne());
         } catch (\DomainException $e) {
@@ -41,6 +42,7 @@ class DocumentOtherWidget extends Widget
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'userId'=> $this->getIdUser()
         ]);
     }
 
@@ -61,7 +63,7 @@ class DocumentOtherWidget extends Widget
     }
 
     private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
+        return $this->userId;
     }
 
     private function facultyCount() {

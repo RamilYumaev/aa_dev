@@ -7,13 +7,14 @@ use Yii;
 
 class FileListWidget extends Widget
 {
+    public $userId;
     public $model;
     public $record_id;
 
     public function run()
     {
         return $this->render('list', [
-            'files' => File::find()->defaultQueryUser(Yii::$app->user->identity->getId(),
+            'files' => File::find()->defaultQueryUser($this->userId,
                 $this->model,
                 $this->record_id)->all()
             ]);

@@ -13,7 +13,7 @@ class PassportDataForm extends Model
 
     private $_passport;
 
-    public function __construct(PassportData $passportData = null, $config = [])
+    public function __construct($user_id, PassportData $passportData = null, $config = [])
     {
         if($passportData){
             $this->setAttributes($passportData->getAttributes(), false);
@@ -22,7 +22,7 @@ class PassportDataForm extends Model
             $this->_passport = $passportData;
         } else {
             $this->nationality = \Yii::$app->user->identity->anketa()->citizenship_id;
-            $this->user_id = \Yii::$app->user->identity->getId();
+            $this->user_id = $user_id;
         }
 
         parent::__construct($config);

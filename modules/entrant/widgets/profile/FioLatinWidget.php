@@ -6,15 +6,13 @@ use yii\base\Widget;
 
 class FioLatinWidget extends Widget
 {
+    public $userId;
+
     public function run()
     {
-        $model = FIOLatin::findOne(['user_id' => $this->userId()]);
+        $model = FIOLatin::findOne(['user_id' => $this->userId]);
         return $this->render('fio', [
             'fio'=> $model
         ]);
-    }
-
-    private function userId() {
-        return \Yii::$app->user->identity->getId();
     }
 }
