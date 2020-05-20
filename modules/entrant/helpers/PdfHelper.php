@@ -28,7 +28,7 @@ class PdfHelper
             // format content from your own css file if needed or use the
             'cssFile' => '@frontend/web/css/pdf-documents.css',
             'defaultFont' => 'Times New Roman',
-            'defaultFontSize'=> 9, //pt
+            'defaultFontSize'=> 8, //pt
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly

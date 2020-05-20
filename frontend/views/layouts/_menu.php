@@ -17,6 +17,7 @@ echo Nav::widget([
         !Yii::$app->user->isGuest ?
         ['label'=> \yii\helpers\Html::tag("span", "", ["class"=> "glyphicon glyphicon-cog"]),
             'url'=> '/sign-up/user-edit'] : ['label' => ''],
+        !Yii::$app->user->isGuest ? ['label' => 'Подача документов', 'url' => ['/abiturient/anketa/step1']] : ['label' => ''],
         ['label' => 'Олимпиады/конкурсы', 'url' => ['/olympiads']],
         ['label' => 'Дни открытых дверей', 'url' => ['/dod']],
         // ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']],
