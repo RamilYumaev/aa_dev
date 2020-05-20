@@ -50,7 +50,7 @@ class FileService
         $array = ["image/png", 'image/jpeg'];
         $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
-            throw new \DomainException('Неверный тип файла разрешено загружать только файлы с расширением jpg');
+            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg');
         }
     }
 

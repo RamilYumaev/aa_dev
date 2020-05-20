@@ -32,7 +32,7 @@ class DateFormatHelper
         return [
             'language' => 'ru',
             'pluginOptions' => [
-                'endDate' => '+1d',
+                'endDate' => '+0d',
                 'autoclose'=>true,
                 'format' => 'dd.mm.yyyy'
             ]];
