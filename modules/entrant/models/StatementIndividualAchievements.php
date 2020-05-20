@@ -59,6 +59,11 @@ class StatementIndividualAchievements extends ActiveRecord
         return $this->getFiles()->count();
     }
 
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
+    }
+
+
     public function getStatementIa() {
         return $this->hasMany(StatementIa::class, ['statement_individual_id' => 'id']);
     }

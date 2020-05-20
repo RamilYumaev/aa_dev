@@ -44,7 +44,7 @@ $isData = $document_education ? $document_education->isDataNoEmpty() : false;
                 <?= Html::a('Добавить', ['document-education/create'], ['class' => 'btn btn-success']) ?>
             <?php endif; ?>
         <?php else: ?>
-            <p>Чтобь добавить документ об образовании необходимо акутализировать
+            <p>Чтобы добавить документ об образовании необходимо актуализировать
                 раздел <?= Html::a('"Учебные организации"',
                     ['/schools/create', 'redirect' => 'online-registration'], ['class' => 'btn btn-warning']) ?></p>
         <?php endif; ?>
