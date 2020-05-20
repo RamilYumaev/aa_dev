@@ -7,11 +7,12 @@ use yii\base\Widget;
 class PassportMainWidget extends Widget
 {
     public $view;
+    public $userId;
 
 
     public function run()
     {
-        $model = PassportData::findOne(['user_id' => \Yii::$app->user->identity->getId(), 'main_status'=> true]);
+        $model = PassportData::findOne(['user_id' => $this->userId, 'main_status'=> true]);
         return $this->render($this->view, [
             'model' => $model
         ]);

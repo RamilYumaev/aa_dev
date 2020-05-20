@@ -19,6 +19,8 @@ class ProfileHelper
     const ROLE_OPERATOR = 2;
     const ROLE_ADMIN = 3;
 
+    const ROLE_ENTRANT  = 4;
+
     const MALE = 1;
     const FEMALE = 2;
 
@@ -29,6 +31,7 @@ class ProfileHelper
             self::ROLE_OPERATOR => 'менеджер олимпиады',
             self::ROLE_TEACHER => 'учитель/преподаватель',
             self::ROLE_STUDENT => 'ученик/студент',
+            self::ROLE_ENTRANT => 'ПK',
         ];
     }
 

@@ -13,13 +13,13 @@ class AddressForm extends Model
 
     private $_address;
 
-    public function __construct(Address $address = null, $config = [])
+    public function __construct($user_id, Address $address = null, $config = [])
     {
         if($address){
             $this->setAttributes($address->getAttributes(), false);
             $this->_address = $address;
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+        $this->user_id = $user_id;
         parent::__construct($config);
     }
 

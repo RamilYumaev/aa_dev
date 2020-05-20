@@ -5,14 +5,15 @@ use modules\entrant\helpers\OtherDocumentHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $userId integer */
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="p-30 green-border">
         <h4>Прочие документы</h4>
         <?= Html::a('Добавить', ['other-document/create'], ['class' => 'btn btn-success']) ?>
-            <?php if(DocumentEducationHelper::isNameSurname(Yii::$app->user->identity->getId())): ?>
-                <?php if(!OtherDocumentHelper::isExitsUpdateName(Yii::$app->user->identity->getId())): ?>
+            <?php if(DocumentEducationHelper::isNameSurname($userId)): ?>
+                <?php if(!OtherDocumentHelper::isExitsUpdateName($userId)): ?>
                     <p class="bg-danger m-10">
                         Необходимо добавить документ, подтверждающий смену фамилии
                     </p>

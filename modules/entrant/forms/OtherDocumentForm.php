@@ -21,7 +21,7 @@ class OtherDocumentForm extends Model
 
     private $idIa;
 
-    public function __construct($ajax = false, OtherDocument $otherDocument = null,
+    public function __construct($user_id, $ajax = false, OtherDocument $otherDocument = null,
                                 $exemption = false,
                                 $arrayRequired = [],
                                 $typesDocument = [],
@@ -39,7 +39,7 @@ class OtherDocumentForm extends Model
             $this->_otherDocument = $otherDocument;
 
         }
-        $this->user_id = \Yii::$app->user->identity->getId();
+        $this->user_id = $user_id;
         parent::__construct($config);
     }
 

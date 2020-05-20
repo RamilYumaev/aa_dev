@@ -6,9 +6,11 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $userId integer */
+
 ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(LanguageHelper::isExits(Yii::$app->user->identity->getId())) ?>">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(LanguageHelper::isExits($userId)) ?>">
         <div class="p-30 green-border">
             <h4>Иностранные языки, которые изучили или изучаете</h4>
             <?= Html::a('Добавить', ['language/create'], ['class' => 'btn btn-success mb-10']) ?>

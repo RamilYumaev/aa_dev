@@ -12,4 +12,5 @@ Yii::setAlias('@testing', dirname(dirname(__DIR__)) . '/testing');
 Yii::setAlias('@api', dirname(dirname(__DIR__)) . '/api');
 Yii::setAlias('@teacher', dirname(dirname(__DIR__)) . '/teacher');
 Yii::setAlias('@modules', dirname(dirname(__DIR__)) . '/modules');
+Yii::setAlias('@entrant', dirname(dirname(__DIR__)) . '/entrant');
 

@@ -7,6 +7,7 @@ use yii\base\Widget;
 
 class DocumentEducationWidget extends Widget
 {
+    public $userId;
     public function run()
     {
         $model = DocumentEducation::findOne(['user_id' => $this->userId()]);
@@ -22,6 +23,6 @@ class DocumentEducationWidget extends Widget
     }
 
     private function userId() {
-        return \Yii::$app->user->identity->getId();
+        return $this->userId;
     }
 }

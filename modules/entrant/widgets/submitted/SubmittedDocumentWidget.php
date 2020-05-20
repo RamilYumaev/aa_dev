@@ -9,16 +9,15 @@ use Yii;
 
 class SubmittedDocumentWidget extends Widget
 {
+
+    public $userId;
     private $view = "index";
 
     public function run()
     {
         return $this->render($this->view,
-            ['submitted' => SubmittedDocuments::findOne(['user_id' => $this->getIdUser()]),
-            'userId' =>  $this->getIdUser()]);
+            ['submitted' => SubmittedDocuments::findOne(['user_id' => $this->userId]),
+            'userId' =>  $this->userId]);
     }
 
-    private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
-    }
 }

@@ -8,12 +8,14 @@ use yii\data\ActiveDataProvider;
 
 class LanguageWidget extends Widget
 {
+    public $userId;
     public function run()
     {
-        $query = Language::find()->where(['user_id' => \Yii::$app->user->identity->getId()]);
+        $query = Language::find()->where(['user_id' => $this->userId]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'userId' => $this->userId
         ]);
     }
 

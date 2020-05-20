@@ -16,7 +16,7 @@ class CseSubjectResultForm extends Model
 
     private $_cseSubjectResult;
 
-    public function __construct(CseSubjectResult $cseSubjectResult = null, $config = [])
+    public function __construct($user_id, CseSubjectResult $cseSubjectResult = null, $config = [])
     {
         if ($cseSubjectResult) {
             $this->setAttributes($cseSubjectResult->getAttributes(), false);
@@ -25,7 +25,7 @@ class CseSubjectResultForm extends Model
             }
             $this->_cseSubjectResult = $cseSubjectResult;
         } else {
-            $this->user_id = \Yii::$app->user->identity->getId();
+            $this->user_id = $user_id;
             $this->resultData = [new CseSubjectMarkForm()];
         }
         parent::__construct($config);

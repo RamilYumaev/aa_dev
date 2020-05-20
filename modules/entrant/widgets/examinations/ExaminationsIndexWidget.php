@@ -13,6 +13,7 @@ use yii\helpers\VarDumper;
 
 class ExaminationsIndexWidget extends Widget
 {
+    public $userId;
     public $view = "index-data";
     private $repository;
 
@@ -37,7 +38,7 @@ class ExaminationsIndexWidget extends Widget
     }
 
     private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
+        return $this->userId;
     }
 
 }

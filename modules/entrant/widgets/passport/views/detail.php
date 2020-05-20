@@ -33,4 +33,4 @@ use yii\widgets\DetailView;
         </div>
     </div>
 </div>
-<?= \modules\entrant\widgets\passport\PassportDataWidget::widget(); ?>
+

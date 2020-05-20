@@ -9,6 +9,7 @@ use Yii;
 
 class SubmittedDocumentGenerateStatementWidget extends Widget
 {
+    public $userId;
     private $view = "detail";
 
     public function run()
@@ -22,7 +23,7 @@ class SubmittedDocumentGenerateStatementWidget extends Widget
     }
 
     private function getIdUser() {
-        return \Yii::$app->user->identity->getId();
+        return $this->userId;
     }
 
     private function modelOne(){
