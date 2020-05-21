@@ -61,6 +61,7 @@ return [
              'rules' => [
                  '' => 'site/index',
                  'scan' => 'scan/index',
+                 'scan/token' => 'scan/token',
                  'scan/presence' => 'scan/presence',
                  'communication' => 'communication/index',
                  'dictionary' => 'communication/dictionary',

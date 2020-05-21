@@ -33,6 +33,12 @@ class Identity implements IdentityInterface
         return $this->user->id;
     }
 
+    public function getAisToken(): ?string
+    {
+        return $this->user->ais_token;
+    }
+
+
     public function isUser(): int
     {
         return $this->user->id;

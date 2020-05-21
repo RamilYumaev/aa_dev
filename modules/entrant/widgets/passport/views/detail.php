@@ -22,8 +22,13 @@ use yii\widgets\DetailView;
                     'model' => $model,
                     'attributes' => [
                         'nationalityName',
-                        'typeName', 'series',
-                        'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority',
+                        'typeName',
+                        'series',
+                        'number',
+                        'date_of_birth:date',
+                        'place_of_birth',
+                        'date_of_issue:date',
+                        'authority',
                         'division_code',
                     ]
                 ]) ?>

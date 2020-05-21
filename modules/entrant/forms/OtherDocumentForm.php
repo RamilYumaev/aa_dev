@@ -54,7 +54,7 @@ class OtherDocumentForm extends Model
             [['type','amount', 'exemption_id'], 'integer'],
             [['series', 'number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
-            [['date'], 'date', 'format' => 'dd.mm.yyyy'],
+            [['date'], 'date', 'format' => 'dd.mm.yyyy',  'max'=> date("d.m.Y")],
             [['amount'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PHOTO;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 45}'],
