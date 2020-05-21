@@ -47,6 +47,10 @@ class StatementIndividualAchievements extends ActiveRecord
         return $statementIA;
     }
 
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
     public function setCountPages($countPages) {
         $this->count_pages = $countPages;
     }

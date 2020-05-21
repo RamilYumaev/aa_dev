@@ -39,6 +39,17 @@ class ScanController extends Controller
         ];
     }
 
+
+    /**
+     * Для авторизации
+     * @return array
+     */
+    public function actionToken()
+    {
+        return ['token' => 'lkxsklfdlkskldgfklsdfgkkldklfglkfdxlfgkldklsfhklkg'];
+    }
+
+
     /**
      * Для авторизации
      * @return array

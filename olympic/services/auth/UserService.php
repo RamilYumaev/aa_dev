@@ -16,7 +16,7 @@ class UserService
     private $transaction;
 
     public function __construct(
-        \common\auth\repositories\UserRepository $repository,
+        UserRepository $repository,
         TransactionManager $transaction
     )
     {
@@ -43,6 +43,14 @@ class UserService
             $user->setAssignment($form->role);
         });
     }
+
+    public function addToken($id, $result)
+    {
+        $user = $this->repository->get($id);
+        $user->setAisToken($result);
+        $this->repository->save($user);
+    }
+
 
     public function remove($id): void
     {

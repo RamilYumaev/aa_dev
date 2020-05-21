@@ -62,7 +62,8 @@
     "kartik-v/yii2-mpdf": "*",
     "yiisoft/yii2-queue": "*",
     "khanamiryan/qrcode-detector-decoder": "*",
-    "yii-dream-team/yii2-upload-behavior": "*"
+    "yii-dream-team/yii2-upload-behavior": "*",
+    "ext-curl": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

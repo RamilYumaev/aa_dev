@@ -80,6 +80,13 @@ class User extends ActiveRecord
         $this->updated_at = time();
     }
 
+    public function setAisToken($token): void
+    {
+        $this->ais_token = $token;
+        $this->updated_at = time();
+    }
+
+
     public function editDefault(UserDefault $form): void
     {
         $this->username = $form->username;

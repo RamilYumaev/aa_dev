@@ -46,7 +46,8 @@ class PassportDataForm extends Model
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA;},
                 'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],
             [['date_of_birth','date_of_issue',], 'safe'],
-            [['date_of_birth','date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
+            [['date_of_issue',], 'validateDateOfBirth'],
+            [['date_of_birth','date_of_issue'], 'date', 'format' => 'dd.mm.yyyy', 'max'=> date("d.m.Y")],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)
             ],
         ];
@@ -63,6 +64,15 @@ class PassportDataForm extends Model
             return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_passport->id]]);
         }
         return $arrayUnique;
+    }
+
+    public function validateDateOfBirth()
+    {
+        if ($this->date_of_birth > $this->date_of_issue) {
+            $this->addError('date_of_issue', "Дата выдачи паспорта раньше, чем дата рождения " );
+            return false;
+        }
+        return true;
     }
 
     /**
