@@ -38,7 +38,7 @@ class AnketaForm extends Model
             [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id','university_choice'],
                 'required'],
             [['personal_student_number', 'province_of_china'], 'string'],
-            [['edu_finish_year'], 'date', 'format' => 'yyyy'],
+            [['edu_finish_year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['province_of_china', 'required', 'when' => function ($model) {
                 return $model->citizenship_id == 13;
             }, 'whenClient' => 'function (attribute, value) { return $("#anketaform-citizenship_id").val() == 13}'],
