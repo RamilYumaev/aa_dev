@@ -24,9 +24,9 @@ class UserService
         $this->transaction = $transaction;
     }
 
-    public function create(UserCreateForm $form): \common\auth\models\User
+    public function create(UserCreateForm $form): User
     {
-        $user = \common\auth\models\User::create($form);
+        $user = User::create($form);
         $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
             $user->setAssignment($form->role);
