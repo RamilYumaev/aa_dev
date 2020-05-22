@@ -19,14 +19,14 @@ use wapmorgan\yii2inflection\Inflector;
 class DataExportHelper
 {
 
-    public  static function  dataIncoming($userId)
+    public static function dataIncoming($userId)
     {
-        $profile = Profiles::findOne(['user_id'=> $userId]);
-        $info = AdditionalInformation::findOne(['user_id'=> $profile->user_id]);
-        $anketa = Anketa::findOne(['user_id'=> $profile->user_id]);
-        $fioLatin = FIOLatin::findOne(['user_id'=> $profile->user_id]);
-        $passport = PassportData::findOne(['user_id'=> $profile->user_id, 'main_status' => true]);
-        $other = OtherDocument::findOne(['user_id'=> $profile->user_id, 'exemption_id' => true]);
+        $profile = Profiles::findOne(['user_id' => $userId]);
+        $info = AdditionalInformation::findOne(['user_id' => $profile->user_id]);
+        $anketa = Anketa::findOne(['user_id' => $profile->user_id]);
+        $fioLatin = FIOLatin::findOne(['user_id' => $profile->user_id]);
+        $passport = PassportData::findOne(['user_id' => $profile->user_id, 'main_status' => true]);
+        $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => true]);
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -41,21 +41,21 @@ class DataExportHelper
                 'snils' => "",
                 'inn' => "",
                 'address_return_line' => "",
-                'citizenship_id' =>$anketa->citizenship_id,
+                'citizenship_id' => $anketa->citizenship_id,
                 'compatriot_status' => $anketa->isPatriot() ? 1 : 0,
-                'hostel_need_status' => $info->hostel_id ? $info->hostel_id :0,
+                'hostel_need_status' => $info->hostel_id ? $info->hostel_id : 0,
                 'birthdate' => $passport->date_of_birth,
                 'address_registration_country_id' => $addressRegistration ? $addressRegistration->country_id : "",
-                'address_registration_postcode' =>  $addressRegistration ? $addressRegistration->postcode : "",
-                'address_registration_region' =>  $addressRegistration ? $addressRegistration->region : "",
+                'address_registration_postcode' => $addressRegistration ? $addressRegistration->postcode : "",
+                'address_registration_region' => $addressRegistration ? $addressRegistration->region : "",
                 'address_registration_district' => $addressRegistration ? $addressRegistration->district : "",
-                'address_registration_city' =>  $addressRegistration ? $addressRegistration->city : "",
-                'address_registration_village' =>  $addressRegistration ? $addressRegistration->village : "",
-                'address_registration_street' =>  $addressRegistration ? $addressRegistration->street : "",
-                'address_registration_house' =>  $addressRegistration ? $addressRegistration->house : "",
-                'address_registration_housing' =>  $addressRegistration ? $addressRegistration->housing : "",
-                'address_registration_building' =>  $addressRegistration ? $addressRegistration->building : "",
-                'address_registration_flat' =>  $addressRegistration ? $addressRegistration->flat : "",
+                'address_registration_city' => $addressRegistration ? $addressRegistration->city : "",
+                'address_registration_village' => $addressRegistration ? $addressRegistration->village : "",
+                'address_registration_street' => $addressRegistration ? $addressRegistration->street : "",
+                'address_registration_house' => $addressRegistration ? $addressRegistration->house : "",
+                'address_registration_housing' => $addressRegistration ? $addressRegistration->housing : "",
+                'address_registration_building' => $addressRegistration ? $addressRegistration->building : "",
+                'address_registration_flat' => $addressRegistration ? $addressRegistration->flat : "",
                 'address_residence_postcode' => $addressResidence ? $addressResidence->postcode : "",
                 'address_residence_region' => $addressResidence ? $addressResidence->region : "",
                 'address_residence_district' => $addressResidence ? $addressResidence->district : "",
@@ -66,24 +66,24 @@ class DataExportHelper
                 'address_residence_housing' => $addressResidence ? $addressResidence->housing : "",
                 'address_residence_building' => $addressResidence ? $addressResidence->building : "",
                 'address_residence_flat' => $addressResidence ? $addressResidence->flat : "",
-                'address_actual_country_id' =>$addressActual ? $addressActual->country_id : "",
+                'address_actual_country_id' => $addressActual ? $addressActual->country_id : "",
                 'address_actual_postcode' => $addressActual ? $addressActual->postcode : "",
-                'address_actual_region' =>  $addressActual ? $addressActual->region : "",
+                'address_actual_region' => $addressActual ? $addressActual->region : "",
                 'address_actual_district' => $addressActual ? $addressActual->district : "",
-                'address_actual_city' =>  $addressActual ? $addressActual->city : "",
+                'address_actual_city' => $addressActual ? $addressActual->city : "",
                 'address_actual_village' => $addressActual ? $addressActual->village : "",
                 'address_actual_street' => $addressActual ? $addressActual->street : "",
                 'address_actual_house' => $addressActual ? $addressActual->house : "",
                 'address_actual_housing' => $addressActual ? $addressActual->housing : "",
                 'address_actual_building' => $addressActual ? $addressActual->building : "",
-                'address_actual_flat' =>  $addressActual ? $addressActual->flat : "",
+                'address_actual_flat' => $addressActual ? $addressActual->flat : "",
                 'phone_mobile' => $profile->phone,
                 'phone_home' => "",
                 'email' => $profile->user->email,
-                'return_documents_way_id' =>0,
+                'return_documents_way_id' => 3,
                 'school_type_id' => $anketa->current_edu_level,
-                'address_actual_to_registration_status' => "",
-                'address_actual_to_residence_status' => "",
+                'address_actual_to_registration_status' => 0,
+                'address_actual_to_residence_status' => 0,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
                 'incoming_type_id' => 3,
@@ -109,16 +109,16 @@ class DataExportHelper
                 'military_recruitment_name' => '',
                 'military_recruitment_address' => '',
                 'military_reserve_type_id' => '',
-                'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 'К1' : "") : "",
-                'quota_k2_status' =>  $other ? ($other->exemption_id == 2 ? 'К2' : "") : "",
-                'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 'К3' : "") : "",
+                'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
+                'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
+                'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
                 'creation_user_id' => '',
                 'creation_date' => '',
                 'update_user_id' => '',
                 'update_date' => '',
-                'valid_status' => '',
-                'checked_coz_status' => '',
+                'valid_status' => 1,
+                'checked_coz_status' => 1,
                 'chernobyl_status' => '',
                 'overall_diploma_mark' => '',
                 'ol_version' => '',
@@ -128,24 +128,24 @@ class DataExportHelper
         return array_merge($result, self::dataLanguage($userId), self::dataDocumentPassport($userId));
     }
 
-    public static function  dataCg($userId)
+    public static function dataCg($userId)
     {
         $result['applications'] = [];
         foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
             foreach ($statement->statementCg as $currentApplication) {
                 $result['applications'][] = [
                     'competitive_group_id' => $currentApplication->cg->aais_id,
-                   // 'cathedra_id' => $currentApplication->cathedra_id,
+                    // 'cathedra_id' => $currentApplication->cathedra_id,
                 ];
             }
         }
         return $result;
     }
 
-    public static function  dataLanguage($userId)
+    public static function dataLanguage($userId)
     {
         $result['foreign_languages'] = [];
-        foreach (Language::find()->where(['user_id'=>$userId])->all() as $currentLanguage) {
+        foreach (Language::find()->where(['user_id' => $userId])->all() as $currentLanguage) {
             $result['foreign_languages'][] = [
                 'language_id' => $currentLanguage->language_id,
             ];
@@ -153,10 +153,11 @@ class DataExportHelper
         return $result;
     }
 
-    public static function  dataDocumentPassport($userId)
+    public static function dataDocumentPassport($userId)
     {
+        $profile = Profiles::findOne(['user_id' => $userId]);
         $result['documents'] = [];
-        foreach (PassportData::find()->where(['user_id'=>$userId])->all() as  $currentDocument) {
+        foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
             $result['documents'][] = [
                 'id' => $currentDocument->id,
                 'document_type_id' => $currentDocument->type,
@@ -168,10 +169,10 @@ class DataExportHelper
                 'document_authority_country_id' => $currentDocument->nationality,
                 'diploma_authority' => '',
                 'diploma_specialty_id' => '',
-                'diploma_end_year' =>'',
-                'surname' => '',
-                'name' => '',
-                'patronymic' => '',
+                'diploma_end_year' => '',
+                'surname' => $profile->last_name,
+                'name' => $profile->first_name,
+                'patronymic' => $profile->patronymic,
                 'amount' => 1,
                 'main_status' => $currentDocument->main_status,
             ];
@@ -180,9 +181,8 @@ class DataExportHelper
     }
 
 
-
-    private static  function  address($type, $user_id)
+    private static function address($type, $user_id)
     {
-       return Address::findOne(['user_id'=> $user_id, 'type'=> $type ]);
+        return Address::findOne(['user_id' => $user_id, 'type' => $type]);
     }
 }
