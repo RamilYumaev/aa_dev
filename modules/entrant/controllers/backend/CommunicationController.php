@@ -4,18 +4,24 @@
 namespace modules\entrant\controllers\backend;
 
 
+use modules\entrant\helpers\DataExportHelper;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Statement;
+use olympic\models\auth\Profiles;
 use olympic\services\auth\UserService;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class CommunicationController extends Controller
 {
     private $service;
 
 
-    public function __construct($id, $module,  UserService $service, $config = [])
+    public function __construct($id, $module, UserService $service, $config = [])
     {
         $this->service = $service;
         parent::__construct($id, $module, $config);
@@ -33,14 +39,46 @@ class CommunicationController extends Controller
         ];
     }
 
+    /**
+     * @param integer $user
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
 
-    public function actionExportData() {
-        if (!\Yii::$app->user->identity->getAisToken()) {
+    public function actionExportData($user)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
             Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
+        } else {
+            $model = Profiles::find()
+                ->alias('profiles')
+                ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
+                ->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT])
+                ->andWhere(['profiles.user_id' => $user])->one();
+        if (!$model) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
         }
+        $ch = curl_init();
+        $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
+        curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-entrant-with-doc?access-token='.$token);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        if ($status_code !== 200) {
+            Yii::$app->session->setFlash("error", "Ошибка! $result");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        curl_close($ch);
+        Yii::$app->session->setFlash('warning', $result);
+        return $this->redirect(Yii::$app->request->referrer);
     }
+}
 
 
     public function actionForm() {
@@ -50,6 +88,7 @@ class CommunicationController extends Controller
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,'http://85.30.248.93:7779/incoming_2020/fok/sdo/get-access-token');
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
