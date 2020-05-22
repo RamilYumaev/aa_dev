@@ -40,7 +40,9 @@ class PassportData extends YiiActiveRecordAndModeration
     {
         return ['moderation' => [
             'class' => ModerationBehavior::class,
-            'attributes' => ['nationality', 'type', 'series', 'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority',
+            'attributes' => ['nationality', 'type', 'series', 'number',
+                'date_of_birth',
+                'place_of_birth', 'date_of_issue', 'authority',
                 'division_code', 'main_status']
         ], FileBehavior::class];
     }
