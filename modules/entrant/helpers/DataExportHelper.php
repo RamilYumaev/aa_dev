@@ -43,7 +43,7 @@ class DataExportHelper
                 'address_return_line' => "",
                 'citizenship_id' =>$anketa->citizenship_id,
                 'compatriot_status' => $anketa->isPatriot() ? 1 : 0,
-                'hostel_need_status' => $info->hostel_id,
+                'hostel_need_status' => $info->hostel_id ? $info->hostel_id :0,
                 'birthdate' => $passport->date_of_birth,
                 'address_registration_country_id' => $addressRegistration ? $addressRegistration->country_id : "",
                 'address_registration_postcode' =>  $addressRegistration ? $addressRegistration->postcode : "",
