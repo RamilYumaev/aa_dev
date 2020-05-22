@@ -4,13 +4,17 @@
 namespace modules\entrant\helpers;
 
 
+use common\auth\forms\DeclinationFioForm;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
 use olympic\models\auth\Profiles;
+use wapmorgan\yii2inflection\Inflector;
 
 class DataExportHelper
 {
@@ -20,7 +24,9 @@ class DataExportHelper
         $profile = Profiles::findOne(['user_id'=> $userId]);
         $info = AdditionalInformation::findOne(['user_id'=> $profile->user_id]);
         $anketa = Anketa::findOne(['user_id'=> $profile->user_id]);
+        $fioLatin = FIOLatin::findOne(['user_id'=> $profile->user_id]);
         $passport = PassportData::findOne(['user_id'=> $profile->user_id, 'main_status' => true]);
+        $other = OtherDocument::findOne(['user_id'=> $profile->user_id, 'exemption_id' => true]);
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -81,6 +87,42 @@ class DataExportHelper
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
                 'incoming_type_id' => 3,
+                'photo_id' => "",
+                'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE),
+                'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE),
+                'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE),
+                'surname_lat' => $fioLatin ? $fioLatin->surname : "",
+                'name_lat' => $fioLatin ? $fioLatin->surname : "",
+                'reception_method_id' => 3,
+                'mpgu_training_status' => 0,
+                'military_status_id' => '',
+                'military_doc_type_id' => '',
+                'military_doc_series' => '',
+                'military_doc_number' => '',
+                'military_doc_issue' => '',
+                'military_group_id' => '',
+                'military_category_id' => '',
+                'military_members' => '',
+                'military_rank_id' => '',
+                'military_specialty' => '',
+                'military_fitness_id' => '',
+                'military_recruitment_name' => '',
+                'military_recruitment_address' => '',
+                'military_reserve_type_id' => '',
+                'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 'К1' : "") : "",
+                'quota_k2_status' =>  $other ? ($other->exemption_id == 2 ? 'К2' : "") : "",
+                'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 'К3' : "") : "",
+                'special_conditions_status' => $info->voz_id,
+                'creation_user_id' => '',
+                'creation_date' => '',
+                'update_user_id' => '',
+                'update_date' => '',
+                'valid_status' => '',
+                'checked_coz_status' => '',
+                'chernobyl_status' => '',
+                'overall_diploma_mark' => '',
+                'ol_version' => '',
+
             ]
         ];
         return array_merge($result, self::dataLanguage($userId), self::dataDocumentPassport($userId));
