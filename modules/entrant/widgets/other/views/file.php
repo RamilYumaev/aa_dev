@@ -23,7 +23,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <td><?= $other->otherDocumentFull ?></td>
             <td><?= $other->noteOrTypeNote ?></td>
         <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?>
-            <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className() ]) ?>
+            <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>
         </td>
     </tr>
     <?php endforeach; ?>

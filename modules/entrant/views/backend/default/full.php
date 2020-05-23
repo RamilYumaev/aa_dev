@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles*/
 
-use yii\helpers\Html;
+use modules\entrant\helpers\CseViSelectHelper;use yii\helpers\Html;
 
 $this->title = $profile->getFio().' Персональная карточка поступающего';
 $this->params['breadcrumbs'][] = ['label' => 'Абитуриенты', 'url' => ['data-entrant/default/index']];
@@ -10,6 +10,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $anketa = $profile->anketa;
 $userId = $profile->user_id;
+
+var_dump(CseViSelectHelper::dataInAIASCSE($userId));
 ?>
 <?= Html::a("Экспорт в АИС", ['communication/export-data','user'=> $userId], ['data-method'=>'post', 'class' => 'btn btn-success']) ?>
 <?= Html::a("Data Json", ['default/data-json', 'user'=> $userId], [ 'class' => 'btn btn-danger']) ?>

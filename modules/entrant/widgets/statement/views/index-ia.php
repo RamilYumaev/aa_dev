@@ -28,7 +28,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             <td><?= Html::a('Скачать заявление', ['statement-individual-achievements/pdf', 'id' =>  $statement->id],
                     ['class' => 'btn btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class ]) ?>
 
-                <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class ]) ?>
+                <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statement->user_id ]) ?>
             </td>
         </tr>
         <?php endforeach; ?>
