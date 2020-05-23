@@ -33,7 +33,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
         <td><?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
                 ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
 
-            <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
+            <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class, 'userId' => $statement->user_id ]) ?>
         </td>
     </tr>
     <?php endforeach; ?>

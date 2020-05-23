@@ -5,10 +5,15 @@ namespace modules\entrant\helpers;
 
 
 use common\auth\forms\DeclinationFioForm;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\dictionary\models\DictCseSubject;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\CseSubjectResult;
+use modules\entrant\models\CseViSelect;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
@@ -17,6 +22,7 @@ use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
+use function Matrix\identity;
 
 class DataExportHelper
 {
@@ -123,55 +129,107 @@ class DataExportHelper
                 'chernobyl_status' => '',
                 'overall_diploma_mark' => '',
                 'ol_version' => '',
-
             ]
         ];
+        return array_merge($result,
+            self::dataLanguage($userId),
+            self::dataDocumentAll($userId, $profile),
+            self::dataCg($userId), self::dataCSE($userId), self::dataVi($userId), self::cse($userId));
+    }
 
-        return array_merge($result, self::dataLanguage($userId), self::dataDocumentAll($userId, $profile));
+    public static function dataVi($userId)
+    {
+        $cse = CseViSelect::findOne(['user_id' => $userId]);
+        $result['vi'] = [];
+        if($cse && $cse->dataVi()) {
+            foreach ($cse->dataVi() as $key => $value)
+            {
+                $result['vi'][]=
+                    [
+                        'exam' => $key == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($value[$key]) : DictCseSubjectHelper::aisId($key),
+                ];
+            }
+            return $result;
+        }
+
+        return [];
     }
 
     public static function dataCSE($userId)
     {
+        $cse = CseViSelectHelper::dataInAIASCSE($userId);
         $result['cse'] = [];
-        foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
-            foreach ($statement->statementCg as $currentApplication) {
-                $result['cse'][] = [
-                    'competitive_group_id' => $currentApplication->cg->aais_id,
-                    $result['incoming_id'] => '',
-                    $result['date'] =>'',
-                    $result['vi_status'] =>'',
-                    $result['composite_discipline_id'] => '',
-                    $result['preemptive_right_status'] => '',
-                    $result['preemptive_right_level'] => '',
-                    $result['statement_consent_status'] => '',
-                    $result['statement_consent_date'] => '',
-                    $result['benefit_BVI_status'] => '',
-                    $result['target_organization_id'] => '',
-                    $result['valid_status'] => ''
-                ];
+        $n =0;
+        if($cse) {
+            foreach ($cse as $key => $value) {
+                $result['cse'][$n]['document'] =
+                    [
+                        'year' => $key,
+                        'type_id' => 1,
+                    ];
+                foreach ($cse[$key] as $data) {
+                    $result['cse'][$n]['results'][] = [
+                        'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
+                        'mark' => $data['mark'],
+                    ];
+
+                }
+                $n++;
             }
+            return $result;
         }
-        return $result;
+
+        return [];
+    }
+
+    public static function cse($userId)
+    {
+        $cse = CseSubjectResult::find()->where(['user_id' => $userId]);
+        $result['cse'] = [];
+        if ($cse) {
+            foreach ($cse->all() as $key => $value) {
+                $result['cse'][$key]['document'] =
+                    [
+                        'year' => $value->year,
+                        'type_id' => 1,
+                    ];
+                foreach ($value->dateJsonDecode() as $item => $mark) {
+
+                    $result['cse'][$key]['results'][] = [
+                        'cse_subject_id' =>  DictCseSubjectHelper::aisId($item),
+                        'mark' => $mark,
+                    ];
+                }
+                return $result;
+            }
+
+            return [];
+        }
     }
 
     public static function dataCg($userId)
     {
         $result['applications'] = [];
+        $anketa = Anketa::findOne(['user_id' => $userId]);
         foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
+            $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
             foreach ($statement->statementCg as $currentApplication) {
+                $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
+                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+                $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
+                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
                 $result['applications'][] = [
-                    'competitive_group_id' => $currentApplication->cg->aais_id,
-                    $result['incoming_id'] => '',
-                    $result['date'] =>'',
-                    $result['vi_status'] =>'',
-                    $result['composite_discipline_id'] => '',
-                    $result['preemptive_right_status'] => '',
-                    $result['preemptive_right_level'] => '',
-                    $result['statement_consent_status'] => '',
-                    $result['statement_consent_date'] => '',
-                    $result['benefit_BVI_status'] => '',
-                    $result['target_organization_id'] => '',
-                    $result['valid_status'] => ''
+                    'competitive_group_id' => $currentApplication->cg->ais_id,
+                    'incoming_id' => '',
+                    'vi_status' => $noCse ? 1 : 0,
+                    'composite_discipline_id' => $composite,
+                    'preemptive_right_status' => $statement->special_right,
+                    'preemptive_right_level' => $prRight ? $prRight : 0,
+                    'statement_consent_status' => '',
+                    'statement_consent_date' => '',
+                    'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
+                    'target_organization_id' => '',
+                    'valid_status' => ''
                 ];
             }
         }

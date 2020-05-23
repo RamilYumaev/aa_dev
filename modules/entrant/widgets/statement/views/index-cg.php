@@ -32,7 +32,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                         "data-confirm" => "Вы уверены что хотите удалить?"]) ?>
                                 <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
 
-                                <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
+                                <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id  ]) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

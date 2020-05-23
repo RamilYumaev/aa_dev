@@ -367,6 +367,23 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' => true])
+            ->select(['dict_discipline.id'])
+            ->asArray()
+            ->all();
+
+        return self::selectCseViCompositeDiscipline($data, true, $user_id) ?? self::selectCseViCompositeDiscipline($data, false, $user_id);
+
+    }
+
     private static function stringExaminationsCse($data, $cse, $user_id)
     {
         $ex = "";
@@ -417,6 +434,35 @@ class DictCompetitiveGroupHelper
                 }
             }
             return $ex ? rtrim($ex, ", ") . "." : "";
+        }
+        return null;
+    }
+
+    private static function selectCseViCompositeDiscipline($data, $cse, $user_id)
+    {
+        if (CseViSelectHelper::modelOne($user_id)) {
+            $ex = null;
+            foreach ($data as $key => $value) {
+                if (!$cse) {
+                    if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
+                        if (key_exists($value['id'], $dataVi)) {
+                            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                                $ex=  DictCseSubjectHelper::aisId($dataVi[$value['id']]);
+                            }
+                        }
+                    }
+                } else {
+                    if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
+                        if (array_key_exists($value['id'], $dataCse)) {
+                            if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                              $ex=  DictCseSubjectHelper::aisId($dataCse[$value['id']][1]);
+                            }
+                        }
+
+                    }
+                }
+            }
+            return $ex;
         }
         return null;
     }

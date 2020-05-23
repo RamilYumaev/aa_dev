@@ -120,6 +120,7 @@ class CseSubjectResultController extends Controller
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
+
     /**
      * @param integer $id
      * @return mixed

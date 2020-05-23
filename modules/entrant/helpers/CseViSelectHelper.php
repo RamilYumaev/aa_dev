@@ -46,5 +46,30 @@ class CseViSelectHelper
        return true;
     }
 
+    public static function dataInAIASCSE($userId)
+    {
+        $array = [];
+        $model = self::modelOne($userId);
+        if($model && $model->dataCse()) {
+            foreach ($model->dataCse() as $item => $value) {
+                if (array_key_exists($value[0], $array)) {
+                    $array[$value[0]][] = [
+                        'ex' => $item,
+                        'language'=> $value[1],
+                        'mark' => $value[2],
+                    ] ;
+                } else {
+                    $array[$value[0]][0] = [
+                      'ex' => $item,
+                        'language'=> $value[1],
+                        'mark' => $value[2]
+                    ];
+                }
+            }
+        }
+        return $array;
+    }
+
+
 
 }

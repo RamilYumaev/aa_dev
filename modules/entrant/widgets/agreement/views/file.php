@@ -17,7 +17,7 @@ use modules\entrant\widgets\file\FileListWidget;
             <?= $model->documentFull ?>, <?= $model->organization ?>
         </td>
         <td>
-            <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className()]) ?>
+            <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className(),  'userId' => $model->user_id]) ?>
         </td>
     </tr>
 

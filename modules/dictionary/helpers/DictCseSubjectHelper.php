@@ -61,4 +61,10 @@ class DictCseSubjectHelper
         ])->all(), 'id','name');
     }
 
+    public static function aisId($id)
+    {
+        $model = DictCseSubject::findOne($id);
+        return $model ? $model->ais_id : null;
+    }
+
 }
