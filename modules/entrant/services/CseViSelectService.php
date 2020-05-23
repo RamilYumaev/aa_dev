@@ -30,7 +30,7 @@ class CseViSelectService
             if($value->type) {
                continue;
             }
-            $array[] = $key;
+            $array[$key] =  $value->language ?? $key;
         }
         return Json::encode($array, JSON_NUMERIC_CHECK);
     }

@@ -27,7 +27,11 @@ use yii\helpers\Html;
             foreach ($model->arrayMark as $i => $item): ?>
                 <tr class="<?= !$item->isData ? "danger" : "success" ?>">
                     <td><?= $a++; ?></td>
-                    <td><?= $item->str; ?></td>
+                    <td><?= $item->str; ?>
+                        <?php if ($i == DictCseSubjectHelper::LANGUAGE): ?>
+                            <?= $form->field($item, "[$i]language")->label(false)->dropDownList(DictCseSubjectHelper::listLanguage(), ['readonly' => $isStatement ? $item->isData : false]) ?>
+                        <?php endif; ?>
+                    </td>
                     <td><?= $form->field($item, "[$i]type")->label(false)->widget(SwitchInput::class, [
                             'readonly' =>  $isStatement ? $item->isData  : false,
                             'pluginOptions' => [
@@ -39,11 +43,9 @@ use yii\helpers\Html;
                             'pluginEvents' => [
                                 "switchChange.bootstrapSwitch" => "function(item) { 
              if($(item.currentTarget).is(':checked')){
-                  $('#typeexaminationsform-" . $i . "-language').prop('disabled', false);
                   $('#typeexaminationsform-" . $i . "-year').prop('disabled', false);
                  $('#typeexaminationsform-" . $i . "-mark').prop('disabled', false);
              }else{ 
-             $('#typeexaminationsform-" . $i . "-language').prop('disabled', true);
                 $('#typeexaminationsform-" . $i . "-year').prop('disabled', true);
                  $('#typeexaminationsform-" . $i . "-mark').prop('disabled', true);
                   $('#typeexaminationsform-" . $i . "-mark').val('');
@@ -53,9 +55,6 @@ use yii\helpers\Html;
                         ]); ?></td>
                     <td><?= $form->field($item, "[$i]year")->label(false)->textInput(['readonly' =>  $isStatement ? $item->isData : false,]) ?></td>
                     <td>
-                        <?php if ($i == $item::LANGUAGE): ?>
-                            <?= $form->field($item, "[$i]language")->label(false)->dropDownList(DictCseSubjectHelper::listLanguage(), ['readonly' => $isStatement ? $item->isData : false]) ?>
-                        <?php endif; ?>
                         <?= $form->field($item, "[$i]mark")->label(false)->textInput(['readonly' =>  $isStatement ? $item->isData : false]) ?>
                     </td>
                     <td></td>

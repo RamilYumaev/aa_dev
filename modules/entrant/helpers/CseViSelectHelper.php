@@ -14,7 +14,7 @@ class CseViSelectHelper
 
     public static function inKeyVi($key, array $data) {
         if($data) {
-            if(in_array($key, $data)) {
+            if(key_exists($key, $data)) {
                 return 'Вступительное испытание';
             }
         }

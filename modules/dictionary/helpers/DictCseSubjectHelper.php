@@ -11,6 +11,8 @@ class DictCseSubjectHelper
 {
     const MAX = 100;
 
+    const LANGUAGE = 21;
+
     const CSE_STATUS_YES =1;
 
     private static function modelAll() {
