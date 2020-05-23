@@ -5,9 +5,11 @@ namespace modules\entrant\helpers;
 
 
 use common\auth\forms\DeclinationFioForm;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
 use modules\entrant\models\OtherDocument;
@@ -18,7 +20,6 @@ use wapmorgan\yii2inflection\Inflector;
 
 class DataExportHelper
 {
-
     public static function dataIncoming($userId)
     {
         $profile = Profiles::findOne(['user_id' => $userId]);
@@ -88,9 +89,9 @@ class DataExportHelper
                 'advertising_source_id' => $info->resource_id,
                 'incoming_type_id' => 3,
                 'photo_id' => "",
-                'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE),
-                'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE),
-                'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE),
+                'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
+                'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
+                'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
                 'surname_lat' => $fioLatin ? $fioLatin->surname : "",
                 'name_lat' => $fioLatin ? $fioLatin->surname : "",
                 'reception_method_id' => 3,
@@ -125,7 +126,32 @@ class DataExportHelper
 
             ]
         ];
-        return array_merge($result, self::dataLanguage($userId), self::dataDocumentPassport($userId));
+
+        return array_merge($result, self::dataLanguage($userId), self::dataDocumentAll($userId, $profile));
+    }
+
+    public static function dataCSE($userId)
+    {
+        $result['cse'] = [];
+        foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
+            foreach ($statement->statementCg as $currentApplication) {
+                $result['cse'][] = [
+                    'competitive_group_id' => $currentApplication->cg->aais_id,
+                    $result['incoming_id'] => '',
+                    $result['date'] =>'',
+                    $result['vi_status'] =>'',
+                    $result['composite_discipline_id'] => '',
+                    $result['preemptive_right_status'] => '',
+                    $result['preemptive_right_level'] => '',
+                    $result['statement_consent_status'] => '',
+                    $result['statement_consent_date'] => '',
+                    $result['benefit_BVI_status'] => '',
+                    $result['target_organization_id'] => '',
+                    $result['valid_status'] => ''
+                ];
+            }
+        }
+        return $result;
     }
 
     public static function dataCg($userId)
@@ -135,7 +161,17 @@ class DataExportHelper
             foreach ($statement->statementCg as $currentApplication) {
                 $result['applications'][] = [
                     'competitive_group_id' => $currentApplication->cg->aais_id,
-                    // 'cathedra_id' => $currentApplication->cathedra_id,
+                    $result['incoming_id'] => '',
+                    $result['date'] =>'',
+                    $result['vi_status'] =>'',
+                    $result['composite_discipline_id'] => '',
+                    $result['preemptive_right_status'] => '',
+                    $result['preemptive_right_level'] => '',
+                    $result['statement_consent_status'] => '',
+                    $result['statement_consent_date'] => '',
+                    $result['benefit_BVI_status'] => '',
+                    $result['target_organization_id'] => '',
+                    $result['valid_status'] => ''
                 ];
             }
         }
@@ -153,10 +189,10 @@ class DataExportHelper
         return $result;
     }
 
-    public static function dataDocumentPassport($userId)
+    public static function dataDocumentAll($userId, Profiles $profile)
     {
-        $profile = Profiles::findOne(['user_id' => $userId]);
         $result['documents'] = [];
+
         foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
             $result['documents'][] = [
                 'id' => $currentDocument->id,
@@ -175,6 +211,48 @@ class DataExportHelper
                 'patronymic' => $profile->patronymic,
                 'amount' => 1,
                 'main_status' => $currentDocument->main_status,
+            ];
+        }
+
+        foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])->all() as  $currentDocument) {
+            $result['documents'][] = [
+                'id' => $currentDocument->id,
+                'document_type_id' => $currentDocument->type,
+                'document_series' => $currentDocument->series,
+                'document_number' => $currentDocument->number,
+                'document_issue' => $currentDocument->date,
+                'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
+                'document_authority_code' =>'',
+                'document_authority_country_id' => "",
+                'diploma_authority' => '',
+                'diploma_specialty_id' => '',
+                'diploma_end_year' =>'',
+                'surname' => '',
+                'name' => '',
+                'patronymic' => '',
+                'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount :1,
+                'main_status' => '',
+            ];
+        }
+
+        foreach (DocumentEducation::find()->where(['user_id'=>$userId])->all() as  $currentDocument) {
+            $result['documents'][] = [
+                'id' => $currentDocument->id,
+                'document_type_id' => $currentDocument->type,
+                'document_series' => $currentDocument->series,
+                'document_number' => $currentDocument->number,
+                'document_issue' => $currentDocument->date,
+                'document_authority' => "",
+                'document_authority_code' => "",
+                'document_authority_country_id' => $currentDocument->school->country_id,
+                'diploma_authority' => $currentDocument->schoolName,
+                'diploma_specialty_id' => '',
+                'diploma_end_year' =>$currentDocument->year,
+                'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
+                'surname' => $currentDocument->surname ??  $profile->last_name,
+                'name' => $currentDocument->name ?? $profile->first_name,
+                'amount' => 1,
+                'main_status' => 1,
             ];
         }
         return $result;
