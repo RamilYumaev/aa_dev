@@ -9,6 +9,7 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DictSpeciality;
 use dictionary\models\DisciplineCompetitiveGroup;
+use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\CseViSelectHelper;
 use modules\entrant\models\UserCg;
@@ -319,6 +320,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id])
             ->andWhere(['not', ['cse_subject_id' => null]])
+            ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline'=>true])
             ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
             //  ->groupBy(['discipline_competitive_group.discipline_id'])
@@ -357,7 +359,7 @@ class DictCompetitiveGroupHelper
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id])
-            ->select(['name', 'dict_discipline.id', 'cse_subject_id'])
+            ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
             ->asArray()
             ->all();
 
@@ -389,17 +391,26 @@ class DictCompetitiveGroupHelper
             foreach ($data as $key => $value) {
                 if (!$cse) {
                     if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
-                        if (in_array($value['id'], $dataVi)) {
-                            $ex .= $value['name'] . ", ";
+                        if (key_exists($value['id'], $dataVi)) {
+                            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                                $ex .=  DictCseSubjectHelper::listLanguage()[$dataVi[$value['id']]]   .", ";
+                            } else {
+                                $ex .= $value['name']  .", ";
+                            }
+
                         }
                     }
-                    if (!$value['cse_subject_id']) {
-                        $ex .= $value['name'] . ", ";
+                    if (!$value['cse_subject_id'] && !$value['composite_discipline']) {
+                        $ex .= $value['name'] .", ";
                     }
                 } else {
                     if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
                         if (array_key_exists($value['id'], $dataCse)) {
-                            $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                            if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                                $ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                            } else {
+                                $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                            }
                         }
 
                     }

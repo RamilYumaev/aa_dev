@@ -14,7 +14,7 @@ class TypeExaminationsForm extends Model
     public $year;
     public $language;
     private $key;
-    const LANGUAGE = 21;
+
     public $isData;
 
     public function __construct($exam = null, $key = null, CseViSelect $cseViSelect = null, $config = [])
@@ -22,18 +22,22 @@ class TypeExaminationsForm extends Model
         $this->key = $key;
         $this->str = $exam;
         if($cseViSelect) {
-            if($cseViSelect->dataVi() && in_array($key, $cseViSelect->dataVi())) {
-                $this->type = 0;
-                $this->isData = true;
-            } elseif($cseViSelect->dataCse())  {
+            if($cseViSelect->dataVi() && key_exists($key, $cseViSelect->dataVi())) {
+                    $this->type = 0;
+                    $this->isData = true;
+                    if ($this->key == DictCseSubjectHelper::LANGUAGE) {
+                        $this->language = $cseViSelect->dataVi()[$this->key];
+                    }
+                }
+            elseif($cseViSelect->dataCse() && key_exists($key, $cseViSelect->dataCse())) {
                 $this->type = 1;
                 $this->isData = true;
-                if ($this->key == self::LANGUAGE) {
+                if ($this->key == DictCseSubjectHelper::LANGUAGE) {
                     $this->language = $cseViSelect->dataCse()[$this->key][1];
                 }
                 $this->mark = $cseViSelect->dataCse()[$this->key][2] ?? null;
                 $this->year = $cseViSelect->dataCse()[$this->key][0] ?? null;
-            }
+                }
         } else {
             $this->isData = false;
             $this->type = null;
