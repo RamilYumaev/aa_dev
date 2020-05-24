@@ -27,7 +27,7 @@ class AgreementController extends Controller
     public function actionIndex()
     {
         $model = $this->findModel() ?? null;
-        $form = new AgreementForm($model);
+        $form = new AgreementForm($this->getUserId(), $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createOrUpdate($form, $model);
@@ -46,5 +46,17 @@ class AgreementController extends Controller
     protected function findModel(): ?Agreement
     {
       return Agreement::findOne([ 'user_id' => Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);
+    }
+
+    private function getUserId()
+    {
+        if($userId = \Yii::$app->user->identity->getId())
+        {
+           return  $userId;
+        };
+
+        return $this->redirect("default/index");
+
+
     }
 }

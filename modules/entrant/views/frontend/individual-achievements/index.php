@@ -40,6 +40,11 @@ if ($model !== null) {
 
 <div class="container">
     <div class="row">
+        <div class="row min-scr">
+            <div class="button-left">
+                <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["/abiturient/default/index"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
+            </div>
+        </div>
         <?php Pjax::begin(['id' => 'get-individual', 'timeout' => false, 'enablePushState' => false]); ?>
 
         <?= Html::decode($result); ?>
