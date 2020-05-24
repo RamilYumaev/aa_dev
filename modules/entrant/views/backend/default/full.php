@@ -10,10 +10,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $anketa = $profile->anketa;
 $userId = $profile->user_id;
-
-var_dump(CseViSelectHelper::dataInAIASCSE($userId));
 ?>
 <?= Html::a("Экспорт в АИС", ['communication/export-data','user'=> $userId], ['data-method'=>'post', 'class' => 'btn btn-success']) ?>
+<?= Html::a("Экспорт Заявлений в АИС", ['communication/export-statement','user'=> $userId], ['data-method'=>'post', 'class' => 'btn btn-success']) ?>
 <?= Html::a("Data Json", ['default/data-json', 'user'=> $userId], [ 'class' => 'btn btn-danger']) ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(['userId' => $userId]); ?>

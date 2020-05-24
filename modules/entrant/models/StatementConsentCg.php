@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -56,6 +57,9 @@ class StatementConsentCg extends ActiveRecord
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
+    public function statusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED;
+    }
 
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);

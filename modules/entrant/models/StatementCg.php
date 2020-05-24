@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 
 /**
@@ -38,6 +39,19 @@ class StatementCg extends ActiveRecord
 
     public function getStatementConsent() {
         return $this->hasMany(StatementConsentCg::class, ['statement_cg_id'=>'id']);
+    }
+
+    public function getIsStatementConsent() {
+        /* @var $consent  StatementConsentCg */
+        foreach ($this->statementConsent as $consent) {
+            if($consent->statusAccepted()) {
+                try {
+                    return \Yii::$app->formatter->asDate($consent->created_at, 'php:Y-m-d H:i:s');
+                } catch (InvalidConfigException $e) {
+                }
+            }
+        }
+        return null;
     }
 
     public function getStatementConsentFiles() {
