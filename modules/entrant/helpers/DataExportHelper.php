@@ -235,13 +235,13 @@ class DataExportHelper
                     'competitive_group_id' => $currentApplication->cg->ais_id,
                     'vi_status' => $noCse ? 1 : 0,
                     'composite_discipline_id' => $composite,
-                    'preemptive_right_status' => $statement->special_right,
+                    'preemptive_right_status' => $statement->special_right ?? 0,
                     'preemptive_right_level' => $prRight ? $prRight : 0,
                     'statement_consent_status' => $currentApplication->isStatementConsent ? 1 : 0,
                     'statement_consent_date' => $currentApplication->isStatementConsent ?? '',
                     'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
                     'target_organization_id' => '',
-                    'valid_status' => ''
+                    'valid_status' => 1
                 ];
             }
         }
