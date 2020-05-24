@@ -20,6 +20,8 @@ use modules\entrant\models\Language;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\UserAis;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
 use function Matrix\identity;
@@ -133,20 +135,26 @@ class DataExportHelper
         ];
         return array_merge($result,
             self::dataLanguage($userId),
-            self::dataDocumentAll($userId, $profile),
-            self::dataCg($userId), self::dataCSE($userId), self::dataVi($userId), self::cse($userId));
+            self::dataDocumentAll($userId, $profile));
     }
 
-    public static function dataVi($userId)
+    public static function dataIncomingStatement($userId) {
+        $incomingId = UserAis::findOne(['user_id'=>$userId]);
+        return array_merge( self::dataCg($userId, $incomingId->incoming_id), self::dataCSE($userId, $incomingId->incoming_id), self::dataVi($userId, $incomingId->incoming_id), self::cse($userId, $incomingId->incoming_id));
+    }
+
+
+    public static function dataVi($userId, $incomingId)
     {
         $cse = CseViSelect::findOne(['user_id' => $userId]);
         $result['vi'] = [];
         if($cse && $cse->dataVi()) {
             foreach ($cse->dataVi() as $key => $value)
             {
-                $result['vi'][]=
+                $result['vi'][]['exam']=
                     [
-                        'exam' => $key == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($value[$key]) : DictCseSubjectHelper::aisId($key),
+                        'incoming_id'=> $incomingId,
+                        'entrance_examination_id' => $key == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($value[$key]) : DictCseSubjectHelper::aisId($key),
                 ];
             }
             return $result;
@@ -155,7 +163,7 @@ class DataExportHelper
         return [];
     }
 
-    public static function dataCSE($userId)
+    public static function dataCSE($userId, $incomingId)
     {
         $cse = CseViSelectHelper::dataInAIASCSE($userId);
         $result['cse'] = [];
@@ -166,6 +174,8 @@ class DataExportHelper
                     [
                         'year' => $key,
                         'type_id' => 1,
+                        'incoming_id'=> $incomingId,
+
                     ];
                 foreach ($cse[$key] as $data) {
                     $result['cse'][$n]['results'][] = [
@@ -182,7 +192,7 @@ class DataExportHelper
         return [];
     }
 
-    public static function cse($userId)
+    public static function cse($userId, $incomingId)
     {
         $cse = CseSubjectResult::find()->where(['user_id' => $userId]);
         $result['cse'] = [];
@@ -192,6 +202,7 @@ class DataExportHelper
                     [
                         'year' => $value->year,
                         'type_id' => 1,
+                        'incoming_id'=> $incomingId,
                     ];
                 foreach ($value->dateJsonDecode() as $item => $mark) {
 
@@ -207,10 +218,11 @@ class DataExportHelper
         }
     }
 
-    public static function dataCg($userId)
+    public static function dataCg($userId, $incomingId)
     {
         $result['applications'] = [];
         $anketa = Anketa::findOne(['user_id' => $userId]);
+        /* @var  $currentApplication StatementCg */
         foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
             $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
             foreach ($statement->statementCg as $currentApplication) {
@@ -219,14 +231,14 @@ class DataExportHelper
                 $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
                     $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
                 $result['applications'][] = [
+                    'incoming_id'=> $incomingId,
                     'competitive_group_id' => $currentApplication->cg->ais_id,
-                    'incoming_id' => '',
                     'vi_status' => $noCse ? 1 : 0,
                     'composite_discipline_id' => $composite,
                     'preemptive_right_status' => $statement->special_right,
                     'preemptive_right_level' => $prRight ? $prRight : 0,
-                    'statement_consent_status' => '',
-                    'statement_consent_date' => '',
+                    'statement_consent_status' => $currentApplication->isStatementConsent ? 1 : 0,
+                    'statement_consent_date' => $currentApplication->isStatementConsent ?? '',
                     'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
                     'target_organization_id' => '',
                     'valid_status' => ''
@@ -253,7 +265,7 @@ class DataExportHelper
 
         foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
             $result['documents'][] = [
-                'id' => $currentDocument->id,
+                'sdo_id' => $currentDocument->id,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
