@@ -182,7 +182,6 @@ class DataExportHelper
                         'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
                         'mark' => $data['mark'],
                     ];
-
                 }
                 $n++;
             }
@@ -223,6 +222,7 @@ class DataExportHelper
         $result['applications'] = [];
         $anketa = Anketa::findOne(['user_id' => $userId]);
         /* @var  $currentApplication StatementCg */
+        /* @var  $statement Statement */
         foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
             $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
             foreach ($statement->statementCg as $currentApplication) {
@@ -241,6 +241,7 @@ class DataExportHelper
                     'statement_consent_date' => $currentApplication->isStatementConsent ?? '',
                     'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
                     'target_organization_id' => '',
+                    'application_code'=>$statement->numberStatement,
                     'valid_status' => 1
                 ];
             }
