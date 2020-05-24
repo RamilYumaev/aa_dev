@@ -268,7 +268,7 @@ class DataExportHelper
                 'name' => $profile->first_name,
                 'patronymic' => $profile->patronymic,
                 'amount' => 1,
-                'main_status' => $currentDocument->main_status,
+                'main_status' => $currentDocument->main_status ?? 0,
             ];
         }
 
@@ -289,7 +289,7 @@ class DataExportHelper
                 'name' => '',
                 'patronymic' => '',
                 'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount :1,
-                'main_status' => '',
+                'main_status' => 0,
             ];
         }
 
