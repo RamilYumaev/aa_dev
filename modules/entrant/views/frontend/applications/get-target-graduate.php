@@ -145,13 +145,14 @@ $this->registerJs("
 <?php
 $this->registerJs("
             $(document).on('pjax:send', function () {
-            const buttonPlus = $('.glyphicon');
+            const buttonPlus = $('.glyphicon-plus');
+            const buttonMinus = $('.glyphicon-minus');
             const buttonWrapper = $('.btn');
             buttonPlus.addClass(\"glyphicon-time\");
+            buttonMinus.addClass(\"glyphicon-time\");
             buttonWrapper.attr('disabled', 'true');
             buttonPlus.removeClass(\"glyphicon-plus\");
-            buttonPlus.removeClass(\"glyphicon-minus\");
-
+            buttonMinus.removeClass(\"glyphicon-minus\");
         })
     ", View::POS_READY);
 
