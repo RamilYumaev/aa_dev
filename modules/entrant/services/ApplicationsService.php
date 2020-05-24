@@ -60,10 +60,12 @@ class ApplicationsService
             $statementCg = $this->statementCgRepository->getUserStatement($userCg->cg_id, $userCg->user_id);
             if($statementCg) {
                 if ($statementCg->statement->files) {
-                    throw new \DomainException('Вы не можете удалить, так как у вас файл загружен');
+                    throw new \DomainException('Для отмены выбора образовательной программы сначала удалите 
+                    скан-копии соответствующего заявления!');
                 }
                 if($statementCg->statementConsentFiles)  {
-                    throw new \DomainException('Вы не можете удалить образовательную программу, так как загружен файл в заявлении о зачислении!');
+                    throw new \DomainException('Для отмены выбора образовательной программы сначала удалите 
+                    скан-копии соответствующего заявления о согласии на зачисление');
                 }
                 $statement = $this->statementRepository->get($statementCg->statement_id);
                 if($statement->getStatementCg()->count() == 1) {
