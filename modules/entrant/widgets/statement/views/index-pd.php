@@ -15,7 +15,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <td><?= Html::a('Скачать заявление', ['statement-personal-data/pdf', 'id' =>  $statement->id],
                 ['class' => 'btn btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementConsentPersonalData::class ]) ?>
 
-            <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementConsentPersonalData::class ]) ?>
+            <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementConsentPersonalData::class,  'userId' => $statement->user_id ]) ?>
         </td>
     </tr>
 </table>

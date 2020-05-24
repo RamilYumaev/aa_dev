@@ -22,8 +22,8 @@ use modules\entrant\widgets\file\FileListWidget;
     <tr class="<?= BlockRedGreenHelper::colorTableBg($address->countFiles(), FileHelper::listCountModels()[$address::className()]) ?>">
         <td><?= $address->addersFull ?></td>
         <td><?= $address->typeName ?></td>
-        <td><?= FileWidget::widget(['record_id' => $address->id, 'model' => $address::className() ]) ?>
-            <?= FileListWidget::widget(['record_id' => $address->id, 'model' =>  $address::className() ]) ?>
+        <td><?= FileWidget::widget(['record_id' => $address->id, 'model' => $address::className()]) ?>
+            <?= FileListWidget::widget(['record_id' => $address->id, 'model' =>  $address::className(), 'userId' => $address->user_id]) ?>
         </td>
     </tr>
     <?php endforeach; ?>

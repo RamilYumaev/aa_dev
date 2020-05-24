@@ -16,4 +16,11 @@ class PreemptiveRightHelper
        return $result ? rtrim($result, ", ") . "." : "";
     }
 
+    public static function  preemptiveRightMin($userId) {
+        return PreemptiveRight::find()->joinWith('otherDocument')
+            ->where(["user_id" => $userId])
+            ->select(['other_id'])
+            ->min("type_id");
+    }
+
 }

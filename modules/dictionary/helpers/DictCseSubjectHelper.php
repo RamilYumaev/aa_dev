@@ -11,6 +11,8 @@ class DictCseSubjectHelper
 {
     const MAX = 100;
 
+    const LANGUAGE = 21;
+
     const CSE_STATUS_YES =1;
 
     private static function modelAll() {
@@ -57,6 +59,12 @@ class DictCseSubjectHelper
             ['like','name', 'иностранный'],
             ['like','name', 'иностраный'],
         ])->all(), 'id','name');
+    }
+
+    public static function aisId($id)
+    {
+        $model = DictCseSubject::findOne($id);
+        return $model ? $model->ais_id : null;
     }
 
 }

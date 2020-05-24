@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <div class="row">
         <div class="mt-20">
-            <?= \modules\entrant\widgets\examinations\ExaminationsWidget::widget();?>
+            <?= \modules\entrant\widgets\examinations\ExaminationsWidget::widget(['userId' => $userId = Yii::$app->user->identity->getId()]);?>
         </div>
     </div>
 </div>
