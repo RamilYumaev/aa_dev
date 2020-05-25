@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 
 class AdditionalInformationForm extends Model
 {
-    public $voz_id, $user_id, $resource_id, $hostel_id;
+    public $voz_id, $user_id, $resource_id, $hostel_id, $chernobyl_status_id, $mpgu_training_status_id;
 
     private $_additionalInformation;
 
@@ -30,7 +30,7 @@ class AdditionalInformationForm extends Model
     {
         return [
             [['resource_id',], 'required'],
-            [['voz_id', 'resource_id', 'hostel_id'], 'integer'],
+            [['voz_id', 'resource_id', 'hostel_id', 'chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
         ];
     }
 

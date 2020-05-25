@@ -18,6 +18,9 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                 $columns = [
                     'resource',
                     'voz',
+                    'chernobyl',
+                    'mpguTraining'
+
                 ];
                 ?>
                 <?php if (DictCompetitiveGroupHelper::formOchExistsUser(Yii::$app->user->identity->getId())): ?>
