@@ -217,6 +217,7 @@ class DataExportHelper
         foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
+                'model_type' => 1,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
@@ -238,6 +239,7 @@ class DataExportHelper
         foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])->all() as  $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
+                'model_type' => 2,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
@@ -258,7 +260,8 @@ class DataExportHelper
 
         foreach (DocumentEducation::find()->where(['user_id'=>$userId])->all() as  $currentDocument) {
             $result['documents'][] = [
-              //  'id' => $currentDocument->id,
+                'sdo_id' => $currentDocument->id,
+                'model_type' => 3,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
