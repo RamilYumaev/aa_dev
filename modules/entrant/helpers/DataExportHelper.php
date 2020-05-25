@@ -46,10 +46,6 @@ class DataExportHelper
                 'patronymic' => $profile->patronymic,
                 'sex_id' => $profile->gender,
                 'birthplace' => mb_strtoupper($passport->place_of_birth, 'UTF-8'),
-                'place_of_work' => "",
-                'snils' => "",
-                'inn' => "",
-                'address_return_line' => "",
                 'citizenship_id' => $anketa->citizenship_id,
                 'compatriot_status' => $anketa->isPatriot() ? 1 : 0,
                 'hostel_need_status' => $info->hostel_id ? $info->hostel_id : 0,
@@ -87,138 +83,35 @@ class DataExportHelper
                 'address_actual_building' => $addressActual ? $addressActual->building : "",
                 'address_actual_flat' => $addressActual ? $addressActual->flat : "",
                 'phone_mobile' => $profile->phone,
-                'phone_home' => "",
                 'email' => $profile->user->email,
-                'return_documents_way_id' => 3,
                 'school_type_id' => $anketa->current_edu_level,
-                'address_actual_to_registration_status' => 0,
-                'address_actual_to_residence_status' => 0,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
-                'incoming_type_id' => 3,
-                'photo_id' => "",
                 'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
                 'surname_lat' => $fioLatin ? $fioLatin->surname : "",
                 'name_lat' => $fioLatin ? $fioLatin->surname : "",
                 'reception_method_id' => 3,
-                'mpgu_training_status' => 0,
-                'military_status_id' => '',
-                'military_doc_type_id' => '',
-                'military_doc_series' => '',
-                'military_doc_number' => '',
-                'military_doc_issue' => '',
-                'military_group_id' => '',
-                'military_category_id' => '',
-                'military_members' => '',
-                'military_rank_id' => '',
-                'military_specialty' => '',
-                'military_fitness_id' => '',
-                'military_recruitment_name' => '',
-                'military_recruitment_address' => '',
-                'military_reserve_type_id' => '',
+                'mpgu_training_status' => $info->mpgu_training_status_id,
+                'chernobyl_status' =>  $info->chernobyl_status_id,
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
-                'creation_user_id' => '',
-                'creation_date' => '',
-                'update_user_id' => '',
-                'update_date' => '',
-                'valid_status' => 1,
-                'checked_coz_status' => 1,
-                'chernobyl_status' => '',
                 'overall_diploma_mark' => '',
-                'ol_version' => '',
             ]
         ];
         return array_merge($result,
             self::dataLanguage($userId),
-            self::dataDocumentAll($userId, $profile));
+            self::dataDocumentAll($userId, $profile),
+            self::dataCSE($userId),
+            self::cse($userId)
+        );
     }
 
     public static function dataIncomingStatement($userId) {
         $incomingId = UserAis::findOne(['user_id'=>$userId]);
-        return array_merge( self::dataCg($userId, $incomingId->incoming_id), self::dataCSE($userId, $incomingId->incoming_id), self::dataVi($userId, $incomingId->incoming_id), self::cse($userId, $incomingId->incoming_id));
-    }
-
-
-    public static function dataVi($userId, $incomingId)
-    {
-        $cse = CseViSelect::findOne(['user_id' => $userId]);
-        $result['vi'] = [];
-        if($cse && $cse->dataVi()) {
-            foreach ($cse->dataVi() as $key => $value)
-            {
-                $result['vi'][]['exam']=
-                    [
-                        'incoming_id'=> $incomingId,
-                        'entrance_examination_id' => $key == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($value[$key]) : DictCseSubjectHelper::aisId($key),
-                ];
-            }
-            return $result;
-        }
-
-        return [];
-    }
-
-    public static function dataCSE($userId, $incomingId)
-    {
-        $cse = CseViSelectHelper::dataInAIASCSE($userId);
-        $result['cse'] = [];
-        $n =0;
-        if($cse) {
-            foreach ($cse as $key => $value) {
-                $result['cse'][$n]['document'] =
-                    [
-                        'year' => $key,
-                        'type_id' => 1,
-                        'incoming_id'=> $incomingId,
-
-                    ];
-                foreach ($cse[$key] as $data) {
-                    $result['cse'][$n]['results'][] = [
-                        'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
-                        'mark' => $data['mark'],
-                    ];
-                }
-                $n++;
-            }
-            return $result;
-        }
-
-        return [];
-    }
-
-    public static function cse($userId, $incomingId)
-    {
-        $cse = CseSubjectResult::find()->where(['user_id' => $userId]);
-        $result['cse'] = [];
-        if ($cse) {
-            foreach ($cse->all() as $key => $value) {
-                $result['cse'][$key]['document'] =
-                    [
-                        'year' => $value->year,
-                        'type_id' => 1,
-                        'incoming_id'=> $incomingId,
-                    ];
-                foreach ($value->dateJsonDecode() as $item => $mark) {
-
-                    $result['cse'][$key]['results'][] = [
-                        'cse_subject_id' =>  DictCseSubjectHelper::aisId($item),
-                        'mark' => $mark,
-                    ];
-                }
-                return $result;
-            }
-
-            return [];
-        }
-    }
-
-    public static function dataCg($userId, $incomingId)
-    {
         $result['applications'] = [];
         $anketa = Anketa::findOne(['user_id' => $userId]);
         /* @var  $currentApplication StatementCg */
@@ -231,23 +124,80 @@ class DataExportHelper
                 $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
                     $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
                 $result['applications'][] = [
-                    'incoming_id'=> $incomingId,
+                    'incoming_id'=> $incomingId->incoming_id,
                     'competitive_group_id' => $currentApplication->cg->ais_id,
                     'vi_status' => $noCse ? 1 : 0,
                     'composite_discipline_id' => $composite,
                     'preemptive_right_status' => $statement->special_right ?? 0,
                     'preemptive_right_level' => $prRight ? $prRight : 0,
-                    'statement_consent_status' => $currentApplication->isStatementConsent ? 1 : 0,
-                    'statement_consent_date' => $currentApplication->isStatementConsent ?? '',
                     'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
-                    'target_organization_id' => '',
                     'application_code'=>$statement->numberStatement,
-                    'valid_status' => 1
+                    'current_status_id' => '',
                 ];
             }
         }
         return $result;
     }
+
+    public static function dataIncomingStatementConsent($userId) {
+        $incomingId = UserAis::findOne(['user_id'=>$userId]);
+        return  [
+            'incoming_id' => $incomingId->incoming_id,
+            'competitive_group_id' => '',
+        ];
+    }
+
+    public static function dataCSE($userId)
+    {
+        $cse = CseViSelectHelper::dataInAIASCSE($userId);
+        $n =0;
+        if($cse) {
+            $result['documentsCse'] = [];
+            foreach ($cse as $key => $value) {
+                $result['documentsCse'][$n]  =
+                    [
+                        'year' => $key,
+                        'type_id' => 1,
+                    ];
+                foreach ($cse[$key] as $data) {
+                    $result['documentsCse'][$n]['subject'][]= [
+                        'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
+                        'mark' => $data['mark'],
+                    ];
+                }
+                $n++;
+            }
+            return $result;
+        }
+
+        return [];
+    }
+
+    public static function cse($userId)
+    {
+        $cse = CseSubjectResult::find()->where(['user_id' => $userId]);
+        if ($cse) {
+            $result['documentsCse'] = [];
+            foreach ($cse->all() as $key => $value) {
+                $result['documentsCse'][$key] =
+                    [
+                        'year' => $value->year,
+                        'type_id' => 1,
+                    ];
+                foreach ($value->dateJsonDecode() as $item => $mark) {
+
+                    $result['documentsCse'][$key]['subject'][] = [
+                        'cse_subject_id' =>  DictCseSubjectHelper::aisId($item),
+                        'mark' => $mark,
+                    ];
+                }
+                return $result;
+            }
+
+            return [];
+        }
+    }
+
 
     public static function dataLanguage($userId)
     {
