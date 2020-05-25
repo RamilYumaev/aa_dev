@@ -18,6 +18,8 @@ use yii\db\ActiveRecord;
  * @property integer $resource_id
  * @property integer $voz_id
  * @property  integer $hostel_id
+ * @property integer $chernobyl_status_id
+ * @property integer $mpgu_training_status_id
  **/
 
 class AdditionalInformation extends YiiActiveRecordAndModeration
@@ -32,7 +34,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => [
-                'resource_id', 'voz_id', 'hostel_id']
+                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id']
         ]];
     }
 
@@ -48,6 +50,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->user_id = $form->user_id;
         $this->resource_id = $form->resource_id;
         $this->hostel_id = $form->hostel_id;
+        $this->chernobyl_status_id = $form->chernobyl_status_id;
+        $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
 
     public function attributeLabels()
@@ -57,6 +61,11 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'hostel_id' => 'Нуждаюсь в общежитии?',
             'resource_id'=> 'Откуда узнали об МПГУ?',
             'user_id' =>   'Юзер ID',
+            'chernobyl_status_id' => 'Подвергался воздействию радиации (ЧАЭС)',
+            'mpgu_training_status_id' => 'Окончил(а) подготовительные курсы в МПГУ',
+            'chernobyl' => 'Подвергался воздействию радиации (ЧАЭС)',
+            'mpguTraining' => 'Окончил(а) подготовительные курсы в МПГУ',
+
             'voz' => "Нуждаюсь в создании специальных условий для лиц с ОВЗ и инвалидов при проведении вступительных испытаний?",
             'hostel' => 'Нуждаюсь в общежитии?',
             'resource'=> 'Откуда узнали об МПГУ?',
@@ -79,6 +88,16 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
        return DictDefaultHelper::name($this->voz_id);
     }
 
+    public function getChernobyl()
+    {
+        return DictDefaultHelper::name($this->chernobyl_status_id);
+    }
+    public function getMpguTraining()
+    {
+        return DictDefaultHelper::name($this->mpgu_training_status_id);
+    }
+
+
     public function dataArray(): array
     {
         return  [
@@ -86,6 +105,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'hostel' => $this->hostel_id,
         ];
     }
+
+
 
     public function titleModeration(): string
     {
@@ -98,6 +119,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'voz_id' => DictDefaultHelper::name($value),
             'hostel_id' => DictDefaultHelper::name($value),
             'resource_id'=> DictDefaultHelper::infoName($value),
+            'chernobyl_status_id' => DictDefaultHelper::infoName($value),
+            'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
         ];
     }
 }
