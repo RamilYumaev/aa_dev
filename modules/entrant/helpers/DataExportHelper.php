@@ -237,7 +237,7 @@ class DataExportHelper
 
         foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])->all() as  $currentDocument) {
             $result['documents'][] = [
-                'id' => $currentDocument->id,
+                'sdo_id' => $currentDocument->id,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
@@ -258,7 +258,7 @@ class DataExportHelper
 
         foreach (DocumentEducation::find()->where(['user_id'=>$userId])->all() as  $currentDocument) {
             $result['documents'][] = [
-                'id' => $currentDocument->id,
+              //  'id' => $currentDocument->id,
                 'document_type_id' => $currentDocument->type,
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,

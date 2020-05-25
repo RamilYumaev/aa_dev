@@ -67,7 +67,7 @@ class CommunicationController extends Controller
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
             if (UserAis::findOne(['user_id'=> $model->user_id])) {
-                Yii::$app->session->setFlash("error", "Вы не можете второй  раз отправить! ");
+                Yii::$app->session->setFlash("error", "Вы не можете второй раз отправить! ");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
