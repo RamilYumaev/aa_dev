@@ -154,8 +154,7 @@ class CommunicationController extends Controller
             }
             curl_close($ch);
             try {
-                $data = ['documents' => [4 => [['sdo_id' => $statement, 'ais_id' => null]]]];
-                $this->aisService->addData($incoming->incoming_id, $data,  Yii::$app->user->identity->getId(), Statement::class, $statement);
+                $this->aisService->addData( Statement::class, $statement);
                 Yii::$app->session->setFlash('success', "Успешно обновлен");
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -218,9 +217,7 @@ class CommunicationController extends Controller
             }
             curl_close($ch);
             try {
-                $data = ['documents' => [5 => [['sdo_id' => $consent, 'ais_id' => null]]]];
-                $this->aisService->addData($incoming->incoming_id, $data,  Yii::$app->user->identity->getId(),
-                    StatementConsentCg::class, $consent);
+                $this->aisService->addData(StatementConsentCg::class, $consent);
                 Yii::$app->session->setFlash('success', "Успешно обновлен");
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
