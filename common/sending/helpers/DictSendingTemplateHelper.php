@@ -32,7 +32,7 @@ class DictSendingTemplateHelper
 
     public static function templateName($key): string
     {
-        return ArrayHelper::getValue(self::templateList(), $key);
+        return ArrayHelper::getValue(self::templateList(), $key) ?? "";
     }
 
     public static function checkStatusList(): array
