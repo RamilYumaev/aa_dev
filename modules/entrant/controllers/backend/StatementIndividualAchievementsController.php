@@ -2,12 +2,11 @@
 
 
 namespace modules\entrant\controllers\backend;
-use kartik\mpdf\Pdf;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\searches\StatementIASearch;
 use modules\entrant\services\StatementIndividualAchievementsService;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -23,21 +22,29 @@ class StatementIndividualAchievementsController extends Controller
         $this->service = $service;
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new StatementIASearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionView($id)
+    {
+        $statement = $this->findModel($id);
+        $this->render('view', ['statement' => $statement]);
     }
 
     /**
@@ -54,16 +61,9 @@ class StatementIndividualAchievementsController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
-        $content = $this->renderPartial('pdf/_main', ["statementIA" => $statementIA ]);
+        $content = $this->renderPartial('@modules/entrant/views/frontend/statement-individual-achievements/pdf/_main', ["statementIA" => $statementIA ]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameIA($statementIA, '.pdf'));
-        $render = $pdf->render();
-        try {
-            $this->service->addCountPages($id, count($pdf->getApi()->pages));
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $render;
+        return $pdf->render();
     }
 
 
@@ -74,26 +74,12 @@ class StatementIndividualAchievementsController extends Controller
      */
     protected function findModel($id): StatementIndividualAchievements
     {
-        if (($model = StatementIndividualAchievements::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = StatementIndividualAchievements::findOne(['id'=>$id])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        try {
-            $this->service->remove($id, Yii::$app->user->identity->getId());
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
 
 
 }

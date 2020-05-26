@@ -4,6 +4,12 @@
 namespace modules\entrant\helpers;
 
 
+use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementIndividualAchievements;
+use yii\helpers\ArrayHelper;
+
 class StatementHelper
 {
     const STATUS_DRAFT = 0;
@@ -37,4 +43,20 @@ class StatementHelper
     public static function colorName($key) {
         return self::colorList()[$key];
     }
+
+    public static function columnStatement($column, $value) {
+        return ArrayHelper::map(Statement::find()->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
+    public static function columnStatementIa($column, $value) {
+        return ArrayHelper::map(StatementIndividualAchievements::find()->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
+    public static function columnStatementConsent($column, $value) {
+        return ArrayHelper::map(Statement::find()->alias('statement')
+            ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
+            ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
+            ->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
 }

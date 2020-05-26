@@ -5,6 +5,7 @@ namespace modules\entrant\controllers\backend;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\StatementConsentCgService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -21,33 +22,31 @@ class StatementConsentCgController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function behaviors(): array
+
+
+    public function actionIndex()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+        $searchModel = new StatementConsentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
-     * @param integer $id
+     *
+     * @param $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionCreate($id)
-    {
-        try {
-            $this->service->create($id, $this->getUser());
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
 
+    public function actionView($id)
+    {
+        $statement = $this->findModel($id);
+        $this->render('view', ['statement' => $statement]);
+    }
     /**
      *
      * @param $id
@@ -62,17 +61,9 @@ class StatementConsentCgController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
-        $content = $this->renderPartial('pdf/_main', ["statementConsent" => $statementConsent ]);
+        $content = $this->renderPartial('@modules/entrant/views/frontend/statement-consent-cg/pdf/_main', ["statementConsent" => $statementConsent ]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent( ".pdf"));
         $render = $pdf->render();
-
-        try {
-            $this->service->addCountPages($id, count($pdf->getApi()->pages));
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-
         return $render;
     }
 
@@ -83,32 +74,12 @@ class StatementConsentCgController extends Controller
      */
     protected function findModel($id): StatementConsentCg
     {
-        if (($model = StatementConsentCg::find()->statementOne($id, $this->getUser())) !== null) {
+        if (($model = StatementConsentCg::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        try {
-            $this->service->remove($id, Yii::$app->user->identity->getId());
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-
-
-    private function  getUser() {
-       return Yii::$app->user->identity->getId();
-    }
 
 
 }

@@ -10,6 +10,7 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\models\Statement;
+use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\StatementService;
 use modules\entrant\services\SubmittedDocumentsService;
 use Mpdf\Mpdf;
@@ -35,21 +36,15 @@ class StatementController extends Controller
         $this->service = $service;
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete-cg' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new StatementSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
     /**
@@ -59,11 +54,10 @@ class StatementController extends Controller
      * @throws NotFoundHttpException
      */
 
-
-    public function actionDoc($id)
+    public function actionView($id)
     {
         $statement = $this->findModel($id);
-        FileCgHelper::getFile(Yii::$app->user->identity->getId(), $statement);
+        $this->render('view', ['statement' => $statement]);
     }
 
     /**
@@ -80,18 +74,9 @@ class StatementController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
-        $content = $this->renderPartial('pdf/_main', ["statement" => $statement ]);
+        $content = $this->renderPartial('@modules/entrant/views/frontend/statement/pdf/_main', ["statement" => $statement ]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileName($statement, '.pdf'));
-        $render = $pdf->render();
-        try {
-            $this->service->addCountPages($id, count($pdf->getApi()->pages));
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-
-        return $render;
-
+        return $pdf->render();
     }
 
 
@@ -102,25 +87,10 @@ class StatementController extends Controller
      */
     protected function findModel($id): Statement
     {
-        if (($model = Statement::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = Statement::findOne(['id'=>$id])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
-    }
-
-    /**
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDeleteCg($id)
-    {
-        try {
-            $this->service->remove($id, Yii::$app->user->identity->getId());
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
     }
 
 

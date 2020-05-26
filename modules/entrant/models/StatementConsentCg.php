@@ -67,7 +67,7 @@ class StatementConsentCg extends ActiveRecord
 
     public function attributeLabels()
     {
-        return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];
+        return ["created_at" => "Дата создания", 'statement_cg_id' => "Конкурсная группа", "status_id" => "Статус"];
     }
 
     public static function find(): StatementConsentCgQuery

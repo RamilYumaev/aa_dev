@@ -84,5 +84,14 @@ class StatementIndividualAchievements extends ActiveRecord
         return new StatementIAQuery(static::class);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'edu_level' => "Уровень образования",
+            'user_id'=> "Абитуриент",
+            'created_at' => "Дата создания"
+        ];
+    }
+
 
 }
