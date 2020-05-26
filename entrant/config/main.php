@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-entrant',
     'basePath' => dirname(__DIR__),
+    'name' => "АИС \"Абитуриент\"",
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
