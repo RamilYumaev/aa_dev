@@ -84,19 +84,21 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             curl_close($ch);
+
+            $result = Json::decode($result);
+
             try {
-                $result = Json::decode($result);
-                if(key_exists('incoming_id', $result)) {
-                    $this->aisService->create(5, $result, Yii::$app->user->identity->getId());
-                    Yii::$app->session->setFlash('success', "Успешно обновлен");
-                } else if(key_exists('message',$result)) {
+                if(array_key_exists('incoming_id', $result)) {
+                    $this->aisService->create($model->user_id, $result, Yii::$app->user->identity->getId());
+                    Yii::$app->session->setFlash('success', "Абитуриент успешно экпортирован в АИС ВУЗ");
+                } else if(array_key_exists('message',$result)) {
                     Yii::$app->session->setFlash('warning', $result['message']);
                 }
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            Yii::$app->session->setFlash('warning', $result);
+          //  Yii::$app->session->setFlash('warning', Json::decode($result));
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
