@@ -2,6 +2,8 @@
 namespace modules\entrant\models\queries;
 
 
+use modules\entrant\helpers\StatementHelper;
+
 class StatementIAQuery extends \yii\db\ActiveQuery
 {
     public function user($userId)
@@ -43,6 +45,16 @@ class StatementIAQuery extends \yii\db\ActiveQuery
         return $this->eduLevel($eduLevel)
             ->user($userId)
             ->one();
+    }
+
+    public function statusNoDraft()
+    {
+        return $this->andWhere([">", "status", StatementHelper::STATUS_DRAFT]);
+    }
+
+    public function orderByCreatedAtDesc()
+    {
+        return $this->orderBy(['created_at' => SORT_DESC]);
     }
 
 

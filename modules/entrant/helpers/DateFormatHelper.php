@@ -3,6 +3,8 @@
 namespace modules\entrant\helpers;
 
 
+use kartik\date\DatePicker;
+
 class DateFormatHelper
 {
     const DATE_FORMAT = 'Y-m-d';
@@ -38,6 +40,22 @@ class DateFormatHelper
             ]];
     }
 
+    public static function dateWidgetRangeSearch($searchModel, $from, $to) {
+        return DatePicker::widget([
+            'language' => 'ru',
+            'model' => $searchModel,
+            'attribute' => $from,
+            'attribute2' => $to,
+            'type' => DatePicker::TYPE_RANGE,
+            'separator' => '-',
+            'pluginOptions' => [
+                'todayHighlight' => true,
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+            ],
+        ]);
+
+    }
 
 
 }

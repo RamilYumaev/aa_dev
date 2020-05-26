@@ -2,8 +2,10 @@
 namespace modules\entrant\models\queries;
 
 
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementConsentCg;
 
 class StatementConsentCgQuery extends \yii\db\ActiveQuery
 {
@@ -23,6 +25,16 @@ class StatementConsentCgQuery extends \yii\db\ActiveQuery
 
     public function statementOne($id, $user_id) {
         return $this->statement($id, $user_id)->one();
+    }
+
+    public function statusNoDraft($alias = '')
+    {
+        return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
+    }
+
+    public function orderByCreatedAtDesc()
+    {
+        return $this->orderBy(['created_at' => SORT_DESC]);
     }
 
 

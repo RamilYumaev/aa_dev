@@ -7,6 +7,7 @@ use dictionary\models\DictSpeciality;
 use dictionary\models\Faculty;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementQuery;
+use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -77,6 +78,10 @@ class Statement extends ActiveRecord
         return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
     }
 
+    public function getProfileUser() {
+        return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
@@ -87,6 +92,16 @@ class Statement extends ActiveRecord
 
     public function countFilesAndCountPagesTrue() {
         return $this->count_pages && $this->count_pages == $this->countFiles();
+    }
+
+    public function statementCgConsent() {
+        /* @var  $cg StatementCg */
+        foreach ($this->statementCg as $cg) {
+            if($cg->getStatementConsentFiles()) {
+                return true; break;
+            }
+        }
+        return false;
     }
 
     public function getStatusName() {
@@ -122,6 +137,18 @@ class Statement extends ActiveRecord
     public function columnIdCg(){
         return $this->getStatementCg()->select(['cg_id'])->column();
     }
+
+    public function attributeLabels()
+    {
+        return ['faculty_id' => "Факультет",
+            'speciality_id' => "Направление подготовки",
+            'edu_level' => "Уровень образования",
+            'special_right' => "Основание приема",
+            'user_id'=> "Абитуриент",
+            'created_at' => "Дата создания"
+        ];
+    }
+
 
 
 }

@@ -36,6 +36,11 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere([">", "status", StatementHelper::STATUS_DRAFT]);
     }
 
+    public function orderByCreatedAtDesc()
+    {
+        return $this->orderBy(['created_at' => SORT_DESC]);
+    }
+
 
     public function eduLevel($eduLevel)
     {
