@@ -110,13 +110,13 @@ class DataExportHelper
         );
     }
 
-    public static function dataIncomingStatement($userId) {
+    public static function dataIncomingStatement($userId, $statementId) {
         $incomingId = UserAis::findOne(['user_id'=>$userId]);
         $result['applications'] = [];
         $anketa = Anketa::findOne(['user_id' => $userId]);
         /* @var  $currentApplication StatementCg */
         /* @var  $statement Statement */
-        foreach (Statement::find()->user($userId)->statusNoDraft()->all() as $statement) {
+        $statement = Statement::find()->user($userId)->statusNoDraft()->id($statementId)->one();
             $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
             foreach ($statement->statementCg as $currentApplication) {
                 $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
@@ -134,7 +134,6 @@ class DataExportHelper
                     'application_code'=>$statement->numberStatement,
                     'current_status_id' => '',
                 ];
-            }
         }
         return $result;
     }
