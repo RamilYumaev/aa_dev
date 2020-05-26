@@ -5,6 +5,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
 use modules\entrant\helpers\SelectDataHelper;
 use modules\entrant\helpers\StatementHelper;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel modules\entrant\searches\StatementConsentSearch */
@@ -37,6 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
+                    ['value' => function ($model) {
+                        return Html::a("ЗОС в АИС", ['communication/export-statement-consent', 'user' => $model->statementCg->statement->user_id, 'statement' => $model->statementCg->statement->id, 'consent' =>  $model->id], ['data-method' => 'post', 'class' => 'btn btn-success']);
+                    }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
                 ],
             ]); ?>

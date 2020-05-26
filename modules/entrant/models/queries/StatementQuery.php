@@ -16,6 +16,11 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["faculty_id" =>$facultyId]);
     }
 
+    public function id($id)
+    {
+        return $this->andWhere(["id" =>$id]);
+    }
+
     public function speciality($specialityId)
     {
         return $this->andWhere(["speciality_id" => $specialityId]);
