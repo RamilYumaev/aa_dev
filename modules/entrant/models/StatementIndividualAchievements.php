@@ -4,6 +4,7 @@ namespace modules\entrant\models;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\queries\StatementIAQuery;
+use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -61,6 +62,15 @@ class StatementIndividualAchievements extends ActiveRecord
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function getProfileUser() {
+        return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getEduLevel()
+    {
+        return DictCompetitiveGroupHelper::eduLevelName($this->edu_level);
     }
 
     public function countFilesAndCountPagesTrue() {

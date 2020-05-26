@@ -45,15 +45,15 @@ class StatementHelper
     }
 
     public static function columnStatement($column, $value) {
-        return ArrayHelper::map(Statement::find()->select($column)->groupBy($column)->all(), $column, $value);
+        return ArrayHelper::map(Statement::find()->statusNoDraft()->select($column)->groupBy($column)->all(), $column, $value);
     }
 
     public static function columnStatementIa($column, $value) {
-        return ArrayHelper::map(StatementIndividualAchievements::find()->select($column)->groupBy($column)->all(), $column, $value);
+        return ArrayHelper::map(StatementIndividualAchievements::find()->statusNoDraft()->select($column)->groupBy($column)->all(), $column, $value);
     }
 
     public static function columnStatementConsent($column, $value) {
-        return ArrayHelper::map(Statement::find()->alias('statement')
+        return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
             ->select($column)->groupBy($column)->all(), $column, $value);

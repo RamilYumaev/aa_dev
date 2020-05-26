@@ -31,9 +31,9 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["status" => $status]);
     }
 
-    public function statusNoDraft()
+    public function statusNoDraft($alias = "")
     {
-        return $this->andWhere([">", "status", StatementHelper::STATUS_DRAFT]);
+        return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
     }
 
     public function orderByCreatedAtDesc()
