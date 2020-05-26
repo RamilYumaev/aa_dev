@@ -87,7 +87,7 @@ class CommunicationController extends Controller
             try {
                 $result = Json::decode($result);
                 if(key_exists('incoming_id', $result)) {
-                    $this->aisService->create($model->user_id, $result['incoming_id']);
+                    $this->aisService->create(5, $result, Yii::$app->user->identity->getId());
                     Yii::$app->session->setFlash('success', "Успешно обновлен");
                 } else if(key_exists('message',$result)) {
                     Yii::$app->session->setFlash('warning', $result['message']);
