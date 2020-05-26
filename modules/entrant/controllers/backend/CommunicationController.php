@@ -73,13 +73,13 @@ class CommunicationController extends Controller
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
-            if (UserAis::findOne(['user_id'=> $model->user_id])) {
+            if (UserAis::findOne(['user_id' => $model->user_id])) {
                 Yii::$app->session->setFlash("error", "Вы не можете второй раз отправить! ");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-entrant-with-doc?access-token='.$token);
+            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-entrant-with-doc?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -95,17 +95,17 @@ class CommunicationController extends Controller
             $result = Json::decode($result);
 
             try {
-                if(array_key_exists('incoming_id', $result)) {
+                if (array_key_exists('incoming_id', $result)) {
                     $this->aisService->create($model->user_id, $result, Yii::$app->user->identity->getId());
                     Yii::$app->session->setFlash('success', "Абитуриент успешно экпортирован в АИС ВУЗ");
-                } else if(array_key_exists('message',$result)) {
+                } else if (array_key_exists('message', $result)) {
                     Yii::$app->session->setFlash('warning', $result['message']);
                 }
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-          //  Yii::$app->session->setFlash('warning', Json::decode($result));
+            //  Yii::$app->session->setFlash('warning', Json::decode($result));
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
@@ -134,14 +134,14 @@ class CommunicationController extends Controller
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
-            $incoming = UserAis::findOne(['user_id'=> $model->user_id]);
+            $incoming = UserAis::findOne(['user_id' => $model->user_id]);
             if (!$incoming) {
-                Yii::$app->session->setFlash("error", "Нет данных абитуриента в АИСе! ");
+                Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingStatement($model->user_id, $statement));
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-usu-spec-application-cse-vi?access-token='.$token);
+            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-usu-spec-application-cse-vi?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -153,15 +153,26 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             curl_close($ch);
-            try {
-                $this->aisService->addData( Statement::class, $statement);
-                Yii::$app->session->setFlash('success', "Успешно обновлен");
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+                    try {
+                        $this->aisService->addData(Statement::class, $statement);
+                        Yii::$app->session->setFlash('success', "Заявление принято.");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
         }
+
     }
 
     /**
@@ -191,7 +202,7 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
-            $incoming = UserAis::findOne(['user_id'=> $model->user_id]);
+            $incoming = UserAis::findOne(['user_id' => $model->user_id]);
             if (!$incoming) {
                 Yii::$app->session->setFlash("error", "Нет данных абитуриента в АИСе! ");
                 return $this->redirect(Yii::$app->request->referrer);
@@ -202,9 +213,9 @@ class CommunicationController extends Controller
             }
 
             $ch = curl_init();
-            $data = Json::encode(['incoming_id'=> $incoming->incoming_id,
+            $data = Json::encode(['incoming_id' => $incoming->incoming_id,
                 'competitive_group_id' => $consent->statementCg->cg->ais_id]);
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/add-zos?access-token='.$token);
+            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/add-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -216,44 +227,53 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             curl_close($ch);
-            try {
-                $this->aisService->addData(StatementConsentCg::class, $consent);
-                Yii::$app->session->setFlash('success', "Успешно обновлен");
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+                    try {
+                        $this->aisService->addData(StatementConsentCg::class, $consent);
+                        Yii::$app->session->setFlash('success', "Заявление о согласии принято!");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
             }
-            Yii::$app->session->setFlash('success', $result);
-            return $this->redirect(Yii::$app->request->referrer);
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+
         }
     }
 
 
-    public function actionForm() {
+    public function actionForm()
+    {
         $user = Yii::$app->request->post('username');
         $pass = Yii::$app->request->post('password');
-        if($user && $pass) {
+        if ($user && $pass) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,'http://85.30.248.93:7779/incoming_2020/fok/sdo/get-access-token');
+            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/get-access-token');
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
-            $result=curl_exec ($ch);
+            $result = curl_exec($ch);
             $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
             if ($status_code !== 200) {
                 Yii::$app->session->setFlash("error", "Ошибка! Неверный логин или пароль");
                 return $this->redirect(Yii::$app->request->referrer);
             }
-            curl_close ($ch);
+            curl_close($ch);
             $result = Json::decode($result);
             try {
-                if(key_exists('token', $result)) {
+                if (key_exists('token', $result)) {
                     $this->service->addToken(\Yii::$app->user->identity->getId(), $result['token']);
-                    Yii::$app->session->setFlash('success', "Успешно обновлен");
+                    Yii::$app->session->setFlash('success', "Заявление о согласии на зачисление принято!");
                     return $this->redirect(['default/index']);
-                } else if(key_exists('message',$result)) {
+                } else if (key_exists('message', $result)) {
                     Yii::$app->session->setFlash('warning', $result['message']);
                     return $this->redirect(Yii::$app->request->referrer);
                 }
@@ -264,8 +284,6 @@ class CommunicationController extends Controller
         }
         return $this->render('form');
     }
-
-
 
 
 }
