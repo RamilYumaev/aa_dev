@@ -3,7 +3,6 @@
 
 namespace modules\entrant\services;
 
-use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -43,11 +42,10 @@ class UserAisService
         });
     }
 
-    public function addData($userId, $data, $createdId, $model, $id)
+    public function addData($model, $id)
     {
-        $this->transactionManager->wrap(function () use($userId, $data, $createdId,  $model, $id) {
+        $this->transactionManager->wrap(function () use(  $model, $id) {
              $this->statusSuccess($model, $id);
-             $this->dataAis($data, $createdId, $userId);
         });
     }
 
