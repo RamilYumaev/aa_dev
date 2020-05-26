@@ -166,9 +166,9 @@ class TestAttemptService
             throw  new \DomainException('Количество  участников заочного тура меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так,
             то сообщите, о несостоявшейся олимпиаде аднимистраторам портала');
         }
-        elseif(!$this->isRewardStatus($test->id)) {
-            throw new \DomainException("Поставьте все призовые места участникам");
-        }
+//        elseif(!$this->isRewardStatus($test->id)) {
+//            throw new \DomainException("Поставьте все призовые места участникам");
+//        }
         elseif($this->countRewardStatus($test->id)  > $this->countDefaultRewards($test->id)) {
             throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать 40%(".$this->countDefaultRewards($test->id).") от общего числа участников");
         }

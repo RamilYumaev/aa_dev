@@ -77,6 +77,9 @@ class SendingProcessService
 
     private function sendDiploma(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
         $diplomaAll  = Diploma::find()->olympic($olympic->id)->all();
+        if(!count($diplomaAll)) {
+            throw new \DomainException( 'У участников не сформированы дипломы');
+        }
         foreach($diplomaAll as $diploma) {
             $user = $this->userRepository->get($diploma->user_id);
             $this->send($user, $olympic, $this->deliveryStatusRepository,
