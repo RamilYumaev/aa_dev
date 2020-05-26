@@ -30,11 +30,11 @@ class UserAisService
             if(key_exists('documents', $data)) {
                 foreach($data['documents']  as $type => $value) {
                     foreach ($value as  $item) {
-                        foreach ($item as  $sdo => $ais) {
+                      //  foreach ($item as  $docId) {
                             $aisData = AisReturnData::create($createdId,
-                                AisReturnDataHelper::modelKey($type), $type, $model->incoming_id, $sdo, $ais);
+                                AisReturnDataHelper::modelKey($type), $type, $model->incoming_id, $item['sdo_id'], $item['ais_id']);
                             $this->repository->save($aisData);
-                        }
+                       // }
                     }
                 }
             }
