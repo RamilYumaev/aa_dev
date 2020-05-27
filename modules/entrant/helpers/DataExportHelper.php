@@ -145,6 +145,7 @@ class DataExportHelper
     public static function dataIncomingStatementIa($userId, $statementId) {
         $incomingId = UserAis::findOne(['user_id'=>$userId]);
         /* @var $currentIa StatementIa */
+        /* @var $statementIndividualAchievements StatementIndividualAchievements */
         $statementIndividualAchievements = StatementIndividualAchievements::find()->user($userId)
             ->statusNoDraft()->id($statementId)->one();
         $result['individual_achievements'] = [];
