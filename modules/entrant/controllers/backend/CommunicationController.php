@@ -306,8 +306,9 @@ class CommunicationController extends Controller
             }
             if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
-                return $this->redirect(\Yii::$app->request->referrer);
             }
+
+            return $this->redirect(\Yii::$app->request->referrer);
 
         }
     }
