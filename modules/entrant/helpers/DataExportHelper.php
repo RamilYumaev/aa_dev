@@ -21,6 +21,8 @@ use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementIa;
+use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
@@ -139,12 +141,20 @@ class DataExportHelper
         return $result;
     }
 
-    public static function dataIncomingStatementConsent($userId) {
+    public static function dataIncomingStatementIa($userId, $statementId) {
         $incomingId = UserAis::findOne(['user_id'=>$userId]);
-        return  [
-            'incoming_id' => $incomingId->incoming_id,
-            'competitive_group_id' => '',
-        ];
+        /* @var $currentIa StatementIa */
+        $statementIndividualAchievements = StatementIndividualAchievements::find()->user($userId)
+            ->statusNoDraft()->id($statementId)->one();
+        $result['individual_achievements'] = [];
+        foreach ($statementIndividualAchievements->statementIa as $currentIa) {
+            $result['individual_achievements'][] = [
+                'incoming_id' => $incomingId->incoming_id,
+                'individual_achievement_id' => $currentIa->individual_id,
+                'document_id' => $currentIa->userIndividualAchievements->dictOtherDocument->aisReturnData->record_id_ais,
+            ];
+        }
+        return $result;
     }
 
     public static function dataCSE($userId)

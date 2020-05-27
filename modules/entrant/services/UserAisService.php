@@ -9,8 +9,10 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\repositories\StatementConsentCgRepository;
+use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\usecase\RepositoryDeleteSaveClass;
 use Mpdf\Tag\Tr;
@@ -21,16 +23,19 @@ class UserAisService
     private $transactionManager;
     private $statementRepository;
     private $consentCgRepository;
+    private $individualAchievementsRepository;
 
     public function __construct(RepositoryDeleteSaveClass $repository,
                                 TransactionManager $transactionManager,
                                 StatementRepository $statementRepository,
+                                StatementIndividualAchievementsRepository $individualAchievementsRepository,
                                 StatementConsentCgRepository $consentCgRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
         $this->consentCgRepository = $consentCgRepository;
         $this->statementRepository = $statementRepository;
+        $this->individualAchievementsRepository = $individualAchievementsRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -68,6 +73,10 @@ class UserAisService
             $this->statementRepository->save($statement);
         }elseif($model == StatementConsentCg::class) {
             $statement = $this->consentCgRepository->get($id);
+            $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
+            $this->consentCgRepository->save($statement);
+        }elseif($model == StatementIndividualAchievements::class) {
+            $statement = $this->individualAchievementsRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->consentCgRepository->save($statement);
         }

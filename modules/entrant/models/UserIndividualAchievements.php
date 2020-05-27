@@ -25,6 +25,11 @@ class UserIndividualAchievements extends ActiveRecord
         return $model;
     }
 
+    public function getDictOtherDocument()
+    {
+        return $this->hasOne(OtherDocument::class, ["id" => "document_id"]);
+    }
+
 
     public function getDictIndividualAchievement()
     {

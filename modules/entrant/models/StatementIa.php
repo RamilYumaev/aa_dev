@@ -34,6 +34,11 @@ class StatementIa extends ActiveRecord
        return $this->hasOne(DictIndividualAchievement::class, ['id'=>'individual_id']);
     }
 
+    public function getUserIndividualAchievements() {
+        return $this->hasOne(UserIndividualAchievements::class, ['individual_id'=>'individual_id'])
+            ->where(['user_id' =>$this->statementIndividualAchievement->user_id]);
+    }
+
     public function getStatementIndividualAchievement() {
       return $this->hasOne(StatementIndividualAchievements::class, ['id'=>'statement_individual_id']);
     }
