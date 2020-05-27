@@ -9,6 +9,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\entrant\models\UserCg;
+use modules\entrant\repositories\CathedraCgRepository;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\UserCgRepository;
@@ -20,10 +21,14 @@ class ApplicationsService
     private $statementCgRepository;
     private $statementRepository;
     private $transactionManager;
+    private $cathedraCgRepository;
 
     public function __construct(UserCgRepository $repository,
+                                CathedraCgRepository $cathedraCgRepository,
                                 DictCompetitiveGroupRepository $repositoryCg,
-                                StatementCgRepository $statementCgRepository, StatementRepository $statementRepository, TransactionManager $transactionManager)
+                                StatementCgRepository $statementCgRepository,
+                                StatementRepository $statementRepository,
+                                TransactionManager $transactionManager)
     {
 
         $this->repository = $repository;
@@ -31,16 +36,20 @@ class ApplicationsService
         $this->statementCgRepository = $statementCgRepository;
         $this->transactionManager = $transactionManager;
         $this->statementRepository  = $statementRepository;
+        $this->cathedraCgRepository = $cathedraCgRepository;
     }
 
-    public function saveCg(DictCompetitiveGroup $cg){
+    public function saveCg(DictCompetitiveGroup $cg, $cathedra_id){
         DictCompetitiveGroupHelper::oneProgramGovLineChecker($cg);
         DictCompetitiveGroupHelper::noMore3Specialty($cg);
         DictCompetitiveGroupHelper::isAvailableCg($cg);
         DictCompetitiveGroupHelper::budgetChecker($cg);
-        $this->transactionManager->wrap(function() use ($cg) {
+        $this->transactionManager->wrap(function() use ($cg, $cathedra_id) {
             $this->repository->haveARecord($cg->id);
-            $userCg = UserCg::create($cg->id);
+            if ($cathedra_id) {
+                $this->cathedraCgRepository->get($cg->id, $cathedra_id);
+            }
+            $userCg = UserCg::create($cg->id, $cathedra_id);
             $statement = $this->statementRepository->getStatementFull($userCg->user_id,
                 $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level);
             if($statement) {

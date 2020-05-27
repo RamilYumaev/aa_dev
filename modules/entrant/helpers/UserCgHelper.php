@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 class UserCgHelper
 {
-    public static function link($id, $financingTypeId)
+    public static function link($id, $financingTypeId,  $cathedra_id = null)
     {
 
         return self::getLinkBase(
@@ -20,7 +20,7 @@ class UserCgHelper
             $id,
             self::findUserCg($id) ? "/abiturient/applications/remove-cg"
                 : "/abiturient/applications/save-cg",
-            self::buttonName($financingTypeId));
+            self::buttonName($financingTypeId),  $cathedra_id );
     }
 
 
@@ -38,10 +38,10 @@ class UserCgHelper
         return ArrayHelper::getValue(self::buttonArray(), $key);
     }
 
-    private static function getLinkBase($typeIcon, $id, $url, $typeButton)
+    private static function getLinkBase($typeIcon, $id, $url, $typeButton, $cathedra_id = null)
     {
         return Html::a(Html::tag('span', '', ['class' => 'glyphicon ' . $typeIcon]),
-            [$url, 'id' => $id],
+            [$url, 'id' => $id, 'cathedra_id' => $cathedra_id],
             ['data-pjax' => '#get-bachelor',
                 'class' => 'btn ' . $typeButton,
             ]);

@@ -42,7 +42,9 @@ foreach ($currentFaculty as $faculty) {
     $cgFaculty = CathedraCg::find()
         ->innerJoinWith('cathedra')
         ->innerJoinWith('competitiveGroup')
-        ->andWhere([DictCompetitiveGroup::tableName().'.`faculty_id`'=>$faculty])->all();
+        ->andWhere([DictCompetitiveGroup::tableName().'.`faculty_id`'=>$faculty])
+        //->andWhere([DictCompetitiveGroup::tableName().'.`edu_level`'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+        ->all();
 
     if ($cgFaculty) {
 
@@ -98,13 +100,13 @@ aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"gl
 
             $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET,  $currentCg->cathedra_id)
                 . UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,  $currentCg->cathedra_id) :
                 UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $currentCg->cathedra_id);
             $result .= "</td>";
             $result .= "</tr>";
             $result .= "<tr id=\"info-" . $currentCg->competitiveGroup->id . "\" class=\"collapse\">";
