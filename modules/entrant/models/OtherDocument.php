@@ -156,6 +156,10 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return $this->hasOne(AisReturnData::class, ['record_id_sdo'=> 'id'])->where(['model'=> self::class]);
     }
 
+    public function getUserIndividualAchievements() {
+        return $this->hasOne(UserIndividualAchievements::class, ['document_id'=> 'id']);
+    }
+
     public function countFiles() {
         return $this->getFiles()->count();
     }

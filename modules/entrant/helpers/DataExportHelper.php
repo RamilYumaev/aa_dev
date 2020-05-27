@@ -24,6 +24,7 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\models\UserIndividualAchievements;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
 use function Matrix\identity;
@@ -151,7 +152,25 @@ class DataExportHelper
             $result['individual_achievements'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'individual_achievement_id' => $currentIa->individual_id,
-                'document_id' => $currentIa->userIndividualAchievements->dictOtherDocument->aisReturnData->record_id_ais,
+                'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
+                'model_type' => 2,
+                'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
+                'document_series' => $currentIa->userIndividualAchievements->dictOtherDocument->series,
+                'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
+                'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
+                'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
+                'document_authority_code' =>'',
+                'document_authority_country_id' => "",
+                'diploma_authority' => '',
+                'diploma_specialty_id' => '',
+                'diploma_end_year' =>'',
+                'surname' => '',
+                'name' => '',
+                'patronymic' => '',
+                'amount' => 1,
+                'main_status' => 0,
+
+
             ];
         }
         return $result;
@@ -246,7 +265,9 @@ class DataExportHelper
             ];
         }
 
-        foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])->all() as  $currentDocument) {
+        foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])
+                     ->andWhere(['not in','id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
+                     ->all() as  $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 2,
