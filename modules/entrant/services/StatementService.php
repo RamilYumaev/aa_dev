@@ -78,7 +78,8 @@ class StatementService
     private function statementCg($data, $userId, $statementId){
         foreach ($data as $value) {
             if (!$this->isExits($value, $userId)){
-                $statementCg = StatementCg::create($statementId, $value, null);
+                $cgUser = $this->userCgRepository->getUser($value, $userId);
+                $statementCg = StatementCg::create($statementId, $value, null, $cgUser->cathedra_id);
                 $this->cgRepository->save($statementCg);
             }
         }

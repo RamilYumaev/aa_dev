@@ -9,7 +9,7 @@ class IndividualAchievementsRepository extends RepositoryDeleteSaveClass
     public function get($id): UserIndividualAchievements
     {
         if (!$model =  UserIndividualAchievements::findOne($id)) {
-            throw new \DomainException('Язык не найден.');
+            throw new \DomainException('Индивидуальное достижение не найдено.');
         }
         return $model;
     }

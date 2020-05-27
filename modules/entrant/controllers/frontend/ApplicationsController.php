@@ -164,11 +164,11 @@ class ApplicationsController extends Controller
 
     }
 
-    public function actionSaveCg($id)
+    public function actionSaveCg($id, $cathedra_id = null)
     {
         try {
             $cg = $this->service->repositoryCg->get($id);
-            $this->service->saveCg($cg);
+            $this->service->saveCg($cg, $cathedra_id);
             if (\Yii::$app->request->isAjax) {
                 return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
