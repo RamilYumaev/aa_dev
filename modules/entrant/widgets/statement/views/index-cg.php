@@ -18,7 +18,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <?php foreach ($statementsCg as $statement):  ?>
         <tr >
-            <td><?= $statement->cg->fullName ?> <?= Html::a('Сформиировать заявление', ['statement-consent-cg/create',
+            <td><?= $statement->cg->fullName ?> <?= Html::a('Сформировать заявление', ['statement-consent-cg/create',
                     'id' => $statement->id], ['class' => 'btn btn-info',]) ?>
                 <table class="table">
                     <?php foreach ($statement->statementConsent as $consent): ?>
