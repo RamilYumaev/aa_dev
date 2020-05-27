@@ -71,8 +71,11 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</tr>";
         }
 
+    }else{
+        continue;
     }
 }
+$result .= "</table>";
 
 ?>
     <?php Pjax::begin(['id' => 'get-gov-line-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>

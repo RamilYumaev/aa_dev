@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\entrant\helpers\CategoryStruct;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
@@ -25,25 +26,31 @@ $this->params['breadcrumbs'][] = $this->title;
 $anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
 
+$umsSwitcher = 0;
+if ($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+    $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION
+) {
+    $umsSwitcher = 1;
+}
+
+$currentYear = Date("Y");
+$lastYear = $currentYear - 1;
+
 $result = "";
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
-//    $cgFaculty = DictCompetitiveGroup::find()
-//        ->withCathedra()
-//        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
-//        ->contractOnly()
-//        ->ForeignerCgSwitch()
-//        ->currentAutoYear()
-//        ->faculty($faculty)
-//        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
-//        ->all();
 
     $cgFaculty = CathedraCg::find()
         ->innerJoinWith('cathedra')
         ->innerJoinWith('competitiveGroup')
-        ->andWhere([DictCompetitiveGroup::tableName().'.`faculty_id`'=>$faculty])
-        //->andWhere([DictCompetitiveGroup::tableName().'.`edu_level`'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`faculty_id`' => $faculty])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`financing_type_id`' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`foreigner_status`' => $umsSwitcher])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`edu_level`' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`year`' => "$lastYear-$currentYear"])
+        ->orderBy([DictCompetitiveGroup::tableName() .'.`education_form_id`' => SORT_ASC,
+            DictCompetitiveGroup::tableName() .'.`speciality_id`' => SORT_ASC])
         ->all();
 
     if ($cgFaculty) {
@@ -100,10 +107,10 @@ aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"gl
 
             $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET,  $currentCg->cathedra_id)
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, $currentCg->cathedra_id)
                 . UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,  $currentCg->cathedra_id) :
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $currentCg->cathedra_id) :
                 UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $currentCg->cathedra_id);
@@ -132,8 +139,8 @@ aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"gl
     } else {
         continue;
     }
-    $result .= "</table>";
 }
+$result .= "</table>";
 ?>
 
 
