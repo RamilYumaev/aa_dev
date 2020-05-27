@@ -16,6 +16,11 @@ class StatementIAQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["status" => $status]);
     }
 
+    public function id($id)
+    {
+        return $this->andWhere(["status" => $id]);
+    }
+
     public function eduLevel($eduLevel)
     {
         return $this->andWhere(["edu_level" =>$eduLevel]);
