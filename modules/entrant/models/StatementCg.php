@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $statement_id
  * @property integer $cg_id;
+ * @property integer $cathedra_id;
  * @property integer $status_id;
  **/
 
@@ -21,11 +22,12 @@ class StatementCg extends ActiveRecord
         return  "{{%statement_cg}}";
     }
 
-    public static function create($statement_id, $cg_id, $status_id) {
+    public static function create($statement_id, $cg_id, $status_id, $cathedraId =null ) {
         $statementCg = new static();
         $statementCg->statement_id = $statement_id;
         $statementCg->cg_id = $cg_id;
         $statementCg->status_id = $status_id;
+        $statementCg->cathedra_id = $cathedraId;
         return $statementCg;
     }
 

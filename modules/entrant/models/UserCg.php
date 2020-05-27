@@ -13,7 +13,8 @@ use \Yii;
  * This is the model class for table "{{%user_cg}}".
  *
  * @property integer $user_id
- * @property string $cg_id
+ * @property integer $cg_id
+ * @property integer $cathedra_id
  *
  **/
 class UserCg extends ActiveRecord
@@ -24,11 +25,12 @@ class UserCg extends ActiveRecord
         return "{{user_cg}}";
     }
 
-    public static function create($cgId)
+    public static function create($cgId, $cathedraId = null)
     {
         $model = new static();
         $model->user_id = Yii::$app->user->id;
         $model->cg_id = $cgId;
+        $model->cathedra_id = $cathedraId;
 
         return $model;
     }
