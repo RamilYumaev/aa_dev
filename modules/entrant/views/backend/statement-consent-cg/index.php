@@ -39,7 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
-                        return Html::a("ЗОС в АИС", ['communication/export-statement-consent', 'user' => $model->statementCg->statement->user_id, 'statement' => $model->statementCg->statement->id, 'consent' =>  $model->id], ['data-method' => 'post', 'class' => 'btn btn-success']);
+                        return $model->status == StatementHelper::STATUS_WALT ?
+                            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+                                ['communication/export-statement-consent',
+                                    'user' => $model->statementCg->statement->user_id,
+                                    'statement' => $model->statementCg->statement->id,
+                                    'consent' =>  $model->id],
+                                ['data-method' => 'post', 'class' => 'btn btn-info']) : "";
                     }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
                 ],

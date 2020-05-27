@@ -129,8 +129,8 @@ class CommunicationController extends Controller
         } else {
             $model = Profiles::find()
                 ->alias('profiles')
-                ->innerJoin(StatementIndividualAchievements::tableName(), StatementIndividualAchievements::tableName().'.user_id=profiles.user_id')
-                ->andWhere(['>', StatementIndividualAchievements::tableName().'.status', StatementHelper::STATUS_DRAFT])
+                ->innerJoin(StatementIndividualAchievements::tableName(), StatementIndividualAchievements::tableName() . '.user_id=profiles.user_id')
+                ->andWhere(['>', StatementIndividualAchievements::tableName() . '.status', StatementHelper::STATUS_DRAFT])
                 ->andWhere(['profiles.user_id' => $user])->one();
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
