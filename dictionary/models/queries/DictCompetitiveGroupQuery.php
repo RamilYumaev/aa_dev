@@ -6,6 +6,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
+use modules\dictionary\models\CathedraCg;
+use modules\dictionary\models\DictCathedra;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CategoryStruct;
 
@@ -54,7 +56,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function getGovLineCg()
     {
         return $this->budgetOnly()
-            ->andWhere(["foreigner_status"=>1]);
+            ->andWhere(["foreigner_status" => 1]);
     }
 
     public function faculty($facultyId)
@@ -111,7 +113,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 'year' => $cgContract->year,
                 'speciality_id' => $cgContract->speciality_id,
                 'specialization_id' => $cgContract->specialization_id,
-                'foreigner_status'=> 0,
+                'foreigner_status' => 0,
                 'edu_level' => $cgContract->edu_level,
                 'education_form_id' => $cgContract->education_form_id,
                 'spo_class' => $cgContract->spo_class,
@@ -141,7 +143,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function budgetOnly()
     {
         return $this->andWhere(
-        ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
+            ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
     }
 
     public function finance($financeId)
@@ -177,15 +179,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     }
 
     public function filterCg($year, $educationLevelId, $educationFormId,
-                             $facultyId, $specialityId, $foreignerStatus, $financingTypeId){
-       return $this->andFilterWhere([
-                'financing_type_id' => $financingTypeId,
-                'faculty_id' => $facultyId,
-                'year' => $year,
-                'speciality_id' => $specialityId,
-                'foreigner_status'=> $foreignerStatus,
-                'edu_level' => $educationLevelId,
-                'education_form_id' => $educationFormId]);
+                             $facultyId, $specialityId, $foreignerStatus, $financingTypeId)
+    {
+        return $this->andFilterWhere([
+            'financing_type_id' => $financingTypeId,
+            'faculty_id' => $facultyId,
+            'year' => $year,
+            'speciality_id' => $specialityId,
+            'foreigner_status' => $foreignerStatus,
+            'edu_level' => $educationLevelId,
+            'education_form_id' => $educationFormId]);
     }
 
     public function currentAutoYear()
@@ -200,6 +203,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function existsLevelInUniversity()
     {
         return $this->select("edu_level")->currentAutoYear()->groupBy("edu_level");
+    }
+
+    public function withCathedra()
+    {
+        return $this->joinWith('dictCathedra');
     }
 
 }
