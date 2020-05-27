@@ -14,6 +14,7 @@ use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
+use \modules\dictionary\models\CathedraCg;
 
 $this->title = "Выбор образовательных программ аспирантуры";
 
@@ -28,14 +29,20 @@ $result = "";
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
-    $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
-        ->contractOnly()
-        ->ForeignerCgSwitch()
-        ->currentAutoYear()
-        ->faculty($faculty)
-        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
-        ->all();
+//    $cgFaculty = DictCompetitiveGroup::find()
+//        ->withCathedra()
+//        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
+//        ->contractOnly()
+//        ->ForeignerCgSwitch()
+//        ->currentAutoYear()
+//        ->faculty($faculty)
+//        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
+//        ->all();
+
+    $cgFaculty = CathedraCg::find()
+        ->innerJoinWith('cathedra')
+        ->innerJoinWith('competitiveGroup')
+        ->andWhere([DictCompetitiveGroup::tableName().'.`faculty_id`'=>$faculty])->all();
 
     if ($cgFaculty) {
 
@@ -43,32 +50,37 @@ foreach ($currentFaculty as $faculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
-<th width=\"342\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
-<th width=\"180\">Форма и срок обучения</th>
-<th width=\"150\">Уровень образования</th>
+<th width=\"250\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
+<th width=\"200\">Кафедра</th>
+<th width=\"120\">Форма и срок обучения</th>
+<th width=\"100\">Уровень образования</th>
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
 
-            $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
-            $trColor = UserCgHelper::trColor($currentCg);
+
+            $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg->competitiveGroup);
+            $trColor = UserCgHelper::trColor($currentCg->competitiveGroup);
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
-            $result .= $currentCg->specialty->getCodeWithName();
-            $result .= $currentCg->specialization ? ", профиль(-и) <strong>" . $currentCg->specialization->name
+            $result .= $currentCg->competitiveGroup->specialty->getCodeWithName();
+            $result .= $currentCg->competitiveGroup->specialization ? ", профиль(-и) <strong>" . $currentCg->competitiveGroup->specialization->name
                 . "</strong>" : "";
             $result .= "</td>";
             $result .= "<td>";
-            $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->education_form_id] . ", ";
-            $result .= $currentCg->education_duration != 5 ? $currentCg->education_duration . " года"
-                : $currentCg->education_duration . " лет";
+            $result .= $currentCg->cathedra->name;
             $result .= "</td>";
             $result .= "<td>";
-            $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->edu_level);
+            $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->competitiveGroup->education_form_id] . ", ";
+            $result .= $currentCg->competitiveGroup->education_duration != 5 ? $currentCg->competitiveGroup->education_duration . " года"
+                : $currentCg->competitiveGroup->education_duration . " лет";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->competitiveGroup->edu_level);
             $result .= "</td>";
             $result .= "<td>";
             $result .= "<ol>";
-            foreach ($currentCg->examinations as $examination) {
+            foreach ($currentCg->competitiveGroup->examinations as $examination) {
 
                 $result .= "<li>";
                 $result .= Html::a($examination->discipline->name,
@@ -80,9 +92,9 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</td>";
             $result .= "<td width=\"56px\">";
             $result .= "<a class=\"btn btn-default\" data-toggle=\"collapse\" href=\"#info-"
-                . $currentCg->id .
+                . $currentCg->competitiveGroup->id .
                 "\" aria-expanded=\"false\" 
-aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
+aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
             $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
@@ -95,9 +107,9 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
             $result .= "</td>";
             $result .= "</tr>";
-            $result .= "<tr id=\"info-" . $currentCg->id . "\" class=\"collapse\">";
+            $result .= "<tr id=\"info-" . $currentCg->competitiveGroup->id . "\" class=\"collapse\">";
             $result .= "<td>Количество бюджетных мест:<br><strong>" .
-                ($currentCg->only_pay_status ? 'приём на платной основе' : $budgetAnalog["kcp"]);
+                ($currentCg->competitiveGroup->only_pay_status ? 'приём на платной основе' : $budgetAnalog["kcp"]);
             $result .= "</strong></td>";
             $result .= "<td>";
             if (!$contractOnly) {
@@ -105,12 +117,12 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
             }
             $result .= "</td>";
             $result .= "<td>";
-            if(!$contractOnly) {
+            if (!$contractOnly) {
                 $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
             }
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
+            $result .= $currentCg->competitiveGroup->link ? Html::a("Описание образовательной программы", $currentCg->competitiveGroup->link,
                 ['target=> "_blank"']) : "";
             $result .= "</td>";
             $result .= "</tr>";
@@ -136,20 +148,20 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
+            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на бюджетной основе.
         </div>
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на договорной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на договорной основе.
         </div>
     </div>
     <div class="table-responsive">
-    <?= $result ?>
+        <?= $result ?>
     </div>
 </div>
 

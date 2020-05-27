@@ -2,6 +2,7 @@
 
 
 namespace modules\dictionary\models;
+use dictionary\models\DictCompetitiveGroup;
 use yii\db\ActiveRecord;
 
 /**
@@ -27,5 +28,15 @@ class CathedraCg extends ActiveRecord
     public static function tableName()
     {
         return '{{%cathedra_cg}}';
+    }
+
+    public function getCathedra()
+    {
+        return $this->hasOne(DictCathedra::class, ['id'=>'cathedra_id']);
+    }
+
+    public function getCompetitiveGroup()
+    {
+        return $this->hasOne(DictCompetitiveGroup::class, ['id'=>'cg_id']);
     }
 }
