@@ -46,13 +46,14 @@ class StatementIndividualAchievementsService
                     $dataIndividual = IndividualAchievementsHelper::column($userId, $eduLevel);
                     $modelOne = $model->statementIAUser($eduLevel, StatementIndividualAchievements::DRAFT, $userId);
                     if(!$modelOne) {
-                        if ($this->isStatementIa($data, $userId)) {
+                        if ($this->isStatementIa($dataIndividual, $userId)) {
                             $statementIa = StatementIndividualAchievements::create($userId, $eduLevel, ++$max);
                             $this->repository->save($statementIa);
                             $this->statementIa($dataIndividual, $userId, $statementIa->id);
-                        }else {
-                            $this->statementIa($dataIndividual, $userId, $modelOne->id);
                         }
+                    }
+                    else {
+                        $this->statementIa($dataIndividual, $userId, $modelOne->id);
                     }
                 }
             }
