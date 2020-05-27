@@ -5,6 +5,7 @@ namespace dictionary\forms;
 
 
 use common\helpers\EduYearHelper;
+use dictionary\helpers\CathedraCgHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\helpers\DictSpecialityHelper;
@@ -17,11 +18,11 @@ class DictCompetitiveGroupEditForm extends Model
 
     public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $edu_level, $_competitiveGroup;
+        $link, $year, $education_year_cost,  $cathedraList, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $edu_level, $_competitiveGroup;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
-
+        $this->cathedraList = CathedraCgHelper::cathedraList($competitiveGroup->id);
         $this->speciality_id = $competitiveGroup->speciality_id;
         $this->specialization_id = $competitiveGroup->specialization_id;
         $this->education_form_id = $competitiveGroup->education_form_id;
@@ -56,8 +57,9 @@ class DictCompetitiveGroupEditForm extends Model
     {
         return [
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
-            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'special_right_id', 'passing_score',
-                'is_new_program', 'only_pay_status', 'foreigner_status', 'edu_level'], 'integer'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
+                'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'ais_id', 'spo_class',
+                'enquiry_086_u_status', 'foreigner_status', 'edu_level'], 'integer'],
             [['competition_count'], 'number'],
             [['education_duration'], 'double'],
             [['link'], 'string', 'max' => 255],
@@ -68,6 +70,7 @@ class DictCompetitiveGroupEditForm extends Model
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],
             ['year', 'in', 'range' => EduYearHelper::eduYearList(), 'allowArray' => true],
             ['education_form_id', 'in', 'range' => DictCompetitiveGroupHelper::forms(), 'allowArray' => true],
+            [['cathedraList'], 'safe'],
 
         ];
     }

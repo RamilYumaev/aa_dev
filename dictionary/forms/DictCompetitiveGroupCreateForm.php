@@ -17,7 +17,7 @@ class DictCompetitiveGroupCreateForm extends Model
 
     public $id, $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
-        $link, $year, $education_year_cost, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $edu_level;
+        $link, $year, $education_year_cost,  $cathedraList, $enquiry_086_u_status, $spo_class, $discount, $ais_id, $foreigner_status, $edu_level;
 
     public function __construct($config = [])
     {
@@ -47,6 +47,7 @@ class DictCompetitiveGroupCreateForm extends Model
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],
             ['year', 'in', 'range' => EduYearHelper::eduYearList(), 'allowArray' => true],
             ['education_form_id', 'in', 'range' => DictCompetitiveGroupHelper::forms(), 'allowArray' => true],
+            [['cathedraList'], 'safe'],
 
         ];
     }

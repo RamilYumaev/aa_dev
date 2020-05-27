@@ -1,5 +1,6 @@
 <?php
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -30,6 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(),
                 ['prompt' => 'Выберите институт/факультет']) ?>
+
+            <?= $form->field($model, 'cathedraList')->widget(Select2::class, [
+                'data'=> \modules\dictionary\helpers\DictCathedraHelper::listNames(),
+                'options' => ['placeholder' => 'Выберите кафедры', 'multiple' => true],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ])->label("Кафедры") ?>
+
 
             <?= $form->field($model, 'kcp')->textInput() ?>
 

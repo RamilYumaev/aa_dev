@@ -4,6 +4,7 @@
 namespace dictionary\services;
 
 
+use common\transactions\TransactionManager;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -13,6 +14,8 @@ use dictionary\repositories\DictCompetitiveGroupRepository;
 use dictionary\repositories\DictSpecialityRepository;
 use dictionary\repositories\DictSpecializationRepository;
 use dictionary\repositories\FacultyRepository;
+use modules\dictionary\models\CathedraCg;
+use modules\usecase\RepositoryDeleteSaveClass;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Json;
 
@@ -22,17 +25,22 @@ class DictCompetitiveGroupService
     private $facultyRepository;
     private $specialityRepository;
     private $specializationRepository;
+    private $transaction;
+    private $deleteSaveClass;
 
     public function __construct(
+        RepositoryDeleteSaveClass $deleteSaveClass,
         DictCompetitiveGroupRepository $repository,
         FacultyRepository $facultyRepository,
         DictSpecialityRepository $specialityRepository,
-        DictSpecializationRepository $specializationRepository)
+        DictSpecializationRepository $specializationRepository, TransactionManager $transactionManager)
     {
         $this->repository = $repository;
         $this->facultyRepository = $facultyRepository;
         $this->specialityRepository = $specialityRepository;
         $this->specializationRepository = $specializationRepository;
+        $this->transaction= $transactionManager;
+        $this->deleteSaveClass = $deleteSaveClass;
     }
 
     public function create(DictCompetitiveGroupCreateForm $form)
@@ -42,7 +50,16 @@ class DictCompetitiveGroupService
 //        $specialization = $this->specializationRepository->get($form->specialization_id);
 
         $model = DictCompetitiveGroup::create($form, $form->faculty_id, $form->speciality_id, $form->specialization_id);
-        $this->repository->save($model);
+        $this->transaction->wrap(function () use ($model, $form) {
+            $this->repository->save($model);
+            if ($form->cathedraList) {
+                foreach ($form->cathedraList as $cathedra) {
+                    $cgCathedra = CathedraCg::create($cathedra, $model->id);
+                    $this->deleteSaveClass->save($cgCathedra);
+                }
+            }
+        });
+
         return $model;
     }
 
@@ -51,11 +68,27 @@ class DictCompetitiveGroupService
         $faculty = $this->facultyRepository->get($form->faculty_id);
         $speciality = $this->specialityRepository->get($form->speciality_id);
         $specialization = $this->specializationRepository->get($form->specialization_id);
-
         $model = $this->repository->get($id);
         $model->edit($form, $faculty->id, $speciality->id, $specialization->id);
-        $this->repository->save($model);
+        $this->transaction->wrap(function () use ($model, $form) {
+            $this->deleteRelation($model->id);
+            if ($form->cathedraList) {
+                foreach ($form->cathedraList as $cathedra) {
+                    $cgCathedra = CathedraCg::create($cathedra, $model->id);
+                    $this->deleteSaveClass->save($cgCathedra);
+                }
+            }
+
+            $this->repository->save($model);
+        });
+
     }
+
+    private function deleteRelation($id)
+    {
+        CathedraCg::deleteAll(['cg_id' => $id]);
+    }
+
 
     public function remove($id)
     {

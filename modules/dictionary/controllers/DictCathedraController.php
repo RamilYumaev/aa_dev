@@ -3,21 +3,24 @@
 
 namespace modules\dictionary\controllers;
 
+use modules\dictionary\forms\DictCathedraForm;
 use modules\dictionary\forms\DictForeignLanguageForm;
+use modules\dictionary\models\DictCathedra;
 use modules\dictionary\models\DictForeignLanguage;
-use modules\dictionary\searches\DictForeignLanguageSearch;
+use modules\dictionary\searches\DictCathedraSearch;
+use modules\dictionary\services\DictCathedraService;
 use modules\dictionary\services\DictForeignLanguageService;
 use modules\usecase\ControllerClass;
 
 
-class DictForeignLanguageController extends ControllerClass
+class DictCathedraController extends ControllerClass
 {
 
     public function __construct($id, $module,
-                                DictForeignLanguageService $service,
-                                DictForeignLanguage $model,
-                                DictForeignLanguageForm $formModel,
-                                DictForeignLanguageSearch $searchModel,
+                                DictCathedraService $service,
+                                DictCathedra $model,
+                                DictCathedraForm $formModel,
+                                DictCathedraSearch $searchModel,
                                 $config = [])
     {
         parent::__construct($id, $module, $config);
