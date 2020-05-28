@@ -14,18 +14,18 @@ $userId = $profile->user_id;
         <div class="col-md-12">
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
 
-            <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
 
             <?php if ($anketa->isAgreement()): ?>
-                <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+                <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
             <?php endif; ?>
 
             <?php if (!$anketa->isNoRequired()): ?>
-                <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['userId' => $userId]); ?>
+                <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
             <?php endif; ?>
 
-            <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget([ 'view' => 'file-backend', 'userId' => $userId]); ?>
 
-            <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['view' => 'index-pd-backend', 'userId' => $userId]); ?>
         </div>
     </div>

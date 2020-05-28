@@ -44,20 +44,17 @@ class ProfilesStatementSearch extends  Model
         $query->andFilterWhere([
             'gender'=>$this->gender,
             'country_id'=> $this->country_id,
-            'region_id' =>$this->country_id,
-            'phone' => $this->phone,
+            'region_id' =>$this->region_id,
         ]);
 
         $query
             ->andFilterWhere(['like', 'last_name',  $this->last_name])
             ->andFilterWhere(['like', 'first_name', $this->first_name])
+            ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'patronymic', $this->patronymic]);
 
         return $dataProvider;
     }
 
-    public function attributeLabels()
-    {
-    }
 
 }

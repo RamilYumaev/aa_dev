@@ -8,10 +8,11 @@ use yii\base\Widget;
 class DocumentEducationFileWidget extends Widget
 {
     public $userId;
+    public $view = "file";
     public function run()
     {
         $model = DocumentEducation::findOne(['user_id' => $this->userId]);
-        return $this->render('file', [
+        return $this->render($this->view, [
             'model'=> $model,
         ]);
     }
