@@ -46,7 +46,8 @@ class DictIndividualAchievementForm extends Model
     public function defaultRules()
     {
         return [
-            [['year', 'name', 'name_short', 'category_id','mark', 'competitiveGroupsList','documentTypesList'], 'required'],
+           // [['year', 'name', 'name_short', 'category_id','mark', 'competitiveGroupsList','documentTypesList'], 'required'],
+            [['year', 'name', 'name_short', 'category_id','mark'], 'required'],
             [['category_id','mark'], 'integer'],
             [['competitiveGroupsList','documentTypesList'], 'safe'],
             [['year', 'name', 'name_short'], 'string', 'max' => 255],

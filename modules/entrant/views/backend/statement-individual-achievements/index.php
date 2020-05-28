@@ -24,7 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                             'attribute' => 'user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementIa('user_id',  'profileUser.fio'), 'user_id', 'profileUser.fio'),
+                            'filter' => SelectDataHelper::dataSearchModel($searchModel,
+                                StatementHelper::columnStatementIa('user_id',  'profileUser.fio'),
+                                'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
 
                     ],
@@ -39,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
-                        return Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+                        return $model->status == StatementHelper::STATUS_WALT ? Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
                             ['communication/export-statement-ia', 'user' => $model->user_id, 'statement' => $model->id],
-                            ['data-method' => 'post', 'class' => 'btn btn-warning']);
+                            ['data-method' => 'post', 'class' => 'btn btn-warning']) : "";
                     }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
                 ],

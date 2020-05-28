@@ -80,7 +80,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-entrant-with-doc?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-entrant-with-doc?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -142,7 +142,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingStatementIa($model->user_id, $statement));
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/action-import-individual-application?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-individual-application?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -156,6 +156,7 @@ class CommunicationController extends Controller
             curl_close($ch);
 
             $result = Json::decode($result);
+
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
@@ -206,7 +207,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingStatement($model->user_id, $statement));
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/import-usu-spec-application-cse-vi?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-usu-spec-application-cse-vi?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -280,7 +281,7 @@ class CommunicationController extends Controller
             $ch = curl_init();
             $data = Json::encode(['incoming_id' => $incoming->incoming_id,
                 'competitive_group_id' => $consent->statementCg->cg->ais_id]);
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/add-zos?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/add-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -320,7 +321,7 @@ class CommunicationController extends Controller
         $pass = Yii::$app->request->post('password');
         if ($user && $pass) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'http://85.30.248.93:7779/incoming_2020/fok/sdo/get-access-token');
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/get-access-token');
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
