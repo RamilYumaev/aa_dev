@@ -57,7 +57,7 @@ class StatementController extends Controller
     public function actionView($id)
     {
         $statement = $this->findModel($id);
-        $this->render('view', ['statement' => $statement]);
+        return $this->render('view', ['statement' => $statement]);
     }
 
     /**

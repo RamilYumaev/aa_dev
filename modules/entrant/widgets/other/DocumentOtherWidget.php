@@ -14,6 +14,7 @@ use Yii;
 class DocumentOtherWidget extends Widget
 {
     public $userId;
+    public $view = "index";
     const COUNT_PHOTO  = 1;
     private $service;
 
@@ -40,7 +41,7 @@ class DocumentOtherWidget extends Widget
     {
         $query = OtherDocument::find()->where(['user_id' => $this->getIdUser()]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
-        return $this->render('index', [
+        return $this->render($this->view, [
             'dataProvider' => $dataProvider,
             'userId'=> $this->getIdUser()
         ]);
