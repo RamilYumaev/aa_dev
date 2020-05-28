@@ -1,15 +1,15 @@
 <?php
 
-use modules\entrant\helpers\BlockRedGreenHelper;
-use modules\entrant\helpers\FileHelper;
-use yii\helpers\Html;
-use modules\entrant\widgets\file\FileWidget;
+use backend\widgets\adminlte\Box;
 use modules\entrant\widgets\file\FileListWidget;
 /* @var $statement modules\entrant\models\Statement*/
 /* @var $model modules\entrant\models\PassportData*/
 ?>
-
-<h3>Скан документа, удостоверяющего личность</h3>
+<?php Box::begin(
+    [
+        "header" => "Скан документа, удостоверяющего личность",
+        "type" => Box::TYPE_SUCCESS,
+        "filled" => true,]) ?>
 <table class="table table-bordered">
     <tr>
         <th>Документ, удостоверяющий личность</th>
@@ -24,7 +24,7 @@ use modules\entrant\widgets\file\FileListWidget;
         </td>
     </tr>
     <tr>
-        <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>
     </tr>
-
 </table>
+<?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>
+<?php Box::end(); ?>

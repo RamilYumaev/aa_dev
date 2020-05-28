@@ -9,11 +9,12 @@ use yii\data\ActiveDataProvider;
 class AddressFileWidget extends Widget
 {
     public $userId;
+    public $view;
 
     public function run()
     {
         $model = Address::find()->where(['user_id' => $this->userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
-        return $this->render('file', [
+        return $this->render($this->view, [
             'addresses' => $model,
         ]);
     }

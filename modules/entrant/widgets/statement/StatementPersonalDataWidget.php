@@ -11,6 +11,7 @@ use Yii;
 class StatementPersonalDataWidget extends Widget
 {
     public $userId;
+    public $view = 'index-pd';
 
     private $service;
 
@@ -32,7 +33,7 @@ class StatementPersonalDataWidget extends Widget
 
     public function run()
     {
-        return $this->render('index-pd', [
+        return $this->render($this->view, [
             'statement'=> $this->service->repository->get($this->userId),
         ]);
     }

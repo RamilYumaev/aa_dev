@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['communication/export-statement-ia', 'user' => $model->user_id, 'statement' => $model->id],
                             ['data-method' => 'post', 'class' => 'btn btn-warning']);
                     }, 'format'=> 'raw' ],
-                    ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
+                    ['class' => ActionColumn::class, 'controller' => 'statement-individual-achievements', 'template' => '{view}']
                 ],
             ]); ?>
         </div>

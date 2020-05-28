@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
+use backend\widgets\adminlte\Box;
 use yii\helpers\Html;
 
 /* @var $files yii\db\BaseActiveRecord */
@@ -9,7 +10,12 @@ use yii\helpers\Html;
 
 
 ?>
-<table class="table table-bordered">
+<?php Box::begin(
+    [
+        "header" => "Сканы",
+        "type" => Box::TYPE_INFO,
+        ]) ?>
+<table class="table">
     <?php foreach ($files as $key => $file): ?>
     <tr>
         <td>Страница <?= ++$key ?></td>
@@ -19,4 +25,4 @@ use yii\helpers\Html;
     </tr>
     <?php endforeach; ?>
 </table>
-
+<?php Box::end(); ?>
