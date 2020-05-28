@@ -7,12 +7,13 @@ use yii\base\Widget;
 class ExemptionOrPatriotWidget extends Widget
 {
     public $type = 'patriot';
+    public $view = "other";
     public $userId;
 
     public function run()
     {
         $model = OtherDocument::findOne($this->arrayCondition());
-        return $this->render('other', [
+        return $this->render($this->view, [
             'other' => $model,
             'type' => $this->type,
         ]);

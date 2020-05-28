@@ -7,11 +7,12 @@ use yii\base\Widget;
 class FioLatinWidget extends Widget
 {
     public $userId;
+    public $view = "fio";
 
     public function run()
     {
         $model = FIOLatin::findOne(['user_id' => $this->userId]);
-        return $this->render('fio', [
+        return $this->render($this->view, [
             'fio'=> $model
         ]);
     }

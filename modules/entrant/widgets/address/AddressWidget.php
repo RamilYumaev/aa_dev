@@ -8,12 +8,13 @@ use yii\data\ActiveDataProvider;
 class AddressWidget extends Widget
 {
     public $userId;
+    public $view;
 
     public function run()
     {
         $query = Address::find()->where(['user_id' => $this->userId]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
-        return $this->render('index', [
+        return $this->render($this->view, [
             'userId' => $this->userId,
             'dataProvider' => $dataProvider,
         ]);

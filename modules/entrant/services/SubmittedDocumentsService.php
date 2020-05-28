@@ -84,7 +84,7 @@ class SubmittedDocumentsService
         /* @var $statement \modules\entrant\models\Statement*/
         foreach ($statements as $statement) {
             if(!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('K заялениию  №'. $statement->numberStatement.'загружены  не все файлы !');
+                throw new \DomainException('K заялениию  №'. $statement->numberStatement.'загружены не все файлы!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementRepository->save($statement);
@@ -108,7 +108,7 @@ class SubmittedDocumentsService
         /* @var $statement \modules\entrant\models\StatementIndividualAchievements*/
         foreach ($statements as $statement) {
             if(!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('K заялениию "Индивидуальные достижения" загружены  не все файлы !');
+                throw new \DomainException('K заялениию "Индивидуальные достижения" загружены не все файлы!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->achievementsRepository->save($statement);

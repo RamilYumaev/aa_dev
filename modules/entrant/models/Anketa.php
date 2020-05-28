@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\models\Country;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
@@ -96,6 +97,32 @@ class Anketa extends ActiveRecord
     {
         return $this->category_id == CategoryStruct::GOV_LINE_COMPETITION
             && $this->citizenship_id !== DictCountryHelper::RUSSIA;
+    }
+
+    public function  getCountry(){
+        return $this->hasOne(Country::class,['id' => 'citizenship_id' ]);
+    }
+
+    public function getCitizenship()
+    {
+        return $this->country->name;
+    }
+
+    public function getCategory()
+    {
+        return CategoryStruct::labelLists()[$this->category_id];
+    }
+
+    public function getUniversityChoice() {
+        return AnketaHelper::universityChoice()[$this->university_choice];
+    }
+
+    public function getCurrentEduLevel() {
+        return AnketaHelper::currentEducationLevel()[$this->current_edu_level];
+    }
+
+    public function isChina() {
+      return  $this->citizenship_id == 13;
     }
 
 

@@ -45,6 +45,20 @@ class DefaultController extends Controller
      * @throws NotFoundHttpException
      */
 
+    public function actionFiles($user)
+    {
+        $profile = $this->findModel($user);
+        return $this->render('files', [
+            'profile' => $profile
+        ]);
+    }
+
+    /**
+     * @param integer $user
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
     public function actionDataJson($user) {
         $profile = $this->findModel($user);
         $result = DataExportHelper::dataIncoming($profile->user_id);

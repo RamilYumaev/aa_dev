@@ -8,12 +8,12 @@ use yii\base\Widget;
 class DocumentEducationWidget extends Widget
 {
     public $userId;
+    public $view = "index";
     public function run()
     {
         $model = DocumentEducation::findOne(['user_id' => $this->userId()]);
-        return $this->render('index', [
+        return $this->render($this->view, [
             'document_education'=> $model,
-            'isUserSchool' => $this->userSchool()
         ]);
     }
 
