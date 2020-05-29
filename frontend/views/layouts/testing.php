@@ -23,6 +23,10 @@ AppAsset::register($this);
     </head>
     <body class="gray">
     <?php $this->beginBody(); ?>
+
+    <?php
+    require_once ('switcher-user.php');
+    ?>
     <div id="wrapper">
         <div class="container">
             <?= Alert::widget() ?>

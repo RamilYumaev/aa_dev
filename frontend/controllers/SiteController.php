@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use backend\models\AisCg;
+use common\auth\Identity;
 use dictionary\models\ais\CgExamAis;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
@@ -14,6 +15,7 @@ use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use yii\web\Controller;
 use Yii;
+use common\auth\models\User;
 
 /**
  * Site controller
@@ -47,7 +49,28 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = "@frontend/views/layouts/frontPage.php";
+        //   \Yii::$app->user->switchIdentity();
         return $this->render('index');
+    }
+
+    public function actionSwitchUser($id)
+    {
+//        $initialId = \Yii::$app->user->getId();
+//        if ($id !== $initialId) {
+//            $userModel = User::findOne($id);
+//            $user = new Identity($userModel);
+//            $duration = 0;
+//            Yii::$app->user->switchIdentity($user, $duration);
+//            if(!Yii::$app->session->get('user.idbeforeswitch'))
+//            {
+//                Yii::$app->session->set('user.idbeforeswitch', $initialId);
+//            }
+        //}
+
+
+
+        return $this->render('index');
+
     }
 
 //    public function actionTransformPhone()

@@ -30,7 +30,8 @@ class Identity implements IdentityInterface
 
     public function getId(): int
     {
-        return $this->user->id;
+       return $this->user->id;
+
     }
 
     public function getAisToken(): ?string
@@ -58,16 +59,33 @@ class Identity implements IdentityInterface
     public function eighteenYearsOld(): bool
     {
         $passport = PassportData::find()
-            ->andWhere(['user_id'=>$this->getId()])
-            ->andWhere(['main_status'=>true])
+            ->andWhere(['user_id' => $this->getId()])
+            ->andWhere(['main_status' => true])
             ->one();
 
-        if(!$passport){
+        if (!$passport) {
             throw new \DomainException("Для выполнения данного действия необходимо ввести документ, 
             удостоверяющий личность");
         }
 
         return $passport->age() >= 18;
+    }
+
+
+    public function switchUser($userId)
+    {
+        $initialId = $this->getId();
+        if ($userId !== $initialId) {
+            $userModel = User::findOne($userId);
+            $user = new Identity($userModel);
+            $duration = 0;
+            \Yii::$app->user->switchIdentity($user, $duration);
+
+            if(!\Yii::$app->session->get('user.idbeforeswitch'))
+            {
+                \Yii::$app->session->set('user.idbeforeswitch', $initialId);
+            }
+        }
     }
 
     public function cseFilterCg(array $userSubjectArray): array
@@ -136,7 +154,7 @@ class Identity implements IdentityInterface
 
     public function isActive()
     {
-        return $this->user->status  == 10;
+        return $this->user->status == 10;
     }
 
 

@@ -42,6 +42,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
     </div>
+    <?php
+    require_once ('switcher-user.php');
+    ?>
     <div class="container-fluid">
             <?= Alert::widget() ?>
         <?= $content ?>
