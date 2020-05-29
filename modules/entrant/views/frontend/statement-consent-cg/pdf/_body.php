@@ -20,7 +20,7 @@
 
 
     <p align="justify" class="lh-1-5">
-        Я, <?= $name->nominative ?>, <?= $passport['date_of_birth'] ?> года рождения
+        Я, <?= $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'] ?>, <?= $passport['date_of_birth'] ?> года рождения
         <?= $profile['gender'] == "мужской" ? "согласен" : "согласна" ?>
         на зачисление на 1 курс в <?= $cg['faculty'] ?>.
     </p>

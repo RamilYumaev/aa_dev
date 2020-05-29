@@ -10,7 +10,7 @@ class StatementCgRepository extends RepositoryDeleteSaveClass
     public function get($id): StatementCg
     {
         if (!$model = StatementCg::findOne($id)) {
-            throw new \DomainException('Образоавтельная программа не найдена');
+            throw new \DomainException('Образовательная программа не найдена');
         }
         return $model;
     }
@@ -19,7 +19,7 @@ class StatementCgRepository extends RepositoryDeleteSaveClass
     {
         if (!$model = StatementCg::find()->alias('cg')->joinWith('statement')
             ->where(['cg.id' => $id, 'user_id' => $userId, 'status' => Statement::DRAFT])->one()) {
-            throw new \DomainException('Образоавтельная программа не найдена.');
+            throw new \DomainException('Образовательная программа не найдена.');
         }
         return $model;
     }
@@ -28,7 +28,7 @@ class StatementCgRepository extends RepositoryDeleteSaveClass
     {
         if (!$model = StatementCg::find()->alias('cg')->joinWith('statement')
             ->where(['cg.id' => $id, 'user_id' => $userId])->one()) {
-            throw new \DomainException('Образоавтельная программа не найдена.');
+            throw new \DomainException('Образовательная программа не найдена.');
         }
         return $model;
     }
