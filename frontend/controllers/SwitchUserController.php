@@ -3,7 +3,10 @@
 namespace frontend\controllers;
 
 use common\auth\models\SwitchUser;
+use common\components\JsonAjaxField;
+use olympic\helpers\auth\ProfileHelper;
 use yii\web\Controller;
+use yii\web\Response;
 
 class SwitchUserController extends Controller
 {
@@ -34,4 +37,10 @@ class SwitchUserController extends Controller
         return $this->goHome();
     }
 
+    public function actionGetList($submittedStatus, $countryId, $regionId = null)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $array = ProfileHelper::getListForSwitch($submittedStatus, $countryId, $regionId);
+        return ['result' => JsonAjaxField::dataSwitcher($array)];
+    }
 }

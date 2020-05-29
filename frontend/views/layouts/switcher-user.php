@@ -1,9 +1,6 @@
 <?php
 use yii\helpers\Html;
 use common\auth\models\User;
-
-$this->title = "Форма переключения на другого пользователя";
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 

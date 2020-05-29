@@ -21,4 +21,17 @@ class JsonAjaxField
         return $result;
     }
 
+
+    public static function dataSwitcher(array $array): array
+    {
+        $result = [];
+        foreach ($array as $key => $item) {
+            $result[] = [
+                'id' => $key,
+                'text' => $item,
+            ];
+        }
+        return $result;
+    }
+
 }

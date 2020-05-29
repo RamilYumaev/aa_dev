@@ -19,7 +19,7 @@ class ProfileHelper
     const ROLE_OPERATOR = 2;
     const ROLE_ADMIN = 3;
 
-    const ROLE_ENTRANT  = 4;
+    const ROLE_ENTRANT = 4;
 
     const MALE = 1;
     const FEMALE = 2;
@@ -108,11 +108,27 @@ class ProfileHelper
 
     }
 
+    public static function getListForSwitch($submittedStatus, $countryId, $regionId = null)
+    {
+        if ($submittedStatus === null && $countryId === null) {
+            return self::getAllUserFullNameWithEmail();
+        }
+
+        return Profiles::find()
+            ->selectFullNameWithEmail()
+            ->submittedUserStatus($submittedStatus)
+            ->country($countryId)
+            ->region($regionId)
+            ->indexBy('user_id')
+            ->column();
+
+    }
+
 
     public static function getAllUserFullNameWithEmail()
     {
         return Profiles::find()
-            ->select(new Expression("concat_ws(' ', last_name, first_name, patronymic, email)"))
+            ->selectFullNameWithEmail()
             ->joinWith('user', false)
             ->indexBy("user_id")
             ->column();
@@ -146,7 +162,7 @@ class ProfileHelper
 
     public static function dataArray($userId)
     {
-       return Profiles::findOne(['user_id' => $userId])->data();
+        return Profiles::findOne(['user_id' => $userId])->data();
     }
 
 }
