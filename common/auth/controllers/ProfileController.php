@@ -1,6 +1,7 @@
 <?php
 namespace common\auth\controllers;
 
+use common\auth\actions\JobEntrantAction;
 use common\auth\actions\ProfileAction;
 use yii\web\Controller;
 
@@ -16,6 +17,9 @@ class ProfileController extends Controller
                 'class' => ProfileAction::class,
                 'view' => $this->view
             ],
+            'entrant-job'=> [
+                'class'=> JobEntrantAction::class
+            ]
         ];
 
     }

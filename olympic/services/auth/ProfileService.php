@@ -32,8 +32,6 @@ class ProfileService
                 $profile->detachBehavior("moderation");
             }
         }
-
-
         $this->profile->save($profile);
     }
 

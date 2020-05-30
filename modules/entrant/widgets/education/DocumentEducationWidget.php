@@ -14,6 +14,7 @@ class DocumentEducationWidget extends Widget
         $model = DocumentEducation::findOne(['user_id' => $this->userId()]);
         return $this->render($this->view, [
             'document_education'=> $model,
+            'isUserSchool' => $this->userSchool()
         ]);
     }
 
