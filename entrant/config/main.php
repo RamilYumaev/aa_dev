@@ -18,8 +18,7 @@ return [
     'bootstrap' => ['log'],
     'modules' => [
         'data-entrant' => [
-            'class' => \modules\entrant\Entrant::class,
-            'controllerNamespace' => 'modules\entrant\controllers\backend',
+            'class' => \modules\entrant\BackendEntrant::class,
             'viewPath' => "@modules/entrant/views/backend",
         ],
         'kladr' => [

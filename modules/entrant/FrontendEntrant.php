@@ -6,8 +6,10 @@ use frontend\components\UserNoEmail;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
-class Entrant extends Module
+class FrontendEntrant extends Module
 {
+    public  $controllerNamespace = 'modules\entrant\controllers\frontend';
+
 
     public function behaviors(){
         return [

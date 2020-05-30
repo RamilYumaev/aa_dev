@@ -3,6 +3,7 @@
 
 namespace modules\dictionary\models;
 
+use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\Faculty;
 use modules\dictionary\forms\JobEntrantForm;
 use modules\dictionary\helpers\JobEntrantHelper;
@@ -58,9 +59,40 @@ class JobEntrant extends ActiveRecord
         return JobEntrantHelper::listCategories()[$this->category_id];
     }
 
+    public function isCategoryCOZ() {
+        return $this->category_id == JobEntrantHelper::COZ;
+    }
+
+    public function isCategoryUMS() {
+        return $this->category_id == JobEntrantHelper::UMS;
+    }
+
+    public function isCategoryTarget() {
+        return $this->category_id == JobEntrantHelper::TARGET;
+    }
+
+    public function isCategoryFOK() {
+        return $this->category_id == JobEntrantHelper::FOK;
+    }
+
+    public function isCategoryMPGU() {
+        return $this->category_id == JobEntrantHelper::MPGU;
+    }
+
+    public function isCategoryGraduate() {
+        return $this->category_id == JobEntrantHelper::GRADUATE;
+    }
+
+    public function isCategoryCollage() {
+        return $this->category_id == DictFacultyHelper::COLLAGE;
+    }
+
+
+
     public function getStatusName() {
         return JobEntrantHelper::statusList()[$this->status];
     }
+
 
     public function isStatusDraft() {
         return $this->status == JobEntrantHelper::DRAFT;
