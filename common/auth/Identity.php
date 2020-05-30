@@ -6,6 +6,8 @@ use common\auth\models\User;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
+use modules\dictionary\forms\JobEntrantForm;
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
@@ -53,6 +55,11 @@ class Identity implements IdentityInterface
     public function anketa()
     {
         return Anketa::find()->userAnketa($this->getId())->one();
+    }
+
+    public function jobEntrant()
+    {
+        return JobEntrant::findOne(['user_id'=> $this->getId()]);
     }
 
     public function eighteenYearsOld(): bool

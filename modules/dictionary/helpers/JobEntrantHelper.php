@@ -21,6 +21,8 @@ class JobEntrantHelper
     const UMS =5;
     const COZ =6;
 
+
+
     public static function listCategories()
     {
         $array = [
@@ -40,6 +42,50 @@ class JobEntrantHelper
 
         return $array;
     }
+
+    public static function listCategoriesFilial()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::COLLAGE
+        ];
+
+        return $array;
+    }
+
+    public static function listCategoriesZID()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            self::GRADUATE,
+            self::MPGU];
+        return $array;
+    }
+
+    public static function listCategoriesZUK()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            self::GRADUATE,
+            DictFacultyHelper::COLLAGE,
+            self::UMS,
+            self::FOK
+        ];
+        return $array;
+    }
+
 
     public static function statusList()
     {

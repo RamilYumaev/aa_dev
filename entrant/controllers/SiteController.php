@@ -2,15 +2,8 @@
 
 namespace entrant\controllers;
 
-use dictionary\models\DictSchoolsReport;
-use olympic\forms\WebConferenceForm;
-use olympic\models\WebConference;
-use entrant\helpers\TeacherClassUserHelper;
-use entrant\models\TeacherClassUser;
-use entrant\models\UserTeacherJob;
-use yii\data\ActiveDataProvider;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use modules\entrant\components\UserNoJobEntrant;
+use yii\web\Controller;;
 
 
 class SiteController extends Controller
@@ -27,6 +20,12 @@ class SiteController extends Controller
             ],
         ];
     }
+
+    public function beforeAction($action)
+    {
+        return (new UserNoJobEntrant())->redirect();
+    }
+
     /**
      * Displays homepage.
      *

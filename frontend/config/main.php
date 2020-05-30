@@ -25,8 +25,7 @@ return [
     ],
     'modules' => [
         'abiturient' => [
-            'class' => \modules\entrant\Entrant::class,
-            'controllerNamespace' => 'modules\entrant\controllers\frontend',
+            'class' => \modules\entrant\FrontendEntrant::class,
             'viewPath' => "@modules/entrant/views/frontend",
 
         ],

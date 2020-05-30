@@ -61,7 +61,6 @@
     "phpoffice/phpword": "v0.16.*",
     "kartik-v/yii2-mpdf": "*",
     "yiisoft/yii2-queue": "*",
-    "khanamiryan/qrcode-detector-decoder": "*",
     "yii-dream-team/yii2-upload-behavior": "*",
     "ext-curl": "*"
   },
