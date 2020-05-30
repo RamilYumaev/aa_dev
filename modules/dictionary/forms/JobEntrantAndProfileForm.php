@@ -10,7 +10,7 @@ class JobEntrantAndProfileForm extends CompositeForm
 {
 
     public $id_key;
-    public function __construct(JobEntrant $entrant, $config = [])
+    public function __construct(JobEntrant $entrant =null, $config = [])
     {
         $this->id_key = "kpokljgfedskkekljr";
         $this->profile = new ProfileEditForm();

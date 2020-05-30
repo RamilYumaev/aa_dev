@@ -37,6 +37,7 @@ class JobEntrantAction extends \yii\base\Action
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createEntrantJob($form, $model);
+
                 return $this->controller->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -46,6 +47,7 @@ class JobEntrantAction extends \yii\base\Action
 
         return $this->controller->render('index', [
             'model' => $form,
+            'jobEntrant' => $model
         ]);
     }
 
