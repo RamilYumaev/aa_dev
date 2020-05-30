@@ -12,7 +12,7 @@ use Yii;
 class ProfileEditForm extends Model
 {
 
-    public $last_name, $first_name, $patronymic, $phone, $country_id, $region_id, $gender;
+    public $last_name, $first_name, $patronymic, $phone, $country_id, $region_id, $gender, $user;
 
     private $_profile;
 
@@ -21,14 +21,14 @@ class ProfileEditForm extends Model
      */
     public function __construct($config = [])
     {
-        $user = Yii::$app->user->identity->getId();
+        $this->user = Yii::$app->user->identity->getId();
 
-        if (!Profiles::findOne(['user_id' => $user])) {
-            $profile = Profiles::createDefault($user);
+        if (!Profiles::findOne(['user_id' => $this->user])) {
+            $profile = Profiles::createDefault($this->user);
             $profile->save();
         }
-        
-        $this->_profile = Profiles::findOne(['user_id' => $user]);
+
+        $this->_profile = Profiles::findOne(['user_id' => $this->user]);
         $this->last_name = $this->_profile->last_name;
         $this->first_name = $this->_profile->first_name;
         $this->patronymic = $this->_profile->patronymic;

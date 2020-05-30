@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 class AddressFileWidget extends Widget
 {
     public $userId;
-    public $view;
+    public $view = 'file';
 
     public function run()
     {
