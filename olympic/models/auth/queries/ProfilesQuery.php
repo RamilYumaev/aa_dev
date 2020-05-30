@@ -9,6 +9,7 @@ use common\helpers\EduYearHelper;
 use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 class ProfilesQuery extends ActiveQuery
 {
@@ -23,6 +24,40 @@ class ProfilesQuery extends ActiveQuery
             ->andWhere(['in', '{{profiles}}.user_id', $neededUser])
             ->andWhere([UserSchool::tableName() . '.`edu_year`' => $olympic->year])
             ->asArray()->all();
+    }
+
+    public function joinUser()
+    {
+        return $this->innerJoinWith('user');
+    }
+
+    public function submittedUserStatus($status)
+    {
+        return $this->joinUser()
+            ->andWhere(['status' => $status]);
+    }
+
+    public function selectFullNameWithEmail()
+    {
+        return $this->select(new Expression("concat_ws(' ', last_name, first_name, patronymic, email)"));
+    }
+
+    public function selectForSwitcher()
+    {
+        return $this->select(new Expression("`user_id` as 'id',
+        concat_ws(' ', last_name, first_name, patronymic, email) as 'text'"));
+
+    }
+
+    public function country($countryId)
+    {
+
+        return $this->andWhere(['country_id' => $countryId]);
+    }
+
+    public function region($regionId)
+    {
+        return $this->andWhere(['region_id' => $regionId]);
     }
 
 }

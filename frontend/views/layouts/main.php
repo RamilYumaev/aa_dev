@@ -30,6 +30,9 @@ AppAsset::register($this);
     <?php
     require_once('_menu.php');
     ?>
+    <?php
+    require_once('switcher-user.php');
+    ?>
 
     <div class="container-fluid mt-30">
         <?= Breadcrumbs::widget([
@@ -37,7 +40,7 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
     </div>
-        <?= $content ?>
+    <?= $content ?>
 </div>
 
 <footer class="footer">
@@ -47,9 +50,9 @@ AppAsset::register($this);
     </div>
 </footer>
 <?php $this->endBody() ?>
-<?php Modal::begin(['id'=>'modal', 'size'=> Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>", 'clientOptions' => ['backdrop' => false]]);
+<?php Modal::begin(['id' => 'modal', 'size' => Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>", 'clientOptions' => ['backdrop' => false]]);
 echo "<div id='modalContent'></div>";
-Modal::end()?>
+Modal::end() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
