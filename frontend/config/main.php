@@ -95,6 +95,7 @@ return [
             ],
         ],
     ],
+
     'as access' => [
         'class' => 'yii\filters\AccessControl',
         'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*',
