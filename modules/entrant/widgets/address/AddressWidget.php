@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 class AddressWidget extends Widget
 {
     public $userId;
-    public $view;
+    public $view = "index";
 
     public function run()
     {
