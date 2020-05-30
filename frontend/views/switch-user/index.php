@@ -20,9 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-12">
                 <?php $form = ActiveForm::begin(['id' => 'form-switch-user', 'options' => ['autocomplete' => 'off']]); ?>
                 <?= $form->field($model, 'submittedStatus')->dropDownList(SwitchUser::submittedStatus(), [
-                    'prompt' => 'Выберите вариант', 'value' => 10]) ?>
+                    'prompt' => 'Выберите вариант']) ?>
                 <?= $form->field($model, 'countryId')->dropDownList(DictCountryHelper::countryList(), [
-                    'prompt' => 'Выберите страну', 'value' => 46]) ?>
+                    'prompt' => 'Выберите страну']) ?>
                 <?= $form->field($model, 'regionId')->dropDownList(DictRegionHelper::regionList(), [
                     'prompt' => 'Выберите регион']) ?>
                 <?= $form->field($model, 'userId')->widget(Select2::class, [
@@ -43,25 +43,8 @@ var submittedStatus = $("#switchuser-submittedstatus");
 var country = $("#switchuser-countryid");
 var region = $("#switchuser-regionid");
 var profile = $("#switchuser-userid");
+var profileBlock = $(".field-switchuser-regionid");
 var loadedProfiles = [];
-
-if(!country.val())
-    {
-        country = 46;
-    }
-
-if(!submittedStatus.val())
-    {
-        submittedStatus = 10;
-    }
-
-profile.show();
-
-if(country !== 46) //@todo
-    {
-        profile.hide();
-        profile.val("");
-    }
 
 
 function getList(){
@@ -70,13 +53,13 @@ function getList(){
     method: 'GET',
     dataType: 'json',
     async: false,
-    date: {submittedStatus: submittedStatus.val(), countryId: country.val(), regionId: region.val()},
+    data: {submittedStatus: submittedStatus.val(), countryId: country.val(), regionId: region.val()},
     success: function(groups) {
       var profiles = groups.result;
                loadedProfiles = profiles;
             profile.val("").trigger("change");
             profile.empty();
-            profile.append("<option value=''>Выберите пользователя</option>");
+          //  profile.append("<option value=''>Выберите пользователя</option>");
          
           for (var num in loadedProfiles){
           profile.
@@ -87,15 +70,11 @@ function getList(){
 }
 
 submittedStatus.on("change init", function(){getList()
-console.log(submittedStatus.val(), country.val(),region.val())
 })
 country.on("change init", function(){getList()
-console.log(submittedStatus.val(), country.val(),region.val())
 })
 region.on("change init", function(){getList()
-console.log(submittedStatus.val(), country.val(),region.val())
 })
-
 
 JS
 );

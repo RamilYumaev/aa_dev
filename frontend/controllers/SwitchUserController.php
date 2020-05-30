@@ -37,8 +37,12 @@ class SwitchUserController extends Controller
         return $this->goHome();
     }
 
-    public function actionGetList($submittedStatus, $countryId, $regionId = null)
+    public function actionGetList($submittedStatus, $countryId, $regionId)
     {
+        if($regionId == "")
+        {
+            $regionId = null;
+        }
         \Yii::$app->response->format = Response::FORMAT_JSON;
         $array = ProfileHelper::getListForSwitch($submittedStatus, $countryId, $regionId);
         return ['result' => JsonAjaxField::dataSwitcher($array)];
