@@ -39,8 +39,7 @@ class SwitchUserController extends Controller
 
     public function actionGetList($submittedStatus, $countryId, $regionId)
     {
-        if($regionId == "")
-        {
+        if ($regionId == "") {
             $regionId = null;
         }
         \Yii::$app->response->format = Response::FORMAT_JSON;
