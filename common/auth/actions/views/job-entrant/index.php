@@ -23,9 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="login-logo">
             <h3><?= $this->title ?></h3>
             <h5>Заполнение данных</h5>
-            <?php if($jobEntrant && $jobEntrant->isStatusDraft()): ?>
-            <?php Yii::$app->session->setFlash("warning", 'Ожидайте, администратор должен активировать учетную запись'); ?>
-            <?php endif; ?>
         </div><!-- /.login-logo -->
         <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
         <div class="form-group has-feedback">

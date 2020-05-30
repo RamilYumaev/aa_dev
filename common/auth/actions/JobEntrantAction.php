@@ -32,6 +32,9 @@ class JobEntrantAction extends \yii\base\Action
             return $this->controller->goHome();
         }
         $model = JobEntrant::findOne(['user_id' => Yii::$app->user->identity->getId()]) ?? null;
+        if($model && $model->isStatusDraft()) {
+            Yii::$app->session->setFlash("warning", 'Ожидайте, администратор должен активировать учетную запись');
+        }
 
         $form = new JobEntrantAndProfileForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -42,6 +45,9 @@ class JobEntrantAction extends \yii\base\Action
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            if($model && $model->isStatusDraft()) {
+                Yii::$app->session->setFlash("warning", 'Ожидайте, администратор должен активировать учетную запись');
             }
         }
 
