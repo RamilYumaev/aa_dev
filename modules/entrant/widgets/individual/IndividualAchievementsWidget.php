@@ -8,7 +8,7 @@ use \yii\base\Widget;
 class IndividualAchievementsWidget extends Widget
 {
     public $userId;
-    public $view;
+    public $view = "index";
 
     public function run()
     {

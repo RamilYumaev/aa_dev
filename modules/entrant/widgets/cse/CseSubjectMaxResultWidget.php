@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 class CseSubjectMaxResultWidget extends Widget
 {
     public $userId;
-    public $view;
+    public $view = "max";
     public function run()
     {
         return $this->render($this->view, [
