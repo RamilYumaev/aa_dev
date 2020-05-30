@@ -4,6 +4,7 @@
 
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \modules\dictionary\forms\JobEntrantAndProfileForm */
+/* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 
 use dmstr\widgets\Alert;
 use yii\helpers\Html;
@@ -20,8 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Alert::widget() ?>
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
         <div class="login-logo">
-
-            <h2>Заполнение данных</h2>
+            <h3><?= $this->title ?></h3>
+            <h5>Заполнение данных</h5>
+            <?php if($jobEntrant && $jobEntrant->isStatusDraft()): ?>
+            <?php Yii::$app->session->setFlash("warning", 'Ожидайте, администратор должен активировать учетную запись'); ?>
+            <?php endif; ?>
         </div><!-- /.login-logo -->
         <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
         <div class="form-group has-feedback">

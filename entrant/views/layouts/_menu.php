@@ -46,6 +46,6 @@ if(!Yii::$app->user->isGuest ) {
             ]
 
         );
-    }
+    } else {return [];}
 
 }
