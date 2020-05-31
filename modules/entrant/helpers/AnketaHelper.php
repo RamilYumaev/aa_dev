@@ -86,12 +86,12 @@ class AnketaHelper
     public static function universityChoice()
     {
         return [
-            self::HEAD_UNIVERSITY => "Головной вуз МПГУ (г. Москва)",
-            self::SERGIEV_POSAD_BRANCH => "Сергиево-Посадский филиал МПГУ (Московская область)",
-            self::ANAPA_BRANCH => "Анапский филиал МПГУ (Краснодарский край)",
-            self::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",
-            self::STAVROPOL_BRANCH => "Ставропольский филиал МПГУ (Ставропольский край)",
-            self::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
+            self::HEAD_UNIVERSITY => "в головной вуз МПГУ (г. Москва)",
+            self::SERGIEV_POSAD_BRANCH => "в Сергиево-Посадский филиал МПГУ (Московская область)",
+            self::ANAPA_BRANCH => "в Анапский филиал МПГУ (Краснодарский край)",
+            self::POKROV_BRANCH => "в Покровский филиал МПГУ (Владимирская область)",
+            self::STAVROPOL_BRANCH => "в Ставропольский филиал МПГУ (Ставропольский край)",
+            self::DERBENT_BRANCH => "в Дербентский филиал МПГУ (Республика Дагестан)",
 
         ];
     }
