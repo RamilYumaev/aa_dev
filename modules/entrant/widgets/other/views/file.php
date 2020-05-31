@@ -9,22 +9,27 @@ use modules\entrant\widgets\file\FileListWidget;
 /* @var $statementCg modules\entrant\models\StatementCg*/
 /* @var $isUserSchool bool */
 ?>
-<table class="table table-bordered">
-    <h3>Прочие документы</h3>
-    <tr>
-        <th>Наименование</th>
-        <th>Данные</th>
-        <th>Примечание</th>
-        <th></th>
-    </tr>
-    <?php foreach($others as $other) :?>
-        <tr class="<?= BlockRedGreenHelper::colorTableBg($other->countFiles(), FileHelper::listCountModels()[$other::className()], true) ?>">
-        <td><?= $other->typeName ?></td>
-        <td><?= $other->otherDocumentFull ?></td>
-            <td><?= $other->noteOrTypeNote ?></td>
-        <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?>
-            <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Прочие документы</h4></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Наименование</th>
+                <th>Данные</th>
+                <th>Примечание</th>
+                <th></th>
+            </tr>
+            <?php foreach($others as $other) :?>
+                <tr class="<?= BlockRedGreenHelper::colorTableBg($other->countFiles(), FileHelper::listCountModels()[$other::className()], true) ?>">
+                <td><?= $other->typeName ?></td>
+                <td><?= $other->otherDocumentFull ?></td>
+                    <td><?= $other->noteOrTypeNote ?></td>
+                <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
+            </tr>
+            <tr>
+              <td colspan="4"> <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>
+                </td> </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</div>

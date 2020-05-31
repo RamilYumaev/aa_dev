@@ -64,6 +64,11 @@ class Statement extends ActiveRecord
         $this->status = $status;
     }
 
+    public function isStatusDraft() {
+        return $this->status == StatementHelper::STATUS_DRAFT;
+    }
+
+
 
     public static function find(): StatementQuery
     {

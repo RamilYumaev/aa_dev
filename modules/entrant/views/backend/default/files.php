@@ -1,7 +1,12 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles*/
+
+use entrant\assets\modal\ModalAsset;
 use yii\helpers\Html;
+
+ModalAsset::register($this);
+
 $this->title = 'Файлы';
 $this->params['breadcrumbs'][] = ['label' => 'Абитуриенты', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = ['label' => $profile->getFio(), 'url' => ['default/full', 'user' => $profile->user_id]];

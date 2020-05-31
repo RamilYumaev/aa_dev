@@ -24,7 +24,9 @@ class StatementConsentCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
-        if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT, StatementHelper::STATUS_WALT])) {
+        if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
+            StatementHelper::STATUS_WALT,
+            StatementHelper::STATUS_ACCEPTED])) {
         throw new \DomainException('Вы уже сформировали заявление о зачислении');
         }
 

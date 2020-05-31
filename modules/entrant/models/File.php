@@ -3,6 +3,7 @@
 
 namespace modules\entrant\models;
 
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\queries\FileQuery;
 use modules\usecase\ImageGD;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
@@ -16,6 +17,7 @@ use yii\web\UploadedFile;
  *
  * @property integer $id
  * @property integer $user_id
+ * @property integer $status
  * @property string $model
  * @property integer $record_id
  * @property string $file_name_user
@@ -47,6 +49,37 @@ class File extends ActiveRecord
     {
         $this->position = $position;
     }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    public function isDraftStatus() {
+        return  $this->status == FileHelper::STATUS_DRAFT;
+    }
+
+    public function getStatusName() {
+        return  FileHelper::statusName($this->status);
+    }
+
+    public function isWaltStatus() {
+      return  $this->status == FileHelper::STATUS_WALT;
+    }
+
+    public function isAcceptedStatus() {
+        return  $this->status == FileHelper::STATUS_ACCEPTED;
+    }
+
+    public function isNoAcceptedStatus() {
+        return  $this->status == FileHelper::STATUS_NO_ACCEPTED;
+    }
+
 
     public function setFile(UploadedFile $file): void
     {

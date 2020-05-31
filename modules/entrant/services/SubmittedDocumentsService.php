@@ -7,10 +7,12 @@ namespace modules\entrant\services;
 use common\transactions\TransactionManager;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\helpers\AddressHelper;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\File;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
@@ -22,6 +24,7 @@ use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\repositories\AddressRepository;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\DocumentEducationRepository;
+use modules\entrant\repositories\FileRepository;
 use modules\entrant\repositories\IndividualAchievementsRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\PassportDataRepository;
@@ -40,6 +43,7 @@ class SubmittedDocumentsService
     private $achievementsRepository;
     private $personalDataRepository;
     private $statementConsentCgRepository;
+    private $fileRepository;
 
 
     public function __construct(SubmittedDocumentsRepository $repository,
@@ -47,6 +51,7 @@ class SubmittedDocumentsService
                                 StatementIndividualAchievementsRepository $achievementsRepository,
                                 StatementPersonalDataRepository $personalDataRepository,
                                 StatementConsentCgRepository $statementConsentCgRepository,
+                                FileRepository $fileRepository,
                                 TransactionManager $manager)
     {
         $this->repository = $repository;
@@ -55,6 +60,7 @@ class SubmittedDocumentsService
         $this->achievementsRepository = $achievementsRepository;
         $this->statementConsentCgRepository = $statementConsentCgRepository;
         $this->personalDataRepository = $personalDataRepository;
+        $this->fileRepository = $fileRepository;
     }
 
     public function create($type, $user_id)
@@ -76,7 +82,17 @@ class SubmittedDocumentsService
             $this->statementConsent($user_id);
             $this->statementIndividualAchievements($user_id);
             $this->statementPd($user_id);
+            $this->files($user_id);
         });
+    }
+
+    private function files($userId) {
+        $files  = File::find()->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\File*/
+        foreach ($files as $file) {
+            $file->setStatus(FileHelper::STATUS_WALT);
+            $this->fileRepository->save($file);
+        }
     }
 
     private function statement($userId) {
