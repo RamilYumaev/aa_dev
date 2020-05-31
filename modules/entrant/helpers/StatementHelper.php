@@ -22,7 +22,7 @@ class StatementHelper
     const STATUS_ACCEPTED = 2;
     const STATUS_NO_ACCEPTED = 3;
     const STATUS_RECALL = 4;
-    
+
     public static function statusList() {
         return[
             self::STATUS_DRAFT =>"Новый",
@@ -94,7 +94,7 @@ class StatementHelper
         }
 
         if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user.user_id');
+            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
             $query->andWhere(['anketa.university_choice'=> $jobEntrant->category_id]);
         }
         return ArrayHelper::map($query->all(), $column, $value);

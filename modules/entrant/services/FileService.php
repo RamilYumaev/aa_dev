@@ -5,6 +5,7 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use modules\entrant\forms\FileForm;
+use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use yii\helpers\FileHelper as IfFile;
@@ -85,6 +86,22 @@ class FileService
             $model->setFile($form->file_name);
             $this->repository->save($model);
         }
+    }
+
+    public function addMessage($id, FileMessageForm $form)
+    {
+        $model = $this->repository->get($id);
+        $model->setMessage($form->message);
+        $model->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+        $this->repository->save($model);
+
+    }
+
+    public function accepted($id)
+    {
+        $model = $this->repository->get($id);
+        $model->setStatus(FileHelper::STATUS_ACCEPTED);
+        $this->repository->save($model);
     }
 
     public function remove($id)

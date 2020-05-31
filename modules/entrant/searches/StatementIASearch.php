@@ -64,7 +64,7 @@ class StatementIASearch extends  Model
 
 
         if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user.user_id');
+            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
             $query->andWhere(['anketa.university_choice'=> $this->jobEntrant->category_id]);
         }
 

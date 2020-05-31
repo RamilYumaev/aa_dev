@@ -57,6 +57,15 @@ class StatementConsentCg extends ActiveRecord
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
+    public function statusWalt() {
+        return $this->status == StatementHelper::STATUS_WALT;
+    }
+
+    public function statusDraft() {
+        return $this->status == StatementHelper::STATUS_DRAFT;
+    }
+
+
     public function statusAccepted() {
         return $this->status == StatementHelper::STATUS_ACCEPTED;
     }

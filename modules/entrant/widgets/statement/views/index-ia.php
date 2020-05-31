@@ -12,7 +12,9 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $isUserSchool bool */
 ?>
 <?php if($statementsIa): ?>
-<h3>Заявления об учете индивидуальных достижений</h3>
+    <div class="panel panel-default">
+    <div class="panel-heading"><h4>Заявления об учете индивидуальных достижений</h4></div>
+    <div class="panel-body">
     <table class="table table-bordered">
         <tr>
             <th>#</th>
@@ -27,10 +29,11 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             </td>
             <td><?= Html::a('Скачать заявление', ['statement-individual-achievements/pdf', 'id' =>  $statement->id],
                     ['class' => 'btn btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class ]) ?>
-
-                <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statement->user_id ]) ?>
             </td>
         </tr>
+        <tr><td colspan="3"> <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statement->user_id ]) ?></td></tr>
         <?php endforeach; ?>
     </table>
+    </div>
+    </div>
 <?php endif; ?>
