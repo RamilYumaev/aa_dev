@@ -20,11 +20,19 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                     'voz',
                     'chernobyl',
                     'mpguTraining'
-
                 ];
                 ?>
-                <?php if (DictCompetitiveGroupHelper::formOchExistsUser(Yii::$app->user->identity->getId())): ?>
+                <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
                     <?php array_push($columns, 'hostel') ?>
+                <?php endif; ?>
+
+                <?php if(DictCompetitiveGroupHelper::eduSpoExistsUser($additional_information->user_id)): ?>
+                    <?php if(!$additional_information->mark_spo): ?>
+                        <p class="bg-danger m-10">
+                            Необходимо ввести средний балл аттестата
+                        </p>
+                    <?php endif; ?>
+                        <?php array_push($columns, 'mark_spo') ?>
                 <?php endif; ?>
                 <?= Html::a('Редактировать', ['additional-information/index'], ['class' => 'btn btn-warning']) ?>
                 <?= DetailView::widget([

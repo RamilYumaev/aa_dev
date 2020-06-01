@@ -12,6 +12,7 @@ class DictCseSubjectHelper
     const MAX = 100;
 
     const LANGUAGE = 21;
+    const BALL_SPO_ID = 99;
 
     const CSE_STATUS_YES =1;
 

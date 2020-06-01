@@ -90,6 +90,7 @@ class DataExportHelper
                 'school_type_id' => $anketa->current_edu_level,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
+                'overall_diploma_mark'=> $info->mark_spo ?? "",
                 'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
@@ -102,7 +103,6 @@ class DataExportHelper
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
-                'overall_diploma_mark' => '',
             ]
         ];
         return array_merge($result,
