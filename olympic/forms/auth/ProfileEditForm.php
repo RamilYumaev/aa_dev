@@ -43,6 +43,7 @@ class ProfileEditForm extends Model
     {
         return [
             [['last_name', 'first_name', 'phone', 'country_id', 'gender'], 'required'],
+            [['last_name', 'first_name', 'patronymic'], 'trim'],
             [['country_id', 'region_id', 'gender'], 'integer'],
             [['last_name', 'first_name', 'patronymic'], 'string', 'min' => 1, 'max' => 255],
             [['last_name', 'first_name', 'patronymic'], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',

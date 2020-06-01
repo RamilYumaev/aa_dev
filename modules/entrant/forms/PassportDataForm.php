@@ -66,7 +66,7 @@ class PassportDataForm extends Model
         return $arrayUnique;
     }
 
-    public function validateDateOfBirth()
+    public function validateDateOfBirth() //@TODO  плохо работает
     {
         if (strtotime($this->date_of_birth) > strtotime($this->date_of_issue)) {
             $this->addError('date_of_issue', "Дата выдачи паспорта раньше, чем дата рождения " );

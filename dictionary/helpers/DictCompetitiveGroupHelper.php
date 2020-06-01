@@ -417,7 +417,7 @@ class DictCompetitiveGroupHelper
 
                         }
                     }
-                    if (!$value['cse_subject_id'] && !$value['composite_discipline']) {
+                    if (!$value['cse_subject_id'] && !$value['composite_discipline'] && $value['id'] !=DictCseSubjectHelper::BALL_SPO_ID ) {
                         $ex .= $value['name'] .", ";
                     }
                 } else {
@@ -500,6 +500,13 @@ class DictCompetitiveGroupHelper
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->eduLevel([self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL])
             ->formEdu(self::EDU_FORM_OCH)
+            ->exists();
+    }
+
+    public static function eduSpoExistsUser($user_id)
+    {
+        return DictCompetitiveGroup::find()->userCg($user_id)
+            ->eduLevel([self::EDUCATION_LEVEL_SPO])
             ->exists();
     }
 

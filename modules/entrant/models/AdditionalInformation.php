@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $resource_id
  * @property integer $voz_id
  * @property  integer $hostel_id
+ * @property float $mark_spo
  * @property integer $chernobyl_status_id
  * @property integer $mpgu_training_status_id
  **/
@@ -34,7 +35,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => [
-                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id']
+                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id', 'mark_spo']
         ]];
     }
 
@@ -51,6 +52,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->resource_id = $form->resource_id;
         $this->hostel_id = $form->hostel_id;
         $this->chernobyl_status_id = $form->chernobyl_status_id;
+        $this->mark_spo = $form->mark_spo;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
 
@@ -61,6 +63,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'hostel_id' => 'Нуждаюсь в общежитии?',
             'resource_id'=> 'Откуда узнали об МПГУ?',
             'user_id' =>   'Юзер ID',
+            'mark_spo'=> "Средний балл аттестата",
             'chernobyl_status_id' => 'Подвергался(-лась) воздействию радиации (ЧАЭС)',
             'mpgu_training_status_id' => 'Окончил(-а) подготовительные курсы в МПГУ',
             'chernobyl' => 'Подвергался(-лась) воздействию радиации (ЧАЭС)',
@@ -102,6 +105,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return  [
             'voz' => $this->voz_id,
             'hostel' => $this->hostel_id,
+            'mark_spo'=> $this->mark_spo
         ];
     }
 
@@ -120,6 +124,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'resource_id'=> DictDefaultHelper::infoName($value),
             'chernobyl_status_id' => DictDefaultHelper::infoName($value),
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
+            'mark_spo' => $value
         ];
     }
 }

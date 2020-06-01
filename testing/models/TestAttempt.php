@@ -130,4 +130,5 @@ class TestAttempt extends ActiveRecord
     {
         return $this->nomination_id === null;
     }
+
 }

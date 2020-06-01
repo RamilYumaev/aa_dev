@@ -12,7 +12,8 @@ class AdditionalInformationWidget extends Widget
     {
         $model = AdditionalInformation::findOne(['user_id' => $this->userId]);
         return $this->render($this->view, [
-            'additional_information'=> $model
+            'additional_information'=> $model,
+            'userId' => $this->userId
         ]);
     }
 
