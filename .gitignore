@@ -45,3 +45,4 @@ phpunit.phar
 
 frontend/web/result/
 /frontend/file/
+/phpmyadmin
