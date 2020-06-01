@@ -338,7 +338,7 @@ class CommunicationController extends Controller
             try {
                 if (key_exists('token', $result)) {
                     $this->service->addToken(\Yii::$app->user->identity->getId(), $result['token']);
-                    Yii::$app->session->setFlash('success', "Заявление о согласии на зачисление принято!");
+                    Yii::$app->session->setFlash('success', "Токен успешно создан и сохранен!");
                     return $this->redirect(['default/index']);
                 } else if (key_exists('message', $result)) {
                     Yii::$app->session->setFlash('warning', $result['message']);

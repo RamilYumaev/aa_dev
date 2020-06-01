@@ -1,5 +1,7 @@
 <?php
+
 namespace testing\helpers;
+
 use testing\models\TestAttempt;
 use yii\helpers\ArrayHelper;
 
@@ -18,15 +20,18 @@ class TestAttemptHelper
     const MIN_BALL_GOLD = 75;
     const MIN_BALL_NO_GOLD = 50;
 
-    public static function count($test){
+    public static function count($test)
+    {
         return TestAttempt::find()->test($test)->count();
     }
 
-    public static function isAttempt($test, $user){
+    public static function isAttempt($test, $user)
+    {
         return TestAttempt::find()->test($test)->user($user)->exists();
     }
 
-    public static function Attempt($test, $user){
+    public static function Attempt($test, $user)
+    {
         return TestAttempt::find()->test($test)->user($user)->one();
     }
 
@@ -92,4 +97,11 @@ class TestAttemptHelper
         return ArrayHelper::getValue(self::nameOfPlacesForCert(), $key);
     }
 
+    public static function checkOldDateAttempt($olympicFinishDate, $testId)
+    {
+        return TestAttempt::find()
+            ->andWhere(['<>', 'end', $olympicFinishDate])
+            ->andWhere(['test_id' => $testId])
+            ->exists();
+    }
 }
