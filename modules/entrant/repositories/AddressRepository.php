@@ -21,8 +21,9 @@ class AddressRepository
         if($addresses) {
             foreach ($addresses as $address) {
                 if ($address->files) {
-                throw  new  \DomainException('Удаление невозможно, так как у вас на этого раздела 
-                "Адреса регистрации и проживания" имеется файл сканирования');
+                throw  new  \DomainException('Удаление невозможно, 
+                пока в системе имеется сканированная копия документа, 
+                содержащая эти данные');
                 }
             }
         }
