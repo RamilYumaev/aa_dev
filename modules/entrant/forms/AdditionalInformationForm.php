@@ -32,7 +32,7 @@ class AdditionalInformationForm extends Model
         return [
             [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo'] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
-            [['mark_spo'], 'number', 'min' => 0, 'max'=> 100],
+            [['mark_spo'], 'number', 'min' => 3, 'max'=> 5],
         ];
     }
 
