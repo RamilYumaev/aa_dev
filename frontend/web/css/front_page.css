@@ -504,6 +504,10 @@ a:hover {
     background-color: #854633;
 }
 
+.bg-red-light {
+    background-color: #d5897d;
+}
+
 .bg-gray {
     background-color: #858483;
 
