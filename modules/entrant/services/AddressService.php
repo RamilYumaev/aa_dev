@@ -42,4 +42,12 @@ class AddressService
         $this->repository->remove($model);
     }
 
+    public function copy($id, $type)
+    {
+        $model = $this->repository->get($id);
+        $form = new AddressForm($model->user_id, $model);
+        $form->type = $type;
+        $this->repository->save(Address::create($form));
+    }
+
 }

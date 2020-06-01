@@ -20,6 +20,22 @@ use modules\entrant\helpers\AddressHelper;
                 ['attribute' => 'type', 'value' => 'typeName'],
                 ['attribute' => 'country_id', 'value' => 'countryName'],
                 ['value' => 'addersFull', 'header' => "Адрес"],
+                ['value' => function($model) {
+                      $button = "";
+                      if (!AddressHelper::isExitsType($model->user_id, AddressHelper::TYPE_ACTUAL))  {
+                          $button.= Html::a("Совпадает с фактическим", ['address/copy', 'id'=> $model->id,
+                              'type' => AddressHelper::TYPE_ACTUAL], ['class' => "btn btn-info"]);
+                      }
+                      if (!AddressHelper::isExitsType($model->user_id, AddressHelper::TYPE_RESIDENCE))  {
+                         $button.= Html::a("Совпадает с временным", ['address/copy', 'id'=> $model->id,
+                            'type' => AddressHelper::TYPE_RESIDENCE], ['class' => "btn btn-warning"]);
+                       }
+                      if (!AddressHelper::isExitsType($model->user_id, AddressHelper::TYPE_REGISTRATION))  {
+                          $button.= Html::a("Совпадает с постоянным", ['address/copy', 'id'=> $model->id,
+                              'type' => AddressHelper::TYPE_REGISTRATION], ['class' => "btn btn-success"]);
+                      }
+                      return $button;
+                }, 'format' => "raw"],
                 ['class' => \yii\grid\ActionColumn::class, 'controller' => 'address', 'template' => '{update}{delete}']
             ],
         ]) ?>

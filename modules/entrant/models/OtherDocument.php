@@ -134,6 +134,10 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return $this->type_note ? OtherDocumentHelper::translationList()[$this->type_note] : $this->note;
     }
 
+    public function isPhoto() {
+        return $this->type == DictIncomingDocumentTypeHelper::ID_PHOTO;
+    }
+
 
     public function attributeLabels()
     {

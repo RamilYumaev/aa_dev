@@ -98,12 +98,32 @@ class AddressController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
 
     public function actionDelete($id)
     {
+        $this->findModel($id);
         try {
             $this->service->remove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['default/index']);
+    }
+
+    /**
+     * @param integer $id
+     * @param integer $type
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionCopy($id, $type)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->copy($id, $type);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
