@@ -3,8 +3,10 @@
 
 namespace backend\controllers\testing;
 
+use olympic\models\OlimpicList;
 use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
+use testing\models\Test;
 use testing\models\TestAttempt;
 use testing\repositories\TestRepository;
 use testing\services\TestAndQuestionsService;
@@ -47,16 +49,16 @@ class TestAttemptController extends Controller
     {
         $test = $this->testRepository->get($test_id);
         $olympic = $this->olimpicListRepository->get($test->olimpic_id);
-            return $this->render('index', [
+        return $this->render('index', [
             'test' => $test,
-             'olympic' => $olympic]);
+            'olympic' => $olympic]);
     }
 
     public function actionView($id)
     {
-       $model = $this->findModel($id);
-            return $this->render('view', [
-                'attempt' =>$model,]);
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'attempt' => $model,]);
     }
 
     public function actionEndDistTour($test_id, $olympic_id)
@@ -80,7 +82,34 @@ class TestAttemptController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index','test_id' => $model->test_id]);
+        return $this->redirect(['index', 'test_id' => $model->test_id]);
+    }
+
+    public function actionUpdateAttempt($testId)
+    {
+        $test = Test::find()->andWhere(['id' => $testId])->one();
+
+        $olympic = OlimpicList::find()->andWhere(['id' => $test->olimpic_id])->one();
+
+        if (!$test) {
+            \Yii::$app->session->setFlash('error', 'Не найден тест');
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
+        $allTestAttempt = TestAttempt::find()->andWhere(['test_id' => $test->id])->all();
+
+        foreach ($allTestAttempt as $attempt) {
+            $attempt->end = $olympic->date_time_finish_reg;
+            if (!$attempt->save()) {
+                \Yii::$app->session->setFlash("error",
+                    "Ошибка во время сохранения даты окончания попытки $attempt->id");
+                return $this->redirect(\Yii::$app->request->referrer);
+            };
+        }
+
+        \Yii::$app->session->setFlash("success",
+            "Успешно обновлена дата " . count($allTestAttempt) . " попытки(-ок)");
+        return $this->redirect(\Yii::$app->request->referrer);
     }
 
     /**
