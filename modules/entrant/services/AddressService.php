@@ -39,6 +39,7 @@ class AddressService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        $this->repository->getFilesExits($model->user_id);
         $this->repository->remove($model);
     }
 

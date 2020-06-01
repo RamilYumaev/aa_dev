@@ -4,6 +4,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use modules\dictionary\helpers\DictOrganizationsHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\helpers\DateFormatHelper;
 
@@ -31,7 +32,8 @@ class Agreement extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['organization_id', 'number', 'date', 'year']
+            'attributes'=>['organization_id', 'number', 'date', 'year'],
+                FileBehavior::class
         ]];
     }
 

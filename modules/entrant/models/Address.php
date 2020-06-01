@@ -6,6 +6,7 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
 
@@ -35,8 +36,8 @@ class Address extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['country_id', 'type', 'postcode', 'region', 'district',
-                'city', 'village', 'street', 'house', 'housing', 'building', 'flat']
-        ]];
+                'city', 'village', 'street', 'house', 'housing', 'building', 'flat'],
+        ], FileBehavior::class];
     }
 
     public static  function create(AddressForm $form) {

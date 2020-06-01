@@ -29,12 +29,12 @@ use modules\entrant\helpers\AddressHelper;
                               'type' => AddressHelper::TYPE_ACTUAL], ['class' => "btn btn-info"]);
                       }
                       if (!AddressHelper::isExitsType($model->user_id, AddressHelper::TYPE_RESIDENCE))  {
-                         $button.= Html::a("Совпадает с временным", ['address/copy', 'id'=> $model->id,
-                            'type' => AddressHelper::TYPE_RESIDENCE], ['class' => "btn btn-warning"]);
+                         $button.= $model->type != AddressHelper::TYPE_REGISTRATION ? Html::a("Совпадает с временным", ['address/copy', 'id'=> $model->id,
+                            'type' => AddressHelper::TYPE_RESIDENCE], ['class' => "btn btn-warning"]): "";
                        }
                       if (!AddressHelper::isExitsType($model->user_id, AddressHelper::TYPE_REGISTRATION))  {
-                          $button.= Html::a("Совпадает с постоянным", ['address/copy', 'id'=> $model->id,
-                              'type' => AddressHelper::TYPE_REGISTRATION], ['class' => "btn btn-success"]);
+                          $button.= $model->type != AddressHelper::TYPE_RESIDENCE ? Html::a("Совпадает с постоянным", ['address/copy', 'id'=> $model->id,
+                              'type' => AddressHelper::TYPE_REGISTRATION], ['class' => "btn btn-success"]) : "";
                       }
                       return $button;
                 }, 'format' => "raw"],
