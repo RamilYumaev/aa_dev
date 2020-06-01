@@ -27,18 +27,18 @@ class FileController extends Controller
         parent::__construct($id, $module, $config);
         $this->service = $service;
     }
-
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'accepted' => ['POST'],
-                ],
-            ],
-        ];
-    }
+//
+//    public function behaviors(): array
+//    {
+//        return [
+//            'verbs' => [
+//                'class' => VerbFilter::class,
+//                'actions' => [
+//                    'accepted' => ['POST'],
+//                ],
+//            ],
+//        ];
+//    }
 
     /**
      * @param integer $id

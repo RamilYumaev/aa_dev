@@ -14,7 +14,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <?php Box::begin(
     [
-        "header" => "Скан страницы паспорта с отметкой о регистрации или скан временной регистрации<",
+        "header" => "Скан страницы паспорта с отметкой о регистрации или скан временной регистрации",
         "type" => Box::TYPE_PRIMARY,
         "filled" => true,]) ?>
 <?php foreach($addresses as $address) :?>

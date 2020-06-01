@@ -19,6 +19,7 @@ class OtherDocumentForm extends Model
     public $isExemption;
     public $isAjax;
 
+
     private $idIa;
 
     public function __construct($user_id, $ajax = false, OtherDocument $otherDocument = null,
@@ -70,7 +71,7 @@ class OtherDocumentForm extends Model
 
         if ($this->arrayRequired) {
             $attribute = $this->arrayRequired;
-        } else {
+        }else {
             $attribute =['type'];
         }
        return $attribute;
