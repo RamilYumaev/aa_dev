@@ -99,6 +99,9 @@ class TestAttemptController extends Controller
         $allTestAttempt = TestAttempt::find()->andWhere(['test_id' => $test->id])->all();
 
         foreach ($allTestAttempt as $attempt) {
+            if ($attempt->end == $olympic->date_time_finish_reg) {
+                continue;
+            }
             $attempt->end = $olympic->date_time_finish_reg;
             if (!$attempt->save()) {
                 \Yii::$app->session->setFlash("error",
