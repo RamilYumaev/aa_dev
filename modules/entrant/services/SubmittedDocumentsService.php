@@ -86,111 +86,117 @@ class SubmittedDocumentsService
         });
     }
 
-    private function files($userId) {
-        $files  = File::find()->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
-        /* @var $statement \modules\entrant\models\File*/
+    private function files($userId)
+    {
+        $files = File::find()->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\File */
         foreach ($files as $file) {
             $file->setStatus(FileHelper::STATUS_WALT);
             $this->fileRepository->save($file);
         }
     }
 
-    private function statement($userId) {
-        $statements  = Statement::find()->user($userId)->status(StatementHelper::STATUS_DRAFT)->all();
-        /* @var $statement \modules\entrant\models\Statement*/
+    private function statement($userId)
+    {
+        $statements = Statement::find()->user($userId)->status(StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\Statement */
         foreach ($statements as $statement) {
-            if(!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('K заялениию  №'. $statement->numberStatement.'загружены не все файлы!');
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления №' . $statement->numberStatement . '!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementRepository->save($statement);
         }
     }
 
-    private function statementConsent($userId) {
-        $statements  = StatementConsentCg::find()->statementStatus($userId,StatementHelper::STATUS_DRAFT)->all();
-        /* @var $statement \modules\entrant\models\StatementConsentCg*/
+    private function statementConsent($userId)
+    {
+        $statements = StatementConsentCg::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\StatementConsentCg */
         foreach ($statements as $statement) {
-            if(!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('K заялениию о зачислении загружены  не все файлы !');
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementConsentCgRepository->save($statement);
         }
     }
 
-    private function statementIndividualAchievements($userId) {
-        $statements  = StatementIndividualAchievements::find()->status(StatementHelper::STATUS_DRAFT)->user($userId)->all();
-        /* @var $statement \modules\entrant\models\StatementIndividualAchievements*/
+    private function statementIndividualAchievements($userId)
+    {
+        $statements = StatementIndividualAchievements::find()->status(StatementHelper::STATUS_DRAFT)->user($userId)->all();
+        /* @var $statement \modules\entrant\models\StatementIndividualAchievements */
         foreach ($statements as $statement) {
-            if(!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('K заялениию "Индивидуальные достижения" загружены не все файлы!');
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления об учете индивидуального достижения!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->achievementsRepository->save($statement);
         }
     }
 
-    private function other($userId) {
-        $others  = OtherDocument::find()->where(['user_id'=>$userId])->all();
-        /* @var $other \modules\entrant\models\OtherDocument*/
+    private function other($userId)
+    {
+        $others = OtherDocument::find()->where(['user_id' => $userId])->all();
+        /* @var $other \modules\entrant\models\OtherDocument */
         foreach ($others as $other) {
-            if(!$other->files) {
-                throw new \DomainException(' Не загружен файл(-ы) раздела "Прочие документы" к типу '.$other->typeName.'!');
+            if (!$other->files) {
+                throw new \DomainException(' Не загружен файл(-ы) раздела "Прочие документы" к типу ' . $other->typeName . '!');
             }
         }
     }
 
-    private function passport($userId) {
-        $other  = PassportData::find()->where(['user_id'=>$userId, 'main_status' => true])->one();
-            if(!$other->files) {
-                throw new \DomainException(' Не загружен файл(-ы) раздела "Паспортные данные" к типу '.$other->typeName.'!');
-            }
+    private function passport($userId)
+    {
+        $other = PassportData::find()->where(['user_id' => $userId, 'main_status' => true])->one();
+        if (!$other->files) {
+            throw new \DomainException(' Не загружен файл(-ы) раздела "Паспортные данные" к типу ' . $other->typeName . '!');
+        }
     }
 
-    private function documentEdu($userId) {
-        $other  = DocumentEducation::find()->where(['user_id'=>$userId])->one();
-            if(!$other->files) {
-                throw new \DomainException(' Не загружен файл(-ы) раздела "Документ об образовании" к типу '.$other->typeName.'!');
-            }
+    private function documentEdu($userId)
+    {
+        $other = DocumentEducation::find()->where(['user_id' => $userId])->one();
+        if (!$other->files) {
+            throw new \DomainException(' Не загружен файл(-ы) раздела "Документ об образовании" к типу ' . $other->typeName . '!');
+        }
     }
 
-    private function agreement($userId) {
-        $other  = Agreement::find()->where(['user_id'=>$userId])->one();
-        if($other && !$other->files) {
+    private function agreement($userId)
+    {
+        $other = Agreement::find()->where(['user_id' => $userId])->one();
+        if ($other && !$other->files) {
             throw new \DomainException(' Не загружен файл(-ы) раздела "Документ о целевом обучении" к типу !');
         }
     }
 
-    private function address($userId) {
-        $others  = Address::find()->where(['user_id' => $userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
-        /* @var $other \modules\entrant\models\Address*/
+    private function address($userId)
+    {
+        $others = Address::find()->where(['user_id' => $userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
+        /* @var $other \modules\entrant\models\Address */
         foreach ($others as $other) {
-            if(!$other->files) {
-                throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу '.$other->typeName.'!');
+            if (!$other->files) {
+                throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу ' . $other->typeName . '!');
             }
         }
     }
 
 
-
-
-    private function statementPd($userId) {
-        $statement  = $this->personalDataRepository->get($userId);
-        if(!$statement->countFilesAndCountPagesTrue()) {
+    private function statementPd($userId)
+    {
+        $statement = $this->personalDataRepository->get($userId);
+        if (!$statement->countFilesAndCountPagesTrue()) {
             throw new \DomainException('K заялениию "Персональные данные" загружены  не все файлы !');
         }
     }
 
 
-
-
     public function saveModel($type, $user_id)
     {
-        if(($model = $this->repository->getUser($user_id)) !== null) {
+        if (($model = $this->repository->getUser($user_id)) !== null) {
             $model->data($type, $user_id);
-        }else {
-            $model= SubmittedDocuments::create($type, $user_id);
+        } else {
+            $model = SubmittedDocuments::create($type, $user_id);
         }
         $this->repository->save($model);
     }
