@@ -61,7 +61,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
         <td colspan="2">
             <br/><br/>
             <?=$profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
-                ? "окончившего в " : "окончившей"?> <?= $education['year']." году ".$education['school_id']." <strong>"
+                ? "окончившего в " : "окончившей в "?> <?= $education['year']." году ".$education['school_id']." <strong>"
             .$education['series']." ".$education['number']."</strong>"." (".$education['schoolCountyRegion'].")"?>
         </td>
     </tr>

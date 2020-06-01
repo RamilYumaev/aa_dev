@@ -43,7 +43,7 @@ class AddressForm extends Model
      */
     public function uniqueRules()
     {
-        $arrayUnique = [['type'], 'unique', 'targetClass' => Address::class, 'targetAttribute' => ['type', 'user_id',]];
+        $arrayUnique = [['type'], 'unique', 'targetClass' => Address::class, 'targetAttribute' => ['type', 'user_id',], 'message'=>'Вы уже добавили данный тип адреса'];
         if ($this->_address) {
                return ArrayHelper::merge($arrayUnique,['filter' => ['<>', 'id', $this->_address->id]]);
         }
