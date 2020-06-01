@@ -1,5 +1,6 @@
 <?php
 namespace modules\entrant\helpers;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\AdditionalInformation;
 
 class AdditionalInformationHelper
@@ -12,6 +13,15 @@ class AdditionalInformationHelper
     public static function dataArray($userId)
     {
         return AdditionalInformation::findOne(['user_id' => $userId])->dataArray();
+    }
+
+    public static function isSpoMark($userId)
+    {
+        $mark = AdditionalInformation::findOne(['user_id' => $userId])->mark_spo;
+        if(DictCompetitiveGroupHelper::eduSpoExistsUser($userId) && !$mark) {
+            return false;
+        }
+        return true;
     }
 
 }

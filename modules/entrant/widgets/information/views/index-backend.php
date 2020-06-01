@@ -26,8 +26,11 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
     ];
     ?>
-    <?php if (DictCompetitiveGroupHelper::formOchExistsUser(Yii::$app->user->identity->getId())): ?>
+    <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
         <?php array_push($columns, 'hostel') ?>
+    <?php endif; ?>
+    <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($additional_information->user_id)): ?>
+        <?php array_push($columns, 'mark_spo') ?>
     <?php endif; ?>
     <?= DetailView::widget([
         'options' => ['class' => 'table table-bordered detail-view'],

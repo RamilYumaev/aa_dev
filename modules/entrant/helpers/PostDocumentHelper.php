@@ -1,9 +1,7 @@
 <?php
 
 namespace modules\entrant\helpers;
-use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Anketa;
-use modules\entrant\models\FIOLatin;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -62,6 +60,7 @@ class PostDocumentHelper
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
             CseViSelectHelper::isCorrect($user_id) &&
             AdditionalInformationHelper::isExits($user_id) &&
+            AdditionalInformationHelper::isSpoMark($user_id) &&
             self::medicine($user_id) &&
             self::name($user_id) &&
             self::fioLatin($user_id);
@@ -85,6 +84,7 @@ class PostDocumentHelper
     {
         return !self::userAnketa($user_id)->isRussia() ? FioLatinHelper::isExits($user_id) : true;
     }
+
 
     public static function compatriot($user_id)
     {
