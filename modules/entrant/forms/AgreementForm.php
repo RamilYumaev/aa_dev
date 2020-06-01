@@ -16,14 +16,12 @@ class AgreementForm extends Model
 
     public function __construct($user_id, Agreement $agreement = null, $config = [])
     {
-        if($agreement){
+        if($agreement) {
             $this->setAttributes($agreement->getAttributes(), false);
-            $this->date= $agreement->getValue("date");
+            $this->date = $agreement->getValue("date");
             $this->_agreement = $agreement;
-        }else {
-            $this->user_id =$user_id;
         }
-
+        $this->user_id =$user_id;
         $this->year= EduYearHelper::eduYear();
         parent::__construct($config);
     }
