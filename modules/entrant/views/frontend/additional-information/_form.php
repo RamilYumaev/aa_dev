@@ -14,7 +14,7 @@ use yii\helpers\Html;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-additional-information']); ?>
             <?= $form->field($model, 'resource_id')->dropDownList(DictDefaultHelper::listInfo()); ?>
-            <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>,
+            <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>
             <?php if (DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>

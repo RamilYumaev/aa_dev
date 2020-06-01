@@ -51,6 +51,7 @@ class Address extends YiiActiveRecordAndModeration
         $this->postcode = $form->postcode;
         $this->region = $form->region;
         $this->district = $form->district;
+        $this->city = $form->city;
         $this->village = $form->village;
         $this->street = $form->street;
         $this->house = $form->house;
