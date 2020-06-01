@@ -37,7 +37,11 @@ class AddressHelper
     {
         return Address::find()->andWhere(['user_id' => $user_id,'type' => [self::TYPE_ACTUAL, self::TYPE_REGISTRATION]])
             ->orWhere(['user_id' => $user_id, 'type' => [self::TYPE_ACTUAL, self::TYPE_RESIDENCE]])->count() >=2;
+    }
 
+    public static function isExitsType($user_id, $type): bool
+    {
+        return Address::find()->andWhere(['user_id' => $user_id,'type' => $type])->exists();
     }
 
     public static function actual($user_id): array

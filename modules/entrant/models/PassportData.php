@@ -60,9 +60,9 @@ class PassportData extends YiiActiveRecordAndModeration
         $this->series = $form->series;
         $this->number = $form->number;
         $this->date_of_birth = DateFormatHelper::formatRecord($form->date_of_birth);
-        $this->place_of_birth = $form->place_of_birth;
+        $this->place_of_birth =  mb_strtoupper($form->place_of_birth);
         $this->date_of_issue =  DateFormatHelper::formatRecord($form->date_of_issue);
-        $this->authority = $form->authority;
+        $this->authority = mb_strtoupper($form->authority);
         $this->main_status = $status;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;

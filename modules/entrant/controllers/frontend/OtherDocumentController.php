@@ -108,6 +108,10 @@ class OtherDocumentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if($model->isPhoto()) {
+            Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
+            return $this->redirect(['default/index']);
+        }
         $form = new OtherDocumentForm($model->user_id,  false, $model);
         $this->formCreateUpdate($form, ['default/index'], $model);
         return $this->render('update', [
