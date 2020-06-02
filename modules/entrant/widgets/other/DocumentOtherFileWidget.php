@@ -7,7 +7,6 @@ use yii\base\Widget;
 
 class DocumentOtherFileWidget extends Widget
 {
-
     public $userId;
     public $view = 'file';
     public function run()

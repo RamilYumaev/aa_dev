@@ -5,7 +5,7 @@
  * @link http://adminlte.yiister.ru
  */
 
-namespace yiister\adminlte\components;
+namespace backend\widgets\adminlte\components;
 
 class AdminLTE
 {

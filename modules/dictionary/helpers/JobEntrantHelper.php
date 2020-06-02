@@ -81,6 +81,7 @@ class JobEntrantHelper
             self::GRADUATE,
             DictFacultyHelper::COLLAGE,
             self::UMS,
+            self::TARGET,
             self::FOK
         ];
         return $array;

@@ -11,6 +11,7 @@ use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\File;
 use modules\entrant\models\OtherDocument;
@@ -100,11 +101,18 @@ class SubmittedDocumentsService
     {
         $statements = Statement::find()->user($userId)->status(StatementHelper::STATUS_DRAFT)->all();
         /* @var $statement \modules\entrant\models\Statement */
+        $anketa = Anketa::findOne(['user_id' =>$userId]);
+
         foreach ($statements as $statement) {
             if (!$statement->countFilesAndCountPagesTrue()) {
                 throw new \DomainException('Загружены не все файлы заявления №' . $statement->numberStatement . '!');
             }
-            $statement->setStatus(StatementHelper::STATUS_WALT);
+            if($statement->isSpecialRightStatement() || $anketa->isWithOitCompetition()) {
+                $statement->setStatus(StatementHelper::STATUS_WALT_SPECIAL);
+            }else {
+                $statement->setStatus(StatementHelper::STATUS_WALT);
+            }
+
             $this->statementRepository->save($statement);
         }
     }

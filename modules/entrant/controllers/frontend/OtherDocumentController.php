@@ -140,17 +140,24 @@ class OtherDocumentController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     *  @throws NotFoundHttpException
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+        if($model->isPhoto()) {
+            Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
+        }
         try {
             $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
+
+
     private function getUserId()
     {
         return  Yii::$app->user->identity->getId();

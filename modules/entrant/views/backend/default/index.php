@@ -4,16 +4,21 @@
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\SelectDataHelper;
 use modules\entrant\helpers\StatementHelper;
 use olympic\helpers\auth\ProfileHelper;
 use yii\grid\GridView;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-/* @var $searchModel modules\entrant\searches\ProfilesStatementSearch/
+/* @var $type integer */
+/* @var $searchModel modules\entrant\searches\ProfilesStatementSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Абитуриенты';
+
+$type = $type ? " (".AisReturnDataHelper::statusName($type).")" : "";
+$this->title = 'Абитуриенты'.$type;
+
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

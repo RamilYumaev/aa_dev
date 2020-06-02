@@ -11,6 +11,8 @@ use yii\widgets\Pjax;
 /* @var $file modules\entrant\models\File */
 /* @var $id integer */
 
+/* @var $jobEntrant \modules\dictionary\models\JobEntrant */
+$jobEntrant = Yii::$app->user->identity->jobEntrant();
 
 ?>
 <?php Box::begin(
@@ -25,9 +27,11 @@ use yii\widgets\Pjax;
     <tr>
         <td>Страница <?= ++$key ?></td>
         <td><?= Html::a("Скачать", ["file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
+       <?php if(!$jobEntrant->isCategoryCOZ()): ?>
         <td><?= Html::a("Принять", ["file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
                 'data-method' => 'post']) ?></td>
-       <td><?= Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
+       <?php endif; ?>
+        <td><?= Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения']) ?></td>
         <td><span class="label label-<?= FileHelper::colorName($file->status)?>"><?=$file->statusName?></span></td>
     </tr>

@@ -7,6 +7,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementIAReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -34,11 +35,7 @@ class StatementIASearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = StatementIndividualAchievements::find()
-            //->alias(StatementIndividualAchievements::tableName())
-            ->statusNoDraft()->orderByCreatedAtDesc();
-
-
+        $query = (new StatementIAReadRepository($this->jobEntrant))->readData();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -50,23 +47,6 @@ class StatementIASearch extends  Model
             return $dataProvider;
         }
 
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement_individual_achievements.user_id');
-
-        if($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
-
-        if($this->jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement_individual_achievements.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-
-        if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
-            $query->andWhere(['anketa.university_choice'=> $this->jobEntrant->category_id]);
-        }
 
         $query->andFilterWhere([
             'statement_individual_achievements.edu_level' => $this->edu_level,
