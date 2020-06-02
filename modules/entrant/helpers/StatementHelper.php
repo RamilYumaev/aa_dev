@@ -13,6 +13,8 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementIAReadRepository;
+use modules\entrant\readRepositories\StatementReadRepository;
 use yii\helpers\ArrayHelper;
 
 class StatementHelper
@@ -22,14 +24,25 @@ class StatementHelper
     const STATUS_ACCEPTED = 2;
     const STATUS_NO_ACCEPTED = 3;
     const STATUS_RECALL = 4;
+    const STATUS_WALT_SPECIAL = 5;
 
     public static function statusList() {
         return[
             self::STATUS_DRAFT =>"Новый",
             self::STATUS_WALT=> "Ожидание",
+            self::STATUS_WALT_SPECIAL=> "Ожидание",
             self::STATUS_ACCEPTED =>"Принято",
             self::STATUS_NO_ACCEPTED =>"Не принято",
             self::STATUS_RECALL=> "Отозван"];
+    }
+
+    public static function statusListJobEntrant() {
+        return[
+            self::STATUS_WALT=> "Новые",
+            self::STATUS_WALT_SPECIAL=> "Новые",
+            self::STATUS_ACCEPTED =>"Принятые",
+            self::STATUS_NO_ACCEPTED =>"Непринятые",
+            self::STATUS_RECALL=> "Отозванные"];
     }
 
     public static function statusName($key) {
@@ -40,6 +53,7 @@ class StatementHelper
         return [
             self::STATUS_DRAFT =>"default",
             self::STATUS_WALT=> "warning",
+            self::STATUS_WALT_SPECIAL=> "warning",
             self::STATUS_ACCEPTED =>"success",
             self::STATUS_NO_ACCEPTED =>"danger",
             self::STATUS_RECALL=> "error"];
@@ -48,55 +62,21 @@ class StatementHelper
     public static function colorName($key) {
         return self::colorList()[$key];
     }
+    public static function entrantJob() {
+        return \Yii::$app->user->identity->jobEntrant();
+    }
 
     public static function columnStatement($column, $value) {
-        $query = Statement::find()->statusNoDraft()->select('statement.'.$column)->groupBy('statement.'.$column);
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
-        /* @var $jobEntrant JobEntrant*/
-        $jobEntrant = \Yii::$app->user->identity->jobEntrant();
-        if($jobEntrant->isCategoryFOK()) {
-            $query->andWhere(['statement.faculty_id' => $jobEntrant->faculty_id,
-                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
-
-        if($jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
-        }
-
-        if($jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-        if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->andWhere(['statement.faculty_id' => $jobEntrant->category_id]);
-        }
-
+        $query = (new StatementReadRepository(self::entrantJob()))->readData()->select('statement.'.$column)->groupBy('statement.'.$column);
         return ArrayHelper::map($query->all(), $column, $value);
     }
 
     public static function columnStatementIa($column, $value) {
-        $query = StatementIndividualAchievements::find()->statusNoDraft()->select('statement_individual_achievements.'.$column)
+        $query =  (new StatementIAReadRepository(self::entrantJob()))
+            ->readData()
+            ->select('statement_individual_achievements.'.$column)
             ->groupBy('statement_individual_achievements.'.$column);
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement_individual_achievements.user_id');
-        /* @var $jobEntrant JobEntrant*/
-        $jobEntrant = \Yii::$app->user->identity->jobEntrant();
-        if($jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
 
-        if($jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement_individual_achievements.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-        if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
-            $query->andWhere(['anketa.university_choice'=> $jobEntrant->category_id]);
-        }
         return ArrayHelper::map($query->all(), $column, $value);
     }
 

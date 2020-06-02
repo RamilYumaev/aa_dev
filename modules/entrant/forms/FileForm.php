@@ -29,7 +29,10 @@ class FileForm extends Model
     public function rules()
     {
         return [
-            ['file_name', 'file'],
+            ['file_name', 'image',
+                'minHeight' => 300,
+                'extensions' => 'jpg, png',
+                'maxSize' => 1024 * 1024 * 5],
         ];
     }
 

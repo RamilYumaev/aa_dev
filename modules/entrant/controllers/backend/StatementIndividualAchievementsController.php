@@ -10,6 +10,7 @@ use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementIAReadRepository;
 use modules\entrant\searches\StatementIASearch;
 use modules\entrant\services\StatementIndividualAchievementsService;
 use yii\base\ExitException;
@@ -21,15 +22,18 @@ use yii\web\NotFoundHttpException;
 class StatementIndividualAchievementsController extends Controller
 {
     private $service;
-    /* @var  $jobEntrant JobEntrant*/
-    private $jobEntrant;
 
     public function __construct($id, $module, StatementIndividualAchievementsService $service, $config = [])
     {
-        $this->jobEntrant = Yii::$app->user->identity->jobEntrant();
         parent::__construct($id, $module, $config);
         $this->service = $service;
     }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
 
     public function beforeAction($event)
     {
@@ -96,23 +100,8 @@ class StatementIndividualAchievementsController extends Controller
      */
     protected function findModel($id): StatementIndividualAchievements
     {
-        $query = StatementIndividualAchievements::find()->where(['id'=>$id]);
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement_individual_achievements.user_id');
-
-        if($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
-
-        if($this->jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement_individual_achievements.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-        if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user.user_id');
-            $query->andWhere(['anketa.university_choice'=> $this->jobEntrant->category_id]);
-        }
+        $query = (new StatementIAReadRepository($this->jobEntrant))->readData()
+            ->andWhere(['statement_individual_achievements.id'=>$id]);
 
         if (($model = $query->one()) !== null) {
             return $model;

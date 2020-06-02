@@ -60,9 +60,18 @@ class AuthHandler
                 Yii::$app->user->login(new Identity($user), 1);
             } else { // signup
                 if ($email !== null && $this->userRepository->getEmail($email)) {
-                    Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app', "Авторизация {client}. Пользователь с таким email уже существует.", ['client' => $this->client->getTitle()]),
-                    ]);
+                    $this->transactionManager->wrap(function () use ($nickname, $email, $id) {
+                        $user = $this->userRepository->getEmail($email);
+
+                        $auth = $this->newAuth($user->id, $id);
+                        $this->authRepository->save($auth);
+
+                        $profile = $this->profileRepository->getUser($user->id);
+                        $profile->setRole($this->role);
+                        $this->profileRepository->save($profile);
+
+                        Yii::$app->user->login(new Identity($user), 1);
+                    });
                 }
                 elseif ($nickname  !== null && $this->userRepository->getUsername($nickname)) {
                         Yii::$app->getSession()->setFlash('error', [

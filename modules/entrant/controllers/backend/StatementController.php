@@ -9,6 +9,7 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementReadRepository;
 use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\StatementService;
 use yii\base\ExitException;
@@ -20,12 +21,9 @@ use yii\web\NotFoundHttpException;
 class StatementController extends Controller
 {
     private $service;
-    /* @var  $jobEntrant JobEntrant*/
-    private $jobEntrant;
 
     public function __construct($id, $module,StatementService $service,  $config = [])
     {
-        $this->jobEntrant = Yii::$app->user->identity->jobEntrant();
         $this->service = $service;
         parent::__construct($id, $module, $config);
     }
@@ -44,9 +42,9 @@ class StatementController extends Controller
     }
 
 
-    public function actionIndex()
+    public function actionIndex($status = null)
     {
-        $searchModel = new StatementSearch($this->jobEntrant);
+        $searchModel = new StatementSearch($this->jobEntrant, $status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -95,34 +93,17 @@ class StatementController extends Controller
      */
     protected function findModel($id): Statement
     {
-        $query = Statement::find()->where(['statement.id'=>$id]);
-
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
-
-        if($this->jobEntrant->isCategoryFOK()) {
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
-                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
-
-        if($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
-        }
-
-        if($this->jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-        if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
-        }
+        $query = (new StatementReadRepository($this->jobEntrant))->readData()-> andwhere(['statement.id'=>$id]);
 
         if (($model = $query->one())  !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
     }
 
 

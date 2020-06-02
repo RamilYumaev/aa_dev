@@ -12,6 +12,9 @@ use yii\helpers\ArrayHelper;
 
 class AisReturnDataHelper
 {
+    const AIS_YES = 1;
+    const AIS_NO = 2;
+
     public static  function typesModel() {
         return [
           1 => PassportData::class,
@@ -24,5 +27,16 @@ class AisReturnDataHelper
 
     public static function modelKey($key){
        return ArrayHelper::getValue(self::typesModel(), $key);
+    }
+
+    public static function status() {
+        return[
+            self::AIS_YES =>"Принятые",
+            self::AIS_NO =>"Непринятые",
+            ];
+    }
+
+    public static function statusName($key) {
+        return self::status()[$key];
     }
 }
