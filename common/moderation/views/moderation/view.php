@@ -8,6 +8,13 @@ use yii\widgets\DetailView;
 $this->title =  "Модерация. ". $moderation->getModel()->titleModeration();
 $this->params['breadcrumbs'][] = ['label' => "Модерация", 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+if($moderation->model !== \dictionary\models\DictSchools::class ||
+$moderation->model !==\modules\dictionary\models\DictOrganizations::class ) {
+    $modelData = $moderation->model::findOne($moderation->record_id);
+    if($modelData) {
+    echo $modelData->user_id;
+    }
+}
 ?>
 <div id="moderation-view">
     <div class="box">
