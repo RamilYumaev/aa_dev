@@ -33,8 +33,8 @@ class Agreement extends YiiActiveRecordAndModeration
             'moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['organization_id', 'number', 'date', 'year'],
-                FileBehavior::class
-        ]];
+
+        ],FileBehavior::class];
     }
 
     public static  function create(AgreementForm $form, $organization_id) {
