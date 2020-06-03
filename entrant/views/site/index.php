@@ -1,6 +1,8 @@
 <?php
-use dictionary\helpers\DictSchoolsHelper;use modules\entrant\readRepositories\ProfileStatementReadRepository;
+
 /* @var $this yii\web\View */
+
+use modules\dictionary\helpers\JobEntrantHelper;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -17,5 +19,23 @@ $this->title= "Главная. ".$text;
 <?php if($jobEntrant): ?>
   <?php if($jobEntrant->isCategoryCOZ()): ?>
     <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isCategoryFOK()): ?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isCategoryTarget()): ?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isCategoryMPGU()): ?>
+        <?= $this->render('_mpgu',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isCategoryUMS()): ?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isCategoryGraduate()): ?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())): ?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
 <?php endif; ?>

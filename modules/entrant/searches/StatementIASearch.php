@@ -35,7 +35,7 @@ class StatementIASearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new StatementIAReadRepository($this->jobEntrant))->readData();
+        $query = (new StatementIAReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

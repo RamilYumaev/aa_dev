@@ -41,9 +41,9 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
     }
 
-    public function orderByCreatedAtDesc()
+    public function orderByCreatedAtDesc($alias = "")
     {
-        return $this->orderBy(['created_at' => SORT_DESC]);
+        return $this->orderBy([$alias.'created_at' => SORT_DESC]);
     }
 
 

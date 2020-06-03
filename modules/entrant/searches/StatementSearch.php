@@ -39,7 +39,7 @@ class StatementSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new StatementReadRepository($this->jobEntrant))->readData();
+        $query = (new StatementReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

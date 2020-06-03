@@ -3,7 +3,9 @@ namespace modules\entrant\readRepositories;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
 use modules\entrant\models\UserAis;
 use modules\dictionary\models\JobEntrant;
@@ -17,7 +19,7 @@ class StatementReadRepository
     }
 
     public function readData() {
-        $query = Statement::find()->statusNoDraft()->orderByCreatedAtDesc();
+        $query = Statement::find()->statusNoDraft();
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
@@ -30,6 +32,18 @@ class StatementReadRepository
         if($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
                 'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+        }
+
+        if($this->jobEntrant->isCategoryUMS()) {
+            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
+        }
+
+        if($this->jobEntrant->isCategoryMPGU()) {
+            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {
