@@ -5,6 +5,7 @@ namespace modules\entrant\controllers\backend;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
@@ -86,7 +87,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id): Profiles
     {
-        $query = (new ProfileStatementReadRepository($this->jobEntrant))->readData()
+        $query = (new ProfileStatementReadRepository($this->jobEntrant))->readData(null)
             ->andWhere(['profiles.user_id' => $id]);
 
         if (($model = $query->one()) !== null) {
