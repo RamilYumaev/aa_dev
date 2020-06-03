@@ -21,7 +21,7 @@ class StatementIAReadRepository
     }
 
     public function readData() {
-        $query = StatementIndividualAchievements::find()->statusNoDraft()->orderByCreatedAtDesc();
+        $query = StatementIndividualAchievements::find()->statusNoDraft();
 
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement_individual_achievements.user_id');
 

@@ -79,6 +79,7 @@ class JobEntrantHelper
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
             self::GRADUATE,
+            self::MPGU,
             DictFacultyHelper::COLLAGE,
             self::UMS,
             self::TARGET,

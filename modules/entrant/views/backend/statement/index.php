@@ -10,8 +10,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel modules\entrant\searches\StatementSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $status integer */
+$st= StatementHelper::statusJobName($status);
+$status = $st ? " (".$st.")" : "";
 
-$this->title = "Заявления об участии в конкурсе";
+$this->title = "Заявления об участии в конкурсе". $status;
+
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

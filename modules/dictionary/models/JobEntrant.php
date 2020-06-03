@@ -97,7 +97,7 @@ class JobEntrant extends ActiveRecord
 
     public function getFullNameJobEntrant() {
          if($this->isCategoryFOK()) {
-             return $this->category."".$this->faculty->full_name;
+             return $this->category.". ".$this->faculty->full_name;
          }
         return $this->category;
     }

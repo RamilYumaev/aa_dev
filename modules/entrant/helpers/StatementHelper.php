@@ -49,6 +49,11 @@ class StatementHelper
         return self::statusList()[$key];
     }
 
+    public static function statusJobName($key) {
+        return ArrayHelper::getValue(self::statusListJobEntrant(),$key);
+    }
+
+
     public static function colorList() {
         return [
             self::STATUS_DRAFT =>"default",
@@ -67,7 +72,8 @@ class StatementHelper
     }
 
     public static function columnStatement($column, $value) {
-        $query = (new StatementReadRepository(self::entrantJob()))->readData()->select('statement.'.$column)->groupBy('statement.'.$column);
+        $query = (new StatementReadRepository(self::entrantJob()))->readData()
+            ->select('statement.'.$column)->groupBy('statement.'.$column);
         return ArrayHelper::map($query->all(), $column, $value);
     }
 
