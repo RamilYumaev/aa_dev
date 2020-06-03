@@ -15,6 +15,7 @@ use olympic\models\auth\Profiles;
 use olympic\services\auth\UserService;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\httpclient\Client;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -312,26 +313,63 @@ class CommunicationController extends Controller
     }
 
 
+//    public function actionForm()
+//    {
+//        $user = Yii::$app->request->post('username');
+//        $pass = Yii::$app->request->post('password');
+//        if ($user && $pass) {
+//            $ch = curl_init();
+//            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/get-access-token');
+//            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+//            curl_setopt($ch, CURLOPT_POST, true);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+//            curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
+//            $result = curl_exec($ch);
+//            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+//            if ($status_code !== 200) {
+//                Yii::$app->session->setFlash("error", "Ошибка! Неверный логин или пароль");
+//                return $this->redirect(Yii::$app->request->referrer);
+//            }
+//            curl_close($ch);
+//            $result = Json::decode($result);
+//            try {
+//                if (key_exists('token', $result)) {
+//                    $this->service->addToken(\Yii::$app->user->identity->getId(), $result['token']);
+//                    Yii::$app->session->setFlash('success', "Токен успешно создан и сохранен!");
+//                    return $this->redirect(['default/index']);
+//                } else if (key_exists('message', $result)) {
+//                    Yii::$app->session->setFlash('warning', $result['message']);
+//                    return $this->redirect(Yii::$app->request->referrer);
+//                }
+//            } catch (\DomainException $e) {
+//                Yii::$app->errorHandler->logException($e);
+//                Yii::$app->session->setFlash('error', $e->getMessage());
+//            }
+//        }
+//        return $this->render('form');
+//    }
+
+
     public function actionForm()
     {
         $user = Yii::$app->request->post('username');
         $pass = Yii::$app->request->post('password');
         if ($user && $pass) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/get-access-token');
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-            curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
-            $result = curl_exec($ch);
-            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
-            if ($status_code !== 200) {
-                Yii::$app->session->setFlash("error", "Ошибка! Неверный логин или пароль");
+            $client = new Client(['baseUrl' => Yii::$app->params['ais_server'], 'transport' => 'yii\httpclient\CurlTransport']);
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('get-access-token')
+                ->addHeaders(['Authorization' => 'Basic ' . base64_encode("$user:$pass")])
+                ->setOptions([
+                    'proxy' => 'proxy.server:8000',
+                    'timeout' => 5,
+                ])->send();
+            if (!$response->isOk) {
+                Yii::$app->session->setFlash("error", "Ошибка!" . $response->data);
                 return $this->redirect(Yii::$app->request->referrer);
             }
-            curl_close($ch);
-            $result = Json::decode($result);
+            $result = $response->data;
             try {
                 if (key_exists('token', $result)) {
                     $this->service->addToken(\Yii::$app->user->identity->getId(), $result['token']);
