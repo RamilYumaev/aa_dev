@@ -47,8 +47,9 @@ class SwitchUserController extends Controller
         return $this->render('index', ['model' => $model]);
     }
 
-    public function actionByUserId($id){
-        $this->actionComeBack();
+    public function actionByUserId($id)
+    {
+        \Yii::warning("в сессии ".\Yii::$app->session->get('user.idbeforeswitch'));
         try {
             \Yii::$app->user->identity->switchUser($id);
             return $this->goHome();
@@ -57,7 +58,6 @@ class SwitchUserController extends Controller
         }
         return $this->goHome();
     }
-
 
 
     public function actionComeBack()
@@ -72,6 +72,7 @@ class SwitchUserController extends Controller
         return $this->goHome();
     }
 
+
     public function actionGetList($submittedStatus, $countryId, $regionId)
     {
         if ($regionId == "") {
@@ -81,4 +82,5 @@ class SwitchUserController extends Controller
         $array = ProfileHelper::getListForSwitch($submittedStatus, $countryId, $regionId);
         return ['result' => JsonAjaxField::dataSwitcher($array)];
     }
+
 }
