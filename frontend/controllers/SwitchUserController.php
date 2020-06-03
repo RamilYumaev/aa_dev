@@ -19,7 +19,7 @@ class SwitchUserController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'get-list'],
+                        'actions' => ['index', 'get-list', 'by-user-id'],
                         'allow' => true,
                         'roles' => ['call-center'],
                     ],
@@ -46,6 +46,19 @@ class SwitchUserController extends Controller
         }
         return $this->render('index', ['model' => $model]);
     }
+
+    public function actionByUserId($id){
+        $this->actionComeBack();
+        try {
+            \Yii::$app->user->identity->switchUser($id);
+            return $this->goHome();
+        } catch (\Exception $e) {
+            \Yii::$app->session->setFlash('error', 'Пользователь не найден!');
+        }
+        return $this->goHome();
+    }
+
+
 
     public function actionComeBack()
     {
