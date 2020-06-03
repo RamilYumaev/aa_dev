@@ -32,7 +32,7 @@ class AuthService
 //        }
 
         $roleArray = [];
-        if($role == \olympic\helpers\auth\ProfileHelper::ROLE_ENTRANT)
+        if($role == ProfileHelper::ROLE_STUDENT)
         {
             $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT];
         }else{
