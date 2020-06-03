@@ -42,7 +42,7 @@ use yii\helpers\Html;
                         return $model->status == StatementHelper::STATUS_WALT ||
                                 $model->status == StatementHelper::STATUS_WALT_SPECIAL ?
                             Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                                ['communication/export-statement',
+                                ['data-entrant/communication/export-statement',
                                     'user' => $model->user_id, 'statement' => $model->id],
                                 ['data-method' => 'post', 'class' => 'btn btn-success']) : '';
                     }, 'format'=> 'raw' ],
