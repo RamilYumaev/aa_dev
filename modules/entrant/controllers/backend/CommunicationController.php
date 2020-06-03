@@ -362,7 +362,7 @@ class CommunicationController extends Controller
                 ->setUrl('get-access-token')
                 ->addHeaders(['Authorization' => 'Basic ' . base64_encode("$user:$pass")])
                 ->setOptions([
-                    'proxy' => 'proxy.server:8000',
+              //      'proxy' => 'proxy.server:8000',
                     'timeout' => 5,
                 ])->send();
             if (!$response->isOk) {
