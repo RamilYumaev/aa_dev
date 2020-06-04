@@ -90,7 +90,7 @@ class DataExportHelper
                 'school_type_id' => $anketa->current_edu_level,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
-                'overall_diploma_mark'=> $info->mark_spo ?? "",
+                'overall_diploma_mark' => $info->mark_spo ?? "",
                 'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
@@ -98,7 +98,7 @@ class DataExportHelper
                 'name_lat' => $fioLatin ? $fioLatin->surname : "",
                 'reception_method_id' => 3,
                 'mpgu_training_status' => $info->mpgu_training_status_id,
-                'chernobyl_status' =>  $info->chernobyl_status_id,
+                'chernobyl_status' => $info->chernobyl_status_id,
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
@@ -113,37 +113,39 @@ class DataExportHelper
         );
     }
 
-    public static function dataIncomingStatement($userId, $statementId) {
-        $incomingId = UserAis::findOne(['user_id'=>$userId]);
+    public static function dataIncomingStatement($userId, $statementId)
+    {
+        $incomingId = UserAis::findOne(['user_id' => $userId]);
         $result['applications'] = [];
         $anketa = Anketa::findOne(['user_id' => $userId]);
         /* @var  $currentApplication StatementCg */
         /* @var  $statement Statement */
         $statement = Statement::find()->user($userId)->statusNoDraft()->id($statementId)->one();
-            $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
-            foreach ($statement->statementCg as $currentApplication) {
-                $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
-                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
-                $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
-                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
-                $result['applications'][] = [
-                    'incoming_id'=> $incomingId->incoming_id,
-                    'competitive_group_id' => $currentApplication->cg->ais_id,
-                    'vi_status' => $noCse ? 1 : 0,
-                    'composite_discipline_id' => $composite,
-                    'preemptive_right_status' => $statement->special_right ?? 0,
-                    'preemptive_right_level' => $prRight ? $prRight : 0,
-                    'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 :0,
-                    'application_code'=>$statement->numberStatement,
-                    'cathedra_id' => $currentApplication->cathedra_id ?? null,
-                    'current_status_id' => '',
-                ];
+        $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
+        foreach ($statement->statementCg as $currentApplication) {
+            $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
+                $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+            $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
+                $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
+            $result['applications'][] = [
+                'incoming_id' => $incomingId->incoming_id,
+                'competitive_group_id' => $currentApplication->cg->ais_id,
+                'vi_status' => $noCse ? 1 : 0,
+                'composite_discipline_id' => $composite,
+                'preemptive_right_status' => $statement->special_right ?? 0,
+                'preemptive_right_level' => $prRight ? $prRight : 0,
+                'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 : 0,
+                'application_code' => $statement->numberStatement,
+                'cathedra_id' => $currentApplication->cathedra_id ?? null,
+                'current_status_id' => '',
+            ];
         }
         return $result;
     }
 
-    public static function dataIncomingStatementIa($userId, $statementId) {
-        $incomingId = UserAis::findOne(['user_id'=>$userId]);
+    public static function dataIncomingStatementIa($userId, $statementId)
+    {
+        $incomingId = UserAis::findOne(['user_id' => $userId]);
         /* @var $currentIa StatementIa */
         /* @var $statementIndividualAchievements StatementIndividualAchievements */
         $statementIndividualAchievements = StatementIndividualAchievements::find()->user($userId)
@@ -160,11 +162,11 @@ class DataExportHelper
                 'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
                 'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
                 'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
-                'document_authority_code' =>'',
+                'document_authority_code' => '',
                 'document_authority_country_id' => "",
                 'diploma_authority' => '',
                 'diploma_specialty_id' => '',
-                'diploma_end_year' =>'',
+                'diploma_end_year' => '',
                 'surname' => '',
                 'name' => '',
                 'patronymic' => '',
@@ -180,17 +182,17 @@ class DataExportHelper
     public static function dataCSE($userId)
     {
         $cse = CseViSelectHelper::dataInAIASCSE($userId);
-        $n =0;
-        if($cse) {
+        $n = 0;
+        if ($cse) {
             $result['documentsCse'] = [];
             foreach ($cse as $key => $value) {
-                $result['documentsCse'][$n]  =
+                $result['documentsCse'][$n] =
                     [
                         'year' => $key,
                         'type_id' => 1,
                     ];
                 foreach ($cse[$key] as $data) {
-                    $result['documentsCse'][$n]['subject'][]= [
+                    $result['documentsCse'][$n]['subject'][] = [
                         'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
                         'mark' => $data['mark'],
                     ];
@@ -205,10 +207,10 @@ class DataExportHelper
 
     public static function cse($userId)
     {
-        $cse = CseSubjectResult::find()->where(['user_id' => $userId]);
+        $cse = CseSubjectResult::find()->andWhere(['user_id' => $userId])->all();
         if ($cse) {
             $result['documentsCse'] = [];
-            foreach ($cse->all() as $key => $value) {
+            foreach ($cse as $key => $value) {
                 $result['documentsCse'][$key] =
                     [
                         'year' => $value->year,
@@ -217,15 +219,15 @@ class DataExportHelper
                 foreach ($value->dateJsonDecode() as $item => $mark) {
 
                     $result['documentsCse'][$key]['subject'][] = [
-                        'cse_subject_id' =>  DictCseSubjectHelper::aisId($item),
+                        'cse_subject_id' => DictCseSubjectHelper::aisId($item),
                         'mark' => $mark,
                     ];
                 }
-                return $result;
             }
+            return $result;
 
-            return [];
         }
+        return [];
     }
 
 
@@ -266,9 +268,9 @@ class DataExportHelper
             ];
         }
 
-        foreach (OtherDocument::find()->where(['user_id'=>$userId, 'type_note'=> null])
-                     ->andWhere(['not in','id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
-                     ->all() as  $currentDocument) {
+        foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
+                     ->andWhere(['not in', 'id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
+                     ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 2,
@@ -277,20 +279,20 @@ class DataExportHelper
                 'document_number' => $currentDocument->number,
                 'document_issue' => $currentDocument->date,
                 'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
-                'document_authority_code' =>'',
+                'document_authority_code' => '',
                 'document_authority_country_id' => "",
                 'diploma_authority' => '',
                 'diploma_specialty_id' => '',
-                'diploma_end_year' =>'',
+                'diploma_end_year' => '',
                 'surname' => '',
                 'name' => '',
                 'patronymic' => '',
-                'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount :1,
+                'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                 'main_status' => 0,
             ];
         }
 
-        foreach (DocumentEducation::find()->where(['user_id'=>$userId])->all() as  $currentDocument) {
+        foreach (DocumentEducation::find()->where(['user_id' => $userId])->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 3,
@@ -303,9 +305,9 @@ class DataExportHelper
                 'document_authority_country_id' => $currentDocument->school->country_id,
                 'diploma_authority' => $currentDocument->schoolName,
                 'diploma_specialty_id' => '',
-                'diploma_end_year' =>$currentDocument->year,
+                'diploma_end_year' => $currentDocument->year,
                 'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
-                'surname' => $currentDocument->surname ??  $profile->last_name,
+                'surname' => $currentDocument->surname ?? $profile->last_name,
                 'name' => $currentDocument->name ?? $profile->first_name,
                 'amount' => 1,
                 'main_status' => 1,

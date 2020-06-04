@@ -54,7 +54,7 @@ class DocumentEducationForm extends Model
                 'whenClient' => 'function (attribute, value) { return $("#documenteducationform-fio").val() == false}'],
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],
-            [['date'], 'date', 'format' => 'dd.mm.yyyy', 'max'=> date("d.m.Y")],
+            [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             [['year'], 'date', 'format' => 'yyyy'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_EDUCATION)
             ],
