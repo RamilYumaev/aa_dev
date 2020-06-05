@@ -88,9 +88,22 @@ class FileCgHelper
         return "Заявление ПK МПГУ ПД" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileNameRejection($extension = '.docx')
+    {
+        return "Заявление ПK МПГУ ОТЗЫВ" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
+
+
+
     public static function fileNameConsent($extension = '.docx')
     {
         return "Заявление ПK МПГУ ЗОС" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
+    public static function fileNameStatementOther($extension = '.docx')
+    {
+        return "Согласие на заключение договора о целевом обучении" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
 

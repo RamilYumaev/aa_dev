@@ -7,18 +7,23 @@ namespace modules\entrant\services;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
+use modules\entrant\repositories\StatementRejectionCgConsentRepository;
 
 class StatementConsentCgService
 {
     private $repository;
     private $cgRepository;
+    private $rejectionCgConsentRepository;
 
-    public function __construct(StatementConsentCgRepository $repository, StatementCgRepository $cgRepository)
+    public function __construct(StatementConsentCgRepository $repository, StatementCgRepository $cgRepository,
+                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository)
     {
         $this->repository = $repository;
         $this->cgRepository = $cgRepository;
+        $this->rejectionCgConsentRepository =$rejectionCgConsentRepository;
     }
 
     public function create($id, $userId)
@@ -48,6 +53,14 @@ class StatementConsentCgService
         $this->repository->remove($statement);
     }
 
+    public function rejection($id) {
+        $statement = $this->repository->get($id);
+        if (!$statement) {
+            throw new \DomainException('Заявление о зачислении не найдено.');
+        }
+        $this->rejectionCgConsentRepository->isStatementConsentRejection($statement->id);
+        $this->rejectionCgConsentRepository->save(StatementRejectionCgConsent::create($statement->id));
+    }
 
 
 }

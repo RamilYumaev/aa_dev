@@ -89,10 +89,9 @@ class StatementController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-
         return $render;
-
     }
+
 
 
     /**
@@ -116,6 +115,23 @@ class StatementController extends Controller
     {
         try {
             $this->service->remove($id, Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionRejection($id)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->rejection($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

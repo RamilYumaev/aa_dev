@@ -3,6 +3,8 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $others yii\db\BaseActiveRecord */
 /* @var $other modules\entrant\models\OtherDocument */
@@ -30,6 +32,12 @@ use modules\entrant\widgets\file\FileListWidget;
                             'post', 'confirm' => 'Вы уверены, что хотите удалить данный прочий документ?']])?>
                 </td><?php endif; ?>
                     <td>
+                        <?= $other->type_note == \modules\entrant\helpers\OtherDocumentHelper::STATEMENT_TARGET ?
+                          Html::a('Скачать заявление', ['other-document/pdf', 'id' =>  $other->id],
+                                            ['class' => 'btn btn-large btn-warning'])
+                            : "";
+
+                        ?>
                     <?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
             </tr>
             <tr>

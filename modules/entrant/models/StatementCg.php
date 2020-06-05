@@ -2,6 +2,9 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\queries\StatementCgQuery;
+use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 
@@ -13,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property integer $cg_id;
  * @property integer $cathedra_id;
  * @property integer $status_id;
+ * @property integer $count_pages;
  **/
 
 class StatementCg extends ActiveRecord
@@ -39,6 +43,24 @@ class StatementCg extends ActiveRecord
       return $this->hasOne(Statement::class, ['id'=>'statement_id']);
     }
 
+
+    public function setCountPages($countPages) {
+        $this->count_pages = $countPages;
+    }
+
+    public function setStatus($status) {
+        $this->status_id = $status;
+    }
+
+    public function isStatusDraft() {
+        return $this->status_id == StatementHelper::STATUS_DRAFT;
+    }
+
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+
     public function getStatementConsent() {
         return $this->hasMany(StatementConsentCg::class, ['statement_cg_id'=>'id']);
     }
@@ -64,6 +86,11 @@ class StatementCg extends ActiveRecord
              }
          }
          return false;
+    }
+
+    public static function find(): StatementCgQuery
+    {
+        return new StatementCgQuery(static::class);
     }
 
     public function attributeLabels()

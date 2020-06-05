@@ -10,9 +10,12 @@ use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCgConsent;
 use Yii;
 
 class FileHelper
@@ -57,7 +60,10 @@ class FileHelper
             Agreement::class,
             StatementIndividualAchievements::class,
             StatementConsentPersonalData::class,
-            StatementConsentCg::class
+            StatementConsentCg::class,
+            StatementCg::class,
+            StatementRejection::class,
+            StatementRejectionCgConsent::class
         ];
     }
 
@@ -81,6 +87,9 @@ class FileHelper
             Statement::class => 0,
             StatementConsentPersonalData::class => 0,
             StatementConsentCg::class => 0,
+            StatementRejection::class => 0,
+            StatementRejectionCgConsent::class =>0,
+            StatementCg::class =>0,
         ];
     }
 

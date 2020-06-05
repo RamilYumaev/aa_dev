@@ -6,9 +6,18 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictCountryHelper;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\StatementCgRepository;
+use modules\entrant\repositories\StatementRejectionCgConsentRepository;
+use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\UserCgRepository;
 
@@ -17,17 +26,28 @@ class StatementService
     private $repository;
     private $manager;
     private $cgRepository;
+    private $otherDocumentRepository;
+    private $statementRejectionRepository;
+    private $rejectionCgConsentRepository;
     /**
      * @var UserCgRepository
      */
     private $userCgRepository;
 
-    public function __construct(StatementRepository $repository, UserCgRepository $userCgRepository,  StatementCgRepository $cgRepository, TransactionManager $manager)
+    public function __construct(StatementRepository $repository, UserCgRepository $userCgRepository,
+                                StatementCgRepository $cgRepository,
+                                OtherDocumentRepository $otherDocumentRepository,
+                                StatementRejectionRepository $statementRejectionRepository,
+                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
+                                TransactionManager $manager)
     {
         $this->repository = $repository;
         $this->manager = $manager;
         $this->cgRepository = $cgRepository;
         $this->userCgRepository = $userCgRepository;
+        $this->otherDocumentRepository = $otherDocumentRepository;
+        $this->statementRejectionRepository = $statementRejectionRepository;
+        $this->rejectionCgConsentRepository  = $rejectionCgConsentRepository;
     }
 
     public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId)
@@ -46,6 +66,9 @@ class StatementService
                 } else {
                     $this->statementCg($data, $userId, $modelOne->id);
                 }
+                if($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
+                    $this->addOtherDoc($userId, OtherDocumentHelper::STATEMENT_TARGET);
+                }
         });
     }
 
@@ -54,6 +77,28 @@ class StatementService
         $statement->setCountPages($count);
         $this->repository->save($statement);
     }
+
+    public function addCountPagesRejection($id, $count){
+        $statement = $this->statementRejectionRepository->get($id);
+        $statement->setCountPages($count);
+        $this->statementRejectionRepository->save($statement);
+    }
+
+    public function addCountPagesCg($id, $count){
+        $statement = $this->cgRepository->get($id);
+        $statement->setCountPages($count);
+        $this->cgRepository->save($statement);
+    }
+
+    public function addCountPagesConsent($id, $count){
+        $statement = $this->rejectionCgConsentRepository->get($id);
+        $statement->setCountPages($count);
+        $this->rejectionCgConsentRepository->save($statement);
+    }
+
+
+
+
 
     public function remove($id, $userId){
         $statementCg = $this->cgRepository->getUser($id, $userId);
@@ -68,11 +113,36 @@ class StatementService
             }
             $this->userCgRepository->remove($userCg);
             if($statement->getStatementCg()->count() == 1) {
+                if($statement->special_right == DictCompetitiveGroupHelper::TARGET_PLACE) {
+                    $this->otherDocDelete($statement->user_id, OtherDocumentHelper::STATEMENT_TARGET);
+                }
                 $this->repository->remove($statement);
             } else {
                 $this->cgRepository->remove($statementCg);
             }
         });
+    }
+
+    public function rejection($id) {
+        $statement = $this->repository->get($id);
+        $this->statementRejectionRepository->isStatementRejection($statement->id);
+        $this->statementRejectionRepository->save(StatementRejection::create($statement->id));
+    }
+
+
+    private function addOtherDoc($user_id, $type) {
+        $other = $this->otherDocumentRepository->getUserNote($user_id, $type);
+        if(!$other && !\Yii::$app->user->identity->eighteenYearsOld()) {
+            $this->otherDocumentRepository->save(OtherDocument::createNote(
+                $type, DictIncomingDocumentTypeHelper::ID_AFTER_DOC, $user_id,null ));
+            }
+
+    }
+    private function otherDocDelete($user_id, $type) {
+        $other = $this->otherDocumentRepository->getUserNote($user_id, $type);
+        if($other) {
+            $this->otherDocumentRepository->remove($other);
+        }
     }
 
     private function statementCg($data, $userId, $statementId){
