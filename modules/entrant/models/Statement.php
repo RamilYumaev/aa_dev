@@ -68,6 +68,11 @@ class Statement extends ActiveRecord
         return $this->status == StatementHelper::STATUS_DRAFT;
     }
 
+    public function isStatusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED;
+    }
+
+
 
 
     public static function find(): StatementQuery
@@ -85,6 +90,10 @@ class Statement extends ActiveRecord
 
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getStatementRejection() {
+        return $this->hasOne(StatementRejection::class, ['statement_id' => 'id']);
     }
 
     public function getFiles() {

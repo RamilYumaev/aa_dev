@@ -11,11 +11,13 @@ class OtherDocumentHelper
     const TRANSLATION_PASSPORT = 1;
     const TRANSLATION_DOCUMENT_EDU = 2;
     const TRANSLATION_DOCUMENT_NAME = 3 ;
+    const STATEMENT_TARGET = 4;
 
     public static function translationList() {
         return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостворяющего личность",
             self::TRANSLATION_DOCUMENT_EDU  => "Перевод документа об образовании",
             self::TRANSLATION_DOCUMENT_NAME  => "Документ о смене ФИО",
+            self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении'
         ];
     }
 

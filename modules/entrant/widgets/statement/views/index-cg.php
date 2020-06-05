@@ -39,8 +39,35 @@ use modules\entrant\widgets\file\FileListWidget;
                                     </td>
                                 </tr>
                                  <tr>
-                                     <td colspan="2"> <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id  ]) ?></td>
-                                 </tr>
+                                    <td colspan="2"> <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id  ]) ?></td>
+                                </tr>
+                                 <?php if ($consent->statusAccepted()): ?>
+                                    <tr>
+                                    <td><?= $consent->statementCgRejection ?
+                                    Html::a("Удалить отзыв", ['statement-consent-cg/rejection-remove', 'id' =>  $consent->statementCgRejection->id], ['class'=> 'btn btn-danger', 'data' =>[
+                                        'confirm'  => "Вы уверены, что хотите отозвать заявление?",
+                                        'method'=> 'post']]) :
+                                    Html::a("Отозвать", ['statement-consent-cg/rejection', 'id' =>  $consent->id], ['class'=> 'btn btn-info', 'data' =>[
+                                        'confirm'  => "Вы уверены, что хотите отозвать заявление?",
+                                        'method'=> 'post']]) ?>
+                                </td>
+                                </tr>
+                                <?php endif; ?>
+                                <?php if($consent->statementCgRejection) : ?>
+                                    <tr>
+                                        <td>
+                                        <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf-consent', 'id' =>  $consent->statementCgRejection->id],
+                                            ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget([
+                                            'record_id' =>  $consent->statementCgRejection->id,
+                                            'model' => \modules\entrant\models\StatementRejectionCgConsent::class ]) ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <?= FileListWidget::widget([ 'record_id' =>$consent->statementCgRejection->id, 'model' => \modules\entrant\models\StatementRejectionCgConsent::class, 'userId' =>  $statement->statement->user_id ]) ?>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </table>
                      </td>

@@ -5,9 +5,12 @@ use modules\entrant\forms\FileForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
@@ -72,7 +75,11 @@ class FileController extends Controller
         if(($model == Statement::class && !$modelOne->count_pages) ||
             ($model == StatementIndividualAchievements::class && !$modelOne->count_pages) ||
             ($model == StatementConsentPersonalData::class && !$modelOne->count_pages) ||
-            ($model == StatementConsentCg::class && !$modelOne->count_pages))
+            ($model == StatementConsentCg::class && !$modelOne->count_pages) ||
+            ($model == StatementRejection::class && !$modelOne->count_pages) ||
+            ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
+            ($model == StatementCg::class && !$modelOne->count_pages)
+        )
         {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
             return $this->redirect(Yii::$app->request->referrer);
@@ -152,6 +159,15 @@ class FileController extends Controller
     protected function model($modelOne, $id): BaseActiveRecord
     {
         if ($modelOne == StatementConsentCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne == StatementCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne == StatementRejection::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne == StatementRejectionCgConsent::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
             return $model;
         }
         if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => $this->getUser() ])) !== null)) {
