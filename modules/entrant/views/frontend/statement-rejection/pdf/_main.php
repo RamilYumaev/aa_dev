@@ -12,6 +12,9 @@ $profile = ProfileHelper::dataArray($statementRejection->statement->user_id);
 $passport = PassportDataHelper::dataArray($statementRejection->statement->user_id);
 
 ?>
+
+
+
 <p>Заявление №<?= $statementRejection->statement->numberStatement ?></p>
 <?php foreach ($statementRejection->statement->statementCg as $statementCg) : ?>
     <?= $statementRejection->statement->speciality->codeWithName ?>

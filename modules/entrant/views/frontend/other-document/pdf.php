@@ -100,7 +100,7 @@
         <td width="15px"></td>
         <td></td>
         <td></td>
-        <td width="150px" class="fs-7 text-center"><i>(подпись Субъекта)</i></td>
+        <td width="120px" class="fs-7 text-center"><i>(подпись родителя или другого законного представителя)</i></td>
         <td></td>
         <td width="150px" class="fs-7 text-center"><i>(ФИО)</i></td>
         <td></td>
