@@ -1,13 +1,12 @@
 <?php
 
-
 namespace modules\entrant\controllers\backend;
+
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\StatementConsentCgService;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
