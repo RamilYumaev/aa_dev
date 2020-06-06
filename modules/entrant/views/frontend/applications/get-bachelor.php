@@ -77,10 +77,10 @@ foreach ($currentFaculty as $faculty) {
 
         foreach ($cgFaculty as $currentCg) {
             
-                if(!$setting->allowCgFroDeadLine($currentCg))
-                {
-                    continue;
-                }
+//                if(!$setting->($currentCg))
+//                {
+//                    continue;
+//                }
 
             if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
                 continue;
@@ -179,6 +179,7 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
     <div class="row">
+        <?=\date("Y-m-d G:i:s");?>
         <div class="col-md-6">
             <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
             - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>

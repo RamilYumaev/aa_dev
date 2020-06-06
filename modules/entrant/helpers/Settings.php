@@ -11,21 +11,32 @@ class Settings extends Model
 {
     public $ZukSpoOchMoscowBudget = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет Москва
     public $ZukSpoOchFilialBudget = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет Москва
+
     public $ZukSpoOchMoscowContract = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет филиалы
     public $ZukSpoOchFilialContract = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО договор филиалы
-    public $ZukBacOchBudgetCse = '2020-06-03 00:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
+
+    public $ZukBacOchBudgetCse = '2020-06-07 01:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
     public $ZukBacOchBudgetVi = '2020-08-25 00:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата бюджетной основы
-    public $ZukBacZaOchBudgetFilialCse = '2020-08-25 00:00:00'; // Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата бюджетной основы, НЕ для филиалов
-    public $ZukBacZaOchBudgetFilialVi = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата бюджетной основы, НЕ для филиалов
+
+    public $ZukBacZaOchBudgetCse = '2020-06-05 00:00:00'; // Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата бюджетной основы, НЕ для филиалов
+    public $ZukBacZaOchBudgetVi = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата бюджетной основы, НЕ для филиалов
+
     public $ZukBacOchContractCse = "2020-08-25 00:00:00"; // Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы
     public $ZukBacOchContractVi = "2020-08-25 00:00:00"; // Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата договорной основы
+
     public $ZukBacZaOchContractMoscowCse = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата договорной основы, НЕ для филиалов
     public $ZukBacZaOchContractFilialVi = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата договорной основы, НЕ для филиалов
+
     public $ZukMagOchBudget = "2020-08-25 00:00:00"; //Абитуриент - окончание приема очных и очно-заочных заявлений магистратуры бюджет
     public $ZukMagZaOchBudget = "2020-08-25 00:00:00"; //Абитуриент - окончание приема заочных заявлений магистратуры бюджет
+
     public $ZukAspOchBudget = "2020-08-25 00:00:00"; // Абитуриент - окончание приема очных заявлений аспирантуры бюджет
+
     public $ZukAspOchContract = "2020-08-25 00:00:00"; // Абитуриент - окончание приема очных заявлений аспирантуры договор
     public $ZukAspZaOchContract = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений аспирантуры договор
+
+    public $ZukUmsGovline = "2020-06-06 00:00:00";
+
 
     public $ZosSpoOchMoscowBudget = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет Москва
     public $ZosSpoOchFilialBudget = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет Москва
@@ -56,19 +67,58 @@ class Settings extends Model
 
     public $bansExport = false;
 
-    public function allowCgForDeadLine(DictCompetitiveGroup $cg, $depart)
+    public function allowCgForDeadLineContract(DictCompetitiveGroup $cg, $depart)
     {
         $anketa = \Yii::$app->user->identity->anketa();
-        if (($cg->isOchCg() || $cg->isOchZaOchCg()) && !$cg->isUmsCg()) {
-            return $this->allowBacCseOchBudget();
+        if ($anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
+            if (($cg->isOchCg() || $cg->isOchZaOchCg()) && !$cg->isUmsCg()) {
+                return $this->allowBacCseOchContact();
+            }
+        } else {
+            if (($cg->isOchCg() || $cg->isOchZaOchCg()) && !$cg->isUmsCg()) {
+                return $this->allowBacCseOchContact();
+            }
         }
 
         return true;
     }
 
+    public function allowCgForDeadLineBudget(DictCompetitiveGroup $cg)
+    {
+        if (($cg->isOchCg() || $cg->isOchZaOchCg()) && $cg->isBudget() && !$cg->isUmsCg()) {
+            return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
+        }
+
+        if ($cg->isZaOchCg() && $cg->isBudget() && !$cg->isUmsCg()) {
+            return strtotime($this->ZukBacZaOchBudgetCse) > $this->currentDate();
+        }
+
+        if ($cg->isUmsCg() && $cg->isBudget()) {
+            return strtotime($this->ZukUmsGovline) > $this->currentDate();
+        }
+
+        return true;
+    }
+
+    public function allowCgViForDeadLine(DictCompetitiveGroup $cg)
+    {
+
+    }
+
+
+    public function allowViOchBackBudget()
+    {
+        return strtotime($this->ZukBacOchBudgetVi) > $this->currentDate();
+    }
+
     public function allowBacCseOchBudget()
     {
         return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
+    }
+
+    public function allowBacCseOchContact()
+    {
+        return strtotime($this->ZukBacOchContractCse) > $this->currentDate();
     }
 
     public function allowBacViOchBudget()
@@ -81,7 +131,7 @@ class Settings extends Model
         return strtotime($this->ZukBacZaOchContractMoscowCse) > $this->currentDate();
     }
 
-    public function allowBacViZaOchBudget()
+    public function allowBacViZaOchBudgetMoscow()
     {
         return true;
     }
@@ -91,7 +141,7 @@ class Settings extends Model
      * @return bool
      */
 
-    public function allowBacCseOchContract($depart)
+    public function allowBacCseOchContractMoscow()
     {
         return true;
     }
@@ -134,7 +184,8 @@ class Settings extends Model
 
     public function currentDate()
     {
-        return strtotime(\date("Y-m-d h:i:s"));
+        \date_default_timezone_set('Europe/Moscow');
+        return strtotime(\date("Y-m-d G:i:s"));
     }
 
 

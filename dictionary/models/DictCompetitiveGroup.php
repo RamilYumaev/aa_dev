@@ -152,10 +152,15 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function findBudgetAnalog($cgContract): array
     {
         $anketa = \Yii::$app->user->identity->anketa();
+        $setting = \Yii::$app->user->identity->setting();
+
 
         $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
-        if ($cgBudget && $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) {
+        if ($cgBudget &&
+            $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
+            $setting->allowCgForDeadLineBudget($cgBudget)
+        ) {
             return [
                 "status" => 1,
                 "cgBudgetId" => $cgBudget->id,
