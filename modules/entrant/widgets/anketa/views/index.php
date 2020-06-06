@@ -7,7 +7,6 @@ use yii\widgets\DetailView;
 /* @var $anketa modules\entrant\models\Anketa */
 /* @var $isUserSchool bool */
 
-
 ?>
 
 <?php if ($anketa) : ?>

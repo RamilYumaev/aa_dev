@@ -10,12 +10,13 @@ use Yii;
 class StatementIndexWidget extends Widget
 {
     public $userId;
+    public $view = 'statement-index';
 
     public function run()
     {
         $model = Statement::find()->user($this->userId)->statusNoDraft()
             ->all();
-        return $this->render('statement-index', [
+        return $this->render($this->view, [
             'statements'=> $model,
         ]);
     }

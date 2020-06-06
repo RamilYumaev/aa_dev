@@ -13,6 +13,7 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementCgReadRepository;
 use modules\entrant\readRepositories\StatementIAReadRepository;
 use modules\entrant\readRepositories\StatementReadRepository;
 use yii\helpers\ArrayHelper;
@@ -91,6 +92,14 @@ class StatementHelper
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
             ->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
+    public static function columnStatementCg($column, $value) {
+      $query = (new StatementCgReadRepository(self::entrantJob()))
+            ->readData()
+            ->select($column)
+            ->groupBy($column)->all();
+        return ArrayHelper::map($query, $column, $value);
     }
 
 }

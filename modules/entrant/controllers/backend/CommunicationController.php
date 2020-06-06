@@ -366,7 +366,7 @@ class CommunicationController extends Controller
                     'timeout' => 5,
                 ])->send();
             if (!$response->isOk) {
-                Yii::$app->session->setFlash("error", "Ошибка!" . $response->data);
+                Yii::$app->session->setFlash("error", "Ошибка! ".$response->statusCode);
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $result = $response->data;
