@@ -32,7 +32,7 @@ class Identity implements IdentityInterface
 
     public function getId(): int
     {
-       return $this->user->id;
+        return $this->user->id;
 
     }
 
@@ -60,7 +60,7 @@ class Identity implements IdentityInterface
 
     public function jobEntrant()
     {
-        return JobEntrant::findOne(['user_id'=> $this->getId()]);
+        return JobEntrant::findOne(['user_id' => $this->getId()]);
     }
 
     public function eighteenYearsOld(): bool
@@ -82,14 +82,14 @@ class Identity implements IdentityInterface
     public function switchUser($userId)
     {
         $initialId = $this->getId();
+        \Yii::warning("initialId ".$initialId);
         if ($userId !== $initialId) {
             $userModel = User::findOne($userId);
             $user = new Identity($userModel);
             $duration = 0;
             \Yii::$app->user->switchIdentity($user, $duration);
 
-            if(!\Yii::$app->session->get('user.idbeforeswitch'))
-            {
+            if (!\Yii::$app->session->get('user.idbeforeswitch')) {
                 \Yii::$app->session->set('user.idbeforeswitch', $initialId);
             }
         }

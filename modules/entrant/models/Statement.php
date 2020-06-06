@@ -68,6 +68,11 @@ class Statement extends ActiveRecord
         return $this->status == StatementHelper::STATUS_DRAFT;
     }
 
+    public function isStatusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED;
+    }
+
+
 
 
     public static function find(): StatementQuery
@@ -85,6 +90,10 @@ class Statement extends ActiveRecord
 
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getStatementRejection() {
+        return $this->hasOne(StatementRejection::class, ['statement_id' => 'id']);
     }
 
     public function getFiles() {
@@ -138,6 +147,11 @@ class Statement extends ActiveRecord
         return  DictCompetitiveGroupHelper::specialRightName($this->special_right);
     }
 
+    public function isSpecialRightStatement()
+    {
+        return  $this->special_right==DictCompetitiveGroupHelper::SPECIAL_RIGHT ||
+            $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE;
+    }
 
     public function columnIdCg(){
         return $this->getStatementCg()->select(['cg_id'])->column();

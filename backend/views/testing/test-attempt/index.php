@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php endif; ?>
 
 <?php
-if (\Yii::$app->user->can("rbac") && TestAttemptHelper::checkOldDateAttempt($olympic->date_time_finish_reg, $test->id)): ?>
+if (\Yii::$app->user->can("dev") && TestAttemptHelper::checkOldDateAttempt($olympic->date_time_finish_reg, $test->id)): ?>
     <?= Html::a("Обновить даты окончания попыток", ["update-attempt", "testId"=>$test->id], ['class' => "btn btn-success"]) ?>
 <?php endif; ?>
 <div class="row">

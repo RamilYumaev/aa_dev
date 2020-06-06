@@ -39,6 +39,6 @@ use yii\widgets\DetailView;
         'model' => $document_education,
         'attributes' => $columns
     ]) ?>
-
+    <?php Box::end() ?>
 <?php endif; ?>
-<?php Box::end() ?>
+

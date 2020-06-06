@@ -4,9 +4,11 @@ namespace modules\entrant\searches;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\StatementReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -14,10 +16,12 @@ class StatementSearch extends  Model
 {
     public $faculty_id, $speciality_id, $edu_level, $special_right, $user_id, $date_from, $date_to;
     private $jobEntrant;
+    private $status;
 
-    public function __construct(JobEntrant $entrant, $config = [])
+    public function __construct(JobEntrant $entrant, $status, $config = [])
     {
         $this->jobEntrant = $entrant;
+        $this->status = $status;
         parent::__construct($config);
     }
 
@@ -35,7 +39,7 @@ class StatementSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Statement::find()->statusNoDraft()->orderByCreatedAtDesc();
+        $query = (new StatementReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -48,26 +52,8 @@ class StatementSearch extends  Model
             return $dataProvider;
         }
 
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
-
-        if($this->jobEntrant->isCategoryFOK()) {
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
-                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-        }
-
-        if($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
-        }
-
-        if($this->jobEntrant->isCategoryGraduate()) {
-            $query->andWhere([
-                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
-        }
-
-        if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
+        if($this->status) {
+            $query->andWhere(['statement.status'=>  $this->status]);
         }
 
         $query->andFilterWhere([

@@ -5,6 +5,9 @@ namespace modules\entrant\controllers\frontend;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\services\OtherDocumentService;
 use yii\base\Model;
@@ -120,6 +123,30 @@ class OtherDocumentController extends Controller
     }
 
     /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionPdf($id)
+    {
+        $other = $this->findModel($id);
+        if($other->type_note != OtherDocumentHelper::STATEMENT_TARGET) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('pdf', ["other" => $other ]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent( ".pdf"));
+        $render = $pdf->render();
+
+        return $render;
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
@@ -140,17 +167,24 @@ class OtherDocumentController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     *  @throws NotFoundHttpException
      */
     public function actionDelete($id)
     {
+        $model = $this->findModel($id);
+        if($model->isPhoto()) {
+            Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
+        }
         try {
             $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
+
+
     private function getUserId()
     {
         return  Yii::$app->user->identity->getId();

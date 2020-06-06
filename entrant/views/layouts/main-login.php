@@ -20,7 +20,7 @@ dmstr\web\AdminLteAsset::register($this);
 </head>
 <style>
     .mpgu-bg {
-        background-image: url("../../../img/logo.jpg");
+        background-image: url("../../web/img/fok-logo.jpg");
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;

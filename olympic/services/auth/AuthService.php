@@ -6,6 +6,7 @@ use olympic\forms\auth\LoginForm;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
 use olympic\repositories\auth\ProfileRepository;
+use \olympic\helpers\auth\ProfileHelper;
 
 class AuthService
 {
@@ -30,8 +31,16 @@ class AuthService
 //            Если письмо не пришло, то проверьте, пожалуйста, папку Спам.');
 //        }
 
+        $roleArray = [];
+        if($role == ProfileHelper::ROLE_STUDENT)
+        {
+            $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT];
+        }else{
+            $roleArray  = [$role];
+        }
+
         $profile = $this->profileRepository->getUser($user->id);
-        if ($profile->role !== $role) {
+        if (!in_array($profile->role, $roleArray)) {
             throw new \DomainException('У Вас нет прав для входа.');
         }
         return $user;

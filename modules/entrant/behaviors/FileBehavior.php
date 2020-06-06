@@ -28,7 +28,7 @@ class FileBehavior extends Behavior
     public function beforeDelete($event)
     {
         if($this->fileExits()) {
-            throw  new  \DomainException("Удаление невозможно, так как у вас на эти данные имеется файл сканирования");
+            throw  new  \DomainException("Удаление невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные");
         }
     }
 

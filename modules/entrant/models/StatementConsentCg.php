@@ -74,6 +74,10 @@ class StatementConsentCg extends ActiveRecord
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);
     }
 
+    public function getStatementCgRejection() {
+        return $this->hasOne(StatementRejectionCgConsent::class, ['statement_cg_consent_id'=>'id']);
+    }
+
     public function attributeLabels()
     {
         return ["created_at" => "Дата создания", 'statement_cg_id' => "Конкурсная группа", "status_id" => "Статус"];

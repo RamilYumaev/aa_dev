@@ -104,6 +104,24 @@ class StatementConsentCgController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionRejection($id)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->rejection($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
 
 
     private function  getUser() {

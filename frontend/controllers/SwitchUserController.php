@@ -19,7 +19,7 @@ class SwitchUserController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'get-list'],
+                        'actions' => ['index', 'get-list', 'by-user-id'],
                         'allow' => true,
                         'roles' => ['call-center'],
                     ],
@@ -47,6 +47,19 @@ class SwitchUserController extends Controller
         return $this->render('index', ['model' => $model]);
     }
 
+    public function actionByUserId($id)
+    {
+        \Yii::warning("в сессии ".\Yii::$app->session->get('user.idbeforeswitch'));
+        try {
+            \Yii::$app->user->identity->switchUser($id);
+            return $this->goHome();
+        } catch (\Exception $e) {
+            \Yii::$app->session->setFlash('error', 'Пользователь не найден!');
+        }
+        return $this->goHome();
+    }
+
+
     public function actionComeBack()
     {
         if ($adminUser = \Yii::$app->session->get('user.idbeforeswitch')) {
@@ -59,6 +72,7 @@ class SwitchUserController extends Controller
         return $this->goHome();
     }
 
+
     public function actionGetList($submittedStatus, $countryId, $regionId)
     {
         if ($regionId == "") {
@@ -68,4 +82,5 @@ class SwitchUserController extends Controller
         $array = ProfileHelper::getListForSwitch($submittedStatus, $countryId, $regionId);
         return ['result' => JsonAjaxField::dataSwitcher($array)];
     }
+
 }

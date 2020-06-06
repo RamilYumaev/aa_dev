@@ -87,17 +87,20 @@ class JobEntrant extends ActiveRecord
         return $this->category_id == DictFacultyHelper::COLLAGE;
     }
 
-
-
     public function getStatusName() {
         return JobEntrantHelper::statusList()[$this->status];
     }
-
 
     public function isStatusDraft() {
         return $this->status == JobEntrantHelper::DRAFT;
     }
 
+    public function getFullNameJobEntrant() {
+         if($this->isCategoryFOK()) {
+             return $this->category.". ".$this->faculty->full_name;
+         }
+        return $this->category;
+    }
 
     public function attributeLabels()
     {

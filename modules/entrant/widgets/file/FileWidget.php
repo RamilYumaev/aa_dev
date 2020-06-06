@@ -8,10 +8,11 @@ class FileWidget extends Widget
 {
     public $model;
     public $record_id;
+    public $url = "file/upload";
 
     public function run()
     {
-        return $this->render('button', ['hash' => $this->generateModelHash(), 'id' => $this->record_id]);
+        return $this->render('button', ['hash' => $this->generateModelHash(), 'url'=> $this->url, 'id' => $this->record_id]);
     }
 
     public function generateModelHash() {

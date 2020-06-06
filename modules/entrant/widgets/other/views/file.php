@@ -3,6 +3,8 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $others yii\db\BaseActiveRecord */
 /* @var $other modules\entrant\models\OtherDocument */
@@ -24,10 +26,22 @@ use modules\entrant\widgets\file\FileListWidget;
                 <td><?= $other->typeName ?></td>
                 <td><?= $other->otherDocumentFull ?></td>
                     <td><?= $other->noteOrTypeNote ?></td>
-                <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
+                    <?php if(!$other->files) :?>
+                <td><?= \yii\helpers\Html::a("Удалить",
+                        ['other-document/delete', 'id'=> $other->id ], ['class' => "btn btn-danger", 'data'=>['method'=>
+                            'post', 'confirm' => 'Вы уверены, что хотите удалить данный прочий документ?']])?>
+                </td><?php endif; ?>
+                    <td>
+                        <?= $other->type_note == \modules\entrant\helpers\OtherDocumentHelper::STATEMENT_TARGET ?
+                          Html::a('Скачать заявление', ['other-document/pdf', 'id' =>  $other->id],
+                                            ['class' => 'btn btn-large btn-warning'])
+                            : "";
+
+                        ?>
+                    <?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
             </tr>
             <tr>
-              <td colspan="4"> <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>
+              <td colspan="<?= $other->files? 4:5 ?>"> <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>
                 </td> </tr>
             <?php endforeach; ?>
         </table>
