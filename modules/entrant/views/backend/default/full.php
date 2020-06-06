@@ -29,6 +29,7 @@ $userId = $profile->user_id;
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(['userId' => $userId, 'view' => 'fio-backend']); ?>
     </div>
+
 <?php endif; ?>
 <?php if (!$anketa->isNoRequired()): ?>
     <div class="mt-20 table-responsive">

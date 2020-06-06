@@ -179,13 +179,14 @@ class DictCompetitiveGroupHelper
                 $value['specialization_id'],
                 $value['faculty_id'],
                 $value['education_form_id'],
-                $value['financing_type_id']);
+                $value['financing_type_id'],
+                $value['special_right_id']);
         };
         return $array;
 
     }
 
-    public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id, $budget)
+    public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id, $budget, $special_right)
     {
         $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
         $speciality = DictSpecialityHelper::specialityCodeName($speciality_id);
@@ -193,6 +194,7 @@ class DictCompetitiveGroupHelper
         $faculty = DictFacultyHelper::facultyName($faculty_id);
         $form_edu = self::formName($education_form_id);
         $budget = self::financingTypeName($budget);
+        $specialRight = $special_right ? self::specialRightName($special_right) : "";
 
         return $year
             . " / " . $edu_level
@@ -200,7 +202,8 @@ class DictCompetitiveGroupHelper
             . " / " . $speciality
             . " / " . $specialization
             . " / " . StringHelper::mb_ucfirst($form_edu)
-            . " / " . $budget;
+            . " / " . $budget
+            . ($special_right ? " / " . $specialRight : "");
     }
 
     public static function getUrl($level, $specialRight, $govLineStatus)
