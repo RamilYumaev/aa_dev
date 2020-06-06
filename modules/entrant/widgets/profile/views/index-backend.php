@@ -9,9 +9,8 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 
 ?>
 <div class="box box-widget widget-user-2">
-    <div class="widget-user-header bg-yellow">
+    <div class="widget-user-header bg-gray">
         <div class="widget-user-image">
-            <img class="img-circle" src="/img/nophoto.png" alt="User Avatar">
         </div>
         <h3 class="widget-user-username"><?= $profile->fio; ?></h3>
         <h5 class="widget-user-desc"><?= $profile->phone; ?></h5>

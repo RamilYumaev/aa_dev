@@ -16,16 +16,23 @@ $userId = $profile->user_id;
 <?= Html::a("Data Json", ['default/data-json', 'user'=> $userId], [ 'class' => 'btn btn-danger']) ?>
 <?= Html::a("Файлы", ['default/files', 'user'=> $userId], [ 'class' => 'btn btn-danger']) ?>
     <div class="mt-20 table-responsive">
-        <?= \modules\entrant\widgets\profile\ProfileWidget::widget(['userId' => $userId, 'view' => 'index-backend']); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?= \modules\entrant\widgets\profile\ProfileWidget::widget(['userId' => $userId, 'view' => 'index-backend']); ?>
+            </div>
+            <div class="col-md-6">
+                <?php if (!$anketa->isRussia()): ?>
+                    <div class="mt-20 table-responsive">
+                        <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(['userId' => $userId, 'view' => 'fio-backend']); ?>
+                    </div>
+                <?php endif; ?>
+                </div>
+        </div>
     </div>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\anketa\AnketaWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if (!$anketa->isRussia()): ?>
-        <div class="mt-20 table-responsive">
-            <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(['userId' => $userId, 'view' => 'fio-backend']); ?>
-        </div>
-    <?php endif; ?>
+
     <?php if (!$anketa->isNoRequired()): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\address\AddressWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
