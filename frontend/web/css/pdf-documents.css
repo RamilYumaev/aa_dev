@@ -80,6 +80,10 @@ body {
     vertical-align: top;
 }
 
+.v-align-bottom {
+    vertical-align: bottom;
+}
+
 .underline-text {
     text-decoration: underline;
 }
