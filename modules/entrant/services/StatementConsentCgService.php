@@ -32,7 +32,7 @@ class StatementConsentCgService
         if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
             StatementHelper::STATUS_WALT,
             StatementHelper::STATUS_ACCEPTED])) {
-        throw new \DomainException('Вы уже сформировали заявление о зачислении');
+        throw new \DomainException('Вы уже сформировали заявление о согласии на зачисление');
         }
 
         $stConsent = StatementConsentCg::create($cg->id, 0);
