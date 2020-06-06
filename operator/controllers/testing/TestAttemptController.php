@@ -4,10 +4,13 @@ namespace operator\controllers\testing;
 
 use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
+use testing\helpers\TestAttemptHelper;
 use testing\models\TestAttempt;
+use testing\models\TestResult;
 use testing\repositories\TestRepository;
 use testing\services\TestAttemptService;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -80,6 +83,30 @@ class TestAttemptController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index','test_id' => $model->test_id]);
+    }
+
+    public function actionUpdateTestResult($testId)
+    {
+        $incompleteAttempts = TestAttempt::find()
+            ->andWhere(['test_id' => $testId])
+            ->andWhere(['status' => TestAttemptHelper::NO_END_TEST])
+            ->all();
+
+        foreach ($incompleteAttempts as $attempt) {
+            $testResult = TestResult::find()->where(['attempt_id' => $attempt->id])->sum('mark');
+            $attempt->seStatus(TestAttemptHelper::END_TEST);
+            $attempt->edit($testResult);
+            if (!$attempt->save()) {
+                $error = Json::encode($attempt->errors);
+                Yii::$app->session->setFlash('error', Json::decode($error));
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+        }
+        \Yii::$app->session
+            ->setFlash('success', "Результаты незавершенных попыток подсчитаны и сохраннены. Все попытки завершены");
+        return $this->redirect(\Yii::$app->request->referrer);
+
+
     }
 
     /**

@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
 if (\Yii::$app->user->can("dev") && TestAttemptHelper::checkOldDateAttempt($olympic->date_time_finish_reg, $test->id)): ?>
     <?= Html::a("Обновить даты окончания попыток", ["update-attempt", "testId"=>$test->id], ['class' => "btn btn-success"]) ?>
 <?php endif; ?>
+<?=Html::a("Подсчитать оценки незавершенных оценок", ['update-test-result', 'testId'=>$test->id], ['class'=>'btn btn-warning'])?>
+
 <div class="row">
     <div class="col-md-12"><?= \backend\widgets\testing\TestAttemptWidget::widget(['test_id' => $test->id,]) ?></div>
 </div>
