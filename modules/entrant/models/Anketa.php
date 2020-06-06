@@ -269,6 +269,36 @@ class Anketa extends ActiveRecord
         }
     }
 
+    public function isHeadUniversity($depart)
+    {
+        return $depart == AnketaHelper::HEAD_UNIVERSITY;
+    }
+
+    public function isPokrov($depart)
+    {
+        return $depart == AnketaHelper::POKROV_BRANCH;
+    }
+
+    public function isDerbent($depart)
+    {
+        return $depart == AnketaHelper::DERBENT_BRANCH;
+    }
+
+    public function isSergievPosad($depart)
+    {
+        return $depart == AnketaHelper::SERGIEV_POSAD_BRANCH;
+    }
+
+    public function isStavropol($depart)
+    {
+        return $depart == AnketaHelper::STAVROPOL_BRANCH;
+    }
+
+    public function isAnapa($depart)
+    {
+        return $depart == AnketaHelper::ANAPA_BRANCH;
+    }
+
     public function allowTarget()
     {
         return Agreement::findOne([ 'user_id' => \Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);

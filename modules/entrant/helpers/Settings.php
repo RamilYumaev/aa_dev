@@ -4,6 +4,7 @@
 namespace modules\entrant\helpers;
 
 
+use dictionary\models\DictCompetitiveGroup;
 use yii\base\Model;
 
 class Settings extends Model
@@ -13,7 +14,7 @@ class Settings extends Model
     public $ZukSpoOchMoscowContract = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО бюджет филиалы
     public $ZukSpoOchFilialContract = '2020-08-25 00:00:00'; // Окончание приема ЗУК в СПО договор филиалы
     public $ZukBacOchBudgetCse = '2020-06-03 00:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
-    public $ZukBacOchBudgetMoscowVi = '2020-08-25 00:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата бюджетной основы
+    public $ZukBacOchBudgetVi = '2020-08-25 00:00:00'; // Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата бюджетной основы
     public $ZukBacZaOchBudgetFilialCse = '2020-08-25 00:00:00'; // Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата бюджетной основы, НЕ для филиалов
     public $ZukBacZaOchBudgetFilialVi = "2020-08-25 00:00:00"; // Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата бюджетной основы, НЕ для филиалов
     public $ZukBacOchContractCse = "2020-08-25 00:00:00"; // Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы
@@ -55,26 +56,29 @@ class Settings extends Model
 
     public $bansExport = false;
 
+    public function allowCgForDeadLine(DictCompetitiveGroup $cg, $depart)
+    {
+        $anketa = \Yii::$app->user->identity->anketa();
+        if (($cg->isOchCg() || $cg->isOchZaOchCg()) && !$cg->isUmsCg()) {
+            return $this->allowBacCseOchBudget();
+        }
+
+        return true;
+    }
 
     public function allowBacCseOchBudget()
     {
-        $arg1 = strtotime($this->ZukBacOchBudgetCse);
-        $date = \date("Y-m-d h:i:s");
-        $arg2 = strtotime(\date("Y-m-d h:i:s"));
-        $boolData = $arg1 > $arg2;
-
-        return $boolData;
-
+        return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
     }
 
     public function allowBacViOchBudget()
     {
-        return true;
+        return strtotime($this->ZukBacOchBudgetVi) > $this->currentDate();
     }
 
-    public function allowBacCseZaOchBudget()
+    public function allowBacCseZaOchBudgetMoscow()
     {
-        return true;
+        return strtotime($this->ZukBacZaOchContractMoscowCse) > $this->currentDate();
     }
 
     public function allowBacViZaOchBudget()
@@ -94,7 +98,8 @@ class Settings extends Model
 
     public function allowBacCseZaOchContract($depart)
     {
-        return true;
+        return strtotime($this->ZukBacOchContractCse) > $this->currentDate();
+
     }
 
     /**
@@ -125,6 +130,11 @@ class Settings extends Model
     public function allowMagOchContract()
     {
         return true;
+    }
+
+    public function currentDate()
+    {
+        return strtotime(\date("Y-m-d h:i:s"));
     }
 
 
