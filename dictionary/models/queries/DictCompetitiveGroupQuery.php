@@ -27,7 +27,18 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this
             ->select('faculty_id')
             ->withoutBranch()
+            ->allowDeadLineEducationForm()
             ->currentAutoYear();
+    }
+
+    public function allowDeadLineEducationForm()
+    {
+        if ((\Yii::$app->user->identity->setting()->allowBacCseOchBudget())) {
+            return $this->andWhere(['in', 'education_form_id',
+                [DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH]]);
+        } else {
+            return $this->andWhere(['education_form_id' => DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]);
+        }
     }
 
     public function branch($branchId)

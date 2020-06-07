@@ -4,6 +4,7 @@
 namespace dictionary\models;
 
 
+use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -102,8 +103,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'discount' => 'Скидка',
             'enquiry_086_u_status' => 'Требуется справка 086-у',
             'spo_class' => 'Класс СПО',
-            'ais_id'=> 'ID  АИС ВУЗ',
-            'foreigner_status'=> 'Конкурсная группа УМС',
+            'ais_id' => 'ID  АИС ВУЗ',
+            'foreigner_status' => 'Конкурсная группа УМС',
         ];
     }
 
@@ -151,10 +152,15 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function findBudgetAnalog($cgContract): array
     {
         $anketa = \Yii::$app->user->identity->anketa();
+        $setting = \Yii::$app->user->identity->setting();
+
 
         $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
-        if ($cgBudget && $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) {
+        if ($cgBudget &&
+            $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
+            $setting->allowCgForDeadLineBudget($cgBudget)
+        ) {
             return [
                 "status" => 1,
                 "cgBudgetId" => $cgBudget->id,
@@ -226,7 +232,8 @@ class DictCompetitiveGroup extends ActiveRecord
         }
     }
 
-    public function getFullNameCg() {
+    public function getFullNameCg()
+    {
         return DictCompetitiveGroupHelper::getFullName(null, $this->edu_level,
             $this->speciality_id,
             $this->specialization_id,
@@ -252,7 +259,7 @@ class DictCompetitiveGroup extends ActiveRecord
         if ($model !== null) {
             return $model->id;
         }
-        throw new \DomainException("Не найдена кокнурсная группа ".$key);
+        throw new \DomainException("Не найдена кокнурсная группа " . $key);
     }
 
     public static function kcpSum($cg): Int
@@ -264,9 +271,9 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function targetKcp(DictCompetitiveGroup $cg)
     {
         $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
-            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::TARGET_PLACE])->one();
+            ->andWhere(['special_right_id' => DictCompetitiveGroupHelper::TARGET_PLACE])->one();
 
-        if($model){
+        if ($model) {
             return $model->kcp;
         }
 
@@ -277,7 +284,7 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)->one();
 
-        if($model){
+        if ($model) {
             return $model->kcp;
         }
 
@@ -287,9 +294,9 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function specialKcp(DictCompetitiveGroup $cg)
     {
         $model = DictCompetitiveGroup::find()->findBudgetAnalog($cg)
-            ->andWhere(['special_right_id'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])->one();
+            ->andWhere(['special_right_id' => DictCompetitiveGroupHelper::SPECIAL_RIGHT])->one();
 
-        if($model){
+        if ($model) {
             return $model->kcp;
         }
 
@@ -306,9 +313,40 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $budget;
     }
 
-    public function isGovLineCg()
+    public function isGovLineCg(): bool
     {
         return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET && $this->foreigner_status;
     }
+
+    public function isUmsContractCg(): bool
+    {
+        return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT && $this->foreigner_status;
+    }
+
+    public function isUmsCg(): bool
+    {
+        return $this->foreigner_status;
+    }
+
+    public function isOchCg(): bool
+    {
+        return $this->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_OCH;
+    }
+
+    public function isOchZaOchCg(): bool
+    {
+        return $this->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH;
+    }
+
+    public function isZaOchCg(): bool
+    {
+        return $this->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH;
+    }
+
+    public function isBudget()
+    {
+        return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET;
+    }
+
 
 }

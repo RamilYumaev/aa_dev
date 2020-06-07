@@ -9,6 +9,7 @@ use dictionary\models\DisciplineCompetitiveGroup;
 use modules\dictionary\forms\JobEntrantForm;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\helpers\Settings;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
 use olympic\readRepositories\UserOlympicReadRepository;
@@ -39,6 +40,11 @@ class Identity implements IdentityInterface
     public function getAisToken(): ?string
     {
         return $this->user->ais_token;
+    }
+
+    public function setting()
+    {
+        return new Settings();
     }
 
 
@@ -82,7 +88,7 @@ class Identity implements IdentityInterface
     public function switchUser($userId)
     {
         $initialId = $this->getId();
-        \Yii::warning("initialId ".$initialId);
+        \Yii::warning("initialId " . $initialId);
         if ($userId !== $initialId) {
             $userModel = User::findOne($userId);
             $user = new Identity($userModel);
