@@ -1,7 +1,6 @@
 <?php
 namespace modules\entrant\widgets\other;
 
-use modules\entrant\models\OtherDocument;
 use yii\base\Widget;
 
 class PreemptiveRightWidget extends Widget

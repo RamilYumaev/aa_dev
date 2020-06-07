@@ -10,6 +10,7 @@ use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
@@ -63,7 +64,8 @@ class FileHelper
             StatementConsentCg::class,
             StatementCg::class,
             StatementRejection::class,
-            StatementRejectionCgConsent::class
+            StatementRejectionCgConsent::class,
+            StatementAgreementContractCg::class
         ];
     }
 
@@ -89,6 +91,7 @@ class FileHelper
             StatementConsentCg::class => 0,
             StatementRejection::class => 0,
             StatementRejectionCgConsent::class =>0,
+            StatementAgreementContractCg::class=>0,
             StatementCg::class =>0,
         ];
     }

@@ -17,7 +17,7 @@ class StatementConsentCgRepository extends RepositoryDeleteSaveClass
     public function getFull($id, $userId)
     {
         if (!$model = StatementConsentCg::find()->statementOne($id, $userId)) {
-            throw new \DomainException('Заявление о зачислении не найдено.');
+            throw new \DomainException('Заявление о согласии на зачисление не найдено.');
         }
         return  $model;
     }
