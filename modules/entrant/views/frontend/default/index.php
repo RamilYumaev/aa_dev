@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
 
 $this->title = 'Персональная карточка поступающего';
@@ -63,7 +64,12 @@ $userId = Yii::$app->user->identity->getId();
         <?= \modules\entrant\widgets\language\LanguageWidget::widget(['userId' => $userId]); ?>
     </div>
     <div class="mt-20 table-responsive">
-        <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId]); ?>
+        <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId,
+            'formEdu' => DictCompetitiveGroupHelper::categoryForm()[DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1]]); ?>
+    </div>
+    <div class="mt-20 table-responsive">
+        <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId,
+            'formEdu' => DictCompetitiveGroupHelper::categoryForm()[DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2]]); ?>
     </div>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(['userId' => $userId]); ?>

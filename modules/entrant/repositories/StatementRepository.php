@@ -17,9 +17,11 @@ class StatementRepository extends RepositoryDeleteSaveClass
         return  $model;
     }
 
-    public function getStatementFull($userId, $facultyId, $specialityId,  $specialRightId, $eduLevel)
+    public function getStatementFull($userId, $facultyId, $specialityId,  $specialRightId, $eduLevel, $formCategory)
     {
-        if (!$model = Statement::find()->user($userId)->defaultWhere($facultyId, $specialityId,  $specialRightId, $eduLevel, StatementHelper::STATUS_DRAFT)->one()) {
+        if (!$model = Statement::find()
+            ->user($userId)
+            ->defaultWhere($facultyId, $specialityId,  $specialRightId, $eduLevel, StatementHelper::STATUS_DRAFT, $formCategory)->one()) {
             return false;
         }
         return  $model;

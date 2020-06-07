@@ -16,6 +16,10 @@ use kartik\date\DatePicker;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-legal']); ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'footing')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'requisites')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'bank')->textarea() ?>
             <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
