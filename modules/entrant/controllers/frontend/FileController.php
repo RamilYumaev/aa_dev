@@ -5,6 +5,7 @@ use modules\entrant\forms\FileForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
@@ -168,6 +169,9 @@ class FileController extends Controller
             return $model;
         }
         if ($modelOne == StatementRejectionCgConsent::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne == StatementAgreementContractCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
             return $model;
         }
         if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => $this->getUser() ])) !== null)) {

@@ -28,7 +28,7 @@ $userId =  Yii::$app->user->identity->getId();
         <div class="col-md-12">
             <?= \modules\entrant\widgets\statement\StatementIndexWidget::widget(['userId' => $userId, 'view' => 'statement-rejection']); ?>
             <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => $userId]); ?>
-
+            <?= \modules\entrant\widgets\statement\StatementCgContractWidget::widget(['userId' => $userId]); ?>
             <?= Html::a("Отправить", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
         </div>
     </div>

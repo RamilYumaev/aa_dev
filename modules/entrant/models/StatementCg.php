@@ -65,6 +65,10 @@ class StatementCg extends ActiveRecord
         return $this->hasMany(StatementConsentCg::class, ['statement_cg_id'=>'id']);
     }
 
+    public function getStatementAgreement() {
+        return $this->hasOne(StatementAgreementContractCg::class, ['statement_cg'=>'id']);
+    }
+
     public function getIsStatementConsent() {
         /* @var $consent  StatementConsentCg */
         foreach ($this->statementConsent as $consent) {

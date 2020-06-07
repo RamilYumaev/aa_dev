@@ -106,6 +106,11 @@ class FileCgHelper
         return "Согласие на заключение договора о целевом обучении" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileNameAgreement($extension = '.docx')
+    {
+        return "Договор об оказании платных услуг" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
 
 
     public static function dataProfile($userId)
