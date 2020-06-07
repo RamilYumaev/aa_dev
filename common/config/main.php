@@ -1,7 +1,7 @@
 <?php
 return [
     'language' => 'ru_RU',
-    // 'timeZone' => 'Europe/Moscow',
+     'timeZone' => 'Europe/Moscow',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

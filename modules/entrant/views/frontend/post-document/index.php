@@ -48,7 +48,12 @@ $userId =  Yii::$app->user->identity->getId();
 
             <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => $userId]); ?>
 
-            <?= Html::a("Отправить", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
         </div>
     </div>
+    <div class="row mb-30">
+        <div class="col-md-offset-4 col-md-4">
+            <?= Html::a("Отправить в приемную комиссию", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
+        </div>
+    </div>
+</div>
 </div>

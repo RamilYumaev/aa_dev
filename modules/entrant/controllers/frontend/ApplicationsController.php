@@ -169,8 +169,9 @@ class ApplicationsController extends Controller
 
         try {
             $cg = $this->service->repositoryCg->get($id);
-            if(!(\Yii::$app->user->identity->setting())->allowCgFroDeadLine($cg)){
-                throw new \DomainException("Прием документов на данную конкурсную группу окончен");
+            if(!(\Yii::$app->user->identity->setting())->allowedToSubmitByTheDeadline($cg))
+            {
+                throw new \DomainException("Прием документов на данную образвательную программу окончен!");
             }
             $this->service->saveCg($cg, $cathedra_id);
             if (\Yii::$app->request->isAjax) {
