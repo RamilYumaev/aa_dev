@@ -10,16 +10,17 @@ use Yii;
 class SubmittedDocumentGenerateStatementWidget extends Widget
 {
     public $userId;
+    public $formCategory;
     private $view = "detail";
 
     public function run()
     {
         return $this->render($this->view, ['submitted' => $this->modelOne(),
-            'userId' =>  $this->getIdUser(), 'userCg' => $this->listCgUser()]);
+            'userId' =>  $this->getIdUser(), 'userCg' => $this->listCgUser(), 'formCategory' => $this->formCategory]);
     }
 
     private function listCgUser() {
-        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser());
+        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser(), DictCompetitiveGroupHelper::categoryForm()[$this->formCategory]);
     }
 
     private function getIdUser() {

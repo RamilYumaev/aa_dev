@@ -2,6 +2,8 @@
 
 /* @var $this yii\web\View */
 /* @var $statement \modules\entrant\models\Statement */
+use entrant\assets\modal\ModalAsset;
+ModalAsset::register($this);
 
 $this->title = $statement->profileUser->fio .' '. $statement->numberStatement;
 $this->params['breadcrumbs'][] = ['label' => 'Заявления об участии в конкурсе', 'url' => ['index']];

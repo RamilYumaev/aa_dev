@@ -469,7 +469,7 @@ class Settings
 
     public function allowBacCseOchContactMoscow(): bool
     {
-        return strtotime($this->ZukBacOchContractCse) > $this->currentDate();
+        return strtotime($this->ZukBacOchContractCseMoscow) > $this->currentDate();
     }
 
     public function allowBacCseOchContractFilial(): bool
@@ -541,7 +541,7 @@ class Settings
         return strtotime($this->ZukBacZaOchContractFilialVi) > $this->currentDate();
     }
 
-    private function currentDate(): Date
+    private function currentDate()
     {
         //   \date_default_timezone_set('Europe/Moscow');
         return strtotime(\date("Y-m-d G:i:s"));

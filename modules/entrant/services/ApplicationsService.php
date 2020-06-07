@@ -50,8 +50,9 @@ class ApplicationsService
                 $this->cathedraCgRepository->get($cg->id, $cathedra_id);
             }
             $userCg = UserCg::create($cg->id, $cathedra_id);
+            $formCategory = DictCompetitiveGroupHelper::formCategory()[$cg->education_form_id];
             $statement = $this->statementRepository->getStatementFull($userCg->user_id,
-                $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level);
+                $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level, $formCategory);
             if($statement) {
                 if($statement->files) {
                     throw new \DomainException('Вы не можете добавить, так как в заявлении присутствует загруженный файл');
