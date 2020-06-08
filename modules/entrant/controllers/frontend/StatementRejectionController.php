@@ -6,6 +6,7 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\services\StatementService;
 use yii\web\Controller;
@@ -62,15 +63,15 @@ class StatementRejectionController extends Controller
 
     public function actionPdfCg($id)
     {
-        $statementCg = $this->findModelCg($id);
+        $statementRejection = $this->findModelCg($id);
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
-        $content = $this->renderPartial('pdf/_main_cg', ["statementCg" => $statementCg]);
+        $content = $this->renderPartial('pdf/_main_cg', ["statementRejection" => $statementRejection]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameRejection('.pdf'));
         $render = $pdf->render();
 
         try {
-            $this->service->addCountPagesCg($statementCg->id, count($pdf->getApi()->pages));
+            $this->service->addCountPagesCg($statementRejection->id, count($pdf->getApi()->pages));
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -129,9 +130,9 @@ class StatementRejectionController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModelCg($id): StatementCg
+    protected function findModelCg($id): StatementRejectionCg
     {
-        if (($model = StatementCg::find()->statementOne($id, Yii::$app->user->identity->getId())) !== null) {
+        if (($model = StatementRejectionCg::find()->statementOne($id, Yii::$app->user->identity->getId())) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');

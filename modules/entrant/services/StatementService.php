@@ -13,10 +13,12 @@ use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
+use modules\entrant\repositories\StatementRejectionCgRepository;
 use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\UserCgRepository;
@@ -29,6 +31,7 @@ class StatementService
     private $otherDocumentRepository;
     private $statementRejectionRepository;
     private $rejectionCgConsentRepository;
+    private $rejectionCgRepository;
     /**
      * @var UserCgRepository
      */
@@ -39,6 +42,7 @@ class StatementService
                                 OtherDocumentRepository $otherDocumentRepository,
                                 StatementRejectionRepository $statementRejectionRepository,
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
+                                StatementRejectionCgRepository $rejectionCgRepository,
                                 TransactionManager $manager)
     {
         $this->repository = $repository;
@@ -48,6 +52,7 @@ class StatementService
         $this->otherDocumentRepository = $otherDocumentRepository;
         $this->statementRejectionRepository = $statementRejectionRepository;
         $this->rejectionCgConsentRepository  = $rejectionCgConsentRepository;
+        $this->rejectionCgRepository = $rejectionCgRepository;
     }
 
     public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory)
@@ -85,7 +90,7 @@ class StatementService
     }
 
     public function addCountPagesCg($id, $count){
-        $statement = $this->cgRepository->get($id);
+        $statement = $this->rejectionCgRepository->get($id);
         $statement->setCountPages($count);
         $this->cgRepository->save($statement);
     }
@@ -121,6 +126,13 @@ class StatementService
                 $this->cgRepository->remove($statementCg);
             }
         });
+    }
+
+    public function rejectionCg($id, $userId){
+        $statementCg = $this->cgRepository->getUserStatementCg($id, $userId);
+        $this->rejectionCgRepository->isStatementRejection($statementCg->id);
+        $this->rejectionCgRepository->save(StatementRejectionCg::create($statementCg->id));
+
     }
 
     public function rejection($id) {

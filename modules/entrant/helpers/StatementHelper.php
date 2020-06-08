@@ -47,7 +47,7 @@ class StatementHelper
     }
 
     public static function statusName($key) {
-        return self::statusList()[$key];
+        return ArrayHelper::getValue(self::statusList(),$key);
     }
 
     public static function statusJobName($key) {
@@ -66,7 +66,7 @@ class StatementHelper
     }
 
     public static function colorName($key) {
-        return self::colorList()[$key];
+        return ArrayHelper::getValue(self::colorList(),$key);
     }
     public static function entrantJob() {
         return \Yii::$app->user->identity->jobEntrant();

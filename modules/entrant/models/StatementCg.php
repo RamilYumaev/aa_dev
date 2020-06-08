@@ -69,6 +69,10 @@ class StatementCg extends ActiveRecord
         return $this->hasOne(StatementAgreementContractCg::class, ['statement_cg'=>'id']);
     }
 
+    public function getStatementRejection() {
+        return $this->hasOne(StatementRejectionCg::class, ['statement_cg'=>'id']);
+    }
+
     public function getIsStatementConsent() {
         /* @var $consent  StatementConsentCg */
         foreach ($this->statementConsent as $consent) {
@@ -100,6 +104,14 @@ class StatementCg extends ActiveRecord
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'cg_id' => "Конкурсная группа", "status_id" => "Статус"];
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
 }

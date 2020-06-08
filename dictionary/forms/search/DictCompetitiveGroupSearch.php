@@ -13,12 +13,30 @@ use yii\data\ActiveDataProvider;
 
 class DictCompetitiveGroupSearch extends Model
 {
-    public $speciality_id, $specialization_id, $faculty_id, $year, $financing_type_id, $education_form_id;
+    public $speciality_id,
+        $id,
+        $kcp,
+        $edu_level,
+        $passing_score,
+        $competition_count,
+        $special_right_id,
+        $specialization_id,
+        $faculty_id, $year,
+        $financing_type_id,
+        $education_form_id;
 
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'faculty_id', 'financing_type_id', 'education_form_id'], 'integer'],
+            [['speciality_id',
+                'id',
+                'kcp',
+                'passing_score',
+                'specialization_id',
+                'edu_level',
+                'special_right_id',
+                'faculty_id', 'financing_type_id', 'education_form_id'], 'integer'],
+            [['competition_count',],'number'],
             [['year'], 'string'],
         ];
     }
@@ -43,6 +61,11 @@ class DictCompetitiveGroupSearch extends Model
         }
 
         $query->andFilterWhere([
+            'id'=>$this->id,
+            'edu_level'=>$this->edu_level,
+            'passing_score'=> $this->passing_score,
+            'special_right_id' => $this->special_right_id,
+            'kcp'=>$this->kcp,
             'speciality_id' => $this->speciality_id,
             'specialization_id' => $this->specialization_id,
             'faculty_id' => $this->faculty_id,
@@ -51,6 +74,7 @@ class DictCompetitiveGroupSearch extends Model
         ]);
 
         $query->andFilterWhere(['like', 'year', $this->year]);
+        $query->andFilterWhere(['like', 'competition_count', $this->competition_count]);
 
         return $dataProvider;
     }
@@ -62,7 +86,7 @@ class DictCompetitiveGroupSearch extends Model
 
     public function specialityCodeList(): array
     {
-        return DictSpecialityHelper::specialityCodeList();
+        return DictSpecialityHelper::specialityNameAndCodeList();
     }
 
     public function financingTypeList()

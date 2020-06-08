@@ -54,7 +54,7 @@ if(!Yii::$app->user->isGuest ) {
             ],
             [
             "label" => "Принятые ЗУК",
-                    "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
+                    "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
                     "icon" => "list",
                 ],
                     [

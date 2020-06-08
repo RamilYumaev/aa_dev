@@ -28,7 +28,7 @@ use yii\helpers\Html;
                         Html::a("Удалить отзыв", ['statement/rejection-remove', 'id' =>  $statement->statementRejection->id], ['class'=> 'btn btn-danger', 'data' =>[
                             'confirm'  => "Вы уверены, что хотите отозвать заявление?",
                             'method'=> 'post']]) :
-                        Html::a("Отозввть", ['statement/rejection', 'id' =>  $statement->id], ['class'=> 'btn btn-info', 'data' =>[
+                        Html::a("Отозвать", ['statement/rejection', 'id' =>  $statement->id], ['class'=> 'btn btn-info', 'data' =>[
                         'confirm'  => "Вы уверены, что хотите отозвать заявление?",
                         'method'=> 'post']]) ?>
                 </td>
@@ -57,17 +57,24 @@ use yii\helpers\Html;
                  </tr>
                  <?php foreach ($statement->statementCg as $statementCg): ?>
                  <tr>
-                    <td><?= $statementCg->cg->fullName ?></td>
+                    <td><?= $statementCg->cg->fullName ?>
                      <?php if(count($statement->statementCg) > 0 &&
                          $statement->isStatusAccepted()) : ?>
+                        <?= $statementCg->statementRejection ?
+                             Html::a("Удалить отзыв", ['statement/rejection-remove-cg', 'id' =>  $statementCg->statementRejection->id], ['class'=> 'btn btn-danger', 'data' =>[
+                                 'confirm'  => "Вы уверены, что хотите удалить отзыв?",
+                                 'method'=> 'post']])  :
+                             Html::a("Отозвать", ['statement/rejection-cg', 'id' =>  $statementCg->id], ['class'=> 'btn btn-info', 'data' =>[
+                         'confirm'  => "Вы уверены, что хотите отозвать заявление?",
+                         'method'=> 'post']])  ?></td>
                      <td>
-                         <?= Html::a('Скачать заявление', ['statement-rejection/pdf-cg', 'id' =>  $statementCg->id],
-                         ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget([ 'record_id' => $statementCg->id,
-                             'model' => \modules\entrant\models\StatementCg::class, ]) ?>
+                         <?= $statementCg->statementRejection ? Html::a('Скачать заявление', ['statement-rejection/pdf-cg', 'id' =>  $statementCg->statementRejection->id],
+                         ['class' => 'btn btn-large btn-warning']) . FileWidget::widget([ 'record_id' =>$statementCg->statementRejection->id,
+                             'model' => \modules\entrant\models\StatementRejectionCg::class, ]) : ""?>
                      </td>
                          <td colspan="2">
-                             <?= FileListWidget::widget(['record_id' =>$statementCg->id,
-                                 'model' => \modules\entrant\models\StatementCg::class, 'userId' => $statement->user_id ]) ?>
+                             <?= $statementCg->statementRejection ? FileListWidget::widget(['record_id' =>$statementCg->statementRejection->id,
+                                 'model' => \modules\entrant\models\StatementRejectionCg::class, 'userId' => $statement->user_id ]) : "" ?>
                          </td>
                      <?php endif; ?>
                  </tr>
