@@ -23,6 +23,10 @@ use yii\base\InvalidConfigException;
  * @property integer $id
  * @property integer $user_id
  * @property string $name
+ * @property string $requisites
+ * @property string $fio
+ * @property string $footing
+ * @property string $position
  * @property string $bank
  * @property string $ogrn
  * @property string $inn
@@ -39,7 +43,7 @@ class LegalEntity extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => ['bank', 'ogrn', 'inn', 'name',
-                  'postcode', 'address', 'phone',]
+                  'postcode', 'address', 'phone', 'requisites', 'fio', 'footing', 'position']
         ]];
     }
 
@@ -57,7 +61,12 @@ class LegalEntity extends YiiActiveRecordAndModeration
         $this->name = $form->name;
         $this->postcode = $form->postcode;
         $this->phone = $form->phone;
+        $this->requisites = $form->requisites;
+        $this->fio = $form->fio;
+        $this->position = $form->position;
+        $this->footing = $form->footing;
         $this->inn = $form->inn;
+
         $this->user_id = $form->user_id;
     }
 
@@ -94,6 +103,7 @@ class LegalEntity extends YiiActiveRecordAndModeration
     {
         return [
             'bank' => $value, 'ogrn' => $value, 'inn' => $value, 'name' => $value,
+            'requisites'=> $value, 'fio'=> $value, 'footing'=> $value, 'position'=> $value,
             'address' => $value,
             'postcode' => $value,
             'phone' => $value,
@@ -110,6 +120,10 @@ class LegalEntity extends YiiActiveRecordAndModeration
             'address' => 'Адрес места нахождения',
             'postcode' => 'Почтовый адресс',
             'phone' => 'Контактный телефон',
+            'requisites'=> "Реквизиты документа",
+            'fio'=> "ФИО",
+            'footing'=> "Действующий на основании...",
+            'position'=> "Должность"
         ];
     }
 }

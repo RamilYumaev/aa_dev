@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
 
 \frontend\assets\modal\ModalAsset::register($this);
@@ -40,7 +41,11 @@ $userId =  Yii::$app->user->identity->getId();
 
             <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['userId' => $userId]); ?>
 
-            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
+                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1]); ?>
+
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
+                'formCategory' =>DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId' => $userId]); ?>
 

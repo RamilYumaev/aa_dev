@@ -40,8 +40,10 @@ class DictCompetitiveGroupHelper
     const TARGET_PLACE = 2;
 
     const MAX_SPECIALTY_ALLOW = 3;
-
-    public static function getEduFormsForAgreement()
+    const FORM_EDU_CATEGORY_1 = 1;
+    const FORM_EDU_CATEGORY_2 = 2;
+  
+      public static function getEduFormsForAgreement()
     {
         return [self::EDU_FORM_OCH => 'Очной',
             self::EDU_FORM_OCH_ZAOCH => 'Очно-заочной',
@@ -66,6 +68,18 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "подготовка кадров высшей квалификации, 
             осуществляемая по результатам освоения программ подготовки научно-педагогических кадров в аспирантуре)",
         ];
+
+    public static function categoryForm() {
+        return [
+           self::FORM_EDU_CATEGORY_1 => [self::EDU_FORM_OCH, self::EDU_FORM_OCH_ZAOCH],
+            self::FORM_EDU_CATEGORY_2 => self::EDU_FORM_ZAOCH,
+        ];
+    }
+
+    public static function formCategory() {
+        return [self::EDU_FORM_OCH => self::FORM_EDU_CATEGORY_1,
+            self::EDU_FORM_OCH_ZAOCH => self::FORM_EDU_CATEGORY_1,
+            self::EDU_FORM_ZAOCH => self::FORM_EDU_CATEGORY_2];
     }
 
     public static function getEduForms(): array
@@ -339,9 +353,9 @@ class DictCompetitiveGroupHelper
             ->count();
     }
 
-    public static function groupByFacultySpecialityAllUser($user_id)
+    public static function groupByFacultySpecialityAllUser($user_id, $form)
     {
-        return DictCompetitiveGroup::find()->userCg($user_id)
+        return DictCompetitiveGroup::find()->userCg($user_id)->formEdu($form)
             ->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
             ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
             ->all();
@@ -592,11 +606,12 @@ class DictCompetitiveGroupHelper
     }
 
 
-    public static function idAllUser($user_id, $faculty_id, $speciality_id)
+    public static function idAllUser($user_id, $faculty_id, $speciality_id, $form)
     {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
+            ->formEdu($form)
             ->select(['id'])
             ->column();
     }

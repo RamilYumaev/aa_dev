@@ -46,33 +46,39 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->orderBy([$alias.'created_at' => SORT_DESC]);
     }
 
+    public function  formCategory($form) {
+        return $this->andWhere(['form_category' => $form]);
+    }
+
 
     public function eduLevel($eduLevel)
     {
         return $this->andWhere(["edu_level" =>$eduLevel]);
     }
 
-    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status) {
+    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory) {
         return $this->faculty($facultyId)
             ->speciality($specialityId)
             ->specialRight($specialRight)
             ->eduLevel($eduLevel)
-            ->status($status);
+            ->status($status)
+            ->formCategory($formCategory);
     }
 
-    public function defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel) {
+    public function defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory) {
         return $this->faculty($facultyId)
             ->speciality($specialityId)
             ->specialRight($specialRight)
-            ->eduLevel($eduLevel);
+            ->eduLevel($eduLevel)
+            ->formCategory($formCategory);
     }
 
-    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId) {
-        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel)->user($userId)->max('counter');
+    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory) {
+        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory)->user($userId)->max('counter');
     }
 
-    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId) {
-        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status)
+    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId, $formCategory) {
+        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory)
             ->user($userId)
             ->one();
     }

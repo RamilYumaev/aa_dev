@@ -9,7 +9,7 @@ use Yii;
 
 class StatementWidget extends Widget
 {
-    public $facultyId, $specialityId, $specialRight, $eduLevel, $userId;
+    public $facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory;
 
     private $service;
 
@@ -26,7 +26,8 @@ class StatementWidget extends Widget
                 $this->specialityId,
                 $this->specialRight,
                 $this->eduLevel,
-                $this->userId);
+                $this->userId,
+                $this->formCategory);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -39,7 +40,8 @@ class StatementWidget extends Widget
             $this->facultyId,
             $this->specialityId,
             $this->specialRight,
-            $this->eduLevel)
+            $this->eduLevel,
+            $this->formCategory)
             ->user($this->userId)
             ->all();
         return $this->render('index', [

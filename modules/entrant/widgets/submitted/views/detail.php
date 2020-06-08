@@ -3,16 +3,19 @@
 /* @var $submitted modules\entrant\models\SubmittedDocuments */
 /* @var $userCg yii\db\BaseActiveRecord */
 /* @var $userId integer */
+/* @var $formCategory integer */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
-
+$formName = $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ?
+    "(очная и очно-заочная формы обучения)" : "(заочная форма обучения)";
 ?>
+<?php if($userCg) : ?>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-20">
             <?php if($submitted): ?>
-                <h3>Заявления об участии в конкурсе</h3>
+                <h3>Заявления об участии в конкурсе <?= $formName ?></h3>
                 <div id="compact">
                     <table class="table table-bordered">
                         <tr>
@@ -37,6 +40,7 @@ use yii\helpers\Html;
                                         'specialityId'=> $cg->speciality_id,
                                         'specialRight' =>$cg->special_right_id,
                                         'eduLevel' =>$cg->edu_level,
+                                        'formCategory'=> $formCategory,
                                         'userId' => Yii::$app->user->identity->getId()
                                            ])?>
                                 </td>
@@ -48,4 +52,5 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
+<?php endif; ?>
 

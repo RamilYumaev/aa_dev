@@ -20,7 +20,7 @@ use modules\entrant\widgets\file\FileListWidget;
 <?php foreach ($statementConsents as $consent): ?>
     <table class="table">
         <tr>
-            <th><?=$consent->statementCg->cg->fullNameCg?></th>
+            <th><?=$consent->statementCg->cg->fullName?></th>
             <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
                     ['class' => 'btn btn-large btn-warning'])?>
             </td>
@@ -30,5 +30,3 @@ use modules\entrant\widgets\file\FileListWidget;
         'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $consent->statementCg->statement->user_id  ]) ?>
 <?php endforeach;
 Box::end(); ?>
-
->
