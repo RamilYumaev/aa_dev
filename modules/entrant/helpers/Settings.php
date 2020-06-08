@@ -311,7 +311,7 @@ class Settings
      */
     public function allowStatementUploadViContractMoscow(DictCompetitiveGroup $cg): bool
     {
-        if (!$this->noBudgetCpk($cg)) {
+        if (!$this->contractCpk($cg)) {
             return true;
         }
         if ($this->ochOrOchZaOch($cg)) {
@@ -430,7 +430,7 @@ class Settings
             return $this->allowBacViOchContractMoscow();
         }
         if ($cg->isZaOchCg()) {
-            return $this->allowBacViZaOchContract();
+            return $this->allowBacViZaOchContractMoscow();
         }
         return true;
     }
@@ -444,7 +444,7 @@ class Settings
         if ($this->isHeadUniversity()) {
             return true;
         }
-        if ($this->noBudgetCpk($cg)) {
+        if ($this->contractCpk($cg)) {
             return true;
         }
         if ($this->ochOrOchZaOch($cg)) {
@@ -520,7 +520,7 @@ class Settings
      */
     public function allowBacViZaOchContractMoscow(): bool
     {
-        return strtotime($this->ZukBac);
+        return strtotime($this->ZukBacZaOchContractMoscowVi) > $this->currentDate();
     }
 
     /**
