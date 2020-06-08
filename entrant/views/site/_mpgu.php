@@ -23,13 +23,13 @@ use modules\entrant\helpers\StatementHelper;
             'entrant'=> $jobEntrant,
             'icon'=> 'list',
             'status' => StatementHelper::STATUS_WALT_SPECIAL,
-            'str' => "Новые ЗУК"])?>
+            'str' => "Новые"])?>
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
             'entrant'=> $jobEntrant,
             'icon'=> 'list-ul',
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
-            'str' => "Непринятые ЗУК"])?>
+            'str' => "Непринятые"])?>
     </div>
     <div class="col-md-4">
         <?= InfoUserCozWidget::widget([

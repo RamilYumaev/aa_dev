@@ -8,17 +8,18 @@ use kartik\mpdf\Pdf;
 
 class PdfHelper
 {
-    public static function generate($content, $fileName) {
+    public static function generate($content, $fileName, $format = Pdf::FORMAT_A4, $orientation= Pdf::ORIENT_PORTRAIT)
+    {
         $pdf = new Pdf([
             // set to use core fonts only
             'mode' => Pdf::MODE_UTF8,
             'filename' => $fileName,
             // A4 paper format
-            'format' => Pdf::FORMAT_A4,
+            'format' => $format,
             // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'orientation' => $orientation,
             // stream to browser inline
-            'destination' => Pdf::DEST_DOWNLOAD,
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
             'marginLeft' => 20,
@@ -28,7 +29,7 @@ class PdfHelper
             // format content from your own css file if needed or use the
             'cssFile' => '@frontend/web/css/pdf-documents.css',
             'defaultFont' => 'Times New Roman',
-            'defaultFontSize'=> 8, //pt
+            'defaultFontSize' => 8, //pt
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
             // set mPDF properties on the fly

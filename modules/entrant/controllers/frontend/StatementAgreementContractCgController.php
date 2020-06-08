@@ -10,6 +10,7 @@ use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\services\StatementAgreementContractCgService;
+use \kartik\mpdf\Pdf;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -79,7 +80,7 @@ class StatementAgreementContractCgController extends Controller
             }
             return $render;
         }else {
-            Yii::$app->session->setFlash('warning', "Вы не выбрали заказчика или отсуствуют их данные");
+            Yii::$app->session->setFlash('warning', "Вы не выбрали заказчика или отсуствуют его данные");
             return $this->redirect(Yii::$app->request->referrer);
         }
     }

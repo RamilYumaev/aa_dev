@@ -108,7 +108,7 @@ class FileCgHelper
 
     public static function fileNameAgreement($extension = '.docx')
     {
-        return "Договор об оказании платных услуг" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+        return "Договор об оказании платных образовательных услуг" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
 

@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
 \common\auth\actions\assets\LoginAsset::register($this);
 \common\auth\actions\assets\EntrantAsset::register($this);
-$this->title = "Центр приемной комиссии";
+$this->title = "Приемная комиссия МПГУ";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="login-box">
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
         <div class="login-logo">
             <h3><?= $this->title ?></h3>
-            <h5>Заполнение данных</h5>
+            <h5>Данные сотрудника</h5>
         </div><!-- /.login-logo -->
         <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
         <div class="form-group has-feedback">
