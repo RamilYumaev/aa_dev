@@ -68,6 +68,7 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "подготовка кадров высшей квалификации, 
             осуществляемая по результатам освоения программ подготовки научно-педагогических кадров в аспирантуре)",
         ];
+    }
 
     public static function categoryForm() {
         return [
