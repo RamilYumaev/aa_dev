@@ -61,7 +61,7 @@ class DictCompetitiveGroupEditForm extends Model
                 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'ais_id', 'spo_class',
                 'enquiry_086_u_status', 'foreigner_status', 'edu_level'], 'integer'],
             [['competition_count'], 'number'],
-            [['education_duration'], 'double'],
+            [['education_duration', 'discount', 'education_year_cost'], 'double'],
             [['link'], 'string', 'max' => 255],
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
                 'unique', 'targetClass' => DictCompetitiveGroup::class,  'filter' => ['<>', 'id', $this->_competitiveGroup->id],  'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
