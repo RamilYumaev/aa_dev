@@ -23,8 +23,8 @@ $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1];
 ?>
-<div class="fs-12">
-    <table width="100%" class="fs-12">
+<div class="fs-11 agreement">
+    <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
             <td class="text-center"><strong>ДОГОВОР</strong> №____________<br/>
@@ -353,7 +353,7 @@ $costMonetPerYear = $costPerYearExplode[1];
         один – для Университета, один – для Обучающегося.
     </p>
     <p class="text-center"><strong>8. Адреса и реквизиты Сторон</strong></p>
-    <table width="100%" class="fs-12" cellspacing="0">
+    <table width="100%" class="fs-11" cellspacing="0">
         <tr><td class="text-center" width="41%"><strong>Университет</strong></td><td class="text-center" width="50%"
                                                                                      colspan="2"><strong>Заказчик</strong></td></tr>
         <tr><td rowspan="6" class="br" align="left">Федеральное государственное
