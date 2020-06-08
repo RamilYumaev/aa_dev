@@ -127,6 +127,22 @@ class StatementController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
+    public function actionRejectionCg($id)
+    {
+        try {
+            $this->service->rejectionCg($id, Yii::$app->user->identity->getId());
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
     public function actionRejection($id)
     {
         $this->findModel($id);
@@ -138,7 +154,6 @@ class StatementController extends Controller
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
-
 
 
 }

@@ -16,6 +16,7 @@ use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use Yii;
 
@@ -62,7 +63,7 @@ class FileHelper
             StatementIndividualAchievements::class,
             StatementConsentPersonalData::class,
             StatementConsentCg::class,
-            StatementCg::class,
+            StatementRejectionCg::class,
             StatementRejection::class,
             StatementRejectionCgConsent::class,
             StatementAgreementContractCg::class
@@ -92,7 +93,7 @@ class FileHelper
             StatementRejection::class => 0,
             StatementRejectionCgConsent::class =>0,
             StatementAgreementContractCg::class=>0,
-            StatementCg::class =>0,
+            StatementRejectionCg::class =>0,
         ];
     }
 

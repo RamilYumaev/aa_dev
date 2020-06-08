@@ -45,6 +45,13 @@ class StatementRejection extends ActiveRecord
         return $this->status_id == StatementHelper::STATUS_DRAFT;
     }
 
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);

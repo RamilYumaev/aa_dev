@@ -18,6 +18,12 @@ class StatementRejectionQuery extends \yii\db\ActiveQuery
         return $this->statement($id, $user_id)->one();
     }
 
+    public function statementStatus($user_id, $status) {
+        return $this
+            ->innerJoin(Statement::tableName(), 'statement.id=statement_rejection.statement_id')
+            ->andWhere(['statement.user_id' => $user_id, 'statement_rejection.status_id' => $status]);
+    }
+
 
 
 }

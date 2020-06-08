@@ -6,12 +6,12 @@ use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\PassportDataHelper;
 use olympic\helpers\auth\ProfileHelper;
 
-/* @var $statementCg modules\entrant\models\StatementCg */
+/* @var $statementRejection modules\entrant\models\StatementRejectionCg */
 
 
-$profile = ProfileHelper::dataArray($statementCg->statement->user_id);
-$passport = PassportDataHelper::dataArray($statementCg->statement->user_id);
-$name = DeclinationFioHelper::userDeclination($statementCg->statement->user_id);
+$profile = ProfileHelper::dataArray($statementRejection->statementCg->statement->user_id);
+$passport = PassportDataHelper::dataArray($statementRejection->statementCg->statement->user_id);
+$name = DeclinationFioHelper::userDeclination($statementRejection->statementCg->statement->user_id);
 
 
 ?>
@@ -37,12 +37,12 @@ $name = DeclinationFioHelper::userDeclination($statementCg->statement->user_id);
     <p align="justify" class="lh-1-5">
         Я, <?= $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'] ?>
         <?= $passport['date_of_birth'] ?> года рождения, отзываю свое заявление об участии в конкурсе №
-        <?= $statementCg->statement->numberStatement ?> в отношении образовательной программы:
+        <?= $statementRejection->statementCg->statement->numberStatement ?> в отношении образовательной программы:
     <ol><li>
-        <?= $statementCg->statement->speciality->codeWithName ?>,
-        <?= $statementCg->statement->eduLevel ?>,
-        <?= $statementCg->statement->specialRight ?>,
-        <?= $statementCg->cg->fullName ?>.
+        <?= $statementRejection->statementCg->statement->speciality->codeWithName ?>,
+        <?= $statementRejection->statementCg->statement->eduLevel ?>,
+        <?= $statementRejection->statementCg->statement->specialRight ?>,
+        <?= $statementRejection->statementCg->cg->fullName ?>.
         </li>
     </ol>
     </p>

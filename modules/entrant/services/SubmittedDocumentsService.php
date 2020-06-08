@@ -17,9 +17,14 @@ use modules\entrant\models\File;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
+use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\SubmittedDocuments;
 use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\repositories\AddressRepository;
@@ -29,9 +34,13 @@ use modules\entrant\repositories\FileRepository;
 use modules\entrant\repositories\IndividualAchievementsRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\PassportDataRepository;
+use modules\entrant\repositories\StatementAgreementContractCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementPersonalDataRepository;
+use modules\entrant\repositories\StatementRejectionCgConsentRepository;
+use modules\entrant\repositories\StatementRejectionCgRepository;
+use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\SubmittedDocumentsRepository;
 use Prophecy\Doubler\ClassPatch\SplFileInfoPatch;
@@ -45,6 +54,10 @@ class SubmittedDocumentsService
     private $personalDataRepository;
     private $statementConsentCgRepository;
     private $fileRepository;
+    private $statementRejectionRepository;
+    private $statementRejectionCgRepository;
+    private $rejectionCgConsentRepository;
+    private $statementAgreementContractCgRepository;
 
 
     public function __construct(SubmittedDocumentsRepository $repository,
@@ -52,6 +65,10 @@ class SubmittedDocumentsService
                                 StatementIndividualAchievementsRepository $achievementsRepository,
                                 StatementPersonalDataRepository $personalDataRepository,
                                 StatementConsentCgRepository $statementConsentCgRepository,
+                                StatementRejectionRepository $statementRejectionRepository,
+                                StatementRejectionCgRepository $statementRejectionCgRepository,
+                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
+                                StatementAgreementContractCgRepository $statementAgreementContractCgRepository,
                                 FileRepository $fileRepository,
                                 TransactionManager $manager)
     {
@@ -61,6 +78,10 @@ class SubmittedDocumentsService
         $this->achievementsRepository = $achievementsRepository;
         $this->statementConsentCgRepository = $statementConsentCgRepository;
         $this->personalDataRepository = $personalDataRepository;
+        $this->statementRejectionRepository = $statementRejectionRepository;
+        $this->statementRejectionCgRepository = $statementRejectionCgRepository;
+        $this->rejectionCgConsentRepository = $rejectionCgConsentRepository;
+        $this->statementAgreementContractCgRepository = $statementAgreementContractCgRepository;
         $this->fileRepository = $fileRepository;
     }
 
@@ -83,6 +104,10 @@ class SubmittedDocumentsService
             $this->statementConsent($user_id);
             $this->statementIndividualAchievements($user_id);
             $this->statementPd($user_id);
+            $this->statementRejection($user_id);
+            $this->statementRejectionCg($user_id);
+            $this->statementConsentRejection($user_id);
+            $this->statementAgreement($user_id);
             $this->files($user_id);
         });
     }
@@ -129,6 +154,60 @@ class SubmittedDocumentsService
             $this->statementConsentCgRepository->save($statement);
         }
     }
+
+    private function statementRejection($userId)
+    {
+        $statements = StatementRejection::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\StatementRejection */
+        foreach ($statements as $statement) {
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+            }
+            $statement->setStatus(StatementHelper::STATUS_WALT);
+            $this->statementRejectionRepository->save($statement);
+        }
+    }
+
+
+    private function statementConsentRejection($userId)
+    {
+        $statements = StatementRejectionCgConsent::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\StatementRejectionCgConsent */
+        foreach ($statements as $statement) {
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+            }
+            $statement->setStatus(StatementHelper::STATUS_WALT);
+            $this->rejectionCgConsentRepository->save($statement);
+        }
+    }
+
+    private function statementRejectionCg($userId)
+    {
+        $statements = StatementRejectionCg::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\StatementRejectionCg */
+        foreach ($statements as $statement) {
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления об отзыве!');
+            }
+            $statement->setStatus(StatementHelper::STATUS_WALT);
+            $this->statementRejectionCgRepository->save($statement);
+        }
+    }
+
+    private function statementAgreement($userId)
+    {
+        $statements = StatementAgreementContractCg::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        /* @var $statement \modules\entrant\models\StatementCg */
+        foreach ($statements as $statement) {
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+            }
+            $statement->setStatus(StatementHelper::STATUS_WALT);
+            $this->statementAgreementContractCgRepository->save($statement);
+        }
+    }
+
 
     private function statementIndividualAchievements($userId)
     {

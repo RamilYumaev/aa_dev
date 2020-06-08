@@ -11,6 +11,7 @@ use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
@@ -79,7 +80,7 @@ class FileController extends Controller
             ($model == StatementConsentCg::class && !$modelOne->count_pages) ||
             ($model == StatementRejection::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
-            ($model == StatementCg::class && !$modelOne->count_pages)
+            ($model == StatementRejectionCg::class && !$modelOne->count_pages)
         )
         {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
@@ -162,7 +163,7 @@ class FileController extends Controller
         if ($modelOne == StatementConsentCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
             return $model;
         }
-        if ($modelOne == StatementCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+        if ($modelOne == StatementRejectionCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
             return $model;
         }
         if ($modelOne == StatementRejection::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
