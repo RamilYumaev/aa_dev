@@ -469,7 +469,7 @@ class Settings
 
     public function allowBacCseOchContactMoscow(): bool
     {
-        return strtotime($this->ZukBacOchContractCse) > $this->currentDate();
+        return strtotime($this->ZukBacOchContractCseMoscow) > $this->currentDate();
     }
 
     public function allowBacCseOchContractFilial(): bool

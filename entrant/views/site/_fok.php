@@ -20,29 +20,29 @@ $new = $jobEntrant->isCategoryTarget() ? StatementHelper::STATUS_WALT_SPECIAL : 
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant'=> $jobEntrant,
-            'icon'=> 'list',
+            'icon'=> 'list-ul',
             'status' => $new,
-            'str' => "Новые ЗУК"])?>
+            'str' => "Новые"])?>
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
             'entrant'=> $jobEntrant,
             'icon'=> 'list-ul',
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
-            'str' => "Непринятые ЗУК"])?>
+            'str' => "Непринятые"])?>
     </div>
     <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_LIGHT_BLUE_ACTIVE,
             'entrant'=> $jobEntrant,
-            'icon'=> 'list-alt',
+            'icon'=> 'list-ul',
             'status' => StatementHelper::STATUS_RECALL,
-            'str' => "Отозванные ЗУК"])?>
+            'str' => "Отозванные"])?>
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
             'entrant'=> $jobEntrant,
-            'icon'=> 'list-ol',
+            'icon'=> 'list-ul',
             'status' => StatementHelper::STATUS_ACCEPTED,
-            'str' => "Принятые ЗУК"])?>
+            'str' => "Принятые"])?>
     </div>
 </div>
 <div class="row">

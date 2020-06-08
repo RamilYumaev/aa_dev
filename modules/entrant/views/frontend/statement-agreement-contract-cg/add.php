@@ -3,7 +3,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 /* @var  $type integer|null */
-$array = [1=>'Обучающийся', 2 => 'Физическое лицо/Законный представитель', 3 =>'Юридиеческое лицо'];
+$array = [1=>'Сам обучающийся', 2 => 'Законный представитель обучающегося', 3 =>'Юридическое лицо'];
 if(!\Yii::$app->user->identity->eighteenYearsOld()) {
     unset($array[1]);
 }

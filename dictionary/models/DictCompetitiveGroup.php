@@ -159,7 +159,7 @@ class DictCompetitiveGroup extends ActiveRecord
 
         if ($cgBudget &&
             $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
-            $setting->allowCgForDeadLineBudget($cgBudget)
+            $setting->all
         ) {
             return [
                 "status" => 1,
@@ -239,7 +239,8 @@ class DictCompetitiveGroup extends ActiveRecord
             $this->specialization_id,
             $this->faculty_id,
             $this->education_form_id,
-            $this->financing_type_id);
+            $this->financing_type_id,
+            $this->special_right_id);
     }
 
 

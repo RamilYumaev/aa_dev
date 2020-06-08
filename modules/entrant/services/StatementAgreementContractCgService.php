@@ -41,7 +41,7 @@ class StatementAgreementContractCgService
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
         if($this->repository->exits($userId)) {
-        throw new \DomainException('Вы уже сформировали договор об оказании платных услуг');
+        throw new \DomainException('Вы уже сформировали договор об оказании платных образовательных услуг');
         }
 
         $stConsent = StatementAgreementContractCg::create($cg->id);

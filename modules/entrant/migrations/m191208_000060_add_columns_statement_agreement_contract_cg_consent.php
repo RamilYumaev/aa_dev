@@ -6,7 +6,7 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use \yii\db\Migration;
 
-class m191208_000057_add_columns_statement_agreement_contract_cg_consent extends Migration
+class m191208_000060_add_columns_statement_agreement_contract_cg_consent extends Migration
 {
     private function table() {
         return 'statement_agreement_contract_cg';

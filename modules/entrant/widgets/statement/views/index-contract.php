@@ -12,7 +12,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <?php if($statementsCg):  ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Договор об оказании платных услуг</h4></div>
+    <div class="panel-heading"><h4>Договор об оказании платных образовательных услуг</h4></div>
     <div class="panel-body">
         <table class="table table-bordered">
             <tr>
@@ -34,7 +34,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ["statement-agreement-contract-cg/add", "id" => $agreement->id],
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',
-                                                'data-target' => '#modal', 'data-modalTitle' => 'Добавить']); ?>
+                                                'data-target' => '#modal', 'data-modalTitle' => 'Кто выступает в роли заказчика?']); ?>
                                         <?= $agreement->typePersonalOrLegal() ? Html::a('Добавить/редактировать данные 
                                                 заказчика договора',
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],

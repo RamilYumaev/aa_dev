@@ -41,11 +41,38 @@ class DictCompetitiveGroupHelper
 
     const MAX_SPECIALTY_ALLOW = 3;
 
+    public static function getEduFormsForAgreement()
+    {
+        return [self::EDU_FORM_OCH => 'Очной',
+            self::EDU_FORM_OCH_ZAOCH => 'Очно-заочной',
+            self::EDU_FORM_ZAOCH => 'Заочной'];
+    }
+
+    public static function diplomaForEducationLevel()
+    {
+        return[
+            self::EDUCATION_LEVEL_SPO => "диплом о среднем профессиональном образовании",
+            self::EDUCATION_LEVEL_BACHELOR => "диплом бакалавра",
+            self::EDUCATION_LEVEL_MAGISTER => "диплом магистра",
+            self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "диплом об окончании аспирантуры",
+        ];
+    }
+
+    public static function eduLevelForAgreement()
+    {
+        return [
+            self::EDUCATION_LEVEL_BACHELOR => "бакалавриат",
+            self::EDUCATION_LEVEL_MAGISTER => "магистратура",
+            self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "подготовка кадров высшей квалификации, 
+            осуществляемая по результатам освоения программ подготовки научно-педагогических кадров в аспирантуре)",
+        ];
+    }
+
     public static function getEduForms(): array
     {
-        return [self::EDU_FORM_OCH => 'очная',
-            self::EDU_FORM_OCH_ZAOCH => 'очно-заочная',
-            self::EDU_FORM_ZAOCH => 'заочная'];
+        return [self::EDU_FORM_OCH => 'Очная',
+            self::EDU_FORM_OCH_ZAOCH => 'Очно-заочная',
+            self::EDU_FORM_ZAOCH => 'Заочная'];
     }
 
     public static function getFinancingTypes(): array
@@ -145,6 +172,11 @@ class DictCompetitiveGroupHelper
     public static function formName($key): string
     {
         return ArrayHelper::getValue(self::getEduForms(), $key);
+    }
+
+    public static function formNameForAgreement($key): string
+    {
+        return ArrayHelper::getValue(self::getEduFormsForAgreement(), $key);
     }
 
     public static function financingTypeName($key): string
