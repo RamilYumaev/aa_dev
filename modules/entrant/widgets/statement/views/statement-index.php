@@ -7,11 +7,14 @@
 
 use modules\entrant\helpers\StatementHelper;
 use \yii\bootstrap\Collapse;
-var_dump($statements);
+use yii\helpers\Html;
+
 ?>
 <?php if ($statements): ?>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Заявления об участии в конкурсе</h4></div>
+        <div class="panel-heading"><h4>Заявления об участии в конкурсе <?=Html::a("Добавить", "/abiturient/anketa/step2")?></h4>
+
+        </div>
         <div class="panel-body">
             <?php
             $result = [];
