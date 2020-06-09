@@ -25,7 +25,7 @@ class StatementAgreementContractCgRepository extends RepositoryDeleteSaveClass
 
     public function exits($userId)
     {
-       return StatementAgreementContractCg::find()->statementStatus($userId)->exists();
+       return StatementAgreementContractCg::find()->statementUser($userId)->exists();
     }
 
 }

@@ -19,15 +19,17 @@ class StatementCgContractWidget extends Widget
 
     public function run()
     {
-        $model = StatementCg::find()
+        $column = StatementCg::find()
             ->joinWith('statement')
             ->joinWith('cg')
-            ->innerJoin(StatementConsentCg::tableName(), 'statement_consent_cg.statement_cg_id=statement_cg.id')
             ->andwhere(['user_id' => $this->userId,
                 'financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-                'statement.status' => StatementHelper::STATUS_ACCEPTED,
-                'statement_consent_cg.status' => StatementHelper::STATUS_ACCEPTED, ])
-            ->all();
+                'statement.status' => StatementHelper::STATUS_ACCEPTED])
+            ->select('statement_cg.id')->column();
+        $model = StatementCg::find()
+            ->innerJoin(StatementConsentCg::tableName(), 'statement_consent_cg.statement_cg_id=statement_cg.id')
+            ->andwhere(['statement_consent_cg.status' => StatementHelper::STATUS_ACCEPTED,
+                'statement_consent_cg.statement_cg_id' => $column])->all();
         return $this->render('index-contract', [
             'statementsCg'=> $model,
         ]);

@@ -66,6 +66,17 @@ class PostDocumentController extends Controller
         return $this->render('consent-rejection');
     }
 
+    public function actionStatementRejection()
+    {
+        return $this->render('statement-rejection');
+    }
+
+    public function actionAgreementContract()
+    {
+        return $this->render('agreement-contract');
+    }
+
+
     /**
      * @return mixed
      */

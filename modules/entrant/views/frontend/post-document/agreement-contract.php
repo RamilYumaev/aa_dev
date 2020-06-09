@@ -5,14 +5,13 @@ use yii\helpers\Html;
 
 \frontend\assets\modal\ModalAsset::register($this);
 
-$this->title = 'Аннулирование заявления о согласии на зачисление.  Загрузка файлов';
+$this->title = 'Договор об оказании платных образовательных услуг. Загрузка файлов';
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$anketa = Yii::$app->user->identity->anketa();
 $userId =  Yii::$app->user->identity->getId();
 ?>
 
@@ -26,7 +25,7 @@ $userId =  Yii::$app->user->identity->getId();
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
         <div class="col-md-12">
-            <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\statement\StatementCgContractWidget::widget(['userId' => $userId]); ?>
             <?= Html::a("Отправить", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
         </div>
     </div>

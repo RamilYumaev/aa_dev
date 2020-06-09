@@ -324,6 +324,15 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $budget;
     }
 
+    public function getFullNameB()
+    {   $edu_level =  DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "") ." / ".$edu_level
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget;
+    }
+
 
     public function isGovLineCg(): bool
     {
