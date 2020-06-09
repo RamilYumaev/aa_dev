@@ -33,12 +33,15 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function allowDeadLineEducationForm()
     {
-        if ((\Yii::$app->user->identity->setting()->allowBacCseOchBudget())) {
-            return $this->andWhere(['in', 'education_form_id',
-                [DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH]]);
-        } else {
+        if (!(\Yii::$app->user->identity->setting())->allowBacCseOchContactMoscow()) {
             return $this->andWhere(['education_form_id' => DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]);
         }
+        return $this->andWhere(['in','education_form_id',
+            [DictCompetitiveGroupHelper::EDU_FORM_ZAOCH,
+                DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH,
+                DictCompetitiveGroupHelper::EDU_FORM_OCH
+                ]]);
+
     }
 
     public function branch($branchId)

@@ -32,7 +32,7 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
      */
-    public $ZukBacOchBudgetCse = '2020-06-07 01:00:00';
+    public $ZukBacOchBudgetCse = '2020-06-11 01:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата бюджетной основы
@@ -52,7 +52,7 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы Москва
      */
-    public $ZukBacOchContractCseMoscow = "2020-08-25 00:00:00";
+    public $ZukBacOchContractCseMoscow = "2020-06-10 19:50:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата договорной основы Москва
@@ -73,6 +73,11 @@ class Settings
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата договорной основы, Москва
      */
     public $ZukBacZaOchContractMoscowCse = "2020-08-25 00:00:00";
+    /**
+     * @var string
+     * Окончание приема заочных заявлений бакалавриата на договор в филиалах по ЕГЭ
+     */
+    public $ZukBacZaOchContractFilialCse = "2020-08-25 00:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата договорной основы, Москва
@@ -124,6 +129,11 @@ class Settings
      * Окончание приема документов по гослинии
      */
     public $ZukUmsGovline = "2020-06-06 00:00:00";
+    /**
+     * @var string
+     * Окончание приема документов УМС договор
+     */
+    public $ZukUmsContract = "2020-06-06 00:00:00";
     /**
      * @var string
      * Окончание приема ЗОС в СПО бюджет Москва
@@ -278,65 +288,41 @@ class Settings
      * Запрет экспорта
      */
     public $bansExport = false;
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
      * Разрешено ли выбирать данную образовательную программу
      */
-    public function allowedToSubmitByTheDeadline(DictCompetitiveGroup $cg)
+    public function allowCgForSave(DictCompetitiveGroup $cg)
     {
         return $this->allowCgCseContractMoscow($cg) &&
             $this->allowCgCseContractFilial($cg) &&
-            $this->allowCgUmsGovLine($cg);
+            $this->allowCgUmsGovLine($cg) &&
+            $this->allowCgCseBudget($cg) &&
+            $this->allowCgVi($cg);
     }
-    /**
-     * @param DictCompetitiveGroup $cg
-     * @return bool
-     * Можно ли загружать с заявление бакалавриата с выбором ВИ на бюджет
-     */
-    public function allowStatementUploadViBudget(DictCompetitiveGroup $cg): bool
-    {
-        if ($this->contractCpk($cg)) {
-            return true;
-        }
-        if ($cg->isOchCg() || $cg->isOchZaOchCg()) {
-            return $this->allowBacViOchBudget();
-        }
-        return true;
-    }
-    /**
-     * @param DictCompetitiveGroup $cg
-     * @return bool
-     * Разрешенно ли загружать договорные заявления по ВИ Москва
-     */
-    public function allowStatementUploadViContractMoscow(DictCompetitiveGroup $cg): bool
-    {
-        if (!$this->contractCpk($cg)) {
-            return true;
-        }
-        if ($this->ochOrOchZaOch($cg)) {
-            return $this->allowBacViOchContractMoscow();
-        }
 
-        if ($cg->isZaOchCg()) {
-            return $this->allowBacViZaOchContractMoscow();
-        }
-        return true;
+    public function allowCgVi(DictCompetitiveGroup $cg)
+    {
+        return $this->allowCgViBudget($cg) && $this->allowCgViContractMoscow($cg) && $this->allowCgViContractFilial($cg);
     }
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
      * Проверка на разрешение выбора образовательных программ по ЕГЭ договор Москва
      */
+    // ДОГОВОР ЕГЭ
     public function allowCgCseContractMoscow(DictCompetitiveGroup $cg): bool
     {
         if (!$this->isHeadUniversity()) {
             return true;
         }
-        if ($cg->isBudget() || $cg->isUmsCg()) {
+        if ($this->budgetCpk($cg)) {
             return true;
         }
-        if (($cg->isOchCg() || $cg->isOchZaOchCg())) {
+        if ($this->ochOrOchZaOch($cg)) {
             return $this->allowBacCseOchContactMoscow();
         }
         if ($cg->isZaOchCg()) {
@@ -345,6 +331,7 @@ class Settings
 
         return true;
     }
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
@@ -363,11 +350,13 @@ class Settings
         }
         return true;
     }
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
      * Определяет сроки окончания приема заявлений УМС по гослинии
      */
+    // ГОСЛИНИЯ
     public function allowCgUmsGovLine(DictCompetitiveGroup $cg): bool
     {
         if ($cg->isGovLineCg()) {
@@ -376,10 +365,10 @@ class Settings
         return true;
     }
 
-    // Проверка кокнурсных групп для ЗУК
-    public function allowCgForDeadLineBudget(DictCompetitiveGroup $cg): bool
+    // БАКАЛАВРИАТ ЕГЭ БЮДЖЕТ
+    public function allowCgCseBudget(DictCompetitiveGroup $cg): bool
     {
-        if (($cg->isOchCg() || $cg->isOchZaOchCg()) && $cg->isBudget() && !$cg->isUmsCg()) {
+        if ($this->ochOrOchZaOch($cg) && $cg->isBudget() && !$cg->isUmsCg()) {
             return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
         }
 
@@ -387,22 +376,15 @@ class Settings
             return strtotime($this->ZukBacZaOchBudgetCse) > $this->currentDate();
         }
 
-        if ($cg->isUmsCg() && $cg->isBudget()) {
-            return strtotime($this->ZukUmsGovline) > $this->currentDate();
-        }
-
         return true;
     }
 
-    public function allowCgVi(DictCompetitiveGroup $cg)
-    {
-        return $this->allowCgViBudget($cg) && $this->allowCgViContractMoscow($cg) && $this->allowCgViContractFilial($cg);
-    }
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
      * Проверка разрешения подачи документов на конкурсную группу по ВИ на бюджет
      */
+    // БАКАЛАВРИАТ ВИ БЮДЖЕТ
     public function allowCgViBudget(DictCompetitiveGroup $cg): bool
     {
         if ($this->contractCpk($cg)) {
@@ -416,6 +398,7 @@ class Settings
         }
         return true;
     }
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
@@ -434,6 +417,7 @@ class Settings
         }
         return true;
     }
+
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
@@ -455,6 +439,27 @@ class Settings
         }
         return true;
     }
+    // Проверка вышел ли срок
+    public function allowSpoOchBudgetMoscow()
+    {
+        return strtotime($this->ZukSpoOchMoscowBudget) > $this->currentDate();
+    }
+
+    public function allowSpoOchBudgetFilial()
+    {
+        return strtotime($this->ZukSpoOchFilialBudget) > $this->currentDate();
+    }
+
+    public function allowSpoContractMoscow()
+    {
+        return strtotime($this->ZukSpoOchMoscowContract) > $this->currentDate();
+    }
+
+    public function allowSpoContractFilial()
+    {
+        return strtotime($this->ZukSpoOchFilialContract) > $this->currentDate();
+    }
+
     // Проверка вышел ли срок приема ЗУК по внутренним вступительным испытаниям
 
     public function allowViOchBackBudget(): bool
@@ -466,6 +471,8 @@ class Settings
     {
         return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
     }
+
+    // Проверка вышел ли срок приема ЗУК по ЕГЭ
 
     public function allowBacCseOchContactMoscow(): bool
     {

@@ -77,10 +77,10 @@ foreach ($currentFaculty as $faculty) {
 
         foreach ($cgFaculty as $currentCg) {
             
-//                if(!$setting->($currentCg))
-//                {
-//                    continue;
-//                }
+                if(!$setting->allowCgCseContractMoscow($currentCg))
+                {
+                    continue;
+                }
 
             if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
                 continue;
