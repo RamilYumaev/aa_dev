@@ -31,20 +31,16 @@ use yii\helpers\Html;
                     $resultData .= "</tr>";
                 }
                 $resultData .= "</table>";
-                $result = [
+                $result[] =
                     ['label' => $statement->faculty->full_name . ", " . $statement->speciality->getCodeWithName() . ",<br/>Заявление № "
                         . $statement->numberStatement . " <span class=\"label label-"
                         . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span>",
                         'content' => $resultData,
-                        'contentOptions' => ['class' => 'out']],];
+                        'contentOptions' => ['class' => 'out']];
 
-                if (count($array)) {
-                    $resultFinish = array_merge($array, $result);
-                }
-                $array = $result;
             }
             ?>
-            <?= Collapse::widget(['encodeLabels' => false, 'items' => $resultFinish]); ?>
+            <?= Collapse::widget(['encodeLabels' => false, 'items' => $result]); ?>
         </div>
     </div>
 <?php endif; ?>

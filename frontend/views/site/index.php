@@ -96,6 +96,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
             <?= \modules\entrant\widgets\statement\StatementIndexWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \modules\entrant\widgets\statement\StatementCgFrontendConsentWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \modules\entrant\widgets\statement\StatementIaFrontendWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
+            <?= \modules\entrant\widgets\statement\StatementCgContractFrontendWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \frontend\widgets\olympic\UserOlympicListWidget::widget(); ?>
        <?php endif; ?>
     </div>

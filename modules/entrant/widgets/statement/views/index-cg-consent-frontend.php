@@ -20,7 +20,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <?php foreach ($statementConsents as $consent): ?>
             <table class="table">
                 <tr>
-                    <th><?=$consent->statementCg->cg->fullNameV?>
+                    <th><?=$consent->statementCg->cg->fullNameB?>
                         Заявление № <?=$consent->statementCg->statement->numberStatement ?></th>
                     <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                                 <?=$consent->statusName?></span></td>
