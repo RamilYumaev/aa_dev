@@ -65,6 +65,10 @@ class StatementConsentCg extends ActiveRecord
         return $this->status == StatementHelper::STATUS_DRAFT;
     }
 
+    public function statusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED;
+    }
+
     public function getStatusNameJob() {
         return StatementHelper::statusJobName($this->status);
     }
@@ -73,11 +77,6 @@ class StatementConsentCg extends ActiveRecord
         return StatementHelper::statusName($this->status);
     }
 
-
-
-    public function statusAccepted() {
-        return $this->status == StatementHelper::STATUS_ACCEPTED;
-    }
 
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);

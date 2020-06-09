@@ -152,6 +152,7 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function findBudgetAnalog($cgContract): array
     {
         $anketa = \Yii::$app->user->identity->anketa();
+        /* @var  $setting \modules\entrant\helpers\Settings */
         $setting = \Yii::$app->user->identity->setting();
 
 
@@ -159,7 +160,7 @@ class DictCompetitiveGroup extends ActiveRecord
 
         if ($cgBudget &&
             $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
-            $setting->all
+            $setting->allowCgForDeadLineBudget($cgBudget)
         ) {
             return [
                 "status" => 1,
@@ -313,6 +314,16 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . StringHelper::mb_ucfirst($form_edu)
             . " / " . $budget;
     }
+
+    public function getFullNameV()
+    {
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "")
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget;
+    }
+
 
     public function isGovLineCg(): bool
     {

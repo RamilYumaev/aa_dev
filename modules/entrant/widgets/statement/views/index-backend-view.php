@@ -1,6 +1,8 @@
 <?php
 
 use backend\widgets\adminlte\Box;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\widgets\file\FileListBackendWidget;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileListWidget;
 
@@ -23,6 +25,14 @@ use modules\entrant\widgets\file\FileListWidget;
 
         <?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
     ['class' => 'btn btn-large btn-warning'])?>
+        <?= $statement->statusNewJob() && $statement->isAllFilesAccepted() ?
+            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+                ['data-entrant/communication/export-statement',
+                    'user' => $statement->user_id, 'statement' => $statement->id],
+                ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
+
+                 <span class="label label-<?= StatementHelper::colorName($statement->status)?>">
+                        <?=$statement->statusNameJob?></span>
     </p>
 
 <table class="table table-bordered">
@@ -35,5 +45,5 @@ use modules\entrant\widgets\file\FileListWidget;
              </tr>
              <?php endforeach; ?>
 </table>
-<?= FileListWidget::widget(['view'=> 'list-backend', 'record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class, 'userId' => $statement->user_id ]) ?>
+<?= FileListBackendWidget::widget([ 'record_id' => $statement->id, 'isCorrect'=> $statement->isStatusAccepted(), 'model' => \modules\entrant\models\Statement::class, 'userId' => $statement->user_id ]) ?>
 <?php Box::end() ?>
