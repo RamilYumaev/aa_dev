@@ -25,10 +25,10 @@ class ChartBarWidget extends Widget
             ->formEdu($this->cg->education_form_id);
 
         $kcp = clone $query;
-        $ids  = clone $query;
+        $ids  = $query->select('id')->column();
 
-        $zuk = StatementCg::find()->statementAcceptedStatus($ids->select('id')->column())->count();
-        $zos = StatementCg::find()->statementConsentAcceptedStatus($ids->select('id')->column())->count();
+        $zuk = StatementCg::find()->statementAcceptedStatus($ids)->count();
+        $zos = StatementCg::find()->statementConsentAcceptedStatus($ids)->count();
         return $this->render($this->view, ['key'=> $this->key, 'cg'=> $this->cg,
             'kcp' => $kcp->sum('kcp'), 'zuk' => $zuk, 'zos' => $zos]);
     }

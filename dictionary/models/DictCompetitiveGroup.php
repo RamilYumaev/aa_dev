@@ -316,10 +316,10 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function getFullNameV()
-    {
+    {   $edu_level =  DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
         $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
         $budget = DictCompetitiveGroupHelper::financingTypeName(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
-        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "")
+        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "") ." / ".$edu_level
             . " / " . StringHelper::mb_ucfirst($form_edu)
             . " / " . $budget;
     }
