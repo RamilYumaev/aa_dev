@@ -35,14 +35,18 @@ class StatementSearch extends  Model
     }
     /**
      * @param array $params
+     * @param  integer $limit
      * @return ActiveDataProvider
      */
-    public function search(array $params): ActiveDataProvider
+    public function search(array $params, $limit = null): ActiveDataProvider
     {
         $query = (new StatementReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' =>  $limit ?? 20,
+            ],
         ]);
 
         $this->load($params);

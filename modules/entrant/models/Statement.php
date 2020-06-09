@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictSpeciality;
 use dictionary\models\Faculty;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementQuery;
 use olympic\models\auth\Profiles;
@@ -74,7 +75,9 @@ class Statement extends ActiveRecord
         return $this->status == StatementHelper::STATUS_ACCEPTED;
     }
 
-
+    public function getStatusNameJob() {
+        return StatementHelper::statusJobName($this->status);
+    }
 
 
     public static function find(): StatementQuery
@@ -104,6 +107,19 @@ class Statement extends ActiveRecord
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
+    public function statusNewJob() {
+       return $this->status == StatementHelper::STATUS_WALT ||
+        $this->status == StatementHelper::STATUS_WALT_SPECIAL;
     }
 
     public function countFilesAndCountPagesTrue() {

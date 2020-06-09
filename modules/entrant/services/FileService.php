@@ -55,29 +55,6 @@ class FileService
         }
     }
 
-    private function statement(File $model) {
-        $QRCodeReader = new QrReader($model->getThumbFilePath('file_name_user'));
-        $text =$QRCodeReader->text();
-        if(!$text) {
-            $this->remove($model->id);
-            throw new \DomainException('Qr-code не найден или не смог обработать');
-        } else {
-            $data = explode("-", $text);
-            if($data[0] != $model->record_id) {
-                $this->remove($model->id);
-                throw new \DomainException('Данный Qr-code не принадлежт к заявлению');
-            }elseif ($this->repository->getFullFile($model->user_id, $model->model,
-                $model->record_id, $data[1])){
-                $this->remove($model->id);
-                throw new \DomainException('Файл заявления присутсвует');
-            } else {
-                $model->setPosition($data[1]);
-                $this->repository->save($model);
-            }
-        }
-
-    }
-
     public function edit($id, FileForm $form)
     {
         $model = $this->repository->get($id);
@@ -94,7 +71,6 @@ class FileService
         $model->setMessage($form->message);
         $model->setStatus(FileHelper::STATUS_NO_ACCEPTED);
         $this->repository->save($model);
-
     }
 
     public function accepted($id)

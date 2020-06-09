@@ -38,14 +38,6 @@ use yii\helpers\Html;
                     [
                         'class' => \modules\entrant\searches\grid\StatementColumn::class,
                     ],
-                    ['value' => function ($model) {
-                        return $model->status == StatementHelper::STATUS_WALT ||
-                                $model->status == StatementHelper::STATUS_WALT_SPECIAL ?
-                            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                                ['data-entrant/communication/export-statement',
-                                    'user' => $model->user_id, 'statement' => $model->id],
-                                ['data-method' => 'post', 'class' => 'btn btn-success']) : '';
-                    }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'data-entrant/statement', 'template' => '{view}']
                 ],
             ]); ?>

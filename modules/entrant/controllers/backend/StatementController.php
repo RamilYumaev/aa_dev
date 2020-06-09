@@ -7,6 +7,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementReadRepository;
@@ -48,11 +49,22 @@ class StatementController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'status' => $status
-            ]);
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'status' => $status
+        ]);
     }
+
+    public function actionNew()
+    {
+        $searchModel = new StatementSearch($this->jobEntrant, StatementHelper::STATUS_WALT);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 5);
+
+        return $this->render('new', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 
     /**
      *
