@@ -94,7 +94,8 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <div class="col-md-10 col-md-offset-1">
         <?php if (!Yii::$app->user->isGuest) : ?>
             <?= \modules\entrant\widgets\statement\StatementIndexWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
-
+            <?= \modules\entrant\widgets\statement\StatementCgFrontendConsentWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
+            <?= \modules\entrant\widgets\statement\StatementIaFrontendWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \frontend\widgets\olympic\UserOlympicListWidget::widget(); ?>
        <?php endif; ?>
     </div>
