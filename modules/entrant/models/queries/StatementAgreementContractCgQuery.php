@@ -34,9 +34,10 @@ class StatementAgreementContractCgQuery extends \yii\db\ActiveQuery
         return $this->statement($id, $user_id)->one();
     }
 
+
     public function statusNoDraft($alias = '')
     {
-        return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
+        return $this->andWhere([">", $alias."status_id", StatementHelper::STATUS_DRAFT]);
     }
 
     public function orderByCreatedAtDesc()

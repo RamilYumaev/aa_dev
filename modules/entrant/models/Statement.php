@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictSpeciality;
 use dictionary\models\Faculty;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementQuery;
@@ -43,7 +44,7 @@ class Statement extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class];
     }
 
     public static  function create($user_id, $faculty_id, $speciality_id, $special_right, $edu_level, $counter, $formCategory) {

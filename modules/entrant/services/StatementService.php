@@ -141,6 +141,16 @@ class StatementService
         $this->statementRejectionRepository->save(StatementRejection::create($statement->id));
     }
 
+    public function rejectionRemoveCg($id) {
+        $statement = $this->rejectionCgRepository->get($id);
+        $this->rejectionCgRepository->remove($statement);
+    }
+
+    public function rejectionRemove($id) {
+        $statement = $this->statementRejectionRepository->get($id);
+        $this->statementRejectionRepository->remove($statement);
+    }
+
 
     private function addOtherDoc($user_id, $type) {
         $other = $this->otherDocumentRepository->getUserNote($user_id, $type);

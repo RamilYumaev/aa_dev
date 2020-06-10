@@ -10,6 +10,8 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\services\StatementService;
 use modules\entrant\services\SubmittedDocumentsService;
 use Mpdf\Mpdf;
@@ -42,6 +44,10 @@ class StatementController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete-cg' => ['POST'],
+                    'remove-rejection' => ['POST'],
+                    'remove-rejection-cg' => ['POST'],
+                    'rejection-cg' => ['POST'],
+                    'rejection' => ['POST'],
                 ],
             ],
         ];
@@ -51,21 +57,6 @@ class StatementController extends Controller
     {
         return $this->render('index');
     }
-
-    /**
-     *
-     * @param $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-
-    public function actionDoc($id)
-    {
-        $statement = $this->findModel($id);
-        FileCgHelper::getFile(Yii::$app->user->identity->getId(), $statement);
-    }
-
     /**
      *
      * @param $id
@@ -102,6 +93,33 @@ class StatementController extends Controller
     protected function findModel($id): Statement
     {
         if (($model = Statement::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelRejection($id): StatementRejection
+    {
+        if (($model = StatementRejection::find()->statementOne($id, Yii::$app->user->identity->getId())) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelRejectionCg($id): StatementRejectionCg
+    {
+        if (($model = StatementRejectionCg::find()->statementOne($id, Yii::$app->user->identity->getId())) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
@@ -148,6 +166,42 @@ class StatementController extends Controller
         $this->findModel($id);
         try {
             $this->service->rejection($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionRejectionRemove($id)
+    {
+        $this->findModelRejection($id);
+        try {
+            $this->service->rejectionRemove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionRejectionRemoveCg($id)
+    {
+        $this->findModelRejectionCg($id);
+        try {
+            $this->service->rejectionRemoveCg($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

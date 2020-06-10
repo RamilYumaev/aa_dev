@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\behaviors\FileBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -24,8 +25,9 @@ class  StatementConsentPersonalData extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class];
     }
+
 
     public static function create($userId) {
         $statement = new static();

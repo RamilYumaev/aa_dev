@@ -9,6 +9,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
@@ -16,6 +17,7 @@ use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementCgReadRepository;
 use modules\entrant\readRepositories\StatementIAReadRepository;
 use modules\entrant\readRepositories\StatementReadRepository;
+use modules\entrant\searches\StatementAgreementContractSearch;
 use yii\helpers\ArrayHelper;
 
 class StatementHelper
@@ -91,6 +93,13 @@ class StatementHelper
         return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
+            ->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
+    public static function columnStatementAgreement($column, $value) {
+        return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
+            ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
+            ->innerJoin(StatementAgreementContractCg::tableName() . ' consent', 'consent.statement_cg = cg.id')
             ->select($column)->groupBy($column)->all(), $column, $value);
     }
 

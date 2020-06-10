@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\models\queries\StatementIAQuery;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
@@ -30,8 +31,9 @@ class StatementIndividualAchievements extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class];
     }
+
 
     public static function tableName()
     {

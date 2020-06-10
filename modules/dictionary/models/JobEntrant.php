@@ -63,6 +63,10 @@ class JobEntrant extends ActiveRecord
         return $this->category_id == JobEntrantHelper::COZ;
     }
 
+    public function isAgreement() {
+        return $this->category_id == JobEntrantHelper::AGREEMENT;
+    }
+
     public function isCategoryUMS() {
         return $this->category_id == JobEntrantHelper::UMS;
     }
