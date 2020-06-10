@@ -7,9 +7,10 @@ use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
-use modules\entrant\models\UserAis;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementConsentCg;
 use modules\dictionary\models\JobEntrant;
-class StatementReadRepository
+class StatementReadConsentRepository
 {
     private $jobEntrant;
 
@@ -19,19 +20,17 @@ class StatementReadRepository
     }
 
     public function readData() {
-        $query = Statement::find()->statusNoDraft('statement.');
-        $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
+        $query = StatementConsentCg::find()->alias('consent')->statusNoDraft('consent.')->orderByCreatedAtDesc();
+
+        $query->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg_id');
+        $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
+
+        $query->andWhere(['statement.status' => StatementHelper::STATUS_ACCEPTED]);
+
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-                ->andWhere(['not in',
-                    'statement.status', StatementHelper::STATUS_WALT_SPECIAL]);
-        }
-
-        if($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
         }
 
         if($this->jobEntrant->isCategoryUMS()) {

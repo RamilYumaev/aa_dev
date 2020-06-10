@@ -56,13 +56,14 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
+
+
                 ['label' => 'Заявления (ЗУК)',
                 "items" => [
             [
                 "label" => 'Просмотр',
                 "url" => ['/data-entrant/statement/index'],
                 "icon" => "table",
-                "badge" => "123",
             ],
             [
             "label" => "Принятые ЗУК",
@@ -79,7 +80,11 @@ if(!Yii::$app->user->isGuest ) {
                         "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
                         "icon" => "list-ol",
                     ]
-                    ]]]
+                    ]],
+
+            ['label' => 'Экспресс (Новые ЗУК) ', 'url' => ['/data-entrant/statement/new']],
+                ['label' => 'Заявления (ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/index']],
+            ['label' => 'Экспресс (Новые ЗОС) ', 'url' => ['/data-entrant/statement-consent-cg/new']]]
 
         );
     } else {return [];}

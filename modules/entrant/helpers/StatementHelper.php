@@ -31,7 +31,7 @@ class StatementHelper
 
     public static function statusList() {
         return[
-            self::STATUS_DRAFT =>"Новый",
+            self::STATUS_DRAFT =>"Новое",
             self::STATUS_WALT=> "Ожидание",
             self::STATUS_WALT_SPECIAL=> "Ожидание",
             self::STATUS_ACCEPTED =>"Принято",
@@ -40,6 +40,15 @@ class StatementHelper
     }
 
     public static function statusListJobEntrant() {
+        return[
+            self::STATUS_WALT=> "Новое",
+            self::STATUS_WALT_SPECIAL=> "Новое",
+            self::STATUS_ACCEPTED =>"Принято",
+            self::STATUS_NO_ACCEPTED =>"Не принято",
+            self::STATUS_RECALL=> "Отозвано"];
+    }
+
+    public static function statusListJobEntrants() {
         return[
             self::STATUS_WALT=> "Новые",
             self::STATUS_WALT_SPECIAL=> "Новые",
@@ -90,11 +99,22 @@ class StatementHelper
     }
 
     public static function columnStatementConsent($column, $value) {
-        return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
+        return ArrayHelper::map((new StatementReadRepository(self::entrantJob()))
+            ->readData()
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
-            ->select($column)->groupBy($column)->all(), $column, $value);
+            ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])
+            ->select('statement.'.$column)->groupBy('statement.'.$column)->all(), $column, $value);
     }
+
+    public static function columnStatementConsentCg($column, $value) {
+        return ArrayHelper::map((new StatementCgReadRepository(self::entrantJob()))
+            ->readData()
+            ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = statement_cg.id')
+            ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])
+            ->select('statement_cg.'.$column)->groupBy('statement_cg.'.$column)->all(), $column, $value);
+    }
+
 
     public static function columnStatementAgreement($column, $value) {
         return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")

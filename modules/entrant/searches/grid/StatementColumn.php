@@ -2,6 +2,7 @@
 
 namespace modules\entrant\searches\grid;
 
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementIndividualAchievements;
 use yii\grid\DataColumn;
@@ -12,7 +13,7 @@ class StatementColumn extends DataColumn
 {
     protected function renderDataCellContent($model, $key, $index): string
     {
-        return $this->getStatementCgConsent($model) ."". $this->getStatementIA($model);
+        return Html::tag('span', Html::encode($model->statusNameJob), ['class' => 'label label-'.StatementHelper::colorName($model->status)])." ".$this->getStatementCgConsent($model) ."". $this->getStatementIA($model);
     }
 
     private function getStatementIA(Statement $statement): string

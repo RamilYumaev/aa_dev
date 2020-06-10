@@ -29,25 +29,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ],
                     [
-                        'attribute' => 'statementCg.statement.faculty_id',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsent('faculty_id',  'faculty.full_name'), 'faculty_id', 'statementCg.statement.faculty.full_name'),
-                         'value' => 'statementCg.statement.faculty.full_name'
+                            'attribute' => 'cg',
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsentCg('cg_id',  'cg.fullNameB'), 'cg', 'statementCg.cg.fullNameB'),
+                         'label' => "Конкурсная группа",
+                         'value' => 'statementCg.cg.fullNameB'
                     ],
                     [
                         'attribute' => 'created_at',
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
+                    [ 'format'=> 'raw' ,
+                            'value' => function ( \modules\entrant\models\StatementConsentCg $model) {
+                     return Html::tag('span', Html::encode($model->statusNameJob), ['class' => 'label label-'.StatementHelper::colorName($model->status)]);
+                    }],
                     ['value' => function ($model) {
-                        return $model->status == StatementHelper::STATUS_WALT ?
-                            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                                ['communication/export-statement-consent',
-                                    'user' => $model->statementCg->statement->user_id,
-                                    'statement' => $model->statementCg->statement->id,
-                                    'consent' =>  $model->id],
-                                ['data-method' => 'post', 'class' => 'btn btn-info']) : "";
+                        return Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-eye-open']),
+                                ['statement/view', 'id' => $model->statementCg->statement->id],
+                                ['data-method' => 'post', 'class' => 'btn btn-info']);
                     }, 'format'=> 'raw' ],
-                    ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
                 ],
             ]); ?>
         </div>
