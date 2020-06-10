@@ -113,7 +113,6 @@ use yii\helpers\Html;
             <?php endif; ?>
             <?php if ($statement->statementRejection) : ?>
                 <tr>
-                    <td>
                     <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf', 'id' => $statement->statementRejection->id],
                             ['class' => 'btn btn-large btn-warning']) ?> <?= FileWidget::widget([
                             'record_id' => $statement->statementRejection->id, 'model' => \modules\entrant\models\StatementRejection::class]) ?>

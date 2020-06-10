@@ -27,7 +27,7 @@ use modules\entrant\widgets\file\FileListWidget;
     ['class' => 'btn btn-large btn-warning'])?>
         <?= $statement->statusNewJob() && $statement->isAllFilesAccepted() ?
             Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                ['data-entrant/communication/export-statement',
+                ['/data-entrant/communication/export-statement',
                     'user' => $statement->user_id, 'statement' => $statement->id],
                 ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
 
