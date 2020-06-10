@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 \frontend\assets\modal\ModalAsset::register($this);
 
-$this->title = 'Аннулирование заявления об участии конкурса. Загрузка файлов';
+$this->title = 'Аннулирование заявлений об участии в конкурсе. Загрузка файлов';
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];

@@ -15,7 +15,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <?php if($statementConsents) : ?>
 <div class="panel panel-default">
-<div class="panel-heading"><h4>Заявления о согласии на зачисление</h4></div>
+<div class="panel-heading"><h4>Заявления о согласии на зачисление <?=Html::a("Отозвать", "/abiturient/post-document/statement-rejection")?></h4></div>
 <div class="panel-body">
         <?php foreach ($statementConsents as $consent): ?>
             <table class="table">

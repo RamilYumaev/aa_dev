@@ -12,7 +12,9 @@ use yii\helpers\Html;
 ?>
 <?php if ($statements): ?>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Заявления об участии в конкурсе <?=Html::a("Добавить", "/abiturient/anketa/step2")?></h4>
+        <div class="panel-heading"><h4>Заявления об участии в конкурсе
+                <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
+                <?=Html::a("Отозвать","/abiturient/post-document/statement-rejection")?></h4>
 
         </div>
         <div class="panel-body">

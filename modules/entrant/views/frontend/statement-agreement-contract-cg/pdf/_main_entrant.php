@@ -372,12 +372,12 @@ $costMonetPerYear = $costPerYearExplode[1];
                 ИНН 7704077771<br/>
                 КПП 770401001<br/>
                 УФК по г. Москве (МПГУ л/с 20736У53790)
-            </td><td class="bb h-30 v-align-bottom" align="left" width="15%">Ф.И.О</td><td class="bb" align="left"><?=$profile['last_name']." ".$profile['first_name']." ".$profile['patronymic']?></td></tr>
-        <tr><td class="bb h-30 v-align-bottom" align="left">паспорт:</td><td class="bb" align="left"><?=$passport['series'].$passport['number']?></td></tr>
-        <tr><td class="bb h-30 v-align-bottom" align="left">выдан:</td><td class="bb" align="left"><?=$passport['authority']?></td></tr>
-        <tr><td class="bb h-30 v-align-bottom" align="left">адрес регистрации:</td><td class="bb" align="left"><?=$reg['full']?></td></tr>
-        <tr><td class="bb h-50" align="left">телефон:</td><td class="bb" align="left"><?=$profile['phone']?></td></tr>
-        <tr><td rowspan="3" class="bb h-30 v-align-top" align="left">E-mail:</td><td rowspan="3" class="bb v-align-top" align="left"><?=$profile['email']?></td></tr>
+            </td><td class="bb h-30 pl-10" align="left" width="15%">Ф.И.О</td><td class="bb" align="left"><?=$profile['last_name']." ".$profile['first_name']." ".$profile['patronymic']?></td></tr>
+        <tr><td class="bb h-30 pl-10" align="left">паспорт:</td><td class="bb" align="left"><?=$passport['series'].$passport['number']?></td></tr>
+        <tr><td class="bb h-30 pl-10" align="left">выдан:</td><td class="bb" align="left"><?=$passport['authority']?></td></tr>
+        <tr><td class="bb h-30 pl-10" align="left">адрес регистрации:</td><td class="bb" align="left"><?=$reg['full']?></td></tr>
+        <tr><td class="bb h-50 pl-10" align="left">телефон:</td><td class="bb" align="left"><?=$profile['phone']?></td></tr>
+        <tr><td rowspan="3" class="bb h-30 v-align-top pl-10" align="left">E-mail:</td><td rowspan="3" class="bb v-align-top" align="left"><?=$profile['email']?></td></tr>
         <tr><td class="text-left h-50 br"><strong>Первый проректор</strong></td></tr>
         <tr><td class="text-right br prb-20 bb"><strong>В.П. Дронов</strong></td></tr>
         <tr>
@@ -392,11 +392,10 @@ $costMonetPerYear = $costPerYearExplode[1];
                 </table>
             </td>
     </table>
-    <p>
+    <p align="justify">
     С условиями настоящего Договора, Уставом МПГУ, Лицензией, Свидетельством о государственной аккредитации,
     Правилами внутреннего распорядка Университета, Положением об оказании платных образовательных услуг
-    МПГУ, утвержденным приказом МПГУ, ознакомлен(а)<br/>
-    «____» _____________ 20___ г. ________________ (подпись Обучающегося)<br/>
+    МПГУ, утвержденным приказом МПГУ, ознакомлен(а)<br/><br/>
     «____» _____________ 20___ г. ________________ (подпись Заказчика)
     </p>
 
