@@ -62,7 +62,8 @@ class ChartsController extends Controller
     {
         $query = DictCompetitiveGroup::find()
             ->finance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
-            ->currentYear('2019-2020');
+            ->withoutForeignerCg()
+            ->currentAutoYear();
         if($this->jobEntrant->isCategoryFOK()) {
             $query->faculty($this->jobEntrant->faculty_id)->eduLevel([
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,

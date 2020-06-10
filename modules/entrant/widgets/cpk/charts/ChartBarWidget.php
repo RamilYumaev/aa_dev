@@ -9,14 +9,15 @@ use yii\base\Widget;
 class ChartBarWidget extends Widget
 {
     public $key;
-    public $view = "charts\bar";
+    public $view = "charts/bar";
     /* @var $cg \dictionary\models\DictCompetitiveGroup */
     public $cg;
 
     public function run()
     {
         $query = DictCompetitiveGroup::find()
-            ->currentYear('2019-2020')
+            ->currentAutoYear()
+            ->withoutForeignerCg()
             ->finance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
             ->eduLevel($this->cg->edu_level)
             ->speciality($this->cg->speciality_id)
