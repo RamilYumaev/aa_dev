@@ -18,6 +18,7 @@ use yii\helpers\Html;
         </div>
         <div class="panel-body">
             <?php
+            /*
             $result = [];
             $resultFinish = [];
             $array = [];
@@ -79,9 +80,9 @@ use yii\helpers\Html;
                         . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span>",
                         'content' => $resultData,
                         'contentOptions' => ['class' => 'in']];
-            }
+            } */
             ?>
-            <?= Collapse::widget(['encodeLabels' => false, 'items' => $result]); ?>
+            <? /* Collapse::widget(['encodeLabels' => false, 'items' => $result]); */?>
         </div>
     </div>
 
@@ -134,8 +135,8 @@ use yii\helpers\Html;
                         <?php foreach ($statement->statementCg as $statementCg): ?>
                             <tr>
                                 <td><?= $statementCg->cg->fullName ?>
-                                    <?php if (count($statement->statementCg) > 0 &&
-                                    $statement->isStatusAccepted()) : ?>
+                                    <?php if (count($statement->statementCg) > 1 &&
+                                    $statement->isStatusAccepted() && !$statement->statementRejection) : ?>
                                     <?= $statementCg->statementRejection ?
                                         Html::a("Удалить отзыв", ['statement/rejection-remove-cg', 'id' => $statementCg->statementRejection->id], ['class' => 'btn btn-danger', 'data' => [
                                             'confirm' => "Вы уверены, что хотите удалить заявление об отзыве??",
