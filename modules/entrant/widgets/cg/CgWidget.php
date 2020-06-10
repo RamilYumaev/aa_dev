@@ -7,7 +7,6 @@ use yii\base\Widget;
 class CgWidget extends Widget
 {
     public $view = "index";
-    public $formEdu;
     public $userId;
 
     public function run()
@@ -16,7 +15,7 @@ class CgWidget extends Widget
     }
 
     private function listCgUser() {
-        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser(), $this->formEdu);
+        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser());
     }
 
     private function getIdUser() {

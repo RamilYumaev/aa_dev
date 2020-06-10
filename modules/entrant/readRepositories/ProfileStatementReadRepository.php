@@ -8,9 +8,13 @@ use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\services\StatementAgreementContractCgService;
 use olympic\models\auth\Profiles;
 
 class ProfileStatementReadRepository
@@ -61,6 +65,14 @@ class ProfileStatementReadRepository
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+        }
+
+        elseif($this->jobEntrant->isAgreement()) {
+            $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id')
+            ->innerJoin(StatementCg::tableName(), 'statement_cg.statement_id=statement.id')
+                ->innerJoin(StatementAgreementContractCg::tableName(),
+                    'statement_agreement_contract_cg.statement_statement_cg=statement_cg.id')
+                ->andWhere(['>','statement_agreement_contract_cg.status_id', StatementHelper::STATUS_DRAFT]);
         }
 
         elseif(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {

@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\behaviors\TimestampBehavior;
@@ -27,8 +28,9 @@ class StatementConsentCg extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class];
     }
+
 
     public static function create($statement_cg_id, $status_id) {
         $statementCg = new static();

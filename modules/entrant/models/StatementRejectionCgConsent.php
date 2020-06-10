@@ -4,9 +4,11 @@
 namespace modules\entrant\models;
 
 
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementRejectionCgConsentQuery;
 use modules\entrant\models\queries\StatementRejectionQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 
@@ -31,6 +33,11 @@ class StatementRejectionCgConsent extends ActiveRecord
         $statementRejection = new static();
         $statementRejection->statement_cg_consent_id = $statement_id;
         return $statementRejection;
+    }
+
+    public function behaviors()
+    {
+        return [TimestampBehavior::class, FileBehavior::class];
     }
 
 

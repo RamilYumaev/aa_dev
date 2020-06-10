@@ -354,12 +354,16 @@ class DictCompetitiveGroupHelper
             ->count();
     }
 
-    public static function groupByFacultySpecialityAllUser($user_id, $form)
+    public static function groupByFacultySpecialityAllUser($user_id, $form = null)
     {
-        return DictCompetitiveGroup::find()->userCg($user_id)->formEdu($form)
-            ->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-            ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-            ->all();
+          if ($form) {
+              $query = DictCompetitiveGroup::find()->userCg($user_id)->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+                  ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
+          }else {
+             $query =  DictCompetitiveGroup::find()->userCg($user_id)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+                  ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
+          }
+          return $query->all();
     }
 
     public static function groupByExams($user_id)

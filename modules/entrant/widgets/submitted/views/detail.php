@@ -8,7 +8,7 @@
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
 $formName = $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ?
-    "(очная и очно-заочная формы обучения)" : "(заочная форма обучения)";
+    "" : "(заочная форма обучения)";
 ?>
 <?php if($userCg) : ?>
 <div class="row">

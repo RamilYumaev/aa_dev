@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
 use modules\entrant\models\queries\StatementConsentCgQuery;
@@ -27,9 +28,10 @@ class StatementRejectionCg extends ActiveRecord
         return  "{{%statement_rejection_cg}}";
     }
 
+
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class];
     }
 
     public static function create($statement_cg) {

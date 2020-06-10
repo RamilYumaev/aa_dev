@@ -63,4 +63,11 @@ class StatementConsentCgService
     }
 
 
+
+    public function rejectionRemove($id) {
+        $statement = $this->rejectionCgConsentRepository->get($id);
+        $this->rejectionCgConsentRepository->remove($statement);
+    }
+
+
 }

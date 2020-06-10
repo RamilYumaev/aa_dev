@@ -20,6 +20,7 @@ class JobEntrantHelper
     const GRADUATE =4;
     const UMS =5;
     const COZ =6;
+    const AGREEMENT =7;
 
 
 
@@ -32,6 +33,7 @@ class JobEntrantHelper
             self::COZ => "Центр обработки заявлений",
             self::TARGET => "Работа с целевыми договорами",
             self::FOK => "Факультетская отборочная комиссия",
+            self::AGREEMENT => "Договорный отдел",
             DictFacultyHelper::SERGIEV_POSAD_BRANCH => "Сергиево-Посадский филиал МПГУ (Московская область)",
             DictFacultyHelper::ANAPA_BRANCH => "Анапский филиал МПГУ (Краснодарский край)",
             DictFacultyHelper::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",

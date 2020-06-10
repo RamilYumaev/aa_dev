@@ -15,7 +15,19 @@ if(!Yii::$app->user->isGuest ) {
             ]
 
         );
-    }elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
+    }  elseif($jobEntrant && $jobEntrant->isAgreement()) {
+        return array_merge(
+            [
+                ['label' => 'Профиль', 'url' => ['/profile/edit']],
+                ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
+                ['label' => 'Договора', 'url' => ['/data-entrant/agreement-contract/index']],
+            ]
+
+        );
+    }
+
+    elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],

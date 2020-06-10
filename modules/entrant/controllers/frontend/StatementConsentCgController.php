@@ -5,6 +5,7 @@ namespace modules\entrant\controllers\frontend;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\services\StatementConsentCgService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -28,6 +29,8 @@ class StatementConsentCgController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'remove-rejection' => ['POST'],
+                    'rejection' => ['POST'],
                 ],
             ],
         ];
@@ -92,6 +95,20 @@ class StatementConsentCgController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelRejection($id): StatementRejectionCgConsent
+    {
+        if (($model = StatementRejectionCgConsent::find()->statementOne($id, $this->getUser())) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+
+    /**
+     * @param integer $id
+     * @return mixed
      */
     public function actionDelete($id)
     {
@@ -121,6 +138,22 @@ class StatementConsentCgController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionRejectionRemove($id)
+    {
+        $this->findModelRejection($id);
+        try {
+            $this->service->rejectionRemove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
 
 
