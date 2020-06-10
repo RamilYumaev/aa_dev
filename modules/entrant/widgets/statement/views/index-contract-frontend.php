@@ -11,7 +11,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <?php if($contracts):  ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Договор об оказании платных образовательных услуг</h4></div>
+    <div class="panel-heading"><h4>Договор об оказании платных образовательных услуг <?=Html::a("Добавить", "/abiturient/post-document/agreement-contract")?></h4></div>
     <div class="panel-body">
         <table class="table table-bordered">
             <tr>

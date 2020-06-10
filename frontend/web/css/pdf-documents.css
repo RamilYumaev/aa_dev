@@ -181,6 +181,9 @@ body {
 .br{
     border-right: 1px solid black;
 }
+.pl-10{
+    padding-left: 10px;
+}
 
 .lh-1-5 {
     line-height: 1.5;
@@ -201,5 +204,6 @@ body {
 .agreement p{
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    text-indent: 30px;
 }
 

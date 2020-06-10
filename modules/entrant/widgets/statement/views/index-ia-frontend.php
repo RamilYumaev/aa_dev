@@ -13,7 +13,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 ?>
 <?php if($statementsIa): ?>
     <div class="panel panel-default">
-    <div class="panel-heading"><h4>Заявления об учете индивидуальных достижений</h4></div>
+    <div class="panel-heading"><h4>Заявления об учете индивидуальных достижений <?=Html::a("Добавить", "/abiturient/individual-achievements")?></h4></div>
     <div class="panel-body">
     <table class="table table-bordered">
         <?php foreach ($statementsIa as $statement):  ?>
