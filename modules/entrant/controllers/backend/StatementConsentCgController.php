@@ -2,8 +2,10 @@
 
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\StatementConsentCgService;
@@ -22,10 +24,27 @@ class StatementConsentCgController extends Controller
     }
 
 
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
 
-    public function actionIndex()
+    public function actionNew()
     {
-        $searchModel = new StatementConsentSearch();
+        $searchModel = new StatementConsentSearch($this->jobEntrant, StatementHelper::STATUS_WALT);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 5);
+
+        return $this->render('new', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+
+    public function actionIndex($status = null)
+    {
+        $searchModel = new StatementConsentSearch($this->jobEntrant, null);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

@@ -57,7 +57,14 @@ class StatementController extends Controller
 
     public function actionNew()
     {
-        $searchModel = new StatementSearch($this->jobEntrant, StatementHelper::STATUS_WALT);
+        if($this->jobEntrant->isCategoryMPGU() || $this->jobEntrant->isCategoryTarget())
+        {
+           $status = StatementHelper::STATUS_WALT_SPECIAL;
+        }else {
+            $status = StatementHelper::STATUS_WALT;
+        }
+        
+        $searchModel = new StatementSearch($this->jobEntrant, $status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 5);
 
         return $this->render('new', [

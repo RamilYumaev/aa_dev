@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\behaviors\TimestampBehavior;
@@ -58,6 +59,15 @@ class StatementConsentCg extends ActiveRecord
     public function countFilesAndCountPagesTrue() {
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }
+
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
 
     public function statusWalt() {
         return $this->status == StatementHelper::STATUS_WALT;

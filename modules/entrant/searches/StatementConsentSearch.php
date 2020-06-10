@@ -1,20 +1,30 @@
 <?php
 namespace modules\entrant\searches;
 
-use modules\entrant\models\Statement;
-use modules\entrant\models\StatementCg;
-use modules\entrant\models\StatementConsentCg;
+use modules\dictionary\models\JobEntrant;
+use modules\entrant\readRepositories\StatementReadConsentRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 class StatementConsentSearch extends  Model
 {
-    public  $faculty_id, $speciality_id, $edu_level, $special_right, $cg, $user_id, $date_from, $date_to;
+    public  $cg, $user_id, $date_from, $date_to;
+
+    private $jobEntrant;
+    private $status;
+
+    public function __construct(JobEntrant $entrant, $status, $config = [])
+    {
+        $this->jobEntrant = $entrant;
+        $this->status = $status;
+        parent::__construct($config);
+    }
+
 
     public function rules()
     {
         return [
-            [['user_id', 'faculty_id', 'speciality_id', 'edu_level', 'special_right', 'cg', 'user_id'], 'integer'],
+            [[ 'cg', 'user_id'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -22,14 +32,16 @@ class StatementConsentSearch extends  Model
      * @param array $params
      * @return ActiveDataProvider
      */
-    public function search(array $params): ActiveDataProvider
+    public function search(array $params, $limit=null ): ActiveDataProvider
     {
-        $query = StatementConsentCg::find()->alias('consent')->statusNoDraft('consent.')->orderByCreatedAtDesc();
+        $query = (new StatementReadConsentRepository($this->jobEntrant))->readData();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' =>  $limit ?? 20,
+            ],
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -37,19 +49,16 @@ class StatementConsentSearch extends  Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-
-        ]);
-
-        $query->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg_id');
-        $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
+        if($this->status) {
+            $query->andWhere(['consent.status'=>  $this->status]);
+        }
 
         if (!empty($this->user_id)) {
             $query->andWhere(['statement.user_id' => $this->user_id]);
         }
 
-        if (!empty($this->faculty_id)) {
-            $query->andWhere(['statement.faculty_id' => $this->faculty_id]);
+        if (!empty($this->cg)) {
+            $query->andWhere(['cg.cg_id' => $this->cg]);
         }
 
         $query
@@ -62,11 +71,8 @@ class StatementConsentSearch extends  Model
     public function attributeLabels()
     {
         return [
-            'faculty_id' => "Факультет",
-//            'speciality_id' => "Направление подготовки",
-//            'edu_level' => "Уровень образования",
-//            'special_right' => "Основание приема",
             'user_id'=> "Абитуриент",
+            'cg'=> "Конкурсная группа",
             'created_at' => "Дата создания"
         ];
     }
