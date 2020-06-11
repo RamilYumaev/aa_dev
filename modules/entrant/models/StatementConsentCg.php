@@ -78,7 +78,8 @@ class StatementConsentCg extends ActiveRecord
     }
 
     public function statusAccepted() {
-        return $this->status == StatementHelper::STATUS_ACCEPTED;
+        return $this->status == StatementHelper::STATUS_ACCEPTED ||
+            $this->status == StatementHelper::STATUS_RECALL;
     }
 
     public function getStatusNameJob() {

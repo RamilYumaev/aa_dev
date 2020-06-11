@@ -10,9 +10,11 @@ use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
+use modules\entrant\repositories\StatementRejectionCgConsentRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\usecase\RepositoryDeleteSaveClass;
 use Mpdf\Tag\Tr;
@@ -24,18 +26,21 @@ class UserAisService
     private $statementRepository;
     private $consentCgRepository;
     private $individualAchievementsRepository;
+    private $rejectionCgConsentRepository;
 
     public function __construct(RepositoryDeleteSaveClass $repository,
                                 TransactionManager $transactionManager,
                                 StatementRepository $statementRepository,
                                 StatementIndividualAchievementsRepository $individualAchievementsRepository,
-                                StatementConsentCgRepository $consentCgRepository)
+                                StatementConsentCgRepository $consentCgRepository,
+                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
         $this->consentCgRepository = $consentCgRepository;
         $this->statementRepository = $statementRepository;
         $this->individualAchievementsRepository = $individualAchievementsRepository;
+        $this->rejectionCgConsentRepository = $rejectionCgConsentRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -51,6 +56,20 @@ class UserAisService
     {
         $this->transactionManager->wrap(function () use(  $model, $id) {
              $this->statusSuccess($model, $id);
+        });
+    }
+
+    public function removeZos($id)
+    {
+        $this->transactionManager->wrap(function () use($id) {
+            $zosRemove  = $this->rejectionCgConsentRepository->get($id);
+            $zos = $this->consentCgRepository->get($zosRemove->statement_cg_consent_id);
+            $zos->setStatus(StatementHelper::STATUS_RECALL);
+            $zosRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
+
+
+            $this->rejectionCgConsentRepository->save($zosRemove);
+            $this->consentCgRepository->save($zos);
         });
     }
 
@@ -78,7 +97,7 @@ class UserAisService
         }elseif($model == StatementIndividualAchievements::class) {
             $statement = $this->individualAchievementsRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
-            $this->consentCgRepository->save($statement);
+            $this->individualAchievementsRepository->save($statement);
         }
     }
 

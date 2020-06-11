@@ -24,6 +24,20 @@ class StatementRejectionQuery extends \yii\db\ActiveQuery
             ->andWhere(['statement.user_id' => $user_id, 'statement_rejection.status_id' => $status]);
     }
 
+    public function statusNoDraft($alias = "")
+    {
+        return $this->andWhere([">", $alias."status_id", StatementHelper::STATUS_DRAFT]);
+    }
+
+    public function orderByCreatedAtDesc($alias = "")
+    {
+        return $this->orderBy([$alias.'created_at' => SORT_DESC]);
+    }
+
+
+
+
+
 
 
 }

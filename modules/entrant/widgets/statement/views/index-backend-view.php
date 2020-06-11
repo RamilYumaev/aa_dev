@@ -43,7 +43,59 @@ use modules\entrant\widgets\file\FileListWidget;
              <tr>
                 <td><?= $statementCg->cg->fullName ?></td>
              </tr>
-             <?php endforeach; ?>
+             <?php if($statementCg->statementRejection): ?>
+             <tr>
+                <td>
+                    <?php  Box::begin(
+                        [
+                            "header" =>"Отзыв конкурсной группы",
+                            "type" => Box::TYPE_WARNING,
+                            "filled" => true,]) ?>
+                    <h4></h4>
+                    <p>
+                        <?= Html::a('Скачать заявление', ['statement-rejection/pdf-cg', 'id' =>  $statementCg->statementRejection->id],
+                            ['class' => 'btn btn-large btn-warning'])?>
+                        <?= $statementCg->statementRejection->statusNewJob() && $statementCg->statementRejection->isAllFilesAccepted() ?
+                            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+                                ['/data-entrant/communication/export-statement',
+                                    'user' => $statement->user_id, 'statement' => $statement->id],
+                                ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
+
+                        <span class="label label-<?= StatementHelper::colorName( $statementCg->statementRejection->status_id)?>">
+                        <?= $statementCg->statementRejection->statusNameJob?></span>
+                        <?= FileListBackendWidget::widget([ 'record_id' => $statementCg->statementRejection->id,
+                            'isCorrect'=> $statementCg->statementRejection->isStatusAccepted(),
+                            'model' => \modules\entrant\models\StatementRejectionCg::class, 'userId' => $statement->user_id ]) ?>
+                    </p>
+                    <?php Box::end() ?>
+                </td>
+             </tr>
+             <?php  endif; endforeach; ?>
 </table>
 <?= FileListBackendWidget::widget([ 'record_id' => $statement->id, 'isCorrect'=> $statement->isStatusAccepted(), 'model' => \modules\entrant\models\Statement::class, 'userId' => $statement->user_id ]) ?>
+
+<?php  if ($statement->statementRejection) :?>
+    <?php  Box::begin(
+        [
+            "header" =>"Отозванное заявление  №". $statement->numberStatement,
+            "type" => Box::TYPE_DANGER,
+            "filled" => true,]) ?>
+    <p>
+    <?= Html::a('Скачать заявление', ['statement-rejection/pdf', 'id' =>  $statement->statementRejection->id],
+        ['class' => 'btn btn-large btn-warning'])?>
+    <?= $statement->statementRejection->statusNewJob() && $statement->statementRejection->isAllFilesAccepted() ?
+        Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+            ['/data-entrant/communication/export-statement',
+                'user' => $statement->user_id, 'statement' => $statement->id],
+            ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
+
+        <span class="label label-<?= StatementHelper::colorName($statement->statementRejection->status_id)?>">
+                        <?= $statement->statementRejection->statusNameJob?></span>
+    </p>
+
+    <?= FileListBackendWidget::widget([ 'record_id' => $statement->statementRejection->id, 'isCorrect'=> $statement->statementRejection->isStatusAccepted(), 'model' => \modules\entrant\models\StatementRejection::class, 'userId' => $statement->user_id ]) ?>
+    <?php Box::end() ?>
+
+<?php  endif;?>
+
 <?php Box::end() ?>

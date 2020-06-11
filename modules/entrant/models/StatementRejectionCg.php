@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
 use modules\entrant\models\queries\StatementConsentCgQuery;
@@ -49,6 +50,19 @@ class StatementRejectionCg extends ActiveRecord
     }
 
 
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
+    public function statusNewJob() {
+        return $this->status_id == StatementHelper::STATUS_WALT ||
+            $this->status_id == StatementHelper::STATUS_WALT_SPECIAL;
+    }
+
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
@@ -78,7 +92,13 @@ class StatementRejectionCg extends ActiveRecord
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg']);
     }
+    public function getStatusNameJob() {
+        return StatementHelper::statusJobName($this->status_id);
+    }
 
+    public function isStatusAccepted() {
+        return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+    }
 
 
     public function attributeLabels()

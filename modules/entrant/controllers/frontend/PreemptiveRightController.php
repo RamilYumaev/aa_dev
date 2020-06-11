@@ -55,7 +55,7 @@ class PreemptiveRightController extends Controller
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax("@modules/entrant/views/other-document/_form", ["model" => $form]);
+        return $this->renderAjax("@modules/entrant/views/frontend/other-document/_form", ["model" => $form]);
     }
 
     public function actionRemove($otherId, $typeId)
