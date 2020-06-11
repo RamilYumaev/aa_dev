@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementCgQuery;
 use modules\entrant\models\queries\StatementRejectionQuery;
@@ -36,6 +37,13 @@ class StatementRejection extends ActiveRecord
         return $statementRejection;
     }
 
+    public function getStatusNameJob() {
+        return StatementHelper::statusJobName($this->status_id);
+    }
+
+    public function isStatusAccepted() {
+        return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+    }
 
     public function getStatement() {
       return $this->hasOne(Statement::class, ['id'=>'statement_id']);
@@ -64,6 +72,20 @@ class StatementRejection extends ActiveRecord
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
+
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
+    public function statusNewJob() {
+        return $this->status_id == StatementHelper::STATUS_WALT ||
+            $this->status_id == StatementHelper::STATUS_WALT_SPECIAL;
+    }
+
 
     public static function find(): StatementRejectionQuery
     {

@@ -19,6 +19,8 @@ class DocumentEducationForm extends Model
     const FIO_PROFILE = true;
     const FIO_NO_PROFILE = false;
 
+    public $typeAnketa;
+
     public function __construct($user_id, DocumentEducation $documentEducation = null, $config = [])
     {
         $this->fio = self::FIO_PROFILE;
@@ -32,6 +34,8 @@ class DocumentEducationForm extends Model
         }else {
             $this->user_id = $user_id;
         }
+        $this->year = \Yii::$app->user->identity->anketa()->edu_finish_year;
+        $this->typeAnketa = \Yii::$app->user->identity->anketa()->current_edu_level;
         parent::__construct($config);
     }
 
@@ -56,8 +60,7 @@ class DocumentEducationForm extends Model
             [['year','date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             [['year'], 'date', 'format' => 'yyyy'],
-            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_EDUCATION)
-            ],
+            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeEducation($this->typeAnketa)],
         ];
     }
 

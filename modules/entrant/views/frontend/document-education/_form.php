@@ -10,7 +10,6 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use common\auth\helpers\UserSchoolHelper;
 use kartik\date\DatePicker;
 \modules\entrant\assets\education\DocumentEducationAsset::register($this);
-
 ?>
 <div class="container">
     <div class="row">
@@ -18,11 +17,10 @@ use kartik\date\DatePicker;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
             <?= $form->field($model, 'school_id')->dropDownList(UserSchoolHelper::userSchoolAll($model->user_id)) ?>
-            <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listType(DictIncomingDocumentTypeHelper::TYPE_EDUCATION)) ?>
+            <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listEducation($model->typeAnketa)) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
-            <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'fio')->checkbox() ?>
             <div id="no-fio-profile">
                 <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>

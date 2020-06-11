@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementRejectionCgConsentQuery;
 use modules\entrant\models\queries\StatementRejectionQuery;
@@ -38,6 +39,25 @@ class StatementRejectionCgConsent extends ActiveRecord
     public function behaviors()
     {
         return [TimestampBehavior::class, FileBehavior::class];
+    }
+
+
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
+    public function statusNewJob() {
+        return $this->status_id == StatementHelper::STATUS_WALT ||
+            $this->status_id == StatementHelper::STATUS_WALT_SPECIAL;
+    }
+
+
+    public function isStatusAccepted() {
+        return $this->status_id == StatementHelper::STATUS_ACCEPTED;
     }
 
 

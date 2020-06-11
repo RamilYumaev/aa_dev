@@ -73,7 +73,7 @@ class StatementHelper
             self::STATUS_WALT_SPECIAL=> "warning",
             self::STATUS_ACCEPTED =>"success",
             self::STATUS_NO_ACCEPTED =>"danger",
-            self::STATUS_RECALL=> "error"];
+            self::STATUS_RECALL=> "danger"];
     }
 
     public static function colorName($key) {

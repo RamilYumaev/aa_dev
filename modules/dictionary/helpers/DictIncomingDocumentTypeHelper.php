@@ -3,6 +3,7 @@ namespace modules\dictionary\helpers;
 
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\models\DictIncomingDocumentType;
+use modules\entrant\helpers\AnketaHelper;
 use yii\helpers\ArrayHelper;
 
 class DictIncomingDocumentTypeHelper
@@ -50,10 +51,45 @@ class DictIncomingDocumentTypeHelper
         return array_diff_key($array, array_flip($delete_keys));
     }
 
+    public static function listEducation($type)
+    {
+        $array = self::find()->type(self::TYPE_EDUCATION)->select('name')->indexBy('id')->column();
+        if($type == AnketaHelper::SCHOOL_TYPE_SCHOOL_9) {
+            $delete_keys = [18,19,20,21,22,23,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_SCHOOL) {
+            $delete_keys = [19,20,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_NPO) {
+            $delete_keys = [18,19,20,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_SPO) {
+            $delete_keys = [18,19,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_BACHELOR) {
+            $delete_keys = [18,20,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_SPECIALIST) {
+            $delete_keys = [18,20,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_MAGISTER) {
+            $delete_keys = [18,20,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_DIPLOMA_SPECIALIST) {
+            $delete_keys = [18,20,21,22,23,25,26,27];
+        }elseif($type == AnketaHelper::SCHOOL_TYPE_PHD) {
+            $delete_keys = [18,19,20,21,22,23,25,27];
+        }
+        else {
+            $delete_keys = [18,19,20,21,22,23,25,26];
+        }
+
+        return array_diff_key($array, array_flip($delete_keys));
+    }
+
     public static function rangePassport($country)
     {
         return array_values(array_flip(self::listPassport($country)));
     }
+
+    public static function rangeEducation($type)
+    {
+        return array_values(array_flip(self::listEducation($type)));
+    }
+
 
     public static function rangeType($type)
     {

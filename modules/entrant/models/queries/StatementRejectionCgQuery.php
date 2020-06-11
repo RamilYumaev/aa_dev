@@ -29,7 +29,7 @@ class StatementRejectionCgQuery extends \yii\db\ActiveQuery
 
     public function statusNoDraft($alias = '')
     {
-        return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
+        return $this->andWhere([">", $alias."status_id", StatementHelper::STATUS_DRAFT]);
     }
 
     public function orderByCreatedAtDesc()

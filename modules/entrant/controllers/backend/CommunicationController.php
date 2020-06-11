@@ -9,6 +9,8 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejectionCg;
+use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
 use modules\entrant\services\UserAisService;
 use olympic\models\auth\Profiles;
@@ -311,6 +313,79 @@ class CommunicationController extends Controller
 
         }
     }
+
+
+    /**
+     * @param integer $user
+     * @param integer $statement
+     * @param integer $consent
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionExportStatementConsentRemove($user, $statement, $consent)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен.
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        } else {
+            $model = Profiles::find()
+                ->alias('profiles')
+                ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
+                ->andWhere(['>', 'statement.status', StatementHelper::STATUS_WALT])
+                ->andWhere(['statement.id' => $statement])
+                ->andWhere(['profiles.user_id' => $user])->one();
+            if (!$model) {
+                Yii::$app->session->setFlash("error", "Возможно вы не загрузили заявление (ЗУК) в АИС! ");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            $incoming = UserAis::findOne(['user_id' => $model->user_id]);
+            if (!$incoming) {
+                Yii::$app->session->setFlash("error", "Нет данных абитуриента в АИСе! ");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $consent = StatementRejectionCgConsent::findOne($consent);
+            if (!$consent) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+
+            $ch = curl_init();
+            $data = Json::encode(['incoming_id' => $incoming->incoming_id,
+                'competitive_group_id' => $consent->statementConsentCg->statementCg->cg->ais_id]);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/zos-remove?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+                    try {
+                        $this->aisService->removeZos($consent->id);
+                        Yii::$app->session->setFlash('success', "Заявление об отзыве согласии принято!");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
+            }
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+    }
     public function actionForm()
     {
         $user = Yii::$app->request->post('username');
@@ -323,7 +398,7 @@ class CommunicationController extends Controller
                 ->addHeaders(['Authorization' => 'Basic ' . base64_encode("$user:$pass")])
                 ->setOptions([
               //      'proxy' => 'proxy.server:8000',
-                    'timeout' => 5,
+                    'timeout' => 30,
                 ])->send();
             if (!$response->isOk) {
                 Yii::$app->session->setFlash("error", "Ошибка! ".$response->statusCode);
