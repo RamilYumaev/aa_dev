@@ -2,6 +2,8 @@
 
 use backend\widgets\adminlte\Box;
 use modules\entrant\helpers\BlockRedGreenHelper;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\widgets\file\FileListBackendWidget;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
@@ -17,9 +19,17 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         "type" => Box::TYPE_INFO,
         "filled" => true,]) ?>
 <p><?= Html::a('Скачать заявление', ['statement-individual-achievements/pdf', 'id' =>  $statementIa->id],
-    ['class' => 'btn btn-warning'])?></p>
-<?= FileListWidget::widget([ 'view'=> 'list-backend', 'record_id' => $statementIa->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statementIa->user_id ]) ?>
+    ['class' => 'btn btn-warning'])?>
+<?= $statementIa->statusNewJob() &&  $statementIa->isAllFilesAccepted()? Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+['communication/export-statement-ia', 'user' => $statementIa->user_id, 'statement' => $statementIa ->id],
+['data-method' => 'post', 'class' => 'btn btn-success']) : ""; ?>
+    <span class="label label-<?= StatementHelper::colorName( $statementIa->status)?>">
+                        <?= $statementIa->statusNameJob?></span>
 
+</p>
+<?= FileListBackendWidget::widget([ 'view'=> 'list-backend',
+    'record_id' => $statementIa->id,  'isCorrect'=> $statementIa->isStatusAccepted(),
+    'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statementIa->user_id ]) ?>
 
 <?php  Box::begin(
     [
@@ -31,10 +41,20 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <tr>
         <th>#</th>
         <th>Наименование</th>
+        <th></th>
+        <th></th>
     </tr>
     <tr>
         <td><?= ++$key ?>.</td>
         <td><?= $stIa->dictIndividualAchievement->name ?></td>
+            <td><?= Html::a('Принять', ['statement-individual-achievements/status', 'id' => $stIa->id, 'status'=>StatementHelper::STATUS_ACCEPTED ],
+                ['class' => 'btn btn-success']) ?></td>
+        <td><?= Html::a('Отклонить', ['statement-individual-achievements/status', 'id' => $stIa->id, 'status'=>StatementHelper::STATUS_NO_ACCEPTED ],
+                ['class' => 'btn btn-danger']) ?></td>
+        <td> <span class="label label-<?= StatementHelper::colorName( $stIa->status_id)?>">
+                        <?= $stIa->statusNameJob ?></span></td>
+
+
     </tr>
 </table>
     <?php  Box::begin(

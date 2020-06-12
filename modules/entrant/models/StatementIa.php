@@ -4,6 +4,7 @@ namespace modules\entrant\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\DictIndividualAchievement;
+use modules\entrant\helpers\StatementHelper;
 use yii\db\ActiveRecord;
 
 /**
@@ -43,7 +44,31 @@ class StatementIa extends ActiveRecord
       return $this->hasOne(StatementIndividualAchievements::class, ['id'=>'statement_individual_id']);
     }
 
+    public function setStatus($status) {
+        $this->status_id = $status;
+    }
 
+    public function isStatusDraft() {
+        return $this->status_id == StatementHelper::STATUS_DRAFT;
+    }
+
+    public function isStatusAccepted() {
+        return $this->status_id == StatementHelper::STATUS_ACCEPTED
+            || $this->status_id == StatementHelper::STATUS_RECALL;
+    }
+
+    public function isStatusNoAccepted() {
+        return $this->status_id == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
+
+    public function getStatusNameJob() {
+        return StatementHelper::statusJobName($this->status_id);
+    }
+
+    public function getStatusName() {
+        return StatementHelper::statusName($this->status_id);
+    }
     public function attributeLabels()
     {
         return ["statement_id" => "Заявление", 'individual_id' => "Индивдуальное достижение", "status_id" => "Статус"];

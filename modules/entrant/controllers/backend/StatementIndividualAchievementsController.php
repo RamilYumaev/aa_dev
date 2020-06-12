@@ -8,6 +8,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementIAReadRepository;
@@ -92,6 +93,29 @@ class StatementIndividualAchievementsController extends Controller
         return $pdf->render();
     }
 
+    /**
+     *
+     * @param $id
+     * @param $status
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+
+    public function actionStatus($id, $status)
+    {
+        $this->findModelIa($id);
+        try {
+            $this->service->addStatus($id, $status);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
 
     /**
      * @param integer $id
@@ -110,6 +134,21 @@ class StatementIndividualAchievementsController extends Controller
 
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelIa($id): StatementIa
+    {
+
+        if (($model = StatementIa::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
 
 
 
