@@ -10,11 +10,14 @@ use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
+use modules\entrant\repositories\StatementRejectionCgRepository;
+use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\usecase\RepositoryDeleteSaveClass;
 use Mpdf\Tag\Tr;
@@ -27,13 +30,18 @@ class UserAisService
     private $consentCgRepository;
     private $individualAchievementsRepository;
     private $rejectionCgConsentRepository;
+    private $statementRejectionRepository;
+    private $statementRejectionCgRepository;
+
 
     public function __construct(RepositoryDeleteSaveClass $repository,
                                 TransactionManager $transactionManager,
                                 StatementRepository $statementRepository,
                                 StatementIndividualAchievementsRepository $individualAchievementsRepository,
                                 StatementConsentCgRepository $consentCgRepository,
-                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository)
+                                StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
+                                StatementRejectionRepository $statementRejectionRepository,
+                                StatementRejectionCgRepository $statementRejectionCgRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
@@ -41,6 +49,8 @@ class UserAisService
         $this->statementRepository = $statementRepository;
         $this->individualAchievementsRepository = $individualAchievementsRepository;
         $this->rejectionCgConsentRepository = $rejectionCgConsentRepository;
+        $this->statementRejectionRepository = $statementRejectionRepository;
+        $this->statementRejectionCgRepository = $statementRejectionCgRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -71,6 +81,25 @@ class UserAisService
             $this->rejectionCgConsentRepository->save($zosRemove);
             $this->consentCgRepository->save($zos);
         });
+    }
+
+    public function removeZuk($id)
+    {
+        $this->transactionManager->wrap(function () use($id) {
+            $zukRemove  = $this->statementRejectionRepository->get($id);
+            $zuk = $this->statementRepository->get($zukRemove->statement->id);
+            $zuk->setStatus(StatementHelper::STATUS_RECALL);
+            $zukRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
+            $this->statementRejectionRepository->save($zukRemove);
+            $this->statementRepository->save($zuk);
+        });
+    }
+
+    public function removeZukCg($id)
+    {
+        $zukCgRemove  = $this->statementRejectionCgRepository->get($id);
+        $zukCgRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
+        $this->statementRejectionCgRepository->save($zukCgRemove);
     }
 
     private function dataAis($data,  $createdId, $incomingId) {

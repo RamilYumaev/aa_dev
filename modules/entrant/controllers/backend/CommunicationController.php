@@ -9,6 +9,7 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
@@ -226,6 +227,124 @@ class CommunicationController extends Controller
                     try {
                         $this->aisService->addData(Statement::class, $statement);
                         Yii::$app->session->setFlash('success', "Заявление принято.");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
+            }
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
+    }
+
+    /**
+     * @param $statementId
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionExportStatementRemove($statementId)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен.
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        } else {
+            $model = StatementRejection::findOne($statementId);
+            if (!$model) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+            $incoming = UserAis::findOne(['user_id' => $model->statement->user_id]);
+            if (!$incoming) {
+                Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $ch = curl_init();
+            $data = Json::encode(DataExportHelper::dataRemoveStatement($model->statement->user_id, $model->statement->id));
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+                    try {
+                        $this->aisService-> removeZuk($model->id);
+                        Yii::$app->session->setFlash('success', "Отзыв заявления принято.");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
+            }
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
+    }
+
+    /**
+     * @param $statementId
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionExportStatementRemoveCg($statementId)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен.
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        } else {
+            $model = StatementRejectionCg::findOne($statementId);
+            if (!$model) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+            $incoming = UserAis::findOne(['user_id' => $model->statementCg->statement->user_id]);
+            if (!$incoming) {
+                Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $ch = curl_init();
+            $data = Json::encode(['remove'=>['incoming_id'=>$incoming->incoming_id, 'competitive_group_id'=>$model->cg->ais_id]]);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+                    try {
+                        $this->aisService-> removeZukCg($model->id);
+                        Yii::$app->session->setFlash('success', "Отзыв заявления принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
                         Yii::$app->session->setFlash('error', $e->getMessage());
