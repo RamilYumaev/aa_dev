@@ -7,13 +7,16 @@ use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\Html;
 use \common\auth\helpers\DeclinationFioHelper;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
+use \modules\entrant\helpers\AgreementHelper;
 
 /* @var $agreement modules\entrant\models\StatementAgreementContractCg */
+/* @var $anketa modules\entrant\models\Anketa */
 
 $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id);
 $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->user_id);
 $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement->user_id);
 $cg = $agreement->statementCg->cg;
+$agreementData = AgreementHelper::data($anketa->university_choice);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
@@ -22,8 +25,15 @@ $costMonet = $costExplode[1];
 $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1];
+$educationMonth = "";
+$educationDuration = floor($cg->education_duration);
+$eduDurationMonth = $cg->education_duration - $educationDuration;
+if ($eduDurationMonth >= 1 / 12) {
+    $educationMonth = ' ' . ceil(12 * $eduDurationMonth) . ' мес.';
+}
+
 ?>
-<div class="fs-11 agreement">
+<div width="100%" class="fs-11 agreement">
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
@@ -33,7 +43,7 @@ $costMonetPerYear = $costPerYearExplode[1];
         </tr>
         <tr>
             <td class="h-30">г. Москва</td>
-            <td class="text-right"><?=\date("d.m.Y")?> г.</td>
+            <td class="text-right"><?= \date("d.m.Y") ?> г.</td>
         </tr>
     </table>
     <p align="justify">
@@ -43,8 +53,9 @@ $costMonetPerYear = $costPerYearExplode[1];
         выданной Федеральной службой по надзору в сфере образования и науки на срок – бессрочно, и
         свидетельства о государственной аккредитации от 15 апреля 2016 г. № 1857, выданного Федеральной
         службой по надзору в сфере образования и науки на срок до 17 февраля 2021 г., именуемое в дальнейшем
-        «Исполнитель», а также «Университет», в лице первого проректора Дронова Виктора Павловича,
-        действующего на основании доверенности № 04 от 31 янв. 2020 г.,<br/><br/>
+        «Исполнитель», а также «Университет», в лице <?= $agreementData['positionsGenitive'] ?>
+        <?= $agreementData['directorNameGenitiveFull'] ?>,
+        действующего на основании доверенности <?= $agreementData['procuration'] ?>,<br/><br/>
         и <strong><?= $profile['last_name'] ?> <?= $profile['first_name'] ?>
             <?= $profile['patronymic'] ? " " . $profile['patronymic'] : "" ?>
         </strong> именуемый(ая), в дальнейшем «Заказчик», а также «Обучающийся» ,
@@ -53,25 +64,34 @@ $costMonetPerYear = $costPerYearExplode[1];
     <p class="text-center"><strong>1. Предмет договора</strong></p>
 
     <p align="justify">1.1. Исполнитель обязуется предоставить образовательную услугу,
-        а Заказчик обязуется оплатить обучение по основной профессиональной образовательной программе
+        а Заказчик обязуется оплатить обучение по основной программе
         <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
-            среднего профессионального образования
+            среднего профессионального образования –  программе подготовки специалистов среднего звена,
+            образовательной программы среднего профессионального
         <?php else: ?>
-            высшего образования
+            высшего образования -
+            <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR): ?>
+                программе бакалавриата, образовательной программы высшего образования
+            <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER): ?>
+                программе магистратуры, образовательной программы высшего образования
+            <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL): ?>
+                программе подготовки научно-педагогических кадров в аспирантуре, образовательной программы высшего образования
+            <?php endif; ?>
         <?php endif; ?>
-        формы обучения направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>
+        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>
         направленность (профиль) <strong><?= $cg->specialization->name ?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
         программой Исполнителя.
     </p>
     <p align="justify">
-        Форма обучени -
-        <strong><?= DictCompetitiveGroupHelper::formName($cg->education_form_id) ?></strong>
+        Форма обучения -
+        <strong><?= DictCompetitiveGroupHelper::formName($cg->education_form_id) ?>.</strong>
     </p>
     <p align="justify">
         1.2. Срок освоения образовательной программы (продолжительность обучения) на момент
-        подписания Договора составляет <strong><?= $cg->education_duration ?></strong> год(а) (лет)
+        подписания Договора составляет <strong><?= $educationDuration ?></strong> год(а) (лет)
+        <strong><?= $educationMonth ?></strong>
         (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров)
     </p>
     <p align="justify">
@@ -121,14 +141,16 @@ $costMonetPerYear = $costPerYearExplode[1];
         соответствии с законодательством Российской Федераций, учредительными документами Исполнителя,
         настоящим Договором и локальными нормативными актами Исполнителя, отчислять Обучающегося по
         основаниям, предусмотренным законодательством Российской Федерации;</p>
-    <p align="justify">2.1.3. Предоставить отсрочку и (или) рассрочку по оплате обучения в соответствии с локальными
+    <p align="justify">2.1.3. Предоставить отсрочку и (или) рассрочку по оплате обучения в соответствии с
+        локальными
         нормативными актами Исполнителя.</p>
     <p align="justify">2.2. Заказчик вправе получать информацию от Исполнителя по вопросам организации и
         обеспечения надлежащего предоставления услуг, предусмотренных разделом 1 настоящего Договора.</p>
     <p align="justify">2.3. Обучающемуся предоставляются академические права в соответствии с частью 1 статьи 34
         Федерального закона от 29 декабря 2012 г. № 273-ФЗ «Об образовании в Российской Федерации».
         Обучающийся также вправе:</p>
-    <p align="justify">2.3.1. Получать информацию от Исполнителя по вопросам организации и обеспечения надлежащего
+    <p align="justify">2.3.1. Получать информацию от Исполнителя по вопросам организации и обеспечения
+        надлежащего
         предоставления услуг, предусмотренных разделом 1 настоящего Договора;</p>
     <p align="justify">2.3.2. Пользоваться в порядке, установленном локальными нормативными актами Исполнителя,
         имуществом Исполнителя, необходимым для освоения образовательной программы;</p>
@@ -153,15 +175,18 @@ $costMonetPerYear = $costPerYearExplode[1];
         индивидуальным, и расписанием занятий Исполнителя;</p>
     <p align="justify">2.4.4. Обеспечить Обучающемуся предусмотренные выбранной образовательной программой
         условия ее освоения;</p>
-    <p align="justify">2.4.5. Принимать от Обучающегося и (или) Заказчика плату за образовательные услуги в размере и
+    <p align="justify">2.4.5. Принимать от Обучающегося и (или) Заказчика плату за образовательные услуги в
+        размере и
         порядке, определенными настоящим Договором;</p>
     <p align="justify">2.4.6. Обеспечить Обучающемуся уважение человеческого достоинства, защиту от всех форм
         физического и психического насилия, оскорбления личности, охрану жизни и здоровья.</p>
-    <p align="justify">2.5. Заказчик и (или) Обучающийся обязан(-ы) своевременно вносить плату за предоставляемые
+    <p align="justify">2.5. Заказчик и (или) Обучающийся обязан(-ы) своевременно вносить плату за
+        предоставляемые
         Обучающемуся образовательные услуги, указанные в разделе 1 настоящего Договора, в размере и
         порядке, определенными настоящим Договором, а также предоставлять платежные документы,
         подтверждающие такую оплату в порядке, предусмотренном разделом 3 настоящего Договора.</p>
-    <p align="justify">2.6. Обучающийся исполняет обязанности, предусмотренные частями 1 и 2 статьи 43 Федерального
+    <p align="justify">2.6. Обучающийся исполняет обязанности, предусмотренные частями 1 и 2 статьи 43
+        Федерального
         закона от 29 декабря 2012 г. № 273-ФЗ «Об образовании в Российской Федерации».</p>
     <p align="justify">2.7. Заказчик обязуется:</p>
     <p align="justify">2.7.1. Обеспечить добросовестное освоение Обучающимся образовательной программы и
@@ -175,11 +200,12 @@ $costMonetPerYear = $costPerYearExplode[1];
         законодательством Российской Федерации.</p>
     <p align="justify">2.7.6. Своевременно извещать Университет об изменениях фамилии, имени, отчества, адреса,
         телефона, паспортных, анкетных и других данных.</p>
-
     <p class="text-center"><strong>3. Стоимость образовательных услуг, сроки и порядок их оплаты</strong></p>
-    <p align="justify">3.1. Полная стоимость образовательных услуг за весь период обучения Обучающегося составляет:
+    <p align="justify">3.1. Полная стоимость образовательных услуг за весь период обучения Обучающегося
+        составляет:
         <?= $costRuble
-        . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?>рублей(-я) <?= $costMonet ?> копеек(-йки),
+        . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?>рублей(-я) <?= $costMonet ?>
+        копеек(-йки),
         НДС не облагается на основании подпункта 14 пункта 2 статьи 149 Налогового кодекса Российской Федерации.
     </p>
     <p align="justify">Стоимость образовательных услуг за один учебный год составляет <?= $costRublePerYear ?>
@@ -204,8 +230,9 @@ $costMonetPerYear = $costPerYearExplode[1];
         - четный семестр - не позднее 01 февраля текущего учебного года.
     </p>
     <p align="justify">
-        3.3. Оплата производится за наличный расчет на счет Университета, указанный в разделе 8 настоящего Договора.
-        Размер оплаты за один семестр считается равным половине стоимости обучения за один учебный год.
+        3.3. Оплата производится за наличный расчет и/или в безналичном порядке на счет Университета,
+        указанный в разделе 8 настоящего Договора. Размер оплаты за один семестр считается равным половине
+        стоимости обучения за один учебный год.
     </p>
     <p align="justify">3.4. Копия платежного документа об оплате образовательных услуг за первый семестр для
         оформления приказа о зачислении предъявляется Заказчиком или Обучающимся в Приемную комиссию.
@@ -253,10 +280,15 @@ $costMonetPerYear = $costPerYearExplode[1];
         представителей) несовершеннолетнего Обучающегося и Исполнителя, в том числе в случае ликвидации
         Исполнителя.
     </p>
-    <p align="justify">4.5. Исполнитель вправе отказаться от исполнения обязательств по Договору при условии полного
-        возмещения Обучающемуся убытков.</p>
-    <p align="justify">4.6. Обучающийся вправе отказаться от исполнения настоящего Договора при условии
-        оплаты Исполнителю фактически понесенных им расходов.</p>
+    <p align="justify">4.5. Исполнитель вправе отказаться от исполнения обязательств по Договору при условии
+        полного
+        возмещения Обучающемуся/Заказчику убытков.</p>
+    <p class="fs-7">(ненужное вычеркнуть)</p>
+    <p align="justify">4.6. Обучающийся/Заказчик вправе отказаться от исполнения настоящего Договора при условии
+        оплаты
+        Исполнителю</p>
+    <p class="fs-7" style="text-indent: 60px">(ненужное вычеркнуть)</p>
+    <div>фактически понесенных им расходов.</div>
     <p class="text-center"><strong>5. Ответственность Исполнителя, Заказчика и Обучающегося</strong></p>
     ответственность, предусмотренную законодательством Российской Федерации и настоящим
     Договором.
@@ -303,7 +335,8 @@ $costMonetPerYear = $costPerYearExplode[1];
         5.4.4. Расторгнуть Договор.
     </p>
     <p class="text-center"><strong>6. Срок действия Договора</strong></p>
-    <p align="justify">6.1. Настоящий Договор вступает в силу со дня его заключения Сторонами и действует до полного
+    <p align="justify">6.1. Настоящий Договор вступает в силу со дня его заключения Сторонами и действует до
+        полного
         исполнения Сторонами обязательств.</p>
     <p class="text-center"><strong>7. Заключительные положения</strong></p>
     <p align="justify"> 7.1. Исполнитель вправе снизить стоимость платной образовательной услуги по Договору
@@ -349,54 +382,74 @@ $costMonetPerYear = $costPerYearExplode[1];
         представителями Сторон.
     </p>
     <p align="justify">
-        7.9. Настоящий Договор составлен в трех экземплярах, имеющих одинаковую юридическую силу:
+        7.9. Настоящий Договор составлен в двух экземплярах, имеющих одинаковую юридическую силу:
         один – для Университета, один – для Обучающегося.
     </p>
     <p class="text-center"><strong>8. Адреса и реквизиты Сторон</strong></p>
     <table width="100%" class="fs-11" cellspacing="0">
-        <tr><td class="text-center" width="41%"><strong>Университет</strong></td><td class="text-center" width="50%"
-                                                                                     colspan="2"><strong>Заказчик</strong></td></tr>
-        <tr><td rowspan="6" class="br" align="left">Федеральное государственное
-                бюджетное образовательное
-                учреждение высшего
-                образования «Московский
-                педагогический государственный
-                университет»<br/>
-                Место нахождения: 119991, г.
-                Москва, ул. Малая Пироговская,
-                д. 1, стр.1<br/>
-                ул. Малая Пироговская, д. 1, стр.1<br/>
-                тел./факс 8-499-246-81-63<br/>
-                e-mail: orgeconom_otd@mpgu.su –<br/>
-                Организационно-экономический отдел<br/>
-                ИНН 7704077771<br/>
-                КПП 770401001<br/>
-                УФК по г. Москве (МПГУ л/с 20736У53790)
-            </td><td class="bb h-30 pl-10" align="left" width="15%">Ф.И.О</td><td class="bb" align="left"><?=$profile['last_name']." ".$profile['first_name']." ".$profile['patronymic']?></td></tr>
-        <tr><td class="bb h-30 pl-10" align="left">паспорт:</td><td class="bb" align="left"><?=$passport['series'].$passport['number']?></td></tr>
-        <tr><td class="bb h-30 pl-10" align="left">выдан:</td><td class="bb" align="left"><?=$passport['authority']?></td></tr>
-        <tr><td class="bb h-30 pl-10" align="left">адрес регистрации:</td><td class="bb" align="left"><?=$reg['full']?></td></tr>
-        <tr><td class="bb h-50 pl-10" align="left">телефон:</td><td class="bb" align="left"><?=$profile['phone']?></td></tr>
-        <tr><td rowspan="3" class="bb h-30 v-align-top pl-10" align="left">E-mail:</td><td rowspan="3" class="bb v-align-top" align="left"><?=$profile['email']?></td></tr>
-        <tr><td class="text-left h-50 br"><strong>Первый проректор</strong></td></tr>
-        <tr><td class="text-right br prb-20 bb"><strong>В.П. Дронов</strong></td></tr>
+        <tr>
+            <td class="text-center" width="41%"><strong>Университет</strong></td>
+            <td class="text-center" width="50%"
+                colspan="2"><strong>Заказчик</strong></td>
+        </tr>
+        <tr>
+            <td rowspan="6" class="br" align="left">
+                <?= $agreementData['accidence'] ?>
+            </td>
+            <td class="bb h-30 pl-10" align="left" width="15%">Ф.И.О</td>
+            <td class="bb"
+                align="left"><?= $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'] ?></td>
+        </tr>
+        <tr>
+            <td class="bb h-30 pl-10" align="left">паспорт:</td>
+            <td class="bb" align="left"><?= $passport['series'] . $passport['number'] ?></td>
+        </tr>
+        <tr>
+            <td class="bb h-30 pl-10" align="left">выдан:</td>
+            <td class="bb" align="left"><?= $passport['authority'] ?>
+                <?=\date("d.m.Y", strtotime($passport['date_of_issue']))?></td>
+        </tr>
+        <tr>
+            <td class="bb h-30 pl-10" align="left">адрес регистрации:</td>
+            <td class="bb" align="left"><?= $reg['full'] ?></td>
+        </tr>
+        <tr>
+            <td class="bb h-50 pl-10" align="left">телефон:</td>
+            <td class="bb" align="left"><?= $profile['phone'] ?></td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left">E-mail:</td>
+            <td rowspan="3" class="bb v-align-top" align="left"><?= $profile['email'] ?></td>
+        </tr>
+        <tr>
+            <td class="text-left h-50 br"><strong><?= $agreementData['positionNominative'] ?></strong></td>
+        </tr>
+        <tr>
+            <td class="text-right br prb-20 bb"><strong><?= $agreementData['directorNameShort'] ?></strong></td>
+        </tr>
         <tr>
             <td>
-            <table width="100%">
-                <tr><td class="text-left pl-20">Подпись<br/>м.п.</td><td class="text-right pr-20">Ф.И.О.</td></tr>
-            </table>
+                <table width="100%">
+                    <tr>
+                        <td class="text-left pl-20">Подпись<br/>м.п.</td>
+                        <td class="text-right pr-20">Ф.И.О.</td>
+                    </tr>
+                </table>
             </td>
             <td colspan="2">
                 <table width="100%">
-                    <tr><td class="text-left pl-20">Подпись</td><td class="text-right pr-20">Ф.И.О.</td></tr>
+                    <tr>
+                        <td class="text-left pl-20">Подпись</td>
+                        <td class="text-right pr-20">Ф.И.О.</td>
+                    </tr>
                 </table>
             </td>
     </table>
-    <p align="justify">
-    С условиями настоящего Договора, Уставом МПГУ, Лицензией, Свидетельством о государственной аккредитации,
-    Правилами внутреннего распорядка Университета, Положением об оказании платных образовательных услуг
-    МПГУ, утвержденным приказом МПГУ, ознакомлен(а)<br/><br/>
-    «____» _____________ 20___ г. ________________ (подпись Заказчика)
-    </p>
 
+    <p align="justify">
+        С условиями настоящего Договора, Уставом МПГУ, Лицензией, Свидетельством о государственной аккредитации,
+        Правилами внутреннего распорядка Университета, Положением об оказании платных образовательных услуг
+        МПГУ, утвержденным приказом МПГУ, ознакомлен(а)<br/><br/>
+        «____» _____________ 20___ г. ________________ (подпись Заказчика)
+    </p>
 </div>

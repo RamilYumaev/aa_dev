@@ -64,11 +64,12 @@ class StatementAgreementContractCgController extends Controller
     public function actionPdf($id)
     {
         $agreement= $this->findModel($id);
+        $anketa = $this->getAnketa();
         if($agreement->typeEntrant() || $agreement->typePersonal() || $agreement->typeLegal()) {
             Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
             Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
-            $content = $this->renderPartial('pdf/_main', ["agreement" => $agreement]);
+            $content = $this->renderPartial('pdf/_main', ["agreement" => $agreement, "anketa"=> $anketa]);
             $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
             $render = $pdf->render();
 
@@ -104,7 +105,7 @@ class StatementAgreementContractCgController extends Controller
              if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                  try {
                      $this->service->createOrUpdatePersonal($form, $agreement->id);
-                     return $this->redirect(['post-document/consent-rejection']);
+                     return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
                      Yii::$app->errorHandler->logException($e);
                      Yii::$app->session->setFlash('error', $e->getMessage());
@@ -119,7 +120,7 @@ class StatementAgreementContractCgController extends Controller
              if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                  try {
                      $this->service->createOrUpdateLegal($form, $agreement->id);
-                     return $this->redirect(['post-document/consent-rejection']);
+                     return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
                      Yii::$app->errorHandler->logException($e);
                      Yii::$app->session->setFlash('error', $e->getMessage());
@@ -186,6 +187,15 @@ class StatementAgreementContractCgController extends Controller
 
     private function  getUser() {
        return Yii::$app->user->identity->getId();
+    }
+
+    private function getAnketa()
+    {
+        if(!$anketa = \Yii::$app->user->identity->anketa())
+        {
+            return $this->redirect('default/index');
+        }
+        return $anketa;
     }
 
 

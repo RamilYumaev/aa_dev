@@ -23,7 +23,7 @@ class StatementCgFrontendConsentWidget extends Widget
             ->orderByCreatedAtDesc()
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg_id')
             ->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id')
-            ->where(['statement.user_id' => $this->userId])
+            ->andWhere(['statement.user_id' => $this->userId])
             ->all();
         ;
         return $this->render('index-cg-consent-frontend', [

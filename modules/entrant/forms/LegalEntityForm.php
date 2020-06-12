@@ -7,7 +7,7 @@ use yii\base\Model;
 
 class LegalEntityForm extends Model
 {
-    public  $bank, $ogrn, $inn, $name, $postcode, $address, $phone, $user_id,
+    public  $bik, $p_c, $k_c, $ogrn, $inn, $name, $postcode, $address, $phone, $user_id,
          $requisites, $fio, $footing, $position;
 
     private $_legal;
@@ -31,8 +31,8 @@ class LegalEntityForm extends Model
     public function defaultRules()
     {
         return [
-            [['bank', 'ogrn', 'inn', 'name', 'postcode', 'address', 'phone', 'fio', 'footing', 'position'], 'required'],
-            [['bank', 'ogrn', 'inn', 'name', 'postcode', 'address', 'phone', 'requisites', 'fio', 'footing', 'position'],'string'],
+            [['bik', 'p_c','k_c','ogrn', 'inn', 'name', 'postcode', 'address', 'phone', 'fio', 'footing', 'position'], 'required'],
+            [['bik', 'p_c','k_c', 'ogrn', 'inn', 'name', 'postcode', 'address', 'phone', 'requisites', 'fio', 'footing', 'position'],'string'],
         ];
     }
     /**

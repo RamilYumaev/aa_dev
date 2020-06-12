@@ -2,13 +2,14 @@
 /* @var $model modules\entrant\forms\LegalEntityForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
+use borales\extensions\phoneInput\PhoneInput;
 use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use yii\widgets\MaskedInput;
 use kartik\date\DatePicker;
-
+$this->title = "Форма добавления данных о Юридическом лице - Заказчике платных образовательных услуг";
 ?>
 <div class="container">
     <div class="row">
@@ -20,10 +21,17 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'footing')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'requisites')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'bank')->textarea() ?>
+            <?= $form->field($model, 'bik')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'p_c')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'k_c')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'phone')->widget(PhoneInput::class, [
+                'jsOptions' => [
+                    'preferredCountries' => ['ru'],
+                    'separateDialCode'=>true
+                ]
+            ]) ?>
             <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'postcode')->textInput(['maxlength' => true]) ?>
             <div class="form-group">
