@@ -143,6 +143,21 @@ class DataExportHelper
         return $result;
     }
 
+    public static function dataRemoveStatement($userId, $statementId)
+    {
+        $incomingId = UserAis::findOne(['user_id' => $userId]);
+        $result['remove'] = [];
+        $statement = Statement::find()->user($userId)->statusNoDraft()->id($statementId)->one();
+        foreach ($statement->statementCg as $currentApplication) {
+            $result['remove'][] = [
+                'incoming_id' => $incomingId->incoming_id,
+                'competitive_group_id' => $currentApplication->cg->ais_id,
+            ];
+        }
+        return $result;
+    }
+
+
     public static function dataIncomingStatementIa($userId, $statementId)
     {
         $incomingId = UserAis::findOne(['user_id' => $userId]);

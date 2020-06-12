@@ -57,8 +57,8 @@ use modules\entrant\widgets\file\FileListWidget;
                             ['class' => 'btn btn-large btn-warning'])?>
                         <?= $statementCg->statementRejection->statusNewJob() && $statementCg->statementRejection->isAllFilesAccepted() ?
                             Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                                ['/data-entrant/communication/export-statement',
-                                    'user' => $statement->user_id, 'statement' => $statement->id],
+                                ['/data-entrant/communication/export-statement-remove-cg',
+                                   'statementId' =>  $statementCg->statementRejection->id],
                                 ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
 
                         <span class="label label-<?= StatementHelper::colorName( $statementCg->statementRejection->status_id)?>">
@@ -85,8 +85,8 @@ use modules\entrant\widgets\file\FileListWidget;
         ['class' => 'btn btn-large btn-warning'])?>
     <?= $statement->statementRejection->statusNewJob() && $statement->statementRejection->isAllFilesAccepted() ?
         Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-            ['/data-entrant/communication/export-statement',
-                'user' => $statement->user_id, 'statement' => $statement->id],
+            ['/data-entrant/communication/export-statement-remove',
+               'statementId' => $statement->statementRejection->id],
             ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
 
         <span class="label label-<?= StatementHelper::colorName($statement->statementRejection->status_id)?>">
