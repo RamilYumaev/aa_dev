@@ -1,5 +1,7 @@
+/*@import url("../../../vendor/bower-asset/bootstrap/dist/css/bootstrap.min.css");*/
+
 body {
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", sans-serif, Arial, Verdana, "Trebuchet MS" !important;
 }
 
 .fs-7 {
@@ -9,13 +11,16 @@ body {
 .fs-10 {
     font-size: 10px;
 }
-.fs-11{
+
+.fs-11 {
     font-size: 11px;
 }
-.fs-12{
+
+.fs-12 {
     font-size: 12px;
 }
-.fs-13{
+
+.fs-13 {
     font-size: 13px;
 }
 
@@ -178,32 +183,58 @@ body {
 .bb {
     border-bottom: 1px solid black;
 }
-.br{
+
+.br {
     border-right: 1px solid black;
 }
-.pl-10{
+
+.pl-10 {
     padding-left: 10px;
 }
 
 .lh-1-5 {
     line-height: 1.5;
 }
-.p-20{
+
+.p-20 {
     padding: 20px;
 }
-.pr-20{
+
+.pr-20 {
     padding-right: 20px;
 }
+
 .pl-20 {
     padding-left: 20px;
 }
-.prb-20{
+
+.prb-20 {
     padding-right: 20px;
     padding-bottom: 20px;
 }
-.agreement p{
+
+.agreement p {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     text-indent: 30px;
+}
+
+table p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-indent: 30px;
+    font-size: 11px;
+}
+
+.column {
+    width: 47%;
+}
+
+.left-column {
+    float: left;
+}
+
+.left-column{
+    float: right;
 }
 

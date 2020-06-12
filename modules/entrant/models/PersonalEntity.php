@@ -17,6 +17,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\repositories\PersonalEntityRepository;
 use yii\base\InvalidConfigException;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%passport_data}}".
@@ -34,16 +35,16 @@ use yii\base\InvalidConfigException;
  *
 **/
 
-class PersonalEntity extends YiiActiveRecordAndModeration
+class PersonalEntity extends ActiveRecord
 {
-    public function behaviors()
-    {
-        return ['moderation' => [
-            'class' => ModerationBehavior::class,
-            'attributes' => ['fio', 'series', 'number', 'date_of_issue', 'authority',
-                  'postcode', 'address', 'phone',]
-        ]];
-    }
+//    public function behaviors()
+//    {
+//        return ['moderation' => [
+//            'class' => ModerationBehavior::class,
+//            'attributes' => ['fio', 'series', 'number', 'date_of_issue', 'authority',
+//                  'postcode', 'address', 'phone',]
+//        ]];
+//    }
 
     public static  function create(PersonalEntityForm $form) {
         $personalEntity =  new static();
@@ -90,34 +91,34 @@ class PersonalEntity extends YiiActiveRecordAndModeration
         return "{{%personal_entity}}";
     }
 
-    public function titleModeration(): string
-    {
-        return "Паспортные данные Физического лица";
-    }
+//    public function titleModeration(): string
+//    {
+//        return "Паспортные данные Физического лица";
+//    }
 
 
-    public function moderationAttributes($value): array
-    {
-        return [
-            'fio'=> $value,
-            'series' => $value,
-            'number'=> $value,
-            'date_of_issue'=> DateFormatHelper::formatView($value),
-            'authority'=> $value,
-            'address' => $value,
-            'postcode' => $value,
-            'phone' => $value,
-            ];
-    }
+//    public function moderationAttributes($value): array
+//    {
+//        return [
+//            'fio'=> $value,
+//            'series' => $value,
+//            'number'=> $value,
+//            'date_of_issue'=> DateFormatHelper::formatView($value),
+//            'authority'=> $value,
+//            'address' => $value,
+//            'postcode' => $value,
+//            'phone' => $value,
+//            ];
+//    }
 
     public function attributeLabels()
     {
         return [
-            'fio' => 'ФИО',
-            'series'=>'Серия',
-            'number'=>'Номер',
-            'date_of_issue'=>'Дата выдачи',
-            'authority'=>'Кем выдан',
+            'fio' => 'ФИО (полностью)',
+            'series'=>'Серия паспорта',
+            'number'=>'Номер паспорта',
+            'date_of_issue'=>'Дата выдачи паспорта',
+            'authority'=>'Кем выдан паспорт',
             'address' => 'Адрес регистрации',
             'postcode' => 'Почтовый адрес',
             'phone' => 'Контактный телефон',

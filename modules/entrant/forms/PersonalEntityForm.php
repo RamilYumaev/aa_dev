@@ -2,6 +2,7 @@
 
 namespace modules\entrant\forms;
 
+use borales\extensions\phoneInput\PhoneInputValidator;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
@@ -42,6 +43,10 @@ class PersonalEntityForm extends Model
             [['number'], 'string', 'max' => 15],
             [['date_of_issue',], 'safe'],
             [['date_of_issue'], 'date', 'format' => 'dd.mm.yyyy', 'max'=> date("d.m.Y")],
+            [['phone'], 'string', 'max' => 25],
+            ['phone', 'unique', 'targetClass' => PersonalEntity::class,
+                'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
+            [['phone'], PhoneInputValidator::class],
         ];
     }
 

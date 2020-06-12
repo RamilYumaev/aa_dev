@@ -13,7 +13,7 @@ class StatementIaFrontendWidget extends Widget
 
     public function run()
     {
-        $model = StatementIndividualAchievements::find()->user($this->userId)->all();
+        $model = StatementIndividualAchievements::find()->user($this->userId)->statusNoDraft()->all();
         return $this->render('index-ia-frontend', [
             'statementsIa'=> $model,
         ]);
