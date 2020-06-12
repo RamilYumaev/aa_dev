@@ -4,6 +4,8 @@ namespace modules\entrant\models;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\FileHelper;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementIAQuery;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
@@ -54,6 +56,23 @@ class StatementIndividualAchievements extends ActiveRecord
         $this->status = $status;
     }
 
+    public function isStatusDraft() {
+        return $this->status == StatementHelper::STATUS_DRAFT;
+    }
+
+    public function isStatusWalt() {
+        return $this->status == StatementHelper::STATUS_WALT;
+    }
+
+    public function isStatusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED
+            || $this->status == StatementHelper::STATUS_RECALL;
+    }
+
+    public function getStatusNameJob() {
+        return StatementHelper::statusJobName($this->status);
+    }
+
     public function setCountPages($countPages) {
         $this->count_pages = $countPages;
     }
@@ -75,8 +94,25 @@ class StatementIndividualAchievements extends ActiveRecord
         return DictCompetitiveGroupHelper::eduLevelName($this->edu_level);
     }
 
+    public function countAcceptedFiles() {
+        return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
+    }
+
+    public function isAllFilesAccepted() {
+        return $this->countAcceptedFiles() == $this->countFiles();
+    }
+
+    public function statusNewJob() {
+        return $this->status == StatementHelper::STATUS_WALT ||
+            $this->status == StatementHelper::STATUS_WALT_SPECIAL;
+    }
+
     public function countFilesAndCountPagesTrue() {
         return $this->count_pages && $this->count_pages == $this->countFiles();
+    }
+
+    public function getStatusName() {
+        return StatementHelper::statusName($this->status);
     }
 
 

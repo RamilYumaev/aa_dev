@@ -1,10 +1,7 @@
 <?php
 
-use modules\entrant\helpers\BlockRedGreenHelper;
+use modules\entrant\helpers\StatementHelper;
 use yii\helpers\Html;
-use modules\entrant\widgets\file\FileWidget;
-use modules\entrant\widgets\file\FileListWidget;
-use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $this yii\web\View */
 /* @var $statementsIa yii\db\BaseActiveRecord */
 /* @var $statement modules\entrant\models\StatementIndividualAchievements*/
@@ -18,9 +15,14 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <table class="table table-bordered">
         <?php foreach ($statementsIa as $statement):  ?>
          <tr>
-            <td><?= $statement->numberStatement ?></td>
+            <td><?= $statement->numberStatement ?><span class="label label-<?= StatementHelper::colorName( $statement->status)?>">
+                        <?= $statement->statusName?></span></td>
             <td> <?php foreach ($statement->statementIa as $key => $stIa):  ?>
                 <?= ++$key ?>. <?= $stIa->dictIndividualAchievement->name ?>
+                    <?php if(!$statement->isStatusWalt()) :?>
+                    <span class="label label-<?= StatementHelper::colorName( $stIa->status_id)?>">
+                        <?= $stIa->statusName?></span> <br/>
+                    <?php endif;?>
                 <?php endforeach; ?>
             </td>
         </tr>

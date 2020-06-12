@@ -76,6 +76,12 @@ class StatementIndividualAchievementsService
         }
     }
 
+    public function addStatus($id, $status){
+        $st = $this->statementIaRepository->get($id);
+        $st->setStatus($status);
+        $this->statementIaRepository->save($st);
+    }
+
     private function isExits($individualId, $userId)
     {
         return StatementIndividualAchievements::find()->joinWith('statementIa')->where(['individual_id' => $individualId, 'user_id' => $userId])->exists();

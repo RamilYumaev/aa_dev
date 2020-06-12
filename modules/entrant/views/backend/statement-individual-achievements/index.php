@@ -41,9 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
-                        return $model->status == StatementHelper::STATUS_WALT ? Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                            ['communication/export-statement-ia', 'user' => $model->user_id, 'statement' => $model->id],
-                            ['data-method' => 'post', 'class' => 'btn btn-warning']) : "";
+                        return '<span class="label label-'.StatementHelper::colorName( $model->status).'">
+                        '.$model->statusNameJob.'</span>';
                     }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement-individual-achievements', 'template' => '{view}']
                 ],

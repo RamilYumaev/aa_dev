@@ -167,6 +167,9 @@ class DataExportHelper
             ->statusNoDraft()->id($statementId)->one();
         $result['individual_achievements'] = [];
         foreach ($statementIndividualAchievements->statementIa as $currentIa) {
+            if($currentIa->isStatusNoAccepted()) {
+                continue;
+            }
             $result['individual_achievements'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'individual_achievement_id' => $currentIa->individual_id,
