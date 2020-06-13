@@ -59,13 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => \modules\entrant\searches\grid\StatementColumn::class,
                     ],
-                    ['value' => function ($model) {
-                           return $model->status == StatementHelper::STATUS_WALT ?
-                               Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                                   ['communication/export-statement',
-                                   'user' => $model->user_id, 'statement' => $model->id],
-                                   ['data-method' => 'post', 'class' => 'btn btn-success']) : '';
-                    }, 'format'=> 'raw' ],
+//                    ['value' => function ($model) {
+//                           return $model->status == StatementHelper::STATUS_WALT ?
+//                               Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+//                                   ['communication/export-statement',
+//                                   'user' => $model->user_id, 'statement' => $model->id],
+//                                   ['data-method' => 'post', 'class' => 'btn btn-success']) : '';
+//                    }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
                 ],
             ]); ?>
