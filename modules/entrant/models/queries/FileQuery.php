@@ -20,7 +20,7 @@ class FileQuery extends ActiveQuery
 
     public function status($name)
     {
-        return $this->andWhere(['model' => $name]);
+        return $this->andWhere(['status' => $name]);
     }
 
     public function position($position)
