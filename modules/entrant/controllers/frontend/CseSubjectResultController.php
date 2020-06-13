@@ -4,6 +4,7 @@
 namespace modules\entrant\controllers\frontend;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\behaviors\AnketaRedirectBehavior;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\helpers\CseSubjectHelper;
@@ -35,6 +36,9 @@ class CseSubjectResultController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            [
+            'class'=> AnketaRedirectBehavior::class,
+            'ids'=>['update','delete']]
         ];
     }
 
