@@ -1,6 +1,7 @@
 <?php
 
 /* @var $model modules\entrant\forms\CseSubjectResultForm */
+/* @var $isKeys array */
 /* @var $form yii\bootstrap\ActiveForm */
 
 use yii\bootstrap\ActiveForm;
@@ -51,7 +52,7 @@ use modules\dictionary\helpers\DictCseSubjectHelper;
                                 </div>
                                 <div class="panel-body">
                                     <div class="col-md-6">
-                                        <?= $form->field($result, "[{$index}]subject_id")->dropDownList(DictCseSubjectHelper::subjectCseList()) ?>
+                                        <?= $form->field($result, "[{$index}]subject_id")->dropDownList(DictCseSubjectHelper::subjectCseUserList($isKeys)) ?>
                                     </div>
                                     <div class="col-md-6">
                                         <?= $form->field($result, "[{$index}]mark")->textInput(['maxlength' => true]) ?>

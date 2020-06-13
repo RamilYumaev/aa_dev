@@ -39,6 +39,19 @@ class CseSubjectHelper
         return $array;
     }
 
+    public static function listSubject($userId) :array
+    {
+        $list = [];
+        if (self::modelAll($userId)) {
+            foreach (self::modelAll($userId) as $value) {
+                foreach ($value->dateJsonDecode() as $item => $mark) {
+                        $list[$item] = $item;
+                }
+            }
+        }
+        return array_values($list);
+    }
+
     public static function minNumberSubject($userId)
     {
         return count(self::maxMarkSubject($userId)) >= self::MIN_NEEDED_SUBJECT_CSE;
