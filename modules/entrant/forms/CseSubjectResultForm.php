@@ -4,7 +4,6 @@
 namespace modules\entrant\forms;
 
 
-use common\auth\forms\CompositeForm;
 use modules\entrant\models\CseSubjectResult;
 use yii\base\InvalidConfigException;
 use yii\base\Model;

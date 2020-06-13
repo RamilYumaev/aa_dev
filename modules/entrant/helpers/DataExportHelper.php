@@ -136,7 +136,8 @@ class DataExportHelper
                 'preemptive_right_level' => $prRight ? $prRight : 0,
                 'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 : 0,
                 'application_code' => $statement->numberStatement,
-                'cathedra_id' => $currentApplication->cathedra_id ?? null,
+                'cathedra_id' => $currentApplication->cathedra_id ?? 0,
+                'target_organization_id'=> 0,
                 'current_status_id' => '',
             ];
         }

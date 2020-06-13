@@ -26,6 +26,19 @@ class DictCseSubjectHelper
         return ArrayHelper::map(self::modelAll(), "id", 'name');
     }
 
+    public static function subjectCseUserList($data) : array
+    {   if ($data) {
+        $model = DictCseSubject::find()->where(['cse_status'=> self::CSE_STATUS_YES])->andWhere(['not in', 'id', $data])->
+        orderBy(['name'=>SORT_ASC])->all();
+         } else {
+        $model = DictCseSubject::find()->where(['cse_status'=> self::CSE_STATUS_YES])->
+        orderBy(['name'=>SORT_ASC])->all();
+    }
+
+        return ArrayHelper::map($model, "id", 'name');
+    }
+
+
     public static function name($key) : ?string
     {
         return ArrayHelper::getValue(self::subjectCseList(), $key);

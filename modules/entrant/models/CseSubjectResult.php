@@ -77,6 +77,14 @@ class CseSubjectResult extends ActiveRecord
         return  Json::decode($this->result);
     }
 
+    public function keySubject()
+    {   $list = [];
+        foreach ($this->dateJsonDecode() as $item => $mark) {
+            $list[] = $item;
+        }
+        return $list;
+    }
+
 //    public function titleModeration(): string
 //    {
 //        return "Результаты ЕГЭ";
