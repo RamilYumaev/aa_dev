@@ -5,6 +5,7 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use modules\entrant\forms\BaseMessageForm;
+use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
@@ -26,7 +27,7 @@ class FileService
         $this->repository = $repository;
     }
 
-    public function create(BaseMessageForm $form, BaseActiveRecord $model)
+    public function create(FileForm $form, BaseActiveRecord $model)
     {
         $this->manager->wrap(function ()use ($form, $model) {
         if($form->file_name) {
@@ -55,7 +56,7 @@ class FileService
         }
     }
 
-    public function edit($id, BaseMessageForm $form)
+    public function edit($id, FileForm $form)
     {
         $model = $this->repository->get($id);
         if($form->file_name) {
