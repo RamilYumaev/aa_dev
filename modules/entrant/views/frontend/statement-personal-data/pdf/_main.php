@@ -9,7 +9,7 @@ use olympic\helpers\auth\ProfileHelper;
 
 
 $profile = ProfileHelper::dataArray($statementPd->user_id);
-$userAnketa = $anketa;
+$userAnketa = $statementPd->anketa;
 
 ?>
 

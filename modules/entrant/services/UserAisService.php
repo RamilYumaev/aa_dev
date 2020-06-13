@@ -4,6 +4,8 @@
 namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
+use modules\dictionary\models\DictOrganizations;
+use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\AisReturnData;
@@ -13,6 +15,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
+use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
@@ -32,6 +35,8 @@ class UserAisService
     private $rejectionCgConsentRepository;
     private $statementRejectionRepository;
     private $statementRejectionCgRepository;
+    private $agreementRepository;
+    private $organizationsRepository;
 
 
     public function __construct(RepositoryDeleteSaveClass $repository,
@@ -41,7 +46,9 @@ class UserAisService
                                 StatementConsentCgRepository $consentCgRepository,
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementRejectionRepository $statementRejectionRepository,
-                                StatementRejectionCgRepository $statementRejectionCgRepository)
+                                StatementRejectionCgRepository $statementRejectionCgRepository,
+                                AgreementRepository $agreementRepository,
+                                DictOrganizationsRepository $organizationsRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
@@ -51,6 +58,8 @@ class UserAisService
         $this->rejectionCgConsentRepository = $rejectionCgConsentRepository;
         $this->statementRejectionRepository = $statementRejectionRepository;
         $this->statementRejectionCgRepository = $statementRejectionCgRepository;
+        $this->agreementRepository = $agreementRepository;
+        $this->organizationsRepository = $organizationsRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -68,6 +77,26 @@ class UserAisService
              $this->statusSuccess($model, $id);
         });
     }
+
+    public function agreement($id, $aisId)
+    {
+        $this->transactionManager->wrap(function () use( $id, $aisId) {
+            $agreement = $this->agreementRepository->get($id);
+            $org = $this->organizationsRepository->get($agreement->organization_id);
+            $org->setAisId($aisId);
+
+            $this->organizationsRepository->save($org);
+            foreach ($agreement->statement as $statement) {
+                $statementId = $this->statementRepository->get($statement->id);
+                $statementId->setStatus(StatementHelper::STATUS_WALT);
+                $this->statementRepository->save($statementId);
+            }
+            $agreement->detachBehavior('moderation');
+
+            $this->agreementRepository->save($agreement);
+        });
+    }
+
 
     public function removeZos($id)
     {

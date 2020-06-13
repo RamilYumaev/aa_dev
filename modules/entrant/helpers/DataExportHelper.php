@@ -1,6 +1,4 @@
 <?php
-
-
 namespace modules\entrant\helpers;
 
 
@@ -11,6 +9,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\dictionary\models\DictCseSubject;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
+use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\CseViSelect;
@@ -167,7 +166,7 @@ class DataExportHelper
             ->statusNoDraft()->id($statementId)->one();
         $result['individual_achievements'] = [];
         foreach ($statementIndividualAchievements->statementIa as $currentIa) {
-            if($currentIa->isStatusNoAccepted()) {
+            if ($currentIa->isStatusNoAccepted()) {
                 continue;
             }
             $result['individual_achievements'][] = [
@@ -339,4 +338,25 @@ class DataExportHelper
     {
         return Address::findOne(['user_id' => $user_id, 'type' => $type]);
     }
+
+    public static function dataIncomingAgreement(Agreement $agreement)
+    {
+        /* @var  $currentApplication StatementCg */
+        /* @var  $statement Statement */
+        $result['organization'] = [];
+        $result['organization'][] =
+            [
+                'name' => $agreement->organization->name,
+                'code' => 'sdo' . $agreement->organization->id,
+            ];
+        foreach ($agreement->statement as $statement) {
+            foreach ($statement->statementCg as $currentApplication) {
+                $result['organization'][]['cg'][] = [
+                    'competitive_group_id' => $currentApplication->cg->ais_id,
+                ];
+            }
+        }
+        return $result;
+    }
+
 }

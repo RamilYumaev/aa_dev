@@ -11,6 +11,7 @@ use modules\dictionary\forms\DictOrganizationForm;
  * Class DictOrganizations
  * @package modules\dictionary\models
  * @property $name string
+ * @property $ais_id  integer
  */
 class DictOrganizations extends YiiActiveRecordAndModeration
 {
@@ -47,6 +48,11 @@ class DictOrganizations extends YiiActiveRecordAndModeration
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function setAisId($id)
+    {
+        $this->ais_id = $id;
     }
 
     public function moderationAttributes($value): array

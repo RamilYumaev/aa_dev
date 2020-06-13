@@ -15,7 +15,6 @@ $userId = $profile->user_id;
 ?>
 <?= Html::a("Экспорт в АИС", ['communication/export-data', 'user' => $userId], ['data-method' => 'post', 'class' => 'btn btn-success']) ?>
 
-<?= Html::a("Data Json", ['default/data-json', 'user' => $userId], ['class' => 'btn btn-danger']) ?>
 <?= Html::a("Файлы", ['default/files', 'user' => $userId], ['class' => 'btn btn-danger']) ?>
 <?= Html::a("Редактировать данные", \Yii::$app->params['staticHostInfo'] . '/switch-user/by-user-id?id=' . $userId,
     ['class' => 'btn btn-info', 'target' => '_blank']); ?>
