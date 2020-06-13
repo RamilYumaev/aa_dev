@@ -6,6 +6,7 @@ namespace modules\entrant\controllers\frontend;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
+use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\services\CseSubjectResultService;
 use yii\base\Model;
@@ -60,6 +61,7 @@ class CseSubjectResultController extends Controller
         }
         return $this->render('create', [
             'model' => $form,
+            'isKeys' => CseSubjectHelper::listSubject($this->getUserId())
         ]);
     }
 
@@ -104,6 +106,8 @@ class CseSubjectResultController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
+            'isKeys' => array_diff(CseSubjectHelper::listSubject($this->getUserId()), $model->keySubject())
+        ,
         ]);
     }
 

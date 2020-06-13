@@ -6,6 +6,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Определение услов�
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
+
 ?>
 <div class="row">
     <div class="col-md-2">

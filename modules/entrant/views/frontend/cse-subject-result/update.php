@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $isKeys array */
 /* @var $model modules\entrant\forms\DocumentEducationForm */
 
 
@@ -8,4 +9,4 @@ $this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистраци�
 $this->params['breadcrumbs'][] = ['label' => 'ЕГЭ', 'url' => ['default/cse']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_form', ['model'=> $model] )?>
+<?= $this->render('_form', ['model'=> $model, 'isKeys' => $isKeys] )?>
