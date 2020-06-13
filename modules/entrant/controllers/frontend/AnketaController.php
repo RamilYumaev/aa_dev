@@ -3,6 +3,7 @@
 namespace modules\entrant\controllers\frontend;
 
 
+use common\moderation\behaviors\ModerationBehavior;
 use modules\entrant\behaviors\AnketaRedirectBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
@@ -31,7 +32,10 @@ class AnketaController extends Controller
 
     public function behaviors()
     {
-        return [AnketaRedirectBehavior::class];
+        return [[
+            'class'=> AnketaRedirectBehavior::class,
+            'ids'=>['step1' ]]
+               ];
     }
 
     public function actionStep1()

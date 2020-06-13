@@ -3,10 +3,14 @@
 namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\DictOrganizationsHelper;
+use modules\dictionary\models\DictOrganizations;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\helpers\DateFormatHelper;
+use olympic\models\auth\Profiles;
 
 /**
  * This is the model class for table "{{%agreement}}".
@@ -15,6 +19,8 @@ use modules\entrant\helpers\DateFormatHelper;
  * @property integer $user_id
  * @property integer $organization_id
  * @property string  $date
+ * @property string  $message
+ * @property string  $status_id
  * @property string  $number
  * @property string  $year
  **/
@@ -66,6 +72,16 @@ class Agreement extends YiiActiveRecordAndModeration
           return  'Договоры(целевое обучение)';
     }
 
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+
+    public function setStatus($status) {
+        $this->status_id = $status;
+    }
+
     public function getValue($property){
         if ($property == "date") {
             return DateFormatHelper::formatView($this->$property);
@@ -88,9 +104,16 @@ class Agreement extends YiiActiveRecordAndModeration
     }
 
     public function getOrganization() {
-        return DictOrganizationsHelper::organizationName($this->organization_id);
+        return $this->hasOne(DictOrganizations::class, ['id' =>'organization_id']);
     }
 
+    public function getProfile() {
+        return $this->hasOne(Profiles::class, ['user_id' =>'user_id']);
+    }
+
+    public function getStatement() {
+        return $this->hasMany(Statement::class, ['user_id' =>'user_id'])->where(['special_right'=> DictCompetitiveGroupHelper::TARGET_PLACE]);
+    }
 
     public function moderationAttributes($value): array
     {

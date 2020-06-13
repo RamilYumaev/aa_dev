@@ -30,8 +30,7 @@ use Yii;
 
 class AnketaRedirectBehavior  extends Behavior
 {
-
-
+    public $ids = [];
     /**
      * @var Controller
      */
@@ -46,8 +45,8 @@ class AnketaRedirectBehavior  extends Behavior
 
     public function beforeAction($event)
     {
-        if($this->fileExits() && $this->owner->action->id == "step1") {
-            Yii::$app->session->setFlash("warning", 'Редактирование "Определение условий подачи документов" 
+        if($this->fileExits() && in_array($this->owner->action->id, $this->ids)) {
+            Yii::$app->session->setFlash("warning", 'Редактирование, удаление  
             невозможно, так как на странице "Загрузка документов" есть загруженная скан-копия документа');
             Yii::$app->getResponse()->redirect(['abiturient/post-document/index']);
             try {

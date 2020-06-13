@@ -43,6 +43,10 @@ class  StatementConsentPersonalData extends ActiveRecord
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
 
+    public function getAnketa() {
+        return $this->hasOne(Anketa::class, ['user_id'=> 'user_id']);
+    }
+
     public function countFiles() {
         return $this->getFiles()->count();
     }

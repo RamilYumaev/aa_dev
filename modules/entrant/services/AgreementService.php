@@ -8,6 +8,7 @@ use common\transactions\TransactionManager;
 use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\forms\AgreementForm;
+use modules\entrant\forms\AgreementMessageForm;
 use modules\entrant\models\Agreement;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementRepository;
@@ -71,6 +72,14 @@ class AgreementService
         $this->repository->remove($model);
     }
 
+    public function addMessage($id, AgreementMessageForm $form)
+    {
+        $model = $this->repository->get($id);
+        $model->detachBehavior('moderation');
+        $model->setStatus(3);
+        $model->setMessage($form->message);
+        $this->repository->save($model);
+    }
 
 
 }

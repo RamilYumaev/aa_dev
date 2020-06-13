@@ -10,11 +10,10 @@ use yii\base\Widget;
 class AgreementWidget extends Widget
 {
     public $userId;
-
     public $view;
     public function run()
     {
-        $model = Agreement::findOne([ 'user_id' => $this->userId, 'year' =>EduYearHelper::eduYear()]);
+        $model = Agreement::findOne(['user_id' => $this->userId, 'year' =>EduYearHelper::eduYear()]);
         return $this->render($this->view, [
             'model'=> $model,
         ]);

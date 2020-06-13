@@ -4,6 +4,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
+
 /* @var $model modules\entrant\models\Agreement */
 ?>
     <h3>Скан договора о целевом обучении</h3>
@@ -14,7 +15,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <tr class="<?= BlockRedGreenHelper::colorTableBg($model->countFiles(), FileHelper::listCountModels()[$model::className()], true) ?>">
         <td>
-            <?= $model->documentFull ?>, <?= $model->organization ?>
+            <?= $model->documentFull ?>, <?= $model->organization->name ?>
         </td>
         <td>
             <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className(),  'userId' => $model->user_id]) ?>

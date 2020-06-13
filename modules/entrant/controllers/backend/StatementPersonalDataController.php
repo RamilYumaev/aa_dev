@@ -38,8 +38,7 @@ class StatementPersonalDataController extends Controller
         $statementPd= $this->findModel($id);
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
-        $anketa = $this->getAnketa();
-        $content = $this->renderPartial('pdf/_main', ["statementPd" => $statementPd, 'anketa'=>$anketa]);
+        $content = $this->renderPartial('@modules/entrant/views/frontend/statement-personal-data/pdf/_main', ["statementPd" => $statementPd]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNamePD('.pdf'));
         $render = $pdf->render();
 
@@ -62,21 +61,9 @@ class StatementPersonalDataController extends Controller
      */
     protected function findModel($id): StatementConsentPersonalData
     {
-        if (($model = StatementConsentPersonalData::findOne(['id'=>$id, 'user_id' => Yii::$app->user->identity->getId()])) !== null) {
+        if (($model = StatementConsentPersonalData::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
-
-    protected function getAnketa()
-    {
-        if(Yii::$app->user->isGuest)
-        {
-            return $this->redirect('/default/index');
-        }
-
-        return Yii::$app->user->identity->anketa();
-    }
-
-
 }

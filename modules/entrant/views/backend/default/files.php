@@ -21,10 +21,6 @@ $userId = $profile->user_id;
 
             <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
 
-            <?php if ($anketa->isAgreement()): ?>
-                <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
-            <?php endif; ?>
-
             <?php if (!$anketa->isNoRequired()): ?>
                 <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
             <?php endif; ?>

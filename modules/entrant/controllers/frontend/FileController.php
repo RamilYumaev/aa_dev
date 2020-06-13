@@ -1,7 +1,7 @@
 <?php
 namespace modules\entrant\controllers\frontend;
 
-use modules\entrant\forms\FileForm;
+use modules\entrant\forms\BaseMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\Statement;
@@ -87,7 +87,7 @@ class FileController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
 
-        $form = new FileForm($this->getUser());
+        $form = new BaseMessageForm($this->getUser());
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);
@@ -117,7 +117,7 @@ class FileController extends Controller
     {
         $model = FileHelper::validateModel($hash);
         $file = $this->findModel($id, $model);
-        $form = new FileForm($file->user_id,$file);
+        $form = new BaseMessageForm($file->user_id,$file);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

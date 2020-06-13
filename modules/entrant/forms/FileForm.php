@@ -31,7 +31,7 @@ class FileForm extends Model
         return [
             ['file_name', 'image',
                 'minHeight' => 300,
-                'extensions' => 'jpg, png',
+                'extensions' => 'jpg, png, jpeg',
                 'maxSize' => 1024 * 1024 * 5],
         ];
     }
