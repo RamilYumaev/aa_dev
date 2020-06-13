@@ -132,12 +132,12 @@ class DataExportHelper
                 'competitive_group_id' => $currentApplication->cg->ais_id,
                 'vi_status' => $noCse ? 1 : 0,
                 'composite_discipline_id' => $composite,
-                'preemptive_right_status' => $statement->special_right ?? 0,
+                'preemptive_right_status' => $prRight ? 1 : 0,
                 'preemptive_right_level' => $prRight ? $prRight : 0,
                 'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 : 0,
                 'application_code' => $statement->numberStatement,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
-                'current_status_id' => '',
+                // 'current_status_id' => '',
             ];
         }
         return $result;
@@ -167,7 +167,7 @@ class DataExportHelper
             ->statusNoDraft()->id($statementId)->one();
         $result['individual_achievements'] = [];
         foreach ($statementIndividualAchievements->statementIa as $currentIa) {
-            if($currentIa->isStatusNoAccepted()) {
+            if ($currentIa->isStatusNoAccepted()) {
                 continue;
             }
             $result['individual_achievements'][] = [
