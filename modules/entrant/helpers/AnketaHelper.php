@@ -86,7 +86,7 @@ class AnketaHelper
     public static function universityChoice()
     {
         return [
-            self::HEAD_UNIVERSITY => "В головной вуз МПГУ (г. Москва)",
+            self::HEAD_UNIVERSITY => "В головной вуз или колледж МПГУ (г. Москва)",
             self::SERGIEV_POSAD_BRANCH => "В Сергиево-Посадский филиал МПГУ (Московская область)",
             self::ANAPA_BRANCH => "В Анапский филиал МПГУ (Краснодарский край)",
             self::POKROV_BRANCH => "В Покровский филиал МПГУ (Владимирская область)",

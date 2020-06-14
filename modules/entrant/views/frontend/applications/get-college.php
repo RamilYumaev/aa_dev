@@ -4,6 +4,7 @@
  * @var $currentFaculty
  * @var $cg
  * @var $transformYear
+ * @var $anketa
  */
 
 use dictionary\models\Faculty;
@@ -22,7 +23,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Определение услов�
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
 
 $result = "";
@@ -35,6 +35,7 @@ foreach ($currentFaculty as $faculty) {
         ->ForeignerCgSwitch()
         ->currentAutoYear()
         ->faculty($faculty)
+        ->currentClass($anketa->current_edu_level)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();
 

@@ -32,9 +32,11 @@ class ApplicationsController extends Controller
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
+        $anketa = $this->getAnketa();
 
         return $this->render('get-college', [
             'currentFaculty' => $currentFaculty,
+            'anketa'=> $anketa,
 
         ]);
     }

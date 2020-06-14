@@ -224,4 +224,13 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('dictCathedra');
     }
 
+    public function currentClass($class)
+    {
+        if($class == AnketaHelper::SCHOOL_TYPE_SCHOOL_9)
+        {
+            return $this->andWhere(['spo_class'=>AnketaHelper::SCHOOL_TYPE_SCHOOL_9]);
+        }
+        return $this->andWhere(['spo_class'=>AnketaHelper::SCHOOL_TYPE_SCHOOL]);
+    }
+
 }
