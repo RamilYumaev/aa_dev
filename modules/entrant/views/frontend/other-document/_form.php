@@ -9,6 +9,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 \modules\entrant\assets\other\OtherDocumentAsset::register($this);
+
 ?>
  <?php $form = ActiveForm::begin(['id'=> 'form-other-documents', 'enableAjaxValidation' => $model->isAjax]); ?>
       <?php if($model->type !=43): ?>

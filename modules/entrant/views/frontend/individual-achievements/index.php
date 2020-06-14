@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
 \frontend\assets\modal\ModalAsset::register($this);
 
 $this->title = "Доступные индивидуальные достижения";
-$this->params['breadcrumbs'][] = ["label" => "Добавление основных документов", "url" => "/abiturient/default"];
+$this->params['breadcrumbs'][] = ["label" => "Персональная карточка поступающего", "url" => "/abiturient/default"];
 $this->params['breadcrumbs'][] = $this->title;
 
 $result = "";

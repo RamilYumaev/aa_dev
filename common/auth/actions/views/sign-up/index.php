@@ -47,7 +47,7 @@ $docUrl = Html::a("Ознакомиться", Url::to('@frontendInfo/uploads/con
             ])->hint("Для изменения кода  необходимо кликнуть на картинку") ?>
         </div>
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'login-button']) ?></div>
         </div>
 
