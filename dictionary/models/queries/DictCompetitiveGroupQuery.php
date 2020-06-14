@@ -36,11 +36,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         if (!(\Yii::$app->user->identity->setting())->allowBacCseOchContactMoscow()) {
             return $this->andWhere(['education_form_id' => DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]);
         }
-        return $this->andWhere(['in','education_form_id',
+        return $this->andWhere(['in', 'education_form_id',
             [DictCompetitiveGroupHelper::EDU_FORM_ZAOCH,
                 DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH,
                 DictCompetitiveGroupHelper::EDU_FORM_OCH
-                ]]);
+            ]]);
 
     }
 
@@ -226,11 +226,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function currentClass($class)
     {
-        if($class == AnketaHelper::SCHOOL_TYPE_SCHOOL_9)
-        {
-            return $this->andWhere(['spo_class'=>AnketaHelper::SCHOOL_TYPE_SCHOOL_9]);
-        }
-        return $this->andWhere(['spo_class'=>AnketaHelper::SCHOOL_TYPE_SCHOOL]);
+        return $this->andWhere(['spo_class' => $class]);
     }
 
 }

@@ -16,6 +16,7 @@ use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
 use yii\web\View;
 use \dictionary\helpers\DictFacultyHelper;
+use \modules\entrant\helpers\AnketaHelper;
 
 $this->title = "Выбор образовательных программ СПО";
 
@@ -26,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
 
 $result = "";
+$spoClass = ($anketa->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL_9) ? 9 : 11;
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
@@ -35,7 +37,7 @@ foreach ($currentFaculty as $faculty) {
         ->ForeignerCgSwitch()
         ->currentAutoYear()
         ->faculty($faculty)
-        ->currentClass($anketa->current_edu_level)
+        ->currentClass($spoClass)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();
 
@@ -100,12 +102,12 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                 ($currentCg->only_pay_status && !$contractOnly ? 'приём на платной основе' : $budgetAnalog["kcp"]);
             $result .= "</strong></td>";
             $result .= "<td>";
-            if(!$contractOnly) {
+            if (!$contractOnly) {
                 $result .= $budgetAnalog["competition_count"] ? ("Конкурс: " . $budgetAnalog["competition_count"]) : "";
             }
             $result .= "</td>";
             $result .= "<td>";
-            if(!$contractOnly) {
+            if (!$contractOnly) {
                 $result .= $budgetAnalog["passing_score"] ? ("Проходной балл: " . $budgetAnalog["passing_score"]) : "";
             }
             $result .= "</td>";
@@ -138,20 +140,20 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
+            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на бюджетной основе.
         </div>
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на договорной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на договорной основе.
         </div>
     </div>
     <div class="table-responsive">
-    <?= $result ?>
+        <?= $result ?>
     </div>
 </div>
 
