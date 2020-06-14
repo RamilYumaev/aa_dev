@@ -21,12 +21,15 @@ class StatementReadRepository
     public function readData() {
         $query = Statement::find()->statusNoDraft('statement.');
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
+        $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in',
-                    'statement.status', StatementHelper::STATUS_WALT_SPECIAL]);
+                    'statement.status', StatementHelper::STATUS_WALT_SPECIAL])
+                ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryTarget()) {
@@ -35,15 +38,13 @@ class StatementReadRepository
         }
 
         if($this->jobEntrant->isCategoryUMS()) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
-                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
+            $query->andWhere(['anketa.category_id' => [CategoryStruct::GOV_LINE_COMPETITION,
+            CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
-                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

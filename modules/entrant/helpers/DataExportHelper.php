@@ -126,8 +126,11 @@ class DataExportHelper
         foreach ($statement->statementCg as $currentApplication) {
             $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
                 $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
-            $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($statement->user_id,
-                $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id);
+                $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
+                $statement->user_id,
+                $statement->faculty_id,
+                $statement->speciality_id,
+                $currentApplication->cg->id);
             $result['applications'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'competitive_group_id' => $currentApplication->cg->ais_id,
