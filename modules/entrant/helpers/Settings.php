@@ -128,12 +128,12 @@ class Settings
      * @var string
      * Окончание приема документов по гослинии
      */
-    public $ZukUmsGovline = "2020-06-06 00:00:00";
+    public $ZukUmsGovline = "2020-06-26 00:00:00";
     /**
      * @var string
      * Окончание приема документов УМС договор
      */
-    public $ZukUmsContract = "2020-06-06 00:00:00";
+    public $ZukUmsContract = "2020-06-26 00:00:00";
     /**
      * @var string
      * Окончание приема ЗОС в СПО бюджет Москва
