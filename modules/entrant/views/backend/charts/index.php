@@ -1,5 +1,6 @@
 <?php
 /* @var $cgs \yii\db\BaseActiveRecord */
+
 /* @var $cg \dictionary\models\DictCompetitiveGroup */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -11,11 +12,18 @@ use dictionary\helpers\DictSpecializationHelper;
 $this->title = "Ход подачи документов";
 ?>
 
-<div class="row">
-<?php foreach ($cgs as $key => $cg) :?>
-   <div class="col-md-4">
-  <?= \modules\entrant\widgets\cpk\charts\ChartBarWidget::widget(['key' => $key, 'cg'=> $cg])?>
-   </div>
-<?php endforeach;?>
-</div>
+
+<?php foreach ($cgs
+
+               as $key => $cg) : ?>
+    <?php if ($key % 3 == 0): ?>
+        <div class="row">
+    <?php endif; ?>
+    <div class="col-md-4">
+        <?= \modules\entrant\widgets\cpk\charts\ChartBarWidget::widget(['key' => $key, 'cg' => $cg]) ?>
+    </div>
+    <?php if ($key % 3 == 2): ?>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
 
