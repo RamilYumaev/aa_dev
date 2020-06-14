@@ -5,6 +5,8 @@
 
 /* @var $statementCg modules\entrant\models\StatementCg */
 
+/* @var $isAccepted bool */
+
 use modules\entrant\helpers\StatementHelper;
 use \yii\bootstrap\Collapse;
 use yii\helpers\Html;
@@ -14,7 +16,7 @@ use yii\helpers\Html;
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Заявления об участии в конкурсе
                 <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
-                <?=Html::a("Отозвать","/abiturient/post-document/statement-rejection")?></h4>
+                <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?></h4>
 
         </div>
         <div class="panel-body">

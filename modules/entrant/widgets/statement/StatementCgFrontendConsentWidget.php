@@ -2,6 +2,7 @@
 namespace modules\entrant\widgets\statement;
 
 
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
@@ -17,17 +18,18 @@ class StatementCgFrontendConsentWidget extends Widget
 
     public function run()
     {
-        $model = StatementConsentCg::find()
+        $query = StatementConsentCg::find()
             ->alias('consent')
             ->statusNoDraft('consent.')
-            ->orderByCreatedAtDesc()
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg_id')
             ->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id')
-            ->andWhere(['statement.user_id' => $this->userId])
-            ->all();
-        ;
+            ->andWhere(['statement.user_id' => $this->userId]);
+        $model = clone $query;
+
+        $isAcceptedOrRecall = $query->andWhere(['consent.status' => [StatementHelper::STATUS_ACCEPTED]])->exists();
         return $this->render('index-cg-consent-frontend', [
-            'statementConsents'=> $model,
+            'statementConsents'=> $model->orderByCreatedAtDesc()->all(),
+            'isAcceptedOrRecall' => $isAcceptedOrRecall,
         ]);
     }
 }

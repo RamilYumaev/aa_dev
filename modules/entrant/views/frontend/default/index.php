@@ -38,9 +38,11 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['userId' => $userId,'view' => "detail"]); ?>
     </div>
+    <?php if (DictCompetitiveGroupHelper::bachelorExistsUser($userId)): ?>
     <div class="mt-20 table-responsive">
        <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(['userId' => $userId]); ?>
     </div>
+    <?php endif; ?>
 
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId]); ?>

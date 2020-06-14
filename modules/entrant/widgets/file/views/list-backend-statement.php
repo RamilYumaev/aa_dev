@@ -27,7 +27,7 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
 <table class="table">
     <?php foreach ($files as $key => $file): ?>
     <tr>
-        <td>Страница <?= ++$key ?></td>
+        <td>Файл <?= ++$key ?></td>
         <td><?= Html::a("Скачать", ["file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
         <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
         <?php if(!$jobEntrant->isCategoryCOZ()): ?>

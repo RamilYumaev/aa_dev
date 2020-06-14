@@ -5,6 +5,7 @@
 
 /* @var $statementCg modules\entrant\models\StatementCg */
 
+use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\widgets\file\FileListWidget;
 use modules\entrant\widgets\file\FileWidget;
@@ -38,15 +39,15 @@ use yii\helpers\Html;
                 </tr>
             <?php endif; ?>
             <?php if ($statement->statementRejection) : ?>
-                <tr>
+                <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->statementRejection->countFiles(), $statement->statementRejection->count_pages) ?>">
                     <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf', 'id' => $statement->statementRejection->id],
-                            ['class' => 'btn btn-large btn-warning']) ?> <?= FileWidget::widget([
+                            ['class' => 'btn btn-large btn-warning']) ?> <?= $statement->statementRejection->statusAccepted() ? "": FileWidget::widget([
                             'record_id' => $statement->statementRejection->id, 'model' => \modules\entrant\models\StatementRejection::class]) ?>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <?= FileListWidget::widget(['record_id' => $statement->statementRejection->id, 'model' => \modules\entrant\models\StatementRejection::class, 'userId' => $statement->user_id]) ?>
+                        <?=  FileListWidget::widget(['record_id' => $statement->statementRejection->id, 'model' => \modules\entrant\models\StatementRejection::class, 'userId' => $statement->user_id]) ?>
                     </td>
                 </tr>
             <?php endif; ?>
@@ -69,10 +70,10 @@ use yii\helpers\Html;
                                         Html::a("Отозвать", ['statement/rejection-cg', 'id' => $statementCg->id], ['class' => 'btn btn-info', 'data' => [
                                             'confirm' => "Вы уверены, что хотите отозвать заявление?",
                                             'method' => 'post']]) ?></td>
-                                <td>
+                                <td  class="<?= $statementCg->statementRejection ? BlockRedGreenHelper::colorTableBg($statementCg->statementRejection->countFiles(), $statementCg->statementRejection->count_pages): '' ?>">
                                     <?= $statementCg->statementRejection ? Html::a('Скачать заявление', ['statement-rejection/pdf-cg', 'id' => $statementCg->statementRejection->id],
-                                            ['class' => 'btn btn-large btn-warning']) . FileWidget::widget(['record_id' => $statementCg->statementRejection->id,
-                                            'model' => \modules\entrant\models\StatementRejectionCg::class,]) : "" ?>
+                                            ['class' => 'btn btn-large btn-warning']) .($statementCg->statementRejection->statusAccepted() ? "" : FileWidget::widget(['record_id' => $statementCg->statementRejection->id,
+                                            'model' => \modules\entrant\models\StatementRejectionCg::class])) : "" ?>
                                 </td>
                                 <td colspan="2">
                                     <?= $statementCg->statementRejection ? FileListWidget::widget(['record_id' => $statementCg->statementRejection->id,

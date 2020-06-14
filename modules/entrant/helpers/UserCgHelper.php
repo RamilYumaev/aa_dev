@@ -73,6 +73,18 @@ class UserCgHelper
         return $bool ?? false;
     }
 
+    public static function userBachelor($user_id) {
+        foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
+        {   /* @var $cg UserCg */
+            if ($cg->isMedicine()) {
+                $bool = true;
+                break;
+            }
+        }
+        return $bool ?? false;
+    }
+
+
     public static function trColor(DictCompetitiveGroup $cgContract): String
     {
 

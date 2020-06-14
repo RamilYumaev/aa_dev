@@ -81,10 +81,15 @@ class StatementRejection extends ActiveRecord
         return $this->countAcceptedFiles() == $this->countFiles();
     }
 
-    public function statusNewJob() {
+       public function statusNewJob() {
         return $this->status_id == StatementHelper::STATUS_WALT ||
             $this->status_id == StatementHelper::STATUS_WALT_SPECIAL;
     }
+
+    public function statusAccepted() {
+        return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+    }
+
 
 
     public static function find(): StatementRejectionQuery

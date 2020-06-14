@@ -173,7 +173,8 @@ class OtherDocumentController extends Controller
     {
         $model = $this->findModel($id);
         if($model->isPhoto()) {
-            Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
+            Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя удлаять');
+           return $this->redirect(Yii::$app->request->referrer);
         }
         try {
             $this->service->remove($id);
