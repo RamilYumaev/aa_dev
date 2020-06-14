@@ -8,7 +8,16 @@ use modules\entrant\helpers\OtherDocumentHelper;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h4>Преимущественное право</h4>
+        <h1>Преимущественное право</h1>
+        <div class="row mb-20">
+            <div class="col-md-12">
+                <?= Html::img("/img/cabinet/pp_plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+                - добавление нового документа, которого нет в системе.<br/><br/>
+                <?= Html::img("/img/cabinet/pp_case.png", ["width"=>"23px", "height"=> "20px"])?>
+                - привязка документа из ранее добавленных в систему в блоке "Прочие документы" персональной
+                карточки поступающего.
+            </div>
+        </div>
         <table class="table table-bordered">
             <tr>
                 <th>Приоритет</th>

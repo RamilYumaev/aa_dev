@@ -21,7 +21,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
-                ['label' => 'Договора', 'url' => ['/data-entrant/agreement-contract/index']],
+                ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement-contract/index']],
             ]
 
         );
@@ -82,9 +82,14 @@ if(!Yii::$app->user->isGuest ) {
                     ]
                     ]],
 
-            ['label' => 'Экспресс (Новые ЗУК) ', 'url' => ['/data-entrant/statement/new']],
+            ['label' => 'Экспресс (Новые ЗУК)', 'url' => ['/data-entrant/statement/new']],
                 ['label' => 'Заявления (ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/index']],
-            ['label' => 'Экспресс (Новые ЗОС) ', 'url' => ['/data-entrant/statement-consent-cg/new']]]
+            ['label' => 'Экспресс (Новые ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/new']],
+                [
+                    "label" => "Ход подачи",
+                    "url" => '/data-entrant/charts',
+                    "icon" => "table",
+                ],]
 
         );
     } else {return [];}
