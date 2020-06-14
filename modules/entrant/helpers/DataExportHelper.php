@@ -96,7 +96,7 @@ class DataExportHelper
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
                 'surname_lat' => $fioLatin ? $fioLatin->surname : "",
-                'name_lat' => $fioLatin ? $fioLatin->surname : "",
+                'name_lat' => $fioLatin ? $fioLatin->name : "",
                 'reception_method_id' => $receptionMethodId,
                 'mpgu_training_status' => $info->mpgu_training_status_id,
                 'chernobyl_status' => $info->chernobyl_status_id,

@@ -62,6 +62,8 @@ class FileService
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
             $model->setFile($form->file_name);
+            if($model->isNoAcceptedStatus())
+            {$model->setStatus(FileHelper::STATUS_WALT);}
             $this->repository->save($model);
         }
     }
