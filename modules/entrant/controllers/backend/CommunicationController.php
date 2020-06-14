@@ -535,7 +535,7 @@ class CommunicationController extends Controller
             $ch = curl_init();
             $data = Json::encode(['incoming_id' => $incoming->incoming_id,
                 'competitive_group_id' => $consent->statementConsentCg->statementCg->cg->ais_id]);
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/zos-remove?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

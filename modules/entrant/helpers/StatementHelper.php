@@ -32,11 +32,11 @@ class StatementHelper
     public static function statusList() {
         return[
             self::STATUS_DRAFT =>"Новое",
-            self::STATUS_WALT=> "Ожидание",
-            self::STATUS_WALT_SPECIAL=> "Ожидание",
+            self::STATUS_WALT=> "Обрабатывается",
+            self::STATUS_WALT_SPECIAL=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Принято",
             self::STATUS_NO_ACCEPTED =>"Не принято",
-            self::STATUS_RECALL=> "Отозван"];
+            self::STATUS_RECALL=> "Отозвано"];
     }
 
     public static function statusListJobEntrant() {

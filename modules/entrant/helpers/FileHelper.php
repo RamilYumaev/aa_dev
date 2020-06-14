@@ -31,7 +31,7 @@ class FileHelper
     public static function statusList() {
         return[
             self::STATUS_DRAFT =>"Новый",
-            self::STATUS_WALT=> "Ожидание",
+            self::STATUS_WALT=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Принято",
             self::STATUS_NO_ACCEPTED =>"Не принято",];
     }
