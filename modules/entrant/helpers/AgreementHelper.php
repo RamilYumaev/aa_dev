@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 use common\helpers\EduYearHelper;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\Anketa;
 
 class AgreementHelper
 {
@@ -103,7 +104,15 @@ class AgreementHelper
                                             государственного бюджетного 
                                             образовательного учреждения 
                                             высшего образования «Московский 
-                                            педагогический государственный университет»<br/>",
+                                            педагогический государственный университет»<br/>
+                                            ИНН/КПП – 7704077771/504243001<br/>
+                                            ОКТМО – 46728000<br/>
+                                            ОГРН – 1027700215344<br/>
+                                            КБК – 00000000000000000130<br/>
+                                            Наименование банка – ГУ Банка России по ЦФО г.Москва 35<br/>
+                                            р/с – 40501810545252000104<br/>
+                                            БИК – 044525000<br/>
+                                            ",
         ];
     }
 
@@ -174,7 +183,7 @@ class AgreementHelper
             AnketaHelper::POKROV_BRANCH => '№ 11 от 13 мая 2019 г.',
             AnketaHelper::STAVROPOL_BRANCH => '№ 17 от 13 мая 2019 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 13 мая 2019 г.',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => '',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 29 от 12.05.2020 г.',
         ];
     }
 }

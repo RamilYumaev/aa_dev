@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\entrant\helpers;
 
 
@@ -41,6 +42,7 @@ class DataExportHelper
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
+        $receptionMethodId = in_array($anketa->category_id, CategoryStruct::UMSGroup()) ? 2 : 1;
         $result = [
             'incoming' => [
                 'surname' => $profile->last_name,
@@ -73,7 +75,7 @@ class DataExportHelper
                 'address_residence_housing' => $addressResidence ? $addressResidence->housing : "",
                 'address_residence_building' => $addressResidence ? $addressResidence->building : "",
                 'address_residence_flat' => $addressResidence ? $addressResidence->flat : "",
-                'address_actual_country_id' => $addressActual ? $addressActual->country_id : "",
+                'address_actual_country_id' => $addressActual ? $addressActual->country_id : $profile->country_id,
                 'address_actual_postcode' => $addressActual ? $addressActual->postcode : "",
                 'address_actual_region' => $addressActual ? $addressActual->region : "",
                 'address_actual_district' => $addressActual ? $addressActual->district : "",
@@ -89,13 +91,13 @@ class DataExportHelper
                 'school_type_id' => $anketa->current_edu_level,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
-                'overall_diploma_mark' => $info->mark_spo ?? "",
+                'overall_diploma_mark' => $info->mark_spo ?? null,
                 'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
                 'surname_lat' => $fioLatin ? $fioLatin->surname : "",
                 'name_lat' => $fioLatin ? $fioLatin->surname : "",
-                'reception_method_id' => 3,
+                'reception_method_id' => $receptionMethodId,
                 'mpgu_training_status' => $info->mpgu_training_status_id,
                 'chernobyl_status' => $info->chernobyl_status_id,
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,

@@ -39,7 +39,7 @@ class FileService
             }
             $true = $arrayCount == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
                 if($true) {
-                    throw new \DomainException('Загрузка невозможна');
+                    throw new \DomainException('Вы загрузили достаточное количество файлов!');
                 }
             $modelFile  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
             $this->repository->save($modelFile);

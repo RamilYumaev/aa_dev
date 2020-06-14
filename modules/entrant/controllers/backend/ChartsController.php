@@ -73,7 +73,7 @@ class ChartsController extends Controller
             $query->faculty($this->jobEntrant->category_id);
         }
         $query->select(['speciality_id', 'edu_level', 'education_form_id', 'faculty_id', 'specialization_id'])
-            ->groupBy(['speciality_id', 'edu_level', 'education_form_id', 'faculty_id', 'specialization_id']);
+            ->groupBy(['speciality_id', 'edu_level', 'education_form_id', 'faculty_id', 'specialization_id'])->orderBy(['edu_level'=> SORT_ASC]);
         return $query->all();
     }
 

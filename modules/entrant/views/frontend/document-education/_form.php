@@ -14,7 +14,12 @@ use kartik\date\DatePicker;
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
+
             <h1><?= Html::encode($this->title) ?></h1>
+            <p class="label label-danger" align="justify">Обратите внимание, что поле серия является обязательным.
+                Если в Вашем документе об образовании нет явного разделения на серию и номер документа,<br/>
+                то условно можно считать, что буквы относятся к серии, цифры к номеру документа.
+                Если же в Вашем документе только цифры без разделителя, <br/>то первые 4 цифры это серия, остальное - номер</p>
             <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
             <?= $form->field($model, 'school_id')->dropDownList(UserSchoolHelper::userSchoolAll($model->user_id)) ?>
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listEducation($model->typeAnketa)) ?>

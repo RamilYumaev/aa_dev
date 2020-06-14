@@ -14,7 +14,7 @@ use yii\helpers\Html;
     <?php foreach ($files as $key => $file): ?>
     <?php if($file->message): ?>
         <tr>
-            <td><?= $file->message ?></td>
+            <td class="danger" colspan="5"><h5 class="bg-danger"><?= $file->message ?></h5></td>
         </tr>
     <?php endif; ?>
     <tr>

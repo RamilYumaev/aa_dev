@@ -32,9 +32,11 @@ class ApplicationsController extends Controller
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
+        $anketa = $this->getAnketa();
 
         return $this->render('get-college', [
             'currentFaculty' => $currentFaculty,
+            'anketa'=> $anketa,
 
         ]);
     }
@@ -171,7 +173,7 @@ class ApplicationsController extends Controller
             $cg = $this->service->repositoryCg->get($id);
             if(!(\Yii::$app->user->identity->setting())->allowCgForSave($cg))
             {
-                throw new \DomainException("Прием документов на данную образвательную программу окончен!");
+                throw new \DomainException("Прием документов на данную образовательную программу окончен!");
             }
             $this->service->saveCg($cg, $cathedra_id);
             if (\Yii::$app->request->isAjax) {

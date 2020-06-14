@@ -101,7 +101,7 @@ $och = false;
 </p>
 
 <?php
-$signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
+$signaturePoint = ItemsForSignatureApp::GENERAL_MAGISTRACY_SIGNATURE;
 if(!$och) {
     unset($signaturePoint[9]);
 }

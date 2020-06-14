@@ -8,7 +8,7 @@ use yii\helpers\Html;
     <?= Html::dropDownList("other_id", [], OtherDocumentHelper::listPreemptiveRightUser($userId), ['class'=>'form-control'])?>
     <div class="form-group m-10">
         <center>
-             <?= Html::submitButton("Сохранить ответ", ['class' => 'btn btn-success']) ?>
+             <?= Html::submitButton("Сохранить", ['class' => 'btn btn-success']) ?>
         </center>
     </div>
 <?php ActiveForm::end(); ?>

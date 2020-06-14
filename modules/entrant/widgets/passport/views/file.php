@@ -10,6 +10,7 @@ use modules\entrant\widgets\file\FileListWidget;
 <div class="panel panel-default">
     <div class="panel-heading"><h4>Скан документа, удостоверяющего личность</h4></div>
     <div class="panel-body">
+        <p class="label label-danger">Необходимо загрузить 1 файл (если это паспорт, то скан-копию разворота с фотографией)</p>
         <table class="table table-bordered">
             <tr>
                 <th>Документ, удостоверяющий личность</th>
