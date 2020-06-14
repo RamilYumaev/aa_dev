@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
@@ -31,7 +32,7 @@ class StatementAgreementContractCg extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class, FileBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class, ContractBehavior::class];
     }
 
 

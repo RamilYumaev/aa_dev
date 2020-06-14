@@ -161,7 +161,7 @@ class SubmittedDocumentsService
         /* @var $statement \modules\entrant\models\StatementRejection */
         foreach ($statements as $statement) {
             if (!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+                throw new \DomainException('Загружены не все файлы заявления отзыва!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementRejectionRepository->save($statement);
@@ -175,7 +175,7 @@ class SubmittedDocumentsService
         /* @var $statement \modules\entrant\models\StatementRejectionCgConsent */
         foreach ($statements as $statement) {
             if (!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+                throw new \DomainException('Загружены не все файлы заявления отзыва о согласии на зачисление!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->rejectionCgConsentRepository->save($statement);
@@ -198,10 +198,10 @@ class SubmittedDocumentsService
     private function statementAgreement($userId)
     {
         $statements = StatementAgreementContractCg::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
-        /* @var $statement \modules\entrant\models\StatementCg */
+        /* @var $statement \modules\entrant\models\StatementAgreementContractCg */
         foreach ($statements as $statement) {
             if (!$statement->countFilesAndCountPagesTrue()) {
-                throw new \DomainException('Загружены не все файлы заявления о согласии на зачисление!');
+                throw new \DomainException('Загружены не все файлы договора!');
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementAgreementContractCgRepository->save($statement);

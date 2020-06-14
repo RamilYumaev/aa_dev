@@ -80,7 +80,8 @@ class FileController extends Controller
             ($model == StatementConsentCg::class && !$modelOne->count_pages) ||
             ($model == StatementRejection::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
-            ($model == StatementRejectionCg::class && !$modelOne->count_pages)
+            ($model == StatementRejectionCg::class && !$modelOne->count_pages) ||
+            ($model == StatementAgreementContractCg::class &&  !$modelOne->count_pages)
         )
         {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");

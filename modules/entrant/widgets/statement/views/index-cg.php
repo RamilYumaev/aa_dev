@@ -54,10 +54,10 @@ use modules\entrant\widgets\file\FileListWidget;
                                 </tr>
                                 <?php endif; ?>
                                 <?php if($consent->statementCgRejection) : ?>
-                                    <tr>
+                                    <tr <?= BlockRedGreenHelper::colorTableBg($consent->statementCgRejection->countFiles(), $consent->statementCgRejection->count_pages) ?>>
                                         <td>
                                         <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf-consent', 'id' =>  $consent->statementCgRejection->id],
-                                            ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget([
+                                            ['class' => 'btn btn-large btn-warning'])?> <?= $consent->statementCgRejection->isStatusAccepted() ? "": FileWidget::widget([
                                             'record_id' =>  $consent->statementCgRejection->id,
                                             'model' => \modules\entrant\models\StatementRejectionCgConsent::class ]) ?>
                                         </td>

@@ -18,7 +18,7 @@ use yii\helpers\Html;
         </tr>
     <?php endif; ?>
     <tr>
-        <td>Страница <?= ++$key ?></td>
+        <td>Файл <?= ++$key ?></td>
         <td><?= Html::a("Скачать", ["file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
         <td>
             <?= !$file->isAcceptedStatus() ? Html::a("Обновить", ["file/update", "hash" => $file->modelHash, 'id' => $file->id ], ["class" => "btn btn-primary",

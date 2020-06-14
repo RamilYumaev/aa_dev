@@ -17,7 +17,8 @@ use modules\entrant\helpers\BlockRedGreenHelper;
                 <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages) ?>">
                     <td><?= $statement->numberStatement ?></td>
                     <td><?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
-                            ['class' => 'btn btn-large btn-warning'])?> <?= FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
+                            ['class' => 'btn btn-large btn-warning'])?>
+                        <?= $statement->isStatusAccepted() ? "": FileWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\Statement::class ]) ?>
                     </td>
                 </tr>
                 <tr>

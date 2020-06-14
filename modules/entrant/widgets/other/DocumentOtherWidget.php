@@ -27,7 +27,7 @@ class DocumentOtherWidget extends Widget
     public function init()
     {
         try {
-            $form = new OtherDocumentForm($this->getIdUser(), false, $this->modelOne(), false, [], [], null, [
+            $form = new OtherDocumentForm($this->getIdUser(), false, $this->modelOne(), false, [], [DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO], null, [
             'type'=> DictIncomingDocumentTypeHelper::ID_PHOTO, 'amount'=> $this->facultyCount()* self::COUNT_PHOTO]);
             $this->serviceOther($form,$this->modelOne());
         } catch (\DomainException $e) {
