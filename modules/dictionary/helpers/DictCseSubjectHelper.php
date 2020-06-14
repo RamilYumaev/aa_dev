@@ -4,6 +4,7 @@
 namespace modules\dictionary\helpers;
 
 
+use dictionary\models\DictDiscipline;
 use modules\dictionary\models\DictCseSubject;
 use yii\helpers\ArrayHelper;
 
@@ -78,6 +79,12 @@ class DictCseSubjectHelper
     public static function aisId($id)
     {
         $model = DictCseSubject::findOne($id);
+        return $model ? $model->ais_id : null;
+    }
+
+    public static function disciplineId($id)
+    {
+        $model = DictDiscipline::findOne(['cse_subject_id' => $id]);
         return $model ? $model->ais_id : null;
     }
 

@@ -78,6 +78,7 @@ class FileService
     {
         $model = $this->repository->get($id);
         $model->setStatus(FileHelper::STATUS_ACCEPTED);
+        $model->setMessage(null);
         $this->repository->save($model);
     }
 

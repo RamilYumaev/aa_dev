@@ -430,11 +430,13 @@ class DictCompetitiveGroupHelper
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' => true])
-            ->select(['dict_discipline.id'])
+            ->select(['dict_discipline.id', 'dict_discipline.cse_subject_id'])
             ->asArray()
             ->all();
 
-        return self::selectCseViCompositeDiscipline($data, true, $user_id) ?? self::selectCseViCompositeDiscipline($data, false, $user_id);
+        return self::selectCseViCompositeDiscipline($data, true, $user_id) ??
+               self::selectCseViCompositeDiscipline($data, false, $user_id)  ??
+               self::cseCompositeDiscipline($data, $user_id);
 
     }
 
@@ -446,8 +448,19 @@ class DictCompetitiveGroupHelper
                 if ($value['cse_subject_id']) {
                     $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']] . " балл(-а, ов), ";
                 }
-            } else {
-                if (!$value['cse_subject_id']) {
+                if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                    $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 =>392];
+                    $array  = CseSubjectHelper::maxMarkSubject($user_id);
+                    arsort($array);
+                    foreach ($array as $key1 => $value1) {
+                        if(key_exists($key1, $arrayComposite)) {
+                            $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$key1] . " балл(-а, ов), ";
+                        break;
+                        }
+                    }
+                }
+            }else {
+                if (!$value['cse_subject_id'] && !$value['composite_discipline']) {
                     $ex .= $value['name'] . ", ";
                 }
             }
@@ -501,7 +514,7 @@ class DictCompetitiveGroupHelper
                     if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
                         if (key_exists($value['id'], $dataVi)) {
                             if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                                $ex=  DictCseSubjectHelper::aisId($dataVi[$value['id']]);
+                                $ex=  DictCseSubjectHelper::disciplineId($dataVi[$value['id']]);
                             }
                         }
                     }
@@ -517,6 +530,22 @@ class DictCompetitiveGroupHelper
                 }
             }
             return $ex;
+        }
+        return null;
+    }
+
+    private static function cseCompositeDiscipline($data, $userId)
+    {
+        $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 =>392];
+        $array  = CseSubjectHelper::maxMarkSubject($userId);
+        arsort($array);
+        foreach ($data as $key => $value) {
+            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                foreach ($array as $key1 => $value1)
+                if(key_exists($key1, $arrayComposite)) {
+                    return DictCseSubjectHelper::aisId($key1);
+                }
+            }
         }
         return null;
     }

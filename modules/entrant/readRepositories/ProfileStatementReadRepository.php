@@ -36,7 +36,8 @@ class ProfileStatementReadRepository
         if($this->jobEntrant->isCategoryMPGU()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->innerJoin(StatementIndividualAchievements::tableName(), 'statement_individual_achievements.user_id=profiles.user_id');
-            $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+            $query->andWhere(['statement_individual_achievements.edu_level'
+            =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                 DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
         }
 
@@ -81,7 +82,6 @@ class ProfileStatementReadRepository
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);;
         }
-
         if($type == AisReturnDataHelper::AIS_YES) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             return $query;
