@@ -139,8 +139,8 @@ aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"gl
     } else {
         continue;
     }
+    $result .= "</table>";
 }
-$result .= "</table>";
 ?>
 
 
