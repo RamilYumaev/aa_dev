@@ -49,7 +49,7 @@ class DocumentEducationForm extends Model
             [['type', 'series',
                 'number', 'date', 'year', 'school_id'], 'required'],
             [['type', 'school_id','original', 'fio'], 'integer'],
-            [['series',],'string', 'max' => 25],
+            [['series',],'string', 'max' => 10],
             [['surname', 'name', 'patronymic',],'string', 'max' => 255],
             [['surname', 'name', 'patronymic',], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],

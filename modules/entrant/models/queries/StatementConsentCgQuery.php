@@ -32,6 +32,10 @@ class StatementConsentCgQuery extends \yii\db\ActiveQuery
         return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
     }
 
+    public function status($status, $alias = '')
+    {
+        return $this->andWhere([$alias."status" => $status]);
+    }
     public function orderByCreatedAtDesc()
     {
         return $this->orderBy(['created_at' => SORT_DESC]);

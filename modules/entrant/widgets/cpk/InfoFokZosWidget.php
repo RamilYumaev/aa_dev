@@ -3,10 +3,11 @@ namespace modules\entrant\widgets\cpk;
 
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
+use modules\entrant\readRepositories\StatementReadConsentRepository;
 use modules\entrant\readRepositories\StatementReadRepository;
 use yii\base\Widget;
 
-class InfoUserCozWidget extends Widget
+class InfoFokZosWidget extends Widget
 {
     public $view = "info-coz";
     public $colorBox;
@@ -18,8 +19,8 @@ class InfoUserCozWidget extends Widget
 
     public function run()
     {
-        $query = (new StatementReadRepository($this->entrant))->readData();
-        $query->status($this->status);
+        $query = (new StatementReadConsentRepository($this->entrant))->readData();
+        $query->status($this->status, 'consent.');
         return $this->render($this->view, ['count'=> $query->count(),
             'colorBox' => $this->colorBox,
             'icon'=> $this->icon,

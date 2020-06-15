@@ -39,9 +39,9 @@ class PassportDataForm extends Model
                 'number', 'date_of_birth', 'place_of_birth','date_of_issue', 'authority'], 'required'],
             [['nationality','type', ], 'integer'],
             [['division_code'], 'string', 'max' => 7],
-            [['series',],'string', 'max' => 4],
+            [['series',],'string', 'max' => 10],
             [['number', 'place_of_birth', 'authority'], 'string', 'max' => 255],
-            [['number'], 'string', 'max' => 15],
+            [['number'], 'string', 'max' => 255],
             [['division_code'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA;},
                 'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],

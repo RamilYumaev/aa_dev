@@ -44,7 +44,7 @@ class StatementConsentCgController extends Controller
 
     public function actionIndex($status = null)
     {
-        $searchModel = new StatementConsentSearch($this->jobEntrant, null);
+        $searchModel = new StatementConsentSearch($this->jobEntrant, $status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

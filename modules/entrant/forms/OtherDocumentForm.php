@@ -53,7 +53,8 @@ class OtherDocumentForm extends Model
         return [
             [$this->required(), 'required'],
             [['type','amount', 'exemption_id'], 'integer'],
-            [['series', 'number', 'authority'], 'string', 'max' => 255],
+            [['series',], 'string', 'max' => 10],
+            [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             [['amount'], 'required', 'when' => function ($model) {
