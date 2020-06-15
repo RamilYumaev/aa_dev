@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use backend\models\AisCg;
 use common\auth\Identity;
+use dictionary\models\ais\cathedraCgAis;
 use dictionary\models\ais\CgExamAis;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
@@ -13,6 +14,8 @@ use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
+use modules\dictionary\models\CathedraCg;
+use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use common\auth\models\User;
@@ -66,7 +69,6 @@ class SiteController extends Controller
 //                Yii::$app->session->set('user.idbeforeswitch', $initialId);
 //            }
         //}
-
 
 
         return $this->render('index');
@@ -170,6 +172,36 @@ class SiteController extends Controller
             $model->priority = $discipline->priority;
             $model->save();
         }
+        return "success";
+    }
+
+    public function actionCgCathedra($year)
+    {
+        $cgCathedra = cathedraCgAis::find()->andWhere(['year' => $year])->all();
+        if ($cgCathedra) {
+            foreach ($cgCathedra as $cathedra) {
+                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->one();
+                if (!$cg) {
+                    return "Отсутствует конкурсная группа $cathedra->competitive_group_id";
+                }
+                if (CathedraCg::find()
+                    ->andWhere(['cg_id' => $cg->id, 'cathedra_id' => $cathedra->cathedra_id])
+                    ->exists()) {
+                    continue;
+                }
+                $sdoCathedraCg = new CathedraCg();
+                $sdoCathedraCg->cg_id = $cg->id;
+                $sdoCathedraCg->cathedra_id = $cathedra->cathedra_id;
+                if (!$sdoCathedraCg->save()) {
+                    $errors = Json::encode($sdoCathedraCg->errors);
+                    return "Ошибка $errors";
+                }
+            }
+
+        } else {
+            return "таблица cathedra-сg-фis пуста";
+        }
+
         return "success";
     }
 
