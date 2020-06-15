@@ -119,6 +119,13 @@ class UserAisService
             $zuk = $this->statementRepository->get($zukRemove->statement->id);
             $zuk->setStatus(StatementHelper::STATUS_RECALL);
             $zukRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
+            foreach ($zuk->statementCg as $value) {
+                foreach ($value->statementConsent as $item) {
+                    /* @var $item  StatementConsentCg */
+                    $item->setStatus(StatementHelper::STATUS_RECALL);
+                    $this->consentCgRepository->save($item);
+                }
+            }
             $this->statementRejectionRepository->save($zukRemove);
             $this->statementRepository->save($zuk);
         });
@@ -126,9 +133,16 @@ class UserAisService
 
     public function removeZukCg($id)
     {
+        $this->transactionManager->wrap(function () use ($id) {
         $zukCgRemove = $this->statementRejectionCgRepository->get($id);
         $zukCgRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
+        foreach ($zukCgRemove->statementCg->statementConsent as $item) {
+            /* @var $item  StatementConsentCg */
+            $item->setStatus(StatementHelper::STATUS_RECALL);
+            $this->consentCgRepository->save($item);
+        }
         $this->statementRejectionCgRepository->save($zukCgRemove);
+        });
     }
 
     private function dataAis($data, $createdId, $incomingId)
