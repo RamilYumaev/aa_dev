@@ -26,21 +26,23 @@ class StatementReadConsentRepository
         $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
 
         $query->andWhere(['statement.status' => StatementHelper::STATUS_ACCEPTED]);
+        $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
 
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+                ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryUMS()) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
-                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]])
+            ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }

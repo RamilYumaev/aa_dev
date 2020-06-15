@@ -44,7 +44,8 @@ class StatementReadRepository
 
         if($this->jobEntrant->isCategoryMPGU()) {
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
-                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]])
+                ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {
