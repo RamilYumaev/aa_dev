@@ -12,8 +12,9 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $statement_individual_id
- * @property integer $individual_id;
- * @property integer $status_id;
+ * @property integer $individual_id
+ * @property integer $status_id
+ * @property string $message
  **/
 
 class StatementIa extends ActiveRecord
@@ -46,6 +47,10 @@ class StatementIa extends ActiveRecord
 
     public function setStatus($status) {
         $this->status_id = $status;
+    }
+
+    public function setMessage($message) {
+        $this->message = $message;
     }
 
     public function isStatusDraft() {
