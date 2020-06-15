@@ -12,6 +12,8 @@ use \modules\entrant\helpers\AnketaHelper;
 use \dictionary\helpers\DictCountryHelper;
 use kartik\select2\Select2;
 use \modules\entrant\helpers\ProvinceOfChinaHelper;
+use \common\helpers\EduYearHelper;
+use \common\auth\helpers\UserSchoolHelper;
 
 ?>
 
@@ -32,6 +34,9 @@ use \modules\entrant\helpers\ProvinceOfChinaHelper;
                     ['prompt' => 'Выберите провинцию']) ?>
                 <?= $form->field($model, 'current_edu_level')->dropDownList([]) ?>
                 <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder' => "2020"]) ?>
+                <?php if (!UserSchoolHelper::userSchool($model->user_id, EduYearHelper::eduYear())): ?>
+                    <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
+                <?php endif; ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
                 <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>
                 <div class="m-20 text-center">
@@ -43,7 +48,8 @@ use \modules\entrant\helpers\ProvinceOfChinaHelper;
             </div>
         </div>
         <p>* если Вы закончили специалитет набора 2011 года или позднее,
-            то магистратура для вас – второе высшее образование, то есть поступление возможно только на платной основе.</p>
+            то магистратура для вас – второе высшее образование, то есть поступление возможно только на платной
+            основе.</p>
     </div>
 
 <?php

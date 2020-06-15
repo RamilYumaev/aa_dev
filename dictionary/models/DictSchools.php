@@ -74,6 +74,11 @@ class DictSchools extends YiiActiveRecordAndModeration
         return $this->country_id == DictCountryHelper::RUSSIA  ?  $this->country->name.", ". $this->region->name :  $this->country->name;
     }
 
+    public function isRussia()
+    {
+        return $this->country_id == DictCountryHelper::RUSSIA;
+    }
+
     public function getRegion()
     {
         return $this->hasOne(Region::class, ['id' => 'region_id']);

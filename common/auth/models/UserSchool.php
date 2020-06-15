@@ -8,6 +8,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
+use dictionary\models\DictSchools;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -78,5 +79,9 @@ class UserSchool extends YiiActiveRecordAndModeration
         return  [
             'school_id' => DictSchoolsHelper::schoolName($value),
             'class_id' => DictClassHelper::classFullName($value),];
+    }
+    public function getSchool()
+    {
+        return $this->hasOne(DictSchools::class, ['id'=>'school_id']);
     }
 }
