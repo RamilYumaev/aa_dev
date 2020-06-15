@@ -6,10 +6,16 @@
 /* @var $link string */
 /* @var $count integer */
 
-use backend\widgets\adminlte\InfoBox;
+use backend\widgets\adminlte\SmallBox;
 ?>
-<?= InfoBox::widget([
+<?= SmallBox::widget(
+    [
         "color" => $colorBox,
-        "icon" =>  $icon,
-        "text" =>  $str,
-        "number" => $count])?>
+        "header" => $count,
+        "icon" => $icon,
+        "text" => $str,
+        'linkRoute'=> $link,
+        'linkLabel' => 'Подробно <i class="fa fa-arrow-circle-right"></i>'
+    ]
+)
+?>

@@ -21,7 +21,9 @@ class StatementWidget extends Widget
         if($this->category) {
              $query->andWhere(['anketa.category_id'=> $this->category]);
         }
-        $dataProvider = new ActiveDataProvider(['query'=> $query]);
+        $dataProvider = new ActiveDataProvider(['query'=> $query, 'pagination' => [
+            'pageSize' =>  4,
+        ],]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
         ]);
