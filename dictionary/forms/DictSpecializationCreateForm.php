@@ -24,7 +24,7 @@ class DictSpecializationCreateForm extends Model
             [['name', 'speciality_id'], 'required'],
             [['speciality_id', 'ais_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['name'], 'unique', 'targetClass'=> DictSpecialization::class, 'message' => 'Такая образовательная программа уже есть'],
+            [['name'], 'unique', 'targetClass'=> DictSpecialization::class, 'targetAttribute'=> ['name', 'speciality_id', 'ais_id'], 'message' => 'Такая образовательная программа уже есть'],
         ];
     }
 
