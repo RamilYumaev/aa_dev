@@ -7,8 +7,8 @@ use modules\entrant\widgets\file\FileListWidget;
 
 /* @var $this yii\web\View */
 /* @var $statementsCg yii\db\BaseActiveRecord */
-/* @var $statement modules\entrant\models\StatementCg*/
-/* @var $consent modules\entrant\models\StatementConsentCg*/
+/* @var $statement modules\entrant\models\StatementCg */
+/* @var $consent modules\entrant\models\StatementConsentCg */
 /* @var $isUserSchool bool */
 ?>
 <div class="panel panel-default">
@@ -18,60 +18,62 @@ use modules\entrant\widgets\file\FileListWidget;
             <tr>
                 <th>Образовательные программы</th>
             </tr>
-            <?php foreach ($statementsCg as $statement):  ?>
+            <?php foreach ($statementsCg as $statement): ?>
                 <tr>
                     <td><?= $statement->cg->fullName ?> <?= Html::a('Сформировать заявление', ['statement-consent-cg/create',
                             'id' => $statement->id], ['class' => 'btn btn-info pull-right',]) ?> </td>
                 </tr>
-                 <tr>
-                     <td>
+                <tr>
+                    <td>
                         <table class="table">
                             <?php foreach ($statement->statementConsent as $consent): ?>
                                 <tr class="<?= BlockRedGreenHelper::colorTableBg($consent->countFiles(), $consent->count_pages) ?>">
                                     <td></td>
-                                    <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
-                                            ['class' => 'btn btn-large btn-warning'])?>
+                                    <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' => $consent->id],
+                                            ['class' => 'btn btn-large btn-warning']) ?>
                                         <?= $consent->statusDraft() ? Html::a('Удалить', ['statement-consent-cg/delete',
-                                            'id' =>  $consent->id,],
-                                            ['class' => 'btn btn-danger', 'data-method'=>"post",
-                                                "data-confirm" => "Вы уверены что хотите удалить?"]) :"" ?>
-                                        <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class ]) ?>
+                                            'id' => $consent->id,],
+                                            ['class' => 'btn btn-danger', 'data-method' => "post",
+                                                "data-confirm" => "Вы уверены что хотите удалить?"]) : "" ?>
+                                        <?= FileWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class]) ?>
                                     </td>
                                 </tr>
-                                 <tr>
-                                    <td colspan="2"> <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id  ]) ?></td>
+                                <tr>
+                                    <td colspan="2"> <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id]) ?></td>
                                 </tr>
-                                 <?php if ($consent->statusAccepted()): ?>
+                                <?php if ($consent->statusAccepted()): ?>
                                     <tr>
-                                    <td><?= $consent->statementCgRejection ?
-                                    Html::a("Удалить отзыв", ['statement-consent-cg/rejection-remove', 'id' =>  $consent->statementCgRejection->id], ['class'=> 'btn btn-danger', 'data' =>[
-                                        'confirm'  => "Вы уверены, что хотите отозвать заявление?",
-                                        'method'=> 'post']]) :
-                                    Html::a("Отозвать", ['statement-consent-cg/rejection', 'id' =>  $consent->id], ['class'=> 'btn btn-info', 'data' =>[
-                                        'confirm'  => "Вы уверены, что хотите отозвать заявление?",
-                                        'method'=> 'post']]) ?>
-                                </td>
-                                </tr>
+                                        <td>
+                                            <?= $consent->statementCgRejection ?
+                                                (!$consent->statementCgRejection->isStatusAccepted() ?
+                                                    Html::a("Удалить отзыв", ['statement-consent-cg/rejection-remove', 'id' => $consent->statementCgRejection->id], ['class' => 'btn btn-danger', 'data' => [
+                                                        'confirm' => "Вы уверены, что хотите отозвать заявление?",
+                                                        'method' => 'post']]) : "") :
+                                                Html::a("Отозвать", ['statement-consent-cg/rejection', 'id' => $consent->id], ['class' => 'btn btn-info', 'data' => [
+                                                    'confirm' => "Вы уверены, что хотите отозвать заявление?",
+                                                    'method' => 'post']]) ?>
+                                        </td>
+                                    </tr>
                                 <?php endif; ?>
-                                <?php if($consent->statementCgRejection) : ?>
+                                <?php if ($consent->statementCgRejection) : ?>
                                     <tr <?= BlockRedGreenHelper::colorTableBg($consent->statementCgRejection->countFiles(), $consent->statementCgRejection->count_pages) ?>>
                                         <td>
-                                        <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf-consent', 'id' =>  $consent->statementCgRejection->id],
-                                            ['class' => 'btn btn-large btn-warning'])?> <?= $consent->statementCgRejection->isStatusAccepted() ? "": FileWidget::widget([
-                                            'record_id' =>  $consent->statementCgRejection->id,
-                                            'model' => \modules\entrant\models\StatementRejectionCgConsent::class ]) ?>
+                                        <td><?= Html::a('Скачать заявление', ['statement-rejection/pdf-consent', 'id' => $consent->statementCgRejection->id],
+                                                ['class' => 'btn btn-large btn-warning']) ?> <?= $consent->statementCgRejection->isStatusAccepted() ? "" : FileWidget::widget([
+                                                'record_id' => $consent->statementCgRejection->id,
+                                                'model' => \modules\entrant\models\StatementRejectionCgConsent::class]) ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <?= FileListWidget::widget([ 'record_id' =>$consent->statementCgRejection->id, 'model' => \modules\entrant\models\StatementRejectionCgConsent::class, 'userId' =>  $statement->statement->user_id ]) ?>
+                                            <?= FileListWidget::widget(['record_id' => $consent->statementCgRejection->id, 'model' => \modules\entrant\models\StatementRejectionCgConsent::class, 'userId' => $statement->statement->user_id]) ?>
                                         </td>
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </table>
-                     </td>
-                 </tr>
+                    </td>
+                </tr>
 
             <?php endforeach; ?>
         </table>
