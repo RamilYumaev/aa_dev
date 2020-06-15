@@ -302,7 +302,6 @@ class CommunicationController extends Controller
 
     }
 
-
     /**
      * @param $statementId
      * @return mixed
@@ -453,14 +452,14 @@ class CommunicationController extends Controller
                 Yii::$app->session->setFlash("error", "Нет данных абитуриента в АИСе! ");
                 return $this->redirect(Yii::$app->request->referrer);
             }
-            $consent = StatementConsentCg::findOne($consent);
-            if (!$consent) {
+            $model = StatementConsentCg::findOne($consent);
+            if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
 
             $ch = curl_init();
             $data = Json::encode(['incoming_id' => $incoming->incoming_id,
-                'competitive_group_id' => $consent->statementCg->cg->ais_id]);
+                'competitive_group_id' => $model->statementCg->cg->ais_id]);
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/add-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
