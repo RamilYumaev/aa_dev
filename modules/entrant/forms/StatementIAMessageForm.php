@@ -1,17 +1,15 @@
 <?php
-
 namespace modules\entrant\forms;
 
-use modules\entrant\models\File;
-use modules\entrant\models\Statement;
+use modules\entrant\models\StatementIa;
 use yii\base\Model;
-use yii\web\UploadedFile;
 
-class StatementMessageForm extends Model
+class StatementIAMessageForm extends Model
 {
+
     public $message;
 
-    public function __construct(Statement $file, $config = [])
+    public function __construct(StatementIa $file, $config = [])
     {
         $this->setAttributes($file->getAttributes(), false);
         parent::__construct($config);
@@ -35,6 +33,7 @@ class StatementMessageForm extends Model
 
     public function attributeLabels()
     {
-       return [ 'message'=> 'Сообщение'];
+        return [ 'message'=> 'Сообщение'];
     }
+
 }

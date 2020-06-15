@@ -21,7 +21,18 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
-                ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement-contract/index']],
+                ['label' => 'Договора', 'url' => ['/data-entrant/agreement-contract/index']],
+            ]
+
+        );
+    }
+
+    elseif($jobEntrant && $jobEntrant->isCategoryTarget()) {
+        return array_merge(
+            [
+                ['label' => 'Профиль', 'url' => ['/profile/edit']],
+                ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'Целевые договора', 'url' => ['/data-entrant/agreement/index']],
             ]
 
         );

@@ -84,7 +84,6 @@ class JobEntrantHelper
             self::MPGU,
             DictFacultyHelper::COLLAGE,
             self::UMS,
-            self::TARGET,
             self::FOK
         ];
         return $array;

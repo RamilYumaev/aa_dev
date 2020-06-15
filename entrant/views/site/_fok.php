@@ -6,10 +6,10 @@ use modules\entrant\widgets\cpk\InfoUserCozWidget;
 use modules\entrant\widgets\cpk\StatementWidget;
 use backend\widgets\adminlte\components\AdminLTE;
 use modules\entrant\helpers\StatementHelper;
-$new = $jobEntrant->isCategoryTarget() ? StatementHelper::STATUS_WALT_SPECIAL : StatementHelper::STATUS_WALT;
+$new =  StatementHelper::STATUS_WALT;
 ?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= CountUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant'=> $jobEntrant,
