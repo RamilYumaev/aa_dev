@@ -7,6 +7,7 @@ use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementIAQuery;
+use morphos\S;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -23,6 +24,7 @@ use yii\db\ActiveRecord;
  * @property integer $count_pages
  * @property integer $created_at;
  * @property integer $updated_at;
+ * @property string $message
  *
  **/
 
@@ -56,6 +58,10 @@ class StatementIndividualAchievements extends ActiveRecord
         $this->status = $status;
     }
 
+    public function setMessage($message) {
+        $this->message = $message;
+    }
+
     public function isStatusDraft() {
         return $this->status == StatementHelper::STATUS_DRAFT;
     }
@@ -68,6 +74,11 @@ class StatementIndividualAchievements extends ActiveRecord
         return $this->status == StatementHelper::STATUS_ACCEPTED
             || $this->status == StatementHelper::STATUS_RECALL;
     }
+
+    public function isStatusNoAccepted() {
+        return $this->status == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
 
     public function getStatusNameJob() {
         return StatementHelper::statusJobName($this->status);
@@ -118,6 +129,14 @@ class StatementIndividualAchievements extends ActiveRecord
 
     public function getStatementIa() {
         return $this->hasMany(StatementIa::class, ['statement_individual_id' => 'id']);
+    }
+
+    public function getStatementIaCountNoDraft() {
+        return $this->getStatementIa()->andWhere(['status_id'=> StatementHelper::STATUS_WALT])->count();
+    }
+
+    public function getStatementIaCountAccepted() {
+        return $this->getStatementIa()->andWhere(['status_id'=> StatementHelper::STATUS_ACCEPTED])->count();
     }
 
     public function getNumberStatement()
