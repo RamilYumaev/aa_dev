@@ -124,6 +124,11 @@ class Statement extends ActiveRecord
         $this->status == StatementHelper::STATUS_WALT_SPECIAL;
     }
 
+    public function statusRecallNoAccepted() {
+        return $this->status == StatementHelper::STATUS_RECALL ||
+            $this->status == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
     public function countFilesAndCountPagesTrue() {
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }

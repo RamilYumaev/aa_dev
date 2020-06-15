@@ -32,4 +32,9 @@ class StatementRepository extends RepositoryDeleteSaveClass
        return  Statement::find()->user($userId)->andWhere(['>', 'status', StatementHelper::STATUS_DRAFT])->exists();
     }
 
+    public function getStatementUser($userId)
+    {
+        return  Statement::find()->user($userId)->exists();
+    }
+
 }

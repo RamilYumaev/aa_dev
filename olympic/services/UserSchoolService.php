@@ -10,6 +10,10 @@ use common\transactions\TransactionManager;
 use common\user\repositories\UserTeacherSchoolRepository;
 use dictionary\repositories\DictClassRepository;
 use dictionary\repositories\DictSchoolsRepository;
+use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\Statement;
+use modules\entrant\repositories\DocumentEducationRepository;
+use modules\entrant\repositories\StatementRepository;
 use olympic\forms\auth\SchooLUserCreateForm;
 use common\auth\repositories\UserSchoolRepository;
 use olympic\helpers\auth\ProfileHelper;
@@ -29,6 +33,8 @@ class UserSchoolService
     public $teacherSchoolRepository;
     private $transactionManager;
     private $userOlimpiadsRepository;
+    private $documentEducationRepository;
+    private $statementRepository;
 
     public function __construct(
         UserOlimpiadsRepository $userOlimpiadsRepository,
@@ -36,7 +42,9 @@ class UserSchoolService
         DictClassRepository $classRepository,
         DictSchoolsRepository $schoolsRepository,
         UserTeacherSchoolRepository $teacherSchoolRepository,
-        TransactionManager $transactionManager
+        TransactionManager $transactionManager,
+        DocumentEducationRepository $documentEducationRepository,
+        StatementRepository $statementRepository
     )
     {
         $this->userSchoolRepository = $userSchoolRepository;
@@ -45,6 +53,8 @@ class UserSchoolService
         $this->teacherSchoolRepository = $teacherSchoolRepository;
         $this->transactionManager = $transactionManager;
         $this->userOlimpiadsRepository = $userOlimpiadsRepository;
+        $this->statementRepository = $statementRepository;
+        $this->documentEducationRepository = $documentEducationRepository;
     }
 
     public function signup(SchooLUserCreateForm $form, $role): void
@@ -64,6 +74,9 @@ class UserSchoolService
             $this->teacherSchoolRepository->save($this->updateUserTeacherSchool($id, $form, \Yii::$app->user->id));
         }else {
             $userSchool = $this->updateUserSchool($id, $form, $form->schoolUser->class_id, \Yii::$app->user->id);
+            if ($this->documentEducationRepository->getUser(\Yii::$app->user->id)) {
+                throw new \DomainException("Вы не можете редактировать школу, так как у вас имеется документ об образовании");
+            }
             $this->userSchoolRepository->save($userSchool);
         }
     }
@@ -123,6 +136,12 @@ class UserSchoolService
             $usSchool = $this->userSchoolRepository->get($id, $user_id);
             if ($this->userOlimpiadsRepository->isOlympicUserYear($usSchool->edu_year, $user_id)) {
                 throw new \DomainException("Вы не можете удалить школу, так как записаны на одну из олимпиад $usSchool->edu_year учебного года");
+            }
+            if ($this->statementRepository->getStatementUser($user_id)) {
+                throw new \DomainException("Вы не можете удалить школу, так как у Вас имеется заявление об участии в конкурсе");
+            }
+            if ($this->documentEducationRepository->getUser($user_id)) {
+                throw new \DomainException("Вы не можете удалить школу, так как у вас имеется документ об образовании ");
             }
             $this->userSchoolRepository->remove($usSchool);
         }
