@@ -64,8 +64,8 @@ class UserAisService
 
     public function create($userId, $data, $createdId)
     {
-        $this->transactionManager->wrap(function () use($userId, $data, $createdId) {
-            $model  = UserAis::create($userId, $data['incoming_id']);
+        $this->transactionManager->wrap(function () use ($userId, $data, $createdId) {
+            $model = UserAis::create($userId, $data['incoming_id']);
             $this->repository->save($model);
             $this->dataAis($data, $createdId, $model->incoming_id);
         });
@@ -73,14 +73,14 @@ class UserAisService
 
     public function addData($model, $id)
     {
-        $this->transactionManager->wrap(function () use(  $model, $id) {
-             $this->statusSuccess($model, $id);
+        $this->transactionManager->wrap(function () use ($model, $id) {
+            $this->statusSuccess($model, $id);
         });
     }
 
     public function agreement($id, $aisId)
     {
-        $this->transactionManager->wrap(function () use( $id, $aisId) {
+        $this->transactionManager->wrap(function () use ($id, $aisId) {
             $agreement = $this->agreementRepository->get($id);
             $org = $this->organizationsRepository->get($agreement->organization_id);
             $org->setAisId($aisId);
@@ -100,8 +100,8 @@ class UserAisService
 
     public function removeZos($id)
     {
-        $this->transactionManager->wrap(function () use($id) {
-            $zosRemove  = $this->rejectionCgConsentRepository->get($id);
+        $this->transactionManager->wrap(function () use ($id) {
+            $zosRemove = $this->rejectionCgConsentRepository->get($id);
             $zos = $this->consentCgRepository->get($zosRemove->statement_cg_consent_id);
             $zos->setStatus(StatementHelper::STATUS_RECALL);
             $zosRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
@@ -114,8 +114,8 @@ class UserAisService
 
     public function removeZuk($id)
     {
-        $this->transactionManager->wrap(function () use($id) {
-            $zukRemove  = $this->statementRejectionRepository->get($id);
+        $this->transactionManager->wrap(function () use ($id) {
+            $zukRemove = $this->statementRejectionRepository->get($id);
             $zuk = $this->statementRepository->get($zukRemove->statement->id);
             $zuk->setStatus(StatementHelper::STATUS_RECALL);
             $zukRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
@@ -126,15 +126,16 @@ class UserAisService
 
     public function removeZukCg($id)
     {
-        $zukCgRemove  = $this->statementRejectionCgRepository->get($id);
+        $zukCgRemove = $this->statementRejectionCgRepository->get($id);
         $zukCgRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
         $this->statementRejectionCgRepository->save($zukCgRemove);
     }
 
-    private function dataAis($data,  $createdId, $incomingId) {
-        if(key_exists('documents', $data)) {
-            foreach($data['documents']  as $type => $value) {
-                foreach ($value as  $item) {
+    private function dataAis($data, $createdId, $incomingId)
+    {
+        if (key_exists('documents', $data)) {
+            foreach ($data['documents'] as $type => $value) {
+                foreach ($value as $item) {
                     $aisData = AisReturnData::create($createdId,
                         AisReturnDataHelper::modelKey($type), $type, $incomingId, $item['sdo_id'], $item['ais_id']);
                     $this->repository->save($aisData);
@@ -143,16 +144,17 @@ class UserAisService
         }
     }
 
-    private function statusSuccess($model, $id) {
-        if($model == Statement::class){
+    private function statusSuccess($model, $id)
+    {
+        if ($model == Statement::class) {
             $statement = $this->statementRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->statementRepository->save($statement);
-        }elseif($model == StatementConsentCg::class) {
+        } elseif ($model == StatementConsentCg::class) {
             $statement = $this->consentCgRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->consentCgRepository->save($statement);
-        }elseif($model == StatementIndividualAchievements::class) {
+        } elseif ($model == StatementIndividualAchievements::class) {
             $statement = $this->individualAchievementsRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->individualAchievementsRepository->save($statement);
