@@ -3,6 +3,7 @@ namespace modules\entrant\readRepositories;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
@@ -24,10 +25,11 @@ class StatementIAReadRepository
         $query = StatementIndividualAchievements::find()->statusNoDraft();
 
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement_individual_achievements.user_id');
-
+        $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
         if($this->jobEntrant->isCategoryMPGU()) {
             $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
+                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+            ->andWhere(['anketa.university_choice'=> AnketaHelper::HEAD_UNIVERSITY]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {
@@ -37,7 +39,6 @@ class StatementIAReadRepository
 
 
         if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement_individual_achievements.user_id');
             $query->andWhere(['anketa.university_choice'=> $this->jobEntrant->category_id]);
         }
 
