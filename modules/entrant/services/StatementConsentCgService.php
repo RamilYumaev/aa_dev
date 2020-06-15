@@ -35,6 +35,11 @@ class StatementConsentCgService
         throw new \DomainException('Вы уже сформировали заявление о согласии на зачисление');
         }
 
+        if($cg->statement->statusRecallNoAccepted()) {
+            throw new \DomainException('Вы не можете сформироавть заявление о согласии, так как у вас имеется 
+            отозванное или непринятое заявление об участии в конкурсе');
+        }
+
         $stConsent = StatementConsentCg::create($cg->id, 0);
         $this->repository->save($stConsent);
     }

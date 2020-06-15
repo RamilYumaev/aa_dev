@@ -14,6 +14,12 @@ class DocumentEducationRepository
         return $model;
     }
 
+    public function getUser($userId): bool
+    {
+        return  DocumentEducation::find()->where(['user_id' => $userId])->exists();
+    }
+
+
     public function save(DocumentEducation $model): void
     {
         if (!$model->save()) {
