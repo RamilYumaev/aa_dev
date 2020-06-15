@@ -29,7 +29,7 @@ class DictSpecializationEditForm extends Model
             [['name', 'speciality_id'], 'required'],
             [['speciality_id', 'ais_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['name'], 'unique', 'targetClass'=> DictSpecialization::class, 'filter' => ['<>', 'id', $this->_specialization->id],
+            [['name'], 'unique', 'targetClass' => DictSpecialization::class, 'targetAttribute' => ['name', 'speciality_id', 'ais_id'], 'filter' => ['<>', 'id', $this->_specialization->id],
                 'message' => 'Такая образовательная программа уже есть'],
         ];
     }
