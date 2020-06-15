@@ -9,7 +9,7 @@ use yii\base\Model;
 class AnketaForm extends Model
 {
     public $user_id, $citizenship_id, $edu_finish_year, $current_edu_level, $category_id, $university_choice,
-        $province_of_china,$personal_student_number;
+        $province_of_china,$personal_student_number, $is_foreigner_edu_organization;
     private $_anketaForm;
 
     public function __construct(Anketa $anketa = null, $config = [])
@@ -19,10 +19,11 @@ class AnketaForm extends Model
             $this->edu_finish_year = $anketa->edu_finish_year;
             $this->current_edu_level = $anketa->current_edu_level;
             $this->category_id = $anketa->category_id;
-            $this->user_id = \Yii::$app->user->identity->getId();
+            $this->user_id = $anketa->user_id;
             $this->university_choice = $anketa->university_choice;
             $this->province_of_china = $anketa->province_of_china;
             $this->personal_student_number = $anketa->personal_student_number;
+            $this->is_foreigner_edu_organization = $anketa->is_foreigner_edu_organization;
 
         }else{
             $this->user_id = \Yii::$app->user->identity->getId();
@@ -34,7 +35,7 @@ class AnketaForm extends Model
     public function rules()
     {
         return [
-            [['user_id', 'citizenship_id','current_edu_level','category_id', 'university_choice'], 'integer'],
+            [['user_id', 'citizenship_id','current_edu_level','category_id', 'university_choice', 'is_foreigner_edu_organization'], 'integer'],
             [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id','university_choice'],
                 'required'],
             [['personal_student_number', 'province_of_china'], 'string'],

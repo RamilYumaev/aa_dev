@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\entrant\services;
 
 
@@ -10,6 +11,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\DocumentEducationRepository;
@@ -37,51 +39,57 @@ class DocumentEducationService
         $this->statementRepository = $statementRepository;
     }
 
-    public function create(DocumentEducationForm $form)
-    {   $userSchool = $this->schoolUser($form->school_id);
+    public function create(DocumentEducationForm $form, Anketa $anketa)
+    {
+        $userSchool = $this->schoolUser($form->school_id);
+        $this->conflictSchool($userSchool, $anketa);
         $model = DocumentEducation::create($form, $userSchool->school_id);
         $this->repository->save($model);
         $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
         return $model;
     }
 
-    public function edit($id, DocumentEducationForm $form)
+    public function edit($id, DocumentEducationForm $form, Anketa $anketa)
     {
-        $this->transactionManager->wrap(function () use($id, $form) {
+        $this->transactionManager->wrap(function () use ($id, $form, $anketa) {
             $model = $this->repository->get($id);
             $userSchool = $this->schoolUser($form->school_id);
+            $this->conflictSchool($userSchool, $anketa);
             $model->data($form, $userSchool->school_id);
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
-            if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
+            if (!$this->statementRepository->getStatementStatusNoDraft($model->user_id)) {
                 $model->detachBehavior("moderation");
             }
             $model->save($model);
         });
     }
 
-    private function addOtherDoc($if, $user_id, $type) {
+    private function addOtherDoc($if, $user_id, $type)
+    {
         $other = $this->otherDocumentRepository->getUserNote($user_id, $type);
-        if ($if)  {
-            if(!$other) {
+        if ($if) {
+            if (!$other) {
                 $this->otherDocumentRepository->save(OtherDocument::createNote(
-                    $type, DictIncomingDocumentTypeHelper::ID_AFTER_DOC, $user_id,null ));
+                    $type, DictIncomingDocumentTypeHelper::ID_AFTER_DOC, $user_id, null));
             }
         } else {
-            if($other) {
+            if ($other) {
                 $this->otherDocumentRepository->remove($other);
             }
         }
     }
-    private function otherDocDelete($user_id, $type) {
-       $other = $this->otherDocumentRepository->getUserNote($user_id, $type);
-        if($other) {
+
+    private function otherDocDelete($user_id, $type)
+    {
+        $other = $this->otherDocumentRepository->getUserNote($user_id, $type);
+        if ($other) {
             $this->otherDocumentRepository->remove($other);
         }
     }
 
-    private function schoolUser($schoolId) : UserSchool
+    private function schoolUser($schoolId): UserSchool
     {
-        return  $this->userSchoolRepository->getSchoolUserId($schoolId, \Yii::$app->user->identity->getId());
+        return $this->userSchoolRepository->getSchoolUserId($schoolId, \Yii::$app->user->identity->getId());
     }
 
     public function remove($id)
@@ -91,6 +99,15 @@ class DocumentEducationService
         $this->repository->remove($model);
         $this->otherDocDelete($userId, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
 
+    }
+
+    public function conflictSchool(UserSchool $userSchool, Anketa $anketa)
+    {
+        if ($userSchool->school->isRussia() && $anketa->is_foreigner_edu_organization) {
+            throw new \DomainException("Выявлено противоречие! В \"Определение условий подачи документов\" Вы указали, что 
+            учебная организация находится на территории иностранного государства, а в разделе \"Учебные организации\" 
+            указали, что учебная организания находится на территории РФ!");
+        }
     }
 
 }

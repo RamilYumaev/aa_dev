@@ -44,7 +44,7 @@ class DocumentEducationController extends Controller
         $form = new DocumentEducationForm($this->getUserId());
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form);
+                $this->service->create($form, $this->getAnketa());
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -67,7 +67,7 @@ class DocumentEducationController extends Controller
         $form = new DocumentEducationForm($model->user_id,$model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($model->id, $form);
+                $this->service->edit($model->id, $form, $this->getAnketa());
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -101,6 +101,15 @@ class DocumentEducationController extends Controller
         if($model) {
             return $this->redirect(['update', 'id'=> $model->id]);
         }
+    }
+
+    public function getAnketa()
+    {
+        if($anketa = \Yii::$app->user->identity->anketa())
+        {
+            return $anketa;
+        }
+        return $this->redirect('default/index');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 
 
+use common\auth\models\UserSchool;
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
@@ -25,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property string $current_edu_level
  * @property string $category_id
  * @property integer $university_choice
+ * @property integer $is_foreigner_edu_organization
  * @property string $province_of_china
  * @property string $personal_student_number
  */
@@ -61,6 +63,14 @@ class Anketa extends ActiveRecord
         $this->university_choice = $form->university_choice;
         $this->province_of_china = $form->province_of_china;
         $this->personal_student_number = $form->personal_student_number;
+        if ($this->userSchool && !$this->userSchool->school->isRussia()) {
+            $this->is_foreigner_edu_organization = true;
+        } elseif ($this->userSchool && $this->userSchool->school->isRussia()) {
+            $this->is_foreigner_edu_organization = false;
+        } else {
+            $this->is_foreigner_edu_organization = $form->is_foreigner_edu_organization;
+        }
+
 
     }
 
@@ -84,7 +94,8 @@ class Anketa extends ActiveRecord
         return $this->citizenship_id == DictCountryHelper::RUSSIA;
     }
 
-    public function isWithOitCompetition() {
+    public function isWithOitCompetition()
+    {
         return $this->category_id == CategoryStruct::WITHOUT_COMPETITION;
     }
 
@@ -99,8 +110,9 @@ class Anketa extends ActiveRecord
             && $this->citizenship_id !== DictCountryHelper::RUSSIA;
     }
 
-    public function  getCountry(){
-        return $this->hasOne(Country::class,['id' => 'citizenship_id' ]);
+    public function getCountry()
+    {
+        return $this->hasOne(Country::class, ['id' => 'citizenship_id']);
     }
 
     public function getCitizenship()
@@ -113,16 +125,19 @@ class Anketa extends ActiveRecord
         return CategoryStruct::labelLists()[$this->category_id];
     }
 
-    public function getUniversityChoice() {
+    public function getUniversityChoice()
+    {
         return AnketaHelper::universityChoice()[$this->university_choice];
     }
 
-    public function getCurrentEduLevel() {
+    public function getCurrentEduLevel()
+    {
         return AnketaHelper::currentEducationLevel()[$this->current_edu_level];
     }
 
-    public function isChina() {
-      return  $this->citizenship_id == 13;
+    public function isChina()
+    {
+        return $this->citizenship_id == 13;
     }
 
 
@@ -136,6 +151,7 @@ class Anketa extends ActiveRecord
             'university_choice' => 'Куда Вы собираетесь подавать документы?',
             'province_of_china' => 'Из какой Вы провинции?',
             'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',
+            'is_foreigner_edu_organization' => 'Учебная организация находится на территории иностранного государства',
         ];
     }
 
@@ -154,8 +170,8 @@ class Anketa extends ActiveRecord
 
         $result = [];
         if (in_array($this->current_edu_level, array_merge(
-            AnketaHelper::SPO_LEVEL,
-            AnketaHelper::SPO_LEVEL_ONLY_CONTRACT))
+                AnketaHelper::SPO_LEVEL,
+                AnketaHelper::SPO_LEVEL_ONLY_CONTRACT))
             && $this->category_id !== CategoryStruct::GOV_LINE_COMPETITION) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
         }
@@ -218,17 +234,18 @@ class Anketa extends ActiveRecord
 
     public function onlyCse()
     {
-     $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-         && $this->citizenship_id == DictCountryHelper::RUSSIA
-         && $this->category_id !== CategoryStruct::SPECIAL_RIGHT_COMPETITION; // Если обычный Российкий выпускник школы
+        $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+            && $this->citizenship_id == DictCountryHelper::RUSSIA
+            && $this->category_id !== CategoryStruct::SPECIAL_RIGHT_COMPETITION
+            && !($this->edu_finish_year == date("Y")
+                && $this->is_foreigner_edu_organization); // Если обычный Российкий выпускник школы
         // и не квотник
 
-     $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
-            in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
-                && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-             && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
+        $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
+                in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
+            && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+                && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
         // который закончил школу не в текущем году
-
         return $condition1 || $condition2;
 
 //        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
@@ -301,7 +318,7 @@ class Anketa extends ActiveRecord
 
     public function allowTarget()
     {
-        return Agreement::findOne([ 'user_id' => \Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);
+        return Agreement::findOne(['user_id' => \Yii::$app->user->identity->getId(), 'year' => EduYearHelper::eduYear()]);
     }
 
 
@@ -310,12 +327,19 @@ class Anketa extends ActiveRecord
         return new AnketaQuery(static::class);
     }
 
-    public function dataArray() {
+    public function dataArray()
+    {
         return [
             'addressNoRequired' => $this->isNoRequired(),
-            'withOitCompetition'=> $this->isWithOitCompetition(),
-            'currentEduLevel' =>  AnketaHelper::currentEducationLevel()[$this->current_edu_level],
+            'withOitCompetition' => $this->isWithOitCompetition(),
+            'currentEduLevel' => AnketaHelper::currentEducationLevel()[$this->current_edu_level],
             'category_id' => $this->category_id];
+    }
+
+
+    public function getUserSchool()
+    {
+        return $this->hasMany(UserSchool::class, ['user_id' => 'user_id'])->andWhere(['edu_year' => EduYearHelper::eduYear()])->one();
     }
 
 //    public function getCategory()
