@@ -323,7 +323,7 @@ class CommunicationController extends Controller
             }
             $incoming = UserAis::findOne(['user_id' => $model->statement->user_id]);
             if (!$incoming) {
-                Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
+                Yii::$app->session->setFlash("error", "Нарушена последовательность выгрузки данных.");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
@@ -345,7 +345,7 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService-> removeZuk($model->id);
+                        $this->aisService->removeZuk($model->id);
                         Yii::$app->session->setFlash('success', "Отзыв заявления принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
@@ -386,7 +386,7 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $data = Json::encode(['remove'=>['incoming_id'=>$incoming->incoming_id, 'competitive_group_id'=>$model->cg->ais_id]]);
+            $data = Json::encode(['remove'=>[['incoming_id'=>$incoming->incoming_id, 'competitive_group_id'=>$model->cg->ais_id]]]);
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
@@ -404,8 +404,8 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService-> removeZukCg($model->id);
-                        Yii::$app->session->setFlash('success', "Отзыв заявления принято.");
+                        $this->aisService->removeZukCg($model->id);
+                        Yii::$app->session->setFlash('success', "Отзыв заявления принят.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
                         Yii::$app->session->setFlash('error', $e->getMessage());

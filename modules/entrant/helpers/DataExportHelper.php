@@ -158,7 +158,6 @@ class DataExportHelper
         return $result;
     }
 
-
     public static function dataIncomingStatementIa($userId, $statementId)
     {
         $incomingId = UserAis::findOne(['user_id' => $userId]);
@@ -249,7 +248,6 @@ class DataExportHelper
         return [];
     }
 
-
     public static function dataLanguage($userId)
     {
         $result['foreign_languages'] = [];
@@ -334,7 +332,6 @@ class DataExportHelper
         }
         return $result;
     }
-
 
     private static function address($type, $user_id)
     {
