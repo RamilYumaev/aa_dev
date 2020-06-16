@@ -6,6 +6,7 @@ use backend\models\AisCg;
 use common\auth\Identity;
 use dictionary\models\ais\cathedraCgAis;
 use dictionary\models\ais\CgExamAis;
+use dictionary\models\ais\iaCgAis;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DictSpeciality;
@@ -15,6 +16,7 @@ use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use modules\dictionary\models\CathedraCg;
+use modules\dictionary\models\DictIndividualAchievementCg;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -204,6 +206,29 @@ class SiteController extends Controller
 
         return "success";
     }
+
+public function actionIaCg()
+{
+    $aisIaCg = iaCgAis::find()->all();
+    if($aisIaCg) {
+        foreach ($aisIaCg as $iaAis) {
+            $sdoCg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $iaAis->competitive_group_id])->one();
+            if (!$sdoCg) {
+                return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
+            }
+            $newIaCgSdo = new DictIndividualAchievementCg();
+            $newIaCgSdo->individual_achievement_id = $iaAis->individual_achievement_id;
+            $newIaCgSdo->competitive_group_id = $sdoCg->id;
+            if (!$newIaCgSdo->save()) {
+                $error = Json::encode($newIaCgSdo->errors);
+                return "Ошибка $error";
+            }
+        }
+    }else{
+        return "Таблица individual_achievement_cg_ais пуста";
+    }
+    return "success";
+}
 
     public function actionClearCache()
     {
