@@ -5,6 +5,8 @@ namespace modules\entrant\controllers\backend;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\forms\StatementIndividualAchievementsMessageForm;
+use modules\entrant\forms\StatementMessageForm;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -14,9 +16,11 @@ use modules\entrant\readRepositories\StatementReadRepository;
 use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\StatementService;
 use yii\base\ExitException;
+use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 
 class StatementController extends Controller
@@ -52,6 +56,52 @@ class StatementController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'status' => $status
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @param $status
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionStatus($id, $status)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->status($id, $status);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionMessage($id)
+    {
+        $model = $this->findModel($id);
+        $form = new StatementMessageForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->addMessage($model->id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('message', [
+            'model' => $form,
         ]);
     }
 

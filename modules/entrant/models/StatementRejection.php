@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $statement_id
  * @property integer $status_id;
+ * @property string $message
  * @property integer $count_pages
  **/
 
@@ -57,6 +58,10 @@ class StatementRejection extends ActiveRecord
         $this->status_id = $status;
     }
 
+    public function setMessage($message) {
+        $this->message = $message;
+    }
+
     public function isStatusDraft() {
         return $this->status_id == StatementHelper::STATUS_DRAFT;
     }
@@ -88,6 +93,10 @@ class StatementRejection extends ActiveRecord
 
     public function statusAccepted() {
         return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+    }
+
+    public function statusNoAccepted() {
+        return $this->status_id == StatementHelper::STATUS_NO_ACCEPTED;
     }
 
 

@@ -32,7 +32,7 @@ use modules\entrant\widgets\file\FileListWidget;
             <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                         <?=$consent->statusNameJob?></span></td>
             <td>
-                <?= $consent->statusWalt() && $consent->isAllFilesAccepted() ?
+                <?= $consent->statusWalt() && $consent->isAllFilesAccepted() && $consent->statementCg->statement->statusAccepted() ?
                 Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
                 ['communication/export-statement-consent',
                 'user' => $consent->statementCg->statement->user_id,
@@ -60,6 +60,11 @@ use modules\entrant\widgets\file\FileListWidget;
                         ['/data-entrant/communication/export-statement-consent-remove',
                             'user' =>   $consent->statementCg->statement->user_id, 'statement' =>  $consent->statementCg->statement->id, 'consent' => $consent->statementCgRejection->id],
                         ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
+                <?=  $consent->statementCgRejection->statusNewJob() ? Html::a("Отклонить", ["statement-rejection/message-consent",  'id' => $consent->statementCgRejection->id], ["class" => "btn btn-danger",
+                    'data-pjax' => 'w8', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения отозванного заявления ЗОС']) :"" ?>
+                <?=  $consent->statementCgRejection->isStatusNoAccepted() ? Html::a('Возврат', ['statement-rejection/status-consent', 'id' => $consent->statementCgRejection->id, 'status'=>StatementHelper::STATUS_WALT],
+                    ['class' => 'btn btn-success']) : "" ?>
+
 
                 <span class="label label-<?= StatementHelper::colorName( $consent->statementCgRejection->status_id)?>">
                         <?=  $consent->statementCgRejection->statusNameJob?></span>

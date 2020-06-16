@@ -1,5 +1,5 @@
 <?php
-/* @var $model modules\entrant\forms\AgreementMessageForm */
+/* @var $model modules\entrant\forms\StatementIAMessageForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
 use yii\bootstrap\ActiveForm;

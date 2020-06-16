@@ -8,15 +8,23 @@ use common\transactions\TransactionManager;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\forms\StatementIndividualAchievementsMessageForm;
+use modules\entrant\forms\StatementMessageForm;
+use modules\entrant\forms\StatementRejectionConsentMessageForm;
+use modules\entrant\forms\StatementRejectionMessageForm;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\OtherDocumentHelper;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\repositories\FileRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\StatementCgRepository;
+use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
 use modules\entrant\repositories\StatementRejectionCgRepository;
 use modules\entrant\repositories\StatementRejectionRepository;
@@ -32,6 +40,8 @@ class StatementService
     private $statementRejectionRepository;
     private $rejectionCgConsentRepository;
     private $rejectionCgRepository;
+    private $fileRepository;
+    private $consentCgRepository;
     /**
      * @var UserCgRepository
      */
@@ -43,6 +53,8 @@ class StatementService
                                 StatementRejectionRepository $statementRejectionRepository,
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementRejectionCgRepository $rejectionCgRepository,
+                                StatementConsentCgRepository $consentCgRepository,
+                                FileRepository $fileRepository,
                                 TransactionManager $manager)
     {
         $this->repository = $repository;
@@ -53,6 +65,8 @@ class StatementService
         $this->statementRejectionRepository = $statementRejectionRepository;
         $this->rejectionCgConsentRepository  = $rejectionCgConsentRepository;
         $this->rejectionCgRepository = $rejectionCgRepository;
+        $this->fileRepository = $fileRepository;
+        $this->consentCgRepository = $consentCgRepository;
     }
 
     public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory)
@@ -191,9 +205,116 @@ class StatementService
         return false;
     }
 
+    public function addMessageRejection($id, StatementRejectionMessageForm $form)
+    {   $model = $this->statementRejectionRepository->get($id);
+        $this->manager->wrap(function () use ($model, $form) {
+            $model->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage($form->message);
+            $this->repository->save($model);
+        });
+    }
+
+    public function statusRejection($id, $status)
+    {   $model = $this->statementRejectionRepository->get($id);
+        $this->manager->wrap(function () use ($model,  $status) {
+            $model->setStatus($status);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage(null);
+            $this->repository->save($model);
+        });
+    }
 
 
+    public function addMessage($id, StatementMessageForm $form)
+    {   $model = $this->repository->get($id);
+        $this->manager->wrap(function () use ($model, $form) {
+            $model->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
+            /* @var $st \modules\entrant\models\StatementCg */
+            foreach($model->statementCg as $st) {
+                /* @var $consent \modules\entrant\models\StatementConsentCg */
+                foreach ($st->statementConsent as $consent)   {
+                    $consent->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
+                    /* @var $fileConsent \modules\entrant\models\File */
+                    foreach($consent->files as $fileConsent) {
+                        $fileConsent->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                        $this->fileRepository->save($fileConsent);
+                    }
+                    $this->consentCgRepository->save($consent);
+                }
+            }
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage($form->message);
+            $this->repository->save($model);
+        });
+    }
 
+    public function status($id, $status)
+    {   $model = $this->repository->get($id);
+        $this->manager->wrap(function () use ($model, $status) {
+            $model->setStatus($status);
+            /* @var $st \modules\entrant\models\StatementCg */
+            foreach($model->statementCg as $st) {
+                /* @var $consent \modules\entrant\models\StatementConsentCg */
+                foreach ($st->statementConsent as $consent)   {
+                    $consent->setStatus(StatementHelper::STATUS_WALT);
+                    /* @var $fileConsent \modules\entrant\models\File */
+                    foreach($consent->files as $fileConsent) {
+                        $fileConsent->setStatus(FileHelper::STATUS_WALT);
+                        $this->fileRepository->save($fileConsent);
+                    }
+                    $this->consentCgRepository->save($consent);
+                }
+            }
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage(null);
+            $this->repository->save($model);
+        });
+    }
+
+    public function addMessageConsent($id, StatementRejectionConsentMessageForm $form)
+    {  $model = $this->rejectionCgConsentRepository->get($id);
+        $this->manager->wrap(function () use ($model, $form) {
+            $model->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage($form->message);
+            $this->repository->save($model);
+        });
+    }
+
+    public function statusConsent($id, $status)
+    {  $model = $this->rejectionCgConsentRepository->get($id);
+        $this->manager->wrap(function () use ($model, $status) {
+            $model->setStatus($status);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage(null);
+            $this->repository->save($model);
+        });
+    }
 
 
 }
