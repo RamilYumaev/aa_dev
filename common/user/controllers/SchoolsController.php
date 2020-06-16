@@ -9,6 +9,7 @@ use frontend\components\UserNoEmail;
 use olympic\forms\auth\SchooLUserCreateForm;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\services\UserSchoolService;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -59,26 +60,29 @@ class SchoolsController extends Controller
 
     public function actionCreate()
     {
-        $form = new SchooLUserCreateForm($this->role);
-        $redirect = Yii::$app->request->get("redirect");
-        if (is_null($form->country_id)) {
-            Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
-            return $this->redirect(['/profile/edit']);
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
         }
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->signup($form, $this->role);
-                if ($redirect == "online-registration") {
-                    return $this->redirect(['/abiturient']);
-                }
-
-                return $this->redirect('index');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+            $form = new SchooLUserCreateForm($this->role);
+            $redirect = Yii::$app->request->get("redirect");
+            if (is_null($form->country_id)) {
+                Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
+                return $this->redirect(['/profile/edit']);
             }
-        }
-        return $this->render('create', ['model' => $form]);
+            if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+                try {
+                    $this->service->signup($form, $this->role);
+                    if ($redirect == "online-registration") {
+                        return $this->redirect(['/abiturient']);
+                    }
+
+                    return $this->redirect('index');
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
+            }
+            return $this->render('create', ['model' => $form]);
     }
 
     /*
@@ -89,6 +93,9 @@ class SchoolsController extends Controller
 
     public function actionUpdate($id)
     {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
         $model = $this->find($id);
         $form = new SchooLUserCreateForm($this->role, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -111,6 +118,9 @@ class SchoolsController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
         try {
             $this->service->remove($id, Yii::$app->user->id, $this->role);
             Yii::$app->session->setFlash('success', 'Успешно удалена запись');
@@ -162,4 +172,5 @@ class SchoolsController extends Controller
         }
         throw new NotFoundHttpException('Запрашиваемая страница не существует.');
     }
+
 }
