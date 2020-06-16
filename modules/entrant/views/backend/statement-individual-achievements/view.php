@@ -8,10 +8,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Заявления об учете
 $this->params['breadcrumbs'][] = $this->title;
 
 use entrant\assets\modal\ModalAsset;
+use yii\helpers\Html;
+
 ModalAsset::register($this);
 
 
 ?>
+<?= Html::a("Документы", ['default/files', 'user' => $statement->user_id], ['class' => 'btn btn-danger']) ?>
 <?= \modules\entrant\widgets\profile\ProfileWidget::widget([ 'view' =>'index-backend', 'userId' => $statement->user_id]) ?>
 <?= \modules\entrant\widgets\anketa\AnketaWidget::widget(['userId' => $statement->user_id]) ?>
 <?= \modules\entrant\widgets\statement\StatementIaBackendWidget::widget(['statement' => $statement]) ?>

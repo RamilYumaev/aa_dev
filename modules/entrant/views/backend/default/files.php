@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 ModalAsset::register($this);
 
-$this->title = 'Файлы';
+$this->title = 'Документы';
 $this->params['breadcrumbs'][] = ['label' => 'Абитуриенты', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = ['label' => $profile->getFio(), 'url' => ['default/full', 'user' => $profile->user_id]];
 $this->params['breadcrumbs'][] = $this->title;
