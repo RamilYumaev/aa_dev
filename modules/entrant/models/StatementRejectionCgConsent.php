@@ -18,8 +18,9 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $statement_cg_consent_id
- * @property integer $status_id;
- * @property integer $count_pages;
+ * @property integer $status_id
+ * @property integer $count_pages
+ * @property string $message
 
  **/
 
@@ -60,6 +61,10 @@ class StatementRejectionCgConsent extends ActiveRecord
         return $this->status_id == StatementHelper::STATUS_ACCEPTED;
     }
 
+    public function isStatusNoAccepted() {
+        return $this->status_id == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
 
     public function getStatementConsentCg() {
         return $this->hasOne(StatementConsentCg::class, ['id'=>'statement_cg_consent_id']);
@@ -71,6 +76,10 @@ class StatementRejectionCgConsent extends ActiveRecord
 
     public function setStatus($status) {
         $this->status_id = $status;
+    }
+
+    public function setMessage($message) {
+        $this->message = $message;
     }
 
     public function isStatusDraft() {

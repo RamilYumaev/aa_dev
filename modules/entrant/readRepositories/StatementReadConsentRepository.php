@@ -25,7 +25,7 @@ class StatementReadConsentRepository
         $query->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg_id');
         $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
 
-        $query->andWhere(['statement.status' => StatementHelper::STATUS_ACCEPTED]);
+        $query->andWhere(['statement.status' => [StatementHelper::STATUS_ACCEPTED, StatementHelper::STATUS_NO_ACCEPTED]]);
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
 
         if($this->jobEntrant->isCategoryFOK()) {

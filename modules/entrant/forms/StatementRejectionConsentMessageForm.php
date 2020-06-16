@@ -3,13 +3,15 @@
 namespace modules\entrant\forms;
 
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCgConsent;
 use yii\base\Model;
 
-class StatementMessageForm extends Model
+class StatementRejectionConsentMessageForm extends Model
 {
     public $message;
 
-    public function __construct(Statement $file, $config = [])
+    public function __construct(StatementRejectionCgConsent $file, $config = [])
     {
         $this->setAttributes($file->getAttributes(), false);
         parent::__construct($config);

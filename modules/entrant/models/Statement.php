@@ -68,6 +68,10 @@ class Statement extends ActiveRecord
         $this->status = $status;
     }
 
+    public function setMessage($message) {
+        $this->message = $message;
+    }
+
     public function isStatusDraft() {
         return $this->status == StatementHelper::STATUS_DRAFT;
     }
@@ -127,6 +131,14 @@ class Statement extends ActiveRecord
     public function statusRecallNoAccepted() {
         return $this->status == StatementHelper::STATUS_RECALL ||
             $this->status == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
+    public function statusNoAccepted() {
+        return $this->status == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
+    public function statusAccepted() {
+        return $this->status == StatementHelper::STATUS_ACCEPTED;
     }
 
     public function countFilesAndCountPagesTrue() {
