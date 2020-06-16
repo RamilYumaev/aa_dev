@@ -24,12 +24,12 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
 
 
-<!--        <div class="col-md-2" align="center">-->
-<!--            --><?php //if (!Yii::$app->user->isGuest) {
-//                 Html::a(Html::img('@web/img/cabinet/olympiads.png')
-//                    . '<br/>Записаться на олимпиады', '/olympiads');
-//            } ?>
-<!---->
+        <div class="col-md-2" align="center">
+            <?php if (!Yii::$app->user->isGuest) {
+                 Html::a(Html::img('@web/img/cabinet/olympiads.png')
+                    . '<br/>Записаться на олимпиады', '/olympiads');
+            } ?>
+
 <!--        </div>-->
 
 <!--        <div class="col-md-2" align="center">-->
@@ -40,13 +40,13 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <!---->
 <!--        </div>-->
 
-    <div class="col-md-2" align="center">
-        <?php if (!Yii::$app->user->isGuest) {
-            echo Html::a(Html::img('@web/img/cabinet/online.png')
-                . '<br/>Подача документов', '/abiturient/anketa/step1');
-        } ?>
-
-    </div>
+<!--    <div class="col-md-2" align="center">-->
+<!--        --><?php //if (!Yii::$app->user->isGuest) {
+//            echo Html::a(Html::img('@web/img/cabinet/online.png')
+//                . '<br/>Подача документов', '/abiturient/anketa/step1');
+//        } ?>
+<!---->
+<!--    </div>-->
 
 
 <!--        <div class="col-md-2" align="center">-->
