@@ -40,7 +40,7 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b>Версия</b> 2.0
     </div>
-    <strong>&copy; 2018-2019 ФГБОУ ВО "Московский педагогический государственный университет"</strong>
+    <strong>&copy; 2018-<?=\date("Y")?> ФГБОУ ВО "Московский педагогический государственный университет"</strong>
 </footer>
 
 <!-- Control Sidebar -->
