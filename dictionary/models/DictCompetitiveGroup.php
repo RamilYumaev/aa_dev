@@ -339,10 +339,16 @@ class DictCompetitiveGroup extends ActiveRecord
         return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET && $this->foreigner_status;
     }
 
+    public function isContractCg(): bool
+    {
+        return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+    }
+
     public function isUmsContractCg(): bool
     {
         return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT && $this->foreigner_status;
     }
+
 
     public function isUmsCg(): bool
     {

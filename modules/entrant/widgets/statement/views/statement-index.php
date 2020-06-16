@@ -6,6 +6,7 @@
 /* @var $statementCg modules\entrant\models\StatementCg */
 
 /* @var $isAccepted bool */
+/* @var $isContract bool */
 
 use modules\entrant\helpers\StatementHelper;
 use \yii\bootstrap\Collapse;
@@ -16,7 +17,10 @@ use yii\helpers\Html;
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Заявления об участии в конкурсе
                 <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
-                <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?></h4>
+                <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?>
+                <?= $isContract ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract") : ""?>
+            </h4>
+
 
         </div>
         <div class="panel-body">
@@ -30,7 +34,7 @@ use yii\helpers\Html;
                 foreach ($statement->statementCg as $statementCg) {
                     $resultData .= "<tr>";
                     $resultData .= "<td>";
-                    $resultData .= $statementCg->cg->fullName;
+                    $resultData .= $statementCg->cg->fullName. ($statement->isStatusAccepted() && $statementCg->status_id ? " <span class=\"label label-danger\">Отозван</span>" : "");
                     $resultData .= "</td>";
                     $resultData .= "</tr>";
                 }
@@ -38,7 +42,8 @@ use yii\helpers\Html;
                 $result[] =
                     ['label' => $statement->faculty->full_name . ", " . $statement->speciality->getCodeWithName() . ",<br/>Заявление № "
                         . $statement->numberStatement . " <span class=\"label label-"
-                        . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span>",
+                        . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span> ". ($statement->statementRejection ?
+                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : ""),
                         'content' => $resultData,
                         'contentOptions' => ['class' => 'out']];
 

@@ -155,6 +155,16 @@ class Statement extends ActiveRecord
         return false;
     }
 
+    public function statementContractCg() {
+        /* @var  $cg StatementCg */
+        foreach ($this->statementCg as $cg) {
+            if($cg->cg->isContractCg()) {
+                return true; break;
+            }
+        }
+        return false;
+    }
+
     public function getStatusName() {
         return  StatementHelper::statusName($this->status);
     }
