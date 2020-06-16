@@ -23,6 +23,7 @@ class StatementCgReadRepository
         $query = StatementCg::find();
         $query->innerJoin(Statement::tableName(), 'statement.id = statement_cg.statement_id');
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
+        $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
@@ -37,7 +38,7 @@ class StatementCgReadRepository
         }
 
         if($this->jobEntrant->isCategoryUMS()) {
-            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
+
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
                 CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
         }
