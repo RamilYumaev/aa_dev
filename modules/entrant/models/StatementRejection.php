@@ -42,6 +42,10 @@ class StatementRejection extends ActiveRecord
         return StatementHelper::statusJobName($this->status_id);
     }
 
+    public function getStatusName() {
+        return StatementHelper::statusName($this->status_id);
+    }
+
     public function isStatusAccepted() {
         return $this->status_id == StatementHelper::STATUS_ACCEPTED;
     }

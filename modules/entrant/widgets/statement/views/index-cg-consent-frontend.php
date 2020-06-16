@@ -23,7 +23,10 @@ use modules\entrant\widgets\file\FileListWidget;
                     <th><?=$consent->statementCg->cg->fullNameB?>
                         Заявление № <?=$consent->statementCg->statement->numberStatement ?></th>
                     <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
-                                <?=$consent->statusName?></span></td>
+                                <?=$consent->statusName?></span> <br />
+                        <?= ($consent->statementCgRejection ?
+                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($consent->statementCgRejection ->status_id) . "\">" . $consent->statementCgRejection->statusName . "</span>".")" : "") ?>
+                    </td>
                 </tr>
             </table>
         <?php endforeach; ?>

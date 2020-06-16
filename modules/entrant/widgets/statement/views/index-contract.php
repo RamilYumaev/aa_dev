@@ -60,4 +60,6 @@ use modules\entrant\widgets\file\FileListWidget;
 
             <?php endforeach; ?>
         </table>
+        <?php else: ?>
+        <p> Вы не сформиировали заявление о согласии на зачисление или  данное заявление не имеет статус "Принято" <p>
 <?php endif; ?>
