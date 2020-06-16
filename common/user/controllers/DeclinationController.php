@@ -6,6 +6,7 @@ use common\auth\forms\DeclinationFioForm;
 use common\auth\models\DeclinationFio;
 use common\auth\services\DeclinationService;
 use yii\bootstrap\ActiveForm;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -23,6 +24,21 @@ class DeclinationController extends Controller
         parent::__construct($id, $module, $config);
         $this->viewPath = '@common/user/views/declination';
     }
+
+    public function behaviors(){
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ],
+            ],
+        ];
+    }
+
 
     /*
      * @param $id
