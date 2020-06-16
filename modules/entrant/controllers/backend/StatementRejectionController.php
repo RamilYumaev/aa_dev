@@ -4,6 +4,7 @@
 namespace modules\entrant\controllers\backend;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\StatementMessageForm;
+use modules\entrant\forms\StatementRejectionCgMessageForm;
 use modules\entrant\forms\StatementRejectionConsentMessageForm;
 use modules\entrant\forms\StatementRejectionMessageForm;
 use modules\entrant\helpers\FileCgHelper;
@@ -13,6 +14,7 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\searches\StatementConsentRejectionSearch;
+use modules\entrant\searches\StatementRejectionCgSearch;
 use modules\entrant\searches\StatementRejectionSearch;
 use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\StatementService;
@@ -57,6 +59,29 @@ class StatementRejectionController extends Controller
             'status' => $status
         ]);
     }
+
+    public function actionCgIndex($status = null)
+    {
+        $searchModel = new StatementRejectionCgSearch($this->jobEntrant, $status);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'status' => $status
+        ]);
+    }
+
+    public function actionCgNew()
+    {
+        $searchModel = new StatementRejectionCgSearch($this->jobEntrant, StatementHelper::STATUS_WALT);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 5);
+
+        return $this->render('new', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 
 
     /**
@@ -140,6 +165,53 @@ class StatementRejectionController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addMessageConsent($model->id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('message', [
+            'model' => $form,
+        ]);
+    }
+
+
+    /**
+     * @param $id
+     * @param $status
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionStatusCg($id, $status)
+    {
+        $this->findModelCg($id);
+        try {
+            $this->service->statusCg($id, $status);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionMessageCg($id)
+    {
+        $model = $this->findModelCg($id);
+        $form = new StatementRejectionCgMessageForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->addMessageCg($model->id, $form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

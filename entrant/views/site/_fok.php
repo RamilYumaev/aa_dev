@@ -4,6 +4,7 @@
 use backend\widgets\adminlte\Box;
 use modules\entrant\widgets\cpk\InfoFokRemoveZosWidget;
 use modules\entrant\widgets\cpk\InfoFokZosWidget;
+use modules\entrant\widgets\cpk\InfoFokZukCgRemoveWidget;
 use modules\entrant\widgets\cpk\InfoFokZukRemoveWidget;
 use modules\entrant\widgets\cpk\InfoUserCozWidget;
 use modules\entrant\widgets\cpk\StatementWidget;
@@ -99,6 +100,39 @@ $new =  StatementHelper::STATUS_WALT;
 <?php Box::end() ?>
 
 <?php Box::begin(
+    [   "header" => "Отозванные заявления  об участии в конкурсе (Конкурсная группа)",
+        "type" => Box::TYPE_INFO,
+        "collapsable" => true,]) ?>
+<div class="row">
+    <div class="col-md-4">
+        <?= InfoFokZukCgRemoveWidget::widget([
+            'colorBox' => AdminLTE::BG_ORANGE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'plus-circle',
+            'status' => $new,
+            'str' => "Новые", 'link'=> ['/data-entrant/statement-rejection/cg-new']])?>
+    </div>
+    <div class="col-md-4">
+        <?=  InfoFokZukCgRemoveWidget::widget([
+            'colorBox' => AdminLTE::BG_TEAL,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'check-circle',
+            'status' => StatementHelper::STATUS_ACCEPTED,
+            'str' => "Принятые", 'link' => ['/data-entrant/statement-rejection/cg-index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
+    </div>
+    <div class="col-md-4">
+        <?=  InfoFokZukCgRemoveWidget::widget([
+            'colorBox' => AdminLTE::BG_FUCHSIA,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'remove',
+            'status' => StatementHelper::STATUS_NO_ACCEPTED,
+            'str' => "Непринятые", 'link' => ['/data-entrant/statement-rejection/cg-index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED]])?>
+    </div>
+</div>
+
+<?php Box::end() ?>
+
+<?php Box::begin(
     [   "header" => "Заявления о согласии на зачисление",
         "type" => Box::TYPE_WARNING,
         "collapsable" => true,]) ?>
@@ -140,6 +174,8 @@ $new =  StatementHelper::STATUS_WALT;
 </div>
 
 <?php Box::end() ?>
+
+
 
 <?php Box::begin(
     [   "header" => "Отозванные заявления   о согласии на зачисление",

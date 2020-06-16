@@ -10,12 +10,14 @@ use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
 use modules\entrant\repositories\AgreementRepository;
+use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
@@ -37,6 +39,7 @@ class UserAisService
     private $statementRejectionCgRepository;
     private $agreementRepository;
     private $organizationsRepository;
+    private $statementCgRepository;
 
 
     public function __construct(RepositoryDeleteSaveClass $repository,
@@ -47,6 +50,7 @@ class UserAisService
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementRejectionRepository $statementRejectionRepository,
                                 StatementRejectionCgRepository $statementRejectionCgRepository,
+                                StatementCgRepository $statementCgRepository,
                                 AgreementRepository $agreementRepository,
                                 DictOrganizationsRepository $organizationsRepository)
     {
@@ -60,6 +64,7 @@ class UserAisService
         $this->statementRejectionCgRepository = $statementRejectionCgRepository;
         $this->agreementRepository = $agreementRepository;
         $this->organizationsRepository = $organizationsRepository;
+        $this->statementCgRepository = $statementCgRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -136,12 +141,17 @@ class UserAisService
         $this->transactionManager->wrap(function () use ($id) {
         $zukCgRemove = $this->statementRejectionCgRepository->get($id);
         $zukCgRemove->setStatus(StatementHelper::STATUS_ACCEPTED);
-        foreach ($zukCgRemove->statementCg->statementConsent as $item) {
+        /* @var $stCg StatementCg */
+        $stCg = $zukCgRemove->statementCg;
+        $stCg->setStatus(1);
+        foreach ($stCg->statementConsent as $item) {
             /* @var $item  StatementConsentCg */
             $item->setStatus(StatementHelper::STATUS_RECALL);
             $this->consentCgRepository->save($item);
         }
         $this->statementRejectionCgRepository->save($zukCgRemove);
+
+        $this->statementCgRepository->save($stCg);
         });
     }
 

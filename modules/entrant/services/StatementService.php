@@ -10,6 +10,7 @@ use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\StatementIndividualAchievementsMessageForm;
 use modules\entrant\forms\StatementMessageForm;
+use modules\entrant\forms\StatementRejectionCgMessageForm;
 use modules\entrant\forms\StatementRejectionConsentMessageForm;
 use modules\entrant\forms\StatementRejectionMessageForm;
 use modules\entrant\helpers\FileHelper;
@@ -308,7 +309,35 @@ class StatementService
             $model->setStatus($status);
             /* @var $file \modules\entrant\models\File */
             foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage(null);
+            $this->repository->save($model);
+        });
+    }
+
+    public function addMessageCg($id, StatementRejectionCgMessageForm $form)
+    {  $model = $this->rejectionCgRepository->get($id);
+        $this->manager->wrap(function () use ($model, $form) {
+            $model->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
                 $file->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+                $this->fileRepository->save($file);
+            }
+            $model->setMessage($form->message);
+            $this->repository->save($model);
+        });
+    }
+
+    public function statusCg($id, $status)
+    {  $model = $this->rejectionCgRepository->get($id);
+        $this->manager->wrap(function () use ($model, $status) {
+            $model->setStatus($status);
+            /* @var $file \modules\entrant\models\File */
+            foreach($model->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
                 $this->fileRepository->save($file);
             }
             $model->setMessage(null);

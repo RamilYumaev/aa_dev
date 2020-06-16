@@ -24,7 +24,8 @@ class StatementCgQuery extends \yii\db\ActiveQuery
     public function statementAcceptedStatus($cg_id) {
         return $this
             ->innerJoin(Statement::tableName(), 'statement.id=statement_cg.statement_id')
-            ->andWhere(['statement_cg.cg_id' => $cg_id, 'statement.status' => StatementHelper::STATUS_ACCEPTED]);
+            ->andWhere(['statement_cg.cg_id' => $cg_id, 'status_id' => null,
+                'statement.status' => StatementHelper::STATUS_ACCEPTED]);
     }
 
     public function statementConsentAcceptedStatus($cg_id) {

@@ -65,7 +65,10 @@ use modules\entrant\widgets\file\FileListWidget;
                                 ['/data-entrant/communication/export-statement-remove-cg',
                                    'statementId' =>  $statementCg->statementRejection->id],
                                 ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
-
+                        <?=   $statementCg->statementRejection->statusNewJob() ? Html::a("Отклонить", ["statement-rejection/message-cg",  'id' =>  $statementCg->statementRejection->id], ["class" => "btn btn-danger",
+                            'data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения отозванного заявления']) :"" ?>
+                        <?=  $statementCg->statementRejection->statusNoAccepted() ? Html::a('Возврат', ['statement-rejection/status-cg', 'id' =>  $statementCg->statementRejection->id, 'status'=>StatementHelper::STATUS_WALT],
+                            ['class' => 'btn btn-success']) : "" ?>
                         <span class="label label-<?= StatementHelper::colorName( $statementCg->statementRejection->status_id)?>">
                         <?= $statementCg->statementRejection->statusNameJob?></span>
                         <?= FileListBackendWidget::widget([ 'record_id' => $statementCg->statementRejection->id,

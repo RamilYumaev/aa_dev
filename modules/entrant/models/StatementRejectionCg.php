@@ -8,6 +8,7 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
 use modules\entrant\models\queries\StatementConsentCgQuery;
 use modules\entrant\models\queries\StatementRejectionCgQuery;
+use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -19,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property integer $status_id;
  * @property integer $created_at;
  * @property integer $updated_at;
+ * @property string $message;
  * @property integer $count_pages
  **/
 
@@ -49,6 +51,9 @@ class StatementRejectionCg extends ActiveRecord
         $this->status_id = $status;
     }
 
+    public function setMessage($message) {
+        $this->message = $message;
+    }
 
     public function countAcceptedFiles() {
         return $this->getFiles()->andWhere(['status'=>FileHelper::STATUS_ACCEPTED])->count();
@@ -87,6 +92,10 @@ class StatementRejectionCg extends ActiveRecord
 
     public function statusAccepted() {
         return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+    }
+
+    public function statusNoAccepted() {
+        return $this->status_id == StatementHelper::STATUS_NO_ACCEPTED;
     }
 
     public function getStatementCg() {
