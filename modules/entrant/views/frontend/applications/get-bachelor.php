@@ -180,7 +180,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <p>Серверное время <?=\date("Y-m-d G:i:s")?></p>
             <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
             - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
             <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
