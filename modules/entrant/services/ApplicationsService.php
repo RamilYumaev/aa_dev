@@ -44,8 +44,8 @@ class ApplicationsService
         DictCompetitiveGroupHelper::noMore3Specialty($cg);
         DictCompetitiveGroupHelper::isAvailableCg($cg);
         DictCompetitiveGroupHelper::budgetChecker($cg);
+        $this->repository->haveARecord($cg->id);
         $this->transactionManager->wrap(function() use ($cg, $cathedra_id) {
-            $this->repository->haveARecord($cg->id);
             if ($cathedra_id) {
                 $this->cathedraCgRepository->get($cg->id, $cathedra_id);
             }

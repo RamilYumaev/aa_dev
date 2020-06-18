@@ -51,7 +51,7 @@ class KladrAddressWidget extends Widget
         if (!$this->readOnly) {
             echo "<div id='{$widgetId}-kladr-view' class='kladr-view'>" . PHP_EOL . '<p>' . PHP_EOL;
             echo Html::a(
-                'Открыть КЛАДР',
+                'Справочник адресов РФ',
                 "#{$widgetId}-modal",
                 ['class' => 'btn btn-primary', 'data-toggle' => 'modal']
             );
