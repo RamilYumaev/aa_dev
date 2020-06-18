@@ -20,7 +20,7 @@ $onlyCse = $anketa->onlyCse();
 ?>
 <div class="row min-scr">
     <div class="button-left">
-        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"])." Опредение условий",
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"])." Условия",
             ["step1"], ["class" => "btn btn-warning btn-lg"]) ?>
     </div>
 </div>
