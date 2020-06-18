@@ -842,13 +842,13 @@ select {
 .button-left {
     position: absolute;
     left: 10px;
-    top: 120px;
+    top: 70px;
 }
 
 .button-right {
     position: absolute;
-    right: 60px;
-    top: 120px;
+    right: 145px;
+    top: 70px;
 }
 
 .m-30 {
