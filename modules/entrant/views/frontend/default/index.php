@@ -18,7 +18,7 @@ $userId = Yii::$app->user->identity->getId();
 
     <div class="row min-scr">
         <div class="button-left">
-            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
+            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]). " Уровни",
                 "/abiturient/anketa/step2", ["class" => "btn btn-warning btn-lg"]) ?>
         </div>
     </div>

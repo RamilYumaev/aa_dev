@@ -76,11 +76,10 @@ foreach ($currentFaculty as $faculty) {
         $result .= "</tr>";
 
         foreach ($cgFaculty as $currentCg) {
-            
-                if(!$setting->allowCgCseContractMoscow($currentCg))
-                {
-                    continue;
-                }
+
+            if (!$setting->allowCgCseContractMoscow($currentCg)) {
+                continue;
+            }
 
             if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
                 continue;
@@ -170,25 +169,26 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row min-scr">
     <div class="button-left">
-        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), ["anketa/step2"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]) . " Уровни",
+            ["anketa/step2"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
     </div>
     <div class="button-right">
-        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
+        <?= Html::a("Карточка " . Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
     </div>
 </div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на бюджетной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
+            <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на бюджетной основе.
         </div>
         <div class="col-md-6">
-            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка выбора образовательной программы на договорной основе.<br/><br/>
-            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+            <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width" => "23px", "height" => "20px"]) ?>
             - кнопка отмены выбора образовательной программы на договорной основе.
         </div>
     </div>

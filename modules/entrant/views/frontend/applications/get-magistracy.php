@@ -122,16 +122,15 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 
 
     <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
-    <div class="row min-scr">
-        <div class="button-left">
-            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]), [
-                    "anketa/step2"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
-        </div>
-        <div class="button-right">
-            <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]),
-                ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
-        </div>
+<div class="row min-scr">
+    <div class="button-left">
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]) . " Уровни",
+            ["anketa/step2"], ["class" => "btn btn-lg btn-warning position-fixed"]); ?>
     </div>
+    <div class="button-right">
+        <?= Html::a("Карточка " . Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
+    </div>
+</div>
 <h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
     <div class="row">

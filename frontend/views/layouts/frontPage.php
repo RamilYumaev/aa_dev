@@ -45,7 +45,8 @@ AppAsset::register($this);
     ?>
 
     <div class="container mt-30">
-        <?= Alert::widget() ?>
+            <?= Alert::widget() ?>
+
         <?= $content ?>
     </div>
 </div>
