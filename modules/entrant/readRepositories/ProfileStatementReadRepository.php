@@ -51,10 +51,15 @@ class ProfileStatementReadRepository
         }
 
         elseif($this->jobEntrant->isCategoryTarget()) {
-            $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::TARGET_COMPETITION,
+                    CategoryStruct::COMPATRIOT_COMPETITION]]);
         }
+
+        elseif($this->jobEntrant->isCategoryCOZ()) {
+            $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
+                CategoryStruct::COMPATRIOT_COMPETITION]]);
+        }
+
 
         elseif($this->jobEntrant->isCategoryGraduate()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');

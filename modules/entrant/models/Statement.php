@@ -185,6 +185,10 @@ class Statement extends ActiveRecord
             $this->counter;
     }
 
+    public function getTextEmail() {
+        return "Ваше заявление об участии в конкурсе №".$this->numberStatement." в ".$this->faculty->full_name. " принято";
+    }
+
     public function getEduLevel()
     {
         return DictCompetitiveGroupHelper::eduLevelName($this->edu_level);

@@ -187,6 +187,19 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
         return  DictRegionHelper::regionName($this->region_id);
     }
 
+    public  function withBestRegard()
+    {
+        if ($this->gender == ProfileHelper::FEMALE) {
+            return "Уважаемая";
+        }
+        if ($this->gender == ProfileHelper::MALE) {
+            return "Уважаемый";
+        }
+
+        return "Уважаемый(-ая)";
+
+    }
+
     public function moderationAttributes($value): array
     {
         return  [

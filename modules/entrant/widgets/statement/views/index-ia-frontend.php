@@ -16,13 +16,20 @@ use yii\helpers\Html;
         <?php foreach ($statementsIa as $statement):  ?>
          <tr>
             <td><?= $statement->numberStatement ?><span class="label label-<?= StatementHelper::colorName( $statement->status)?>">
-                        <?= $statement->statusName?></span></td>
+                        <?= $statement->statusName?></span>
+                  <?php if($statement->message): ?>
+                  <br/> Причина отклонения: <?= $statement->message ?>
+                  <?php endif; ?>
+            </td>
             <td> <?php foreach ($statement->statementIa as $key => $stIa):  ?>
                 <?= ++$key ?>. <?= $stIa->dictIndividualAchievement->name ?>
                     <?php if(!$statement->isStatusWalt()) :?>
                     <span class="label label-<?= StatementHelper::colorName( $stIa->status_id)?>">
                         <?= $stIa->statusName?></span> <br/>
                     <?php endif;?>
+                    <?php if($stIa->message): ?>
+                        <br/> Причина отклонения: <?= $stIa->message ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </td>
         </tr>

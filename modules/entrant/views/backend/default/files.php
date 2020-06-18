@@ -17,6 +17,9 @@ $userId = $profile->user_id;
 ?>
 <div class="row">
         <div class="col-md-12">
+            <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' => $userId], [
+                    'class' => 'btn btn-danger',
+                'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>

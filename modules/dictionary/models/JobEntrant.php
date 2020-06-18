@@ -3,6 +3,7 @@
 
 namespace modules\dictionary\models;
 
+use common\auth\models\SettingEmail;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\Faculty;
 use modules\dictionary\forms\JobEntrantForm;
@@ -17,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id
  * @property integer $category_id
  * @property integer $faculty_id
+ * @property integer $email_id
  * @property integer $status;
  *
  **/
@@ -36,6 +38,7 @@ class JobEntrant extends ActiveRecord
         $this->user_id = $form->user_id;
         $this->category_id = $form->category_id;
         $this->faculty_id = $this->category_id == JobEntrantHelper::FOK ? $form->faculty_id : null;
+        $this->email_id = $form->email_id ?? null;
     }
 
     public function setStatus($status) {
@@ -49,6 +52,10 @@ class JobEntrant extends ActiveRecord
 
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getSettingEmail() {
+        return $this->hasOne(SettingEmail::class, ['id' => 'email_id']);
     }
 
     public function getFaculty() {
@@ -113,6 +120,7 @@ class JobEntrant extends ActiveRecord
             'user_id' => "Пользователь",
             'faculty_id' => 'Факультет',
             'status' => 'Статус',
+            'email_id' => "Email  для рассылки"
         ];
     }
 }
