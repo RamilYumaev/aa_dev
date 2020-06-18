@@ -2,32 +2,72 @@
 
 namespace modules\entrant\controllers\backend;
 
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
-use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
-use modules\entrant\helpers\StatementHelper;
-use modules\entrant\models\Statement;
-use modules\entrant\models\StatementConsentCg;
-use modules\entrant\models\StatementIndividualAchievements;
-use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
 use modules\entrant\searches\ProfilesStatementSearch;
+use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class DefaultController extends Controller
 {
+    private $service;
+    public function __construct($id, $module, EmailDeliverService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'send-error' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return Yii::$app->user->identity->jobEntrant();
     }
 
+    /**
+     * @param integer $user
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
 
+    public function actionSendError($user)
+    {
+        $this->findModel($user);
+        $emailId = $this->jobEntrant->email_id;
+        if (!$emailId) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        try {
+            $this->service->errorSend($emailId, $user);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
     public function actionIndex($type = null)
     {
         $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type);

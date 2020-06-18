@@ -4,6 +4,7 @@
 namespace modules\entrant\controllers\backend;
 
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Agreement;
@@ -53,6 +54,12 @@ class CommunicationController extends Controller
             ],
         ];
     }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
 
     /**
      * @param integer $user
@@ -129,6 +136,12 @@ class CommunicationController extends Controller
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
         } else {
+            $emailId = $this->jobEntrant->email_id;
+            if (!$emailId) {
+                Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
             $model = Profiles::find()
                 ->alias('profiles')
                 ->innerJoin(StatementIndividualAchievements::tableName(), StatementIndividualAchievements::tableName() . '.user_id=profiles.user_id')
@@ -162,7 +175,7 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService->addData(StatementIndividualAchievements::class, $statement);
+                        $this->aisService->addData(StatementIndividualAchievements::class, $statement, $emailId);
                         Yii::$app->session->setFlash('success', "Заявление принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
@@ -194,6 +207,12 @@ class CommunicationController extends Controller
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
         } else {
+            $emailId = $this->jobEntrant->email_id;
+            if (!$emailId) {
+                Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
             $model = Profiles::find()
                 ->alias('profiles')
                 ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
@@ -226,7 +245,7 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService->addData(Statement::class, $statement);
+                        $this->aisService->addData(Statement::class, $statement, $emailId);
                         Yii::$app->session->setFlash('success', "Заявление принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
@@ -436,6 +455,12 @@ class CommunicationController extends Controller
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
         } else {
+            $emailId = $this->jobEntrant->email_id;
+            if (!$emailId) {
+                Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
             $model = Profiles::find()
                 ->alias('profiles')
                 ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
@@ -476,7 +501,7 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService->addData(StatementConsentCg::class, $consent);
+                        $this->aisService->addData(StatementConsentCg::class, $consent, $emailId);
                         Yii::$app->session->setFlash('success', "Заявление о согласии принято!");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);

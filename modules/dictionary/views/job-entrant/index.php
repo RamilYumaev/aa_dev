@@ -47,6 +47,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => JobEntrantHelper::statusList(),
                         'value' => 'statusName'
                     ],
+                    [
+                        'value' => 'settingEmail.username'
+                    ],
+
                     ['value' => function (\modules\dictionary\models\JobEntrant $model) {
                           return $model->isStatusDraft() ? Html::a('Активировать', ['job-entrant/status',
                               'id' => $model->id, 'status' => JobEntrantHelper::ACTIVE],['class' => 'btn btn-success']) :

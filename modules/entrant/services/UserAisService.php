@@ -26,6 +26,8 @@ use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\usecase\RepositoryDeleteSaveClass;
 use Mpdf\Tag\Tr;
+use olympic\models\auth\Profiles;
+use olympic\repositories\auth\ProfileRepository;
 
 class UserAisService
 {
@@ -40,6 +42,7 @@ class UserAisService
     private $agreementRepository;
     private $organizationsRepository;
     private $statementCgRepository;
+    private $profileRepository;
 
 
     public function __construct(RepositoryDeleteSaveClass $repository,
@@ -52,7 +55,8 @@ class UserAisService
                                 StatementRejectionCgRepository $statementRejectionCgRepository,
                                 StatementCgRepository $statementCgRepository,
                                 AgreementRepository $agreementRepository,
-                                DictOrganizationsRepository $organizationsRepository)
+                                DictOrganizationsRepository $organizationsRepository,
+                                ProfileRepository $profileRepository)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
@@ -65,6 +69,7 @@ class UserAisService
         $this->agreementRepository = $agreementRepository;
         $this->organizationsRepository = $organizationsRepository;
         $this->statementCgRepository = $statementCgRepository;
+        $this->profileRepository = $profileRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -76,10 +81,10 @@ class UserAisService
         });
     }
 
-    public function addData($model, $id)
+    public function addData($model, $id, $email_id)
     {
-        $this->transactionManager->wrap(function () use ($model, $id) {
-            $this->statusSuccess($model, $id);
+        $this->transactionManager->wrap(function () use ($model, $id, $email_id) {
+            $this->statusSuccess($model, $id, $email_id);
         });
     }
 
@@ -168,21 +173,63 @@ class UserAisService
         }
     }
 
-    private function statusSuccess($model, $id)
+    private function statusSuccess($model, $id, $email_id)
     {
         if ($model == Statement::class) {
             $statement = $this->statementRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->statementRepository->save($statement);
+            $text = $statement->textEmail;
+            $user = $statement->user_id;
+            $this->successSend($email_id, $user, $text);
         } elseif ($model == StatementConsentCg::class) {
             $statement = $this->consentCgRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->consentCgRepository->save($statement);
+            $text = $statement->textEmail;
+            $user = $statement->statementCg->statement->user_id;
+            $this->successSend($email_id, $user, $text);
         } elseif ($model == StatementIndividualAchievements::class) {
             $statement = $this->individualAchievementsRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
             $this->individualAchievementsRepository->save($statement);
+            $text = $statement->textEmail;
+            $user = $statement->user_id;
+            $this->successSend($email_id, $user, $text);
+        }
+
+
+    }
+
+
+    public function successSend($email_id, $user_id,  $text)
+    {
+        $profile = $this->profileRepository->getUser($user_id);
+        try {
+            $this->sendEmailSuccess($email_id, $profile, $text)->send();
+            \Yii::$app->session->setFlash('success', 'Отправлено.');
+        } catch (\Swift_TransportException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
         }
     }
+
+    private function sendEmailSuccess($emailId, Profiles $profile, $text)
+    {
+        $mailer = \Yii::$app->selectionCommitteeMailer;
+        $mailer->idSettingEmail = $emailId;
+
+        $configTemplate =  ['html' => 'successEntrant-html', 'text' => 'successEntrant-text'];
+        $configData = ['profile' => $profile, 'text'=>$text];
+        return $mailer
+            ->mailer()
+            ->compose($configTemplate, $configData)
+            ->setFrom([$mailer->getFromSender() => \Yii::$app->name . ' robot'])
+            ->setTo($profile->user->email)
+
+            ->setSubject('Проверка ' . \Yii::$app->name);
+    }
+
+
+
 
 }

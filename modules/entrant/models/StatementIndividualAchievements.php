@@ -146,6 +146,10 @@ class StatementIndividualAchievements extends ActiveRecord
             $this->counter;
     }
 
+    public function getTextEmail() {
+        return "Ваше заявление об учете индивидуальных достижений №".$this->numberStatement." рассмотрено";
+    }
+
     public static function find(): StatementIAQuery
     {
         return new StatementIAQuery(static::class);

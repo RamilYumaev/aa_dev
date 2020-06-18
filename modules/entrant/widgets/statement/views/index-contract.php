@@ -57,7 +57,6 @@ use modules\entrant\widgets\file\FileListWidget;
                         </table>
                      </td>
                  </tr>
-
             <?php endforeach; ?>
         </table>
         <?php else: ?>

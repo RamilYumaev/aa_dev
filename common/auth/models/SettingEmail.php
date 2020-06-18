@@ -2,6 +2,7 @@
 namespace common\auth\models;
 use common\auth\forms\SettingEmailCreateForm;
 use common\auth\forms\SettingEmailEditForm;
+use olympic\models\auth\Profiles;
 
 /**
  * This is the model class for table "auth".
@@ -79,7 +80,10 @@ class SettingEmail extends \yii\db\ActiveRecord
     {
         $email = new static();
         return $email->attributeLabels();
+    }
 
+    public function getProfile() {
+        return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
     }
 
 }

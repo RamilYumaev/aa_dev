@@ -109,4 +109,8 @@ class StatementConsentCg extends ActiveRecord
         return new StatementConsentCgQuery(static::class);
     }
 
+    public function getTextEmail() {
+        return 'Ваше заявление о согласии на зачисление "'.$this->statementCg->cg->fullNameB.'" принято';
+    }
+
 }

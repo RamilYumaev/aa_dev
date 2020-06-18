@@ -13,6 +13,7 @@ $maxFileSize = TestQuestionHelper::FILE_VALIDATE_RULES[$quent->question->file_ty
 <?php endif; ?>
 <?= FileInput::widget([
     'name' => 'AnswerAttempt[file]',
+    'language'=> 'ru',
     'options'=> ['name' => 'AnswerAttempt[file]'],
     'pluginOptions'=>[
         'maxFileCount' => 1,

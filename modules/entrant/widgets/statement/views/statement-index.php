@@ -43,7 +43,9 @@ use yii\helpers\Html;
                     ['label' => $statement->faculty->full_name . ", " . $statement->speciality->getCodeWithName() . ",<br/>Заявление № "
                         . $statement->numberStatement . " <span class=\"label label-"
                         . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span> ". ($statement->statementRejection ?
-                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : ""),
+                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : "").
+                         ($statement->message ? "<br/> Причина отклонения: ".  $statement->message :""),
+
                         'content' => $resultData,
                         'contentOptions' => ['class' => 'out']];
 
