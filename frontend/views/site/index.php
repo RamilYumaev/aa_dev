@@ -113,10 +113,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
                 Как подать документы онлайн (читать инструкцию)>></a></h2>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/eWic-dhAr6Q?controls=0" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p align="justify">С помощью Личного кабинета Вы можете зарегистрироваться на День открытых дверей, принять
-            участие
-            в олимпиадах МПГУ, получать актуальные данные о проходном балле, конкурсе направлений подготовки, следить
-            за конкурсной ситуацией во время приемной кампании и многое другое</p>
+        <p align="justify">С помощью Личного кабинета Вы можете подать докуенты в МПГУ</p>
         <p align="justify">Для начала пользования сервисами поступающего необходимо завести личный кабинет.</p>
 
         <a class="btn btn-primary btn-lg mpgu-btn" href="/sign-up/request" role="button">завести Личный
