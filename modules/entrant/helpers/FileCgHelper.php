@@ -152,10 +152,10 @@ class FileCgHelper
                   $array[$key]['special_right']= DictCompetitiveGroupHelper::specialRightName($cgUser->special_right_id);
                   $array[$key]['contract'] = self::finance($userId, $cgUser->faculty_id, $cgUser->speciality_id,
                     $cgUser->education_form_id,
-                    $cgUser->specialization_id, DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
+                    $cgUser->specialization_id, $cgUser->special_right_id,DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
                     $array[$key]['budget'] = self::finance($userId, $cgUser->faculty_id, $cgUser->speciality_id,
                         $cgUser->education_form_id,
-                        $cgUser->specialization_id, DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+                        $cgUser->specialization_id, $cgUser->special_right_id, DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
         }
              return $array;
     }
@@ -178,12 +178,12 @@ class FileCgHelper
         return [['name'=>DictFacultyHelper::facultyName($facultyId)]];
     }
 
-    public static function finance($userId, $facultyId, $specialityId, $eduForm, $specialisation, $typeFinance)
+    public static function finance($userId, $facultyId, $specialityId, $eduForm, $specialisation, $specialRight,  $typeFinance)
     {
         $finance = DictCompetitiveGroupHelper::financeUser($userId,
             $facultyId, $specialityId,
             $eduForm,
-            $specialisation);
+            $specialisation, $specialRight);
 
         return in_array($typeFinance, $finance) ? "X" : "";
 
