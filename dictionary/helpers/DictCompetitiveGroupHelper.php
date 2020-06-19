@@ -454,7 +454,8 @@ class DictCompetitiveGroupHelper
                     arsort($array);
                     foreach ($array as $key1 => $value1) {
                         if(key_exists($key1, $arrayComposite)) {
-                            $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$key1] . " балл(-а, ов), ";
+                            $ex .= $value['name'] . ", ";
+                           /* $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$key1] . " балл(-а, ов), "; */
                         break;
                         }
                     }
@@ -491,9 +492,11 @@ class DictCompetitiveGroupHelper
                     if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
                         if (array_key_exists($value['id'], $dataCse)) {
                             if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                                $ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                                $ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " , ";
+                                /*$ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";*/
                             } else {
-                                $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";
+                                $ex .= $value['name'] .", ";
+                                /* $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), "; */
                             }
                         }
 
