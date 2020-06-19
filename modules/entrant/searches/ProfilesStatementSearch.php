@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 
 class ProfilesStatementSearch extends  Model
 {
-    public $last_name, $first_name, $patronymic, $gender, $country_id, $region_id, $phone;
+    public $last_name, $first_name, $patronymic, $gender, $country_id, $region_id, $phone, $user_id;
     private $jobEntrant;
     private $type;
 
@@ -22,7 +22,7 @@ class ProfilesStatementSearch extends  Model
     public function rules()
     {
         return [
-            [['gender', 'country_id', 'region_id', 'phone' ], 'integer'],
+            [['gender', 'country_id', 'region_id', 'phone', 'user_id'], 'integer'],
             [['last_name', 'first_name', 'patronymic',], 'safe'],
         ];
     }
@@ -45,6 +45,7 @@ class ProfilesStatementSearch extends  Model
         }
 
         $query->andFilterWhere([
+            'statement.user_id'=>$this->user_id,
             'gender'=>$this->gender,
             'country_id'=> $this->country_id,
             'region_id' =>$this->region_id,

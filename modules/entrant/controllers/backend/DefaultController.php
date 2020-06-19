@@ -3,6 +3,7 @@
 namespace modules\entrant\controllers\backend;
 
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
 use modules\entrant\searches\ProfilesStatementSearch;
@@ -104,6 +105,18 @@ class DefaultController extends Controller
         $profile = $this->findModel($user);
         return $this->render('files', [
             'profile' => $profile
+        ]);
+    }
+
+    public function actionExcel()
+    {
+        \moonland\phpexcel\Excel::widget([
+            'asAttachment'=>true,
+            'fileName' => date('d-m-Y H-i-s').' file',
+            'models' => (new ProfileStatementReadRepository($this->jobEntrant))->readData(AisReturnDataHelper::AIS_NO)->all(),
+            'mode' => 'export', //default value as 'export'
+            'columns' => ['user_id'], //without header working, because the header will be get label from attribute label.
+            'headers' => ['user_id'=> "Юзер ID"],
         ]);
     }
 

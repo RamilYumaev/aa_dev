@@ -11,7 +11,7 @@ use modules\entrant\helpers\ItemsForSignatureApp;
 use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
 
-$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
+$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
 
 $cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);

@@ -138,13 +138,13 @@ class FileCgHelper
         return [AddressHelper::registrationResidence($userId)];
     }
 
-    public static function cgUser($userId, $facultyId, $specialityId, $ids)
+    public static function cgUser($userId, $facultyId, $specialityId, $special_right,  $ids)
     {
           $array = [];
           foreach ( DictCompetitiveGroupHelper::facultySpecialityAllUser(
                 $userId,
                 $facultyId,
-                $specialityId, $ids) as $key => $cgUser)  /* @var $cgUser dictionary\models\DictCompetitiveGroup */
+                $specialityId, $special_right, $ids) as $key => $cgUser)  /* @var $cgUser dictionary\models\DictCompetitiveGroup */
                 {
                   $array[$key]['speciality']=  $cgUser->specialty->code." ".$cgUser->specialty->name;
                   $array[$key]['specialization']=  $cgUser->specialization->name ?? "";
