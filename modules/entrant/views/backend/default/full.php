@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $anketa = $profile->anketa;
 $userId = $profile->user_id;
+
 ?>
 <?= !$profile->ais ? Html::a("Экспорт в АИС", ['communication/export-data', 'user' => $userId], ['data-method' => 'post', 'class' => 'btn btn-success']) : "" ?>
 

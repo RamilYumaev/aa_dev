@@ -29,7 +29,6 @@ class FileService
 
     public function create(FileForm $form, BaseActiveRecord $model)
     {
-        $this->manager->wrap(function ()use ($form, $model) {
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
             if (FileHelper::listCountModels()[$model::className()]) {
@@ -44,8 +43,8 @@ class FileService
             $modelFile  = File::create($form->file_name, $form->user_id, $model::className(), $model->id);
             $this->repository->save($modelFile);
 
-        }});
-        return null;
+            return $modelFile;
+            }
     }
 
     public function correctImageFile(UploadedFile $file) {

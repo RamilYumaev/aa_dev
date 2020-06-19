@@ -18,7 +18,7 @@ use yii\helpers\Html;
         <div class="panel-heading"><h4>Заявления об участии в конкурсе
                 <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
                 <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?>
-                <?= $isContract ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract") : ""?>
+                <?php /* $isContract ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract") : "" */?>
             </h4>
 
 
@@ -43,7 +43,7 @@ use yii\helpers\Html;
                     ['label' => $statement->faculty->full_name . ", " . $statement->speciality->getCodeWithName() . ",<br/>Заявление № "
                         . $statement->numberStatement . " <span class=\"label label-"
                         . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span> ". ($statement->statementRejection ?
-                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : "").
+                        "(". "Заявление об отзыве <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : "").
                          ($statement->message ? "<br/> Причина отклонения: ".  $statement->message :""),
 
                         'content' => $resultData,

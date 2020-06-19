@@ -9,6 +9,7 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\services\SubmittedDocumentsService;
 use Mpdf\Mpdf;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -41,8 +42,25 @@ class PostDocumentController extends Controller
                     'send'=> ['POST']
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['index', 'send', 'mail', 'visit', 'online', 'ecp','consent-rejection', 'statement-rejection'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                        ],
+                    [
+                        'actions' => ['agreement-contract'],
+                        'allow' => true,
+                        'roles' => ['call-center'],
+                    ],
+
+                ],
+            ],
         ];
     }
+
     public function beforeAction($action)
     {
         if(!PostDocumentHelper::isCorrectBlocks($this->getUserId())) {

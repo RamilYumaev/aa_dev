@@ -100,6 +100,10 @@ class File extends ActiveRecord
         return  Yii::$app->getSecurity()->encryptByKey($this->record_id, $this->model);
     }
 
+    public function getHashId() {
+        return  '#'.FileHelper::listHash()[$this->model].$this->record_id;
+    }
+
 
     public function behaviors()
     {

@@ -2,6 +2,7 @@
 namespace modules\entrant\readRepositories;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
@@ -52,12 +53,12 @@ class ProfileStatementReadRepository
 
         elseif($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::TARGET_COMPETITION,
-                    CategoryStruct::COMPATRIOT_COMPETITION]]);
+                    CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere(['citizenship_id'=> DictCountryHelper::TASHKENT_AGREEMENT]);
         }
 
         elseif($this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
-                CategoryStruct::COMPATRIOT_COMPETITION]]);
+                CategoryStruct::COMPATRIOT_COMPETITION]])->andWhere(['citizenship_id'=> DictCountryHelper::RUSSIA]);
         }
 
 

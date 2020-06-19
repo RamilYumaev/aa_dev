@@ -25,7 +25,7 @@ use modules\entrant\widgets\file\FileListWidget;
                     <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                                 <?=$consent->statusName?></span> <br />
                         <?= ($consent->statementCgRejection ?
-                        "(". "Отозванное заявление <span class=\"label label-" . StatementHelper::colorName($consent->statementCgRejection ->status_id) . "\">" . $consent->statementCgRejection->statusName . "</span>".")" : "") ?>
+                        "(". "Заявление об отзыве <span class=\"label label-" . StatementHelper::colorName($consent->statementCgRejection ->status_id) . "\">" . $consent->statementCgRejection->statusName . "</span>".")" : "") ?>
                     </td>
                 </tr>
             </table>
