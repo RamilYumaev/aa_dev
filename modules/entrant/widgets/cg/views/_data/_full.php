@@ -36,7 +36,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             $finance = DictCompetitiveGroupHelper::financeUser($userId,
                 $cgUser->faculty_id, $cgUser->speciality_id,
                 $cgUser->education_form_id,
-                $cgUser->specialization_id);
+                $cgUser->specialization_id,
+                $cgUser->special_right_id);
             ?>
             <tr>
                 <td><?=++$key?></td>

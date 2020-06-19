@@ -629,23 +629,25 @@ class DictCompetitiveGroupHelper
         return true;
     }
 
-    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id)
+    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id, $specRight)
     {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
             ->formEdu($education_form_id)
+            ->specialRight($specRight)
             ->specialization($specialization_id)
             ->select(['financing_type_id'])
             ->column();
     }
 
 
-    public static function idAllUser($user_id, $faculty_id, $speciality_id, $form)
+    public static function idAllUser($user_id, $faculty_id, $speciality_id, $specRight, $form)
     {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
+            ->specialRight($specRight)
             ->formEdu($form)
             ->select(['id'])
             ->column();
