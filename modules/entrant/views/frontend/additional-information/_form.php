@@ -1,12 +1,13 @@
 <?php
 /* @var $model modules\entrant\forms\AdditionalInformationForm */
 /* @var $form yii\bootstrap\ActiveForm */
+/* @var $anketaMoscow bool */
+/* @var $addressMoscow \modules\entrant\models\Address */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-
 ?>
 <div class="container">
     <div class="row">
@@ -20,8 +21,10 @@ use yii\helpers\Html;
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>
-            <?php if (DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>
+            <?php if ($anketaMoscow && DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>
+            <?php if (is_null($addressMoscow) || ($addressMoscow && !$addressMoscow->isMoscow())): ?>
                 <?= $form->field($model, 'hostel_id')->checkbox(); ?>
+            <?php endif; ?>
             <?php endif; ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

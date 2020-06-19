@@ -7,6 +7,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
 /* @var $this yii\web\View */
 /* @var $additional_information modules\entrant\models\AdditionalInformation */
+/* @var $addressMoscow \modules\entrant\models\Address */
 
 ?>
 <div class="row">
@@ -22,10 +23,12 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                     'mpguTraining'
                 ];
                 ?>
-                <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
+                <?php if ($additional_information->anketa->isMoscow()
+                    && DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
+                    <?php if (is_null($addressMoscow) || ($addressMoscow && !$addressMoscow->isMoscow())): ?>
                     <?php array_push($columns, 'hostel') ?>
                 <?php endif; ?>
-
+                <?php endif; ?>
                 <?php if(DictCompetitiveGroupHelper::eduSpoExistsUser($additional_information->user_id)): ?>
                     <?php if(!$additional_information->mark_spo): ?>
                         <p class="bg-danger m-10">

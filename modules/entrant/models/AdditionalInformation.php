@@ -99,6 +99,12 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return DictDefaultHelper::name($this->mpgu_training_status_id);
     }
 
+    public function getAnketa()
+    {
+        return $this->hasOne(Anketa::class, ['user_id' => 'user_id']);
+    }
+
+
 
     public function dataArray(): array
     {

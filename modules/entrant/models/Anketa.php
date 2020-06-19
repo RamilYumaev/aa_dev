@@ -140,6 +140,10 @@ class Anketa extends ActiveRecord
         return $this->citizenship_id == 13;
     }
 
+    public function isMoscow()
+    {
+        return $this->university_choice == AnketaHelper::HEAD_UNIVERSITY;
+    }
 
     public function attributeLabels()
     {

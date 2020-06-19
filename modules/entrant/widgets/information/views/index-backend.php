@@ -8,6 +8,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
 /* @var $this yii\web\View */
 /* @var $additional_information modules\entrant\models\AdditionalInformation */
+/* @var $addressMoscow \modules\entrant\models\Address */
 
 ?>
 <?php Box::begin(
@@ -26,8 +27,11 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
     ];
     ?>
-    <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
-        <?php array_push($columns, 'hostel') ?>
+    <?php if ($additional_information->anketa->isMoscow()
+        && DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
+        <?php if (is_null($addressMoscow) || ($addressMoscow && !$addressMoscow->isMoscow())): ?>
+            <?php array_push($columns, 'hostel') ?>
+        <?php endif; ?>
     <?php endif; ?>
     <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($additional_information->user_id)): ?>
         <?php array_push($columns, 'mark_spo') ?>

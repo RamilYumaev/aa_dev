@@ -95,6 +95,10 @@ class Address extends YiiActiveRecordAndModeration
         return  DictCountryHelper::countryName($this->country_id);
     }
 
+    public function isMoscow() {
+        return preg_match('/москва/ui', $this->region);
+    }
+
     public static function tableName()
     {
         return "{{%address}}";
