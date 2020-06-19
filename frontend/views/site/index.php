@@ -23,11 +23,11 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     </div>
 
 
-    <div class="col-md-2" align="center">
-        <?php if (!Yii::$app->user->isGuest) {
-            Html::a(Html::img('@web/img/cabinet/olympiads.png')
-                . '<br/>Записаться на олимпиады', '/olympiads');
-        } ?>
+<!--    <div class="col-md-2" align="center">-->
+<!--        --><?php //if (!Yii::$app->user->isGuest) {
+//            Html::a(Html::img('@web/img/cabinet/olympiads.png')
+//                . '<br/>Записаться на олимпиады', '/olympiads');
+//        } ?>
 
         <!--        </div>-->
 
@@ -39,13 +39,13 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <!---->
         <!--        </div>-->
 
-        <!--    <div class="col-md-2" align="center">-->
-        <!--        --><?php //if (!Yii::$app->user->isGuest) {
-        //            echo Html::a(Html::img('@web/img/cabinet/online.png')
-        //                . '<br/>Подача документов', '/abiturient/anketa/step1');
-        //        } ?>
-        <!---->
-        <!--    </div>-->
+            <div class="col-md-2" align="center">
+                <?php if (!Yii::$app->user->isGuest) {
+                    echo Html::a(Html::img('@web/img/cabinet/online.png')
+                        . '<br/>Подача документов', '/abiturient/anketa/step1');
+                } ?>
+
+            </div>
 
 
         <!--        <div class="col-md-2" align="center">-->
@@ -108,6 +108,11 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <p>Серверное время: <?= \date("Y-m-d G:i:s") ?></p>
         <?php endif;?>
         <h1>Добро пожаловать в Личный кабинет<br/> поступающего в МПГУ!</h1>
+        <h2 align="center">
+            <a href="https://docs.google.com/document/d/1ziiGMWfpqqBbdiOze-HrHgOmZHCdDqyI8g9KZBaZScU/edit?usp=sharing">
+                Как подать документы онлайн (читать инструкцию)>></a></h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/eWic-dhAr6Q?controls=0" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <p align="justify">С помощью Личного кабинета Вы можете зарегистрироваться на День открытых дверей, принять
             участие
             в олимпиадах МПГУ, получать актуальные данные о проходном балле, конкурсе направлений подготовки, следить
