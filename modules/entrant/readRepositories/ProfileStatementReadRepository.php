@@ -58,7 +58,7 @@ class ProfileStatementReadRepository
 
         elseif($this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
-                CategoryStruct::COMPATRIOT_COMPETITION]])->andWhere(['citizenship_id'=> DictCountryHelper::RUSSIA]);
+                CategoryStruct::COMPATRIOT_COMPETITION]])->andWhere(['not in','citizenship_id', DictCountryHelper::TASHKENT_AGREEMENT]);
         }
 
 
