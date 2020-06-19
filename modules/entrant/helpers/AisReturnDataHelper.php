@@ -32,7 +32,7 @@ class AisReturnDataHelper
     public static function status() {
         return[
             self::AIS_YES =>"Принятые",
-            self::AIS_NO =>"Непринятые",
+            self::AIS_NO =>"Необработанные",
             ];
     }
 

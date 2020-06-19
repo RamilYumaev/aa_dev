@@ -594,11 +594,12 @@ class DictCompetitiveGroupHelper
     }
 
 
-    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $ids = null)
+    public static function facultySpecialityAllUser($user_id, $faculty_id, $speciality_id, $special_right, $ids = null)
     {
         $model = DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
+            ->specialRight($special_right)
             ->select(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->groupBy(['user_id', 'speciality_id', 'edu_level', 'special_right_id', 'education_form_id', 'faculty_id', 'specialization_id']);
 

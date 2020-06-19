@@ -31,7 +31,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         foreach (DictCompetitiveGroupHelper::facultySpecialityAllUser(
             $userId,
             $cg->faculty->id,
-            $cg->speciality_id) as $key => $cgUser) /* @var $cgUser dictionary\models\DictCompetitiveGroup */ :
+            $cg->speciality_id,
+            $cg->special_right_id) as $key => $cgUser) /* @var $cgUser dictionary\models\DictCompetitiveGroup */ :
             $finance = DictCompetitiveGroupHelper::financeUser($userId,
                 $cgUser->faculty_id, $cgUser->speciality_id,
                 $cgUser->education_form_id,

@@ -3,10 +3,8 @@
 
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
-use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\SelectDataHelper;
-use modules\entrant\helpers\StatementHelper;
 use olympic\helpers\auth\ProfileHelper;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -16,20 +14,22 @@ use yii\helpers\Html;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 
-$type = $type ? " (".AisReturnDataHelper::statusName($type).")" : "";
-$this->title = 'Абитуриенты'.$type;
+$typeString = $type ? " (".AisReturnDataHelper::statusName($type).")" : "";
+$this->title = 'Абитуриенты'.$typeString;
 
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div>
     <div class="box">
+        <div class="box-header"><?= $type && $type == AisReturnDataHelper::AIS_NO ? Html::a("Excel Юзер Id ",['excel'],['class'=> "btn btn-success"]): ""?></div>
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
+                    'user_id',
                     'last_name', 'first_name', 'patronymic',
                     ['attribute'=>'gender',
                       'value' => 'genderName',

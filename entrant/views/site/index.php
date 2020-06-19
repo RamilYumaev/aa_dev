@@ -17,10 +17,10 @@ if(!Yii::$app->user->isGuest ) {
 $this->title= "Главная. ".$text;
 ?>
 <?php if($jobEntrant): ?>
-  <?php if($jobEntrant->isCategoryCOZ()): ?>
+  <?php if($jobEntrant->isCategoryCOZ()):?>
     <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
-    <?php if($jobEntrant->isCategoryFOK()): ?>
+    <?php if($jobEntrant->isCategoryFOK()):?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryTarget()): ?>
@@ -30,6 +30,7 @@ $this->title= "Главная. ".$text;
         <?= $this->render('_mpgu',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryUMS()): ?>
+        <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryGraduate()): ?>

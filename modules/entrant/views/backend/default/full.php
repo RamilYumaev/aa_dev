@@ -2,8 +2,6 @@
 /* @var $this yii\web\View */
 
 /* @var $profile olympic\models\auth\Profiles */
-
-use modules\entrant\helpers\CseViSelectHelper;
 use yii\helpers\Html;
 
 $this->title = $profile->getFio() . '. Персональная карточка поступающего';
