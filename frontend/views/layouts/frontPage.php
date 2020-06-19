@@ -37,9 +37,9 @@ AppAsset::register($this);
     require_once ('_menu.php');
     ?>
 
-    <?php if (Yii::$app->user->isGuest) {
-        echo Html::img('@web/img/main_banner.jpg', ['width' => '100%', 'height' => '100%', 'class' => 'hidden-xs mt-30']);
-    } ?>
+<!--    --><?php //if (Yii::$app->user->isGuest) {
+//        echo Html::img('@web/img/main_banner.jpg', ['width' => '100%', 'height' => '100%', 'class' => 'hidden-xs mt-30']);
+//    } ?>
     <?php
     require_once ('switcher-user.php');
     ?>

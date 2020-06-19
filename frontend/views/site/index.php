@@ -108,13 +108,13 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <p>Серверное время: <?= \date("Y-m-d G:i:s") ?></p>
         <?php endif;?>
         <h1>Добро пожаловать в Личный кабинет<br/> поступающего в МПГУ!</h1>
-        <h2 align="center">
+        <h4 align="center">
             <a href="https://docs.google.com/document/d/1ziiGMWfpqqBbdiOze-HrHgOmZHCdDqyI8g9KZBaZScU/edit?usp=sharing">
-                Как подать документы онлайн (читать инструкцию)>></a></h2>
+                Как подать документы онлайн (читать инструкцию)>></a></h4>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/eWic-dhAr6Q?controls=0" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p align="justify">С помощью Личного кабинета Вы можете подать докуенты в МПГУ</p>
-        <p align="justify">Для начала пользования сервисами поступающего необходимо завести личный кабинет.</p>
+        <p align="center">С помощью Личного кабинета Вы можете подать докуенты в МПГУ.
+       Для начала пользования сервисами поступающего необходимо завести личный кабинет.</p>
 
         <a class="btn btn-primary btn-lg mpgu-btn" href="/sign-up/request" role="button">завести Личный
             кабинет</a>
