@@ -105,7 +105,7 @@ $och = false;
 
 <table width="100%">
     <tr>
-        <td width="80%"> <?php if ($och): ?>
+        <td width="80%"> <?php if (\Yii::$app->user->identity->anketa()->isMoscow() && $och): ?>
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
             <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
