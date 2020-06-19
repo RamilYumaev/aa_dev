@@ -125,6 +125,16 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return $string;
     }
 
+    public function getOtherDocumentFullStatement(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'type_note','id','exemption_id', 'amount']) as  $key => $value) {
+            if($value) {
+                $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
 
     public function getPreemptiveRights() {
         return $this->hasMany(PreemptiveRight::class, ['other_id'=> 'id']);

@@ -342,6 +342,11 @@ class Anketa extends ActiveRecord
         return $this->hasMany(UserSchool::class, ['user_id' => 'user_id'])->andWhere(['edu_year' => EduYearHelper::eduYear()])->one();
     }
 
+    public function spoNpo()
+    {
+        return $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_NPO || $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SPO;
+    }
+
 //    public function getCategory()
 //    {
 //        return $this->hasOne(DictCategory::class, ['id' => 'category_id']);

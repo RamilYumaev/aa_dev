@@ -6,13 +6,15 @@
 /* @var $statement modules\entrant\models\Statement */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\DocumentEducationHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\AdditionalInformationHelper;
 use modules\entrant\helpers\ItemsForSignatureApp;
 use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
+use \modules\entrant\models\OtherDocument;
 
-$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
+$userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right, $statement->columnIdCg());
 
 $cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);
@@ -21,6 +23,14 @@ $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializatio
 $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
+
+$education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $statement->user_id]);
+
+$examBase = "Основание для допуска к сдаче вступительных испытаний:";
+
+
+$otherDocument = OtherDocument::find()
+    ->andWhere(['user_id' => $statement->user_id, 'exemption_id' => true])->one();
 
 $och = false;
 ?>
@@ -80,7 +90,15 @@ $och = false;
 <?php if ($noCse): ?>
     <p>
         Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
-        Основание для допуска к сдаче вступительных испытаний: <?= $anketa['currentEduLevel'] ?>.
+
+
+        <?php if ($otherDocument): ?>
+            <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
+        <?php elseif (\Yii::$app->user->identity->anketa()->is_foreigner_edu_organization) ://@todo?>
+            <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
+        <?php elseif (\Yii::$app->user->identity->anketa()->spoNpo()): ?>
+            <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
+        <?php endif; ?>
     </p>
 <?php endif; ?>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
