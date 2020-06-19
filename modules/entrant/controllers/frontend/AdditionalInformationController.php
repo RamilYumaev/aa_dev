@@ -2,10 +2,14 @@
 namespace modules\entrant\controllers\frontend;
 
 use modules\entrant\forms\AdditionalInformationForm;
+use modules\entrant\helpers\AddressHelper;
 use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\Address;
+use modules\entrant\models\Anketa;
 use modules\entrant\services\AdditionalInformationService;
 use yii\web\Controller;
 use Yii;
+use function GuzzleHttp\Psr7\normalize_header;
 
 class AdditionalInformationController extends Controller
 {
@@ -35,7 +39,10 @@ class AdditionalInformationController extends Controller
         }
         return $this->render('index', [
             'model' => $form,
-            'additional' => $model
+            'additional' => $model,
+            'anketaMoscow' => $this->anketa()->isMoscow(),
+            'addressMoscow' => $this->address(),
+
         ]);
     }
 
@@ -47,5 +54,21 @@ class AdditionalInformationController extends Controller
     private function getUserId()
     {
         return  Yii::$app->user->identity->getId();
+    }
+
+    protected function anketa()
+    {
+        if (\Yii::$app->user->isGuest) {
+            return $this->redirect('default/index');
+        }
+        return Anketa::findOne(['user_id' => $this->getUserId()]);
+    }
+
+    protected function address()
+    {
+        if (Address::find()->where(['type'=>AddressHelper::TYPE_REGISTRATION, 'user_id'=>$this->getUserId()])->exists()) {
+            return Address::findOne(['type'=>AddressHelper::TYPE_REGISTRATION, 'user_id'=>$this->getUserId()]);
+        }
+        return null;
     }
 }

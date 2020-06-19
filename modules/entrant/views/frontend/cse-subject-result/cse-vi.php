@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         "/abiturient", ["class" => "btn btn-warning btn-lg"]) ?>
                 </div>
             </div>
-            <p>Если вы не знаете балл ЕГЭ, то введите значение 50</p>
+            <p class="label label-danger" align="justify">Если вы не знаете балл ЕГЭ, то введите значение 50</p>
             <?= \modules\entrant\widgets\examinations\ExaminationsWidget::widget(['userId' => $userId = Yii::$app->user->identity->getId()]);?>
         </div>
     </div>
