@@ -17,6 +17,7 @@ use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -95,7 +96,9 @@ class FileController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form, $modelOne);
+               $model = $this->service->create($form, $modelOne);
+                $link = $model ? $model->hashId : "";
+                return $this->redirect(Yii::$app->request->referrer.$link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -126,6 +129,8 @@ class FileController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($file->id, $form);
+                $link = $file ? $file->hashId : "";
+                return $this->redirect(Yii::$app->request->referrer.$link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -196,12 +201,13 @@ class FileController extends Controller
     {
         $modelName = FileHelper::validateModel($hash);
         $model = $this->findModel($id, $modelName);
+        $hashId= $model->hashId;
         try {
             $this->service->remove($model->id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer.$hashId);
     }
 }

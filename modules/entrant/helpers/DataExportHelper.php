@@ -214,7 +214,7 @@ class DataExportHelper
                     ];
                 foreach ($cse[$key] as $data) {
                     $result['documentsCse'][$n]['subject'][] = [
-                        'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['ex']),
+                        'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['cse']),
                         'mark' => $data['mark'],
                     ];
                 }

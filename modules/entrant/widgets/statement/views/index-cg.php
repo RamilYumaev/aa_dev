@@ -41,7 +41,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                 <tr>
                                     <td colspan="2"> <?= FileListWidget::widget(['record_id' => $consent->id, 'model' => \modules\entrant\models\StatementConsentCg::class, 'userId' => $statement->statement->user_id]) ?></td>
                                 </tr>
-                                <?php if ($consent->statusAccepted()): ?>
+                                <?php if ($consent->isStatusAccepted()): ?>
                                     <tr>
                                         <td>
                                             <?= $consent->statementCgRejection ?

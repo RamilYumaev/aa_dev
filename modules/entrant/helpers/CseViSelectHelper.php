@@ -56,12 +56,14 @@ class CseViSelectHelper
                     $array[$value[0]][] = [
                         'ex' => $item,
                         'language'=> $value[1],
+                        'cse'=> $value[1],
                         'mark' => $value[2],
                     ] ;
                 } else {
                     $array[$value[0]][0] = [
-                      'ex' => $item,
+                        'ex' => $item,
                         'language'=> $value[1],
+                        'cse'=> $value[1],
                         'mark' => $value[2]
                     ];
                 }

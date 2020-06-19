@@ -4,6 +4,7 @@
 namespace modules\entrant\controllers\frontend;
 
 
+use dictionary\helpers\DictCountryHelper;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\models\Address;
 use modules\entrant\services\AddressService;
@@ -40,6 +41,7 @@ class AddressController extends Controller
     public function actionCreate()
     {
         $form = new AddressForm($this->getUserId());
+        $form->country_id = DictCountryHelper::RUSSIA;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);

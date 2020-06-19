@@ -97,4 +97,22 @@ class FileHelper
         ];
     }
 
+    public static function listHash() {
+        return [
+            DocumentEducation::class => 'doc',
+            PassportData::class => "passport",
+            Address::class => "address",
+            OtherDocument::class => "other",
+            Agreement::class => "agreement",
+            StatementIndividualAchievements::class => "id",
+            Statement::class => "statement",
+            StatementConsentPersonalData::class => "personal",
+            StatementConsentCg::class => "consent",
+            StatementRejection::class =>'st-rejection',
+            StatementRejectionCgConsent::class => 'st-rejection-consent',
+            StatementAgreementContractCg::class=> 'st-agreement',
+            StatementRejectionCg::class =>'st-rejection-cg',
+        ];
+    }
+
 }
