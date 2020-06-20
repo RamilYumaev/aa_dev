@@ -94,17 +94,6 @@ if(!$och) {
 foreach ($signaturePoint as $signature) :?>
 
     <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
-    <?php if ($signature == ItemsForSignatureApp::SPECIAL_CONDITIONS) : ?>
-        <table width="100%">
-            <tr>
-                <td></td>
-                <td class="box-30-15 bordered-cell text-center"><?= $information['voz'] ? "X" : "" ?></td>
-                <td class="w-100">Нуждаюсь</td>
-                <td class="box-30-15 bordered-cell text-center"><?= !$information['voz'] ? "X" : "" ?></td>
-                <td>Не нуждаюсь</td>
-            </tr>
-        </table>
-    <?php endif; ?>
     <table width="100%">
         <tr>
             <td width="80%" rowspan="2"></td>
