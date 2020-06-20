@@ -22,7 +22,7 @@ class StatementIAMessageForm extends Model
     public function rules()
     {
         return [
-            ['message', 'string'],
+            ['message', 'string', 'max'=>255],
             ['message', 'required'],
         ];
     }
