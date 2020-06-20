@@ -33,7 +33,7 @@ class AgreementForm extends Model
     public function defaultRules()
     {
         return [
-            [['number', 'date'], 'required'],
+            [['date'], 'required'],
             [['organization_id'], 'integer'],
             ['organization_id', 'required', 'when' => function ($model) {
                 return !$model->check_new;

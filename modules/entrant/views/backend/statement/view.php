@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Заявления об участ
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= Html::a("Документы", ['default/files', 'user' => $statement->user_id], ['class' => 'btn btn-danger']) ?>
+<?= Html::a("data json", ['statement/data-json', 'id' => $statement->id], ['class' => 'btn btn-danger']) ?>
 <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' =>  $statement->user_id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
