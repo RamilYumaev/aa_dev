@@ -2,11 +2,11 @@
 
 
 namespace modules\entrant\controllers\backend;
-use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\StatementIndividualAchievementsMessageForm;
 use modules\entrant\forms\StatementMessageForm;
+use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -82,6 +82,20 @@ class StatementController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
+
+    public function actionDataJson($id) {
+        $statement = $this->findModel($id);
+        $result = DataExportHelper::dataIncomingStatement($statement->user_id, $statement->id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
 
     public function actionMessage($id)
     {

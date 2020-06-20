@@ -124,7 +124,7 @@ class DataExportHelper
         $statement = Statement::find()->user($userId)->statusNoDraft()->id($statementId)->one();
         $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
         foreach ($statement->statementCg as $currentApplication) {
-            $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
+            $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
                 $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
                 $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
                 $statement->user_id,

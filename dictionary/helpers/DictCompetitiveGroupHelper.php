@@ -421,6 +421,24 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function groupByExamsNoCseId($user_id, $faculty_id, $speciality_id, $ids, $cse)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->andWhere(['not', ['cse_subject_id'=> null]])
+            ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
+            ->asArray()
+            ->all();
+
+        return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
+
+    }
+
     public static function groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()
