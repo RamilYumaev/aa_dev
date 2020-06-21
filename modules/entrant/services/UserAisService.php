@@ -223,10 +223,10 @@ class UserAisService
         return $mailer
             ->mailer()
             ->compose($configTemplate, $configData)
-            ->setFrom([$mailer->getFromSender() => \Yii::$app->name . ' robot'])
+            ->setFrom([$mailer->getFromSender() => 'МПГУ робот'])
             ->setTo($profile->user->email)
 
-            ->setSubject('Проверка ' . \Yii::$app->name);
+            ->setSubject("Ваши документы в МПГУ приняты");
     }
 
 
