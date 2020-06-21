@@ -69,8 +69,14 @@ class ChartsController extends Controller
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                 DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]);
         }
+
         if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
             $query->faculty($this->jobEntrant->category_id);
+        }
+
+        if($this->jobEntrant->isCategoryGraduate()) {
+            $query->eduLevel([
+                DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
         }
         $query->select(['speciality_id', 'edu_level', 'education_form_id', 'faculty_id', 'specialization_id'])
             ->groupBy(['speciality_id', 'edu_level', 'education_form_id', 'faculty_id', 'specialization_id'])->orderBy(['edu_level'=> SORT_ASC]);
