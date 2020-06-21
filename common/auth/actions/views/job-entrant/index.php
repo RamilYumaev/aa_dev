@@ -20,6 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="login-box-body">
         <?= Alert::widget() ?>
         <?= Html::a('на главную', '/', ['class' => 'btn-lg']) ?>
+            <?= Html::beginForm(['/account/logout'], 'post', ['id' => 'logout'])
+            . Html::submitButton(
+                'Выйти',
+                ['class' => 'btn btn-danger pull-right']
+            )
+            . Html::endForm(); ?>
         <div class="login-logo">
             <h3><?= $this->title ?></h3>
             <h5>Данные сотрудника</h5>

@@ -102,7 +102,7 @@ class OtherDocumentForm extends Model
      */
     public function uniqueRules()
     {
-        $arrayUnique = [['type',], 'unique', 'targetClass' => OtherDocument::class, 'targetAttribute' => ['type', 'series', 'number', 'date']];
+        $arrayUnique = [['type',  'series', 'number'], 'unique', 'targetClass' => OtherDocument::class, 'targetAttribute' => ['type', 'series', 'number']];
         if ($this->_otherDocument) {
             return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_otherDocument->id]]);
         }
@@ -132,8 +132,5 @@ class OtherDocumentForm extends Model
         }
         return DictIncomingDocumentTypeHelper::listType($this->typeDocuments());
     }
-
-
-
 
 }
