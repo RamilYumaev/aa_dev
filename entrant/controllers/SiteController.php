@@ -3,7 +3,7 @@
 namespace entrant\controllers;
 
 use modules\entrant\components\UserNoJobEntrant;
-use yii\web\Controller;;
+use yii\web\Controller;
 
 
 class SiteController extends Controller

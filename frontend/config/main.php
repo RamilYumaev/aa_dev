@@ -27,11 +27,18 @@ return [
         'abiturient' => [
             'class' => \modules\entrant\FrontendEntrant::class,
             'viewPath' => "@modules/entrant/views/frontend",
-
         ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
+        'support' => [
+            'class' => \modules\support\ModuleFrontend::class,
+            'viewPath' => "@modules/support/views/frontend",
+            'yii2basictemplate' => false,
+            'adminMatchCallback' => false,//false - for frontend, true - for backend
+            'hashGenerator' => null,//user function for generation unique id for ticket or null for standart generator (The ticket id will be something like this: lkLHOoIho)
+        ],
+
     ],
     'controllerMap' => [
         'account' => [

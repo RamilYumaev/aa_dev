@@ -54,5 +54,6 @@ return [
             'assignmentTable' => '{{%auth_assignment}}',
             'ruleTable' => '{{%auth_rule}}',
         ],
+        'queue'=> ['class' => \yii\queue\sync\Queue::class, 'handle' => true,]
     ],
 ];

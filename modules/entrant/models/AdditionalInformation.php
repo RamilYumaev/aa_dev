@@ -52,7 +52,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->resource_id = $form->resource_id;
         $this->hostel_id = $form->hostel_id;
         $this->chernobyl_status_id = $form->chernobyl_status_id;
-        $this->mark_spo = $form->mark_spo;
+        $this->mark_spo = $form->mark_spo ? round($form->mark_spo, 2) : null;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
 

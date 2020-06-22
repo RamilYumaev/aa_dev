@@ -73,7 +73,16 @@ array_merge(
             ['label' => 'Перечень email ', 'url' => '/auth/setting-email'],
             ['label' => 'Шаблоны для рассылок ', 'url' => '/sending/dict-sending-template'],
             //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
-        ])]],
+        ])],
+        ['label' => 'Техническая поддержка', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Категории', 'url' => ['/support/category']],
+                ['label' => 'Последние тикеты ', 'url' =>  ['/support/default']],
+                //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
+            ])]
+
+    ],
+
 
     (Yii::$app->user->can('manager') ?
         [['label' => 'Дни открытых дверей', 'url' => '/dod/dod/',
