@@ -35,7 +35,7 @@ use yii\helpers\Html;
 <?php Box::end(); ?>
 
 <?php if($model->statement): ?>
-    <?php foreach ($model->satement as $statement): ?>
+    <?php foreach ($model->statement as $statement): ?>
     <?= \modules\entrant\widgets\statement\StatementBackendWidget::widget(['statement' => $statement]) ?>
 
 <?php endforeach; endif; ?>
