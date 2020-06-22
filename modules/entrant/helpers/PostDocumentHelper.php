@@ -62,14 +62,24 @@ class PostDocumentHelper
             AdditionalInformationHelper::isExits($user_id) &&
             AdditionalInformationHelper::isSpoMark($user_id) &&
             self::medicine($user_id) &&
+            self::exemptionNoParent($user_id) &&
             self::name($user_id) &&
             self::fioLatin($user_id);
     }
 
     private static function exemption($user_id)
     {
-        return OtherDocumentHelper::isExitsExemption($user_id) && self::common($user_id);
+        return OtherDocumentHelper::isExitsExemption($user_id, [1,2,3]) && self::common($user_id);
     }
+
+    public static function exemptionNoParent($user_id)
+    {
+        if (OtherDocumentHelper::isExitsExemption($user_id, 2)) {
+            return OtherDocumentHelper::isDocumentBirthday($user_id);
+        }
+        return true;
+    }
+
 
     private static function agreement($user_id)
     {

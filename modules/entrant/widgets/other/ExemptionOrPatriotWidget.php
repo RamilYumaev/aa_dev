@@ -12,7 +12,7 @@ class ExemptionOrPatriotWidget extends Widget
 
     public function run()
     {
-        $model = OtherDocument::findOne($this->arrayCondition());
+        $model = $this->arrayCondition();
         return $this->render($this->view, [
             'other' => $model,
             'type' => $this->type,
@@ -22,9 +22,9 @@ class ExemptionOrPatriotWidget extends Widget
     public function arrayCondition() {
         if($this->type === "patriot")
         {
-            return ['type' => 43,'user_id' => $this->userId ];
+            return OtherDocument::findOne(['type' => 43,'user_id' =>$this->userId ]);
         }
-        return ['exemption_id'=> true, 'user_id' => $this->userId];
+        return  OtherDocument::find()->where(['user_id' =>  $this->userId])->andWhere(['not',['exemption_id'=> null ]])->one();
     }
 
 

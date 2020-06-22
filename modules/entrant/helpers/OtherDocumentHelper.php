@@ -21,9 +21,9 @@ class OtherDocumentHelper
         ];
     }
 
-    public static function isExitsExemption($user_id): bool
+    public static function isExitsExemption($user_id, $category): bool
     {
-        return OtherDocument::find()->andWhere(['user_id' => $user_id, 'exemption_id'=> true])->exists();
+        return OtherDocument::find()->andWhere(['user_id' => $user_id, 'exemption_id'=> $category])->exists();
     }
 
     public static function isExitsPatriot($user_id): bool
@@ -34,6 +34,11 @@ class OtherDocumentHelper
     public static function isExitsMedicine($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=> DictIncomingDocumentTypeHelper::ID_MEDICINE])->exists();
+    }
+
+    public static function isDocumentBirthday($user_id): bool
+    {
+        return OtherDocument::find()->andWhere(['user_id' => $user_id,'type' => 4])->exists();
     }
 
     public static function isExitsUpdateName($user_id): bool

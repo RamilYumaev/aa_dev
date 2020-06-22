@@ -9,6 +9,7 @@ use common\moderation\services\ModerationService;
 use kartik\form\ActiveForm;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,6 +38,16 @@ class ModerationController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['moderation'],
+                    ],
+                ],
+            ],
+
         ];
     }
 

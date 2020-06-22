@@ -22,7 +22,9 @@ class OtherDocumentForm extends Model
 
     private $idIa;
 
-    public function __construct($user_id, $ajax = false, OtherDocument $otherDocument = null,
+    public function __construct($user_id,
+                                $ajax = false,
+                                OtherDocument $otherDocument = null,
                                 $exemption = false,
                                 $arrayRequired = [],
                                 $typesDocument = [],
