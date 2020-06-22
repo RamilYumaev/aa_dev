@@ -62,6 +62,7 @@ return [
         ],
         'reset' => \common\auth\controllers\ResetController::class,
         'declination' => \common\user\controllers\DeclinationController::class,
+        'moderation' => \common\moderation\controllers\ModerationController::class
     ],
     'components' => [
         'request' => [

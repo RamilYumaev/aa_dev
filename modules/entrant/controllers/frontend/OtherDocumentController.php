@@ -66,14 +66,14 @@ class OtherDocumentController extends Controller
     }
 
     public function actionExemption()
-    {   $model = $this->findOne(['exemption_id'=> true, 'user_id' => $this->getUserId()]) ?? null;
+    {   $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['exemption_id'=> null ]])->one() ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
             false,
             $model,
             true,
             $this->arrayRequired(true),
-            [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
+            [DictIncomingDocumentTypeHelper::TYPE_OTHER], null);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("exemption", ["model" => $form]);
     }

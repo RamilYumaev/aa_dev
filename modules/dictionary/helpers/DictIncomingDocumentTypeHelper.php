@@ -31,7 +31,7 @@ class DictIncomingDocumentTypeHelper
 
     public static function listType($type)
     {
-        return ArrayHelper::map(self::find()->type($type)->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->type($type)->orWhere(['id'=>4])->all(), 'id', 'name');
     }
 
     public static function listId($idIa)
@@ -93,7 +93,7 @@ class DictIncomingDocumentTypeHelper
 
     public static function rangeType($type)
     {
-        return self::find()->type($type)->select('id')->column();
+        return self::find()->type($type)->orWhere(['id'=>4])->select('id')->column();
     }
 
     public static function rangeIds($idIa)

@@ -1,4 +1,6 @@
 <?php
+
+use modules\entrant\helpers\PostDocumentHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\DocumentEducationHelper;
 use modules\entrant\helpers\OtherDocumentHelper;
@@ -18,6 +20,11 @@ use modules\entrant\helpers\OtherDocumentHelper;
                         Необходимо добавить документ, подтверждающий смену фамилии
                     </p>
                 <?php endif; ?>
+            <?php endif; ?>
+            <?php if(!PostDocumentHelper::exemptionNoParent($userId)): ?>
+                <p class="bg-danger m-10">
+                    Необходимо добавить документ - свидетельство о рождении
+                </p>
             <?php endif; ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
