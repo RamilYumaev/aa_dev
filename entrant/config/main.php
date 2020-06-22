@@ -24,6 +24,14 @@ return [
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
+        'support' => [
+            'class' => \modules\support\ModuleBackend::class,
+            'viewPath' => "@modules/support/views/backend",
+            'appBackendId' => 'app-entrant',
+            'yii2basictemplate' => false,
+            'adminMatchCallback' => true,//false - for frontend, true - for backend
+            'hashGenerator' => null,//user function for generation unique id for ticket or null for standart generator (The ticket id will be something like this: lkLHOoIho)
+        ],
     ],
     'controllerMap' => [
         'elfinder' => [

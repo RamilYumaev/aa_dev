@@ -29,6 +29,14 @@ return [
         'dictionary-module' => [
             'class' => \modules\dictionary\Dictionary::class
         ],
+        'support' => [
+            'class' => \modules\support\ModuleBackend::class,
+            'viewPath' => "@modules/support/views/backend",
+            'appBackendId' => 'app-backend',
+            'yii2basictemplate' => false,
+            'adminMatchCallback' => true,//false - for frontend, true - for backend
+            'hashGenerator' => null,//user function for generation unique id for ticket or null for standart generator (The ticket id will be something like this: lkLHOoIho)
+        ],
     ],
     'controllerMap' => [
         'elfinder' => [

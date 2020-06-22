@@ -26,7 +26,7 @@ echo Nav::widget([
        // ['label' => 'Дни открытых дверей', 'url' => ['/dod']],
         // ['label' => 'Мастер-классы', 'url' => ['/site/master-classes']],
         Yii::$app->user->isGuest ?
-            ['label' => 'Регистрация', 'url' => ['/sign-up/request']] : ['label' => ''],
+            ['label' => 'Регистрация', 'url' => ['/sign-up/request']] :   ['label' => 'Помощь', 'url' => ['/support']],
         Yii::$app->user->isGuest ?
             ['label' => 'Вход', 'url' => ['/account/login']] :
             ['label' => 'Выход (' . Yii::$app->user->identity->getUsername() . ')',

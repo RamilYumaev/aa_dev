@@ -96,9 +96,11 @@ class OtherDocumentController extends Controller
     }
 
     private function arrayRequired($category){
-        $array =  ['series', 'number', 'authority','date'];
         if($category) {
+            $array =  ['authority','date'];
             array_push($array, 'exemption_id');
+        } else {
+            $array =  ['series', 'number','authority','date'];
         }
         return $array;
     }

@@ -10,6 +10,7 @@ use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
 use common\auth\helpers\UserHelper;
 use olympic\models\auth\AuthAssignment;
+use olympic\models\auth\Profiles;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -276,6 +277,10 @@ class User extends ActiveRecord
     public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    public function getProfiles() {
+        return $this->hasOne(Profiles::class, ['user_id'=>'id']);
     }
 
     public function generateEmailVerificationToken()

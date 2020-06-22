@@ -104,7 +104,7 @@ class OtherDocumentForm extends Model
      */
     public function uniqueRules()
     {
-        $arrayUnique = [['type',  'series', 'number'], 'unique', 'targetClass' => OtherDocument::class, 'targetAttribute' => ['type', 'series', 'number']];
+        $arrayUnique = [['type',  'series', 'number'], 'unique', 'targetClass' => OtherDocument::class, 'targetAttribute' => ['type', 'series', 'user_id', 'number']];
         if ($this->_otherDocument) {
             return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_otherDocument->id]]);
         }

@@ -13,6 +13,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Модерация', 'url' => ['/moderation']],
+                ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']],
             ]
 
         );
