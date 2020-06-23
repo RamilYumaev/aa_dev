@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <div class="box">
         <div class="box-header"><?= $type && $type == AisReturnDataHelper::AIS_NO ? Html::a("Excel Юзер Id ",['excel'],['class'=> "btn btn-success"]): ""?></div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
