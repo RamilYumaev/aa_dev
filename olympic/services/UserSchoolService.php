@@ -74,9 +74,6 @@ class UserSchoolService
             $this->teacherSchoolRepository->save($this->updateUserTeacherSchool($id, $form, \Yii::$app->user->id));
         }else {
             $userSchool = $this->updateUserSchool($id, $form, $form->schoolUser->class_id, \Yii::$app->user->id);
-            if ($this->documentEducationRepository->getUser(\Yii::$app->user->id)) {
-                throw new \DomainException("Вы не можете редактировать школу, так как у вас имеется документ об образовании");
-            }
             $this->userSchoolRepository->save($userSchool);
         }
     }

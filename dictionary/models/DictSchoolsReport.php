@@ -6,17 +6,6 @@ use dictionary\helpers\DictCountryHelper;
 
 class DictSchoolsReport extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
-
-    private $dict_school;
-
-    public function __construct($config = [])
-    {
-        $this->dict_school = new DictSchools();
-        parent::__construct($config);
-    }
 
     public static function tableName()
     {
@@ -36,14 +25,14 @@ class DictSchoolsReport extends \yii\db\ActiveRecord
         $this->school_id = $school_id;
     }
 
-
-
     /**
      * @return DictSchools
      */
-    public function dictSchoolOne() {
-        return $this->dict_school->schoolRelation($this->school_id)->one();
+
+    public function getSchool() {
+        return $this->hasOne(DictSchools::class, ['id'=> 'school_id']);
     }
+
 
 
     /**

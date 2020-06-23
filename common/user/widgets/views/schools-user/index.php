@@ -50,11 +50,6 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
                                 $model->edu_year == EduYearHelper::eduYear() ?
                                     Html::a("Удалить", $url, ['data' => ['confirm' => 'Вы действительно хотите удалить запись ?', 'method' => 'POST']]) : "";
                             },
-                            'update' => function ($url, $model) use ($isOlympicUser) {
-                                return !$isOlympicUser &&
-                                $model->edu_year == EduYearHelper::eduYear() ?
-                                    Html::a("Редактировать", $url, ['data-method' => 'post']) : "";
-                            }
                         ]
                     ],
                 ]

@@ -33,22 +33,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     'name',
                     ['attribute' => 'country_id',
                         'filter' => $searchModel->countryList(),
-                        'value' => function (DictSchools $model) {
-                            return \dictionary\helpers\DictCountryHelper::countryName($model->country_id);
-                        },
+                        'value' => 'country.name'
                     ],
                     ['attribute' => 'region_id',
                         'filter' => $searchModel->regionList(),
-                        'value' => function (DictSchools $model) {
-                            return \dictionary\helpers\DictRegionHelper::regionName($model->region_id);
-                        },
+                        'value' => 'region.name'
                     ],
                     ['attribute' => 'dict_school_report_id',
                         'format'=> "raw",
                         'filter' => $searchModel->schoolReportList(),
                         'value' => function (DictSchools $model) {
                              if ($model->dict_school_report_id) {
-                                 $name = dictionary\helpers\DictSchoolsReportHelper::schoolReportName($model->dict_school_report_id);
+                                 $name = $model->schoolReport->school ? $model->schoolReport->school->name : "";
                                  return Html::a($name, ['dictionary/dict-schools-report/view', 'id' => $model->dict_school_report_id]);
                               }
                              return Html::a("Добавить в чистовик", ['add-in-report', 'id' => $model->id],
