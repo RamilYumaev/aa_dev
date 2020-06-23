@@ -464,7 +464,8 @@ class DictCompetitiveGroupHelper
         foreach ($data as $key => $value) {
             if ($cse) {
                 if ($value['cse_subject_id']) {
-                    $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']] . " балл(-а, ов), ";
+                    $ex .= $value['name'] . ", ";
+                    /* $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']] . " балл(-а, ов), "; */
                 }
                 if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
                     $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 =>392];
