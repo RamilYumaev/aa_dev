@@ -37,7 +37,7 @@ class DictSchoolsWidget extends Widget
 
     private function queryDefaultSchool() {
         return DictSchools::find()
-            ->countryAndRegion($this->model->dictSchoolOne()->region_id, $this->model->dictSchoolOne()->country_id);
+            ->countryAndRegion($this->model->school->region_id, $this->model->school->country_id);
     }
 
     private function query() {

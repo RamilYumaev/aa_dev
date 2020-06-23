@@ -11,7 +11,7 @@ class DictRegionHelper
 {
     public static function regionList(): array
     {
-        return ArrayHelper::map(Region::find()->orderBy(["name" => SORT_ASC])->all(), "id", 'name');
+        return Region::find()->select(['name', 'id'])->orderBy("name ASC")->indexBy("id")->column();
     }
 
     public static function regionName($key): ?string

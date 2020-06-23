@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => \yii\grid\SerialColumn::class],
                     ['attribute' => 'school_id',
                         'value' => function (DictSchoolsReport $model) {
-                            return $model->dictSchoolOne()->name;
+                            return $model->school->name;
                         },
                     ],
                     ['class' => ActionColumn::class,

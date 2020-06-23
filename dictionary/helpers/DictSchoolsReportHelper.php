@@ -6,12 +6,9 @@ use yii\helpers\ArrayHelper;
 
 class DictSchoolsReportHelper
 {
-
     public static function schoolReportList(): array
     {
-        return ArrayHelper::map(DictSchoolsReport::find()->asArray()->all(), "id", function (array $model) {
-            return DictSchoolsHelper::schoolName($model['school_id']);
-        });
+        return DictSchoolsReport::find()->joinWith('school')->select(['dict_schools.name',"dict_schools_report.id" ])->indexBy('dict_schools_report.id')->column();
     }
 
     public static function isSchoolReport($id, $school_id): ? DictSchoolsReport
