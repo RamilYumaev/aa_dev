@@ -18,14 +18,14 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_SR,
-            'str' => "Абитуриенты Квотники и БВИ (новые)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_SR]]) ?>
+            'str' => "Абитуриенты Квотники и БВИ (новые)", 'link' => ['data-entrant/default/index', 'type' => 2, 'is_id' => JobEntrantHelper::MPGU_SR]]) ?>
         <?= CountUserCozWidget::widget([
             'type' => 2,
             'colorBox' => AdminLTE::BG_BLUE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_PP,
-            'str' => "Абитуриенты с ПП (новые)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_PP]]) ?>
+            'str' => "Абитуриенты с ПП (новые)", 'link' => ['data-entrant/default/index', 'type' => 2, 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
 
     <div class="col-md-4">
@@ -35,14 +35,14 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_SR,
-            'str' => "Абитуриенты Квотники и БВИ (принятые)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_SR]]) ?>
+            'str' => "Абитуриенты Квотники и БВИ (принятые)", 'link' => ['data-entrant/default/index', 'type' => 1, 'is_id' => JobEntrantHelper::MPGU_SR]]) ?>
         <?= CountUserCozWidget::widget([
             'type' => 1,
             'colorBox' => AdminLTE::BG_OLIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_PP,
-            'str' => "Абитуриенты с ПП (принятые)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_PP]]) ?>
+            'str' => "Абитуриенты с ПП (принятые)", 'link' => ['data-entrant/default/index', 'type' => 1, 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
 
     <div class="col-md-4">
@@ -51,43 +51,43 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_SR,
-            'str' => "Абитуриенты Квотники и БВИ (всего)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_SR]]) ?>
+            'str' => "Абитуриенты Квотники и БВИ (всего)", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::MPGU_SR]]) ?>
         <?= CountUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_ORANGE_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'isID' => JobEntrantHelper::MPGU_PP,
-            'str' => "Абитуриенты с ПП (всего)", 'link' => ['data-entrant/default/index', 'is_id'=> JobEntrantHelper::MPGU_PP]]) ?>
+            'str' => "Абитуриенты с ПП (всего)", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
 
 
     <!--<div class="col-md-4">
-        <?/*= InfoUserCozWidget::widget([
+        <? /*= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'list',
             'status' => StatementHelper::STATUS_WALT_SPECIAL,
-            'str' => "Новые"]) */?>
-        <?/*= InfoUserCozWidget::widget([
+            'str' => "Новые"]) */ ?>
+        <? /*= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'list-ul',
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
-            'str' => "Непринятые"]) */?>
+            'str' => "Непринятые"]) */ ?>
     </div>
     <div class="col-md-4">
-        <?/*= InfoUserCozWidget::widget([
+        <? /*= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_LIGHT_BLUE_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'list-alt',
             'status' => StatementHelper::STATUS_RECALL,
-            'str' => "Отозванные ЗУК"]) */?>
-        <?/*= InfoUserCozWidget::widget([
+            'str' => "Отозванные ЗУК"]) */ ?>
+        <? /*= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'list-ol',
             'status' => StatementHelper::STATUS_ACCEPTED,
-            'str' => "Принятые ЗУК"]) */?>
+            'str' => "Принятые ЗУК"]) */ ?>
     </div>-->
 </div>
 <div class="row">
