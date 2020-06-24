@@ -72,7 +72,10 @@ class ProfileStatementReadRepository
             $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
                 CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::SPECIAL_RIGHT_COMPETITION,
-                CategoryStruct::WITHOUT_COMPETITION]])->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
+                CategoryStruct::WITHOUT_COMPETITION]])
+                ->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA])
+            ->andWhere(['not in', 'anketa.user_id',PreemptiveRight::find()
+                ->joinWith('otherDocument')->select("user_id")->column()]);
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere([
