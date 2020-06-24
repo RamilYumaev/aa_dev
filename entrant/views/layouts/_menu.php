@@ -51,7 +51,6 @@ if(!Yii::$app->user->isGuest ) {
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
-                ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Заявления (ЗУК)',
                     "items" => [
                         [
@@ -84,6 +83,7 @@ if(!Yii::$app->user->isGuest ) {
                     "url" => '/data-entrant/charts',
                     "icon" => "table",
                 ],
+                ['label' => 'Абитуриенты (ЗИД)', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
             ]
 

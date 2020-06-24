@@ -70,7 +70,7 @@ class DefaultController extends Controller
      * @param  $is_id
      * @return mixed
      */
-    public function actionIndex($type = null, $is_id = false)
+    public function actionIndex($type = null, $is_id = null)
     {
         $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type, $is_id);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

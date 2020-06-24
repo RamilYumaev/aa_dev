@@ -9,6 +9,8 @@ use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\models\PreemptiveRight;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -38,21 +40,24 @@ class ProfileStatementReadRepository
         $query = $this->profileDefaultQuery();
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
         if ($this->jobEntrant->isCategoryMPGU()) {
-            if ($this->isID) {
+            if ($this->isID == JobEntrantHelper::MPGU_ID) {
                 $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
                 $query->innerJoin(StatementIndividualAchievements::tableName(), 'statement_individual_achievements.user_id=profiles.user_id');
                 $query->andWhere(['statement_individual_achievements.edu_level'
                 => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-            } else {
+            } else if ($this->isID == JobEntrantHelper::MPGU_SR) {
                 $query->andWhere(["in", "anketa.category_id",
                     [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);
 
 //                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
 //                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
 //                    ["anketa.category_id"=>CategoryStruct::WITHOUT_COMPETITION]]);
-
+            } else if ($this->isID == JobEntrantHelper::MPGU_PP) {
+                $query->innerJoin(OtherDocument::tableName(), "other_document.user_id = anketa.user_id")
+                    ->innerJoin(PreemptiveRight::tableName(), "preemptive_right.other_id= other_document.id");
             }
+
         } elseif ($this->jobEntrant->isCategoryFOK()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,

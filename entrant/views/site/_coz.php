@@ -13,7 +13,7 @@ use backend\widgets\adminlte\components\AdminLTE;
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
-            'str' => "Абитуриенты (Необработанные)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::AIS_NO]]) ?>
+            'str' => "Абитуриенты (Не обработанные)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::AIS_NO]]) ?>
     </div>
     <div class="col-md-4">
         <?= CountUserCozWidget::widget([

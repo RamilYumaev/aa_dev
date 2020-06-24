@@ -21,6 +21,9 @@ class JobEntrantHelper
     const UMS =5;
     const COZ =6;
     const AGREEMENT =7;
+    const MPGU_ID = 1;
+    const MPGU_SR = 2;
+    const MPGU_PP = 3;
 
 
 
