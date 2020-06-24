@@ -13,10 +13,11 @@ class CountUserCozWidget extends Widget
     public $type;
     public $str;
     public $link;
+    public $isID = false;
 
     public function run()
     {
-        $count = (new ProfileStatementReadRepository($this->entrant))->readData($this->type)->count();
+        $count = (new ProfileStatementReadRepository($this->entrant, $this->isID))->readData($this->type)->count();
 
         return $this->render($this->view, ['count'=> $count,
             'colorBox' => $this->colorBox,

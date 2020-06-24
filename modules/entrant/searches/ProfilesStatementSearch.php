@@ -11,11 +11,13 @@ class ProfilesStatementSearch extends  Model
     public $last_name, $first_name, $patronymic, $gender, $country_id, $region_id, $phone, $user_id;
     private $jobEntrant;
     private $type;
+    private $isID;
 
-    public function __construct(JobEntrant $entrant, $type, $config = [])
+    public function __construct(JobEntrant $entrant, $type, $is_id, $config = [])
     {
         $this->type = $type;
         $this->jobEntrant = $entrant;
+        $this->isID = $is_id;
         parent::__construct($config);
     }
 
@@ -32,7 +34,7 @@ class ProfilesStatementSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new ProfileStatementReadRepository($this->jobEntrant))->readData($this->type);
+        $query = (new ProfileStatementReadRepository($this->jobEntrant, $this->isID))->readData($this->type);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

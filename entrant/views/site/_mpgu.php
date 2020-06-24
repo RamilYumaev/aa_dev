@@ -13,37 +13,43 @@ use modules\entrant\helpers\StatementHelper;
     <div class="col-md-4">
         <?= CountUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'user',
-            'str' => "Абитуриенты", 'link'=> ['data-entrant/default/index']  ])?>
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => true,
+            'str' => "Абитуриенты с ИД", 'link' => ['data-entrant/default/index', 'is_id'=> true]]) ?>
+        <?= CountUserCozWidget::widget([
+            'colorBox' => AdminLTE::BG_FUCHSIA_ACTIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'str' => "Абитуриенты Квотники и БВИ", 'link' => ['data-entrant/default/index']]) ?>
     </div>
     <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'list',
+            'entrant' => $jobEntrant,
+            'icon' => 'list',
             'status' => StatementHelper::STATUS_WALT_SPECIAL,
-            'str' => "Новые"])?>
+            'str' => "Новые"]) ?>
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'list-ul',
+            'entrant' => $jobEntrant,
+            'icon' => 'list-ul',
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
-            'str' => "Непринятые"])?>
+            'str' => "Непринятые"]) ?>
     </div>
     <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_LIGHT_BLUE_ACTIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'list-alt',
+            'entrant' => $jobEntrant,
+            'icon' => 'list-alt',
             'status' => StatementHelper::STATUS_RECALL,
-            'str' => "Отозванные ЗУК"])?>
+            'str' => "Отозванные ЗУК"]) ?>
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'list-ol',
+            'entrant' => $jobEntrant,
+            'icon' => 'list-ol',
             'status' => StatementHelper::STATUS_ACCEPTED,
-            'str' => "Принятые ЗУК"])?>
+            'str' => "Принятые ЗУК"]) ?>
     </div>
 </div>
 <div class="row">
@@ -53,12 +59,12 @@ use modules\entrant\helpers\StatementHelper;
                 <h4>Заявления об участии в конкурсе (Квота)</h4>
             </div>
             <div class="box-body">
-            <?= StatementWidget::widget(['entrant'=> $jobEntrant, 'category'=> CategoryStruct::SPECIAL_RIGHT_COMPETITION,
-             'status' => StatementHelper::STATUS_WALT_SPECIAL])?>
+                <?= StatementWidget::widget(['entrant' => $jobEntrant, 'category' => CategoryStruct::SPECIAL_RIGHT_COMPETITION,
+                    'status' => StatementHelper::STATUS_WALT_SPECIAL]) ?>
             </div>
         </div>
     </div>
-    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -66,8 +72,8 @@ use modules\entrant\helpers\StatementHelper;
                 <h4>Заявления об участии в конкурсе (Вне конкурса)</h4>
             </div>
             <div class="box-body">
-                <?= StatementWidget::widget(['entrant'=> $jobEntrant, 'category'=> CategoryStruct::WITHOUT_COMPETITION,
-                    'status' => StatementHelper::STATUS_WALT_SPECIAL])?>
+                <?= StatementWidget::widget(['entrant' => $jobEntrant, 'category' => CategoryStruct::WITHOUT_COMPETITION,
+                    'status' => StatementHelper::STATUS_WALT_SPECIAL]) ?>
             </div>
         </div>
     </div>
