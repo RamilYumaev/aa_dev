@@ -24,7 +24,7 @@ $user = User::findOne(Yii::$app->user->identity->getId());
         <div class="login-logo">
             <h3><?= $this->title ?></h3>
             <?php if ($user->status == UserHelper::STATUS_WAIT): ?>
-                <p class="label label-warning fs-15">Необходимо подтвердить почту</p>
+                <p class="label label-warning">Необходимо подтвердить почту</p>
             <?php endif; ?>
         </div><!-- /.login-logo -->
         <p class="login-box-msg"></p>
