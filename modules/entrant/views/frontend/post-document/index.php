@@ -27,6 +27,8 @@ $userId =  Yii::$app->user->identity->getId();
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
         <div class="col-md-12">
+            <p class="label label-warning fs-15">Каждая страница заявления о согласии на обработку персональных данных
+                загружается отдельно</p>
             <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
@@ -38,11 +40,14 @@ $userId =  Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['userId' => $userId]); ?>
 
             <?php if ($anketa->isAgreement()): ?>
+                <p class="label label-warning fs-15">Каждая страница договора о целевом обучении загружается отдельно</p>
                 <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
 
             <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['userId' => $userId]); ?>
 
+            <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
+                загружается отдельно</p>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1]); ?>
 

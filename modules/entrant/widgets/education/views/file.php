@@ -10,7 +10,8 @@ use modules\entrant\widgets\file\FileListWidget;
 <div class="panel panel-default">
     <div class="panel-heading"><h4>Скан документа об образовании</h4></div>
     <div class="panel-body">
-        <p class="label label-danger">Необходимо загрузить страницу с ФИО, серией и номером документа. А также отдельно загрузить вкладыш с оценками</p>
+        <p class="label label-warning fs-15">Необходимо загрузить страницу с ФИО, серией и номером документа.<br/>
+            А также необходимо отдельно загрузить приложение с оценками</p>
         <table class="table table-bordered">
             <tr>
                 <th>Документ об образовании</th>
