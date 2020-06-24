@@ -76,6 +76,13 @@ class StatementIndividualAchievementsService
         $this->repository->save($statement);
     }
 
+    public function addStatusStatement($id, $status)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus($status);
+        $this->repository->save($statement);
+    }
+
     private function statementIa($data, $userId, $statementId){
         foreach ($data as $value) {
             if (!$this->isExits($value, $userId)){

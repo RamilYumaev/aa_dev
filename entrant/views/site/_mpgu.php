@@ -4,6 +4,7 @@
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\widgets\cpk\CountUserCozWidget;
 use modules\entrant\widgets\cpk\InfoUserCozWidget;
+use modules\entrant\widgets\cpk\InfoZidWidget;
 use modules\entrant\widgets\cpk\StatementWidget;
 use backend\widgets\adminlte\components\AdminLTE;
 use modules\entrant\helpers\StatementHelper;
@@ -59,8 +60,6 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'isID' => JobEntrantHelper::MPGU_PP,
             'str' => "Абитуриенты с ПП (всего)", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
-
-
     <!--<div class="col-md-4">
         <? /*= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
@@ -114,6 +113,35 @@ use \modules\dictionary\helpers\JobEntrantHelper;
                     'status' => StatementHelper::STATUS_WALT_SPECIAL]) ?>
             </div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <?= InfoZidWidget::widget([
+            'colorBox' => AdminLTE::BG_OLIVE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'check-circle',
+            'status' => StatementHelper::STATUS_ACCEPTED,
+            'str' => "ЗИД (Рассмотренные)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])
+        ?>
+    </div>
+    <div class="col-md-4">
+        <?= InfoZidWidget::widget([
+            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'eye-open',
+            'status' => StatementHelper::STATUS_VIEW,
+            'str' => "ЗИД (Взято в работу)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_VIEW]])
+        ?>
+    </div>
+    <div class="col-md-4">
+        <?= InfoZidWidget::widget([
+        'colorBox' => AdminLTE::BG_ORANGE,
+        'entrant'=> $jobEntrant,
+        'icon'=> 'plus',
+        'status' => StatementHelper::STATUS_WALT,
+        'str' => "ЗИД (новые)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_WALT]])
+        ?>
     </div>
 </div>
 

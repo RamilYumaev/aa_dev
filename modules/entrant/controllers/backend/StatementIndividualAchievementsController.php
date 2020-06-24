@@ -10,6 +10,7 @@ use modules\entrant\forms\StatementIAMessageForm;
 use modules\entrant\forms\StatementIndividualAchievementsMessageForm;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
@@ -19,6 +20,7 @@ use modules\entrant\searches\StatementIASearch;
 use modules\entrant\services\StatementIndividualAchievementsService;
 use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -42,6 +44,20 @@ class StatementIndividualAchievementsController extends Controller
     }
 
 
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'status-accepted' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
+
+
     public function beforeAction($event)
     {
         if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
@@ -56,9 +72,9 @@ class StatementIndividualAchievementsController extends Controller
     }
 
 
-    public function actionIndex()
+    public function actionIndex($status = null)
     {
-        $searchModel = new StatementIASearch($this->jobEntrant);
+        $searchModel = new StatementIASearch($this->jobEntrant, $status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -77,6 +93,14 @@ class StatementIndividualAchievementsController extends Controller
     public function actionView($id)
     {
         $statement = $this->findModel($id);
+        if($statement->isStatusWalt()) {
+            try {
+                $this->service->addStatusStatement($id, StatementHelper::STATUS_VIEW);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
         return $this->render('view', ['statement' => $statement]);
     }
 
@@ -97,6 +121,27 @@ class StatementIndividualAchievementsController extends Controller
         $content = $this->renderPartial('@modules/entrant/views/frontend/statement-individual-achievements/pdf/_main', ["statementIA" => $statementIA ]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameIA($statementIA, '.pdf'));
         return $pdf->render();
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+
+    public function actionStatusAccepted($id)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->addStatusStatement($id, StatementHelper::STATUS_ACCEPTED);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

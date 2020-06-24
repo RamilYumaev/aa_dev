@@ -10,6 +10,7 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
@@ -49,7 +50,8 @@ class CommunicationController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'export-data' => ['POST'],
-                    'export-statement' => ['POST']
+                    'export-statement' => ['POST'],
+                    'export-statement-ia'=> ['POST']
                 ],
             ],
         ];
@@ -123,12 +125,12 @@ class CommunicationController extends Controller
 
     /**
      * @param integer $user
-     * @param $statement
+     * @param $idIa
      * @return mixed
      * @throws NotFoundHttpException
      */
 
-    public function actionExportStatementIa($user, $statement)
+    public function actionExportStatementIa($user, $idIa)
     {
         $token = Yii::$app->user->identity->getAisToken();
         if (!$token) {
@@ -156,7 +158,7 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $data = Json::encode(DataExportHelper::dataIncomingStatementIa($model->user_id, $statement));
+            $data = Json::encode(DataExportHelper::dataIncomingStatementIa($model->user_id, $idIa));
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-individual-application?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
@@ -175,7 +177,7 @@ class CommunicationController extends Controller
             if (array_key_exists('status_id', $result)) {
                 if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
                     try {
-                        $this->aisService->addData(StatementIndividualAchievements::class, $statement, $emailId);
+                        $this->aisService->addData(StatementIa::class, $idIa, $emailId);
                         Yii::$app->session->setFlash('success', "Заявление принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);

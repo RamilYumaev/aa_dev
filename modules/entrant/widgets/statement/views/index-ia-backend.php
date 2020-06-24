@@ -22,9 +22,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     ['class' => 'btn btn-warning'])?>
 <?= $statementIa->statusNewJob() &&  $statementIa->isAllFilesAccepted() &&
     !$statementIa->statementIaCountNoDraft &&  $statementIa->statementIaCountAccepted
-    ? Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-['communication/export-statement-ia', 'user' => $statementIa->user_id, 'statement' => $statementIa ->id],
-['data-method' => 'post', 'class' => 'btn btn-success']) : ""; ?>
+    ? Html::a('Рассмотрено', ['statement-individual-achievements/status-accepted','id' => $statementIa ->id],[ 'class' => 'btn btn-success',  'data' => ['method' => 'post', 'confirm' => ' Вы уверены, что хотите поменять статус?']]) : ""; ?>
     <?=  $statementIa->statusNewJob() ? Html::a("Отклонить", ["statement-individual-achievements/message",  'id' => $statementIa->id], ["class" => "btn btn-danger",
         'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения заявления']) :"" ?>
     <?= $statementIa->isStatusNoAccepted() ? Html::a('Возврат', ['statement-individual-achievements/status-index', 'id' => $statementIa->id, 'status'=>StatementHelper::STATUS_WALT],
@@ -34,7 +32,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                         <?= $statementIa->statusNameJob?></span>
 
 </p>
-<?= FileListBackendWidget::widget([ 'view'=> 'list-backend',
+<?= FileListBackendWidget::widget([
     'record_id' => $statementIa->id,  'isCorrect'=> $statementIa->isStatusAccepted(),
     'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statementIa->user_id ]) ?>
 
@@ -54,22 +52,21 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <tr>
         <td><?= ++$key ?>.</td>
         <td><?= $stIa->dictIndividualAchievement->name ?></td>
-            <td><?= Html::a('Принять', ['statement-individual-achievements/status', 'id' => $stIa->id, 'status'=>StatementHelper::STATUS_ACCEPTED ],
-                ['class' => 'btn btn-success']) ?></td>
-        <td><?= Html::a('Отклонить',  ["statement-individual-achievements/message-ia",  'id' => $stIa->id], ["class" => "btn btn-danger",
+            <td><?= $stIa->userIndividualAchievements->dictOtherDocument && !$stIa->isStatusAccepted()   ?  Html::a('Принять',
+                    ['communication/export-statement-ia', 'user' => $statementIa->user_id , 'idIa' => $stIa->id,],
+                ['class' => 'btn btn-success', 'data' => ['method' => 'post', 'confirm' => ' Вы уверены, что хотите принять и отправить в АИС ВУЗ ?']]): "" ?></td>
+        <td><?= $stIa->isStatusAccepted() ? "" : Html::a('Отклонить',  ["statement-individual-achievements/message-ia",  'id' => $stIa->id], ["class" => "btn btn-danger",
                 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения ИД']) ?></td>
         <td> <span class="label label-<?= StatementHelper::colorName( $stIa->status_id)?>">
                         <?= $stIa->statusNameJob ?></span></td>
-
-
     </tr>
 </table>
+    <?php if ($stIa->userIndividualAchievements->dictOtherDocument) : ?>
     <?php  Box::begin(
         [
             "header" =>$stIa->userIndividualAchievements->dictOtherDocument->typeName,
             "type" => Box::TYPE_DANGER,
             "filled" => true,]) ?>
-    <?= FileListWidget::widget([ 'view'=> 'list-backend', 'record_id' => $stIa->userIndividualAchievements->dictOtherDocument->id, 'model' => \modules\entrant\models\OtherDocument::class, 'userId' =>$statementIa->user_id ]) ?>
-
-<?php Box::end(); endforeach; ?>
+    <?= FileListBackendWidget::widget(['isCorrect'=> true, 'record_id' => $stIa->userIndividualAchievements->dictOtherDocument->id, 'model' => \modules\entrant\models\OtherDocument::class, 'userId' =>$statementIa->user_id ]) ?>
+<?php Box::end();  endif; endforeach; ?>
 <?php Box::end() ?>

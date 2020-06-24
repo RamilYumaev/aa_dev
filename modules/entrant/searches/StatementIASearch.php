@@ -15,10 +15,12 @@ class StatementIASearch extends  Model
 {
     public $edu_level, $user_id, $date_from, $date_to;
     private $jobEntrant;
+    private  $status;
 
-    public function __construct(JobEntrant $entrant, $config = [])
+    public function __construct(JobEntrant $entrant,  $status, $config = [])
     {
         $this->jobEntrant = $entrant;
+        $this->status = $status;
         parent::__construct($config);
     }
 
@@ -39,6 +41,10 @@ class StatementIASearch extends  Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        if($this->status) {
+            $query->status($this->status);
+        }
 
         $this->load($params);
 

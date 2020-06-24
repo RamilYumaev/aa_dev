@@ -28,6 +28,8 @@ class StatementHelper
     const STATUS_NO_ACCEPTED = 3;
     const STATUS_RECALL = 4;
     const STATUS_WALT_SPECIAL = 5;
+    const STATUS_VIEW = 6;
+
 
     public static function statusList() {
         return[
@@ -36,7 +38,8 @@ class StatementHelper
             self::STATUS_WALT_SPECIAL=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Принято",
             self::STATUS_NO_ACCEPTED =>"Не принято",
-            self::STATUS_RECALL=> "Отозвано"];
+            self::STATUS_RECALL=> "Отозвано",
+            self::STATUS_VIEW => "Взято в работу"];
     }
 
     public static function statusListJobEntrant() {
@@ -45,7 +48,8 @@ class StatementHelper
             self::STATUS_WALT_SPECIAL=> "Новое",
             self::STATUS_ACCEPTED =>"Принято",
             self::STATUS_NO_ACCEPTED =>"Не принято",
-            self::STATUS_RECALL=> "Отозвано"];
+            self::STATUS_RECALL=> "Отозвано",
+            self::STATUS_VIEW => "Взято в работу"];
     }
 
     public static function statusListJobEntrants() {
@@ -54,7 +58,8 @@ class StatementHelper
             self::STATUS_WALT_SPECIAL=> "Новые",
             self::STATUS_ACCEPTED =>"Принятые",
             self::STATUS_NO_ACCEPTED =>"Непринятые",
-            self::STATUS_RECALL=> "Отозванные"];
+            self::STATUS_RECALL=> "Отозванные",
+            self::STATUS_VIEW => "Взято в работу"];
     }
 
     public static function statusName($key) {
@@ -73,7 +78,8 @@ class StatementHelper
             self::STATUS_WALT_SPECIAL=> "warning",
             self::STATUS_ACCEPTED =>"success",
             self::STATUS_NO_ACCEPTED =>"danger",
-            self::STATUS_RECALL=> "danger"];
+            self::STATUS_RECALL=> "danger",
+            self::STATUS_VIEW => "info"];
     }
 
     public static function colorName($key) {
