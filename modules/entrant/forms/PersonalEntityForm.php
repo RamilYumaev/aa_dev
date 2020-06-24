@@ -4,6 +4,7 @@ namespace modules\entrant\forms;
 
 use borales\extensions\phoneInput\PhoneInputValidator;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
 use yii\base\Model;
@@ -42,7 +43,8 @@ class PersonalEntityForm extends Model
             [['authority'], 'string', 'max' => 255],
             [['number'], 'string', 'max' => 15],
             [['date_of_issue',], 'safe'],
-            [['date_of_issue'], 'date', 'format' => 'dd.mm.yyyy', 'max'=> date("d.m.Y")],
+            [['date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
+            [['date_of_issue'], MaxDateValidate::class],
             [['phone'], 'string', 'max' => 25],
             ['phone', 'unique', 'targetClass' => PersonalEntity::class,
                 'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],

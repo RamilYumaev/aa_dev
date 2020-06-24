@@ -2,6 +2,7 @@
 
 namespace modules\entrant\forms;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\OtherDocument;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -59,6 +60,7 @@ class OtherDocumentForm extends Model
             [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
+            [['date'], MaxDateValidate::class],
             [['amount'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PHOTO;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 45}'],
@@ -86,7 +88,6 @@ class OtherDocumentForm extends Model
         }
         return [
             DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
-            DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
             DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
             DictIncomingDocumentTypeHelper::TYPE_OTHER
         ];

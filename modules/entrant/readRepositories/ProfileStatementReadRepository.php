@@ -92,9 +92,7 @@ class ProfileStatementReadRepository
                 ->andWhere(['>', 'statement_agreement_contract_cg.status_id', StatementHelper::STATUS_DRAFT]);
         } elseif (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id])
-                ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);;
+            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
         }
         if ($type == AisReturnDataHelper::AIS_YES) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');

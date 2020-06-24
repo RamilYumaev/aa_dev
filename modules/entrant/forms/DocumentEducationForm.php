@@ -3,6 +3,7 @@
 namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\DocumentEducation;
 
 use yii\base\Model;
@@ -59,6 +60,7 @@ class DocumentEducationForm extends Model
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
+            [['date'], MaxDateValidate::class],
             [['year'], 'date', 'format' => 'yyyy'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeEducation($this->typeAnketa)],
         ];
