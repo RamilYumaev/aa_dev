@@ -32,10 +32,10 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
             'moderation' => [
                 'class' => ModerationBehavior::class,
                 'attributes' => ['last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone'],
-                'attributesNoEncode'=>['phone']
+                'attributesNoEncode' => ['phone']
             ],
             'declination' => [
-                'class' =>  DeclinationBehavior::class,
+                'class' => DeclinationBehavior::class,
             ],
             ['class' => PhoneInputBehavior::class],
 
@@ -76,7 +76,7 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
 
     public function setRole($role)
     {
-       $this->role = $role;
+        $this->role = $role;
     }
 
 
@@ -103,7 +103,7 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
             'phone' => 'Номер телефона:',
             'country_id' => 'Страна проживания',
             'region_id' => 'Регион проживания',
-            'gender'=> "Пол"
+            'gender' => "Пол"
         ];
     }
 
@@ -136,10 +136,9 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function getFio()
     {
         if (!empty($this->last_name) && !empty($this->last_name) && !empty($this->patronymic)) {
-          return  $this->last_name ." ".$this->first_name." ".$this->patronymic;
-        }
-        elseif(!empty($this->last_name) && !empty($this->first_name)) {
-            return  $this->last_name ." ".$this->first_name;
+            return $this->last_name . " " . $this->first_name . " " . $this->patronymic;
+        } elseif (!empty($this->last_name) && !empty($this->first_name)) {
+            return $this->last_name . " " . $this->first_name;
         }
         return null;
     }
@@ -149,10 +148,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
         return new ProfilesQuery(static::class);
     }
 
-    public function isNullProfile() {
+    public function isNullProfile()
+    {
         return $this->last_name == "" ||
-        $this->first_name == "" ||
-        $this->phone == "";
+            $this->first_name == "" ||
+            $this->phone == "";
     }
 
     public function isDataNoEmpty(): bool
@@ -164,30 +164,32 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
         return BlockRedGreenHelper::dataNoEmpty($this->getAttributes(null, $arrayNoRequired));
     }
 
-    public function isNoRussia() {
+    public function isNoRussia()
+    {
         return $this->country_id !== DictCountryHelper::RUSSIA;
     }
 
     public function titleModeration(): string
     {
-        return  "Профиль";
+        return "Профиль";
     }
 
     public function getCountryName()
     {
-        return  DictCountryHelper::countryName($this->country_id);
+        return DictCountryHelper::countryName($this->country_id);
     }
 
     public function getGenderName()
     {
         return ProfileHelper::genderName($this->gender);
     }
+
     public function getRegionName()
     {
-        return  DictRegionHelper::regionName($this->region_id);
+        return DictRegionHelper::regionName($this->region_id);
     }
 
-    public  function withBestRegard()
+    public function withBestRegard()
     {
         if ($this->gender == ProfileHelper::FEMALE) {
             return "Уважаемая";
@@ -202,28 +204,33 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
 
     public function moderationAttributes($value): array
     {
-        return  [
+        return [
             'last_name' => $value,
-            'first_name'=>$value,
-            'patronymic'=> $value,
+            'first_name' => $value,
+            'patronymic' => $value,
             'phone' => $value,
             'gender' => ProfileHelper::genderName($value),
-            'country_id'=> DictCountryHelper::countryName($value),
-            'region_id'=> DictRegionHelper::regionName($value)
+            'country_id' => DictCountryHelper::countryName($value),
+            'region_id' => DictRegionHelper::regionName($value)
         ];
     }
 
     public function data(): array
     {
-        return  [
+        return [
             'last_name' => $this->last_name,
-            'first_name'=> $this->first_name,
-            'patronymic'=> $this->patronymic,
+            'first_name' => $this->first_name,
+            'patronymic' => $this->patronymic,
             'phone' => $this->phone,
             'gender' => $this->genderName,
-            'country_id'=> $this->CountryName,
-            'region_id'=> $this->regionName,
-            'email'=> $this->user->email,
+            'country_id' => $this->CountryName,
+            'region_id' => $this->regionName,
+            'email' => $this->user->email,
         ];
+    }
+
+    public function getAisUser()
+    {
+        return $this->hasOne(UserAis::class, ['user_id' => 'user_id']);
     }
 }
