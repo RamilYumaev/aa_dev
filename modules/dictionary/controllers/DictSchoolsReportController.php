@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers\dictionary;
+namespace modules\dictionary\controllers;
 
 
 use dictionary\forms\DictSchoolsCreateForm;

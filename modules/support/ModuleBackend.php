@@ -13,6 +13,7 @@ use modules\support\models\Content;
 use modules\support\models\Ticket;
 use PhpImap\Mailbox;
 use Yii;
+use yii\filters\AccessControl;
 use yii\queue\Queue;
 
 /**
@@ -97,9 +98,22 @@ class ModuleBackend extends \yii\base\Module
      *      }
      *
      */
-    public $hashGenerator = null;    
+    public $hashGenerator = null;
 
-
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev', 'ticket']
+                    ]
+                ],
+            ],
+        ];
+    }
     /**
      * Translate message
      * @param $message
@@ -111,8 +125,6 @@ class ModuleBackend extends \yii\base\Module
      * {
      * return Yii::$app->getModule('support')->translate($message, $params, $language);
      * }*/
-
-
 
     public function registerTranslations()
     {

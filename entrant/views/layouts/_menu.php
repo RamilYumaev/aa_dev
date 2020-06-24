@@ -12,8 +12,13 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
-                ['label' => 'Модерация', 'url' => ['/moderation']],
-                ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']],
+               \Yii::$app->user->can('moderation') ? ['label' => 'Модерация', 'url' => ['/moderation']] : [],
+               \Yii::$app->user->can('ticket') ? ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']] : [],
+               \Yii::$app->user->can('edu_school') ? ['label' => 'Учебные организации', 'url' => '#',
+                    'items' => [
+                        ['label' => 'Список', 'url' => ['/dictionary-module/dict-schools']],
+                        ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
+                    ]] : [],
             ]
 
         );

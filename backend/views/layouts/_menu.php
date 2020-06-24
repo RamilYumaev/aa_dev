@@ -106,11 +106,11 @@ array_merge(
                 ['label' => 'Правила', 'url' => '/rbac/rule'],
                 ['label' => 'Меню', 'url' => '/rbac/menu'],
             ])]] : [],
-    [['label' => 'Модерация', 'url' => '/moderation',]],
+    Yii::$app->user->can('moderation') ? [['label' => 'Модерация', 'url' => '/moderation',]] : [['label'=>'']],
     [['label' => 'Учебные организации', 'url' => '#',
         'items' => array_merge([
-            ['label' => 'Список', 'url' => '/dictionary/dict-schools'],
-            ['label' => 'Для отчета', 'url' => '/dictionary/dict-schools-report'],
+            ['label' => 'Список', 'url' => ['/dictionary-module/dict-schools']],
+            ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
         ])]]
 
 )) : [];
