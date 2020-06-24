@@ -3,6 +3,7 @@
 namespace modules\entrant\forms;
 
 use common\helpers\EduYearHelper;
+use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\Agreement;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -34,6 +35,7 @@ class AgreementForm extends Model
     {
         return [
             [['date'], 'required'],
+            [['date'], MaxDateValidate::class],
             [['organization_id'], 'integer'],
             ['organization_id', 'required', 'when' => function ($model) {
                 return !$model->check_new;

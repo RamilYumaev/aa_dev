@@ -3,6 +3,7 @@
 namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\PassportData;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -47,7 +48,8 @@ class PassportDataForm extends Model
                 'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],
             [['date_of_birth','date_of_issue',], 'safe'],
             [['date_of_issue',], 'validateDateOfBirth'],
-            [['date_of_birth','date_of_issue'], 'date', 'format' => 'dd.mm.yyyy', 'max'=> date("d.m.Y")],
+            [['date_of_issue','date_of_birth'], MaxDateValidate::class],
+            [['date_of_birth','date_of_issue'], 'date', 'format' => 'd.m.Y'],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)
             ],
         ];
@@ -66,7 +68,7 @@ class PassportDataForm extends Model
         return $arrayUnique;
     }
 
-    public function validateDateOfBirth() //@TODO  плохо работает
+    public function validateDateOfBirth()
     {
         if (strtotime($this->date_of_birth) > strtotime($this->date_of_issue)) {
             $this->addError('date_of_issue', "Дата выдачи паспорта раньше, чем дата рождения " );
