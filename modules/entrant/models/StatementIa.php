@@ -79,4 +79,8 @@ class StatementIa extends ActiveRecord
         return ["statement_id" => "Заявление", 'individual_id' => "Индивдуальное достижение", "status_id" => "Статус"];
     }
 
+    public function getTextEmail() {
+        return 'Ваше идивидуальное достижение  "'.$this->dictIndividualAchievement->name.'" принято';
+    }
+
 }

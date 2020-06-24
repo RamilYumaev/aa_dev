@@ -12,6 +12,7 @@ use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCgConsent;
@@ -19,6 +20,7 @@ use modules\entrant\models\UserAis;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
+use modules\entrant\repositories\StatementIaRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
 use modules\entrant\repositories\StatementRejectionCgRepository;
@@ -42,6 +44,7 @@ class UserAisService
     private $agreementRepository;
     private $organizationsRepository;
     private $statementCgRepository;
+    private $iaRepository;
     private $profileRepository;
 
 
@@ -49,6 +52,7 @@ class UserAisService
                                 TransactionManager $transactionManager,
                                 StatementRepository $statementRepository,
                                 StatementIndividualAchievementsRepository $individualAchievementsRepository,
+                                StatementIaRepository $iaRepository,
                                 StatementConsentCgRepository $consentCgRepository,
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementRejectionRepository $statementRejectionRepository,
@@ -70,6 +74,7 @@ class UserAisService
         $this->organizationsRepository = $organizationsRepository;
         $this->statementCgRepository = $statementCgRepository;
         $this->profileRepository = $profileRepository;
+        $this->iaRepository = $iaRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -189,12 +194,12 @@ class UserAisService
             $text = $statement->textEmail;
             $user = $statement->statementCg->statement->user_id;
             $this->successSend($email_id, $user, $text);
-        } elseif ($model == StatementIndividualAchievements::class) {
-            $statement = $this->individualAchievementsRepository->get($id);
+        } elseif ($model == StatementIa::class) {
+            $statement = $this->iaRepository->get($id);
             $statement->setStatus(StatementHelper::STATUS_ACCEPTED);
-            $this->individualAchievementsRepository->save($statement);
+            $this->iaRepository->save($statement);
             $text = $statement->textEmail;
-            $user = $statement->user_id;
+            $user = $statement->statementIndividualAchievement->user_id;
             $this->successSend($email_id, $user, $text);
         }
 

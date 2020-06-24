@@ -25,6 +25,7 @@ use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\models\UserIndividualAchievements;
+use morphos\S;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
 use function Matrix\identity;
@@ -165,14 +166,8 @@ class DataExportHelper
     {
         $incomingId = UserAis::findOne(['user_id' => $userId]);
         /* @var $currentIa StatementIa */
-        /* @var $statementIndividualAchievements StatementIndividualAchievements */
-        $statementIndividualAchievements = StatementIndividualAchievements::find()->user($userId)
-            ->statusNoDraft()->id($statementId)->one();
+        $currentIa= StatementIa::findOne($statementId);
         $result['individual_achievements'] = [];
-        foreach ($statementIndividualAchievements->statementIa as $currentIa) {
-            if ($currentIa->isStatusNoAccepted()) {
-                continue;
-            }
             $result['individual_achievements'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'individual_achievement_id' => $currentIa->individual_id,
@@ -193,10 +188,7 @@ class DataExportHelper
                 'patronymic' => '',
                 'amount' => 1,
                 'main_status' => 0,
-
-
             ];
-        }
         return $result;
     }
 

@@ -115,7 +115,8 @@ class StatementIndividualAchievements extends ActiveRecord
 
     public function statusNewJob() {
         return $this->status == StatementHelper::STATUS_WALT ||
-            $this->status == StatementHelper::STATUS_WALT_SPECIAL;
+            $this->status == StatementHelper::STATUS_WALT_SPECIAL ||
+            $this->status == StatementHelper::STATUS_VIEW;
     }
 
     public function countFilesAndCountPagesTrue() {
