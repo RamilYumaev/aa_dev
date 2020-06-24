@@ -75,7 +75,8 @@ class ProfileStatementReadRepository
                 CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA])
             ->andWhere(['not in', 'anketa.user_id',PreemptiveRight::find()
-                ->joinWith('otherDocument')->select("user_id")->column()]);
+                ->joinWith('otherDocument')->select("other_document.user_id")
+                ->indexBy("other_document.user_id")->column()]);
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere([
