@@ -67,11 +67,12 @@ class DefaultController extends Controller
 
     /**
      * @param integer $id
+     * @param  $is_id
      * @return mixed
      */
-    public function actionIndex($type = null)
+    public function actionIndex($type = null, $is_id = false)
     {
-        $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type);
+        $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type, $is_id);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
