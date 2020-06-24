@@ -40,6 +40,13 @@ class ProfileStatementReadRepository
             $query->andWhere(['statement_individual_achievements.edu_level'
             =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                 DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
+
+            $query2 =$this->profileDefaultQuery();
+            $query2->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
+            $query2->andWhere(["in","anketa.category_id",
+                [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);
+
+            $query->union($query2);
         }
 
         elseif($this->jobEntrant->isCategoryFOK()) {
