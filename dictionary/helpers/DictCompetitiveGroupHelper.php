@@ -644,9 +644,10 @@ class DictCompetitiveGroupHelper
             ->select("speciality_id")
             ->andWhere(["in", "id", $selectedCg])
             ->andWhere(['edu_level' => $cg->edu_level])
+            ->andWhere(['financing_type_id'=>DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->column();
-        if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty)) {
-            throw new \DomainException("Заявления можно подавать только на три направления подготовки");
+        if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty) && $cg->isBudget()) {
+            throw new \DomainException("Заявления на бюджет можно подавать только на три направления подготовки");
         }
         return true;
     }
@@ -689,10 +690,10 @@ class DictCompetitiveGroupHelper
 
     public static function getAllSumKcp($cg)
     {
-        $targetKcp = DictCompetitiveGroup::targetKcp($cg) ? ", из них на целевое обучение -  "
+        $targetKcp = DictCompetitiveGroup::targetKcp($cg) ? ", из общего количества на целевое обучение -  "
             . DictCompetitiveGroup::targetKcp($cg) : "";
 
-        $specialRightKcp = DictCompetitiveGroup::specialKcp($cg) ? ", из них особая квота - "
+        $specialRightKcp = DictCompetitiveGroup::specialKcp($cg) ? ", из общего количества особая квота - "
             . DictCompetitiveGroup::specialKcp($cg) : "";
 
         return DictCompetitiveGroup::kcpSum($cg) . $targetKcp . $specialRightKcp;

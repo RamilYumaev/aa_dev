@@ -14,6 +14,7 @@ use kartik\date\DatePicker;
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
+            <p class="label label-warning fs-15">Заполнять нужно строго как в документе</p>
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-passport']); ?>
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listPassport($model->nationality)) ?>

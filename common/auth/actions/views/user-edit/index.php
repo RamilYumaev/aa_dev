@@ -23,32 +23,35 @@ $user = User::findOne(Yii::$app->user->identity->getId());
         <?= \common\widgets\Alert::widget() ?>
         <div class="login-logo">
             <h3><?= $this->title ?></h3>
+            <?php if ($user->status == UserHelper::STATUS_WAIT): ?>
+                <p class="label label-warning fs-15">Необходимо подтвердить почту</p>
+            <?php endif; ?>
         </div><!-- /.login-logo -->
         <p class="login-box-msg"></p>
         <?php $form = ActiveForm::begin(['id' => 'form-edit-user']); ?>
         <td class="form-group has-feedback">
             <?= $form->field($model, 'username') ?>
             <?php if ($user->status == UserHelper::STATUS_WAIT): ?>
-                <table width="100%">
-                    <tr>
-                        <td width="60%">
-                            <?= $form->field($model, 'email') ?>
-                        </td>
-                        <td class="text-right fs-15">
-                            <?= Html::a('Подтвердить почту', ['sign-up/confirm-user']) ?>
-                        </td>
-                    </tr>
-                </table>
+
+                <?= $form->field($model, 'email') ?>
 
             <?php else: ?>
-            <div class="m-10">
-            <?= "Почта ". $user->email . " подтверждена." ?>
-            </div>
-            <?php endif;?>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-4">
-                    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-lg', 'name' => 'login-button']) ?>
+                <div class="mb-30">
+                    <?= "Почта " . $user->email . " подтверждена." ?>
                 </div>
+            <?php endif; ?>
+            <div class="row">
+                <?php if ($user->status == UserHelper::STATUS_WAIT): ?>
+                    <div class="col-md-8 col-md-offset-2">
+                        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                        <?= Html::a('Подтвердить почту', ['sign-up/confirm-user'], ['class' => 'btn btn-success', 'name' => 'login-button']) ?>
+
+                    </div>
+                <?php else : ?>
+                    <div class="col-md-12">
+                        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <?php ActiveForm::end() ?>

@@ -15,7 +15,9 @@ use modules\dictionary\helpers\DictCseSubjectHelper;
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <p class="label label-danger" align="justify">Если Вы не знаете балл ЕГЭ, то введите значение 50</p>
+            <p class="label label-warning fs-15" align="justify">Если Вы не знаете балл ЕГЭ, то введите значение 50.<br/>
+                Ваши баллы будут проверены в Федеральной информационной системе, <br/>автоматически исправлены и опубликованы
+                в списках поступающих <br/>на официальном сайте МПГУ http://mpgu.su</p>
             <?php $form = ActiveForm::begin(['id'=> 'form-cse-subject']); ?>
             <?= $form->field($model, 'year')->textInput(['maxlength' => true]) ?>
             <div class="col-md-12">
