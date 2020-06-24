@@ -47,7 +47,7 @@ use modules\entrant\helpers\StatementHelper;
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="box">
             <div class="box-header">
                 <h4>Заявления об участии в конкурсе (Квота)</h4>
@@ -58,7 +58,9 @@ use modules\entrant\helpers\StatementHelper;
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    </div>
+<div class="row">
+    <div class="col-md-12">
         <div class="box">
             <div class="box-header">
                 <h4>Заявления об участии в конкурсе (Вне конкурса)</h4>
