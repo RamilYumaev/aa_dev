@@ -45,13 +45,13 @@ class ProfileStatementReadRepository
                 => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
             } else {
-//                $query->andWhere(["in", "anketa.category_id",
-//                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]])
-//                    ->andWhere(['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]);
+                $query->andWhere(["in", "anketa.category_id",
+                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]])
+                    ->andWhere(['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]);
 
-                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
-                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
-                    ["anketa.category_id"=>CategoryStruct::WITHOUT_COMPETITION]]);
+//                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
+//                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
+//                    ["anketa.category_id"=>CategoryStruct::WITHOUT_COMPETITION]]);
 
             }
         } elseif ($this->jobEntrant->isCategoryFOK()) {
