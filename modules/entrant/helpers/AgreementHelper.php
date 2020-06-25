@@ -5,9 +5,42 @@ namespace modules\entrant\helpers;
 use common\helpers\EduYearHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
+use modules\entrant\readRepositories\AgreementReadRepository;
+use modules\entrant\readRepositories\StatementReadRepository;
+use yii\helpers\ArrayHelper;
 
 class AgreementHelper
 {
+    const STATUS_NEW = 0;
+    const STATUS_VIEW =1;
+    const STATUS_ACCEPTED = 2;
+    const STATUS_NO_ACCEPTED = 3;
+
+    public static function statusList() {
+        return[
+            self::STATUS_NEW =>"Новое",
+            self::STATUS_ACCEPTED =>"Принято",
+            self::STATUS_NO_ACCEPTED =>"Не принято",
+            self::STATUS_VIEW => "Взято в работу"];
+    }
+
+    public static function statusName($key) {
+        return ArrayHelper::getValue(self::statusList(),$key);
+    }
+
+
+    public static function colorList() {
+        return [
+            self::STATUS_NEW=> "warning",
+            self::STATUS_ACCEPTED =>"success",
+            self::STATUS_NO_ACCEPTED =>"danger",
+            self::STATUS_VIEW => "info"];
+    }
+
+    public static function colorName($key) {
+        return ArrayHelper::getValue(self::colorList(),$key);
+    }
+
     public static function isExits($user_id): bool
     {
         return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
@@ -185,5 +218,11 @@ class AgreementHelper
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 13 мая 2019 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 29 от 12.05.2020 г.',
         ];
+    }
+
+    public static function columnAgreement($column, $value) {
+        $query = (new AgreementReadRepository())->readData()
+            ->select('agreement.'.$column)->groupBy('agreement.'.$column);
+        return ArrayHelper::map($query->all(), $column, $value);
     }
 }

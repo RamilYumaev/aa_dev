@@ -25,6 +25,7 @@ $this->title= "Главная. ".$text;
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryTarget()): ?>
         <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_agreement',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryMPGU()): ?>
         <?= $this->render('_mpgu',['jobEntrant' => $jobEntrant])?>
