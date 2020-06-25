@@ -83,24 +83,10 @@ $och = false;
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
             <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
-           <?//$anketa['withOitCompetition'] ? "Имею": "Не имею"?> <br/>
-            Имею преимущественное право при зачислении:<br/>
         </td>
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<table width="100%">
-    <tr>
-        <td></td>
-        <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X": "" ?></td>
-        <td width="100px">Имею</td>
-        <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X": "" ?></td>
-        <td>Не имею</td>
-    </tr>
-</table>
-<?php if($prRight) :?>
-    <p class="underline-text"> на основании: <?= $prRight ?></p>
-<?php endif; ?>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
 
 <p align="justify">
