@@ -1,52 +1,60 @@
 <?php
 namespace modules\entrant\searches;
 
-use modules\entrant\models\Agreement;
-use modules\entrant\models\UserAis;
+use modules\entrant\readRepositories\AgreementReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 class AgreementSearch extends  Model
 {
     public  $user_id;
+    public  $organization_id, $number;
+    public $status;
 
     public function rules()
     {
         return [
-            [['user_id'], 'integer'],
+            [['user_id', 'organization_id', ], 'integer'],
+            [[ 'number',], 'safe'],
         ];
     }
+
+    public function __construct($status,$config = [])
+    {
+        $this->status = $status;
+        parent::__construct($config);
+    }
+
     /**
      * @param array $params
      * @return ActiveDataProvider
      */
+
     public function search(array $params): ActiveDataProvider
     {
-        $query = Agreement::find()->alias('agreement');
+        $query = (new AgreementReadRepository())->readData();
 
         $dataProvider = new ActiveDataProvider(['query' => $query]);
 
+
+        if(!is_null($this->status)) {
+            $query->status($this->status);
+        }
         $this->load($params);
 
         if (!$this->validate()) {
             $query->where('0=1');
             return $dataProvider;
         }
-       // $query->innerJoin(UserAis::tableName() . ' ais', 'ais.user_id = agreement.user_id');
 
         $query->andFilterWhere(['agreement.user_id' => $this->user_id]);
+        $query->andFilterWhere(['organization_id' => $this->organization_id]);
+
+        $query
+            ->andFilterWhere(['like', 'number',  $this->number]);
 
         return $dataProvider;
     }
-
-    public function attributeLabels()
-    {
-        return [
-            'user_id'=> "Абитуриент",
-        ];
-    }
-
-
 
 
 }

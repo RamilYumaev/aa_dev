@@ -3,7 +3,6 @@
 namespace modules\entrant\widgets\file;
 use modules\entrant\models\File;
 use yii\base\Widget;
-use Yii;
 
 class FileListBackendWidget extends Widget
 {

@@ -4,12 +4,13 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\DictOrganizationsHelper;
 use modules\dictionary\models\DictOrganizations;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AgreementForm;
+use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\helpers\DateFormatHelper;
+use modules\entrant\models\queries\AgreementQuery;
 use olympic\models\auth\Profiles;
 
 /**
@@ -60,10 +61,12 @@ class Agreement extends YiiActiveRecordAndModeration
     public function attributeLabels()
     {
         return [
-             'organization_id' => "Организация",
-             'date' => 'Дата договора',
-             'number'=> 'Номер договора',
-             'year' =>   'Год'
+            'organization_id' => "Организация",
+            'date' => 'Дата договора',
+            'number'=> 'Номер договора',
+            'year' =>   'Год',
+            'user_id'=> "Абитуриент",
+            'status_id' => 'Статус'
         ];
     }
 
@@ -107,6 +110,11 @@ class Agreement extends YiiActiveRecordAndModeration
         return $this->hasOne(DictOrganizations::class, ['id' =>'organization_id']);
     }
 
+    public function getStatusName() {
+        return  AgreementHelper::statusName($this->status_id);
+    }
+
+
     public function getProfile() {
         return $this->hasOne(Profiles::class, ['user_id' =>'user_id']);
     }
@@ -131,5 +139,19 @@ class Agreement extends YiiActiveRecordAndModeration
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function isStatusNew() {
+       return  $this->status_id == AgreementHelper::STATUS_NEW;
+    }
+
+
+    public function countStatusFiles($status) {
+        return $this->getFiles()->andWhere(['status'=>$status])->count();
+    }
+
+    public static function find()
+    {
+        return new AgreementQuery(static::class);
     }
 }

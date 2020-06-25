@@ -9,6 +9,7 @@ use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\AgreementMessageForm;
+use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementRepository;
@@ -76,8 +77,16 @@ class AgreementService
     {
         $model = $this->repository->get($id);
         $model->detachBehavior('moderation');
-        $model->setStatus(3);
+        $model->setStatus(AgreementHelper::STATUS_NO_ACCEPTED);
         $model->setMessage($form->message);
+        $this->repository->save($model);
+    }
+
+    public function addStatus($id)
+    {
+        $model = $this->repository->get($id);
+        $model->detachBehavior('moderation');
+        $model->setStatus(AgreementHelper::STATUS_VIEW);
         $this->repository->save($model);
     }
 

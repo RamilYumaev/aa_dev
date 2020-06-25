@@ -46,12 +46,13 @@ class AgreementController extends Controller
 //        return true;
 //    }
 
-    public function actionIndex()
+    public function actionIndex($status = null)
     {
-        $searchModel = new AgreementSearch();
+        $searchModel = new AgreementSearch($status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'status'=> $status,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -65,6 +66,14 @@ class AgreementController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        if($model->isStatusNew()) {
+            try {
+                $this->service->addStatus($id);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
         return $this->render('view', [
             'agreement' => $model,
         ]);
