@@ -124,6 +124,9 @@ class DataExportHelper
         /* @var  $statement Statement */
         $statement = Statement::find()->user($userId)->statusNoDraft()->id($statementId)->one();
         $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
+        $organization = Agreement::findOne(['user_id' => $userId]);
+        $target_organization_id = $statement->isSpecialRightTarget() && $organization
+            && $organization->organization->ais_id ? $organization->organization->ais_id : null;
         foreach ($statement->statementCg as $currentApplication) {
             $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
                 $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
@@ -142,6 +145,7 @@ class DataExportHelper
                 'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 : 0,
                 'application_code' => $statement->numberStatement,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
+                'target_organization_id' => $target_organization_id,
                 // 'current_status_id' => '',
             ];
         }

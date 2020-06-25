@@ -205,6 +205,11 @@ class Statement extends ActiveRecord
             $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE;
     }
 
+    public function isSpecialRightTarget()
+    {
+        return $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE;
+    }
+
     public function columnIdCg(){
         return $this->getStatementCg()->select(['cg_id'])->column();
     }
