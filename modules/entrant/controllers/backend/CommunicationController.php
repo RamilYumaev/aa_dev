@@ -289,7 +289,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingAgreement($model));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-usu-spec-application-cse-vi?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-target-organization?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -303,16 +303,15 @@ class CommunicationController extends Controller
             curl_close($ch);
 
             $result = Json::decode($result);
-            if (array_key_exists('status_id', $result)) {
-                if ($result['status_id'] == StatementHelper::STATUS_ACCEPTED) {
+            if (array_key_exists('target_organization_id', $result)) {
+
                     try {
-                        $this->aisService->agreement($agreementId, $result['ais_id']);
+                        $this->aisService->agreement($agreementId, $result['target_organization_id']);
                         Yii::$app->session->setFlash('success', "Успешно принято.");
                     } catch (\DomainException $e) {
                         Yii::$app->errorHandler->logException($e);
                         Yii::$app->session->setFlash('error', $e->getMessage());
                     }
-                }
             }
             if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
