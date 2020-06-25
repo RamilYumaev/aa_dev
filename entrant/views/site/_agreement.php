@@ -9,7 +9,7 @@ use modules\entrant\helpers\StatementHelper;
 ?>
 <div class="box">
     <div class="box-header">
-        <h4>Целевые договора</h4>
+        <h4>Целевые договоры</h4>
     </div>
     <div class="box-body">
     <div class="row">

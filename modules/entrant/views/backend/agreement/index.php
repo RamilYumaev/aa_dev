@@ -14,7 +14,7 @@ use yii\helpers\Html;
 $st= AgreementHelper::statusName($status);
 $status = !is_null($st) ? " (".$st.")" : "";
 
-$this->title = "Целевые договора". $status;;
+$this->title = "Целевые договоры". $status;;
 
 $this->params['breadcrumbs'][] = $this->title;
 
