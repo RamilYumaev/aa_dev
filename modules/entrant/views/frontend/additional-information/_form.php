@@ -16,7 +16,7 @@ use yii\helpers\Html;
             <?php $form = ActiveForm::begin(['id'=> 'form-additional-information']); ?>
             <?= $form->field($model, 'resource_id')->dropDownList(DictDefaultHelper::listInfo()); ?>
             <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($model->user_id)): ?>
-                <?= $form->field($model, 'mark_spo')->textInput(); ?>
+                <?= $form->field($model, 'mark_spo')->textInput(['placeholder'=>'4.44444']); ?>
             <?php endif; ?>
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
