@@ -32,7 +32,8 @@ class AdditionalInformationForm extends Model
         return [
             [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo'] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
-            [['mark_spo'], 'number', 'min' => 5, 'max'=> 5],
+            [['mark_spo'], 'double', 'min' => 3.0, 'max' => 5.0, 'numberPattern' => '/^\d\.?\d{0,5}$/',
+                'message'=> 'Необходимо внести дробное число с точностью до 5 знаков после запятой'],
         ];
     }
 
