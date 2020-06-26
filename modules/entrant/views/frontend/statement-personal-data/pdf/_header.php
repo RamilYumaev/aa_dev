@@ -50,7 +50,7 @@ if ($cpk) {
     <table width="100%">
         <tr>
             <td width="17%"> кем и когда выдан</td>
-            <td width="83%" colspan="4" class="bb text-center"><?= $passport['authority'] ?></td>
+            <td width="83%" colspan="4" class="bb text-center"><?= $passport['authority'] ?> <?= $passport['date_of_issue'] ?></td>
         </tr>
     </table>
 <?php if ($cpk) : ?>
