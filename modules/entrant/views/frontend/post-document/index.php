@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $anketa modules\entrant\models\Anketa */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
@@ -32,6 +33,10 @@ $userId =  Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+
+            <?php if ($anketa->isOrphan()): ?>
+                <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['view' => 'file-birth-document', 'userId' => $userId]); ?>
+            <?php endif; ?>
 
             <?php if (!$anketa->isNoRequired()): ?>
                 <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['userId' => $userId]); ?>

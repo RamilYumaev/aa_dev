@@ -236,6 +236,12 @@ class Anketa extends ActiveRecord
         }
     }
 
+    public function isOrphan()
+    {
+        return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>2])->exists();
+    }
+
+
     public function onlyCse()
     {
         $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
@@ -245,12 +251,17 @@ class Anketa extends ActiveRecord
                 && $this->is_foreigner_edu_organization); // Если обычный Российкий выпускник школы
         // и не квотник
 
+
         $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
                 in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
             && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
                 && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
         // который закончил школу не в текущем году
-        return $condition1 || $condition2;
+
+        $condition3 = $this->isOrphan() && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL)
+            && !($this->edu_finish_year == date("Y")
+                && $this->is_foreigner_edu_organization);
+        return $condition1 || $condition2 || $condition3;
 
 //        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
 //            (($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||

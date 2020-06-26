@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $anketa \modules\entrant\models\Anketa */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
@@ -38,6 +39,12 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['userId' => $userId,'view' => "detail"]); ?>
     </div>
+    <?php if($anketa->isOrphan()):?>
+    <div class="mt-20 table-responsive">
+        <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['userId' => $userId,'view' => "detail-birth-document"]); ?>
+    </div>
+    <?php endif;?>
+
     <?php if (DictCompetitiveGroupHelper::bachelorExistsUser($userId)): ?>
     <div class="mt-20 table-responsive">
        <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(['userId' => $userId]); ?>

@@ -10,21 +10,28 @@ use yii\helpers\ArrayHelper;
 
 class PassportDataForm extends Model
 {
-    public $nationality, $type, $series, $number, $date_of_birth, $user_id, $place_of_birth, $date_of_issue, $authority, $division_code;
+    public $nationality, $type, $series, $number, $date_of_birth, $user_id, $place_of_birth, $date_of_issue,
+        $authority, $division_code;
 
     private $_passport;
 
-    public function __construct($user_id, PassportData $passportData = null, $config = [])
+    private $requiredAttributes;
+
+    public function __construct($user_id, PassportData $passportData = null, $requiredAttributes = [], $config = [])
     {
-        if($passportData){
+        if ($passportData) {
             $this->setAttributes($passportData->getAttributes(), false);
-            $this->date_of_birth= $passportData->getValue("date_of_birth");
-            $this->date_of_issue= $passportData->getValue("date_of_issue");
+            $this->date_of_birth = $passportData->getValue("date_of_birth");
+            $this->date_of_issue = $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
         } else {
-            $this->nationality = \Yii::$app->user->identity->anketa()->citizenship_id;
             $this->user_id = $user_id;
         }
+        $this->requiredAttributes = $requiredAttributes;
+        if (!$requiredAttributes) {
+            $this->nationality = \Yii::$app->user->identity->anketa()->citizenship_id;
+        }
+
 
         parent::__construct($config);
     }
@@ -36,22 +43,24 @@ class PassportDataForm extends Model
     public function defaultRules()
     {
         return [
-            [['nationality','type', 'series',
-                'number', 'date_of_birth', 'place_of_birth','date_of_issue', 'authority'], 'required'],
-            [['nationality','type', ], 'integer'],
+            [$this->requiredAttributes(), 'required'],
+            [['nationality', 'type',], 'integer'],
             [['division_code'], 'string', 'max' => 7],
-            [['series',],'string', 'max' => 10],
+            [['series',], 'string', 'max' => 10],
             [['number', 'place_of_birth', 'authority'], 'string', 'max' => 255],
             [['number'], 'string', 'max' => 255],
             [['division_code'], 'required', 'when' => function ($model) {
-                return $model->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA;},
+                return $model->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA;
+            },
                 'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],
-            [['date_of_birth','date_of_issue',], 'safe'],
+            [['date_of_birth', 'date_of_issue',], 'safe'],
             [['date_of_issue',], 'validateDateOfBirth'],
-            [['date_of_issue','date_of_birth'], MaxDateValidate::class],
-            [['date_of_birth','date_of_issue'], 'date', 'format' => 'd.m.Y'],
-            ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)
-            ],
+            [['date_of_issue', 'date_of_birth'], MaxDateValidate::class],
+            [['date_of_birth', 'date_of_issue'], 'date', 'format' => 'd.m.Y'],
+            !$this->requiredAttributes ?
+                ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)] :
+                ['type', 'in', 'range' => [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
+                    DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT]]
         ];
     }
 
@@ -60,21 +69,42 @@ class PassportDataForm extends Model
      */
     public function uniqueRules()
     {
-        $arrayUnique = [['type',], 'unique', 'targetClass' => PassportData::class,
-            'targetAttribute' => ['type',  'series','number',]];
-        if ($this->_passport) {
-            return ArrayHelper::merge($arrayUnique, [ 'filter' => ['<>', 'id', $this->_passport->id]]);
+        if($this->requiredAttributes)
+        {
+            $arrayUnique = [['number'], 'unique', 'targetClass' => PassportData::class,
+                'targetAttribute' => ['type', 'number',]];
+            if ($this->_passport) {
+                return ArrayHelper::merge($arrayUnique, ['filter' => ['<>', 'id', $this->_passport->id]]);
+            }
+            return $arrayUnique;
+
+        }else{
+            $arrayUnique = [['type','number'], 'unique', 'targetClass' => PassportData::class,
+                'targetAttribute' => ['type', 'series', 'number',]];
+            if ($this->_passport) {
+                return ArrayHelper::merge($arrayUnique, ['filter' => ['<>', 'id', $this->_passport->id]]);
+            }
+            return $arrayUnique;
         }
-        return $arrayUnique;
+
     }
 
     public function validateDateOfBirth()
     {
         if (strtotime($this->date_of_birth) > strtotime($this->date_of_issue)) {
-            $this->addError('date_of_issue', "Дата выдачи паспорта раньше, чем дата рождения " );
+            $this->addError('date_of_issue', "Дата выдачи паспорта раньше, чем дата рождения ");
             return false;
         }
         return true;
+    }
+
+    public function requiredAttributes()
+    {
+        if ($this->requiredAttributes) {
+            return $this->requiredAttributes;
+        }
+        return ['nationality', 'type', 'series',
+            'number', 'date_of_birth', 'place_of_birth', 'date_of_issue', 'authority'];
     }
 
     /**
@@ -93,8 +123,6 @@ class PassportDataForm extends Model
     {
         return (new PassportData())->attributeLabels();
     }
-
-
 
 
 }

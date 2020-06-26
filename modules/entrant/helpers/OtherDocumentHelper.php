@@ -36,11 +36,6 @@ class OtherDocumentHelper
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=> DictIncomingDocumentTypeHelper::ID_MEDICINE])->exists();
     }
 
-    public static function isDocumentBirthday($user_id): bool
-    {
-        return OtherDocument::find()->andWhere(['user_id' => $user_id,'type' => 4])->exists();
-    }
-
     public static function isExitsUpdateName($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=>[DictIncomingDocumentTypeHelper::ID_NAME_UPDATE,

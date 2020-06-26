@@ -7,6 +7,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\entrant\behaviors\CseDeleteBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\OtherDocumentForm;
@@ -44,7 +45,9 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'class' => ModerationBehavior::class,
             'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status']
         ],
-            FileBehavior::class];
+            FileBehavior::class,
+            CseDeleteBehavior::class,
+            ];
     }
 
 

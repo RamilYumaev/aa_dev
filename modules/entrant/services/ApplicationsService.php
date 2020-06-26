@@ -61,6 +61,16 @@ class ApplicationsService
                 $this->statementRepository->save($statement);
             }
             $this->repository->save($userCg);
+
+            if($cg->isKvota() || $cg->isTarget())
+            {
+                $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg)->one();
+                if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
+                {
+                    $userCg = UserCg::create($shareCg->id, null);
+                    $this->repository->save($userCg);
+                }
+            }
         });
     }
 

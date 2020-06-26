@@ -42,10 +42,14 @@ class UserCgRepository
     public function haveARecord($id)
     {
         $model = UserCg::find()->findUserAndCg($id)->exists();
-        if($model)
-        {
+        if ($model) {
             throw new \DomainException('Заявление добавлено!');
         }
+    }
+
+    public function haveARecordSpecialRight($id)
+    {
+        return UserCg::find()->findUserAndCg($id)->exists();
     }
 
 }
