@@ -1,9 +1,10 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\AddressForm */
+/* @var $neededCountry bool */
 
-$this->title = "Документ, удостоверяющий личность. Редактирование.";
+$this->title = ($neededCountry ? "Свидетельство о рождении. " : "Документ, удостоверяющий личность.")." Редактирование.";
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_form', ['model'=> $model] )?>
+<?= $this->render('_form', ['model'=> $model, 'neededCountry' => $neededCountry] )?>

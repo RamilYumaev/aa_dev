@@ -20,6 +20,9 @@ class DictIncomingDocumentTypeHelper
     const ID_PHOTO= 45;
     const ID_MEDICINE= 29;
 
+    const ID_BIRTH_DOCUMENT = 4;
+    const ID_BIRTH_FOREIGNER_DOCUMENT = 8;
+
     const ID_PASSPORT_RUSSIA = 1;
     const ID_NAME_WEDDING = 49;
     const ID_NAME_WEDDING_DOC = 51;
@@ -31,7 +34,7 @@ class DictIncomingDocumentTypeHelper
 
     public static function listType($type)
     {
-        return ArrayHelper::map(self::find()->type($type)->orWhere(['id'=>4])->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->type($type)->all(), 'id', 'name');
     }
 
     public static function listId($idIa)
@@ -42,13 +45,20 @@ class DictIncomingDocumentTypeHelper
 
     public static function listPassport($country)
     {
-        $array = self::find()->type(self::TYPE_PASSPORT)->select('name')->indexBy('id')->column();
+        $anketa = \Yii::$app->user->identity->anketa();
+        if($anketa->isOrphan())
+        {
+            $query=  self::find()->type(self::TYPE_PASSPORT)->andWhere(['not in', 'id', [self::ID_BIRTH_DOCUMENT]])
+                ->select('name')->indexBy('id')->column();
+        }else{
+            $query=  self::find()->type(self::TYPE_PASSPORT)->select('name')->indexBy('id')->column();
+        }
         if($country == DictCountryHelper::RUSSIA) {
             $delete_keys = [3, 16, 8, 7, 11, 14, 15];
         }else {
             $delete_keys = [1,4, 2,5,6, 10,12];
         }
-        return array_diff_key($array, array_flip($delete_keys));
+        return array_diff_key($query, array_flip($delete_keys));
     }
 
     public static function listEducation($type)
@@ -93,7 +103,7 @@ class DictIncomingDocumentTypeHelper
 
     public static function rangeType($type)
     {
-        return self::find()->type($type)->orWhere(['id'=>4])->select('id')->column();
+        return self::find()->type($type)->select('id')->column();
     }
 
     public static function rangeIds($idIa)

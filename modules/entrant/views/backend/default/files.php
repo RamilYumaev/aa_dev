@@ -28,6 +28,12 @@ $userId = $profile->user_id;
                 <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
             <?php endif; ?>
 
+            <?php if ($anketa->isOrphan()): ?>
+                <div class="mt-20 table-responsive">
+                    <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['userId' => $userId, 'view' => "file-birth-document-backend"]); ?>
+                </div>
+            <?php endif; ?>
+
             <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget([ 'view' => 'file-backend', 'userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['view' => 'index-pd-backend', 'userId' => $userId]); ?>

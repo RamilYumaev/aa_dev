@@ -72,10 +72,10 @@ class PostDocumentHelper
         return OtherDocumentHelper::isExitsExemption($user_id, [1,2,3]) && self::common($user_id);
     }
 
-    public static function exemptionNoParent($user_id)
+    public static function exemptionNoParent($user_id): bool
     {
         if (OtherDocumentHelper::isExitsExemption($user_id, 2)) {
-            return OtherDocumentHelper::isDocumentBirthday($user_id);
+            return PassportDataHelper::isDocumentBirthday($user_id);
         }
         return true;
     }

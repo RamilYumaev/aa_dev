@@ -15,6 +15,12 @@ use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 use yii\helpers\StringHelper;
 
+/**
+ * Class DictCompetitiveGroup
+ * @package dictionary\models
+ * @property  $special_right_id string
+ */
+
 class DictCompetitiveGroup extends ActiveRecord
 {
 
@@ -373,6 +379,16 @@ class DictCompetitiveGroup extends ActiveRecord
     public function isBudget()
     {
         return $this->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET;
+    }
+
+    public function isKvota()
+    {
+        return $this->special_right_id == DictCompetitiveGroupHelper::SPECIAL_RIGHT;
+    }
+
+    public function isTarget()
+    {
+        return $this->special_right_id == DictCompetitiveGroupHelper::TARGET_PLACE;
     }
 
 

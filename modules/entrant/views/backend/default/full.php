@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 /* @var $profile olympic\models\auth\Profiles */
+
 use yii\helpers\Html;
 
 $this->title = $profile->getFio() . '. Персональная карточка поступающего';
@@ -17,7 +18,7 @@ $userId = $profile->user_id;
 <?= Html::a("Документы", ['default/files', 'user' => $userId], ['class' => 'btn btn-danger']) ?>
 <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' => $userId], [
     'class' => 'btn btn-danger',
-    'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
+    'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите отправить письмо?"]]) ?>
 <?= Html::a("Редактировать данные", \Yii::$app->params['staticHostInfo'] . '/switch-user/by-user-id?id=' . $userId,
     ['class' => 'btn btn-info', 'target' => '_blank']); ?>
 <div class="mt-20 table-responsive">
@@ -40,6 +41,11 @@ $userId = $profile->user_id;
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['userId' => $userId, 'view' => "detail-backend"]); ?>
 </div>
+<?php if ($anketa->isOrphan()): ?>
+    <div class="mt-20 table-responsive">
+        <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['userId' => $userId, 'view' => "detail-birth-document-backend"]); ?>
+    </div>
+<?php endif; ?>
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>

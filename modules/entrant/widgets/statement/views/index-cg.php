@@ -21,7 +21,8 @@ use modules\entrant\widgets\file\FileListWidget;
             <?php foreach ($statementsCg as $statement): ?>
                 <tr>
                     <td><?= $statement->cg->fullName ?> <?= Html::a('Сформировать заявление', ['statement-consent-cg/create',
-                            'id' => $statement->id], ['class' => 'btn btn-info pull-right',]) ?> </td>
+                            'id' => $statement->id], ['class' => 'btn btn-info pull-right',
+                            'data'=> ['confirm'=>'Заявление о согласии на зачисление на бюджет можно подавать не более 2-х раз в университет. Вы уверены, что хотите продолжить?']]) ?> </td>
                 </tr>
                 <tr>
                     <td>

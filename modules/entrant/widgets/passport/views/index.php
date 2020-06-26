@@ -1,11 +1,13 @@
 <?php
 
+use modules\entrant\helpers\PostDocumentHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\PassportDataHelper;
 use modules\entrant\helpers\BlockRedGreenHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $userId integer*/
 
 ?>
 
