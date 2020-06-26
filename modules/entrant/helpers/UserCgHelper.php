@@ -73,10 +73,10 @@ class UserCgHelper
         return $bool ?? false;
     }
 
-    public static function userBachelor($user_id) {
+    public static function userIsBudgetAndBachelor($user_id) {
         foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
         {   /* @var $cg UserCg */
-            if ($cg->isMedicine()) {
+            if ($cg->isBudgetAndBachelor()) {
                 $bool = true;
                 break;
             }
