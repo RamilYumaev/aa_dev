@@ -51,6 +51,14 @@ class UserCg extends ActiveRecord
         return $this->getCg()->where(['enquiry_086_u_status' => true])->exists();
     }
 
+    public function isBudgetAndBachelor()
+    {
+        return $this->getCg()
+            ->andWhere(['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET,
+                'edu_level'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
+            ->exists();
+    }
+
 
     public function attributeLabels()
     {

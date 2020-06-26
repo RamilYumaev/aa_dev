@@ -41,7 +41,7 @@ class PreemptiveRightController extends Controller
 
     public function actionCreate($typeId)
     {
-        $form = new OtherDocumentForm($this->getUserId(), true, null, false, ['series', 'number', 'authority','date'], [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
+        $form = new OtherDocumentForm($this->getUserId(), true, null, false, ['authority','date'], [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

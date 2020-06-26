@@ -84,9 +84,11 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>
+    <?php if(\modules\entrant\helpers\UserCgHelper::userIsBudgetAndBachelor($userId)):?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(['userId' => $userId]); ?>
     </div>
+        <?php endif; ?>
     <?php endif; ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(['userId' => $userId]); ?>
