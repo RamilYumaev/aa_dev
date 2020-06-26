@@ -134,6 +134,16 @@ class ProfileHelper
             ->column();
     }
 
+    public static function getStaffIncoming()
+    {
+        return Profiles::find()
+            ->selectFullNameWithEmail()
+            ->joinWith('user', false)
+            ->andWhere(['role'=> ProfileHelper::ROLE_ENTRANT])
+            ->indexBy("user_id")
+            ->column();
+    }
+
     public static function findProfile($userId)
     {
         try {
