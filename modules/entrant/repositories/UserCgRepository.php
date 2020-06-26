@@ -44,7 +44,7 @@ class UserCgRepository
         $model = UserCg::find()->findUserAndCg($id)->exists();
         if($model)
         {
-            throw new \DomainException('Заявление уже добавлено!');
+            throw new \DomainException('Заявление добавлено!');
         }
     }
 
