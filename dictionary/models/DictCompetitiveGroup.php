@@ -127,7 +127,7 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public function getExaminations()
     {
-        return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id']);
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id'])->orderBy(['priority'=>SORT_ASC]);
     }
 
 
