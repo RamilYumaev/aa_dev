@@ -293,7 +293,7 @@ class DataExportHelper
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
                      ->andWhere(['not in', 'id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
                      ->all() as $currentDocument) {
-            if (in_array($currentDocument->document_type_id,
+            if (in_array($currentDocument->type,
                 [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
                     DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT])) {
                 $documentCountryId = $userAnketa->citizenship_id;
