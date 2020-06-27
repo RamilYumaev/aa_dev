@@ -21,7 +21,7 @@ use \yii\helpers\Html;
                     <tr>
                         <th>Наименование</th>
                         <th>Балл</th>
-                        <th>Данные документа</th>
+                        <th>Реквизиты документа</th>
                     </tr>
                 <?php foreach ($model as $individual) : ?>
                     <tr>
