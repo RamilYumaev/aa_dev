@@ -18,16 +18,16 @@ class StatementIaRepository extends RepositoryDeleteSaveClass
     public function getUser($id, $userId)
     {
         if (!$model = StatementIa::find()->alias('ia')->joinWith('statementIndividualAchievement')
-            ->where(['cg.id' => $id, 'user_id' => $userId, 'status' => StatementIndividualAchievements::DRAFT])->one()) {
+            ->where(['individual_id' => $id, 'user_id' => $userId, 'status' => StatementIndividualAchievements::DRAFT])->one()) {
             throw new \DomainException('Индивидуальное достижение не найдено.');
         }
         return $model;
     }
 
-    public function getUserStatement($cg_id, $userId)
+    public function getUserStatement($individual_id, $userId)
     {
-        if (!$model = StatementIa::find()->alias('cg')->joinWith('statement')
-            ->where(['cg_id' => $cg_id, 'user_id' => $userId])->one()) {
+        if (!$model = StatementIa::find()->joinWith('statementIndividualAchievement')
+            ->where(['individual_id' => $individual_id, 'user_id' => $userId])->one()) {
             return false;
         }
         return $model;

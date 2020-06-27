@@ -22,8 +22,11 @@ class IndividualAchievementsHelper
 
         $remove = Html::a(Html::tag("span","", ["class" => "glyphicon glyphicon-minus"]), ["remove",
             "id" => $individualId], ["class"=> "btn btn-danger"]);
+        $update = Html::a(Html::tag("span","", ["class" => "glyphicon glyphicon-edit"]), ["update",
+            "id" => $individualId], ["class"=> "btn btn-info",  'data-pjax' => 'w2', 'data-toggle' => 'modal',
+            'data-target' => '#modal', 'data-modalTitle' => 'Редактировать']);
 
-        return $alreadyRecorded ? $remove : $save;
+        return $alreadyRecorded ? $remove."   ".$update : $save;
     }
 
     public static function isExits($user, $eduLevel)

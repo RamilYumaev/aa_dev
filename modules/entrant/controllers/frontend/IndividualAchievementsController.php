@@ -68,7 +68,35 @@ class IndividualAchievementsController extends Controller
     }
 
     /**
-     * @param integer $individual_id
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        $form = new OtherDocumentForm($this->getUser(), true, $model->dictOtherDocument, false, ['authority'], [], $id);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->update($model->document_id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        return $this->renderAjax("@modules/entrant/views/frontend/other-document/_form", ["model" => $form]);
+
+    }
+
+    /**
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
      */
@@ -83,7 +111,7 @@ class IndividualAchievementsController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
-        return $this->redirect(["index"]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

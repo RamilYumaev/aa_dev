@@ -8,6 +8,7 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictSchools;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\dictionary\models\DictIncomingDocumentType;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\helpers\BlockRedGreenHelper;
@@ -77,9 +78,17 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
 
-    public function getTypeName() {
-        return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_EDUCATION, $this->type);
+    public function getDictIncomingDocumentType()
+    {
+        return $this->hasOne(DictIncomingDocumentType::class, ['id' => 'type']);
     }
+
+
+    public function getTypeName()
+    {
+        return $this->dictIncomingDocumentType->name;
+    }
+
 
     public function getDocumentFull(){
         $string = "";
