@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
+use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\services\OtherDocumentService;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
@@ -39,7 +40,9 @@ class DocumentOtherWidget extends Widget
 
     public function run()
     {
-        $query = OtherDocument::find()->where(['user_id' => $this->getIdUser()]);
+        $query = OtherDocument::find()->where(['user_id' => $this->getIdUser()])
+        ->andWhere(['not in', 'id', UserIndividualAchievements::find()
+            ->user($this->getIdUser())->select('document_id')->column()]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,

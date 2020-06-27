@@ -15,20 +15,22 @@ use \yii\helpers\Html;
 
 <div class="row">
     <div class="col-md-12">
-
             <?php
-
             if ($model) :?>
-
-                <p><strong>Уже добавлено:</p>
-
+                <table class="table  table-bordered">
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Балл</th>
+                        <th>Данные документа</th>
+                    </tr>
                 <?php foreach ($model as $individual) : ?>
-                    <p>
-                        <?= $individual->dictIndividualAchievement->name ?>
-                        - <?= $individual->dictIndividualAchievement->mark ?> балл(-а,-ов)
-                    </p>
-
+                    <tr>
+                        <td><?= $individual->dictIndividualAchievement->name ?></td>
+                        <td><?= $individual->dictIndividualAchievement->mark ?></td>
+                        <td><?=  $individual->dictOtherDocument->otherDocumentFull; ?></td>
+                    </tr>
                 <?php endforeach; endif; ?>
+                </table>
         </div>
     </div>
 </div>

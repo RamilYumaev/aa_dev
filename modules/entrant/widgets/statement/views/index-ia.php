@@ -4,7 +4,6 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
-use dictionary\helpers\DictCompetitiveGroupHelper;
 /* @var $this yii\web\View */
 /* @var $statementsIa yii\db\BaseActiveRecord */
 /* @var $statement modules\entrant\models\StatementIndividualAchievements*/
@@ -32,8 +31,11 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             </td>
         </tr>
         <tr><td colspan="3"> <?= FileListWidget::widget(['record_id' => $statement->id, 'model' => \modules\entrant\models\StatementIndividualAchievements::class, 'userId' =>$statement->user_id ]) ?></td></tr>
+
         <?php endforeach; ?>
     </table>
+
     </div>
     </div>
+    <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['userId' => $statement->user_id, 'ia'=> true]); ?>
 <?php endif; ?>

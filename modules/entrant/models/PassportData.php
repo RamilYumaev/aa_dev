@@ -8,6 +8,7 @@ use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use DateTime;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\dictionary\models\DictIncomingDocumentType;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\PassportDataForm;
@@ -108,10 +109,17 @@ class PassportData extends YiiActiveRecordAndModeration
         return "Паспортные данные";
     }
 
+    public function getDictIncomingDocumentType()
+    {
+        return $this->hasOne(DictIncomingDocumentType::class, ['id' => 'type']);
+    }
+
+
     public function getTypeName()
     {
-        return DictIncomingDocumentTypeHelper::typeName(DictIncomingDocumentTypeHelper::TYPE_PASSPORT, $this->type);
+        return $this->dictIncomingDocumentType->name;
     }
+
 
     public function getNationalityName()
     {

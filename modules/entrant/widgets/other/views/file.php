@@ -9,10 +9,10 @@ use yii\helpers\Html;
 /* @var $others yii\db\BaseActiveRecord */
 /* @var $other modules\entrant\models\OtherDocument */
 /* @var $statementCg modules\entrant\models\StatementCg*/
-/* @var $isUserSchool bool */
+/* @var $ia bool */
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Прочие документы</h4></div>
+    <div class="panel-heading"><h4><?= $ia ? "Документы к учету индивидуальных достижений" :"Прочие документы"?></h4></div>
     <div class="panel-body">
         <table class="table table-bordered">
             <tr>
@@ -28,9 +28,11 @@ use yii\helpers\Html;
                     <td><?= $other->noteOrTypeNote ?></td>
                     <?php if(!$other->files) :?>
                 <td><?= \yii\helpers\Html::a("Удалить",
-                        ['other-document/delete', 'id'=> $other->id ], ['class' => "btn btn-danger", 'data'=>['method'=>
+                        $ia ? ['individual-achievements/remove', 'id'=> $other->userIndividualAchievements->individual_id ] : ['other-document/delete', 'id'=> $other->id, ], ['class' => "btn btn-danger", 'data'=>['method'=>
                             'post', 'confirm' => 'Вы уверены, что хотите удалить данный прочий документ?']])?>
-                </td><?php endif; ?>
+                </td>
+
+                    <?php endif; ?>
                     <td>
                         <?= $other->type_note == \modules\entrant\helpers\OtherDocumentHelper::STATEMENT_TARGET ?
                           Html::a('Скачать заявление', ['other-document/pdf', 'id' =>  $other->id],
