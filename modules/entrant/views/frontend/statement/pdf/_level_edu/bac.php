@@ -32,7 +32,7 @@ $examBase = "Основание для допуска к сдаче вступи
 
 
 $otherDocument = OtherDocument::find()
-    ->where(['user_id' => $statement->user_id])->andWhere(['not', ['exemption_id'=> false]])->one();
+    ->where(['user_id' => $statement->user_id])->andWhere(['not', ['exemption_id' => false]])->one();
 $och = false;
 ?>
 
@@ -110,35 +110,40 @@ $och = false;
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
             <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
-            Сведения о наличии особых прав для поступающих на программы
-            бакалавриата: <?= $anketa['withOitCompetition'] ? "Имею" : "Не имею" ?> <br/>
-            Имею преимущественное право при зачислении:<br/>
+            <?php if ($statement->statementBudgetCg()): ?>
+                Сведения о наличии особых прав для поступающих на программы
+                бакалавриата: <?= $anketa['withOitCompetition'] ? "Имею" : "Не имею" ?> <br/>
+                Имею преимущественное право при зачислении:<br/>
+            <?php endif; ?>
         </td>
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<table width="100%">
-    <tr>
-        <td></td>
-        <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X" : "" ?></td>
-        <td width="100px">Имею</td>
-        <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X" : "" ?></td>
-        <td>Не имею</td>
-    </tr>
-</table>
-<?php if ($prRight) : ?>
+<?php if ($statement->statementBudgetCg()): ?>
+    <table width="100%">
+        <tr>
+            <td></td>
+            <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X" : "" ?></td>
+            <td width="100px">Имею</td>
+            <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X" : "" ?></td>
+            <td>Не имею</td>
+        </tr>
+    </table>
+<?php endif; ?>
+<?php if ($prRight && $statement->statementBudgetCg()) : ?>
     <p class="underline-text"> на основании: <?= $prRight ?></p>
 <?php endif; ?>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
-
-<p align="justify">
-    В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38 Порядка
-    приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
-    специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
-    № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
-    и преимуществ в дополнение к заявлению на участие в конкурсе.
-</p>
-
+<?php if ($statement->statementBudgetCg()): ?>
+    <p align="justify">
+        В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38
+        Порядка
+        приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
+        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
+        № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
+        и преимуществ в дополнение к заявлению на участие в конкурсе.
+    </p>
+<?php endif; ?>
 <?php
 $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
 if (!$och) {
