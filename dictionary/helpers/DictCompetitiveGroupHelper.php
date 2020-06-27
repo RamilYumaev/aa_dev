@@ -713,7 +713,18 @@ class DictCompetitiveGroupHelper
             'financing_type_id'=> self::financingTypeName($cg->financing_type_id) ?? "",
             'is086' => $cg->enquiry_086_u_status,
             'foreigner_status'=>$cg->foreigner_status,
+            'special_right' => self::specialRightNameForAppZos()[$cg->special_right_id] ?? "На основные места",
         ];
     }
+
+    public static function specialRightNameForAppZos()
+    {
+        return [
+            self::SPECIAL_RIGHT => 'На места в пределах особой квоты',
+            self::TARGET_PLACE => 'На места в пределах целевой квоты',
+        ];
+    }
+
+
 
 }

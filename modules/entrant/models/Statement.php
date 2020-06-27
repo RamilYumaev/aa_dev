@@ -165,6 +165,16 @@ class Statement extends ActiveRecord
         return false;
     }
 
+    public function statementBudgetCg() {
+        /* @var  $cg StatementCg */
+        foreach ($this->statementCg as $cg) {
+            if($cg->cg->isBudget()) {
+                return true; break;
+            }
+        }
+        return false;
+    }
+
     public function getStatusName() {
         return  StatementHelper::statusName($this->status);
     }
