@@ -2,11 +2,17 @@
 
 namespace common\moderation\controllers;
 
+use common\auth\models\UserSchool;
 use common\moderation\helpers\ModerationHelper;
 use common\moderation\models\Moderation;
 use common\moderation\forms\ModerationMessageForm;
 use common\moderation\services\ModerationService;
+use dictionary\models\DictSchools;
 use kartik\form\ActiveForm;
+use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\models\PassportData;
+use olympic\models\auth\Profiles;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -57,7 +63,7 @@ class ModerationController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider(['query'=> Moderation::find()->andWhere(["status"=> ModerationHelper::STATUS_NEW])]);
+        $dataProvider = new ActiveDataProvider(['query' => Moderation::find()->andWhere(["status" => ModerationHelper::STATUS_NEW])]);
 
         return $this->render('@common/moderation/views/moderation/index', [
             'dataProvider' => $dataProvider,
@@ -65,14 +71,16 @@ class ModerationController extends Controller
     }
 
     /**
-     * @return mixed
      * @param integer $id
+     * @return mixed
      * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
+        $userId = $this->findUserId($id);
         return $this->render('@common/moderation/views/moderation/view', [
             'moderation' => $this->findModel($id),
+            'userId' => $userId,
         ]);
     }
 
@@ -129,6 +137,36 @@ class ModerationController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function findUserId($id)
+    {
+        $moderation = $this->findModel($id);
+
+        switch ($moderation->model) {
+            case AdditionalInformation::class :
+                $model = AdditionalInformation::findOne($moderation->record_id);
+                return $model->user_id;
+                break;
+            case UserSchool::class :
+                $model = UserSchool::findOne($moderation->record_id);
+                return $model->user_id;
+                break;
+            case OtherDocument::class :
+                $model = OtherDocument::findOne($moderation->record_id);
+                return $model->user_id;
+                break;
+            case Profiles::class :
+                $model = Profiles::findOne($moderation->record_id);
+                return $model->user_id;
+                break;
+            case PassportData::class :
+                $model = PassportData::findOne($moderation->record_id);
+                return $model->user_id;
+                break;
+            default:
+                return null;
         }
     }
 }
