@@ -44,7 +44,8 @@ class OtherDocument extends YiiActiveRecordAndModeration
     {
         return ['moderation' => [
             'class' => ModerationBehavior::class,
-            'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status']
+            'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status'],
+            'attributesNoEncode' => ['series', 'number'],
         ],
             FileBehavior::class,
             CseDeleteBehavior::class,

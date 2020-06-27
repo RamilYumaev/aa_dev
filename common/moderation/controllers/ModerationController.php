@@ -10,6 +10,7 @@ use common\moderation\services\ModerationService;
 use dictionary\models\DictSchools;
 use kartik\form\ActiveForm;
 use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\Address;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use olympic\models\auth\Profiles;
@@ -165,6 +166,9 @@ class ModerationController extends Controller
                 $model = PassportData::findOne($moderation->record_id);
                 return $model->user_id;
                 break;
+            case Address::class :
+                $model = Address::findOne($moderation->record_id);
+                return $model->user_id;
             default:
                 return null;
         }

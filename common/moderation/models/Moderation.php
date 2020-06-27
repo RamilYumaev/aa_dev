@@ -4,10 +4,9 @@ namespace common\moderation\models;
 
 use common\moderation\helpers\ModerationHelper;
 use dictionary\behaviors\DictSchoolsEmailModerationBehavior;
-use dictionary\behaviors\DictSchoolsModerationBehavior;
+//use dictionary\behaviors\DictSchoolsModerationBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
