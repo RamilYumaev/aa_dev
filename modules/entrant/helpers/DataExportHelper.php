@@ -30,6 +30,7 @@ use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
 use function Matrix\identity;
 
+/* @var $profile Profiles */
 class DataExportHelper
 {
     public static function dataIncoming($userId)
@@ -126,11 +127,11 @@ class DataExportHelper
         $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
         $organization = Agreement::findOne(['user_id' => $userId]);
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
-            && $organization->organization->ais_id ? $organization->organization->ais_id : null;
+        && $organization->organization->ais_id ? $organization->organization->ais_id : null;
         foreach ($statement->statementCg as $currentApplication) {
             $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
                 $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
-                $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
+            $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
                 $statement->user_id,
                 $statement->faculty_id,
                 $statement->speciality_id,
@@ -170,29 +171,29 @@ class DataExportHelper
     {
         $incomingId = UserAis::findOne(['user_id' => $userId]);
         /* @var $currentIa StatementIa */
-        $currentIa= StatementIa::findOne($statementId);
+        $currentIa = StatementIa::findOne($statementId);
         $result['individual_achievements'] = [];
-            $result['individual_achievements'][] = [
-                'incoming_id' => $incomingId->incoming_id,
-                'individual_achievement_id' => $currentIa->individual_id,
-                'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
-                'model_type' => 2,
-                'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
-                'document_series' => $currentIa->userIndividualAchievements->dictOtherDocument->series,
-                'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
-                'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
-                'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
-                'document_authority_code' => '',
-                'document_authority_country_id' => "",
-                'diploma_authority' => '',
-                'diploma_specialty_id' => '',
-                'diploma_end_year' => '',
-                'surname' => '',
-                'name' => '',
-                'patronymic' => '',
-                'amount' => 1,
-                'main_status' => 0,
-            ];
+        $result['individual_achievements'][] = [
+            'incoming_id' => $incomingId->incoming_id,
+            'individual_achievement_id' => $currentIa->individual_id,
+            'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
+            'model_type' => 2,
+            'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
+            'document_series' => $currentIa->userIndividualAchievements->dictOtherDocument->series,
+            'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
+            'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
+            'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
+            'document_authority_code' => '',
+            'document_authority_country_id' => "",
+            'diploma_authority' => '',
+            'diploma_specialty_id' => '',
+            'diploma_end_year' => '',
+            'surname' => '',
+            'name' => '',
+            'patronymic' => '',
+            'amount' => 1,
+            'main_status' => 0,
+        ];
         return $result;
     }
 
@@ -260,6 +261,11 @@ class DataExportHelper
 
     public static function dataDocumentAll($userId, Profiles $profile)
     {
+        $userAnketa = Anketa::findOne(['user_id' => $userId]);
+        $documentCountryId = "";
+        $surname = "";
+        $name = "";
+        $patronymic = "";
         $result['documents'] = [];
 
         foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
@@ -287,6 +293,14 @@ class DataExportHelper
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
                      ->andWhere(['not in', 'id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
                      ->all() as $currentDocument) {
+            if (in_array($currentDocument->document_type_id,
+                [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
+                    DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT])) {
+                $documentCountryId = $userAnketa->citizenship_id;
+                $surname = $profile->last_name;
+                $name = $profile->first_name;
+                $patronymic = $profile->patronymic;
+            }
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 2,
@@ -296,13 +310,13 @@ class DataExportHelper
                 'document_issue' => $currentDocument->date,
                 'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
                 'document_authority_code' => '',
-                'document_authority_country_id' => "",
+                'document_authority_country_id' => $documentCountryId,
                 'diploma_authority' => '',
                 'diploma_specialty_id' => '',
                 'diploma_end_year' => '',
-                'surname' => '',
-                'name' => '',
-                'patronymic' => '',
+                'surname' => $surname,
+                'name' => $name,
+                'patronymic' => $patronymic,
                 'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                 'main_status' => 0,
             ];
