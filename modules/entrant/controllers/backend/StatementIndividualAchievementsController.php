@@ -51,6 +51,7 @@ class StatementIndividualAchievementsController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'status-accepted' => ['POST'],
+                    'delete-ia' => ['POST'],
                 ],
             ],
         ];
@@ -216,6 +217,31 @@ class StatementIndividualAchievementsController extends Controller
             'model' => $form,
         ]);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+
+    public function actionDeleteIa($id)
+    {
+        $model = $this->findModelIa($id);
+        $statement = $model->statementIndividualAchievement;
+        $bool = $statement->getStatementIa()->count() == 1;
+        try {
+            $this->service->removeIa($model->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        if ($bool) {
+            return $this->redirect(['index']);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
     /**
      * @param $id

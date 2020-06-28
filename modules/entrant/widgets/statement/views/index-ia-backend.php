@@ -52,21 +52,25 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <tr>
         <td><?= ++$key ?>.</td>
         <td><?= $stIa->dictIndividualAchievement->name ?></td>
-            <td><?= $stIa->userIndividualAchievements->dictOtherDocument && !$stIa->isStatusAccepted()   ?  Html::a('Принять',
+            <td><?= $stIa->userIndividualAchievements
+                && !$stIa->isStatusAccepted()   ?  Html::a('Принять',
                     ['communication/export-statement-ia', 'user' => $statementIa->user_id , 'idIa' => $stIa->id,],
                 ['class' => 'btn btn-success', 'data' => ['method' => 'post', 'confirm' => ' Вы уверены, что хотите принять и отправить в АИС ВУЗ ?']]): "" ?></td>
-        <td><?= $stIa->isStatusAccepted() ? "" : Html::a('Отклонить',  ["statement-individual-achievements/message-ia",  'id' => $stIa->id], ["class" => "btn btn-danger",
+        <td><?= $stIa->isStatusAccepted() ? "" : !$stIa->userIndividualAchievements ?
+                Html::a('Удалить',
+                    ['statement-individual-achievements/delete-ia', 'id' => $stIa->id,],
+                    ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => ' Вы уверены, что хотите удалить?']]): Html::a('Отклонить',  ["statement-individual-achievements/message-ia",  'id' => $stIa->id], ["class" => "btn btn-danger",
                 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения ИД']) ?></td>
         <td> <span class="label label-<?= StatementHelper::colorName( $stIa->status_id)?>">
                         <?= $stIa->statusNameJob ?></span></td>
     </tr>
 </table>
-    <?php if ($stIa->userIndividualAchievements->dictOtherDocument) : ?>
+    <?php if ($stIa->userIndividualAchievements && $stIa->userIndividualAchievements->dictOtherDocument) : ?>
     <?php  Box::begin(
         [
             "header" =>$stIa->userIndividualAchievements->dictOtherDocument->typeName,
             "type" => Box::TYPE_DANGER,
             "filled" => true,]) ?>
-    <?= FileListBackendWidget::widget(['isCorrect'=> true, 'record_id' => $stIa->userIndividualAchievements->dictOtherDocument->id, 'model' => \modules\entrant\models\OtherDocument::class, 'userId' =>$statementIa->user_id ]) ?>
+    <?= FileListBackendWidget::widget(['isCorrect'=> $stIa->isStatusAccepted(), 'record_id' => $stIa->userIndividualAchievements->dictOtherDocument->id, 'model' => \modules\entrant\models\OtherDocument::class, 'userId' =>$statementIa->user_id ]) ?>
 <?php Box::end();  endif; endforeach; ?>
 <?php Box::end() ?>

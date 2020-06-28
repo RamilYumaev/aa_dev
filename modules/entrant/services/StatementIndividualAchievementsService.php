@@ -165,6 +165,22 @@ class StatementIndividualAchievementsService
         $this->statementIaRepository->save($st);
     }
 
+    public function removeIa($id)
+    {
+        $this->manager->wrap(function () use ($id) {
+            $statementIa = $this->statementIaRepository->get($id);
+                $statement = $statementIa->statementIndividualAchievement;
+                if($statement->getStatementIa()->count() == 1) {
+                    foreach ($statement->files as $file) {
+                        $this->fileRepository->remove($file);
+                    }
+                    $this->repository->remove($statement);
+                }else {
+                    $this->statementIaRepository->remove($statementIa);
+                }
+        });
+    }
+
 
 
 }
