@@ -405,7 +405,8 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $data = Json::encode(['remove'=>[['incoming_id'=>$incoming->incoming_id, 'competitive_group_id'=>$model->cg->ais_id]]]);
+            $data = Json::encode(['remove'=>[['incoming_id'=>$incoming->incoming_id,
+                'competitive_group_id'=>$model->statementCg->cg->ais_id]]]);
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
