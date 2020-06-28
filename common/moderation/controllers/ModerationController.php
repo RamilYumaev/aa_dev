@@ -148,27 +148,27 @@ class ModerationController extends Controller
         switch ($moderation->model) {
             case AdditionalInformation::class :
                 $model = AdditionalInformation::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
                 break;
             case UserSchool::class :
                 $model = UserSchool::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
                 break;
             case OtherDocument::class :
                 $model = OtherDocument::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
                 break;
             case Profiles::class :
                 $model = Profiles::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
                 break;
             case PassportData::class :
                 $model = PassportData::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
                 break;
             case Address::class :
                 $model = Address::findOne($moderation->record_id);
-                return $model->user_id;
+                return $model->user_id ?? null;
             default:
                 return null;
         }
