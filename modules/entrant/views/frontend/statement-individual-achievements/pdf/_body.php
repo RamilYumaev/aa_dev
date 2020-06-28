@@ -27,7 +27,7 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
             <th>Наименование индивидуального достижения</th>
             <th>Отметка о принятии к учету <br/><span class="fs-7">(заполняется сотрудником ПК)</span></th>
         </tr>
-         <?php foreach ($statementIA->statementIa as $key => $item ) : ?>
+        <?php foreach ($statementIA->statementIa as $key => $item) : ?>
             <tr>
                 <td class="h-41"><?= ++$key ?></td>
                 <td><?= $item->dictIndividualAchievement->name ?></td>
@@ -47,15 +47,25 @@ use modules\entrant\helpers\IndividualAchievementsHelper;
         </p>
     <?php endif; ?>
     <p align="justify">
-        Я осведомлен(а) о том, что согласно пункту 14.1 Правил приема заявление рассматривается подкомиссией
-        по учету индивидуальных достижений в течение 3х рабочих дней (в рамках установленных сроков приема документов).
-
+        <?php if(($statementIA->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)):?>
+            Я осведомлен(а) о том, что согласно пункту 19.1 Правил приёма срок рассмотрения заявления по учету
+            индивидуальных достижений составляет 14 дней (в рамках установленных сроков приема документов).
+        <?php else :?>
+            Я осведомлен(а) о том, что согласно пункту 14.1 Правил приема заявление рассматривается подкомиссией
+            по учету индивидуальных достижений в течение  3х рабочих дней (в рамках установленных сроков приема документов).
+        <?php endif;?>
     </p>
     <table width="100%">
-        <tr><td>Дата оформления заявления: <?=date("d.m.Y")?></td>
+        <tr>
+            <td>Дата оформления заявления: <?= date("d.m.Y") ?></td>
             <td class="text-right">Подпись</td>
-            <td class="bb"></td></tr>
-        <tr><td></td><td></td><td align="center">(подпись поступающего)</td></tr>
+            <td class="bb"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td align="center">(подпись поступающего)</td>
+        </tr>
     </table>
 </div>
 
