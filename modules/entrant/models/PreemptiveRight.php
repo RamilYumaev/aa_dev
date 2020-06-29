@@ -10,7 +10,8 @@ use yii\db\ActiveRecord;
  *
  * @property integer $other_id
  * @property integer $type_id
- * @property integer $statue_id;
+ * @property integer $statue_id
+ * @property string $message
  **/
 
 class PreemptiveRight extends ActiveRecord
@@ -26,6 +27,14 @@ class PreemptiveRight extends ActiveRecord
         $preemptiveRight->type_id = $type_id;
         $preemptiveRight->statue_id = $status_id;
         return $preemptiveRight;
+    }
+
+    public function setMessage($message) {
+        return $this->message = $message;
+    }
+
+    public function setStatus($status) {
+        return $this->statue_id = $status;
     }
 
     public function getOtherDocument() {

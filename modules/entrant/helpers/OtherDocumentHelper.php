@@ -5,6 +5,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\OtherDocument;
 use yii\helpers\ArrayHelper;
+use function GuzzleHttp\Promise\queue;
 
 class OtherDocumentHelper
 {
@@ -46,6 +47,16 @@ class OtherDocumentHelper
         return OtherDocument::find()->joinWith('preemptiveRights')->andWhere(['user_id' => $user_id, 'type_id' => $type_id,
             'type'=> DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_OTHER)])
             ->all();
+    }
+
+    public static function preemptiveRightUserStatusCount($user_id, $type_id, $status = null) {
+        $query = OtherDocument::find()->joinWith('preemptiveRights')
+            ->andWhere(['user_id' => $user_id, 'type_id' => $type_id,
+            'type'=> DictIncomingDocumentTypeHelper::rangeType(DictIncomingDocumentTypeHelper::TYPE_OTHER)]);
+        if($status) {
+            $query->andWhere(['statue_id' => $status]);
+        }
+        return $query ->count();
     }
 
     public static function preemptiveRightExits($user_id) {
