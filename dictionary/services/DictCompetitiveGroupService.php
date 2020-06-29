@@ -143,12 +143,17 @@ class DictCompetitiveGroupService
         $result = [];
         /* @var $model \yii\db\ActiveQuery*/
         foreach ($model->all() as $currentCg) {
+            $specialRight = $currentCg->special_right_id ? DictCompetitiveGroupHelper::specialRightName($currentCg->special_right_id) : "";
             $result[] = [
                 'id' => $currentCg->id,
-                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
-                    $currentCg->speciality_id,
-                    $currentCg->specialization_id,
-                    $currentCg->faculty_id, $currentCg->education_form_id, $currentCg->financing_type_id),
+                'text' =>  $currentCg->year
+                . " / " .  DictCompetitiveGroupHelper::eduLevelAbbreviatedName($currentCg->edu_level)
+                . " / " . $currentCg->faculty->full_name
+                . " / " . $currentCg->specialty->name
+                . " / " . $currentCg->specialization->name
+                . " / " . DictCompetitiveGroupHelper::formName($currentCg->education_form_id)
+                . " / " . DictCompetitiveGroupHelper::financingTypeName($currentCg->financing_type_id)
+                . ($specialRight ? " / " . $specialRight : ""),
             ];
         }
         return $result;

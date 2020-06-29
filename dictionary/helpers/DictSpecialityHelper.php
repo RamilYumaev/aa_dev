@@ -4,6 +4,7 @@
 namespace dictionary\helpers;
 
 use dictionary\models\DictSpeciality;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 class DictSpecialityHelper
@@ -31,9 +32,7 @@ class DictSpecialityHelper
 
     public static function specialityNameAndCodeList(): array
     {
-        return ArrayHelper::map(DictSpeciality::find()->asArray()->all(), "id", function (array $model) {
-            return $model['code'] . " - " . $model['name'];
-        });
+        return DictSpeciality::find()->select(new Expression("concat_ws(' - ', code, name)"))->indexBy('id')->column();
     }
 
     public static function specialityNameAndCode($id): ?string

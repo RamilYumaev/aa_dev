@@ -26,7 +26,7 @@ class DictFacultyHelper
 
     public static function facultyList(): array
     {
-        return ArrayHelper::map(Faculty::find()->all(), "id", 'full_name');
+        return Faculty::find()->select(['full_name','id'])->indexBy('id')->column();
     }
 
     public static function facultyIncomingList(): array

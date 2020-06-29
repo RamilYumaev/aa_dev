@@ -24,7 +24,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
         <?= $form->field($model, 'competitiveGroupsList')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите конкурсные группы', 'multiple' => true],
             'pluginOptions' => ['allowClear' => true],
-            'data' => $model->competitiveGroupsList ? DictCompetitiveGroupHelper::dictCompetitiveGroupList($model->competitiveGroupsList) : []
+            'data' => $model->competitiveGroupsList ? DictCompetitiveGroupHelper::dictCompetitiveGroupListG($model->competitiveGroupsList) : []
         ]) ?>
 
         <?= $form->field($model, 'documentTypesList')->widget(Select2::class, [
