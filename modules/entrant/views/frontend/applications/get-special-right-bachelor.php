@@ -61,7 +61,7 @@ foreach ($currentFaculty as $faculty) {
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC]);
 
-    if (in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
+    if (!in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
         $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
     }
 
