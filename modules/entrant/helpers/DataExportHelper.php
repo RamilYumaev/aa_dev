@@ -355,16 +355,16 @@ class DataExportHelper
     {
         /* @var  $currentApplication StatementCg */
         /* @var  $statement Statement */
-        $result['organization'] = [];
-        $result['organization'][] =
+        $result['incoming'] = [];
+        $result['incoming']['organization'] =
             [
                 'name' => $agreement->organization->name,
                 'code' => 'sdo' . $agreement->organization->id,
             ];
         foreach ($agreement->statement as $statement) {
             foreach ($statement->statementCg as $currentApplication) {
-                $result['organization'][]['cg'][] = [
-                    'competitive_group_id' => $currentApplication->cg->ais_id,
+                $result['incoming']['competitive_groups'][] = [
+                     $currentApplication->cg->ais_id,
                 ];
             }
         }
