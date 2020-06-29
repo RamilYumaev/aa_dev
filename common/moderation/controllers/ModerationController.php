@@ -11,6 +11,7 @@ use dictionary\models\DictSchools;
 use kartik\form\ActiveForm;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
+use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use olympic\models\auth\Profiles;
@@ -168,6 +169,9 @@ class ModerationController extends Controller
                 break;
             case Address::class :
                 $model = Address::findOne($moderation->record_id);
+                return $model->user_id ?? null;
+            case DocumentEducation::class :
+                $model = DocumentEducation::findOne($moderation->record_id);
                 return $model->user_id ?? null;
             default:
                 return null;

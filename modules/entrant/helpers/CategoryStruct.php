@@ -18,7 +18,7 @@ class CategoryStruct
     {
         return [
             self::GENERAL_COMPETITION => "Поступающий на общих основаниях",
-            self::WITHOUT_COMPETITION => "Победители или призеры олимпиад/соревнований, поступающие вне конкурса",
+            self::WITHOUT_COMPETITION => "Победители или призёры олимпиад/соревнований, имеющие особые права и преимущества (100 баллов/БВИ)",
             self::TARGET_COMPETITION => "Поступащий на целевое обучение",
             self::SPECIAL_RIGHT_COMPETITION => "Поступающий на особую квоту",
             self::GOV_LINE_COMPETITION => "Иностранный гражданин, поступающий по гослинии",
