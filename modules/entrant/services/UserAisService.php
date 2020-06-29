@@ -6,6 +6,7 @@ namespace modules\entrant\services;
 use common\transactions\TransactionManager;
 use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\repositories\DictOrganizationsRepository;
+use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\AisReturnData;
@@ -108,6 +109,7 @@ class UserAisService
             }
             $agreement->detachBehavior('moderation');
 
+            $agreement->setStatus(AgreementHelper::STATUS_ACCEPTED);
             $this->agreementRepository->save($agreement);
         });
     }
