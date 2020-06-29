@@ -363,9 +363,8 @@ class DataExportHelper
             ];
         foreach ($agreement->statement as $statement) {
             foreach ($statement->statementCg as $currentApplication) {
-                $result['incoming']['competitive_groups'][] = [
-                     $currentApplication->cg->ais_id,
-                ];
+                $result['incoming']['competitive_groups'][] =
+                     $currentApplication->cg->ais_id;
             }
         }
         return $result;
