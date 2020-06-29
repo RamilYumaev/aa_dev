@@ -53,6 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'is_new_program')->checkbox() ?>
 
+            <?= $form->field($model, 'only_spo')->checkbox() ?>
+
             <?= $form->field($model, 'only_pay_status')->checkbox() ?>
 
             <?= $form->field($model, 'education_duration')->textInput() ?>
