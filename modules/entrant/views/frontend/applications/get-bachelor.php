@@ -4,6 +4,7 @@
  * @var $currentFaculty
  * @var $cg
  * @var $transformYear
+ * @var $anketa modules\entrant\models\Anketa
  */
 
 use dictionary\models\Faculty;
@@ -17,6 +18,7 @@ use yii\widgets\Pjax;
 use yii\web\View;
 use \dictionary\models\DictDiscipline;
 use \modules\entrant\helpers\Settings;
+use \modules\entrant\helpers\AnketaHelper;
 
 $this->title = "Выбор образовательных программ бакалавриата";
 
@@ -51,15 +53,19 @@ foreach ($currentFaculty as $faculty) {
     if (!in_array($faculty, $filteredFaculty) && $anketa->onlyCse()) {
         continue;
     }
-    $cgFaculty = DictCompetitiveGroup::find()
+    $cgFacultyBase = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->contractOnly()
         ->ForeignerCgSwitch()
         ->currentAutoYear()
         ->faculty($faculty)
-        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
-        ->all();
+        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC]);
 
+        if (in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
+            $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
+        }
+
+$cgFaculty = $cgFacultyBase->all();
     if ($cgFaculty) {
 
         $result .= "<h3 class=\"text-center\">" . \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty] . "</h3>";

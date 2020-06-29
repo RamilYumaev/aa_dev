@@ -98,7 +98,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
     public function ForeignerCgSwitch()
     {
-        $anketa = \Yii::$app->user->identity->anketa();
+        $anketa = $this->getAnketa();
         if ($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
             $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION
         ) {
@@ -227,6 +227,17 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function currentClass($class)
     {
         return $this->andWhere(['spo_class' => $class]);
+    }
+
+    public function onlySpoProgramExcept()
+    {
+        $onlySpoCgId = DictCompetitiveGroup::find()->andWhere(['only_spo' => true])->select('id')->column();
+            return $this->andWhere(['not in', 'id', $onlySpoCgId]);
+    }
+
+    public function getAnketa()
+    {
+        return \Yii::$app->user->identity->anketa();
     }
 
 }

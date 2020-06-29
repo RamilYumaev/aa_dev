@@ -7,6 +7,7 @@
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\UserCgHelper;
 use yii\helpers\Html;
 use yii\web\View;
@@ -22,7 +23,7 @@ $result = "";
 
 foreach ($currentFaculty as $faculty) {
 
-    $cgFaculty = DictCompetitiveGroup::find()
+    $cgFacultyBase = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->budgetOnly()
         ->foreignerStatus(1)
@@ -30,6 +31,12 @@ foreach ($currentFaculty as $faculty) {
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();
+
+    if (in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
+        $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
+    }
+
+    $cgFaculty = $cgFacultyBase->all();
 
     if ($cgFaculty) {
 
