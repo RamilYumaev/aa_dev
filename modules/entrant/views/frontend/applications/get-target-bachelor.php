@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
@@ -44,14 +45,28 @@ foreach ($currentFaculty as $faculty) {
     if (!in_array($faculty, $filteredFaculty) && $anketa->onlyCse()) {
         continue;
     }
-    $cgFaculty = DictCompetitiveGroup::find()
+//    $cgFaculty = DictCompetitiveGroup::find()
+//        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+//        ->onlyTarget()
+//        ->withoutForeignerCg()
+//        ->currentAutoYear()
+//        ->faculty($faculty)
+//        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
+//        ->all();
+
+    $cgFacultyBase = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->onlyTarget()
         ->withoutForeignerCg()
         ->currentAutoYear()
         ->faculty($faculty)
-        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
-        ->all();
+        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC]);
+
+    if (in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
+        $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
+    }
+
+    $cgFaculty = $cgFacultyBase->all();
 
     if ($cgFaculty) {
 
