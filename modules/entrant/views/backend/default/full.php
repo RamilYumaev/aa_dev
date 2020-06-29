@@ -19,6 +19,7 @@ $userId = $profile->user_id;
 <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' => $userId], [
     'class' => 'btn btn-danger',
     'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите отправить письмо?"]]) ?>
+<?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(['userId' => $userId, 'view' => 'button']); ?>
 <?= Html::a("Редактировать данные", \Yii::$app->params['staticHostInfo'] . '/switch-user/by-user-id?id=' . $userId,
     ['class' => 'btn btn-info', 'target' => '_blank']); ?>
 <div class="mt-20 table-responsive">

@@ -5,7 +5,10 @@ namespace modules\entrant\services;
 
 
 use common\transactions\TransactionManager;
+use modules\dictionary\models\DictIncomingDocumentType;
 use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\forms\PreemptiveRightMessageForm;
+use modules\entrant\helpers\PreemptiveRightHelper;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PreemptiveRight;
 use modules\entrant\models\UserIndividualAchievements;
@@ -51,6 +54,21 @@ class PreemptiveRightService
     {
         $model = $this->preemptiveRightRepository->get($otherDocumentId, $type);
         $this->preemptiveRightRepository->remove($model);
+    }
+
+    public function addMessage($otherDocumentId, $type, PreemptiveRightMessageForm $form)
+    {
+        $model = $this->preemptiveRightRepository->get($otherDocumentId, $type);
+        $model->setMessage($form->message);
+        $model->setStatus(PreemptiveRightHelper::DANGER);
+        $this->preemptiveRightRepository->save($model);
+    }
+
+    public function status($otherDocumentId, $type, $status)
+    {
+        $model = $this->preemptiveRightRepository->get($otherDocumentId, $type);
+        $model->setStatus($status);
+        $this->preemptiveRightRepository->save($model);
     }
 
 

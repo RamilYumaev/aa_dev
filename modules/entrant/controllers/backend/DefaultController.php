@@ -135,6 +135,20 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param integer $user_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionPreemptiveRight($user_id)
+    {
+        $profile = $this->findModel($user_id);
+        return $this->render('preemptive-right', [
+            'profile' => $profile
+        ]);
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException

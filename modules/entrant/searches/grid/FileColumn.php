@@ -28,7 +28,7 @@ class FileColumn extends DataColumn
     }
 
     private function countDangerFiles($model) {
-        return Html::tag('span', Html::encode($model->countStatusFiles(FileHelper::STATUS_ACCEPTED)), ['class' => 'label label-danger']);
+        return Html::tag('span', Html::encode($model->countStatusFiles(FileHelper::STATUS_NO_ACCEPTED)), ['class' => 'label label-danger']);
     }
 
 

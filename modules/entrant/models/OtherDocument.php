@@ -148,6 +148,10 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return $this->hasMany(PreemptiveRight::class, ['other_id'=> 'id']);
     }
 
+    public function preemptiveRightsTypeOne($type) {
+        return $this->hasOne(PreemptiveRight::class, ['other_id'=> 'id'])->andWhere(['type_id' => $type])->one();
+    }
+
     public function getNoteOrTypeNote() {
         return $this->type_note ? OtherDocumentHelper::translationList()[$this->type_note] : $this->note;
     }
