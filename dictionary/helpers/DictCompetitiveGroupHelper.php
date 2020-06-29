@@ -233,6 +233,26 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function dictCompetitiveGroupListG($competitiveGroupsList): array
+    {
+        $array = [];
+        foreach (DictCompetitiveGroup::find()->andWhere(
+            ['id' => $competitiveGroupsList]
+        )->all() as $value) {
+            $specialRight = $value->special_right_id ? self::specialRightName($value->special_right_id) : "";
+            $array[$value->id] = $value->year
+                . " / " .  self::eduLevelAbbreviatedName($value->edu_level)
+                . " / " . $value->faculty->full_name
+                . " / " . $value->specialty->name
+                . " / " . $value->specialization->name
+                . " / " . self::formName($value->education_form_id)
+                . " / " . self::financingTypeName($value->financing_type_id)
+                . ($specialRight ? " / " . $specialRight : "");
+        };
+        return $array;
+
+    }
+
     public static function getFullName($year, $edu_level_id, $speciality_id, $specialization_id, $faculty_id, $education_form_id, $budget, $special_right)
     {
         $edu_level = self::eduLevelAbbreviatedName($edu_level_id);
