@@ -10,6 +10,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\AgreementMessageForm;
 use modules\entrant\forms\FileMessageForm;
+use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\StatementConsentPersonalData;
@@ -110,6 +111,20 @@ class AgreementController extends Controller
         return $this->renderAjax('message', [
             'model' => $form,
         ]);
+    }
+
+
+    /**
+     * @param $agreementId
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionDataJson($agreementId) {
+        $agreement = $this->findModel($agreementId);
+        $result = DataExportHelper::dataIncomingAgreement($agreement);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
     }
 
     /**
