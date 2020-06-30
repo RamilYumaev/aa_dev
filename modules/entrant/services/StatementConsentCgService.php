@@ -29,11 +29,16 @@ class StatementConsentCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
-        if($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
+        if(($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
             StatementHelper::STATUS_WALT,
-            StatementHelper::STATUS_ACCEPTED])) {
+            StatementHelper::STATUS_ACCEPTED]) && $cg->cg->isBudget()) ||
+            ($this->repository->exitsCg($userId, [StatementHelper::STATUS_DRAFT,
+                StatementHelper::STATUS_WALT,
+                StatementHelper::STATUS_ACCEPTED], $cg->cg_id) && $cg->cg->isContractCg())
+        ) {
         throw new \DomainException('Вы уже сформировали заявление о согласии на зачисление');
         }
+
 
         if($cg->statement->statusRecallNoAccepted()) {
             throw new \DomainException('Вы не можете сформироавть заявление о согласии , так как у вас имеется 

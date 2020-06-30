@@ -27,4 +27,9 @@ class StatementConsentCgRepository extends RepositoryDeleteSaveClass
        return StatementConsentCg::find()->statementStatus($userId, $status)->exists();
     }
 
+    public function exitsCg($userId, $status, $cgId)
+    {
+        return StatementConsentCg::find()->statementStatusAndCg($userId, $status, $cgId)->exists();
+    }
+
 }

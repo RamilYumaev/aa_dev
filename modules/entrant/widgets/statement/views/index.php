@@ -30,7 +30,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
                             </tr>
                             <?php foreach ($statement->statementCg as $statementCg): ?>
                                 <tr>
-                                    <td><?= $statementCg->cg->fullName ?></td>
+                                    <td><?= $statementCg->cg->fullNameB ?></td>
                                     <td><?= $statement->isStatusDraft() ?  Html::a('Удалить', ['statement/delete-cg',
                                             'id' => $statementCg->id,
                                             'statement_id' => $statement->id],

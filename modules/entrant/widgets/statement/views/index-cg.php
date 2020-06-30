@@ -22,7 +22,9 @@ use modules\entrant\widgets\file\FileListWidget;
                 <tr>
                     <td><?= $statement->cg->fullNameB ?> <?= Html::a('Сформировать заявление', ['statement-consent-cg/create',
                             'id' => $statement->id], ['class' => 'btn btn-info pull-right',
-                            'data'=> ['confirm'=>'Заявление о согласии на зачисление на бюджет можно подавать не более 2-х раз в университет. Вы уверены, что хотите продолжить?']]) ?> </td>
+                            'data'=> ['confirm'=> $statement->cg->isBudget() ?
+                                'Заявление о согласии на зачисление на бюджет можно подавать не более 2-х раз в университет. Вы уверены, что хотите продолжить?' :
+                                "Вы уверены, что хотите сформировать заявление о согласии на зачисление?"]]) ?> </td>
                 </tr>
                 <tr>
                     <td>
