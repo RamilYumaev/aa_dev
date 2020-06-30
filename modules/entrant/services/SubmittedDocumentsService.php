@@ -132,7 +132,7 @@ class SubmittedDocumentsService
             if (!$statement->countFilesAndCountPagesTrue()) {
                 throw new \DomainException('Загружены не все файлы заявления №' . $statement->numberStatement . '!');
             }
-            if($statement->isSpecialRightStatement() || $anketa->isWithOitCompetition()) {
+            if($anketa->isWithOitCompetition() || $anketa->isExemption() || ($anketa->isAgreement() && $statement->isSpecialRightStatement())) {
                 $statement->setStatus(StatementHelper::STATUS_WALT_SPECIAL);
             }else {
                 $statement->setStatus(StatementHelper::STATUS_WALT);
