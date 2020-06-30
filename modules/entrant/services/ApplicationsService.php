@@ -8,6 +8,7 @@ use common\transactions\TransactionManager;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\CathedraCgRepository;
 use modules\entrant\repositories\StatementCgRepository;
@@ -39,13 +40,13 @@ class ApplicationsService
         $this->cathedraCgRepository = $cathedraCgRepository;
     }
 
-    public function saveCg(DictCompetitiveGroup $cg, $cathedra_id){
+    public function saveCg(DictCompetitiveGroup $cg, $cathedra_id, $anketa){
         DictCompetitiveGroupHelper::oneProgramGovLineChecker($cg);
         DictCompetitiveGroupHelper::noMore3Specialty($cg);
         DictCompetitiveGroupHelper::isAvailableCg($cg);
         DictCompetitiveGroupHelper::budgetChecker($cg);
         $this->repository->haveARecord($cg->id);
-        $this->transactionManager->wrap(function() use ($cg, $cathedra_id) {
+        $this->transactionManager->wrap(function() use ($cg, $cathedra_id, $anketa) {
             if ($cathedra_id) {
                 $this->cathedraCgRepository->get($cg->id, $cathedra_id);
             }
@@ -71,6 +72,29 @@ class ApplicationsService
                     $this->repository->save($userCg);
                 }
             }
+
+            /* @var $anketa \modules\entrant\models\Anketa */
+        if($anketa->isExemption() && !$cg->isKvota() && $cg->isBudget()) {
+            $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::SPECIAL_RIGHT)->one();
+            if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
+            {
+                $userCg = UserCg::create($shareCg->id, null);
+                $this->repository->save($userCg);
+            }
+        }
+
+        if($anketa->isAgreement() && !$cg->isTarget() && $cg->isBudget()) {
+                $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::TARGET_PLACE)->one();
+                if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
+                {
+                    $userCg = UserCg::create($shareCg->id, null);
+                    $this->repository->save($userCg);
+                }
+            }
+
+
+
+
         });
     }
 

@@ -119,9 +119,9 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ['only_pay_status' => true]]);
     }
 
-    public function findBudgetAnalog($cgContract)
+    public function findBudgetAnalog($cgContract, $specialRight = null)
     {
-        return $this->andWhere(
+        $query = $this->andWhere(
             ['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET,
                 'faculty_id' => $cgContract->faculty_id,
                 'year' => $cgContract->year,
@@ -134,6 +134,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
 
             ]
         );
+        if($specialRight) {
+            $query->specialRight($specialRight);
+        }
+
+        return $query;
     }
 
     public function foreignerStatus($foreignerStatus)

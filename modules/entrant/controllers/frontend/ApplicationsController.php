@@ -175,7 +175,7 @@ class ApplicationsController extends Controller
             {
                 throw new \DomainException("Прием документов на данную образовательную программу окончен!");
             }
-            $this->service->saveCg($cg, $cathedra_id);
+            $this->service->saveCg($cg, $cathedra_id, $this->anketa);
             if (\Yii::$app->request->isAjax) {
                 return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
             }
