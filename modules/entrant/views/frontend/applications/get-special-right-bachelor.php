@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
