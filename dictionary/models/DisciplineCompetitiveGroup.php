@@ -66,9 +66,14 @@ class DisciplineCompetitiveGroup extends ActiveRecord
         return $this->hasOne(DictDiscipline::class, ['id' => 'discipline_id']);
     }
 
+    public function getCompetitiveGroup()
+    {
+        return $this->hasOne(DictCompetitiveGroup::class, ['id' => 'competitive_group_id']);
+    }
+
     public static function find(): DisciplineCompetitiveQuery
     {
-       return new DisciplineCompetitiveQuery(static::class);
+        return new DisciplineCompetitiveQuery(static::class);
     }
 
 

@@ -12,13 +12,13 @@ class DisciplineCompetitiveGroupForm extends Model
 {
     public $discipline_id, $competitive_group_id, $priority, $year;
 
-    public function __construct($competitive_group_id, DisciplineCompetitiveGroup $competitiveGroup = null, $config = [])
+    public function __construct($competitive_group_id, DisciplineCompetitiveGroup $disciplineCompetitiveGroup = null, $config = [])
     {
-        if ($competitiveGroup) {
-            $this->discipline_id = $competitiveGroup->discipline_id;
-            $this->competitive_group_id = $competitiveGroup->competitive_group_id;
-            $this->priority = $competitiveGroup->priority;
-            $this->year = $competitiveGroup->year;
+        if ($disciplineCompetitiveGroup) {
+            $this->discipline_id = $disciplineCompetitiveGroup->discipline_id;
+            $this->competitive_group_id = $disciplineCompetitiveGroup->competitive_group_id;
+            $this->priority = $disciplineCompetitiveGroup->priority;
+            $this->year = $disciplineCompetitiveGroup->competitiveGroup->year;
         } else {
             $this->competitive_group_id = $competitive_group_id;
         }
