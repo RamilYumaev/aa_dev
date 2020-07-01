@@ -19,7 +19,7 @@ class PdfHelper
             // portrait orientation
             'orientation' => $orientation,
             // stream to browser inlineс
-            'destination' => Pdf::DEST_DOWNLOAD,
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
             'content' => $content,
             'marginLeft' => 20,
