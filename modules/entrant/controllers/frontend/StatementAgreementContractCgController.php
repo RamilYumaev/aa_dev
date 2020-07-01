@@ -50,7 +50,7 @@ class StatementAgreementContractCgController extends Controller
     public function actionCreate($id)
     {
         $cg = $this->findConsentCg($id);
-        if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) !== null) {
+        if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
             Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -59,7 +59,7 @@ class StatementAgreementContractCgController extends Controller
             'token'=> "849968aa53dd0732df8c55939f6d1db9",
             "competitive_group_id"=>$cg->cg->ais_id,
             "incoming_id"=>$incoming->incoming_id,]);
-        curl_setopt($ch, CURLOPT_URL,"");
+        curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/check-ball');
         curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -79,7 +79,8 @@ class StatementAgreementContractCgController extends Controller
                     $this->service->create($id, $this->getUser());
                     Yii::$app->session->setFlash('success', "Договор успешно создан");
                 } else {
-                    Yii::$app->session->setFlash('danger', "У Вас не хватает баллы по дисциплинам, и поэтому договор не может быть создан");
+                    Yii::$app->session->setFlash('danger', "Ваши баллы по предметам не соответствуют 
+                    условиям заключения договора");
                 }
             } else if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
@@ -119,7 +120,7 @@ class StatementAgreementContractCgController extends Controller
             }
             return $render;
         }else {
-            Yii::$app->session->setFlash('warning', "Вы не выбрали заказчика или отсуствуют его данные");
+            Yii::$app->session->setFlash('warning', "Отсутствует номер договора!");
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
@@ -163,7 +164,7 @@ class StatementAgreementContractCgController extends Controller
     {
         $agreement= $this->findModel($id);
         if($agreement->typeEntrant() || $agreement->typePersonal() || $agreement->typeLegal()) {
-            if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) !== null) {
+            if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
                 Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
                 return $this->redirect(Yii::$app->request->referrer);
             }

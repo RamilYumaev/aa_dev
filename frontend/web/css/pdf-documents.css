@@ -107,6 +107,10 @@ body {
     margin-top: 10px;
 }
 
+.mb-30 {
+    margin-bottom: 30px;
+}
+
 .mt-15 {
     margin-top: 15px;
 }
@@ -184,8 +188,20 @@ body {
     border-bottom: 1px solid black;
 }
 
+.bb-3 {
+    border-bottom: 3px solid black;
+}
+
 .br {
     border-right: 1px solid black;
+}
+
+.br-2 {
+    border-right: 2px solid black;
+}
+
+.br-3 {
+    border-right: 3px solid black;
 }
 
 .pl-10 {
@@ -234,7 +250,12 @@ table p {
     float: left;
 }
 
-.left-column{
+.left-column {
     float: right;
+}
+
+.doted-line {
+    border-top: 2px dashed black;
+    width: 100%;
 }
 
