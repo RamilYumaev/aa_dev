@@ -53,7 +53,7 @@ class PostDocumentController extends Controller
                     [
                         'actions' => ['agreement-contract'],
                         'allow' => true,
-                        'roles' => ['call-center'],
+                        'roles' => ['@'],
                     ],
 
                 ],

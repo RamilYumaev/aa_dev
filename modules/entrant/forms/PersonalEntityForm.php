@@ -33,7 +33,7 @@ class PersonalEntityForm extends Model
      * {@inheritdoc}
      */
 
-    public function defaultRules()
+    public function rules()
     {
         return [
             [[ 'series',
@@ -46,8 +46,8 @@ class PersonalEntityForm extends Model
             [['date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
             [['date_of_issue'], MaxDateValidate::class],
             [['phone'], 'string', 'max' => 25],
-            ['phone', 'unique', 'targetClass' => PersonalEntity::class,
-                'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'],
+            $this->uniqueRules(),
+            $this->uniquePhone(),
             [['phone'], PhoneInputValidator::class],
         ];
     }
@@ -68,10 +68,14 @@ class PersonalEntityForm extends Model
     /**
      * {@inheritdoc}
      */
-
-    public function rules()
+    public function uniquePhone()
     {
-        return ArrayHelper::merge($this->defaultRules(), [$this->uniqueRules()]);
+        $phoneUnique = [['phone'], 'unique', 'targetClass' => PersonalEntity::class,
+            'message' => 'Такой номер телефона уже зарегистрирован в нашей базе данных'];
+        if ($this->_personal) {
+            return ArrayHelper::merge($phoneUnique, [ 'filter' => ['<>', 'id', $this->_personal->id]]);
+        }
+        return $phoneUnique;
     }
 
     /**

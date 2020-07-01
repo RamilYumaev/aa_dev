@@ -20,7 +20,7 @@ use modules\entrant\widgets\file\FileListWidget;
             </tr>
             <?php foreach ($statementsCg as $statement):  ?>
                 <tr>
-                    <td><?= $statement->cg->fullName ?> <?= Html::a('Сформировать договор', ['statement-agreement-contract-cg/create',
+                    <td><?= $statement->cg->fullName ?> <?= Html::a('Создать договор', ['statement-agreement-contract-cg/create',
                             'id' => $statement->id], ['class' => 'btn btn-info',]) ?> </td>
                 </tr>
                  <tr>
@@ -39,21 +39,66 @@ use modules\entrant\widgets\file\FileListWidget;
                                                 заказчика договора',
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],
                                             ["class" => "btn btn-primary"]) :""; ?>
-                                        <?= Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
+                                        <?= $agreement->number ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
+                                            ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
                                             ['class' => 'btn btn-large btn-warning'])?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',
                                             ['statement-agreement-contract-cg/delete',
                                             'id' =>  $agreement->id],
                                             ['class' => 'btn btn-danger', 'data-method'=>"post",
                                                 "data-confirm" => "Вы уверены что хотите удалить?"]) :"" ?>
-                                        <?= FileWidget::widget(['record_id' => $agreement->id, 'model' => \modules\entrant\models\StatementAgreementContractCg::class ]) ?>
+                                        <?= $agreement->number ?  FileWidget::widget(['record_id' => $agreement->id, 'model' => \modules\entrant\models\StatementAgreementContractCg::class ]) : "" ?>
                                     </td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td colspan="2"> <?= FileListWidget::widget(['record_id' => $agreement->id, 'model' => \modules\entrant\models\StatementAgreementContractCg::class,
                                      'userId' => $statement->statement->user_id  ]) ?></td>
                                 </tr>
+                                 <?php if($agreement->typePersonalOrLegal()): ?>
+                                     <?php if($agreement->typePersonal()): ?>
+                                    <tr>
+                                        <td >Данные о законном представителе - Заказчике платных образовательных услуг:
+                                            <?= $agreement->personal->dataFull ?></td>
+                                        <td>Необходимо загрузить паспортыне данные Заказчика</td>
+                                    </tr>
+                                <tr>
+                                    <td><?= FileWidget::widget(['record_id' => $agreement->personal->id, 'model' => \modules\entrant\models\PersonalEntity::class]) ?></td>
+                                    <td><?= FileListWidget::widget(['record_id' => $agreement->personal->id, 'model' => \modules\entrant\models\PersonalEntity::class,
+                                            'userId' => $statement->statement->user_id  ]) ?></td>
+                                </tr>
+                                <?php elseif($agreement->typeLegal()): ?>
+                                    <tr>
+                                        <td>Данные о Юридическом лице - Заказчике платных образовательных услуг:
+                                            <?= $agreement->legal->dataFull ?></td>
+                                        <td>Необходимо загрузить паспортыне данные Заказчика и карту предприятия</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <?= FileWidget::widget(['record_id' => $agreement->legal->id, 'model' => \modules\entrant\models\LegalEntity::class]) ?></td>
+                                        <td> <?= FileListWidget::widget(['record_id' => $agreement->legal->id, 'model' => \modules\entrant\models\LegalEntity::class,
+                                                'userId' => $statement->statement->user_id  ]) ?></td>
+                                    </tr>
+                                     <?php endif; ?>
+                                <?php endif;?>
+                                <?php if($agreement->receiptContract): ?>
+                                <tr>
+                                    <td>
+                                        <?=  Html::a('Скачать квитанцию', ['statement-agreement-contract-cg/pdf-receipt', 'id' =>  $agreement->receiptContract->id],
+                                            ['class' => 'btn btn-large btn-warning'])?>
+                                    </td>
+                               </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td><?=  Html::a('Сформировать квитанцию',
+                                                    ["statement-agreement-contract-cg/add-receipt", "id" => $agreement->id],
+                                                    ["class" => "btn btn-primary",
+                                                        'data-pjax' => 'w3', 'data-toggle' => 'modal',
+                                                        'data-target' => '#modal', 'data-modalTitle' => 'Квитанция']); ?>
+                                            </td>
+                                        </tr>
+
                             <?php endif; ?>
+                            <?php endif; ?>
+
                         </table>
                      </td>
                  </tr>

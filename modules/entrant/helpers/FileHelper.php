@@ -7,8 +7,10 @@ namespace modules\entrant\helpers;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
+use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -60,13 +62,15 @@ class FileHelper
             Address::class,
             OtherDocument::class,
             Agreement::class,
+            PersonalEntity::class,
+            LegalEntity::class,
             StatementIndividualAchievements::class,
             StatementConsentPersonalData::class,
             StatementConsentCg::class,
             StatementRejectionCg::class,
             StatementRejection::class,
             StatementRejectionCgConsent::class,
-            StatementAgreementContractCg::class
+            StatementAgreementContractCg::class,
         ];
     }
 
@@ -86,6 +90,8 @@ class FileHelper
             Address::class => 1,
             OtherDocument::class => 20,
             Agreement::class => 20,
+            PersonalEntity::class=>5,
+            LegalEntity::class=>5,
             StatementIndividualAchievements::class => 0,
             Statement::class => 0,
             StatementConsentPersonalData::class => 0,
@@ -104,6 +110,8 @@ class FileHelper
             Address::class => "address",
             OtherDocument::class => "other",
             Agreement::class => "agreement",
+            PersonalEntity::class=>"personal",
+            LegalEntity::class=>"legal",
             StatementIndividualAchievements::class => "id",
             Statement::class => "statement",
             StatementConsentPersonalData::class => "personal",

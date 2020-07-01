@@ -41,14 +41,10 @@ use yii\db\ActiveRecord;
 
 class LegalEntity extends ActiveRecord
 {
-//    public function behaviors()
-//    {
-//        return ['moderation' => [
-//            'class' => ModerationBehavior::class,
-//            'attributes' => ['bank', 'ogrn', 'inn', 'name',
-//                  'postcode', 'address', 'phone', 'requisites', 'fio', 'footing', 'position']
-//        ]];
-//    }
+    public function behaviors()
+    {
+        return [FileBehavior::class];
+    }
 
     public static  function create(LegalEntityForm $form) {
         $legalEntity =  new static();
@@ -83,7 +79,7 @@ class LegalEntity extends ActiveRecord
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
 
-    public function getPassportFull(){
+    public function getDataFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
             if($value) {

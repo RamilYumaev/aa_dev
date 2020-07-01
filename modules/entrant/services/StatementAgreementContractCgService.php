@@ -5,13 +5,16 @@ namespace modules\entrant\services;
 
 
 use common\transactions\TransactionManager;
+use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\repositories\LegalEntityRepository;
 use modules\entrant\repositories\PersonalEntityRepository;
+use modules\entrant\repositories\ReceiptContractRepository;
 use modules\entrant\repositories\StatementAgreementContractCgRepository;
 use modules\entrant\repositories\StatementCgRepository;
 
@@ -22,11 +25,13 @@ class StatementAgreementContractCgService
     private $personalEntityRepository;
     private $legalEntityRepository;
     private $transactionManager;
+    private $receiptContractRepository;
 
     public function __construct( StatementAgreementContractCgRepository  $repository,
                                  StatementCgRepository $cgRepository,
                                  PersonalEntityRepository $personalEntityRepository,
                                  LegalEntityRepository $legalEntityRepository,
+                                 ReceiptContractRepository $receiptContractRepository,
                                  TransactionManager $transactionManager
 )
     {
@@ -35,6 +40,7 @@ class StatementAgreementContractCgService
         $this->personalEntityRepository = $personalEntityRepository;
         $this->legalEntityRepository = $legalEntityRepository;
         $this->transactionManager = $transactionManager;
+        $this->receiptContractRepository = $receiptContractRepository;
     }
 
     public function create($id, $userId)
@@ -51,6 +57,21 @@ class StatementAgreementContractCgService
     public function addCountPages($id, $count){
         $statement = $this->repository->get($id);
         $statement->setCountPages($count);
+        $statement->detachBehavior('contract');
+        $this->repository->save($statement);
+    }
+
+    public function addCountPagesReceipt($id, $count){
+        $receipt = $this->receiptContractRepository->getId($id);
+        $receipt->setCountPages($count);
+        $this->receiptContractRepository->save($receipt);
+    }
+
+
+    public function addNumber($id, $number){
+        $statement = $this->repository->get($id);
+        $statement->setNumber($number);
+        $statement->detachBehavior('contract');
         $this->repository->save($statement);
     }
 
@@ -81,6 +102,7 @@ class StatementAgreementContractCgService
          $this->transactionManager->wrap(function () use($statement, $model) {
              $this->personalEntityRepository->save($model);
              $statement->setRecordId($model->id);
+             $statement->detachBehavior('contract');
              $this->repository->save($statement);
          });
 
@@ -96,12 +118,19 @@ class StatementAgreementContractCgService
         }
         $this->transactionManager->wrap(function () use($statement, $model) {
             $this->personalEntityRepository->save($model);
+            $statement->detachBehavior('contract');
             $statement->setRecordId($model->id);
+
             $this->repository->save($statement);
         });
-
     }
 
+    public function addReceipt($period, $id)
+    {
+        $contract = $this->repository->get($id);
+        $receipt = ReceiptContract::create($contract->id, $period);
+        $this->receiptContractRepository->save($receipt);
+    }
 
 
 }
