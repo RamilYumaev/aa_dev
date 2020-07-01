@@ -6,15 +6,18 @@ use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
-use modules\entrant\models\queries\StatementConsentCgQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
+use yiidreamteam\upload\FileUploadBehavior;
 
 /**
  * This is the model class for table "{{%statement_agreement_contract_cg}}".
  *
  * @property integer $id
  * @property integer $statement_cg
+ * @property string $pdf_file
+ * @property string $number
  * @property integer $status_id;
  * @property integer $created_at;
  * @property integer $updated_at;
@@ -27,12 +30,25 @@ class StatementAgreementContractCg extends ActiveRecord
 {
     public static function tableName()
     {
-        return  "{{%statement_agreement_contract_cg}}";
+        return "{{%statement_agreement_contract_cg}}";
     }
+
+    public function setFile(UploadedFile $file): void
+    {
+        $this->pdf_file = $file;
+    }
+
 
     public function behaviors()
     {
-        return [TimestampBehavior::class, FileBehavior::class, ContractBehavior::class];
+        return [FileBehavior::class,
+            'contract' => ContractBehavior::class,
+            TimestampBehavior::class,
+            [   'class' => FileUploadBehavior::class,
+                'attribute' => 'pdf_file',
+                'filePath' => '@frontend/file/pdf/[[id]]/[[attribute_pdf_file]].[[extension]]',
+            ],
+        ];
     }
 
 
@@ -40,6 +56,10 @@ class StatementAgreementContractCg extends ActiveRecord
         $statementCg = new static();
         $statementCg->statement_cg = $statement_cg;
         return $statementCg;
+    }
+
+    public function setNumber($number) {
+        $this->number = $number;
     }
 
     public function setCountPages($countPages) {
@@ -98,6 +118,10 @@ class StatementAgreementContractCg extends ActiveRecord
 
     public function getLegal() {
         return $this->hasOne(LegalEntity::class, ['id'=>'record_id']);
+    }
+
+    public function getReceiptContract() {
+        return $this->hasOne(ReceiptContract::class, ['contract_cg_id'=>'id']);
     }
 
     public function typeEntrant(){

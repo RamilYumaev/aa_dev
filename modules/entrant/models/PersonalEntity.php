@@ -37,14 +37,10 @@ use yii\db\ActiveRecord;
 
 class PersonalEntity extends ActiveRecord
 {
-//    public function behaviors()
-//    {
-//        return ['moderation' => [
-//            'class' => ModerationBehavior::class,
-//            'attributes' => ['fio', 'series', 'number', 'date_of_issue', 'authority',
-//                  'postcode', 'address', 'phone',]
-//        ]];
-//    }
+    public function behaviors()
+    {
+        return [FileBehavior::class];
+    }
 
     public static  function create(PersonalEntityForm $form) {
         $personalEntity =  new static();
@@ -76,7 +72,7 @@ class PersonalEntity extends ActiveRecord
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
 
-    public function getPassportFull(){
+    public function getDataFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
             if($value) {
