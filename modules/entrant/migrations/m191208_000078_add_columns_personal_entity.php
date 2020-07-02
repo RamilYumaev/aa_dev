@@ -7,17 +7,17 @@ use dictionary\models\Faculty;
 use modules\entrant\models\StatementCg;
 use \yii\db\Migration;
 
-class m191208_000078_add_columns_legal_entity extends Migration
+class m191208_000078_add_columns_personal_entity extends Migration
 {
     private function table()
     {
-        return \modules\entrant\models\LegalEntity::tableName();
+        return \modules\entrant\models\PersonalEntity::tableName();
     }
 
     public function up()
     {
-       // $this->addColumn($this->table(),  'postcode', $this->string()->null()->comment('Индекс'));
-       $this->renameColumn($this->table(), 'address', 'address_postcode');
+       //$this->addColumn($this->table(),  'postcode', $this->string()->null()->comment('Индекс'));
+       $this->dropColumn($this->table(), 'address');
        $this->addColumn($this->table(),  'region' , $this->string()->null()->comment("Регион"));
        $this->addColumn($this->table(),  'district' , $this->string()->null()->comment("Район"));
        $this->addColumn($this->table(),  'city' , $this->string()->null()->comment("Город"));
@@ -32,8 +32,6 @@ class m191208_000078_add_columns_legal_entity extends Migration
 
     public function down()
     {
-        $this->renameColumn($this->table(), "bik", "bank");
-        $this->dropColumn($this->table(), 'p_c');
-        $this->dropColumn($this->table(), 'k_c');
+
     }
 }

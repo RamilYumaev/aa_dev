@@ -15,15 +15,31 @@ use yii\helpers\Html;
 $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id);
 $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->user_id);
 $legal = $agreement->legal;
+$legal->bank;
+
 $legal->bik;
 $legal->p_c;
 $legal->k_c;
 $legal->fio;
 $legal->ogrn;
-$legal->address;
+
+$legal->postcode;
+$legal->address_postcode;
+$legal->region;
+$legal->district;
+$legal->city;
+$legal->village;
+$legal->street;
+$legal->house;
+$legal->housing;
+$legal->building;
+$legal->flat;
+
+
+
 $legal->footing;
 $legal->name;
-$legal->postcode;
+
 $legal->phone;
 $legal->requisites;
 $legal->position;

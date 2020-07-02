@@ -10,12 +10,13 @@ use yii\data\ActiveDataProvider;
 
 class StatementAgreementContractSearch extends  Model
 {
-    public  $faculty_id,  $cg, $user_id, $date_from, $date_to;
+    public  $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
 
     public function rules()
     {
         return [
             [['user_id', 'faculty_id', 'cg'], 'integer'],
+            [['number'], 'safe'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -54,6 +55,7 @@ class StatementAgreementContractSearch extends  Model
         }
 
         $query
+            ->andFilterWhere(['like', 'number', $this->number])
             ->andFilterWhere(['>=', 'consent.created_at', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])
             ->andFilterWhere(['<=', 'consent.created_at', $this->date_to ? strtotime($this->date_to . ' 23:59:59') : null]);
 

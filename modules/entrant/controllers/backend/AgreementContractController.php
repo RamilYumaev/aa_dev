@@ -7,11 +7,15 @@ namespace modules\entrant\controllers\backend;
 use common\helpers\EduYearHelper;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
+use modules\entrant\readRepositories\StatementReadRepository;
 use modules\entrant\searches\StatementAgreementContractSearch;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\AgreementService;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class AgreementContractController extends Controller
 {
@@ -37,8 +41,32 @@ class AgreementContractController extends Controller
         ]);
     }
 
-    protected function findModel(): ?Agreement
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionView($id)
     {
-      return Agreement::findOne([ 'user_id' => Yii::$app->user->identity->getId(), 'year' =>EduYearHelper::eduYear()]);
+        $contract = $this->findModel($id);
+        return $this->render('view', ['contract' => $contract]);
+    }
+
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id): StatementAgreementContractCg
+    {;
+
+        if (($model = StatementAgreementContractCg::findOne($id))  !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
     }
 }

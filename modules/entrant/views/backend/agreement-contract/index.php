@@ -22,20 +22,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['class' => \yii\grid\SerialColumn::class],
                     [
                             'attribute' => 'statementCg.statement.user_id',
                             'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser.fio'), 'user_id', 'statementCg.statement.profileUser.fio'),
                             'value'=> 'statementCg.statement.profileUser.fio'
 
                     ],
+                    'number',
                     [
                         'attribute' => 'statementCg.statement.faculty_id',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('faculty_id',  'faculty.full_name'), 'faculty_id', 'statementCg.statement.faculty.full_name'),
                          'value' => 'statementCg.statement.faculty.full_name'
                     ],
-                    [
+                    ['header' => "Конкурсная группа",
                         'attribute' => 'statementCg.cg.id',
-                        //'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('faculty_id',  'faculty.full_name'), 'faculty_id', 'statementCg.statement.faculty.full_name'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreementCg('cg_id',  'cg.fullNameB'), 'cg', 'statementCg.cg.fullNameB'),
                         'value' => 'statementCg.cg.fullNameB'
                     ],
                     [
@@ -43,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
-                    ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
+                    ['class' => ActionColumn::class, 'controller' => 'agreement-contract', 'template' => '{view}']
                 ],
             ]); ?>
         </div>

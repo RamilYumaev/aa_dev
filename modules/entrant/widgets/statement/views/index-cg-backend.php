@@ -64,8 +64,6 @@ use modules\entrant\widgets\file\FileListWidget;
                     'data-pjax' => 'w8', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения отозванного заявления ЗОС']) :"" ?>
                 <?=  $consent->statementCgRejection->isStatusNoAccepted() ? Html::a('Возврат', ['statement-rejection/status-consent', 'id' => $consent->statementCgRejection->id, 'status'=>StatementHelper::STATUS_WALT],
                     ['class' => 'btn btn-success']) : "" ?>
-
-
                 <span class="label label-<?= StatementHelper::colorName( $consent->statementCgRejection->status_id)?>">
                         <?=  $consent->statementCgRejection->statusNameJob?></span>
             </p>
