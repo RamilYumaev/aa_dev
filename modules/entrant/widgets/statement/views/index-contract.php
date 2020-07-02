@@ -40,7 +40,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],
                                             ["class" => "btn btn-primary"]) :""; ?>
                                         <?= $agreement->number  ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
-                                            ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
+                                            ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/create-pdf', 'id' =>  $agreement->id],
                                             ['class' => 'btn btn-large btn-warning']) ?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',
                                             ['statement-agreement-contract-cg/delete',
