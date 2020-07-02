@@ -4,6 +4,7 @@ namespace modules\entrant\controllers\frontend;
 use modules\entrant\forms\FileForm;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -82,7 +83,8 @@ class FileController extends Controller
             ($model == StatementRejection::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCg::class && !$modelOne->count_pages) ||
-            ($model == StatementAgreementContractCg::class &&  !$modelOne->count_pages)
+            ($model == StatementAgreementContractCg::class &&  !$modelOne->count_pages)  ||
+            ($model == ReceiptContract::class &&  !$modelOne->count_pages)
         )
         {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
@@ -179,6 +181,9 @@ class FileController extends Controller
             return $model;
         }
         if ($modelOne == StatementAgreementContractCg::class && (($model = $modelOne::find()->statementOne($id, $this->getUser())) !== null)) {
+            return $model;
+        }
+        if ($modelOne == ReceiptContract::class && (($model = $modelOne::find()->receiptOne($id, $this->getUser())) !== null)) {
             return $model;
         }
         if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => $this->getUser() ])) !== null)) {

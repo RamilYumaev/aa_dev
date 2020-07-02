@@ -20,6 +20,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class StatementAgreementContractCgController extends Controller
 {
@@ -104,7 +105,12 @@ class StatementAgreementContractCgController extends Controller
     {
         $agreement= $this->findModel($id);
         $anketa = $this->getAnketa();
-        if($agreement->number) {
+
+        if(!$agreement->statementCg->cg->education_year_cost) {
+            Yii::$app->session->setFlash('warning', "Нет стоимости в настройках системы. Обратитесь к администратору");
+           return $this->redirect(Yii::$app->request->referrer);
+
+        }   if($agreement->number) {
             Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
             Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
@@ -160,6 +166,26 @@ class StatementAgreementContractCgController extends Controller
      * @throws \yii\base\InvalidConfigException
      */
 
+    public function actionDeleteReceipt($id)
+    {
+        $this->findModelReceipt($id);
+        try {
+            $this->service->deleteReceipt($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
     public function actionCreatePdf($id)
     {
         $agreement= $this->findModel($id);
@@ -169,7 +195,7 @@ class StatementAgreementContractCgController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
+            $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-entrant-with-doc?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
@@ -182,10 +208,15 @@ class StatementAgreementContractCgController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             curl_close($ch);
-
             $result = Json::decode($result);
             try {
-                $this->service->addCountPages($id, count($pdf->getApi()->pages));
+                if (array_key_exists('number', $result)) {
+                      $this->service->addNumber($id, $result['number']);
+                      Yii::$app->session->setFlash('success', "Договор успешно сформирован");
+                } else if (array_key_exists('message', $result)) {
+                    Yii::$app->session->setFlash('warning', $result['message']);
+                }
+
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -266,6 +297,23 @@ class StatementAgreementContractCgController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         return $this->renderAjax('add-receipt',['cost' => $agreement->statementCg->cg->education_year_cost]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionDataJson($id) {
+        $agreement = $this->findModel($id);
+        if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
+            Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $result = DataExportHelper::dataIncomingContract($agreement, $incoming);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
     }
 
     /**

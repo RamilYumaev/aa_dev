@@ -39,15 +39,15 @@ use modules\entrant\widgets\file\FileListWidget;
                                                 заказчика договора',
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],
                                             ["class" => "btn btn-primary"]) :""; ?>
-                                        <?= $agreement->number ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
-                                            ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
-                                            ['class' => 'btn btn-large btn-warning'])?>
+                                        <?= /*$agreement->number ?*/ Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
+                                            ['class' => 'btn btn-large btn-warning']) /* : Html::a('Сформировать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
+                                            ['class' => 'btn btn-large btn-warning']) */ ?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',
                                             ['statement-agreement-contract-cg/delete',
                                             'id' =>  $agreement->id],
                                             ['class' => 'btn btn-danger', 'data-method'=>"post",
                                                 "data-confirm" => "Вы уверены что хотите удалить?"]) :"" ?>
-                                        <?= $agreement->number ?  FileWidget::widget(['record_id' => $agreement->id, 'model' => \modules\entrant\models\StatementAgreementContractCg::class ]) : "" ?>
+                                        <?= /*$agreement->number ? */ FileWidget::widget(['record_id' => $agreement->id, 'model' => \modules\entrant\models\StatementAgreementContractCg::class ]) /*: "" */?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -84,7 +84,13 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <td>
                                         <?=  Html::a('Скачать квитанцию', ['statement-agreement-contract-cg/pdf-receipt', 'id' =>  $agreement->receiptContract->id],
                                             ['class' => 'btn btn-large btn-warning'])?>
+                                        <?=  Html::a('Удалить', ['statement-agreement-contract-cg/delete-receipt', 'id' =>  $agreement->receiptContract->id],
+                                            ['class' => 'btn btn-danger', 'data-method'=>"post",
+                                                "data-confirm" => "Вы уверены что хотите удалить?"])?>
                                     </td>
+                                    <td> <?= FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?></td>
+                                    <td> <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
+                                            'userId' => $statement->statement->user_id  ]) ?></td>
                                </tr>
                                     <?php else: ?>
                                         <tr>
@@ -94,6 +100,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                                         'data-pjax' => 'w3', 'data-toggle' => 'modal',
                                                         'data-target' => '#modal', 'data-modalTitle' => 'Квитанция']); ?>
                                             </td>
+
                                         </tr>
 
                             <?php endif; ?>

@@ -20,6 +20,7 @@ use modules\entrant\models\Language;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
@@ -368,6 +369,23 @@ class DataExportHelper
             }
         }
         return $result;
+    }
+
+    public static function dataIncomingContract(StatementAgreementContractCg $contractCg, UserAis $userAis) {
+        if($contractCg->typeEntrant()) {
+       return ['export_agreement' =>[
+            'token'=> '849968aa53dd0732df8c55939f6d1db9',
+            'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
+            "incoming_id"=>$userAis->incoming_id,
+            'agreement' => [
+                'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                'abiturient_academic_year'=>'2020',
+                'customer_type_id'=>1,
+                'customer_is_abiturient_status' => 1,
+                'current_status_id'=>1,
+            ],
+        ]];
+        }
     }
 
 }
