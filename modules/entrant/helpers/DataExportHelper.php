@@ -380,7 +380,7 @@ class DataExportHelper
             'agreement' => [
                 'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
                 'abiturient_academic_year'=>'2020',
-                'customer_type_id'=>1,
+                'customer_type_id'=>2,
                 'customer_is_abiturient_status' => 1,
                 'current_status_id'=>1,
             ],
