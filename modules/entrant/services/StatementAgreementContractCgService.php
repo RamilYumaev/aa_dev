@@ -67,6 +67,10 @@ class StatementAgreementContractCgService
         $this->receiptContractRepository->save($receipt);
     }
 
+    public function deleteReceipt($id){
+        $receipt = $this->receiptContractRepository->getId($id);
+        $this->receiptContractRepository->remove($receipt);
+    }
 
     public function addNumber($id, $number){
         $statement = $this->repository->get($id);

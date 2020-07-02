@@ -11,6 +11,7 @@ use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -71,6 +72,7 @@ class FileHelper
             StatementRejection::class,
             StatementRejectionCgConsent::class,
             StatementAgreementContractCg::class,
+            ReceiptContract::class
         ];
     }
 
@@ -100,6 +102,7 @@ class FileHelper
             StatementRejectionCgConsent::class =>0,
             StatementAgreementContractCg::class=>0,
             StatementRejectionCg::class =>0,
+            ReceiptContract::class => 0,
         ];
     }
 
@@ -120,6 +123,7 @@ class FileHelper
             StatementRejectionCgConsent::class => 'st-rejection-consent',
             StatementAgreementContractCg::class=> 'st-agreement',
             StatementRejectionCg::class =>'st-rejection-cg',
+            ReceiptContract::class => "receipt-contract"
         ];
     }
 

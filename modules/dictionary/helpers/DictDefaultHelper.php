@@ -21,7 +21,10 @@ class DictDefaultHelper
 
     public static function name($key) : ?string
     {
-        return ArrayHelper::getValue(self::nameList(), $key);
+        if(!is_float($key)) {
+            return ArrayHelper::getValue(self::nameList(), $key);
+        }
+        return null;
     }
 
     public static function categoryDictIAList() {
