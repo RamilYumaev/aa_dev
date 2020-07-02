@@ -26,6 +26,7 @@ $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1];
 $educationMonth = "";
+$number = $agreement->number;
 $educationDuration = floor($cg->education_duration);
 $eduDurationMonth = $cg->education_duration - $educationDuration;
 if ($eduDurationMonth >= 1 / 12) {
