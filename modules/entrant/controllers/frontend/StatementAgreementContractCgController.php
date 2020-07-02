@@ -196,7 +196,7 @@ class StatementAgreementContractCgController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-entrant-with-doc?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract');
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
