@@ -29,6 +29,7 @@ $legal->requisites;
 $legal->position;
 $legal->inn;
 
+$number = $agreement->number;
 
 $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement->user_id);
 $cg = $agreement->statementCg->cg;
