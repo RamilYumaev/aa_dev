@@ -12,7 +12,11 @@ use yii\helpers\ArrayHelper;
 
 class PersonalEntityForm extends Model
 {
-    public  $series, $number, $postcode, $address, $phone, $user_id, $date_of_issue, $authority, $fio;
+    public  $series, $number, $postcode, $region, $district, $city,
+        $division_code,
+        $village, $street, $house, $housing, $building, $flat, $phone, $user_id,
+        $surname, $name, $patronymic,
+        $date_of_issue, $authority;
 
     private $_personal;
 
@@ -37,9 +41,18 @@ class PersonalEntityForm extends Model
     {
         return [
             [[ 'series',
-                'number', 'date_of_issue','fio', 'authority', 'postcode', 'address', 'phone',], 'required'],
+                'number', 'date_of_issue', 'authority', 'postcode', 'phone',], 'required'],
             [['series',],'string', 'max' => 4],
-            [['series', 'number', 'date_of_issue','fio', 'authority', 'postcode', 'address', 'phone',],'string'],
+            [['series', 'number', 'date_of_issue', 'authority', 'postcode',  'phone',
+                ],'string'],
+            [['surname', 'name', 'patronymic',],'string', 'max' => 255],
+            [['surname', 'name', 'patronymic',], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
+                'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],
+            [['surname', 'name'], 'required',],
+                [['division_code'], 'string', 'max' => 7],
+            [['postcode', 'region', 'district', 'city', 'village', 'street', 'house',
+                'housing', 'building', 'flat'],
+                'string', 'max' => 255],
             [['authority'], 'string', 'max' => 255],
             [['number'], 'string', 'max' => 15],
             [['date_of_issue',], 'safe'],

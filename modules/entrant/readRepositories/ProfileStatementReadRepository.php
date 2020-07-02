@@ -88,7 +88,7 @@ class ProfileStatementReadRepository
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id')
                 ->innerJoin(StatementCg::tableName(), 'statement_cg.statement_id=statement.id')
                 ->innerJoin(StatementAgreementContractCg::tableName(),
-                    'statement_agreement_contract_cg.statement_statement_cg=statement_cg.id')
+                    'statement_agreement_contract_cg.statement_cg=statement_cg.id')
                 ->andWhere(['>', 'statement_agreement_contract_cg.status_id', StatementHelper::STATUS_DRAFT]);
         } elseif (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');

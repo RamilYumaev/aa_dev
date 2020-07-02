@@ -129,6 +129,12 @@ class StatementHelper
             ->select($column)->groupBy($column)->all(), $column, $value);
     }
 
+    public static function columnStatementAgreementCg($column, $value) {
+        return ArrayHelper::map(StatementCg::find()->alias('cg')
+            ->innerJoin(StatementAgreementContractCg::tableName() . ' contract', 'contract.statement_cg = cg.id')
+            ->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
     public static function columnStatementCg($column, $value) {
       $query = (new StatementCgReadRepository(self::entrantJob()))
             ->readData()

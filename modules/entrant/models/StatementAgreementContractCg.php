@@ -136,11 +136,22 @@ class StatementAgreementContractCg extends ActiveRecord
         return $this->type == 3 && $this->legal;
     }
 
+    public function getFio () {
+        return $this->statementCg->statement->profileUser->fio;
+    }
 
+    public function getCg () {
+        return $this->statementCg->cg->fullNameB;
+    }
 
     public function attributeLabels()
     {
-        return ["created_at" => "Дата создания", 'statement_cg' => "Конкурсная группа", "status" => "Статус"];
+        return [ "created_at" => "Дата создания",
+                 "updated_at" => "Дата  обновленя",
+                  'fio' => "ФИО  Абитуриента",
+                 'cg' => "Конкурсная группа",
+                 'number' => "Номер договора",
+                 "status_id" => "Статус"];
     }
 
     public static function find(): StatementAgreementContractCgQuery
