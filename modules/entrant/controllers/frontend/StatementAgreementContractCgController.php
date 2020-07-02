@@ -60,7 +60,7 @@ class StatementAgreementContractCgController extends Controller
             'token'=> "849968aa53dd0732df8c55939f6d1db9",
             "competitive_group_id"=>$cg->cg->ais_id,
             "incoming_id"=>$incoming->incoming_id,]);
-        curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/check-ball');
+        curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/check-ball?access-token=' . $this->token());
         curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -195,9 +195,8 @@ class StatementAgreementContractCgController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $token= '849968aa53dd0732df8c55939f6d1db9';
             $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract?access-token=' . $this->token());
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -229,6 +228,11 @@ class StatementAgreementContractCgController extends Controller
 
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+    protected function token() {
+        return '849968aa53dd0732df8c55939f6d1db9';
+    }
+
 
     /**
      *
