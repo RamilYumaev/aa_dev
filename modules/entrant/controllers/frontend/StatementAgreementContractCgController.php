@@ -195,8 +195,9 @@ class StatementAgreementContractCgController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
+            $token= '849968aa53dd0732df8c55939f6d1db9';
             $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract');
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
