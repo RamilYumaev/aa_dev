@@ -21,7 +21,7 @@ $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
-$costMonet = $costExplode[1];
+$costMonet = $costExplode[1] ?? "";
 $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1];
@@ -37,7 +37,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
-            <td class="text-center"><strong>ДОГОВОР</strong> №____________<br/>
+            <td class="text-center"><strong>ДОГОВОР</strong> №<br/>
                 об оказании платных образовательных услуг
             </td>
         </tr>
