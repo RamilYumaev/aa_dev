@@ -50,8 +50,7 @@ use yii\db\ActiveRecord;
  * @property string $bank
  * @property string $phone,
  *
-**/
-
+ **/
 class LegalEntity extends ActiveRecord
 {
     public function behaviors()
@@ -59,10 +58,26 @@ class LegalEntity extends ActiveRecord
         return [FileBehavior::class];
     }
 
-    public static  function create(LegalEntityForm $form) {
-        $legalEntity =  new static();
+    public static function create(LegalEntityForm $form)
+    {
+        $legalEntity = new static();
         $legalEntity->data($form);
         return $legalEntity;
+    }
+
+    public function fullAddress()
+    {
+        $result = $this->postcode ? $this->postcode . " " : "";
+        $result .= $this->region ? $this->region . " " : "";
+        $result .= $this->district ? $this->district . " " : "";
+        $result .= $this->city ? $this->city . " " : "";
+        $result .= $this->village ? $this->village . " " : "";
+        $result .= $this->street ? $this->street . " " : "";
+        $result .= $this->house ? $this->house . " " : "";
+        $result .= $this->housing ? $this->housing . " " : "";
+        $result .= $this->building ? $this->building . " " : "";
+        $result .= $this->flat  ? $this->flat  . " " : "";
+        return $result;
     }
 
     public function data(LegalEntityForm $form)
@@ -80,7 +95,7 @@ class LegalEntity extends ActiveRecord
         $this->street = $form->street;
         $this->house = $form->house;
         $this->housing = $form->housing;
-        $this->building  = $form->building;
+        $this->building = $form->building;
         $this->flat = $form->flat;
         $this->name = $form->name;
         $this->phone = $form->phone;
@@ -97,19 +112,22 @@ class LegalEntity extends ActiveRecord
         $this->user_id = $form->user_id;
     }
 
-    public function getValue($property){
-          return $this->$property;
+    public function getValue($property)
+    {
+        return $this->$property;
     }
 
-    protected function getProperty($property){
-        return $this->getAttributeLabel($property).": ".$this->getValue($property);
+    protected function getProperty($property)
+    {
+        return $this->getAttributeLabel($property) . ": " . $this->getValue($property);
     }
 
-    public function getDataFull(){
+    public function getDataFull()
+    {
         $string = "";
-        foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
-            if($value) {
-                $string .= $this->getProperty($key)." ";
+        foreach ($this->getAttributes(null, ['user_id', 'id']) as $key => $value) {
+            if ($value) {
+                $string .= $this->getProperty($key) . " ";
             }
         }
         return $string;
@@ -144,8 +162,8 @@ class LegalEntity extends ActiveRecord
             'bik' => "БИК",
             'p_c' => "Расчетный счет",
             'k_c' => "Корреспондетский счет",
-            'ogrn' =>  'ОГРНИП',
-            'inn'=>'ИНН/КПП',
+            'ogrn' => 'ОГРНИП',
+            'inn' => 'ИНН/КПП',
             'name' => 'Наименование организации',
             'address_postcode' => 'Почтовый адрес организации',
             'postcode' => 'Индекс',
@@ -156,17 +174,17 @@ class LegalEntity extends ActiveRecord
             'street' => "Улица",
             'house' => "Дом",
             'housing' => "Корпус",
-            'building' =>"Строение",
+            'building' => "Строение",
             'flat' => "Квартира",
             'patronymic' => 'Отчество',
             'surname' => "Фамилия",
             'first_name' => 'Имя',
             'phone' => 'Контактный телефон организации',
-            'requisites'=> "Реквизиты документа, удостоверяющего полномочия представителя Заказчика",
-            'fio'=> "ФИО руководителя/представителя организации в родительном падеже",
-            'footing'=> "Наименование документа (Устава (Положения), доверенности и т.п.), удостоверяющего полномочия 
+            'requisites' => "Реквизиты документа, удостоверяющего полномочия представителя Заказчика",
+            'fio' => "ФИО руководителя/представителя организации в родительном падеже",
+            'footing' => "Наименование документа (Устава (Положения), доверенности и т.п.), удостоверяющего полномочия 
             представителя Заказчика в родительном падеже",
-            'position'=> "Должность в родительном падеже"
+            'position' => "Должность в родительном падеже"
         ];
     }
 }
