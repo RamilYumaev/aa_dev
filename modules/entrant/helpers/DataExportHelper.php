@@ -452,6 +452,7 @@ class DataExportHelper
                     'entity_address_housing' => $legal->housing,
                     'entity_address_building' => $legal->building,
                     'entity_address_flat' => $legal->flat,
+                    'entity_post_address_line'=>$legal->address_postcode,
                     'entity_phone' => $legal->phone,
                 ],
             ]];
