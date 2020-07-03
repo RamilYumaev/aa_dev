@@ -428,7 +428,7 @@ class DataExportHelper
                 "incoming_id"=>$userAis->incoming_id,
                 'agreement' => [
                     'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
-                    'customer_type_id'=>2,
+                    'customer_type_id'=>1,
                     'customer_is_abiturient_status' => 0,
                     'current_status_id'=>1,
                     'entity_name' => $legal->name,
