@@ -24,6 +24,8 @@ class JobEntrantHelper
     const MPGU_ID = 1;
     const MPGU_SR = 2;
     const MPGU_PP = 3;
+    const TASHKENT_BB = 4;
+    const TARGET_BB = 5;
 
 
 

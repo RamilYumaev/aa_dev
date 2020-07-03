@@ -66,8 +66,16 @@ class ProfileStatementReadRepository
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         } elseif ($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
-                CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT]);
+            if ($this->isID == JobEntrantHelper::TARGET_BB) {
+                $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
+                    CategoryStruct::COMPATRIOT_COMPETITION]]);
+            } else if($this->isID == JobEntrantHelper::TASHKENT_BB) {
+                 $query->andWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT]);
+            } else{
+                $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
+                    CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere([
+                    'and', ['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT], ['>', 'statement.status', StatementHelper::STATUS_DRAFT] ]);
+            }
         } elseif ($this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
                 CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
