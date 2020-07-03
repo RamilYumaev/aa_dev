@@ -29,8 +29,7 @@ use modules\entrant\widgets\file\FileListWidget;
                             <?php if($statement->statementAgreement):
                                $agreement =$statement->statementAgreement; ?>
                                 <tr class="<?= BlockRedGreenHelper::colorTableBg($agreement->countFiles(), $agreement->count_pages) ?>">
-                                    <td></td>
-                                    <td><?=  Html::a('Выбрать заказчика договора',
+                                    <td colspan="2"><?=  Html::a('Выбрать заказчика договора',
                                             ["statement-agreement-contract-cg/add", "id" => $agreement->id],
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',
