@@ -51,7 +51,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
             серия:<?= $passport['series'] ?> <?= $passport['number'] ?>  <br />
             выдан: <?= $passport['authority'] ?>  <br />
             <?= $passport['date_of_issue'] ?>  <br />
-            <?= $passport['division_code'] ?  "Код подраздедения: ".$passport['division_code'] : "" ?></td>
+            <?= $passport['division_code'] ?  "Код подразделения: ".$passport['division_code'] : "" ?></td>
     </tr>
     <tr>
         <td>Гражданство: <?= $passport['nationality'] ?></td>
