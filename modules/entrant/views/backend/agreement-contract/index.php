@@ -1,6 +1,7 @@
 <?php
 
 use modules\entrant\helpers\ContractHelper;
+use modules\entrant\searches\grid\ContractColumn;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -48,6 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'created_at',
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
+                    ],
+                    [  'attribute' => 'status_id',
+                        'class'=> ContractColumn::class,
+                        'filter' => ContractHelper::statusList(),
+
                     ],
                     ['class' => ActionColumn::class, 'controller' => 'agreement-contract', 'template' => '{view}']
                 ],

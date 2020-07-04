@@ -88,7 +88,7 @@ class Agreement extends YiiActiveRecordAndModeration
     public function getValue($property){
         if ($property == "date") {
             return DateFormatHelper::formatView($this->$property);
-        }
+       }
         return $this->$property;
     }
 

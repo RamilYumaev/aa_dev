@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\ContractHelper;
@@ -24,6 +25,7 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property integer $updated_at;
  * @property integer $count_pages
  * @property integer $type
+ * @property integer $is_month
  * @property integer $record_id
  **/
 
@@ -47,7 +49,7 @@ class StatementAgreementContractCg extends ActiveRecord
             TimestampBehavior::class,
             [   'class' => FileUploadBehavior::class,
                 'attribute' => 'pdf_file',
-                'filePath' => '@frontend/file/pdf/[[id]]/[[attribute_pdf_file]].[[extension]]',
+                'filePath' => '@frontend/file/pdf/[[id]]/[[attribute_pdf_file]]',
             ],
         ];
     }
@@ -70,6 +72,11 @@ class StatementAgreementContractCg extends ActiveRecord
     public function setStatus($status) {
         $this->status_id = $status;
     }
+
+    public function setIsMonth($isMonth) {
+        $this->is_month = $isMonth;
+    }
+
 
     public function setType($type) {
         $this->type = $type;
@@ -101,8 +108,13 @@ class StatementAgreementContractCg extends ActiveRecord
     }
 
     public function statusDraft() {
-        return $this->status_id == StatementHelper::STATUS_DRAFT;
+        return $this->status_id == ContractHelper::STATUS_NEW;
     }
+
+    public function statusView() {
+        return $this->status_id == ContractHelper::STATUS_VIEW;
+    }
+
 
 
     public function statusAccepted() {
@@ -145,6 +157,10 @@ class StatementAgreementContractCg extends ActiveRecord
         return $this->statementCg->statement->profileUser->fio;
     }
 
+    public function getIsMonth () {
+        return DictDefaultHelper::name($this->is_month);
+    }
+
     public function getCg () {
         return $this->statementCg->cg->fullNameB;
     }
@@ -156,7 +172,10 @@ class StatementAgreementContractCg extends ActiveRecord
                   'fio' => "ФИО  Абитуриента",
                  'cg' => "Конкурсная группа",
                  'number' => "Номер договора",
-                 "statusName" => "Статус"];
+                 "statusName" => "Статус",
+                 "status_id" => "Статус",
+                 'is_month' => "Оплата по месяцам?",
+                 'isMonth' => "Оплата по месяцам?"];
     }
 
     public static function find(): StatementAgreementContractCgQuery
