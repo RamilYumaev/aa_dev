@@ -94,12 +94,34 @@ class PersonalEntity extends ActiveRecord
     protected function getProperty($property){
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
+    protected function getPropertyAddress($property){
+        return $this->attributeLabelsAddress()[$property]." ".$this->getValue($property);
+    }
+
 
     public function getDataFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
+    public function getAddress(){
+        $string = "";
+        foreach ($this->getAttributes(null,[  'patronymic', 'user_id','id',
+            'surname',
+            'name',
+            'series',
+            'number',
+            'division_code',
+            'date_of_issue',
+            'authority',
+            'phone',]) as  $key => $value) {
+            if($value) {
+                $string .= $this->getPropertyAddress($key).", ";
             }
         }
         return $string;
@@ -153,5 +175,32 @@ class PersonalEntity extends ActiveRecord
             'building' =>"Строение",
             'flat' => "Квартира",
         ];
+    }
+
+    public function getFio()
+    {
+        if (!empty($this->surname) && !empty($this->surname) && !empty($this->patronymic)) {
+            return $this->surname . " " . $this->name . " " . $this->patronymic;
+        } elseif (!empty($this->surname) && !empty($this->name)) {
+            return $this->surname . " " . $this->name;
+        }
+        return null;
+    }
+
+    public function attributeLabelsAddress()
+    {
+        return [
+            'postcode' => '',
+            'region' => "",
+            'district' => "",
+            'city' => "",
+            'village' => "",
+            'street' => "",
+            'house' => "",
+            'housing' => "",
+            'building' =>"",
+            'flat' => "кв ",
+        ];
+
     }
 }
