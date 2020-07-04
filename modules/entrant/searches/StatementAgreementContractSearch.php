@@ -5,12 +5,21 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\readRepositories\ContractReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 class StatementAgreementContractSearch extends  Model
 {
-    public  $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
+    public $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
+    public $status;
+
+
+    public function __construct($status, $config = [])
+    {
+        $this->status = $status;
+        parent::__construct($config);
+    }
 
     public function rules()
     {
@@ -26,11 +35,15 @@ class StatementAgreementContractSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = StatementAgreementContractCg::find()->alias('consent')->statusNoDraft('consent.')->orderByCreatedAtDesc();
+        $query = (new ContractReadRepository())->readData()->alias('consent')->statusNoDraft('consent.')->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        if($this->status) {
+            $query->andWhere(['consent.status_id' => $this->status]);
+        }
 
         $this->load($params);
 

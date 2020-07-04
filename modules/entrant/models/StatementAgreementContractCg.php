@@ -4,6 +4,7 @@ namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\behaviors\FileBehavior;
+use modules\entrant\helpers\ContractHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\queries\StatementAgreementContractCgQuery;
 use yii\behaviors\TimestampBehavior;
@@ -92,7 +93,7 @@ class StatementAgreementContractCg extends ActiveRecord
     }
 
     public function statusWalt() {
-        return $this->status_id == StatementHelper::STATUS_WALT;
+        return $this->status_id == ContractHelper::STATUS_WALT;
     }
 
     public function typePersonalOrLegal() {
@@ -105,7 +106,7 @@ class StatementAgreementContractCg extends ActiveRecord
 
 
     public function statusAccepted() {
-        return $this->status_id == StatementHelper::STATUS_ACCEPTED;
+        return $this->status_id == ContractHelper::STATUS_ACCEPTED;
     }
 
     public function getStatementCg() {
@@ -136,6 +137,10 @@ class StatementAgreementContractCg extends ActiveRecord
         return $this->type == 3 && $this->legal;
     }
 
+    public function getStatusName(){
+        return ContractHelper::statusName($this->status_id);
+    }
+
     public function getFio () {
         return $this->statementCg->statement->profileUser->fio;
     }
@@ -151,7 +156,7 @@ class StatementAgreementContractCg extends ActiveRecord
                   'fio' => "ФИО  Абитуриента",
                  'cg' => "Конкурсная группа",
                  'number' => "Номер договора",
-                 "status_id" => "Статус"];
+                 "statusName" => "Статус"];
     }
 
     public static function find(): StatementAgreementContractCgQuery

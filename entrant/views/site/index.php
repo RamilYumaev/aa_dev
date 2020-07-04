@@ -34,6 +34,9 @@ $this->title= "Главная. ".$text;
         <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
+    <?php if($jobEntrant->isAgreement()): ?>
+        <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
     <?php if($jobEntrant->isCategoryGraduate()): ?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
