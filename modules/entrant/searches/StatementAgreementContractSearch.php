@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
 class StatementAgreementContractSearch extends  Model
 {
     public $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
-    public $status;
+    public $status, $status_id;
 
 
     public function __construct($status, $config = [])
@@ -24,7 +24,7 @@ class StatementAgreementContractSearch extends  Model
     public function rules()
     {
         return [
-            [['user_id', 'faculty_id', 'cg'], 'integer'],
+            [['user_id', 'faculty_id', 'cg', 'status_id'], 'integer'],
             [['number'], 'safe'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
@@ -66,6 +66,8 @@ class StatementAgreementContractSearch extends  Model
         if (!empty($this->faculty_id)) {
             $query->andWhere(['statement.faculty_id' => $this->faculty_id]);
         }
+
+        $query->andFilterWhere(['consent.status_id' => $this->status_id]);
 
         $query
             ->andFilterWhere(['like', 'number', $this->number])

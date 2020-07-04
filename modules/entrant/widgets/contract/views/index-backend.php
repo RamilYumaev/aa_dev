@@ -1,6 +1,7 @@
 <?php
 
 use backend\widgets\adminlte\Box;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\helpers\ContractHelper;
 use modules\entrant\widgets\file\FileListWidget;
 use yii\helpers\Html;
@@ -18,8 +19,19 @@ use yii\widgets\DetailView;
 
     <?= $model->statusWalt() ? Html::a('Взять в работу', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_VIEW],
     ['class' => 'btn btn-large btn-info', 'data'=>['confirm'=> "Вы уверены, что хотите взять в  работу?"]]) : ""?>
-    <?=  Html::a('Проверен', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_ACCEPTED],
-    ['class' => 'btn btn-large btn-success', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]])?>
+    <?= $model->statusWalt() || $model->statusView() ? Html::a('Проверен', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_ACCEPTED],
+    ['class' => 'btn btn-large btn-success', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) : ""?>
+    <?=  $model->statusAccepted() && $model->pdf_file ? Html::a('Подписан', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_SUCCESS],
+    ['class' => 'btn btn-large btn-primary', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) ." ". Html::a('Недействительный', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_NO_REAL],
+        ['class' => 'btn btn-large btn-danger', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) : ""?>
+    <?=  $model->statusAccepted() ? Html::a("Прикрепить файл  (pdf)", ['agreement-contract/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-warning",
+    'data-pjax' => 'w5', 'data-toggle' => 'modal',
+    'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']) : "" ?>
+    <?= !$model->is_month ? Html::a('Оплата по месяцам "Да"', ['agreement-contract/is-month', 'id' =>  $model->id, 'status' => DictDefaultHelper::YES],
+    ['class' => 'btn btn-large btn-success', 'data'=>['confirm'=> "Вы уверены, что хотите  предоставть оплату по месяцам?"]]) : Html::a('Оплата по месяцам "Нет"', ['agreement-contract/is-month',
+    'id' =>  $model->id, 'status' => DictDefaultHelper::NO],
+    ['class' => 'btn btn-large btn-danger', 'data'=>['confirm'=> "Вы уверены, что хотите  отменить оплату по месяцам?"]])?>
+    <?= $model->pdf_file  ? Html::a("Скачать файл", ['agreement-contract/get', 'id' =>  $model->id ], ["class" => "btn btn-info"]) : "" ?>
     <?= Html::a('Скачать договор', ['agreement-contract/pdf', 'id' =>  $model->id],
     ['class' => 'btn btn-large btn-warning pull-right'])?>
 
@@ -31,6 +43,7 @@ use yii\widgets\DetailView;
                     'number',
                     'fio',
                     'statusName',
+                     'isMonth',
                     'created_at:date',
                     'updated_at:date',
                 ]

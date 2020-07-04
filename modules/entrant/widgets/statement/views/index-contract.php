@@ -87,8 +87,19 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ['class' => 'btn btn-danger', 'data-method'=>"post",
                                                 "data-confirm" => "Вы уверены что хотите удалить?"])?>
                                     </td>
-                                    <td> <?= FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?></td>
-                                    <td> <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
+                                    <td> <?= $agreement->receiptContract->isNullData() ? Html::a('Добавить данные квитанции',
+                                            ["statement-agreement-contract-cg/update-receipt", "id" =>  $agreement->receiptContract->id],
+                                            ["class" => "btn btn-primary",
+                                                'data-pjax' => 'w4', 'data-toggle' => 'modal',
+                                                'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']) :
+                                            Html::a('Редактировать данные квитанции',
+                                                ["statement-agreement-contract-cg/update-receipt", "id" =>  $agreement->receiptContract->id],
+                                                ["class" => "btn btn-primary",
+                                                    'data-pjax' => 'w4', 'data-toggle' => 'modal',
+                                                    'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']) .
+
+                                            FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?>
+                                     <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
                                             'userId' => $statement->statement->user_id  ]) ?></td>
                                </tr>
                                     <?php else: ?>
