@@ -1,5 +1,6 @@
 <?php
 
+use modules\entrant\helpers\ContractHelper;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -10,8 +11,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel modules\entrant\searches\StatementAgreementContractSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $status integer */
+$st= ContractHelper::statusName($status);
+$status = !is_null($st) ? " (".$st.")" : "";
 
-$this->title = "Договоры";
+$this->title = "Договоры" .$status;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

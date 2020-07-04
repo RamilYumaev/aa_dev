@@ -136,5 +136,12 @@ class StatementAgreementContractCgService
         $this->receiptContractRepository->save($receipt);
     }
 
+    public function status($id, $status)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus($status);
+        $this->repository->save($statement);
+    }
+
 
 }

@@ -93,11 +93,11 @@ use modules\entrant\widgets\file\FileListWidget;
                                </tr>
                                     <?php else: ?>
                                         <tr>
-                                            <td><?=  Html::a('Сформировать квитанцию',
+                                            <td><?= $agreement->statusAccepted() ?  Html::a('Сформировать квитанцию',
                                                     ["statement-agreement-contract-cg/add-receipt", "id" => $agreement->id],
                                                     ["class" => "btn btn-primary",
                                                         'data-pjax' => 'w3', 'data-toggle' => 'modal',
-                                                        'data-target' => '#modal', 'data-modalTitle' => 'Квитанция']); ?>
+                                                        'data-target' => '#modal', 'data-modalTitle' => 'Квитанция']) : ""; ?>
                                             </td>
 
                                         </tr>

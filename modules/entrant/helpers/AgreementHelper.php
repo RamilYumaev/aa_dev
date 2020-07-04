@@ -220,6 +220,7 @@ class AgreementHelper
         ];
     }
 
+
     public static function columnAgreement($column, $value) {
         $query = (new AgreementReadRepository())->readData()
             ->select('agreement.'.$column)->groupBy('agreement.'.$column);
