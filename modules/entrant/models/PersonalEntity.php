@@ -187,6 +187,10 @@ class PersonalEntity extends ActiveRecord
         return null;
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
     public function attributeLabelsAddress()
     {
         return [

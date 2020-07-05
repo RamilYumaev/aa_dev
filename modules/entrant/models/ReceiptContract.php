@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\ReceiptContractForm;
+use modules\entrant\helpers\ContractHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\models\queries\ReceiptContractCgQuery;
 use yii\behaviors\TimestampBehavior;
@@ -19,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property float $pay_sum
  * @property string $date
  * @property string $bank
+ * @property integer $status_id
  * @property integer $created_at;
  * @property integer $updated_at;
  * @property integer $count_pages
@@ -49,6 +51,14 @@ class ReceiptContract extends ActiveRecord
         $this->count_pages = $countPages;
     }
 
+    public function setStatus($status) {
+        $this->status_id = $status;
+    }
+
+    public function getStatusName(){
+        return ContractHelper::statusName($this->status_id);
+    }
+
     public function isNullData() {
         return !$this->date || !$this->pay_sum || !$this->bank;
     }
@@ -57,8 +67,36 @@ class ReceiptContract extends ActiveRecord
         $this->period = $period;
     }
 
+    public function statusWalt() {
+        return $this->status_id == ContractHelper::STATUS_WALT;
+    }
+
+    public function statusDraft() {
+        return $this->status_id == ContractHelper::STATUS_NEW;
+    }
+
+    public function statusView() {
+        return $this->status_id == ContractHelper::STATUS_VIEW;
+    }
+
+    public function statusSuccess() {
+        return $this->status_id == ContractHelper::STATUS_SUCCESS;
+    }
+
+    public function statusAccepted() {
+        return $this->status_id == ContractHelper::STATUS_ACCEPTED;
+    }
+
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
+    public function countFilesAndCountPagesTrue() {
+        return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
     public function getContractCg() {
@@ -68,6 +106,22 @@ class ReceiptContract extends ActiveRecord
     public static function find(): ReceiptContractCgQuery
     {
         return new ReceiptContractCgQuery(static::class);
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'bank' => "Отделение банка",
+            'pay_sum' => "Сумма платежа",
+            'number' => "Номер договорв",
+            'date' => "Дата платежа",
+            'period' => "Период платежа",
+            'status_id'=> "Статус"
+        ];
+    }
+
+    public function getTextEmail() {
+        return "Ваша квитанция к договору платных образовательных услуг №".$this->contractCg->number." принята";
     }
 
 

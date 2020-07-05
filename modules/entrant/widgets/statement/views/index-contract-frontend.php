@@ -1,6 +1,7 @@
 <?php
 
 use modules\entrant\helpers\BlockRedGreenHelper;
+use modules\entrant\helpers\ContractHelper;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
@@ -16,11 +17,16 @@ use modules\entrant\widgets\file\FileListWidget;
         <table class="table table-bordered">
             <tr>
                 <th>Образовательные программы</th>
+                <th></th>
             </tr>
             <?php foreach ($contracts as $agreement):  ?>
                  <tr>
                      <td>
                          <?= $agreement->statementCg->cg->fullNameB ?>
+                     </td>
+                     <td>
+                         <span class="label label-<?= ContractHelper::colorName($agreement->status_id) ?>">
+                        <?= $agreement->statusName ?></span>
                      </td>
                  </tr>
             <?php endforeach; ?>

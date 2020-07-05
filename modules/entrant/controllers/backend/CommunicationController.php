@@ -5,10 +5,13 @@ namespace modules\entrant\controllers\backend;
 
 
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\ContractHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
@@ -626,6 +629,129 @@ class CommunicationController extends Controller
             }
         }
         return $this->render('form');
+    }
+
+
+    /**
+     * @param integer $status
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionExportContract($id, $status)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        } else {
+            $emailId = $this->jobEntrant->email_id;
+            if (!$emailId) {
+                Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $model = StatementAgreementContractCg::findOne($id);
+            if (!$model) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+
+            $ch = curl_init();
+            $data = Json::encode(DataExportHelper::dataContractStatus($model, $status));
+            curl_setopt($ch, CURLOPT_URL,  \Yii::$app->params['ais_agreement'].'/change-status?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id']) {
+                    try {
+                        $this->aisService->statusContract($model->id, $status, $emailId);
+                        Yii::$app->session->setFlash('success', "Успешно обновлено!");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
+            }
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
+
+        }
+    }
+
+    /**
+     * @param integer $status
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionExportReceipt($id)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        } else {
+            $emailId = $this->jobEntrant->email_id;
+            if (!$emailId) {
+                Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $model = ReceiptContract::findOne($id);
+            if (!$model) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+
+            $ch = curl_init();
+            $data = Json::encode(DataExportHelper::dataReceipt($model));
+            curl_setopt($ch, CURLOPT_URL,  \Yii::$app->params['ais_agreement'].'/add-receipt?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+            $result = Json::decode($result);
+            if (array_key_exists('status_id', $result)) {
+                if ($result['status_id']) {
+                    try {
+                        $this->aisService->receipt($model->id, $emailId);
+                        Yii::$app->session->setFlash('success', "Успешно обновлено!");
+                    } catch (\DomainException $e) {
+                        Yii::$app->errorHandler->logException($e);
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                }
+            }
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
+
+        }
     }
 
 

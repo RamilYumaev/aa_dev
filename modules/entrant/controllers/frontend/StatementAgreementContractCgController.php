@@ -48,6 +48,24 @@ class StatementAgreementContractCgController extends Controller
     }
 
     /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionGet($id)
+    {
+        $model = $this->findModel($id);
+        $filePath = $model->getUploadedFilePath('pdf_file');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      */
