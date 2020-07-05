@@ -55,7 +55,7 @@ $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
-$costMonet = $costExplode[1] ?? "";
+$costMonet = $costExplode[1] ?? "00";
 $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1] ?? "00";
@@ -101,18 +101,17 @@ if ($eduDurationMonth >= 1 / 12) {
     <p class="text-center"><strong>1. Предмет договора</strong></p>
 
     <p align="justify">1.1. Исполнитель обязуется предоставить образовательную услугу,
-        а Заказчик обязуется оплатить обучение по основной программе
+        а Заказчик обязуется оплатить обучение по основной профессиональной образовательной программе
         <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
             среднего профессионального образования –  программе подготовки специалистов среднего звена,
-            образовательной программы среднего профессионального
         <?php else: ?>
             высшего образования -
             <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR): ?>
-                программе бакалавриата, образовательной программы высшего образования
+                программе бакалавриата,
             <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER): ?>
                 программе магистратуры, образовательной программы высшего образования
             <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL): ?>
-                программе подготовки научно-педагогических кадров в аспирантуре, образовательной программы высшего образования
+                программе подготовки научно-педагогических кадров в аспирантуре,
             <?php endif; ?>
         <?php endif; ?>
         направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>
@@ -129,7 +128,7 @@ if ($eduDurationMonth >= 1 / 12) {
         1.2. Срок освоения образовательной программы (продолжительность обучения) на момент
         подписания Договора составляет <strong><?= $educationDuration ?></strong> год(а) (лет)
         <strong><?= $educationMonth ?></strong>
-        (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров)
+        (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров).
     </p>
     <p align="justify">
         1.3. После освоения Обучающимся образовательной программы, имеющей государственную

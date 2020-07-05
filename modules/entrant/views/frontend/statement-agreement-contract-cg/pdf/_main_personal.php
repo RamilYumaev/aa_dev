@@ -29,11 +29,11 @@ $agreementData = AgreementHelper::data($anketa->university_choice);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
-$costRuble = $costExplode[0] ?? "";
-$costMonet = $costExplode[1] ?? "";
+$costRuble = $costExplode[0];
+$costMonet = $costExplode[1] ?? "00";
 $costPerYearExplode = explode(".", $cg->education_year_cost);
-$costRublePerYear = $costPerYearExplode[0] ?? "";
-$costMonetPerYear = $costPerYearExplode[1] ?? "";
+$costRublePerYear = $costPerYearExplode[0];
+$costMonetPerYear = $costPerYearExplode[1] ?? "00";
 $educationMonth = "";
 $number = $agreement->number;
 $educationDuration = floor($cg->education_duration);
@@ -75,21 +75,20 @@ if ($eduDurationMonth >= 1 / 12) {
     <p class="text-center"><strong>1. Предмет договора</strong></p>
 
     <p align="justify">1.1. Исполнитель обязуется предоставить образовательную услугу,
-        а Заказчик обязуется оплатить обучение по основной программе
+        а Заказчик обязуется оплатить обучение по основной профессиональной образовательной программе
         <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
             среднего профессионального образования –  программе подготовки специалистов среднего звена,
-            образовательной программы среднего профессионального
         <?php else: ?>
             высшего образования -
             <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR): ?>
-                программе бакалавриата, образовательной программы высшего образования
+                программе бакалавриата,
             <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER): ?>
-                программе магистратуры, образовательной программы высшего образования
+                программе магистратуры,
             <?php elseif ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL): ?>
-                программе подготовки научно-педагогических кадров в аспирантуре, образовательной программы высшего образования
+                программе подготовки научно-педагогических кадров в аспирантуре,
             <?php endif; ?>
         <?php endif; ?>
-        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>
+        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>,
         направленность (профиль) <strong><?= $cg->specialization->name ?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
@@ -103,7 +102,7 @@ if ($eduDurationMonth >= 1 / 12) {
         1.2. Срок освоения образовательной программы (продолжительность обучения) на момент
         подписания Договора составляет <strong><?= $educationDuration ?></strong> год(а) (лет)
         <strong><?= $educationMonth ?></strong>
-        (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров)
+        (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров).
     </p>
     <p align="justify">
         1.3. После освоения Обучающимся образовательной программы, имеющей государственную
@@ -233,8 +232,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <p align="justify">
         3.2. Оплата образовательных услуг производится по семестрам в следующем порядке:<br/>
         1) за 1-ый год обучения:<br/>
-        - первый семестр - не позднее 28 августа текущего года (при обучении на заочной форме – не позднее
-        26 сентября текущего года);<br/>
+        - первый семестр - не позднее <?=AgreementHelper::payPerDate($cg->edu_level, $cg->education_form_id, $anketa->university_choice)?> текущего года;<br/>
         - второй семестр - не позднее 01 февраля текущего учебного года;<br/>
         2) за 2-ой и последующие годы обучения:<br/>
         - нечетный семестр - не позднее 01 сентября текущего учебного года;<br/>
@@ -446,8 +444,8 @@ if ($eduDurationMonth >= 1 / 12) {
             <td class="bb" align="left"><?= $personal->phone ?></td>
         </tr>
         <tr>
-            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left">E-mail:</td>
-            <td rowspan="3" class="bb br v-align-top" align="left"><?= $profile['email'] ?></td>
+            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
+            <td rowspan="3" class="bb br v-align-top" align="left"></td>
 
             <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
             <td rowspan="3" class="bb v-align-top" align="left"></td>
