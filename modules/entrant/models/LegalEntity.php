@@ -133,6 +133,10 @@ class LegalEntity extends ActiveRecord
         return $string;
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
     public static function tableName()
     {
         return "{{%legal_entity}}";

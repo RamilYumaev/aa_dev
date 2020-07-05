@@ -115,7 +115,9 @@ class StatementAgreementContractCg extends ActiveRecord
         return $this->status_id == ContractHelper::STATUS_VIEW;
     }
 
-
+    public function statusSuccess() {
+        return $this->status_id == ContractHelper::STATUS_SUCCESS;
+    }
 
     public function statusAccepted() {
         return $this->status_id == ContractHelper::STATUS_ACCEPTED;
@@ -181,6 +183,12 @@ class StatementAgreementContractCg extends ActiveRecord
     public static function find(): StatementAgreementContractCgQuery
     {
         return new StatementAgreementContractCgQuery(static::class);
+    }
+
+    public function getTextEmail() {
+        return "Ваш договор об оказании платных образовательных услуг №".$this->number." ".mb_strtolower($this->statusName)
+            .( $this->statusAccepted() ? ". В личном кабинете Вы можете скачать квитанцию для оплаты. Также сообщаем, что только после загрузки скана квитанции 
+            в личном кабинете будет произведено зачисление на первый курс" :"");
     }
 
 }

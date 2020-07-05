@@ -41,8 +41,19 @@ class ContractHelper
         ];
     }
 
-       public static function colorName($key) {
+    public static function colorName($key) {
         return ArrayHelper::getValue(self::colorList(),$key);
+    }
+
+    public static function statusAisList() {
+        return [
+            self::STATUS_NO_REAL =>3,
+            self::STATUS_SUCCESS => 2,
+        ];
+    }
+
+    public static function statusAisNumber($key) {
+        return ArrayHelper::getValue(self::statusAisList(),$key);
     }
 
 

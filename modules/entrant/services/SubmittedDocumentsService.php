@@ -14,8 +14,11 @@ use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\File;
+use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
+use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -27,6 +30,7 @@ use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\SubmittedDocuments;
 use modules\entrant\models\UserIndividualAchievements;
+use modules\entrant\readRepositories\ReceiptReadRepository;
 use modules\entrant\repositories\AddressRepository;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\DocumentEducationRepository;
@@ -34,6 +38,7 @@ use modules\entrant\repositories\FileRepository;
 use modules\entrant\repositories\IndividualAchievementsRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\PassportDataRepository;
+use modules\entrant\repositories\ReceiptContractRepository;
 use modules\entrant\repositories\StatementAgreementContractCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIndividualAchievementsRepository;
@@ -58,6 +63,7 @@ class SubmittedDocumentsService
     private $statementRejectionCgRepository;
     private $rejectionCgConsentRepository;
     private $statementAgreementContractCgRepository;
+    private $receiptContractRepository;
 
 
     public function __construct(SubmittedDocumentsRepository $repository,
@@ -70,6 +76,7 @@ class SubmittedDocumentsService
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementAgreementContractCgRepository $statementAgreementContractCgRepository,
                                 FileRepository $fileRepository,
+                                ReceiptContractRepository $receiptContractRepository,
                                 TransactionManager $manager)
     {
         $this->repository = $repository;
@@ -81,6 +88,7 @@ class SubmittedDocumentsService
         $this->statementRejectionRepository = $statementRejectionRepository;
         $this->statementRejectionCgRepository = $statementRejectionCgRepository;
         $this->rejectionCgConsentRepository = $rejectionCgConsentRepository;
+        $this->receiptContractRepository = $receiptContractRepository;
         $this->statementAgreementContractCgRepository = $statementAgreementContractCgRepository;
         $this->fileRepository = $fileRepository;
     }
@@ -108,6 +116,7 @@ class SubmittedDocumentsService
             $this->statementRejectionCg($user_id);
             $this->statementConsentRejection($user_id);
             $this->statementAgreement($user_id);
+            $this->receiptAgreement($user_id);
             $this->files($user_id);
         });
     }
@@ -203,10 +212,29 @@ class SubmittedDocumentsService
             if (!$statement->countFilesAndCountPagesTrue()) {
                 throw new \DomainException('Загружены не все файлы договора!');
             }
+            if($statement->typeLegal()) {
+                $this->legal($userId);
+            }else if($statement->typePersonal()) {
+                $this->personal($userId);
+            }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementAgreementContractCgRepository->save($statement);
         }
     }
+
+    private function receiptAgreement($userId)
+    {
+        $receipts = ReceiptContract::find()->receiptStatus($userId, 0)->all();
+        /* @var $receipt \modules\entrant\models\ReceiptContract */
+        foreach ($receipts as $receipt) {
+            if (!$receipt->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы квитанции!');
+            }
+            $receipt->setStatus(StatementHelper::STATUS_WALT);
+            $this->receiptContractRepository->save($receipt);
+        }
+    }
+
 
 
     private function statementIndividualAchievements($userId)
@@ -240,6 +268,23 @@ class SubmittedDocumentsService
             throw new \DomainException(' Не загружен файл(-ы) раздела "Паспортные данные" к типу ' . $other->typeName . '!');
         }
     }
+
+    private function legal($userId)
+    {
+        $legal = LegalEntity::findOne(['user_id' => $userId]);
+        if ($legal && !$legal->files) {
+            throw new \DomainException(' Не загружен скан(-ы) юридического лица"!');
+        }
+    }
+
+    private function personal($userId)
+    {
+        $personal = PersonalEntity::findOne(['user_id' => $userId]);
+        if ($personal && !$personal->files) {
+            throw new \DomainException(' Не загружен скан(-ы) законного представителя"!');
+        }
+    }
+
 
     private function documentEdu($userId)
     {

@@ -29,6 +29,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
+                ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
             ]
 
         );

@@ -28,14 +28,16 @@ class StatementAgreementContractCgService
     private $legalEntityRepository;
     private $transactionManager;
     private $receiptContractRepository;
+    private $userAisService;
 
     public function __construct( StatementAgreementContractCgRepository  $repository,
                                  StatementCgRepository $cgRepository,
                                  PersonalEntityRepository $personalEntityRepository,
                                  LegalEntityRepository $legalEntityRepository,
+                                 UserAisService $userAisService,
                                  ReceiptContractRepository $receiptContractRepository,
                                  TransactionManager $transactionManager
-)
+    )
     {
         $this->repository = $repository;
         $this->cgRepository = $cgRepository;
@@ -43,6 +45,7 @@ class StatementAgreementContractCgService
         $this->legalEntityRepository = $legalEntityRepository;
         $this->transactionManager = $transactionManager;
         $this->receiptContractRepository = $receiptContractRepository;
+        $this->userAisService = $userAisService;
     }
 
     public function create($id, $userId)
@@ -144,11 +147,15 @@ class StatementAgreementContractCgService
         $this->receiptContractRepository->save($receipt);
     }
 
-    public function status($id, $status)
+    public function status($id, $status, $emailId)
     {
         $statement = $this->repository->get($id);
         $statement->setStatus($status);
         $this->repository->save($statement);
+        if($statement->statusAccepted()) {
+            $this->userAisService->contractSend($emailId,
+            $statement->statementCg->statement->user_id, $statement->textEmail);
+        }
     }
 
     public function month($id, $status)

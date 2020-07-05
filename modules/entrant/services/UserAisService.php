@@ -8,6 +8,7 @@ use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
+use modules\entrant\helpers\ContractHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\AisReturnData;
 use modules\entrant\models\Statement;
@@ -19,6 +20,8 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\UserAis;
 use modules\entrant\repositories\AgreementRepository;
+use modules\entrant\repositories\ReceiptContractRepository;
+use modules\entrant\repositories\StatementAgreementContractCgRepository;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
 use modules\entrant\repositories\StatementIaRepository;
@@ -46,6 +49,8 @@ class UserAisService
     private $organizationsRepository;
     private $statementCgRepository;
     private $iaRepository;
+    private $agreementContractCgRepository;
+    private $receiptContractRepository;
     private $profileRepository;
 
 
@@ -59,8 +64,10 @@ class UserAisService
                                 StatementRejectionRepository $statementRejectionRepository,
                                 StatementRejectionCgRepository $statementRejectionCgRepository,
                                 StatementCgRepository $statementCgRepository,
+                                StatementAgreementContractCgRepository $agreementContractCgRepository,
                                 AgreementRepository $agreementRepository,
                                 DictOrganizationsRepository $organizationsRepository,
+                                ReceiptContractRepository $receiptContractRepository,
                                 ProfileRepository $profileRepository)
     {
         $this->repository = $repository;
@@ -76,6 +83,8 @@ class UserAisService
         $this->statementCgRepository = $statementCgRepository;
         $this->profileRepository = $profileRepository;
         $this->iaRepository = $iaRepository;
+        $this->agreementContractCgRepository = $agreementContractCgRepository;
+        $this->receiptContractRepository = $receiptContractRepository;
     }
 
     public function create($userId, $data, $createdId)
@@ -205,7 +214,26 @@ class UserAisService
             $this->successSend($email_id, $user, $text);
         }
 
+    }
 
+    public function statusContract($id, $status, $email_id)
+    {
+        $contract = $this->agreementContractCgRepository->get($id);
+        $contract->setStatus($status);
+        $this->agreementContractCgRepository->save($contract);
+        $text = $contract->textEmail;
+        $user = $contract->statementCg->statement->user_id;
+        $this->contractSend($email_id, $user, $text);
+    }
+
+    public function receipt($id, $email_id)
+    {
+        $receipt = $this->receiptContractRepository->getId($id);
+        $receipt->setStatus(ContractHelper::STATUS_ACCEPTED);
+        $this->agreementContractCgRepository->save($receipt);
+        $text = $receipt->textEmail;
+        $user = $receipt->contractCg->statementCg->statement->user_id;
+        $this->contractSend($email_id, $user, $text);
     }
 
 
@@ -214,6 +242,17 @@ class UserAisService
         $profile = $this->profileRepository->getUser($user_id);
         try {
             $this->sendEmailSuccess($email_id, $profile, $text)->send();
+            \Yii::$app->session->setFlash('success', 'Отправлено.');
+        } catch (\Swift_TransportException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+    }
+
+    public function contractSend($email_id, $user_id,  $text)
+    {
+        $profile = $this->profileRepository->getUser($user_id);
+        try {
+            $this->sendAgreementContract($email_id, $profile, $text)->send();
             \Yii::$app->session->setFlash('success', 'Отправлено.');
         } catch (\Swift_TransportException $e) {
             \Yii::$app->session->setFlash('error', $e->getMessage());
@@ -234,6 +273,21 @@ class UserAisService
             ->setTo($profile->user->email)
 
             ->setSubject("Ваши документы в МПГУ приняты");
+    }
+
+    private function sendAgreementContract($emailId, Profiles $profile, $text)
+    {
+        $mailer = \Yii::$app->selectionCommitteeMailer;
+        $mailer->idSettingEmail = $emailId;
+
+        $configTemplate =  ['html' => 'contractEntrant-html', 'text' => 'contractEntrant-text'];
+        $configData = ['profile' => $profile, 'text'=>$text];
+        return $mailer
+            ->mailer()
+            ->compose($configTemplate, $configData)
+            ->setFrom([$mailer->getFromSender() => 'МПГУ робот'])
+            ->setTo($profile->user->email)
+            ->setSubject("Договорный отдел МПГУ");
     }
 
 

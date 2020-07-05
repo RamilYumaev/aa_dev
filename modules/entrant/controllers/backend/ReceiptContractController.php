@@ -12,9 +12,11 @@ use modules\entrant\forms\StatementMessageForm;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\readRepositories\StatementReadRepository;
+use modules\entrant\searches\ReceiptContractSearch;
 use modules\entrant\searches\StatementAgreementContractSearch;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\AgreementService;
@@ -25,7 +27,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class AgreementContractController extends Controller
+class ReceiptContractController extends Controller
 {
     private $service;
 
@@ -41,7 +43,7 @@ class AgreementContractController extends Controller
      */
     public function actionIndex($status = null)
     {
-        $searchModel = new StatementAgreementContractSearch($status);
+        $searchModel = new ReceiptContractSearch($status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +64,7 @@ class AgreementContractController extends Controller
     public function actionView($id)
     {
         $contract = $this->findModel($id);
-        return $this->render('view', ['contract' => $contract]);
+        return $this->render('view', ['receipt' => $contract]);
     }
 
     /**
@@ -221,10 +223,10 @@ class AgreementContractController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): StatementAgreementContractCg
-    {;
+    protected function findModel($id): ReceiptContract
+    {
 
-        if (($model = StatementAgreementContractCg::findOne($id))  !== null) {
+        if (($model = ReceiptContract::findOne($id))  !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');

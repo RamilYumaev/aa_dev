@@ -21,6 +21,7 @@ use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -458,5 +459,23 @@ class DataExportHelper
             ]];
         }
     }
+
+    public static function dataContractStatus(StatementAgreementContractCg $contractCg, $statusKey) {
+            return
+                ['agreement'=>['number'=>$contractCg->number,
+                    'status_id'=>ContractHelper::statusAisNumber($statusKey)]];
+        }
+
+
+    public static function dataReceipt(ReceiptContract $receiptContract) {
+        return
+            ['receipt' =>[
+            'number'=> $receiptContract->contractCg->number,
+            'bank'=>$receiptContract->bank,
+            'pay_sum'=>$receiptContract->pay_sum,
+            'pay_date'=>$receiptContract->date,
+        ]];
+    }
+
 
 }

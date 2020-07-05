@@ -20,8 +20,8 @@ use modules\entrant\widgets\file\FileListWidget;
             </tr>
             <?php foreach ($statementsCg as $statement):  ?>
                 <tr>
-                    <td><?= $statement->cg->fullName ?> <?= Html::a('Создать договор', ['statement-agreement-contract-cg/create',
-                            'id' => $statement->id], ['class' => 'btn btn-info',]) ?> </td>
+                    <td><?= $statement->cg->fullNameB ?> <?= !$statement->statementAgreement ? Html::a('Создать договор', ['statement-agreement-contract-cg/create',
+                            'id' => $statement->id], ['class' => 'btn btn-info',]) : "" ?> </td>
                 </tr>
                  <tr>
                      <td>
@@ -41,6 +41,8 @@ use modules\entrant\widgets\file\FileListWidget;
                                         <?= $agreement->number  ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' =>  $agreement->id],
                                             ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/create-pdf', 'id' =>  $agreement->id],
                                             ['class' => 'btn btn-large btn-warning']) ?>
+                                        <?= $agreement->pdf_file && $agreement->statusSuccess() ? Html::a('Скачать подписанный договор', ['statement-agreement-contract-cg/get', 'id' =>  $agreement->id],
+                                            ['class' => 'btn btn-large btn-primary']) :"" ?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',
                                             ['statement-agreement-contract-cg/delete',
                                             'id' =>  $agreement->id],
