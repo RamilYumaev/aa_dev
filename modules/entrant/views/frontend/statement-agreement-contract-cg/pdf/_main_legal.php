@@ -11,6 +11,7 @@ use yii\helpers\Html;
 
 /* @var $agreement modules\entrant\models\StatementAgreementContractCg */
 /* @var $legal modules\entrant\models\LegalEntity */
+/* @var $anketa modules\entrant\models\Anketa */
 
 $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id);
 $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->user_id);
@@ -40,7 +41,7 @@ $costRuble = $costExplode[0];
 $costMonet = $costExplode[1];
 $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
-$costMonetPerYear = $costPerYearExplode[1];
+$costMonetPerYear = $costPerYearExplode[1] ?? "00";
 $educationMonth = "";
 $educationDuration = floor($cg->education_duration);
 $eduDurationMonth = $cg->education_duration - $educationDuration;
@@ -241,8 +242,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <p align="justify">
         3.2. Оплата образовательных услуг производится по семестрам в следующем порядке:<br/>
         1) за 1-ый год обучения:<br/>
-        - первый семестр - не позднее 28 августа текущего года (при обучении на заочной форме – не позднее
-        26 сентября текущего года);<br/>
+        - первый семестр - не позднее <?=AgreementHelper::payPerDate($cg->edu_level, $cg->education_form_id, $anketa->university_choice)?> текущего года;<br/>
         - второй семестр - не позднее 01 февраля текущего учебного года;<br/>
         2) за 2-ой и последующие годы обучения:<br/>
         - нечетный семестр - не позднее 01 сентября текущего учебного года;<br/>

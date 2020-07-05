@@ -15,11 +15,11 @@ use yii\helpers\Html;
 ?>
 <?php if ($statements): ?>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Заявления об участии в конкурсе
-                <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
-                <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?>
-                <?= $isContract ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract") : "" ?>
-            </h4>
+        <div class="panel-heading fs-20">Заявления об участии в конкурсе
+            <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
+            <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?>
+                <?= $isContract ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract",
+                    ['class'=>'pull-right btn btn-info']) : "" ?>
         </div>
         <div class="panel-body">
             <?php
