@@ -16,20 +16,37 @@ use yii\helpers\Html;
 $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id);
 $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->user_id);
 $legal = $agreement->legal;
+$legal->bank;
+
 $legal->bik;
 $legal->p_c;
 $legal->k_c;
 $legal->fio;
 $legal->ogrn;
-$legal->address;
+
+$legal->postcode;
+$legal->address_postcode;
+$legal->region;
+$legal->district;
+$legal->city;
+$legal->village;
+$legal->street;
+$legal->house;
+$legal->housing;
+$legal->building;
+$legal->flat;
+
+
+
 $legal->footing;
 $legal->name;
-$legal->postcode;
+
 $legal->phone;
 $legal->requisites;
 $legal->position;
 $legal->inn;
 
+$number = $agreement->number;
 
 $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement->user_id);
 $cg = $agreement->statementCg->cg;
@@ -38,7 +55,7 @@ $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
-$costMonet = $costExplode[1];
+$costMonet = $costExplode[1] ?? "";
 $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1] ?? "00";
@@ -54,7 +71,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
-            <td class="text-center"><strong>ДОГОВОР</strong> №____________<br/>
+            <td class="text-center"><strong>ДОГОВОР №<?=$number?></strong><br/>
                 об оказании платных образовательных услуг
             </td>
         </tr>
@@ -436,7 +453,7 @@ if ($eduDurationMonth >= 1 / 12) {
                 <?= \date("d.m.Y", strtotime($passport['date_of_issue'])) ?></td>
 
             <td class="bb pl-10" align="left">Адрес местонахождения организации:</td>
-            <td class="bb" align="left"><?= $legal->address ?></td>
+            <td class="bb" align="left"><?= $legal->fullAddress() ?></td>
         </tr>
         <tr>
             <td class="bb pl-10">Почтовый адрес:</td>

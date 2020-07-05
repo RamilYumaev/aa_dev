@@ -2,8 +2,10 @@
 
 
 namespace modules\entrant\controllers\frontend;
+use common\auth\forms\ResetPasswordForm;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
+use modules\entrant\forms\ReceiptContractForm;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
@@ -15,6 +17,7 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\UserAis;
 use modules\entrant\services\StatementAgreementContractCgService;
 use \kartik\mpdf\Pdf;
+use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -132,12 +135,12 @@ class StatementAgreementContractCgController extends Controller
     }
 
     /**
-     *
-     * @param $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     * @throws \yii\base\InvalidConfigException
-     */
+ *
+ * @param $id
+ * @return mixed
+ * @throws NotFoundHttpException
+ * @throws \yii\base\InvalidConfigException
+ */
 
     public function actionPdfReceipt($id)
     {
@@ -156,6 +159,34 @@ class StatementAgreementContractCgController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $render;
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionUpdateReceipt($id)
+    {
+        $receipt= $this->findModelReceipt($id);
+        $form = new ReceiptContractForm($receipt);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->dataReceipt($id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax("update-receipt", ["model" => $form]);
     }
 
     /**
@@ -301,7 +332,7 @@ class StatementAgreementContractCgController extends Controller
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('add-receipt',['cost' => $agreement->statementCg->cg->education_year_cost]);
+        return $this->renderAjax('add-receipt',['agreement' => $agreement]);
     }
 
     /**

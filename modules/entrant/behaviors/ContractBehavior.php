@@ -30,22 +30,23 @@ class ContractBehavior extends Behavior
 
     public function beforeDelete($event)
     {
-        if($this->personal()) {
-            PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
-        }
-        if($this->legal()) {
-            LegalEntity::findOne(['user_id' => $this->userId()])->delete();
+
+            if($this->personal()) {
+                PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
+            }
+            if($this->legal()) {
+                LegalEntity::findOne(['user_id' => $this->userId()])->delete();
         }
     }
 
     public function beforeUpdate($event)
-    {
-        if($this->personal()) {
-            PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
-        }
-        if($this->legal()) {
-            LegalEntity::findOne(['user_id' => $this->userId()])->delete();
-        }
+    {   if ($this->owner->oldAttributes['type'] !== $this->owner->type) {
+            if($this->personal()) {
+                PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
+            }
+            if($this->legal()) {
+                LegalEntity::findOne(['user_id' => $this->userId()])->delete();
+            }}
     }
 
 

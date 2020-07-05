@@ -30,8 +30,8 @@ if($receipt->contractCg->typeEntrant()) {
     $fio_payer = $receipt->contractCg->legal->fio;
     $address_payer = $receipt->contractCg->legal->fio;
 }
-$cost = 352555.00;
-$receiptCost = ReceiptHelper::cost($cost, ReceiptHelper::listSep()[$receipt->period]);
+$cost =  $receipt->contractCg->statementCg->cg->education_year_cost;
+$receiptCost = ReceiptHelper::costDefault($cost, ReceiptHelper::listSep()[$receipt->period]);
 
 ?>
 <div class="fs-10">

@@ -249,8 +249,7 @@ class AgreementHelper
         ];
     }
 
-    public static function columnAgreement($column, $value)
-    {
+    public static function columnAgreement($column, $value) {
         $query = (new AgreementReadRepository())->readData()
             ->select('agreement.' . $column)->groupBy('agreement.' . $column);
         return ArrayHelper::map($query->all(), $column, $value);

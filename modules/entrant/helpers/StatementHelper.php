@@ -29,6 +29,8 @@ class StatementHelper
     const STATUS_RECALL = 4;
     const STATUS_WALT_SPECIAL = 5;
     const STATUS_VIEW = 6;
+    const STATUS_NO_REAL = 7;
+    const STATUS_SUCCESS = 8;
 
 
     public static function statusList() {
@@ -41,6 +43,18 @@ class StatementHelper
             self::STATUS_RECALL=> "Отозвано",
             self::STATUS_VIEW => "Взято в работу"];
     }
+
+    public static function statusContractList() {
+        return[
+            self::STATUS_ACCEPTED =>"Проверен",
+            self::STATUS_NO_ACCEPTED =>"Отклонен",
+            self::STATUS_WALT=> "Ообрабатывается",
+            self::STATUS_VIEW => "Взято в работу",
+            self::STATUS_NO_REAL => "Недействительный",
+            self::STATUS_SUCCESS => "Подписан",
+            ];
+    }
+
 
     public static function statusListJobEntrant() {
         return[
@@ -68,6 +82,10 @@ class StatementHelper
 
     public static function statusJobName($key) {
         return ArrayHelper::getValue(self::statusListJobEntrant(),$key);
+    }
+
+    public static function statusContractName($key) {
+        return ArrayHelper::getValue(self::statusContractList(),$key);
     }
 
 
@@ -126,6 +144,12 @@ class StatementHelper
         return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementAgreementContractCg::tableName() . ' consent', 'consent.statement_cg = cg.id')
+            ->select($column)->groupBy($column)->all(), $column, $value);
+    }
+
+    public static function columnStatementAgreementCg($column, $value) {
+        return ArrayHelper::map(StatementCg::find()->alias('cg')
+            ->innerJoin(StatementAgreementContractCg::tableName() . ' contract', 'contract.statement_cg = cg.id')
             ->select($column)->groupBy($column)->all(), $column, $value);
     }
 

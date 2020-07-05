@@ -19,9 +19,7 @@ $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->us
 $personal = $agreement->personal;
 $personal->series;
 $personal->number;
-$personal->address;
-$personal->fio;
-$personal->postcode;
+$personal->division_code;
 $personal->phone;
 $personal->date_of_issue;
 $personal->authority;
@@ -31,12 +29,13 @@ $agreementData = AgreementHelper::data($anketa->university_choice);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
-$costRuble = $costExplode[0];
-$costMonet = $costExplode[1];
+$costRuble = $costExplode[0] ?? "";
+$costMonet = $costExplode[1] ?? "";
 $costPerYearExplode = explode(".", $cg->education_year_cost);
-$costRublePerYear = $costPerYearExplode[0];
-$costMonetPerYear = $costPerYearExplode[1];
+$costRublePerYear = $costPerYearExplode[0] ?? "";
+$costMonetPerYear = $costPerYearExplode[1] ?? "";
 $educationMonth = "";
+$number = $agreement->number;
 $educationDuration = floor($cg->education_duration);
 $eduDurationMonth = $cg->education_duration - $educationDuration;
 if ($eduDurationMonth >= 1 / 12) {
@@ -48,7 +47,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
-            <td class="text-center"><strong>ДОГОВОР</strong> №____________<br/>
+            <td class="text-center"><strong>ДОГОВОР №<?=$number?></strong><br/>
                 об оказании платных образовательных услуг
             </td>
         </tr>

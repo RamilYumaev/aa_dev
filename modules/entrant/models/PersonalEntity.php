@@ -24,12 +24,24 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $fio
  * @property string $series
  * @property string $number
  * @property string $date_of_issue
  * @property string $authority
- * @property string $postcode,
+ * @property string $postcode
+ * @property string $region
+ * @property string $district
+ * @property string $city
+ * @property string $village
+ * @property string $street
+ * @property string $house
+ * @property string $patronymic
+ * @property string $surname
+ * @property string $name
+ * @property string $housing
+ * @property string $building
+ * @property string $flat
+ * @property string $division_code
  * @property string $address,
  * @property string $phone,
  *
@@ -52,12 +64,23 @@ class PersonalEntity extends ActiveRecord
     {
         $this->series = $form->series;
         $this->number = $form->number;
-        $this->address = $form->address;
-        $this->fio = $form->fio;
         $this->postcode = $form->postcode;
+        $this->region = $form->region;
+        $this->district = $form->district;
+        $this->city = $form->city;
+        $this->village = $form->village;
+        $this->street = $form->street;
+        $this->house = $form->house;
+        $this->housing = $form->housing;
+        $this->building  = $form->building;
+        $this->flat = $form->flat;
+        $this->division_code = $form->division_code;
         $this->phone = $form->phone;
         $this->date_of_issue =  DateFormatHelper::formatRecord($form->date_of_issue);
         $this->authority = mb_strtoupper($form->authority);
+        $this->surname = $form->surname;
+        $this->patronymic = $form->patronymic;
+        $this->name = $form->name;
         $this->user_id = $form->user_id;
     }
 
@@ -71,12 +94,34 @@ class PersonalEntity extends ActiveRecord
     protected function getProperty($property){
         return $this->getAttributeLabel($property).": ".$this->getValue($property);
     }
+    protected function getPropertyAddress($property){
+        return $this->attributeLabelsAddress()[$property]." ".$this->getValue($property);
+    }
+
 
     public function getDataFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
+    public function getAddress(){
+        $string = "";
+        foreach ($this->getAttributes(null,[  'patronymic', 'user_id','id',
+            'surname',
+            'name',
+            'series',
+            'number',
+            'division_code',
+            'date_of_issue',
+            'authority',
+            'phone',]) as  $key => $value) {
+            if($value) {
+                $string .= $this->getPropertyAddress($key).", ";
             }
         }
         return $string;
@@ -110,14 +155,52 @@ class PersonalEntity extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'fio' => 'ФИО (полностью)',
+            'patronymic' => 'Отчество',
+            'surname' => "Фамилия",
+            'name' => 'Имя',
             'series'=>'Серия паспорта',
             'number'=>'Номер паспорта',
+            'division_code' => 'Код подразделения',
             'date_of_issue'=>'Дата выдачи паспорта',
             'authority'=>'Кем выдан паспорт',
-            'address' => 'Адрес регистрации',
-            'postcode' => 'Почтовый адрес',
             'phone' => 'Контактный телефон',
+            'postcode' => 'Индекс',
+            'region' => "Регион",
+            'district' => "Район",
+            'city' => "Город",
+            'village' => "Посёлок",
+            'street' => "Улица",
+            'house' => "Дом",
+            'housing' => "Корпус",
+            'building' =>"Строение",
+            'flat' => "Квартира",
         ];
+    }
+
+    public function getFio()
+    {
+        if (!empty($this->surname) && !empty($this->surname) && !empty($this->patronymic)) {
+            return $this->surname . " " . $this->name . " " . $this->patronymic;
+        } elseif (!empty($this->surname) && !empty($this->name)) {
+            return $this->surname . " " . $this->name;
+        }
+        return null;
+    }
+
+    public function attributeLabelsAddress()
+    {
+        return [
+            'postcode' => '',
+            'region' => "",
+            'district' => "",
+            'city' => "",
+            'village' => "",
+            'street' => "",
+            'house' => "",
+            'housing' => "",
+            'building' =>"",
+            'flat' => "кв ",
+        ];
+
     }
 }

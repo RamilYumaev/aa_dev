@@ -17,8 +17,10 @@ use modules\entrant\models\CseViSelect;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
+use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
+use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -373,18 +375,87 @@ class DataExportHelper
 
     public static function dataIncomingContract(StatementAgreementContractCg $contractCg, UserAis $userAis) {
         if($contractCg->typeEntrant()) {
-       return ['export_agreement' =>[
-            'token'=> '849968aa53dd0732df8c55939f6d1db9',
-            'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
-            "incoming_id"=>$userAis->incoming_id,
-            'agreement' => [
-                'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
-                'abiturient_academic_year'=>'2020',
-                'customer_type_id'=>2,
-                'customer_is_abiturient_status' => 1,
-                'current_status_id'=>1,
-            ],
-        ]];
+           return ['export_agreement' =>[
+                'token'=> '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
+                "incoming_id"=>$userAis->incoming_id,
+                'agreement' => [
+                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id'=>2,
+                    'customer_is_abiturient_status' => 1,
+                    'current_status_id'=>1,
+                ],
+            ]];
+        } elseif($contractCg->typePersonal()) {
+            /* @var $personal PersonalEntity */
+            $personal = $contractCg->personal;
+            return ['export_agreement' =>[
+                'token'=> '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
+                "incoming_id"=>$userAis->incoming_id,
+                'agreement' => [
+                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id'=>2,
+                    'customer_is_abiturient_status' => 0,
+                    'current_status_id'=>1,
+                    'individual_surname' => $personal->surname,
+                    'individual_name' =>  $personal->name,
+                    'individual_patronymic' => $personal->patronymic,
+                    'individual_passport_series' => $personal->series,
+                    'individual_passport_number' => $personal->number,
+                    'individual_passport_authority' => $personal->authority,
+                    'individual_passport_authority_code' => $personal->division_code,
+                    'individual_passport_issue' => $personal->date_of_issue,
+                    'individual_address_postcode' => $personal->postcode,
+                    'individual_address_region' => $personal->region,
+                    'individual_address_district' => $personal->district,
+                    'individual_address_city' => $personal->city,
+                    'individual_address_village' => $personal->village,
+                    'individual_address_street' => $personal->street,
+                    'individual_address_house' => $personal->house,
+                    'individual_address_housing' => $personal->housing,
+                    'individual_address_building' => $personal->building,
+                    'individual_address_flat' => $personal->flat,
+                    'individual_phone' => $personal->phone,
+                ],
+            ]];
+        }elseif($contractCg->typeLegal()) {
+            /* @var $legal LegalEntity */
+            $legal = $contractCg->legal;
+            return ['export_agreement' =>[
+                'token'=> '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
+                "incoming_id"=>$userAis->incoming_id,
+                'agreement' => [
+                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id'=>1,
+                    'customer_is_abiturient_status' => 0,
+                    'current_status_id'=>1,
+                    'entity_name' => $legal->name,
+                    'entity_agent_document' =>$legal->footing,
+                    'entity_agent_surname' => $legal->surname,
+                    'entity_agent_name' => $legal->first_name,
+                    'entity_agent_patronymic' => $legal->patronymic,
+                    'entity_payment_bank' => $legal->bank,
+                    'entity_payment_k_s' => $legal->k_c,
+                    'entity_payment_bik' => $legal->bik,
+                    'entity_payment_r_s' => $legal->p_c,
+                    'entity_payment_inn' => $legal->inn,
+                    'entity_payment_ogrnip' => $legal->ogrn,
+                    'entity_address_postcode' => $legal->postcode,
+                    'entity_address_region' => $legal->region,
+                    'entity_address_district' => $legal->district,
+                    'entity_address_city' => $legal->city,
+                    'entity_address_village' => $legal->village,
+                    'entity_address_street' => $legal->street,
+                    'entity_address_house' => $legal->house,
+                    'entity_address_housing' => $legal->housing,
+                    'entity_address_building' => $legal->building,
+                    'entity_address_flat' => $legal->flat,
+                    'entity_post_address_line'=>$legal->address_postcode,
+                    'entity_phone' => $legal->phone,
+                ],
+            ]];
         }
     }
 

@@ -24,7 +24,7 @@ $this->title= "Главная. ".$text;
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryTarget()): ?>
-        <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_bb',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_agreement',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryMPGU()): ?>
@@ -33,6 +33,9 @@ $this->title= "Главная. ".$text;
     <?php if($jobEntrant->isCategoryUMS()): ?>
         <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
+    <?php if($jobEntrant->isAgreement()): ?>
+        <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryGraduate()): ?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>

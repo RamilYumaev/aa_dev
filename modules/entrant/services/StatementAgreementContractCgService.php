@@ -6,8 +6,10 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use modules\entrant\behaviors\ContractBehavior;
+use modules\entrant\forms\FilePdfForm;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
+use modules\entrant\forms\ReceiptContractForm;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\ReceiptContract;
@@ -72,6 +74,12 @@ class StatementAgreementContractCgService
         $this->receiptContractRepository->remove($receipt);
     }
 
+    public function dataReceipt($id, ReceiptContractForm $form){
+        $receipt = $this->receiptContractRepository->getId($id);
+        $receipt->data($form);
+        $this->receiptContractRepository->save($receipt);
+    }
+
     public function addNumber($id, $number){
         $statement = $this->repository->get($id);
         $statement->setNumber($number);
@@ -134,6 +142,30 @@ class StatementAgreementContractCgService
         $contract = $this->repository->get($id);
         $receipt = ReceiptContract::create($contract->id, $period);
         $this->receiptContractRepository->save($receipt);
+    }
+
+    public function status($id, $status)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus($status);
+        $this->repository->save($statement);
+    }
+
+    public function month($id, $status)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setIsMonth($status);
+        $this->repository->save($statement);
+    }
+
+
+    public function addFile($id, FilePdfForm $form)
+    {
+        $statement = $this->repository->get($id);
+        if($form->file_name) {
+            $statement->setFile($form->file_name);
+        }
+        $this->repository->save($statement);
     }
 
 

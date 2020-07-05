@@ -197,7 +197,7 @@ class SubmittedDocumentsService
 
     private function statementAgreement($userId)
     {
-        $statements = StatementAgreementContractCg::find()->statementStatus($userId, StatementHelper::STATUS_DRAFT)->all();
+        $statements = StatementAgreementContractCg::find()->statementStatus($userId, null)->all();
         /* @var $statement \modules\entrant\models\StatementAgreementContractCg */
         foreach ($statements as $statement) {
             if (!$statement->countFilesAndCountPagesTrue()) {

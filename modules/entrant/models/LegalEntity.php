@@ -33,12 +33,24 @@ use yii\db\ActiveRecord;
  * @property string $p_c
  * @property string $k_c
  * @property string $inn
- * @property string $postcode,
- * @property string $address,
+ * @property string $address_postcode,
+ * @property string $postcode
+ * @property string $region
+ * @property string $district
+ * @property string $city
+ * @property string $village
+ * @property string $street
+ * @property string $house
+ * @property string $housing
+ * @property string $building
+ * @property string $flat
+ * @property string $patronymic
+ * @property string $surname
+ * @property string $first_name
+ * @property string $bank
  * @property string $phone,
  *
-**/
-
+ **/
 class LegalEntity extends ActiveRecord
 {
     public function behaviors()
@@ -46,10 +58,26 @@ class LegalEntity extends ActiveRecord
         return [FileBehavior::class];
     }
 
-    public static  function create(LegalEntityForm $form) {
-        $legalEntity =  new static();
+    public static function create(LegalEntityForm $form)
+    {
+        $legalEntity = new static();
         $legalEntity->data($form);
         return $legalEntity;
+    }
+
+    public function fullAddress()
+    {
+        $result = $this->postcode ? $this->postcode . " " : "";
+        $result .= $this->region ? $this->region . " " : "";
+        $result .= $this->district ? $this->district . " " : "";
+        $result .= $this->city ? $this->city . " " : "";
+        $result .= $this->village ? $this->village . " " : "";
+        $result .= $this->street ? $this->street . " " : "";
+        $result .= $this->house ? $this->house . " " : "";
+        $result .= $this->housing ? $this->housing . " " : "";
+        $result .= $this->building ? $this->building . " " : "";
+        $result .= $this->flat  ? $this->flat  . " " : "";
+        return $result;
     }
 
     public function data(LegalEntityForm $form)
@@ -58,11 +86,24 @@ class LegalEntity extends ActiveRecord
         $this->p_c = $form->p_c;
         $this->k_c = $form->k_c;
         $this->ogrn = $form->ogrn;
-        $this->address = $form->address;
-        $this->name = $form->name;
+        $this->address_postcode = $form->address_postcode;
         $this->postcode = $form->postcode;
+        $this->region = $form->region;
+        $this->district = $form->district;
+        $this->city = $form->city;
+        $this->village = $form->village;
+        $this->street = $form->street;
+        $this->house = $form->house;
+        $this->housing = $form->housing;
+        $this->building = $form->building;
+        $this->flat = $form->flat;
+        $this->name = $form->name;
         $this->phone = $form->phone;
         $this->requisites = $form->requisites;
+        $this->surname = $form->surname;
+        $this->patronymic = $form->patronymic;
+        $this->first_name = $form->first_name;
+        $this->bank = $form->bank;
         $this->fio = $form->fio;
         $this->position = $form->position;
         $this->footing = $form->footing;
@@ -71,19 +112,22 @@ class LegalEntity extends ActiveRecord
         $this->user_id = $form->user_id;
     }
 
-    public function getValue($property){
-          return $this->$property;
+    public function getValue($property)
+    {
+        return $this->$property;
     }
 
-    protected function getProperty($property){
-        return $this->getAttributeLabel($property).": ".$this->getValue($property);
+    protected function getProperty($property)
+    {
+        return $this->getAttributeLabel($property) . ": " . $this->getValue($property);
     }
 
-    public function getDataFull(){
+    public function getDataFull()
+    {
         $string = "";
-        foreach ($this->getAttributes(null,['user_id','id']) as  $key => $value) {
-            if($value) {
-                $string .= $this->getProperty($key)." ";
+        foreach ($this->getAttributes(null, ['user_id', 'id']) as $key => $value) {
+            if ($value) {
+                $string .= $this->getProperty($key) . " ";
             }
         }
         return $string;
@@ -114,20 +158,33 @@ class LegalEntity extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'bank' => 'Отделение банка',
             'bik' => "БИК",
             'p_c' => "Расчетный счет",
             'k_c' => "Корреспондетский счет",
-            'ogrn' =>  'ОГРНИП',
-            'inn'=>'ИНН/КПП',
+            'ogrn' => 'ОГРНИП',
+            'inn' => 'ИНН/КПП',
             'name' => 'Наименование организации',
-            'address' => 'Адрес места нахождения организации',
-            'postcode' => 'Почтовый адрес организации',
+            'address_postcode' => 'Почтовый адрес организации',
+            'postcode' => 'Индекс',
+            'region' => "Регион",
+            'district' => "Район",
+            'city' => "Город",
+            'village' => "Посёлок",
+            'street' => "Улица",
+            'house' => "Дом",
+            'housing' => "Корпус",
+            'building' => "Строение",
+            'flat' => "Квартира",
+            'patronymic' => 'Отчество',
+            'surname' => "Фамилия",
+            'first_name' => 'Имя',
             'phone' => 'Контактный телефон организации',
-            'requisites'=> "Реквизиты документа, удостоверяющего полномочия представителя Заказчика",
-            'fio'=> "ФИО руководителя/представителя организации в родительном падеже",
-            'footing'=> "Наименование документа (Устава (Положения), доверенности и т.п.), удостоверяющего полномочия 
+            'requisites' => "Реквизиты документа, удостоверяющего полномочия представителя Заказчика",
+            'fio' => "ФИО руководителя/представителя организации в родительном падеже",
+            'footing' => "Наименование документа (Устава (Положения), доверенности и т.п.), удостоверяющего полномочия 
             представителя Заказчика в родительном падеже",
-            'position'=> "Должность в родительном падеже"
+            'position' => "Должность в родительном падеже"
         ];
     }
 }

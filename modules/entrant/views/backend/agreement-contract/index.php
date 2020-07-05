@@ -1,5 +1,7 @@
 <?php
 
+use modules\entrant\helpers\ContractHelper;
+use modules\entrant\searches\grid\ContractColumn;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -10,8 +12,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel modules\entrant\searches\StatementAgreementContractSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $status integer */
+$st= ContractHelper::statusName($status);
+$status = !is_null($st) ? " (".$st.")" : "";
 
-$this->title = "Договоры";
+$this->title = "Договоры" .$status;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -22,20 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['class' => \yii\grid\SerialColumn::class],
                     [
                             'attribute' => 'statementCg.statement.user_id',
                             'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser.fio'), 'user_id', 'statementCg.statement.profileUser.fio'),
                             'value'=> 'statementCg.statement.profileUser.fio'
 
                     ],
+                    'number',
                     [
                         'attribute' => 'statementCg.statement.faculty_id',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('faculty_id',  'faculty.full_name'), 'faculty_id', 'statementCg.statement.faculty.full_name'),
                          'value' => 'statementCg.statement.faculty.full_name'
                     ],
-                    [
+                    ['header' => "Конкурсная группа",
                         'attribute' => 'statementCg.cg.id',
-                        //'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('faculty_id',  'faculty.full_name'), 'faculty_id', 'statementCg.statement.faculty.full_name'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreementCg('cg_id',  'cg.fullNameB'), 'cg', 'statementCg.cg.fullNameB'),
                         'value' => 'statementCg.cg.fullNameB'
                     ],
                     [
@@ -43,7 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
-                    ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
+                    [  'attribute' => 'status_id',
+                        'class'=> ContractColumn::class,
+                        'filter' => ContractHelper::statusList(),
+
+                    ],
+                    ['class' => ActionColumn::class, 'controller' => 'agreement-contract', 'template' => '{view}']
                 ],
             ]); ?>
         </div>
