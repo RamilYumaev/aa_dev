@@ -8,6 +8,7 @@ use common\helpers\EduYearHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\FilePdfForm;
+use modules\entrant\forms\ReceiptContractMessageForm;
 use modules\entrant\forms\StatementMessageForm;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
@@ -43,7 +44,7 @@ class ReceiptContractController extends Controller
      */
     public function actionIndex($status = null)
     {
-        $searchModel = new ReceiptContractSearch($status);
+        $searchModel = new ReceiptContractSearch($status, $this->jobEntrant);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -77,14 +78,14 @@ class ReceiptContractController extends Controller
     public function actionMessage($id)
     {
         $model = $this->findModel($id);
-        $form = new StatementMessageForm($model);
+        $form = new ReceiptContractMessageForm($model);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->addMessage($model->id, $form);
+                $this->service->addMessageReceipt($model, $form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -156,15 +157,9 @@ class ReceiptContractController extends Controller
 
     public function actionStatus($id, $status)
     {
-        $contract = $this->findModel($id);
-        $emailId = $this->jobEntrant->email_id;
-        if (!$emailId) {
-            Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
-                Обратитесть к администратору");
-            return $this->redirect(Yii::$app->request->referrer);
-        }
+        $receipt = $this->findModel($id);
         try {
-            $this->service->status($contract->id, $status, $emailId);
+            $this->service->statusReceipt($receipt, $status);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -215,7 +210,6 @@ class ReceiptContractController extends Controller
         $render = $pdf->render();
         return $render;
     }
-
 
 
     /**

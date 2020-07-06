@@ -7,6 +7,7 @@ namespace modules\entrant\controllers\backend;
 use common\helpers\EduYearHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\AgreementForm;
+use modules\entrant\forms\ContractMessageForm;
 use modules\entrant\forms\FilePdfForm;
 use modules\entrant\forms\StatementMessageForm;
 use modules\entrant\helpers\FileCgHelper;
@@ -41,7 +42,7 @@ class AgreementContractController extends Controller
      */
     public function actionIndex($status = null)
     {
-        $searchModel = new StatementAgreementContractSearch($status);
+        $searchModel = new StatementAgreementContractSearch($status, $this->jobEntrant);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -75,7 +76,7 @@ class AgreementContractController extends Controller
     public function actionMessage($id)
     {
         $model = $this->findModel($id);
-        $form = new StatementMessageForm($model);
+        $form = new ContractMessageForm($model);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);

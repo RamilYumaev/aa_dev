@@ -294,6 +294,10 @@ class StatementAgreementContractCgController extends Controller
     public function actionForm($id)
     {
         $agreement= $this->findModel($id);
+        if($agreement->number) {
+            Yii::$app->session->setFlash('warning', "Редактировать нельзя, так как Вы сформировали договор");
+            return $this->redirect(['post-document/agreement-contract']);
+        } else {
          if($agreement->type == 1) {
              return $this->redirect(Yii::$app->request->referrer);
          }elseif($agreement->type == 2) {
@@ -327,6 +331,7 @@ class StatementAgreementContractCgController extends Controller
                  'model' => $form,
              ]);
          }
+        }
     }
 
     /**
@@ -421,6 +426,10 @@ class StatementAgreementContractCgController extends Controller
     {
         $customer = Yii::$app->request->post('customer');
         $agreement = $this->findModel($id);
+        if($agreement->number) {
+            Yii::$app->session->setFlash('warning', "Редактировать нельзя, так как Вы сформировали договор");
+            return $this->redirect(['post-document/agreement-contract']);
+        }
         if ($customer) {
             try {
                 $statement = $this->service->add($agreement->id, $customer);

@@ -29,13 +29,28 @@ class ContractHelper
         return ArrayHelper::getValue(self::statusList(),$key);
     }
 
+    public static function statusReceiptList() {
+        return[
+            self::STATUS_NEW =>"Новая",
+            self::STATUS_ACCEPTED =>"Проверена",
+            self::STATUS_NO_ACCEPTED =>"Отклонена",
+            self::STATUS_WALT=> "Обрабатывается",
+            self::STATUS_VIEW => "Взято в работу",
+            self::STATUS_NO_REAL => "Недействительная",
+            self::STATUS_SUCCESS => "Подписан",];
+    }
+
+    public static function statusReceiptName($key) {
+        return ArrayHelper::getValue(self::statusReceiptList(),$key);
+    }
+
     public static function colorList() {
         return [
             self::STATUS_NEW=> "warning",
             self::STATUS_WALT=> "warning",
             self::STATUS_ACCEPTED =>"success",
             self::STATUS_NO_ACCEPTED =>"danger",
-            self::STATUS_NO_REAL =>"danger",
+            self::STATUS_NO_REAL =>"default",
             self::STATUS_SUCCESS => "primary",
             self::STATUS_VIEW => "info"
         ];

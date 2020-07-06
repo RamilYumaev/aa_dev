@@ -22,8 +22,10 @@ class InfoContractWidget extends Widget
 
     public function run()
     {
-        $query = (new ContractReadRepository())->readData();
-        $query->where(['status_id'=>$this->status]);
+        $query = (new ContractReadRepository($this->entrant))->readData();
+
+        $query->andWhere(['consent.status_id'=>$this->status]);
+
         return $this->render($this->view, ['count'=> $query->count(),
             'colorBox' => $this->colorBox,
             'icon'=> $this->icon,

@@ -23,12 +23,30 @@ use modules\entrant\widgets\file\FileListWidget;
                  <tr>
                      <td>
                          <?= $agreement->statementCg->cg->fullNameB ?>
+                         <?php if($agreement->message): ?>
+                             <br/> Причина отклонения: <?= $agreement->message ?>
+                         <?php endif; ?>
                      </td>
                      <td>
                          <span class="label label-<?= ContractHelper::colorName($agreement->status_id) ?>">
                         <?= $agreement->statusName ?></span>
+
                      </td>
                  </tr>
+                <?php if ($agreement->receiptContract): ?>
+                <tr>
+                    <td>
+                        Квитанция
+                        <?php if($agreement->receiptContract->message): ?>
+                            <br/> Причина отклонения: <?= $agreement->receiptContract->message ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                         <span class="label label-<?= ContractHelper::colorName($agreement->receiptContract->status_id) ?>">
+                        <?= $agreement->receiptContract->statusName ?></span>
+                    </td>
+                </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         </table>
         <?php endif; ?>

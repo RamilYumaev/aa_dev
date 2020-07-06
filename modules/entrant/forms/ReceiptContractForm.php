@@ -29,7 +29,8 @@ class ReceiptContractForm extends Model
         return [
             [['date'], MaxDateValidate::class],
             [['date'], 'date', 'format' => 'd.m.Y'],
-            [['bank', 'pay_sum'], 'string', 'max'=>255],
+            [['bank'], 'string', 'max'=>255],
+            [['pay_sum'], 'number'],
             [['date', 'bank', 'pay_sum'], 'required'],
         ];
     }

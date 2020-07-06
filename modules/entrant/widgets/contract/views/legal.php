@@ -45,5 +45,5 @@ use yii\widgets\DetailView;
                     'position'
                 ]
             ]) ?>
-    <?= FileListWidget::widget([ 'view' => 'list-backend', 'record_id' => $model->user_id, 'model' => $model::className(), 'userId' => $model->id]) ?>
+    <?= FileListWidget::widget([ 'view' => 'list-backend', 'record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>
     <?php Box::end(); endif; ?>

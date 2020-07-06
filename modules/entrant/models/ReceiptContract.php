@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property float $pay_sum
  * @property string $date
  * @property string $bank
+ * @property string $message
  * @property integer $status_id
  * @property integer $created_at;
  * @property integer $updated_at;
@@ -37,6 +38,7 @@ class ReceiptContract extends ActiveRecord
     public static function create($contractCgId, $period) {
         $statementCg = new static();
         $statementCg->contract_cg_id = $contractCgId;
+        $statementCg->date = date("Y-m-d");
         $statementCg->period = $period;
         return $statementCg;
     }
@@ -55,8 +57,12 @@ class ReceiptContract extends ActiveRecord
         $this->status_id = $status;
     }
 
+    public function setMessage($message) {
+        $this->message = $message;
+    }
+
     public function getStatusName(){
-        return ContractHelper::statusName($this->status_id);
+        return ContractHelper::statusReceiptName($this->status_id);
     }
 
     public function isNullData() {
@@ -87,6 +93,11 @@ class ReceiptContract extends ActiveRecord
         return $this->status_id == ContractHelper::STATUS_ACCEPTED;
     }
 
+    public function statusNoAccepted() {
+        return $this->status_id == ContractHelper::STATUS_NO_ACCEPTED;
+    }
+
+
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
@@ -103,6 +114,7 @@ class ReceiptContract extends ActiveRecord
         return $this->hasOne(StatementAgreementContractCg::class, ['id'=>'contract_cg_id']);
     }
 
+
     public static function find(): ReceiptContractCgQuery
     {
         return new ReceiptContractCgQuery(static::class);
@@ -116,7 +128,8 @@ class ReceiptContract extends ActiveRecord
             'number' => "Номер договорв",
             'date' => "Дата платежа",
             'period' => "Период платежа",
-            'status_id'=> "Статус"
+            'status_id'=> "Статус",
+            "statusName" => "Статус",
         ];
     }
 
