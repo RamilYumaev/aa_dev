@@ -19,6 +19,7 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property integer $id
  * @property integer $statement_cg
  * @property string $pdf_file
+ * @property string $message
  * @property string $number
  * @property integer $status_id;
  * @property integer $created_at;
@@ -64,6 +65,11 @@ class StatementAgreementContractCg extends ActiveRecord
     public function setNumber($number) {
         $this->number = $number;
     }
+
+    public function setMessage($message) {
+        $this->message = $message;
+    }
+
 
     public function setCountPages($countPages) {
         $this->count_pages = $countPages;
@@ -122,6 +128,11 @@ class StatementAgreementContractCg extends ActiveRecord
     public function statusAccepted() {
         return $this->status_id == ContractHelper::STATUS_ACCEPTED;
     }
+
+    public function statusNoAccepted() {
+        return $this->status_id == ContractHelper::STATUS_NO_ACCEPTED;
+    }
+
 
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg']);

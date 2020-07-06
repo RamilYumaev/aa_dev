@@ -230,6 +230,7 @@ class UserAisService
     {
         $receipt = $this->receiptContractRepository->getId($id);
         $receipt->setStatus(ContractHelper::STATUS_ACCEPTED);
+        $receipt->setMessage(null);
         $this->agreementContractCgRepository->save($receipt);
         $text = $receipt->textEmail;
         $user = $receipt->contractCg->statementCg->statement->user_id;

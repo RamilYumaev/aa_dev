@@ -34,6 +34,13 @@ use yii\widgets\DetailView;
     <?= $model->pdf_file  ? Html::a("Скачать файл", ['agreement-contract/get', 'id' =>  $model->id ], ["class" => "btn btn-info"]) : "" ?>
     <?= Html::a('Скачать договор', ['agreement-contract/pdf', 'id' =>  $model->id],
     ['class' => 'btn btn-large btn-warning pull-right'])?>
+    <?= $model->statusWalt() || $model->statusView()   ? Html::a("Отклонить", ["agreement-contract/message", 'id' => $model->id], ["class" => "btn btn-danger",
+    'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения заявления']) :"" ?>
+    <?= $model->statusNoAccepted()  ? Html::a('Возврат', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_WALT],
+    ['class' => 'btn btn-warning', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) : "" ?>
+    <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' => $model->statementCg->statement->user_id], [
+    'class' => 'btn btn-danger',
+    'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите отправить письмо?"]]) ?>
 
     <?= DetailView::widget([
                 'options' => ['class' => 'table table-bordered detail-view'],

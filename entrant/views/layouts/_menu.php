@@ -87,7 +87,9 @@ if(!Yii::$app->user->isGuest ) {
                 ],
                 ['label' => 'Абитуриенты (ЗИД)', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
-            ]
+                ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
+                ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
+                ]
 
         );
     }

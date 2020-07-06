@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\searches;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
@@ -13,11 +14,13 @@ class ReceiptContractSearch extends  Model
 {
     public $user_id, $number, $bank, $pay_sum, $date_from, $date_to;
     public $status, $status_id;
+    private $jobEntrant;
 
 
-    public function __construct($status, $config = [])
+    public function __construct($status, JobEntrant $jobEntrant,   $config = [])
     {
         $this->status = $status;
+        $this->jobEntrant = $jobEntrant;
         parent::__construct($config);
     }
 
@@ -35,7 +38,7 @@ class ReceiptContractSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new ReceiptReadRepository())->readData()->alias('receipt')->statusNoDraft('receipt.');
+        $query = (new ReceiptReadRepository($this->jobEntrant))->readData();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -52,10 +55,6 @@ class ReceiptContractSearch extends  Model
             return $dataProvider;
         }
 
-        $query->innerJoin(StatementAgreementContractCg::tableName() . ' contract', 'contract.id = receipt.contract_cg_id');
-        $query->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = contract.statement_cg');
-        $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
-
         if (!empty($this->user_id)) {
             $query->andWhere(['statement.user_id' => $this->user_id]);
         }
@@ -63,8 +62,6 @@ class ReceiptContractSearch extends  Model
         if (!empty($this->number)) {
             $query->andWhere(['like', 'number', $this->number]);
         }
-
-
         $query->andFilterWhere(['receipt.status_id' => $this->status_id])
             ->andFilterWhere(['like', 'receipt.pay_sum', $this->pay_sum])
             ->andFilterWhere(['like', 'receipt.bank', $this->bank])

@@ -36,11 +36,17 @@ $this->title= "Главная. ".$text;
     <?php endif; ?>
     <?php if($jobEntrant->isAgreement()): ?>
         <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryGraduate()): ?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
+
     <?php endif; ?>
     <?php if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())): ?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
 <?php endif; ?>

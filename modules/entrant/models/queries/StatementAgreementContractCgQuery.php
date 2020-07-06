@@ -23,6 +23,14 @@ class StatementAgreementContractCgQuery extends \yii\db\ActiveQuery
             ->andWhere(['statement.user_id' => $user_id]);
     }
 
+    public function statementUserCgId($user_id, $statementCgId) {
+        return $this->alias('contractCg')
+            ->innerJoin(StatementCg::tableName(), 'statement_cg.id=contractCg.statement_cg')
+            ->innerJoin(Statement::tableName(), 'statement.id=statement_cg.statement_id')
+            ->andWhere(['statement.user_id' => $user_id, 'contractCg.statement_cg'=> $statementCgId]);
+    }
+
+
     public function statementStatus($user_id, $status) {
         return $this->alias('contractCg')
             ->innerJoin(StatementCg::tableName(), 'statement_cg.id=contractCg.statement_cg')

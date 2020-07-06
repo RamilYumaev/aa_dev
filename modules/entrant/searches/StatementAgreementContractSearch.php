@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\searches;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
@@ -13,11 +14,13 @@ class StatementAgreementContractSearch extends  Model
 {
     public $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
     public $status, $status_id;
+    private $jobEntrant;
 
 
-    public function __construct($status, $config = [])
+    public function __construct($status, JobEntrant $jobEntrant,   $config = [])
     {
         $this->status = $status;
+        $this->jobEntrant = $jobEntrant;
         parent::__construct($config);
     }
 
@@ -35,7 +38,7 @@ class StatementAgreementContractSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new ContractReadRepository())->readData()->alias('consent')->statusNoDraft('consent.')->orderByCreatedAtDesc();
+        $query = (new ContractReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -51,9 +54,6 @@ class StatementAgreementContractSearch extends  Model
             $query->where('0=1');
             return $dataProvider;
         }
-
-        $query->innerJoin(StatementCg::tableName() . ' cg', 'cg.id = consent.statement_cg');
-        $query->innerJoin(Statement::tableName() . ' statement', 'statement.id = cg.statement_id');
 
         if (!empty($this->user_id)) {
             $query->andWhere(['statement.user_id' => $this->user_id]);

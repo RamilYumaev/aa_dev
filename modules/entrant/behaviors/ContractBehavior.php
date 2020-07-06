@@ -7,6 +7,8 @@ use dictionary\models\DictCompetitiveGroup;
 use libphonenumber\Leniency\ExactGrouping;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\StatementAgreementContractCg;
+use modules\entrant\readRepositories\ContractReadRepository;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
@@ -16,7 +18,7 @@ use Yii;
 class ContractBehavior extends Behavior
 {
     /**
-     * @var BaseActiveRecord
+     * @var StatementAgreementContractCg
      */
     public $owner;
 
@@ -30,34 +32,33 @@ class ContractBehavior extends Behavior
 
     public function beforeDelete($event)
     {
-
-            if($this->personal()) {
-                PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
+            if($this->owner->typePersonal() && $this->personal()) {
+                PersonalEntity::findOne([ 'id'=> $this->owner->record_id, 'user_id' => $this->userId()])->delete();
             }
-            if($this->legal()) {
-                LegalEntity::findOne(['user_id' => $this->userId()])->delete();
+            if($this->owner->typeLegal() && $this->legal()) {
+                LegalEntity::findOne([  'id'=> $this->owner->record_id, 'user_id' => $this->userId()])->delete();
         }
     }
 
     public function beforeUpdate($event)
     {   if ($this->owner->oldAttributes['type'] !== $this->owner->type) {
-            if($this->personal()) {
-                PersonalEntity::findOne(['user_id' => $this->userId()])->delete();
+            if($this->owner->typePersonal() && $this->personal()) {
+                PersonalEntity::findOne([  'id'=> $this->owner->record_id, 'user_id' => $this->userId()])->delete();
             }
-            if($this->legal()) {
-                LegalEntity::findOne(['user_id' => $this->userId()])->delete();
+            if($this->owner->typeLegal() &&$this->legal()) {
+                LegalEntity::findOne([ 'id'=> $this->owner->record_id, 'user_id' => $this->userId()])->delete();
             }}
     }
 
 
     private function personal()
     {
-        return PersonalEntity::find()->where(['user_id' => $this->userId()])->exists();
+        return PersonalEntity::find()->where([ 'id'=> $this->owner->record_id, 'user_id' => $this->userId()])->exists();
     }
 
     private function legal()
     {
-        return LegalEntity::find()->where(['user_id' => $this->userId()])->exists();
+        return LegalEntity::find()->where([ 'id'=> $this->owner->record_id,  'user_id' => $this->userId()])->exists();
     }
 
     private function userId()

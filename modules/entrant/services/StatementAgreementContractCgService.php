@@ -6,10 +6,13 @@ namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
 use modules\entrant\behaviors\ContractBehavior;
+use modules\entrant\forms\ContractMessageForm;
 use modules\entrant\forms\FilePdfForm;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\forms\ReceiptContractForm;
+use modules\entrant\forms\ReceiptContractMessageForm;
+use modules\entrant\helpers\ContractHelper;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\ReceiptContract;
@@ -51,7 +54,7 @@ class StatementAgreementContractCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
-        if($this->repository->exits($userId)) {
+        if($this->repository->exits($userId, $cg->id)) {
         throw new \DomainException('Вы уже сформировали договор об оказании платных образовательных услуг');
         }
 
@@ -147,10 +150,19 @@ class StatementAgreementContractCgService
         $this->receiptContractRepository->save($receipt);
     }
 
+    public function statusReceipt(ReceiptContract $receiptContract, $status)
+    {
+        $receiptContract->setStatus($status);
+        $this->receiptContractRepository->save($receiptContract);
+    }
+
     public function status($id, $status, $emailId)
     {
         $statement = $this->repository->get($id);
         $statement->setStatus($status);
+        if($status == ContractHelper::STATUS_ACCEPTED) {
+            $statement->setMessage(null);
+        }
         $this->repository->save($statement);
         if($statement->statusAccepted()) {
             $this->userAisService->contractSend($emailId,
@@ -175,5 +187,18 @@ class StatementAgreementContractCgService
         $this->repository->save($statement);
     }
 
+    public function addMessage($id, ContractMessageForm $form)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setMessage($form->message);
+        $statement->setStatus(ContractHelper::STATUS_NO_ACCEPTED);
+        $this->repository->save($statement);
+    }
 
+    public function addMessageReceipt(ReceiptContract $receiptContract, ReceiptContractMessageForm $form)
+    {
+        $receiptContract->setMessage($form->message);
+        $receiptContract->setStatus(ContractHelper::STATUS_NO_ACCEPTED);
+        $this->receiptContractRepository->save($receiptContract);
+    }
 }

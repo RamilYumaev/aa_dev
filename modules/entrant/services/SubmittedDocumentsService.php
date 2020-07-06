@@ -213,9 +213,9 @@ class SubmittedDocumentsService
                 throw new \DomainException('Загружены не все файлы договора!');
             }
             if($statement->typeLegal()) {
-                $this->legal($userId);
+                $this->legal($statement->record_id, $userId);
             }else if($statement->typePersonal()) {
-                $this->personal($userId);
+                $this->personal($statement->record_id, $userId);
             }
             $statement->setStatus(StatementHelper::STATUS_WALT);
             $this->statementAgreementContractCgRepository->save($statement);
@@ -269,19 +269,19 @@ class SubmittedDocumentsService
         }
     }
 
-    private function legal($userId)
+    private function legal($id, $userId)
     {
-        $legal = LegalEntity::findOne(['user_id' => $userId]);
+        $legal = LegalEntity::findOne(['id' => $id, 'user_id' => $userId]);
         if ($legal && !$legal->files) {
-            throw new \DomainException(' Не загружен скан(-ы) юридического лица"!');
+            throw new \DomainException(' Не загружен скан(-ы) юридического лица!');
         }
     }
 
-    private function personal($userId)
+    private function personal($id, $userId)
     {
-        $personal = PersonalEntity::findOne(['user_id' => $userId]);
+        $personal = PersonalEntity::findOne(['id' => $id, 'user_id' => $userId]);
         if ($personal && !$personal->files) {
-            throw new \DomainException(' Не загружен скан(-ы) законного представителя"!');
+            throw new \DomainException(' Не загружен скан(-ы) законного представителя!');
         }
     }
 
