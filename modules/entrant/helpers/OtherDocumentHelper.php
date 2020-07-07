@@ -32,6 +32,12 @@ class OtherDocumentHelper
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=> 43])->exists();
     }
 
+    public static function isWithout($user_id): bool
+    {
+        return OtherDocument::find()->andWhere(['user_id' => $user_id,'without'=> 1])->exists();
+    }
+
+
     public static function isExitsMedicine($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=> DictIncomingDocumentTypeHelper::ID_MEDICINE])->exists();
