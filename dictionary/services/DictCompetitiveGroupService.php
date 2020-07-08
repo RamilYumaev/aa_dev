@@ -113,10 +113,7 @@ class DictCompetitiveGroupService
         foreach ($model->all() as $currentCg) {
             $result[] = [
                 'id' => $currentCg->id,
-                'text' => DictCompetitiveGroupHelper::getFullName($currentCg->year, $currentCg->edu_level,
-                    $currentCg->specialty->name,
-                    $currentCg->specialization->name,
-                    $currentCg->faculty->full_name, $currentCg->education_form_id, $currentCg->financing_type_id) ,
+                'text' => $currentCg->fullNameOlympic,
             ];
         }
         return $result;

@@ -114,7 +114,7 @@ if ($eduDurationMonth >= 1 / 12) {
                 программе подготовки научно-педагогических кадров в аспирантуре,
             <?php endif; ?>
         <?php endif; ?>
-        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>
+        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>,
         направленность (профиль) <strong><?= $cg->specialization->name ?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
@@ -480,8 +480,8 @@ if ($eduDurationMonth >= 1 / 12) {
             <td class="bb" align="left"><?= $legal->phone ?></td>
         </tr>
         <tr>
-            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left">E-mail:</td>
-            <td rowspan="3" class="bb br v-align-top" align="left"><?= $profile['email'] ?></td>
+            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
+            <td rowspan="3" class="bb br v-align-top" align="left"></td>
 
             <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
             <td rowspan="3" class="bb v-align-top" align="left"></td>

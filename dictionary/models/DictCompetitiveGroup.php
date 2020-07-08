@@ -20,7 +20,6 @@ use yii\helpers\StringHelper;
  * @package dictionary\models
  * @property  $special_right_id string
  */
-
 class DictCompetitiveGroup extends ActiveRecord
 {
 
@@ -113,7 +112,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'spo_class' => 'Класс СПО',
             'ais_id' => 'ID  АИС ВУЗ',
             'foreigner_status' => 'Конкурсная группа УМС',
-            'only_spo'=>'Только для абитуриентов из колледжа',
+            'only_spo' => 'Только для абитуриентов из колледжа',
         ];
     }
 
@@ -130,7 +129,7 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public function getExaminations()
     {
-        return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id'])->orderBy(['priority'=>SORT_ASC]);
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id'])->orderBy(['priority' => SORT_ASC]);
     }
 
 
@@ -325,24 +324,38 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function getFullNameV()
-    {   $edu_level =  DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+    {
+        $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
         $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
         $budget = DictCompetitiveGroupHelper::financingTypeName(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
-        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "") ." / ".$edu_level
+        return $this->specialty->codeWithName . ' ' . ($this->specialization->name ?? "") . " / " . $edu_level
             . " / " . StringHelper::mb_ucfirst($form_edu)
             . " / " . $budget;
     }
 
     public function getFullNameB()
-    {   $edu_level =  DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+    {
+        $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
         $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
         $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
         $specialRight = DictCompetitiveGroupHelper::specialRightName($this->special_right_id);
-        return $this->specialty->codeWithName.' '.($this->specialization->name ?? "") ." / ".$edu_level
+        return $this->specialty->codeWithName . ' ' . ($this->specialization->name ?? "") . " / " . $edu_level
             . " / " . StringHelper::mb_ucfirst($form_edu)
             . " / " . $budget
-            . " / " . $specialRight
-            ;
+            . " / " . $specialRight;
+    }
+
+    public function getFullNameOlympic()
+    {
+        $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+        $specialRight = DictCompetitiveGroupHelper::specialRightName($this->special_right_id);
+        return $this->year . " / " . $this->faculty->full_name . " / " . $this->specialty->codeWithName .
+            ' / ' . ($this->specialization->name ?? "") . " / " . $edu_level
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget
+            . " / " . $specialRight;
     }
 
 
