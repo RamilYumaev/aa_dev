@@ -663,7 +663,7 @@ class DictCompetitiveGroupHelper
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
             ->andWhere(["in", "id", $selectedCg])
-            ->andWhere(['edu_level' => $cg->edu_level])
+            ->andWhere(['edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
             ->andWhere(['financing_type_id'=>DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->column();
         if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty) && $cg->isBudget()) {

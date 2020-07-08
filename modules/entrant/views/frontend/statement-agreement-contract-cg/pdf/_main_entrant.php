@@ -44,7 +44,7 @@ if ($eduDurationMonth >= 1 / 12) {
         </tr>
         <tr>
             <td class="h-30">г. Москва</td>
-            <td class="text-right"><?= \date("d.m.Y") ?> г.</td>
+            <td class="text-right"><?= Yii::$app->formatter->asDate($agreement->created_at) ?></td>
         </tr>
     </table>
     <p align="justify">
