@@ -147,7 +147,7 @@ class DataExportHelper
                 'composite_discipline_id' => $composite,
                 'preemptive_right_status' => $prRight ? 1 : 0,
                 'preemptive_right_level' => $prRight ? $prRight : 0,
-                'benefit_BVI_status' => $anketa->isWithOitCompetition() ? 1 : 0,
+                'benefit_BVI_status' => 0,
                 'application_code' => $statement->numberStatement,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,

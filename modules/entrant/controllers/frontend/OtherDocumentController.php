@@ -78,6 +78,22 @@ class OtherDocumentController extends Controller
         return $this->render("exemption", ["model" => $form]);
     }
 
+    public function actionWithout()
+    {
+
+        $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['without'=> null ]])->one() ?? null;
+        $form = new OtherDocumentForm(
+            $this->getUserId(),
+            false,
+            $model,
+            false,
+            ['series', 'number','authority','date'],
+            [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA_WITHOUT], null,['without'=>1]);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
+        return $this->render("without", ["model" => $form]);
+    }
+
+
     private function formCreateUpdate(OtherDocumentForm $form, $urlRedirect, OtherDocument $model = null)
     {
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {

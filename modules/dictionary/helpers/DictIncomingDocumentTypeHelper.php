@@ -17,6 +17,8 @@ class DictIncomingDocumentTypeHelper
     const TYPE_EDUCATION_PHOTO= 5;
     const TYPE_DIPLOMA= 6;
 
+    const TYPE_DIPLOMA_WITHOUT = 7;
+
     const ID_PHOTO= 45;
     const ID_MEDICINE= 29;
 
@@ -28,12 +30,14 @@ class DictIncomingDocumentTypeHelper
     const ID_NAME_WEDDING_DOC = 51;
     const ID_NAME_UPDATE = 50;
     const ID_PATRIOT_DOC = 43;
-
-
     const ID_AFTER_DOC = 30;
 
     public static function listType($type)
     {
+        if(is_array($type) && in_array(self::TYPE_DIPLOMA_WITHOUT, $type)) {
+        return ArrayHelper::map(self::find()->type(self::TYPE_DIPLOMA)->andWhere(['id'=>[36,37,38,
+           66, 67,68,69,70,71]])->all(), 'id', 'name');
+        }
         return ArrayHelper::map(self::find()->type($type)->all(), 'id', 'name');
     }
 
@@ -102,7 +106,11 @@ class DictIncomingDocumentTypeHelper
 
 
     public static function rangeType($type)
-    {
+    {  if(is_array($type) && in_array(self::TYPE_DIPLOMA_WITHOUT, $type)) {
+        return self::find()->type(self::TYPE_DIPLOMA)->select('id')->andWhere(['id'=>[36,37,38,
+            66, 67,68,69,70,71]])->column();
+    }
+
         return self::find()->type($type)->select('id')->column();
     }
 

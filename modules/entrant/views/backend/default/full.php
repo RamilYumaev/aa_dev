@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 /* @var $profile olympic\models\auth\Profiles */
+/* @var $anketa \modules\entrant\models\Anketa */
 
 use yii\helpers\Html;
 
@@ -56,6 +57,11 @@ $userId = $profile->user_id;
 <?php if ($anketa->isAgreement()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
+    </div>
+<?php endif; ?>
+<?php if ($anketa->isWithOitCompetition()): ?>
+    <div class="mt-20 table-responsive">
+        <?= \modules\entrant\widgets\other\WithoutOtherWidget::widget(['userId' => $userId, 'view' => "without-backend"]); ?>
     </div>
 <?php endif; ?>
 <?php if ($anketa->isPatriot()): ?>

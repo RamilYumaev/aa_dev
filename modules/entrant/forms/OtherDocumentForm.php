@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 
 class OtherDocumentForm extends Model
 {
-    public $type, $user_id, $amount, $series, $number, $date, $authority, $exemption_id;
+    public $type, $user_id, $amount, $series, $number, $date, $authority, $exemption_id, $without;
 
     private $arrayRequired;
 
@@ -55,7 +55,7 @@ class OtherDocumentForm extends Model
     {
         return [
             [$this->required(), 'required'],
-            [['type','amount', 'exemption_id'], 'integer'],
+            [['type','amount', 'exemption_id','without'], 'integer'],
             [['series',], 'string', 'max' => 10],
             [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],

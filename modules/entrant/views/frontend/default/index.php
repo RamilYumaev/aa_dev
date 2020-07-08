@@ -69,6 +69,11 @@ $userId = Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption']); ?>
         </div>
     <?php endif; ?>
+    <?php if ($anketa->isWithOitCompetition()): ?>
+        <div class="mt-20 table-responsive">
+            <?= \modules\entrant\widgets\other\WithoutOtherWidget::widget(['userId' => $userId]); ?>
+        </div>
+    <?php endif; ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\language\LanguageWidget::widget(['userId' => $userId]); ?>
     </div>

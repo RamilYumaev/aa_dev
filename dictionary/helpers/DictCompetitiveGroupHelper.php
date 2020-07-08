@@ -672,16 +672,19 @@ class DictCompetitiveGroupHelper
         return true;
     }
 
-    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id, $specRight)
+    public static function financeUser($user_id, $faculty_id, $speciality_id, $education_form_id, $specialization_id, $specRight, $ids = null)
     {
-        return DictCompetitiveGroup::find()->userCg($user_id)
+        $query = DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
             ->formEdu($education_form_id)
             ->specialRight($specRight)
-            ->specialization($specialization_id)
-            ->select(['financing_type_id'])
-            ->column();
+            ->specialization($specialization_id);
+            if($ids) {
+                $query->andWhere(['id'=>$ids]);
+            }
+            $query->select(['financing_type_id']);
+            return $query->column();
     }
 
 

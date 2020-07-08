@@ -150,7 +150,7 @@ class FileCgHelper
           foreach ( DictCompetitiveGroupHelper::facultySpecialityAllUser(
                 $userId,
                 $facultyId,
-                $specialityId, $special_right, $ids) as $key => $cgUser)  /* @var $cgUser dictionary\models\DictCompetitiveGroup */
+                $specialityId, $special_right, $ids) as $key => $cgUser)  /* @var $cgUser \dictionary\models\DictCompetitiveGroup */
                 {
                   $array[$key]['speciality']=  $cgUser->specialty->code." ".$cgUser->specialty->name;
                   $array[$key]['specialization']=  $cgUser->specialization->name ?? "";
@@ -158,10 +158,10 @@ class FileCgHelper
                   $array[$key]['special_right']= DictCompetitiveGroupHelper::specialRightName($cgUser->special_right_id);
                   $array[$key]['contract'] = self::finance($userId, $cgUser->faculty_id, $cgUser->speciality_id,
                     $cgUser->education_form_id,
-                    $cgUser->specialization_id, $cgUser->special_right_id,DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
+                    $cgUser->specialization_id, $cgUser->special_right_id,DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $ids);
                     $array[$key]['budget'] = self::finance($userId, $cgUser->faculty_id, $cgUser->speciality_id,
                         $cgUser->education_form_id,
-                        $cgUser->specialization_id, $cgUser->special_right_id, DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+                        $cgUser->specialization_id, $cgUser->special_right_id, DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, $ids);
         }
              return $array;
     }
@@ -184,12 +184,12 @@ class FileCgHelper
         return [['name'=>DictFacultyHelper::facultyName($facultyId)]];
     }
 
-    public static function finance($userId, $facultyId, $specialityId, $eduForm, $specialisation, $specialRight,  $typeFinance)
+    public static function finance($userId, $facultyId, $specialityId, $eduForm, $specialisation, $specialRight,  $typeFinance, $ids)
     {
         $finance = DictCompetitiveGroupHelper::financeUser($userId,
             $facultyId, $specialityId,
             $eduForm,
-            $specialisation, $specialRight);
+            $specialisation, $specialRight, $ids);
 
         return in_array($typeFinance, $finance) ? "X" : "";
 

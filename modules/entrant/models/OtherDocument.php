@@ -31,6 +31,7 @@ use yii\db\ActiveRecord;
  * @property integer $note
  * @property string $series
  * @property string $number
+ * @property  integer $without
  * @property string $date
  * @property string $authority
  * @property integer $amount
@@ -68,6 +69,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
         $this->number = $form->number;
         $this->date = $form->date ? DateFormatHelper::formatRecord($form->date) : null;
         $this->exemption_id = $form->exemption_id;
+        $this->without = $form->without;
         $this->user_id = $form->user_id;
     }
 
@@ -125,7 +127,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
 
     public function getOtherDocumentFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'type_note','id','exemption_id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'type', 'note', 'type_note','id', 'without','exemption_id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }

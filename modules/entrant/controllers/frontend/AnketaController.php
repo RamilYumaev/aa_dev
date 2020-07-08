@@ -58,6 +58,8 @@ class AnketaController extends Controller
                     return $this->redirect(["other-document/exemption"]);
                 } elseif($model->category_id == CategoryStruct::COMPATRIOT_COMPETITION) {
                     return $this->redirect(["other-document/patriot"]);
+                } elseif($model->category_id == CategoryStruct::WITHOUT_COMPETITION) {
+                    return $this->redirect(["other-document/without"]);
                 } elseif($model->category_id == CategoryStruct::TARGET_COMPETITION) {
                     return $this->redirect(["agreement/index"]);
                 } else {
