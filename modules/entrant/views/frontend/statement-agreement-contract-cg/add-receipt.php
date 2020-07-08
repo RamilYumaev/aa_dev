@@ -5,7 +5,9 @@ use yii\helpers\Html;
 /* @var  $type integer|null */
 /* @var $agreement \modules\entrant\models\StatementAgreementContractCg */
 $cost = $agreement->statementCg->cg->education_year_cost;
-$array = \modules\entrant\helpers\ReceiptHelper::listPeriod($cost);
+$discount = $agreement->statementCg->cg->discount;
+$totalCost = $cost - ($cost * ($discount/100));
+$array = \modules\entrant\helpers\ReceiptHelper::listPeriod($totalCost);
 if (!$agreement->is_month) {
     unset($array[1]);
 } ?>
