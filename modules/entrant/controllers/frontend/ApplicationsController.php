@@ -235,8 +235,6 @@ class ApplicationsController extends Controller
 
     }
 
-
-
     private function universityChoiceBase()
     {
         if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
