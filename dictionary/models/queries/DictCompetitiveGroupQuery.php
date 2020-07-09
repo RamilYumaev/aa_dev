@@ -22,6 +22,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['edu_level' => $eduLevel]);
     }
 
+    public function onlyTpgu(){
+        return $this->andWhere(['tpgu_status'=> true]);
+    }
+
     public function allActualFacultyWithoutBranch()
     {
         return $this

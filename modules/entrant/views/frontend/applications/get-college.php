@@ -4,7 +4,7 @@
  * @var $currentFaculty
  * @var $cg
  * @var $transformYear
- * @var $anketa
+ * @var $anketa modules\entrant\models\Anketa
  */
 
 use dictionary\models\Faculty;
@@ -23,6 +23,8 @@ $this->title = "Выбор образовательных программ СП�
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$anketa = Yii::$app->user->identity->anketa();
 
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO);
 

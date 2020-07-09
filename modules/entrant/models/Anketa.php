@@ -73,6 +73,10 @@ class Anketa extends ActiveRecord
 
 
     }
+    public function isTpgu()
+    {
+        return $this->category_id == CategoryStruct::TPGU_PROJECT;
+    }
 
     public function isAgreement()
     {
@@ -196,6 +200,10 @@ class Anketa extends ActiveRecord
             AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT))
         ) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        }
+        if($this->category_id == CategoryStruct::TPGU_PROJECT){
+            $level = DictCompetitiveGroup::find()->distinct()->select('edu_level')->onlyTpgu()->column();
+            return $level;
         }
 
         return array_uintersect($result, self::existsLevel($this->university_choice), "strcasecmp");

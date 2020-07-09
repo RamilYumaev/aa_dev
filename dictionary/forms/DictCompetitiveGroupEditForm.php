@@ -19,7 +19,7 @@ class DictCompetitiveGroupEditForm extends Model
     public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
         $link, $year, $education_year_cost,  $cathedraList, $enquiry_086_u_status, $spo_class, $discount, $ais_id,
-        $foreigner_status, $edu_level, $only_spo, $_competitiveGroup;
+        $foreigner_status, $edu_level, $only_spo, $_competitiveGroup, $tpgu_status, $additional_set_status;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
@@ -47,6 +47,8 @@ class DictCompetitiveGroupEditForm extends Model
         $this->foreigner_status = $competitiveGroup->foreigner_status;
         $this->only_spo = $competitiveGroup->only_spo;
         $this->_competitiveGroup = $competitiveGroup;
+        $this->tpgu_status = $competitiveGroup->tpgu_status;
+        $this->additional_set_status = $competitiveGroup->additional_set_status;
 
 
         parent::__construct($config);

@@ -91,10 +91,6 @@ class ApplicationsService
                     $this->repository->save($userCg);
                 }
             }
-
-
-
-
         });
     }
 
