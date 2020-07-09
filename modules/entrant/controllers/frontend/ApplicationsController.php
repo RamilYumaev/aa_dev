@@ -113,7 +113,7 @@ class ApplicationsController extends Controller
         ]);
     }
 
-    public function actionGetTpgu()
+    public function actionGetMpguTpgu()
     {
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         return $this->render('get-mpgu-tpgu', [
@@ -185,10 +185,10 @@ class ApplicationsController extends Controller
             }
             $this->service->saveCg($cg, $cathedra_id, $this->anketa);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
+                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg(), $cg->tpgu_status);
             }
             return $this->redirect("/abiturient/applications/"
-                    . DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
+                    . DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg(), $cg->tpgu_status));
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
             \Yii::$app->session->setFlash('error', $e->getMessage());
@@ -196,7 +196,7 @@ class ApplicationsController extends Controller
         }
     }
 
-    protected function renderList($level, $specialRight, $govLineStatus)
+    protected function renderList($level, $specialRight, $govLineStatus, $tpguStatus)
     {
 
         $currentFacultyBase = $this->universityChoiceBase();
@@ -207,10 +207,12 @@ class ApplicationsController extends Controller
             $currentFaculty = $currentFacultyBase->onlyTarget()->column();
         } else if ($govLineStatus) {
             $currentFaculty = $currentFacultyBase->getGovLineCg()->column();
-        } else {
+        } else if($tpguStatus){
+            $currentFaculty = $currentFacultyBase->onlyTpgu()->column();
+        }else {
             $currentFaculty = $currentFacultyBase->column();
         }
-        $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus);
+        $url = DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus, $tpguStatus);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
         return $this->$method($url, [
             'currentFaculty' => array_unique($currentFaculty),
@@ -223,9 +225,9 @@ class ApplicationsController extends Controller
             $cg = $this->service->repositoryCg->get($id);
             $this->service->removeCg($cg);
             if (\Yii::$app->request->isAjax) {
-                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg());
+                return $this->renderList($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg(), $cg->tpgu_status);
             }
-            return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg()));
+            return $this->redirect(DictCompetitiveGroupHelper::getUrl($cg->edu_level, $cg->special_right_id, $cg->isGovLineCg(), $cg->tpgu_status));
         } catch (\DomainException $e) {
             \Yii::$app->errorHandler->logException($e);
             \Yii::$app->session->setFlash('error', $e->getMessage());

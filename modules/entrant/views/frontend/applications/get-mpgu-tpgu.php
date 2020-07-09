@@ -68,7 +68,7 @@ foreach ($currentFaculty as $faculty) {
             $result .= "</td>";
 
             $result .= "<td>";
-            $result .= UserCgHelper::link($currentCg->id, DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+            $result .= UserCgHelper::link($currentCg->id, DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT);
             $result .= "</td>";
             $result .= "</tr>";
         }
@@ -96,9 +96,9 @@ foreach ($currentFaculty as $faculty) {
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
+                <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>
                 - кнопка выбора образовательной программы на договорной основе.<br/><br/>
-                <?= Html::img("/img/cabinet/btn-budget-minus.png", ["width"=>"23px", "height"=> "20px"])?>
+                <?= Html::img("/img/cabinet/btn-dogovor-minus.png", ["width"=>"23px", "height"=> "20px"])?>
                 - кнопка отмены выбора образовательной программы на договорной основе.
             </div>
         </div>
