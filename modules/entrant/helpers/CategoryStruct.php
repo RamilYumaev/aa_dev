@@ -12,6 +12,7 @@ class CategoryStruct
     const GOV_LINE_COMPETITION = 5;
     const FOREIGNER_CONTRACT_COMPETITION = 6;
     const COMPATRIOT_COMPETITION = 7;
+    const TPGU_PROJECT = 8;
 
 
     public static function labelLists()
@@ -23,7 +24,8 @@ class CategoryStruct
             self::SPECIAL_RIGHT_COMPETITION => "Поступающий на особую квоту",
             self::GOV_LINE_COMPETITION => "Иностранный гражданин, поступающий по гослинии",
             self::FOREIGNER_CONTRACT_COMPETITION => "Иностранный гражданин, поступающий на платной основе",
-            self::COMPATRIOT_COMPETITION => "Соотечественник**",
+            self::COMPATRIOT_COMPETITION => "Соотечественник",
+            self::TPGU_PROJECT => "Совместный образовательный проект МПГУ - ТГПУ (респ. Узбекистан)",
         ];
     }
 
@@ -42,6 +44,7 @@ class CategoryStruct
             self::COMPATRIOT_COMPETITION,
             self::FOREIGNER_CONTRACT_COMPETITION,
             self::GOV_LINE_COMPETITION,
+            self::TPGU_PROJECT,
         ];
     }
 

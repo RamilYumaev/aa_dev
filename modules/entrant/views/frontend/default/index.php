@@ -45,7 +45,7 @@ $userId = Yii::$app->user->identity->getId();
     </div>
     <?php endif;?>
 
-    <?php if (DictCompetitiveGroupHelper::bachelorExistsUser($userId)): ?>
+    <?php if (DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
     <div class="mt-20 table-responsive">
        <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(['userId' => $userId]); ?>
     </div>
@@ -84,7 +84,7 @@ $userId = Yii::$app->user->identity->getId();
         <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId)
-        && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists($userId)): ?>
+        && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists($userId) && !$anketa->isTpgu()): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\examinations\ExaminationsIndexWidget::widget(['userId' => $userId]); ?>
         </div>
@@ -92,7 +92,7 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if (!$anketa->isNoRequired()): ?>
+    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>

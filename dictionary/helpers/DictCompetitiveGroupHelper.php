@@ -273,7 +273,7 @@ class DictCompetitiveGroupHelper
             . ($special_right ? " / " . $specialRight : "");
     }
 
-    public static function getUrl($level, $specialRight, $govLineStatus)
+    public static function getUrl($level, $specialRight, $govLineStatus,$tpguStatus)
     {
 
         if ($specialRight) {
@@ -307,7 +307,10 @@ class DictCompetitiveGroupHelper
                     $url = "#";
 
             }
-        } else {
+        } else if($tpguStatus){
+            $url = "get-mpgu-tpgu";
+        }
+        else {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
                     $url = "get-college";
