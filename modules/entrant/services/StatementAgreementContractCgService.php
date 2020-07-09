@@ -13,6 +13,9 @@ use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\forms\ReceiptContractForm;
 use modules\entrant\forms\ReceiptContractMessageForm;
 use modules\entrant\helpers\ContractHelper;
+use modules\entrant\helpers\FileHelper;
+use modules\entrant\helpers\ReceiptHelper;
+use modules\entrant\models\File;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\ReceiptContract;
@@ -146,13 +149,22 @@ class StatementAgreementContractCgService
     public function addReceipt($period, $id)
     {
         $contract = $this->repository->get($id);
-        $receipt = ReceiptContract::create($contract->id, $period);
+        $cost =  $contract->statementCg->cg->education_year_cost;
+        $discount = $contract->statementCg->statementCg->cg->discount;
+        $totalCost = $cost - ($cost * ($discount/100));
+        $receiptCost = ReceiptHelper::costDefault($totalCost, ReceiptHelper::listSep()[$period]);
+        $a = str_replace(',','.',$receiptCost);
+        $a = floatval($a);
+        $receipt = ReceiptContract::create($contract->id, $period, $a);
         $this->receiptContractRepository->save($receipt);
     }
 
     public function statusReceipt(ReceiptContract $receiptContract, $status)
     {
         $receiptContract->setStatus($status);
+        if($status != ContractHelper::STATUS_VIEW) {
+            $this->filesReceipt($receiptContract, $status);
+        }
         $this->receiptContractRepository->save($receiptContract);
     }
 
@@ -162,6 +174,9 @@ class StatementAgreementContractCgService
         $statement->setStatus($status);
         if($status == ContractHelper::STATUS_ACCEPTED) {
             $statement->setMessage(null);
+        }
+        if($status == ContractHelper::STATUS_WALT || $status == ContractHelper::STATUS_ACCEPTED) {
+            $this->filesContract($statement, $status);
         }
         $this->repository->save($statement);
         if($statement->statusAccepted()) {
@@ -192,6 +207,7 @@ class StatementAgreementContractCgService
         $statement = $this->repository->get($id);
         $statement->setMessage($form->message);
         $statement->setStatus(ContractHelper::STATUS_NO_ACCEPTED);
+        $this->filesContract($statement, FileHelper::STATUS_NO_ACCEPTED);
         $this->repository->save($statement);
     }
 
@@ -199,6 +215,26 @@ class StatementAgreementContractCgService
     {
         $receiptContract->setMessage($form->message);
         $receiptContract->setStatus(ContractHelper::STATUS_NO_ACCEPTED);
+        $this->filesReceipt($receiptContract, FileHelper::STATUS_NO_ACCEPTED);
         $this->receiptContractRepository->save($receiptContract);
+    }
+
+    public function filesContract(StatementAgreementContractCg $agreementContractCg, $status)
+    {
+        foreach ($agreementContractCg->files as $file) {
+            /* @var $file File */
+            $file->setStatus($status);
+            $file->save();
+        }
+
+    }
+
+    public function filesReceipt(ReceiptContract $receiptContract, $status)
+    {
+        foreach ($receiptContract->files as $file) {
+            /* @var $file File */
+            $file->setStatus($status);
+            $file->save();
+        }
     }
 }

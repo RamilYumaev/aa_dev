@@ -10,9 +10,11 @@ use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\services\FileService;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -78,6 +80,8 @@ class FileController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addMessage($file->id, $form);
+                $link = $file ? $file->hashId : "";
+                return $this->redirect(Yii::$app->request->referrer.$link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -101,11 +105,14 @@ class FileController extends Controller
         $model = $this->findModel($id, $modelName);
         try {
             $this->service->accepted($model->id);
+            $link = $model ? $model->hashId : "";
+            return $this->redirect(Yii::$app->request->referrer.$link);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->redirect(Yii::$app->request->referrer);
+
     }
 
 
