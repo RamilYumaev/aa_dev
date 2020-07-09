@@ -59,6 +59,9 @@ $this->params['breadcrumbs'][] = 'Обновить';
             <?= $form->field($model, 'enquiry_086_u_status')->checkbox() ?>
             <?= $form->field($model, 'spo_class')->textInput() ?>
             <?= $form->field($model, 'foreigner_status')->checkbox() ?>
+            <?= $form->field($model, 'tpgu_status')->checkbox() ?>
+
+            <?= $form->field($model, 'additional_set_status')->checkbox() ?>
             <?= $form->field($model, 'ais_id')->textInput() ?>
         </div>
     </div>
