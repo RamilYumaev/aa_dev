@@ -57,6 +57,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->year = $form->year;
         $competitiveGroup->foreigner_status = $form->foreigner_status;
         $competitiveGroup->only_spo = $form->only_spo;
+        $competitiveGroup->tpgu_status = $form->tpgu_status;
+        $competitiveGroup->additional_set_status = $form->tpgu_status;
         return $competitiveGroup;
     }
 
@@ -83,6 +85,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->year = $form->year;
         $this->foreigner_status = $form->foreigner_status;
         $this->only_spo = $form->only_spo;
+        $this->tpgu_status = $form->tpgu_status;
+        $this->additional_set_status = $form->tpgu_status;
     }
 
     /**
@@ -113,6 +117,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'ais_id' => 'ID  АИС ВУЗ',
             'foreigner_status' => 'Конкурсная группа УМС',
             'only_spo' => 'Только для абитуриентов из колледжа',
+            'tpgu_status'=> 'для ТПГУ',
+            'additional_set_status'=> 'Дополнительный набор',
         ];
     }
 

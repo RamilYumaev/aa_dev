@@ -113,6 +113,14 @@ class ApplicationsController extends Controller
         ]);
     }
 
+    public function actionGetTpgu()
+    {
+        $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        return $this->render('get-mpgu-tpgu', [
+            'currentFaculty' => $currentFaculty,
+        ]);
+    }
+
     public function actionGetTargetGraduate()
     {
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);

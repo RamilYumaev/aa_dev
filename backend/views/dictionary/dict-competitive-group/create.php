@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['prompt' => 'Выберите институт/факультет']) ?>
 
             <?= $form->field($model, 'cathedraList')->widget(Select2::class, [
-                'data'=> \modules\dictionary\helpers\DictCathedraHelper::listNames(),
+                'data' => \modules\dictionary\helpers\DictCathedraHelper::listNames(),
                 'options' => ['placeholder' => 'Выберите кафедры', 'multiple' => true],
                 'pluginOptions' => [
                     'allowClear' => true,
@@ -67,7 +67,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'spo_class')->textInput() ?>
 
-            <?= $form->field($model, 'foreigner_status')->checkbox()?>
+            <?= $form->field($model, 'foreigner_status')->checkbox() ?>
+
+            <?= $form->field($model, 'tpgu_status')->checkbox() ?>
+
+            <?= $form->field($model, 'additional_set_status')->checkbox() ?>
 
             <?= $form->field($model, 'ais_id')->textInput() ?>
         </div>
