@@ -4,6 +4,7 @@
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $anketa \modules\entrant\models\Anketa */
 
+use modules\entrant\helpers\CseViSelectHelper;
 use yii\helpers\Html;
 
 $this->title = $profile->getFio() . '. Персональная карточка поступающего';
@@ -13,6 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 $anketa = $profile->anketa;
 $userId = $profile->user_id;
 
+var_dump(\modules\entrant\helpers\DataExportHelper::uniqueMultiArray($userId));
+var_dump(CseViSelectHelper::dataInAIASCSE($userId));
 ?>
 <?= !$profile->ais ? Html::a("Экспорт в АИС", ['communication/export-data', 'user' => $userId], ['data-method' => 'post', 'class' => 'btn btn-success']) : "" ?>
 

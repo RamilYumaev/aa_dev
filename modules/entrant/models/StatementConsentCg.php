@@ -73,6 +73,11 @@ class StatementConsentCg extends ActiveRecord
         return $this->status == StatementHelper::STATUS_WALT;
     }
 
+    public function statusView() {
+        return $this->status == StatementHelper::STATUS_VIEW;
+    }
+
+
     public function statusDraft() {
         return $this->status == StatementHelper::STATUS_DRAFT;
     }

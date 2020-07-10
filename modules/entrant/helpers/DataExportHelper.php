@@ -203,7 +203,7 @@ class DataExportHelper
 
     public static function dataCSE($userId)
     {
-        $cse = CseViSelectHelper::dataInAIASCSE($userId);
+        $cse = self::uniqueMultiArray($userId);
         $n = 0;
         if ($cse) {
             $result['documentsCse'] = [];
@@ -213,7 +213,7 @@ class DataExportHelper
                         'year' => $key,
                         'type_id' => 1,
                     ];
-                foreach ($cse[$key] as $data) {
+                foreach ($value as $data) {
                     $result['documentsCse'][$n]['subject'][] = [
                         'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['cse']),
                         'mark' => $data['mark'],
@@ -221,11 +221,30 @@ class DataExportHelper
                 }
                 $n++;
             }
+
             return $result;
         }
 
         return [];
     }
+
+
+    public static  function uniqueMultiArray($userId)
+    {
+        $temp_array = [];
+        $key_array = [];
+        $cse = CseViSelectHelper::dataInAIASCSE($userId);
+        foreach ($cse as $key => $val) {
+            foreach ($cse[$key] as $data) {
+                if(!in_array($data['cse'],$key_array)) {
+                $key_array[] = $data['cse'];
+                $temp_array[$key][] = $data;
+                }
+            }
+        }
+        return $temp_array;
+    }
+
 
     public static function cse($userId)
     {

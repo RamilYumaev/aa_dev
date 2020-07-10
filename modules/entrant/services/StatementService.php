@@ -289,6 +289,18 @@ class StatementService
         });
     }
 
+    public function statusView($id)
+    {   $model = $this->repository->get($id);
+        $model->setStatus(StatementHelper::STATUS_VIEW);
+        $this->repository->save($model);
+    }
+
+    public function statusRejectionView($id)
+    {   $model = $this->statementRejectionRepository->get($id);
+        $model->setStatus(StatementHelper::STATUS_VIEW);
+        $this->repository->save($model);
+    }
+
     public function addMessageConsent($id, StatementRejectionConsentMessageForm $form)
     {  $model = $this->rejectionCgConsentRepository->get($id);
         $this->manager->wrap(function () use ($model, $form) {
@@ -343,6 +355,13 @@ class StatementService
             $model->setMessage(null);
             $this->repository->save($model);
         });
+    }
+
+    public function statusRejectionConsentView($id)
+    {
+        $model = $this->rejectionCgConsentRepository->get($id);
+       $model->setStatus(StatementHelper::STATUS_VIEW);
+       $this->rejectionCgConsentRepository->save($model);
     }
 
 
