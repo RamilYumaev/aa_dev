@@ -1,6 +1,7 @@
 <?php
 
 namespace modules\entrant\widgets\file;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\File;
 use yii\base\Widget;
 use Yii;
@@ -17,8 +18,14 @@ class FileListWidget extends Widget
         return $this->render($this->view, [
             'files' => File::find()->defaultQueryUser($this->userId,
                 $this->model,
-                $this->record_id)->all()
-            ]);
+                $this->record_id)->all(),
+            'link'=>$this->modelLink(),
+            'id' => $this->record_id,
+        ]);
+    }
+
+    private function modelLink() {
+        return FileHelper::listHash()[$this->model];
     }
 
 

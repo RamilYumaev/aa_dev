@@ -35,10 +35,11 @@ class ReceiptContract extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static function create($contractCgId, $period) {
+    public static function create($contractCgId, $period, $sum) {
         $statementCg = new static();
         $statementCg->contract_cg_id = $contractCgId;
         $statementCg->date = date("Y-m-d");
+        $statementCg->pay_sum = $sum;
         $statementCg->period = $period;
         return $statementCg;
     }
