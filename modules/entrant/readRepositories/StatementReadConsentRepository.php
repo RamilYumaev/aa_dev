@@ -36,6 +36,10 @@ class StatementReadConsentRepository
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
+        if ($this->jobEntrant->isTPGU()) {
+            $query->andWhere(['anketa.category_id' => CategoryStruct::TPGU_PROJECT]);
+        }
+
         if($this->jobEntrant->isCategoryUMS()) {
             $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
                 CategoryStruct::SPECIAL_RIGHT_COMPETITION]])

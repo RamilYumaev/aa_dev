@@ -49,4 +49,8 @@ $this->title= "Главная. ".$text;
         <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
+    <?php if($jobEntrant->isTPGU()):?>
+        <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
 <?php endif; ?>
