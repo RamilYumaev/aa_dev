@@ -26,6 +26,7 @@ class JobEntrantHelper
     const MPGU_PP = 3;
     const TASHKENT_BB = 4;
     const TARGET_BB = 5;
+    const TPGU = 8;
 
 
 
@@ -44,7 +45,8 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",
             DictFacultyHelper::STAVROPOL_BRANCH => "Ставропольский филиал МПГУ (Ставропольский край)",
             DictFacultyHelper::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
-            DictFacultyHelper::COLLAGE => "Колледж МПГУ"
+            DictFacultyHelper::COLLAGE => "Колледж МПГУ",
+            self::TPGU => "Совместный проект МПГУ - ТПГУ",
         ];
 
         return $array;
@@ -89,7 +91,8 @@ class JobEntrantHelper
             self::MPGU,
             DictFacultyHelper::COLLAGE,
             self::UMS,
-            self::FOK
+            self::FOK,
+            self::TPGU,
         ];
         return $array;
     }

@@ -36,6 +36,11 @@ class StatementCgRejectionReadRepository
                     'statement.status', StatementHelper::STATUS_WALT_SPECIAL]);
         }
 
+        if ($this->jobEntrant->isTPGU()) {
+            $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
+            $query->andWhere(['anketa.category_id' => CategoryStruct::TPGU_PROJECT]);
+        }
+
         if($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
                 'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
