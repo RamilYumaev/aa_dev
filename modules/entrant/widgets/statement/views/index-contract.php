@@ -100,15 +100,15 @@ use modules\entrant\widgets\file\FileListWidget;
                                                     'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']); ?>
                                     </td>
                                 </tr>
-                                <?php if ($agreement->receiptContract->isNullData()): ?>
+                                <?php if (!$agreement->receiptContract->isNullData()): ?>
                                     <tr>
-                                    <td colspan="2">
+                                        <td colspan="2">
 
-                                        <?php
-                                        FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?>
-                                        <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
-                                            'userId' => $statement->statement->user_id]) ?>
-                                    </td>
+                                            <?= FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?>
+                                            <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
+                                                'userId' => $statement->statement->user_id]) ?>
+                                        </td>
+                                    </tr>
                                 <?php endif; ?>
 
                             <?php else: ?>
