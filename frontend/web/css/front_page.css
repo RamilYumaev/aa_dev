@@ -854,6 +854,9 @@ select {
 .m-30 {
     margin: 30px;
 }
+.mt-70{
+    margin-top: 70px;
+}
 
 .p-20 {
     padding: 20px;

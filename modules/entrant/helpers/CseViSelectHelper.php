@@ -31,6 +31,10 @@ class CseViSelectHelper
     }
 
     public static function isCorrect($userId) {
+        if((\Yii::$app->user->identity->anketa())->isTpgu())
+        {
+            return true;
+        }
         $model =  self::modelOne($userId);
         $data = true;
         $exams = DictCompetitiveGroupHelper::groupByExams($userId);

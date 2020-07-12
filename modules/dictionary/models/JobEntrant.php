@@ -78,6 +78,10 @@ class JobEntrant extends ActiveRecord
         return $this->category_id == JobEntrantHelper::UMS;
     }
 
+    public function isTPGU(){
+        return $this->category_id == JobEntrantHelper::TPGU;
+    }
+
     public function isCategoryTarget() {
         return $this->category_id == JobEntrantHelper::TARGET;
     }
