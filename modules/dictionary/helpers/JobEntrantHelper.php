@@ -27,6 +27,7 @@ class JobEntrantHelper
     const TASHKENT_BB = 4;
     const TARGET_BB = 5;
     const TPGU = 8;
+    const EXAM = 9;
 
 
 
@@ -47,6 +48,7 @@ class JobEntrantHelper
             DictFacultyHelper::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
             DictFacultyHelper::COLLAGE => "Колледж МПГУ",
             self::TPGU => "Совместный проект МПГУ - ТПГУ",
+            self::EXAM => "Экзаменационная комиссия"
         ];
 
         return $array;
