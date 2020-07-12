@@ -56,7 +56,7 @@ $nameFull = $name->nominative ?? $profile['last_name'] . " " . $profile['first_n
         <?php
         $is086 = "";
         if($cg['is086']){
-            $is086 = $cg['financing_type_id'] == "Бюджет" ? " и медицинскую справку по форме 086/у" :" и предоставления медицинской
+            $is086 = ($cg['financing_type_id'] == "Бюджет" && !$cg['foreigner_status']) ? " и медицинскую справку по форме 086/у" :" и предоставления медицинской
 справки по форме 086/у";
         }?>
 
