@@ -13,6 +13,7 @@ use yii\helpers\Html;
 
 
 $passport = PassportDataHelper::dataArray($user_id);
+$nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
 
 ?>
 <table class="fs-15">
@@ -23,7 +24,7 @@ $passport = PassportDataHelper::dataArray($user_id);
             комиссии МПГУ,<br/>
             ректору МПГУ,<br/>
             А.В. Лубкову<br/>
-            От: <?= $name->genitive ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic']?>
+            От: <?= $nameFull?>
             <br/>
             тел.: <?= $profile['phone'] ?>
         </td>
