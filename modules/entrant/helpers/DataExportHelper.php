@@ -48,7 +48,7 @@ class DataExportHelper
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
-        $receptionMethodId = in_array($anketa->category_id, CategoryStruct::UMSGroup()) ? 2 : 1;
+        $receptionMethodId = in_array($anketa->category_id, array_merge(CategoryStruct::UMSGroup(), [CategoryStruct::TPGU_PROJECT])) ? 2 : 1;
         $result = [
             'incoming' => [
                 'surname' => $profile->last_name,
