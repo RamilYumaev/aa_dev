@@ -92,8 +92,8 @@ foreach ($currentFaculty as $faculty) {
                 ["class" => "btn btn-lg btn-success position-fixed"]); ?>
         </div>
     </div>
-    <h2 class="text-center mt-50"><?= $this->title ?></h2>
     <div class="container">
+        <h2 class="text-center mt-50"><?= $this->title ?></h2>
         <div class="row">
             <div class="col-md-6">
                 <?= Html::img("/img/cabinet/btn-dogovor-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>

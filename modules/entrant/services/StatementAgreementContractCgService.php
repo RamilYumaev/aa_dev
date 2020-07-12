@@ -150,7 +150,7 @@ class StatementAgreementContractCgService
     {
         $contract = $this->repository->get($id);
         $cost =  $contract->statementCg->cg->education_year_cost;
-        $discount = $contract->statementCg->statementCg->cg->discount;
+        $discount = $contract->statementCg->cg->discount;
         $totalCost = $cost - ($cost * ($discount/100));
         $receiptCost = ReceiptHelper::costDefault($totalCost, ReceiptHelper::listSep()[$period]);
         $a = str_replace(',','.',$receiptCost);

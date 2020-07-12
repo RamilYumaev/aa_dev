@@ -15,7 +15,7 @@ class OtherDocumentHelper
     const STATEMENT_TARGET = 4;
 
     public static function translationList() {
-        return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостворяющего личность",
+        return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостоверяющего личность",
             self::TRANSLATION_DOCUMENT_EDU  => "Перевод документа об образовании",
             self::TRANSLATION_DOCUMENT_NAME  => "Документ о смене ФИО",
             self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении'

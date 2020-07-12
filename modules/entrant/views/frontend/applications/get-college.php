@@ -137,8 +137,8 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
         <?= Html::a("Карточка " . Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
     </div>
 </div>
-<h2 class="text-center"><?= $this->title ?></h2>
 <div class="container">
+    <h2 class="text-center"><?= $this->title ?></h2>
     <div class="row">
         <div class="col-md-6">
             <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width" => "23px", "height" => "20px"]) ?>
