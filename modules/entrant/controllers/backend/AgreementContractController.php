@@ -181,6 +181,9 @@ class AgreementContractController extends Controller
 
     public function actionIsMonth($id, $status)
     {
+        if(!\Yii::$app->user->can('month-receipt')) {
+            throw  new NotFoundHttpException("У вас нет прав", 403);
+        }
         $contract = $this->findModel($id);
         try {
             $this->service->month($contract->id, $status);

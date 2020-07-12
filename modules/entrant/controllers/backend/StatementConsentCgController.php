@@ -54,6 +54,24 @@ class StatementConsentCgController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionStatusView($id)
+    {
+        $this->findModel($id);
+        try {
+            $this->service->statusView($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
      *
      * @param $id
      * @return mixed

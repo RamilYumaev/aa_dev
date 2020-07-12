@@ -17,7 +17,7 @@ $new =  StatementHelper::STATUS_WALT;
         "type" => Box::TYPE_SUCCESS,
         "collapsable" => true,]) ?>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-6">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_TEAL_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -25,7 +25,17 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => $new,
             'str' => "Новые", 'link'=> ['data-entrant/statement/new']])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
+        <?= InfoUserCozWidget::widget([
+            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'circle',
+            'status' => StatementHelper::STATUS_VIEW,
+            'str' => "Взято в работу", 'link' => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW]])?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -33,7 +43,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_ACCEPTED,
             'str' => "Принятые", 'link' => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -41,7 +51,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
             'str' => "Непринятые", 'link' => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED]])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <?= InfoUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_YELLOW_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -71,7 +81,7 @@ $new =  StatementHelper::STATUS_WALT;
         "type" => Box::TYPE_INFO,
         "collapsable" => true,]) ?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= InfoFokZukRemoveWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA,
             'entrant'=> $jobEntrant,
@@ -79,7 +89,15 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => $new,
             'str' => "Новые", 'link'=> ['/data-entrant/statement-rejection/new']])?>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <?=  InfoFokZukRemoveWidget::widget([
+            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'circle',
+            'status' => StatementHelper::STATUS_VIEW,
+            'str' => "Взято в работу", 'link' => ['/data-entrant/statement-rejection/index', 'status'=> StatementHelper::STATUS_VIEW]])?>
+    </div>
+    <div class="col-md-3">
         <?=  InfoFokZukRemoveWidget::widget([
             'colorBox' => AdminLTE::BG_OLIVE,
             'entrant'=> $jobEntrant,
@@ -87,7 +105,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_ACCEPTED,
             'str' => "Принятые", 'link' => ['/data-entrant/statement-rejection/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?=  InfoFokZukRemoveWidget::widget([
             'colorBox' => AdminLTE::BG_MAROON,
             'entrant'=> $jobEntrant,
@@ -137,8 +155,7 @@ $new =  StatementHelper::STATUS_WALT;
         "type" => Box::TYPE_WARNING,
         "collapsable" => true,]) ?>
 <div class="row">
-
-    <div class="col-md-3">
+    <div class="col-md-6">
         <?= InfoFokZosWidget::widget([
             'colorBox' => AdminLTE::BG_TEAL_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -146,7 +163,17 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => $new,
             'str' => "Новые", 'link'=> ['/data-entrant/statement-consent-cg/new']])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
+        <?= InfoFokZosWidget::widget([
+            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'check-circle',
+            'status' => StatementHelper::STATUS_VIEW,
+            'str' => "Взято в работу", 'link' => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_VIEW]])?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
         <?= InfoFokZosWidget::widget([
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -154,7 +181,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_ACCEPTED,
             'str' => "Принятые", 'link' => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <?= InfoFokZosWidget::widget([
             'colorBox' => AdminLTE::BG_RED_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -162,7 +189,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_NO_ACCEPTED,
             'str' => "Непринятые", 'link' => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED]])?>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <?= InfoFokZosWidget::widget([
             'colorBox' => AdminLTE::BG_YELLOW_ACTIVE,
             'entrant'=> $jobEntrant,
@@ -172,17 +199,13 @@ $new =  StatementHelper::STATUS_WALT;
             'link' => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_RECALL]])?>
     </div>
 </div>
-
 <?php Box::end() ?>
-
-
-
 <?php Box::begin(
     [   "header" => "Отозванные заявления   о согласии на зачисление",
         "type" => Box::TYPE_DANGER,
         "collapsable" => true,]) ?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= InfoFokRemoveZosWidget::widget([
             'colorBox' => AdminLTE::BG_AQUA,
             'entrant'=> $jobEntrant,
@@ -190,7 +213,15 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => $new,
             'str' => "Новые", 'link'=> ['/data-entrant/statement-rejection/consent-new']])?>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <?=  InfoFokRemoveZosWidget::widget([
+            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
+            'entrant'=> $jobEntrant,
+            'icon'=> 'circle',
+            'status' => StatementHelper::STATUS_VIEW,
+            'str' => "Взято в работу", 'link' => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_VIEW]])?>
+    </div>
+    <div class="col-md-3">
         <?=  InfoFokRemoveZosWidget::widget([
             'colorBox' => AdminLTE::BG_OLIVE,
             'entrant'=> $jobEntrant,
@@ -198,7 +229,7 @@ $new =  StatementHelper::STATUS_WALT;
             'status' => StatementHelper::STATUS_ACCEPTED,
             'str' => "Принятые", 'link' => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?=  InfoFokRemoveZosWidget::widget([
             'colorBox' => AdminLTE::BG_MAROON,
             'entrant'=> $jobEntrant,
@@ -207,6 +238,5 @@ $new =  StatementHelper::STATUS_WALT;
             'str' => "Непринятые", 'link' => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED]])?>
     </div>
 </div>
-
 <?php Box::end() ?>
 

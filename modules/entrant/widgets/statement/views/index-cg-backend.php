@@ -32,13 +32,15 @@ use modules\entrant\widgets\file\FileListWidget;
             <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                         <?=$consent->statusNameJob?></span></td>
             <td>
-                <?= $consent->statusWalt() && $consent->isAllFilesAccepted() && $consent->statementCg->statement->statusAccepted() ?
+                <?= ($consent->statusWalt() || $consent->statusView()) && $consent->isAllFilesAccepted() && $consent->statementCg->statement->statusAccepted() ?
                 Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
                 ['communication/export-statement-consent',
                 'user' => $consent->statementCg->statement->user_id,
                 'statement' =>$consent->statementCg->statement->id,
                 'consent' =>  $consent->id],
                 ['data-method' => 'post', 'class' => 'btn btn-info']) : "" ?>
+                <?= $consent->statusWalt()  ? Html::a('Взять в работу', ['statement-consent-cg/status-view', 'id' => $consent->id, ],
+                    ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
             </td>
         </tr>
     </table>
@@ -55,15 +57,19 @@ use modules\entrant\widgets\file\FileListWidget;
             <p>
                 <?= Html::a('Скачать заявление', ['statement-rejection/pdf-consent', 'id' =>  $consent->statementCgRejection->id],
                     ['class' => 'btn btn-large btn-warning'])?>
-                <?=  $consent->statementCgRejection->statusNewJob() &&  $consent->statementCgRejection->isAllFilesAccepted() ?
+                <?=  ($consent->statementCgRejection->statusNewJob() ||
+                    $consent->statementCgRejection->isStatusView()) &&  $consent->statementCgRejection->isAllFilesAccepted() ?
                     Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
                         ['/data-entrant/communication/export-statement-consent-remove',
                             'user' =>   $consent->statementCg->statement->user_id, 'statement' =>  $consent->statementCg->statement->id, 'consent' => $consent->statementCgRejection->id],
                         ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
-                <?=  $consent->statementCgRejection->statusNewJob() ? Html::a("Отклонить", ["statement-rejection/message-consent",  'id' => $consent->statementCgRejection->id], ["class" => "btn btn-danger",
+                <?=  $consent->statementCgRejection->statusNewJob() ||
+                $consent->statementCgRejection->isStatusView() ? Html::a("Отклонить", ["statement-rejection/message-consent",  'id' => $consent->statementCgRejection->id], ["class" => "btn btn-danger",
                     'data-pjax' => 'w8', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения отозванного заявления ЗОС']) :"" ?>
                 <?=  $consent->statementCgRejection->isStatusNoAccepted() ? Html::a('Возврат', ['statement-rejection/status-consent', 'id' => $consent->statementCgRejection->id, 'status'=>StatementHelper::STATUS_WALT],
                     ['class' => 'btn btn-success']) : "" ?>
+                <?=  $consent->statementCgRejection->statusNewJob()  ? Html::a('Взять в работу', ['statement-rejection/status-view-consent', 'id' => $consent->statementCgRejection->id, ],
+                    ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
                 <span class="label label-<?= StatementHelper::colorName( $consent->statementCgRejection->status_id)?>">
                         <?=  $consent->statementCgRejection->statusNameJob?></span>
             </p>

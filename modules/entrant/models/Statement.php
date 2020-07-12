@@ -128,6 +128,11 @@ class Statement extends ActiveRecord
         $this->status == StatementHelper::STATUS_WALT_SPECIAL;
     }
 
+    public function statusNewViewJob() {
+        return $this->status == StatementHelper::STATUS_WALT ||
+            $this->status == StatementHelper::STATUS_WALT_SPECIAL|| $this->status == StatementHelper::STATUS_VIEW;;
+    }
+
     public function statusRecallNoAccepted() {
         return $this->status == StatementHelper::STATUS_RECALL ||
             $this->status == StatementHelper::STATUS_NO_ACCEPTED;
@@ -139,6 +144,10 @@ class Statement extends ActiveRecord
 
     public function statusAccepted() {
         return $this->status == StatementHelper::STATUS_ACCEPTED;
+    }
+
+    public function statusView() {
+        return $this->status == StatementHelper::STATUS_VIEW;
     }
 
     public function countFilesAndCountPagesTrue() {

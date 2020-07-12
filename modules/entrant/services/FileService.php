@@ -4,7 +4,6 @@
 namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
-use modules\entrant\forms\BaseMessageForm;
 use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
@@ -13,7 +12,6 @@ use yii\helpers\FileHelper as IfFile;
 use modules\entrant\repositories\FileRepository;
 use yii\db\BaseActiveRecord;
 use yii\web\UploadedFile;
-use Zxing\QrReader;
 
 class FileService
 {

@@ -90,10 +90,17 @@ class StatementRejection extends ActiveRecord
         return $this->countAcceptedFiles() == $this->countFiles();
     }
 
-       public function statusNewJob() {
+    public function statusNewJob() {
         return $this->status_id == StatementHelper::STATUS_WALT ||
             $this->status_id == StatementHelper::STATUS_WALT_SPECIAL;
     }
+
+    public function statusNewViewJob() {
+        return $this->status_id == StatementHelper::STATUS_WALT ||
+            $this->status_id == StatementHelper::STATUS_WALT_SPECIAL ||
+            $this->status_id == StatementHelper::STATUS_VIEW;
+    }
+
 
     public function statusAccepted() {
         return $this->status_id == StatementHelper::STATUS_ACCEPTED;
@@ -101,6 +108,10 @@ class StatementRejection extends ActiveRecord
 
     public function statusNoAccepted() {
         return $this->status_id == StatementHelper::STATUS_NO_ACCEPTED;
+    }
+
+    public function statusView() {
+        return $this->status_id == StatementHelper::STATUS_VIEW;
     }
 
 

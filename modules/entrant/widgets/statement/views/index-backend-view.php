@@ -25,15 +25,17 @@ use modules\entrant\widgets\file\FileListWidget;
 
         <?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
     ['class' => 'btn btn-large btn-warning'])?>
-        <?= $statement->statusNewJob() && $statement->isAllFilesAccepted() ?
+        <?= $statement->statusNewViewJob() && $statement->isAllFilesAccepted() ?
             Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
                 ['/data-entrant/communication/export-statement',
                     'user' => $statement->user_id, 'statement' => $statement->id],
                 ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
-        <?=  $statement->statusNewJob() ? Html::a("Отклонить", ["statement/message",  'id' => $statement->id], ["class" => "btn btn-danger",
+        <?=  $statement->statusNewViewJob() ? Html::a("Отклонить", ["statement/message",  'id' => $statement->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения заявления']) :"" ?>
         <?= $statement->statusNoAccepted() ? Html::a('Возврат', ['statement/status', 'id' => $statement->id, 'status'=>StatementHelper::STATUS_WALT],
             ['class' => 'btn btn-success']) : "" ?>
+        <?= $statement->statusNewJob() ? Html::a('Взять в работу', ['statement/status-view', 'id' => $statement->id],
+            ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
 
                  <span class="label label-<?= StatementHelper::colorName($statement->status)?>">
                         <?=$statement->statusNameJob?></span>
@@ -91,15 +93,17 @@ use modules\entrant\widgets\file\FileListWidget;
     <p>
     <?= Html::a('Скачать заявление', ['statement-rejection/pdf', 'id' =>  $statement->statementRejection->id],
         ['class' => 'btn btn-large btn-warning'])?>
-    <?= $statement->statementRejection->statusNewJob() && $statement->statementRejection->isAllFilesAccepted() ?
+    <?= $statement->statementRejection->statusNewViewJob() && $statement->statementRejection->isAllFilesAccepted() ?
         Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
             ['/data-entrant/communication/export-statement-remove',
                'statementId' => $statement->statementRejection->id],
             ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
-        <?=  $statement->statementRejection->statusNewJob() ? Html::a("Отклонить", ["statement-rejection/message",  'id' => $statement->statementRejection->id], ["class" => "btn btn-danger",
+        <?=  $statement->statementRejection->statusNewViewJob() ? Html::a("Отклонить", ["statement-rejection/message",  'id' => $statement->statementRejection->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения отозванного заявления']) :"" ?>
         <?= $statement->statementRejection->statusNoAccepted() ? Html::a('Возврат', ['statement-rejection/status', 'id' => $statement->statementRejection->id, 'status'=>StatementHelper::STATUS_WALT],
             ['class' => 'btn btn-success']) : "" ?>
+        <?= $statement->statementRejection->statusNewJob()  ? Html::a('Взять в работу', ['statement-rejection/status-view', 'id' =>  $statement->statementRejection->id, ],
+            ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
 
 
         <span class="label label-<?= StatementHelper::colorName($statement->statementRejection->status_id)?>">
