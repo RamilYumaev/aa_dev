@@ -14,13 +14,15 @@
 
 
 /* @var $statementConsent modules\entrant\models\StatementConsentCg */
+$nameFull = $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
+
 ?>
 <div class="mt-200 fs-15">
     <p align="center"><strong>Заявление</strong></p>
 
 
     <p align="justify" class="lh-1-5">
-        Я, <?= $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'] ?>, <?= $passport['date_of_birth'] ?> года рождения
+        Я, <?=$nameFull?>, <?= $passport['date_of_birth'] ?> года рождения
         <?= $profile['gender'] == "мужской" ? "согласен" : "согласна" ?>
         на зачисление на 1 курс в <?= $cg['faculty'] ?>.
     </p>
@@ -54,7 +56,8 @@
         <?php
         $is086 = "";
         if($cg['is086']){
-            $is086 = " и медицинскую справку по форме 086/у";
+            $is086 = $cg['financing_type_id'] == "Бюджет" ? " и медицинскую справку по форме 086/у" :" и предоставления медицинской
+справки по форме 086/у";
         }?>
 
     <p align="justify" class="lh-1-5">
@@ -68,8 +71,8 @@
             <?=$cg['foreigner_status'] ?
                 "обязуюсь предоставить в отдел по работе с иностранными учащимися, 
             нотариально заверенный перевод документа об образовании $educationDocument$is086." :
-                " обязуюсь явиться (вместе с Заказчиком) в приемную комиссию МПГУ для личного подписания 
-                оригинала Договора$is086."?>
+                " После зачисления в течение первого учебного года обязуюсь явиться (вместе с Заказчиком)
+                в приемную комиссию МПГУ для личного подписания оригинала Договора$is086."?>
         <?php endif;?>
     </p>
 
