@@ -38,6 +38,14 @@ class DictExaminer extends ActiveRecord
         $this->fio = $form->fio;
     }
 
+    public function getDisciplineExaminer() {
+        return $this->hasMany(ExaminerDiscipline::class, ['examiner_id' => 'id']);
+    }
+
+    public function  getDisciplineColumn(){
+        return $this->getDisciplineExaminer()->select(['discipline_id'])->column();
+    }
+
     public function attributeLabels()
     {
         return [

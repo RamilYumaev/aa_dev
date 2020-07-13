@@ -4,6 +4,7 @@
 namespace modules\dictionary\models;
 
 
+use dictionary\models\DictDiscipline;
 use modules\dictionary\forms\DictExaminerForm;
 use modules\dictionary\forms\DictOrganizationForm;
 use yii\db\ActiveRecord;
@@ -31,6 +32,10 @@ class ExaminerDiscipline extends ActiveRecord
         $model->examiner_id = $examinerId;
         $model->discipline_id = $disciplineId;
         return $model;
+    }
+
+    public function getDiscipline(){
+        return $this->hasOne(DictDiscipline::class, ['id'=>'discipline_id']);
     }
 
     public function attributeLabels()
