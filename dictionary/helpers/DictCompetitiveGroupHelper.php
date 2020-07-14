@@ -63,6 +63,7 @@ class DictCompetitiveGroupHelper
     public static function eduLevelForAgreement()
     {
         return [
+            self::EDUCATION_LEVEL_SPO => "среднее профессиональное образование",
             self::EDUCATION_LEVEL_BACHELOR => "бакалавриат",
             self::EDUCATION_LEVEL_MAGISTER => "магистратура",
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "подготовка кадров высшей квалификации, 

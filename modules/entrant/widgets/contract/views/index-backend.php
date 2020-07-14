@@ -28,7 +28,7 @@ use yii\widgets\DetailView;
     'data-pjax' => 'w5', 'data-toggle' => 'modal',
     'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']) : "" ?>
     <?php if(\Yii::$app->user->can('month-receipt')): ?>
-    <?= !$model->is_month ? Html::a('Оплата по месяцам "Да"', ['agreement-contract/is-month', 'id' =>  $model->id, 'status' => DictDefaultHelper::YES],
+    <?= (!$model->is_month && \Yii::$app->user->can('perMonth')) ? Html::a('Оплата по месяцам "Да"', ['agreement-contract/is-month', 'id' =>  $model->id, 'status' => DictDefaultHelper::YES],
     ['class' => 'btn btn-large btn-success', 'data'=>['confirm'=> "Вы уверены, что хотите  предоставть оплату по месяцам?"]]) : Html::a('Оплата по месяцам "Нет"', ['agreement-contract/is-month',
     'id' =>  $model->id, 'status' => DictDefaultHelper::NO],
     ['class' => 'btn btn-large btn-danger', 'data'=>['confirm'=> "Вы уверены, что хотите  отменить оплату по месяцам?"]])?>
