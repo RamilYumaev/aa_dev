@@ -241,11 +241,11 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => '№ 04 от 31 янв. 2020 г.',
-            AnketaHelper::ANAPA_BRANCH => '№ 10 от 30 апр. 2019 г.',
+            AnketaHelper::ANAPA_BRANCH => '№48 от 06 июля 2020 г.',
             AnketaHelper::POKROV_BRANCH => '№ 11 от 13 мая 2019 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 17 от 13 мая 2019 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 30 от 12 мая 2020 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 13 мая 2019 г.',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 29 от 12.05.2020 г.',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июля 2020 г.',
         ];
     }
 
@@ -277,7 +277,7 @@ class AgreementHelper
                     return '31 августа';
                 }
             }else{
-                return ''; //@todo дата не известна
+                return self::cameOnAugust31() ? '25 ноября' : '31 августа';
             }
         }
     }

@@ -60,7 +60,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <tr>
                                         <td>Данные о законном представителе - Заказчике платных образовательных услуг:
                                             <?= $agreement->personal->dataFull ?></td>
-                                        <td>Необходимо загрузить паспортыне данные Заказчика</td>
+                                        <td>Необходимо загрузить паспортные данные Заказчика</td>
                                     </tr>
                                     <tr>
                                         <td><?= FileWidget::widget(['record_id' => $agreement->personal->id, 'model' => \modules\entrant\models\PersonalEntity::class]) ?></td>
@@ -71,7 +71,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <tr>
                                         <td>Данные о Юридическом лице - Заказчике платных образовательных услуг:
                                             <?= $agreement->legal->dataFull ?></td>
-                                        <td>Необходимо загрузить паспортыне данные Заказчика и карту предприятия</td>
+                                        <td>Необходимо загрузить паспортные данные Заказчика и карту предприятия</td>
                                     </tr>
                                     <tr>
                                         <td> <?= FileWidget::widget(['record_id' => $agreement->legal->id, 'model' => \modules\entrant\models\LegalEntity::class]) ?></td>

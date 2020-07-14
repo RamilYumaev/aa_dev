@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образ
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$userId =  Yii::$app->user->identity->getId();
+$userId = Yii::$app->user->identity->getId();
 ?>
 
 <div class="container">
@@ -30,8 +30,10 @@ $userId =  Yii::$app->user->identity->getId();
     </div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-    <?= Html::a("Отправить в приемную комиссию", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
+            <?= Html::a("Отправить в приемную комиссию", ['post-document/send'], ["class" => "btn btn-success btn-lg", 'data' => ['method' => 'post']]) ?>
         </div>
     </div>
-    </div>
+</div>
+</div>
+</div>
 </div>
