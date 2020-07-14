@@ -20,7 +20,7 @@ class DictSchoolsRepository
     {
         $region = $country_id == DictCountryHelper::RUSSIA ? $region_id : null;
         if (DictSchools::findOne(['name' => $name, 'country_id'=> $country_id, 'region_id'=>  $region])) {
-            throw new \DomainException('Такая учебная оргнаизация существует.');
+            throw new \DomainException('Такая учебная организация существует.');
         }
     }
 
