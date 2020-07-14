@@ -89,7 +89,7 @@ if ($eduDurationMonth >= 1 / 12) {
             <?php endif; ?>
         <?php endif; ?>
         направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>,
-        направленность (профиль) <strong><?= $cg->specialization->name ?></strong>
+        направленность (профиль) <strong><?= $cg->specialization->name ?? $cg->specialty->name?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
         программой Исполнителя.
