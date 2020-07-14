@@ -295,7 +295,10 @@ class DataExportHelper
         $patronymic = "";
         $result['documents'] = [];
 
-        foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
+        foreach (PassportData::find()
+                     ->andWhere(['user_id' => $userId])
+                     ->orderBy(['main_status'=> SORT_DESC])
+                     ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 1,
@@ -349,7 +352,9 @@ class DataExportHelper
             ];
         }
 
-        foreach (DocumentEducation::find()->where(['user_id' => $userId])->all() as $currentDocument) {
+        foreach (DocumentEducation::find()
+                     ->andWhere(['user_id' => $userId])
+                     ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 3,
