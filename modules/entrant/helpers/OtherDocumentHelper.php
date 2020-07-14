@@ -46,7 +46,8 @@ class OtherDocumentHelper
     public static function isExitsUpdateName($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=>[DictIncomingDocumentTypeHelper::ID_NAME_UPDATE,
-            DictIncomingDocumentTypeHelper::ID_NAME_WEDDING, DictIncomingDocumentTypeHelper::ID_NAME_WEDDING_DOC]])->exists();
+            DictIncomingDocumentTypeHelper::ID_NAME_WEDDING, DictIncomingDocumentTypeHelper::ID_NAME_WEDDING_DOC,
+            DictIncomingDocumentTypeHelper::ID_NAME_BREAK_WEDDING]])->exists();
     }
 
     public static function preemptiveRightUser($user_id, $type_id) {
