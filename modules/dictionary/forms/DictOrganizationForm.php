@@ -4,6 +4,7 @@
 namespace modules\dictionary\forms;
 
 
+use modules\dictionary\models\DictForeignLanguage;
 use modules\dictionary\models\DictOrganizations;
 use yii\base\Model;
 
@@ -14,8 +15,8 @@ class DictOrganizationForm extends Model
 
     public function __construct(DictOrganizations $organization = null, $config = [])
     {
-        if ($organization !== null) {
-            $this->setAttributes($organization->getAttributes());
+        if ($organization) {
+            $this->setAttributes($organization->getAttributes(), false);
             $this->_organization = $organization;
         }
 

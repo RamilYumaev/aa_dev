@@ -48,6 +48,20 @@ if(!Yii::$app->user->isGuest ) {
         );
     }
 
+    elseif($jobEntrant && $jobEntrant->isCategoryExam()) {
+        return array_merge(
+            [
+                ['label' => 'Профиль', 'url' => ['/profile/edit']],
+                ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'Экзамены', 'url' => ['/data-exam/exam/index']],
+                ['label' => 'Группы вопросов', 'url' => ['/data-exam/exam-question-group/index']],
+                ['label' => 'Вопросы', 'url' => ['/data-exam/exam-question/index']],
+            ]
+
+        );
+    }
+
+
     elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
         return array_merge(
             [

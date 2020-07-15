@@ -22,7 +22,8 @@ return [
         ],
         'migrate-entrant' => [
             'class' => 'yii\console\controllers\MigrateController',
-            'migrationNamespaces' => ['modules\entrant\migrations', 'modules\support\migrations'],
+            'migrationNamespaces' => ['modules\entrant\migrations', 'modules\support\migrations',
+                'modules\exam\migrations'],
         ],
         'migrate-dictionary' => [
             'class' => 'yii\console\controllers\MigrateController',

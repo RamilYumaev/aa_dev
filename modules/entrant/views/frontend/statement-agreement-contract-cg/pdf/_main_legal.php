@@ -156,8 +156,8 @@ if ($eduDurationMonth >= 1 / 12) {
         ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>среднее профессиональное
             образование
         <?php else: ?>высшее образование
+        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>),
         <?php endif; ?>
-        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>
         - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
         образец которого самостоятельно устанавливается Исполнителем.
     </p>
