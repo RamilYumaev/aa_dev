@@ -180,7 +180,7 @@ class AgreementHelper
     public static function positionsGenitive()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'первого проректора',
+            AnketaHelper::HEAD_UNIVERSITY => 'проректора по развитию',
             AnketaHelper::ANAPA_BRANCH => 'директора анапского филиала',
             AnketaHelper::POKROV_BRANCH => 'директора покровского филиала',
             AnketaHelper::STAVROPOL_BRANCH => 'директора ставропольского филиала',
@@ -192,7 +192,7 @@ class AgreementHelper
     public static function positionNominative()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Первый проректор',
+            AnketaHelper::HEAD_UNIVERSITY => 'Проректор по развитию',
             AnketaHelper::ANAPA_BRANCH => 'Директор анапского филиала',
             AnketaHelper::POKROV_BRANCH => 'Директор покровского филиала',
             AnketaHelper::STAVROPOL_BRANCH => 'Директор ставропольского филиала',
@@ -204,7 +204,7 @@ class AgreementHelper
     public static function directorNameShort()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'В.П. Дронов',
+            AnketaHelper::HEAD_UNIVERSITY => 'В.В. Страхов',
             AnketaHelper::ANAPA_BRANCH => 'Е.А. Некрасова',
             AnketaHelper::POKROV_BRANCH => 'Л.В. Бойченко',
             AnketaHelper::STAVROPOL_BRANCH => 'Н.Н. Сотникова',
@@ -216,7 +216,7 @@ class AgreementHelper
     public static function directorNameGenitiveFull()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Дронова Виктора Павловича',
+            AnketaHelper::HEAD_UNIVERSITY => 'Страхова Василия Вячеславовича',
             AnketaHelper::ANAPA_BRANCH => 'Некрасовой Елены Анатольевны',
             AnketaHelper::POKROV_BRANCH => 'Бойченко Людмилы Васильевны',
             AnketaHelper::STAVROPOL_BRANCH => 'Сотниковой Натальи Николаевны',
@@ -228,7 +228,7 @@ class AgreementHelper
     public static function directorNameNominativeFull()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Дронов Виктор Павлович',
+            AnketaHelper::HEAD_UNIVERSITY => 'Страхов Василий Вячеславович',
             AnketaHelper::ANAPA_BRANCH => 'Некрасова Елена Анатольевна',
             AnketaHelper::POKROV_BRANCH => 'Бойченко Людмила Васильевна',
             AnketaHelper::STAVROPOL_BRANCH => 'Сотникова Наталья Николаевна',
@@ -240,7 +240,7 @@ class AgreementHelper
     public static function procuration() // Доверенность
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => '№ 04 от 31 янв. 2020 г.',
+            AnketaHelper::HEAD_UNIVERSITY => '№ 12 от 31 янв. 2020 г.',
             AnketaHelper::ANAPA_BRANCH => '№48 от 06 июля 2020 г.',
             AnketaHelper::POKROV_BRANCH => '№ 11 от 13 мая 2019 г.',
             AnketaHelper::STAVROPOL_BRANCH => '№ 30 от 12 мая 2020 г.',
