@@ -139,7 +139,7 @@ if ($eduDurationMonth >= 1 / 12) {
             образование
         <?php else: ?>высшее образование -
             <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?><?php endif; ?>),
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого устанавливается федеральным органом исполнительной власти, осуществляющим
         функции по выработке и реализации государственной политики и нормативно-правовому регулированию
         в сфере
@@ -158,7 +158,7 @@ if ($eduDurationMonth >= 1 / 12) {
         <?php else: ?>высшее образование
         - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>),
         <?php endif; ?>
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого самостоятельно устанавливается Исполнителем.
     </p>
     <p align="justify">
@@ -238,7 +238,7 @@ if ($eduDurationMonth >= 1 / 12) {
         телефона, паспортных, анкетных и других данных.</p>
     <p class="text-center"><strong>3. Стоимость образовательных услуг, сроки и порядок их оплаты</strong></p>
     <p align="justify">3.1. Полная стоимость образовательных услуг за весь период обучения Обучающегося
-        составляет:
+        составляет
         <?= $costRuble
         . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?>рублей(-я) <?= $costMonet ?>
         копеек(-йки),
@@ -265,7 +265,7 @@ if ($eduDurationMonth >= 1 / 12) {
         - четный семестр - не позднее 01 февраля текущего учебного года.
     </p>
     <p align="justify">
-        3.3. Оплата производится за наличный расчет и/или в безналичном порядке на счет Университета,
+        3.3. Оплата производится в безналичном порядке на счет Университета,
         указанный в разделе 8 настоящего Договора. Размер оплаты за один семестр считается равным половине
         стоимости обучения за один учебный год.
     </p>
