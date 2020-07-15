@@ -12,6 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Вопросы теста "Вар�
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<?= $this->render('form',['model'=> $model ]);
+<?= $this->render('_form',['model'=> $model ]);
 
 

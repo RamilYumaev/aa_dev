@@ -24,24 +24,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                             'attribute' => 'user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel,
+                           /* 'filter' => SelectDataHelper::dataSearchModel($searchModel,
                                 StatementHelper::columnStatementIa('user_id',  'profileUser.fio'),
-                                'user_id', 'profileUser.fio'),
+                                'user_id', 'profileUser.fio'),*/
                             'value'=> 'profileUser.fio'
 
                     ],
                     [
                         'attribute' => 'edu_level',
-                        'filter' => StatementHelper::columnStatementIa('edu_level',  'eduLevel'),
+                      /*  'filter' => StatementHelper::columnStatementIa('edu_level',  'eduLevel'),*/
                         'value'=>'eduLevel',
                     ],
                     [
                         'attribute' => 'created_at',
-                        'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
+                      /*  'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),*/
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
-                        return '<span class="label label-'.StatementHelper::colorName( $model->status).'">
+                        return '<span class="label label-'.StatementHelper::colorList()[$model->status].'">
                         '.$model->statusNameJob.'</span>';
                     }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement-individual-achievements', 'template' => '{view}']

@@ -15,7 +15,7 @@ use yii\widgets\Pjax;
 $jobEntrant = Yii::$app->user->identity->jobEntrant();
 
 ?>
-    <span id="<?=$link.$id ?>"></span>
+
 <?php Box::begin(
     [
         "header" => "Сканы",

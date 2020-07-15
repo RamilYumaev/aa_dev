@@ -42,7 +42,7 @@ class ExamAnswerService
         $mark = $this->isTypeData($data);
         $resultTest = $this->repository->get($attempt_id, $key, $keyTqId);
         unset($data['key'], $data['keyTqId']);
-        if (TestQuestionHelper::questionType($key) !== TestQuestionHelper::TYPE_FILE) {
+        if (ExamQuestionHelper::questionType($key) !== TestQuestionHelper::TYPE_FILE) {
             $json = Json::encode($data);
             $resultTest->edit($json, $mark);
         }else {
