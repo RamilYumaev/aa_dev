@@ -10,7 +10,6 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $question_id
  * @property integer $test_id
- * @property string $name
  * @property integer $question_group_id
  * @property integer $mark
  *
@@ -24,10 +23,10 @@ class ExamQuestionInTest extends ActiveRecord
         return '{{%exam_question_in_test}}';
     }
 
-    public static function create($test_group_id, $question_id, $test_id)
+    public static function create($question_group_id, $question_id, $test_id)
     {
         $testAndQuestions = new static();
-        $testAndQuestions->question_group_id = $test_group_id;
+        $testAndQuestions->question_group_id = $question_group_id;
         $testAndQuestions->test_id = $test_id;
         $testAndQuestions->question_id = $question_id;
         return $testAndQuestions;
@@ -54,11 +53,11 @@ class ExamQuestionInTest extends ActiveRecord
     }
 
     public function getQuestion () {
-        return $this->hasOne(TestQuestion::class, ['id' => "question_id"]);
+        return $this->hasOne(ExamQuestion::class, ['id' => "question_id"]);
     }
 
-    public function getTestGroup () {
-        return $this->hasOne(TestQuestionGroup::class, ['id' => "test_group_id"]);
+    public function getQuestionGroup () {
+        return $this->hasOne(ExamQuestionGroup::class, ['id' => "question_group_id"]);
     }
 
 }

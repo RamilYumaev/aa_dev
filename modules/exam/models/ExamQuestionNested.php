@@ -26,7 +26,7 @@ class ExamQuestionNested extends ActiveRecord
     public static function create($quest_id, $name, $is_start, $type)
     {
         $answer = new static();
-        $answer->quest_id = $quest_id;
+        $answer->question_id = $quest_id;
         $answer->name = $name;
         $answer->is_start = $is_start;
         $answer->type = $type;

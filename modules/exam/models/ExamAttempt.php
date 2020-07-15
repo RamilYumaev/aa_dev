@@ -4,9 +4,11 @@
 namespace modules\exam\models;
 
 
+use modules\exam\models\queries\ExamAttemptQuery;
 use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\OlimpicList;
 use testing\helpers\TestAttemptHelper;
+use testing\models\queries\TestAttemptQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -28,39 +30,24 @@ class ExamAttempt extends ActiveRecord
 
     public static function tableName()
     {
-        return 'test_attempt';
+        return '{{%exam_attempt}}';
     }
 
-    public static function create ($test_id, OlimpicList $olimpicList) {
+    public static function create ($test_id, $exam) {
         $testAtt = new static();
         $testAtt->user_id = \Yii::$app->user->identity->getId();
         $testAtt->test_id = $test_id;
+        $testAtt->exam_id = $exam;
         $testAtt->start = date("Y-m-d H:i:s" );
-        $testAtt->end = self::time($olimpicList);
+        $testAtt->end = "2025-04-02 14:44:00";
         return $testAtt;
     }
-
 
     public function seStatus($status)
     {
         $this->status = $status;
     }
 
-
-    private static function time(OlimpicList $olimpicList)
-    {
-        $date = date("Y-m-d H:i:s");
-        $time = $olimpicList->time_of_distants_tour ?? 0;
-        if ($time) {
-            $time = $time * 60;
-            $currentDate = strtotime($date);
-            $futureDate =  $currentDate + ($time);
-            $formatDate = date("Y-m-d H:i:s", $futureDate);
-        } else {
-            $formatDate = $olimpicList->date_time_finish_reg;
-        }
-        return $formatDate;
-    }
 
     public function edit($mark) {
         $this->mark = $mark;
@@ -90,6 +77,12 @@ class ExamAttempt extends ActiveRecord
     public function  isAttemptNoEnd() {
         return $this->status == TestAttemptHelper::NO_END_TEST;
     }
+
+    public static function find(): ExamAttemptQuery
+    {
+        return new  ExamAttemptQuery(static::class);
+    }
+
 
 
 }

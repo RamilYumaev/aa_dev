@@ -3,6 +3,10 @@
 
 namespace modules\exam\models;
 
+use dictionary\models\DictDiscipline;
+use modules\exam\forms\question\ExamQuestionForm;
+use modules\exam\forms\question\ExamQuestionNestedUpdateForm;
+use modules\exam\helpers\ExamQuestionHelper;
 use testing\forms\question\TestQuestionForm;
 use testing\forms\question\TestQuestionEditForm;
 use yii\db\ActiveRecord;
@@ -12,7 +16,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $question_group_id
- * @property integer $exam_id
+ * @property integer $discipline_id
  * @property integer $type_id
  * @property string $title
  * @property string $text
@@ -23,26 +27,21 @@ use yii\db\ActiveRecord;
 class ExamQuestion extends ActiveRecord
 {
 
-    public static function create(TestQuestionForm $form, $group_id, $file_type_id, $options, $olympic_id)
+    public static function create(ExamQuestionForm $form)
     {
-        $testQue = new static();
-        $testQue->type_id = $form->type_id;
-        $testQue->title = $form->title;
-        $testQue->mark = null;
-        $testQue->text = $form->text;
-        $testQue->file_type_id = $file_type_id ?? null;
-        $testQue->options = $options;
-        $testQue->group_id = $group_id;
-        $testQue->olympic_id = $olympic_id;
-        return $testQue;
+        $question = new static();
+        $question->data($form);
+        return $question;
     }
 
-    public function edit(TestQuestionEditForm $form,  $group_id, $file_type_id)
+    public function data(ExamQuestionForm $form)
     {
         $this->title = $form->title;
+        $this->type_id = $form->type_id;
         $this->text = $form->text;
-        $this->file_type_id = $file_type_id ?? null;
-        $this->group_id = $group_id;
+        $this->file_type_id = null;
+        $this->discipline_id = $form->discipline_id;
+        $this->question_group_id = $form->question_group_id;
     }
 
 
@@ -61,12 +60,13 @@ class ExamQuestion extends ActiveRecord
             'title' => 'Заголовок',
             'text' => 'Вопрос',
             'file_type_id' => 'Загружаемый тип файла',
+            'discipline_id' => "Дисциплина",
             'type' => 'Тип вопроса',
         ];
     }
 
     public function getAnswer () {
-        return $this->hasMany(Answer::class, ['quest_id' => "id"]);
+        return $this->hasMany(ExamAnswer::class, ['question_id' => "id"]);
     }
 
     public function getAnswerCorrect () {
@@ -76,6 +76,19 @@ class ExamQuestion extends ActiveRecord
     public function getAnswerUser ($ids) {
         return $this->getAnswer()->andWhere(['id' =>$ids]);
     }
+
+    public function getQuestionGroup(){
+        return $this->hasOne(ExamQuestionGroup::class, ['id'=>'question_group_id']);
+    }
+
+    public function getDiscipline(){
+        return $this->hasOne(DictDiscipline::class, ['id'=>'discipline_id']);
+    }
+
+    public function getTypeName(){
+        return ExamQuestionHelper::typeName($this->type_id);
+    }
+
 
 
     public static function labels()

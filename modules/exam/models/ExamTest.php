@@ -2,8 +2,7 @@
 
 namespace modules\exam\models;
 
-use testing\forms\TestCreateForm;
-use testing\forms\TestEditForm;
+use modules\exam\forms\ExamTestForm;
 use testing\helpers\TestHelper;
 use yii\db\ActiveRecord;
 
@@ -28,44 +27,40 @@ class ExamTest extends ActiveRecord
         return "{{%exam_test}}";
     }
 
-    public static function create(TestCreateForm $form, $olimpic_id)
+    public static function create(ExamTestForm $form)
     {
         $test = new static();
-        $test->olimpic_id = $olimpic_id;
-        $test->status = TestHelper::DRAFT;
-        $test->random_order = $form->random_order;
-        $test->introduction = $form->introduction;
-        $test->final_review = $form->final_review;
+        $test->data($form);
         return $test;
     }
 
-    public function edit(TestEditForm $form, $olimpic_id)
+    public function data(ExamTestForm $form)
     {
-        $this->olimpic_id = $olimpic_id;
         $this->random_order = $form->random_order;
         $this->introduction = $form->introduction;
+        $this->exam_id = $form->exam_id;
+        $this->name = $form->name;
         $this->final_review = $form->final_review;
     }
+
+    public function getExam(){
+        return $this->hasOne(Exam::class, ['id'=>'exam_id']);
+    }
+
 
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'olimpic_id' => 'Олимпиада',
+            'name' => 'Название теста',
+            'exam_id' => 'Экзамен',
             'introduction' => 'Вступление',
             'final_review' => 'Итоговый отзыв',
             'status' => 'Открыть тест для участников',
             'random_order'=> 'Случайный порядок вопросов',
-            'type_calculate_id' => 'Критерий расчета прохода в следующий тур',
-            'calculate_value' => 'Значение для расчета',
         ];
     }
 
-    public static function labels()
-    {
-        $test = new static();
-        return $test->attributeLabels();
-    }
 
     public function active() {
         return $this->status == TestHelper::ACTIVE;

@@ -26,7 +26,7 @@ class ExamAnswer extends ActiveRecord
     public static function create($quest_id, $name, $isCorrect, $answerMatch)
     {
         $answer = new static();
-        $answer->quest_id = $quest_id;
+        $answer->question_id = $quest_id;
         $answer->name = $name;
         $answer->is_correct = $isCorrect;
         $answer->answer_match = $answerMatch;

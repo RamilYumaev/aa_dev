@@ -1,14 +1,20 @@
 <?php
 
+use modules\exam\forms\ExamQuestionInTestTableMarkForm;
+
 /* @var $this yii\web\View */
 /* @var $exam modules\exam\models\Exam */
+
+use entrant\assets\modal\ModalAsset;
+use yii\helpers\Html;
+use yii\widgets\DetailView;
 
 $this->title = "Экзамен. ".$exam->discipline->name;
 $this->params['breadcrumbs'][] = ['label' => 'Экзамены', 'url' => ['exam/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-use yii\helpers\Html;
-use yii\widgets\DetailView; ?>
+ModalAsset::register($this);
+ ?>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-default">
@@ -28,6 +34,11 @@ use yii\widgets\DetailView; ?>
                 ]) ?>
             </div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <?= \modules\exam\widgets\exam\TestWidget::widget(['exam_id' => $exam->id]) ?>
     </div>
 </div>
 
