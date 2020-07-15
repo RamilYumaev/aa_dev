@@ -14,15 +14,15 @@ class DictOrganizationsController extends ControllerClass
     public function __construct($id, $module,
                                 DictOrganizationService $service,
                                 DictOrganizationForm $formModel,
-                                DictOrganizations $model, DictOrganizationsSearch $searchModel,
+                                DictOrganizations $model,
+                                DictOrganizationsSearch $searchModel,
                                 $config = [])
     {
+        parent::__construct($id, $module, $config);
         $this->model = $model;
         $this->formModel = $formModel;
         $this->service = $service;
         $this->searchModel = $searchModel;
-
-        parent::__construct($id, $module, $config);
     }
 
 }

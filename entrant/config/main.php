@@ -21,6 +21,10 @@ return [
             'class' => \modules\entrant\BackendEntrant::class,
             'viewPath' => "@modules/entrant/views/backend",
         ],
+        'data-exam' => [
+            'class' => \modules\exam\BackendExam::class,
+            'viewPath' => "@modules/exam/views/backend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],

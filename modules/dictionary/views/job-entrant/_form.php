@@ -18,7 +18,7 @@ use yii\helpers\Html;
         ]) ?>
         <?= $form->field($model, 'category_id')->dropDownList(\modules\dictionary\helpers\JobEntrantHelper::listCategories()) ?>
         <?= $form->field($model, 'faculty_id')->dropDownList(\dictionary\helpers\DictFacultyHelper::facultyIncomingList()) ?>
-
+        <?= $form->field($model, 'examiner_id')->dropDownList(\modules\dictionary\helpers\DisciplineExaminerHelper::listExaminer()) ?>
         <?= $form->field($model, 'email_id')->widget(
             Select2::class, [
             'data'=>\common\auth\helpers\SettingEmailHelper::all(),

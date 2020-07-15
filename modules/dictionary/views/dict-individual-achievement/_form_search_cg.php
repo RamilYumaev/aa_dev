@@ -22,8 +22,6 @@ use dictionary\helpers\DictSpecialityHelper;
             'pluginOptions' => ['allowClear' => true],
         ]); ?>
        <br/>
-
-
         <label>Факультет</label>
         <?= Select2::widget([
             'name' => 'filter-faculty_id',

@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
             <?= $form->field($model->jobEntrant, 'category_id')->dropDownList(\modules\dictionary\helpers\JobEntrantHelper::listCategories()) ?>
             <?= $form->field($model->jobEntrant, 'faculty_id')->dropDownList(\dictionary\helpers\DictFacultyHelper::facultyIncomingList()) ?>
+            <?= $form->field($model->jobEntrant, 'examiner_id')->dropDownList(\modules\dictionary\helpers\DisciplineExaminerHelper::listExaminer()) ?>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
