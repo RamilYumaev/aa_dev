@@ -7,7 +7,7 @@ namespace modules\entrant\helpers;
 class ItemsForSignatureApp
 {
     const GENERAL_BACHELOR_SIGNATURE = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-    const GENERAL_MAGISTRACY_SIGNATURE = [1,3,4,5,6,7,8,9,10,11,12];
+    const GENERAL_MAGISTRACY_SIGNATURE = [1,3,6,7,8,9,10,11,12];
     const GENERAL_GRADUATE_SIGNATURE = [1,3,6,7,8,9,10,11,12];
     const GENERAL_SPO = [1,14,4,6,7,8,9,11,12];
     const SPECIAL_CONDITIONS = 6;
