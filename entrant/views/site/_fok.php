@@ -2,6 +2,8 @@
 /* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 
 use backend\widgets\adminlte\Box;
+use modules\dictionary\helpers\JobEntrantHelper;
+use modules\entrant\widgets\cpk\CountPotentialUserCozWidget;
 use modules\entrant\widgets\cpk\InfoFokRemoveZosWidget;
 use modules\entrant\widgets\cpk\InfoFokZosWidget;
 use modules\entrant\widgets\cpk\InfoFokZukCgRemoveWidget;
@@ -73,6 +75,25 @@ $new =  StatementHelper::STATUS_WALT;
         </div>
     </div>
 
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= CountPotentialUserCozWidget::widget([
+            'colorBox' => AdminLTE::BG_OLIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT,
+            'str' => "Потенциальные абитуриенты (ЗУК)", 'link' => ['data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT]]) ?>
+    </div>
+    <div class="col-md-6">
+        <?= CountPotentialUserCozWidget::widget([
+            'colorBox' => AdminLTE::BG_FUCHSIA,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT,
+            'str' => "Потенциальные абитуриенты (без ЗУК)", 'link' => ['data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT]]) ?>
+    </div>
 </div>
 <?php Box::end() ?>
 
