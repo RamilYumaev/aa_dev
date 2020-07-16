@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $text string */
 $url = Url::to('@frontendInfo/abiturient/post-document/agreement-contract', true); ?>
-<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!
+<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic()?>!
 <div>
     <p>Приемная комиссия МПГУ сообщает Вам, что <?= $text ?>.</p>
     <p>Для ознакомления, пожалуйста, войдите в свой личный кабинет по ссылке: : <?= Html::a(Html::encode($url), $url) ?></p>
