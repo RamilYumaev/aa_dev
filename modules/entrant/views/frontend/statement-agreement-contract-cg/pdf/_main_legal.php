@@ -154,10 +154,9 @@ if ($eduDurationMonth >= 1 / 12) {
         аккредитации, и успешного прохождения итоговой аттестации ему выдается документ об образовании и о
         квалификации, относящийся к соответствующему уровню профессионального образования (<?php if
         ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>среднее профессиональное
-            образование
-        <?php else: ?>высшее образование
-        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>),
-        <?php endif; ?>
+            образование<?php else: ?>высшее образование
+        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level]?>
+        <?php endif; ?>),
         - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого самостоятельно устанавливается Исполнителем.
     </p>
