@@ -1,5 +1,6 @@
 <?php
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\ContractHelper;
 use modules\entrant\searches\grid\ContractColumn;
 use yii\grid\ActionColumn;
@@ -12,11 +13,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel modules\entrant\searches\StatementAgreementContractSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $status integer */
-$st= ContractHelper::statusName($status);
+$st= ContractHelper::statusName($searchModel->status);
 $status = !is_null($st) ? " (".$st.")" : "";
-
-$this->title = "Договоры" .$status;
+$faculty= !is_null($searchModel->faculty) ?  " (".JobEntrantHelper::listCategories()[$searchModel->faculty].")" : "";
+$eduLevel= !is_null($searchModel->edulevel) ?  " (Аспирантура)" : "";
+    $this->title = "Договоры" .$status.$faculty.$eduLevel;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

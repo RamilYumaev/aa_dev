@@ -1,6 +1,8 @@
 <?php
 /* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\StatementHelper;
 
@@ -30,6 +32,13 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
+                ['label' => 'Колледж', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::COLLAGE]],
+                ['label' => 'Сергиево-Посадский ', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::SERGIEV_POSAD_BRANCH]],
+                ['label' => 'Анапский', 'url' => ['/data-entrant/agreement-contract/index','faculty'=> DictFacultyHelper::ANAPA_BRANCH]],
+                ['label' => 'Покровский', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::POKROV_BRANCH]],
+                ['label' => 'Ставропольский ', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::STAVROPOL_BRANCH]],
+                ['label' => 'Дербентский', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::DERBENT_BRANCH]],
+                ['label' => 'Аспирантура', 'url' => ['/data-entrant/agreement-contract/index', 'eduLevel'=> DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL ]],
                 ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
             ]
 
