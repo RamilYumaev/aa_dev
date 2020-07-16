@@ -5,14 +5,16 @@
     const fok = 3;
     const exam = 9;
 
-    if(category_id.val()== fok) {
+    if(category_id.val() == fok) {
+        examiner.hide();
         faculty.show();
     }else {
         faculty.hide();
     }
 
-    if(category_id.val()== exam) {
+    if(category_id.val() == exam) {
         examiner.show();
+        faculty.hide();
     }else {
         examiner.hide();
     }
@@ -22,10 +24,12 @@
             faculty.hide()
             examiner.hide()
         } else if (this.value == fok) {
+            examiner.hide();
             faculty.show();
         }
         else if (this.value == exam) {
             examiner.show();
+            faculty.hide();
         }
         else {
             faculty.hide();

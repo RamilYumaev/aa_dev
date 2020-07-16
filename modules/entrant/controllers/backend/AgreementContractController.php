@@ -53,15 +53,16 @@ class AgreementContractController extends Controller
 
     /**
      * @param null $status
+     * @param null $faculty
+     * @param null $eduLevel
      * @return mixed
      */
-    public function actionIndex($status = null)
+    public function actionIndex($status = null, $faculty = null, $eduLevel = null)
     {
-        $searchModel = new StatementAgreementContractSearch($status, $this->jobEntrant);
+        $searchModel = new StatementAgreementContractSearch($status, $this->jobEntrant, $faculty, $eduLevel);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'status'=> $status,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
