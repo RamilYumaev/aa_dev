@@ -5,7 +5,7 @@
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $text string */
  ?>
-<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!
+<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
 
 Приемная комиссия МПГУ рада сообщить Вам, что <?= $text ?>.
 Письмо сгенерировано автоматически и отвечать на него не нужно.

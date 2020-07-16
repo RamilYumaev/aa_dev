@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $text string */
 $url = Url::to('@frontendInfo/abiturient/post-document/agreement-contract', true); ?>
 
-<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!
+<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
 Приемная комиссия МПГУ сообщает Вам, что <?= $text ?>.
 Для ознакомления, пожалуйста, войдите в свой личный кабинет по ссылке: <?=  $url ?>
 Письмо сгенерировано автоматически и отвечать на него не нужно.
