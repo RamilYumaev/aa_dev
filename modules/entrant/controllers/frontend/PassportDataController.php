@@ -67,6 +67,7 @@ class PassportDataController extends Controller
     {
         $form = new PassportDataForm($this->getUserId(), null, ['nationality', 'number', 'date_of_issue', 'authority']);
         $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
+        $form->date_of_birth = null;
         $form->nationality = DictCountryHelper::RUSSIA;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -118,6 +119,7 @@ class PassportDataController extends Controller
     {
         $model = $this->findModel($id);
         $form = new PassportDataForm($model->user_id, $model, ['nationality', 'number', 'date_of_issue', 'authority']);
+        $form->date_of_birth = null;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form, true);
