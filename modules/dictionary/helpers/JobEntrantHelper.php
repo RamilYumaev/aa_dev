@@ -85,6 +85,19 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function listCategoriesAgreement()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            self::AGREEMENT,
+            self::GRADUATE];
+        return $array;
+    }
+
     public static function listCategoriesZUK()
     {
         $array = [

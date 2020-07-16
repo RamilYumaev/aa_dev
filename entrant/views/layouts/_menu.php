@@ -120,11 +120,10 @@ if(!Yii::$app->user->isGuest ) {
                             'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT],
                             "icon" => "user-plus",
                         ],
-
                     ]],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
-                ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
-                ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
+                $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
+                $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
                 ]
 
         );
