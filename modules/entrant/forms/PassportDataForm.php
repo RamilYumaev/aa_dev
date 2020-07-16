@@ -21,7 +21,7 @@ class PassportDataForm extends Model
     {
         if ($passportData) {
             $this->setAttributes($passportData->getAttributes(), false);
-            $this->date_of_birth = $passportData->getValue("date_of_birth");
+            $this->date_of_birth = $passportData->date_of_birth ? $passportData->getValue("date_of_birth") : null;
             $this->date_of_issue = $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
         } else {
