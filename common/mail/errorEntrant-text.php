@@ -7,7 +7,7 @@
 use yii\helpers\Url;
 $url =   Url::to('@frontendInfo/abiturient/post-document/index', true);
 ?>
-    <?= $profile->withBestRegard() ?>, <?= $profile->fio ?>!
+    <?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!
 
     Сотрудники приемной комиссии МПГУ проверили Ваши данные и обнаружили некоторые ошибки.
         Для ознакомления, пожалуйста, войдите в свой личный кабинет по ссылке: <?=  $url ?>

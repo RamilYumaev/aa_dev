@@ -117,6 +117,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+    public function firstNameAndPatronymic()
+    {
+        $patronymic = $this->patronymic ? " ". $this->patronymic : "";
+        return $this->first_name.$patronymic;
+    }
 
     public function getAnketa()
     {
@@ -135,7 +140,7 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
 
     public function getFio()
     {
-        if (!empty($this->last_name) && !empty($this->last_name) && !empty($this->patronymic)) {
+        if (!empty($this->last_name) && !empty($this->first_name) && !empty($this->patronymic)) {
             return $this->last_name . " " . $this->first_name . " " . $this->patronymic;
         } elseif (!empty($this->last_name) && !empty($this->first_name)) {
             return $this->last_name . " " . $this->first_name;

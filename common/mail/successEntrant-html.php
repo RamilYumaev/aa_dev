@@ -6,7 +6,7 @@
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $text string */
 ?>
-<?= $profile->withBestRegard() ?>, <?= $profile->fio ?>!
+<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!
 <div>
     <p>Приемная комиссия МПГУ рада сообщить Вам, что <?= $text ?>.</p>
     <p>Письмо сгенерировано автоматически и отвечать на него не нужно.</p>

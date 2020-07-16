@@ -181,11 +181,11 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => 'проректора по развитию',
-            AnketaHelper::ANAPA_BRANCH => 'директора анапского филиала',
-            AnketaHelper::POKROV_BRANCH => 'директора покровского филиала',
-            AnketaHelper::STAVROPOL_BRANCH => 'директора ставропольского филиала',
-            AnketaHelper::DERBENT_BRANCH => 'директора дербентского филиала',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора сергиево-посадского филиала',
+            AnketaHelper::ANAPA_BRANCH => 'директора Анапского филиала',
+            AnketaHelper::POKROV_BRANCH => 'директора Покровского филиала',
+            AnketaHelper::STAVROPOL_BRANCH => 'директора Ставропольского филиала',
+            AnketaHelper::DERBENT_BRANCH => 'директора Дербентского филиала',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора Сергиево-Посадского филиала',
         ];
     }
 
@@ -193,11 +193,11 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => 'Проректор по развитию',
-            AnketaHelper::ANAPA_BRANCH => 'Директор анапского филиала',
-            AnketaHelper::POKROV_BRANCH => 'Директор покровского филиала',
-            AnketaHelper::STAVROPOL_BRANCH => 'Директор ставропольского филиала',
-            AnketaHelper::DERBENT_BRANCH => 'Директор дербентского филиала',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор сергиево-посадского филиала',
+            AnketaHelper::ANAPA_BRANCH => 'Директор Анапского филиала',
+            AnketaHelper::POKROV_BRANCH => 'Директор Покровского филиала',
+            AnketaHelper::STAVROPOL_BRANCH => 'Директор Ставропольского филиала',
+            AnketaHelper::DERBENT_BRANCH => 'Директор Дербентского филиала',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор Сергиево-Посадского филиала',
         ];
     }
 
@@ -241,7 +241,7 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => '№ 12 от 31 янв. 2020 г.',
-            AnketaHelper::ANAPA_BRANCH => '№48 от 06 июля 2020 г.',
+            AnketaHelper::ANAPA_BRANCH => '№ 48 от 06 июля 2020 г.',
             AnketaHelper::POKROV_BRANCH => '№ 11 от 13 мая 2019 г.',
             AnketaHelper::STAVROPOL_BRANCH => '№ 30 от 12 мая 2020 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 13 мая 2019 г.',

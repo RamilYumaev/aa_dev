@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $url =   Url::to('@frontendInfo/abiturient/post-document/index', true); ?>
 <div class="password-reset">
-    <p><?= $profile->withBestRegard() ?>, <?= $profile->fio ?>!</p>
+    <p><?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic ?>!</p>
 
     <p>Сотрудники приемной комиссии МПГУ проверили Ваши данные и обнаружили некоторые ошибки.
         Для ознакомления, пожалуйста, войдите в свой личный кабинет по ссылке: <?= Html::a(Html::encode($url), $url) ?></p>
