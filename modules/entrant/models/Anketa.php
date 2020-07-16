@@ -156,6 +156,7 @@ class Anketa extends ActiveRecord
             'edu_finish_year' => 'В каком году Вы окончили последнюю образовательную организацию?',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
+            'category' => 'Категория',
             'university_choice' => 'Куда Вы собираетесь подавать документы?',
             'province_of_china' => 'Из какой Вы провинции?',
             'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',

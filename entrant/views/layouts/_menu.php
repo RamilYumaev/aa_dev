@@ -12,6 +12,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
+                ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']],
                \Yii::$app->user->can('moderation') ? ['label' => 'Модерация', 'url' => ['/moderation']] : [],
                \Yii::$app->user->can('ticket') ? ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']] : [],
                \Yii::$app->user->can('edu_school') ? ['label' => 'Учебные организации', 'url' => '#',
@@ -85,6 +86,11 @@ if(!Yii::$app->user->isGuest ) {
                             "icon" => "list-ul",
                         ],
                         [
+                            "label" => "Взято в работу",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW],
+                            "icon" => "list-ul",
+                        ],
+                        [
                             "label" => "Отозванные ЗУК",
                             "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
                             "icon" => "list-ol",
@@ -100,6 +106,22 @@ if(!Yii::$app->user->isGuest ) {
                     "icon" => "table",
                 ],
                 ['label' => 'Абитуриенты (ЗИД)', 'url' => ['/data-entrant/default/index']],
+
+                $jobEntrant->isCategoryMPGU() ?
+                    ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']]:
+                    ['label' => 'Пот. абитуруенты', 'items'=> [
+                        [
+                            "label" => 'ЗУК',
+                            'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT],
+                            "icon" => "user-plus",
+                        ],
+                        [
+                            "label" => 'без ЗУК',
+                            'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT],
+                            "icon" => "user-plus",
+                        ],
+
+                    ]],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
@@ -124,7 +146,22 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
+                $jobEntrant->isCategoryMPGU() ?
+                    ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']]:
 
+                    ['label' => 'Пот. абитуруенты', 'items'=> [
+                    [
+                        "label" => 'ЗУК',
+                        'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT],
+                        "icon" => "user-plus",
+                    ],
+                    [
+                        "label" => 'без ЗУК',
+                        'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT],
+                        "icon" => "user-plus",
+                    ],
+
+                ]],
 
                 ['label' => 'Заявления (ЗУК)',
                 "items" => [
@@ -138,6 +175,11 @@ if(!Yii::$app->user->isGuest ) {
                     "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
                     "icon" => "list",
                 ],
+                    [
+                        "label" => "Взято в работу",
+                        "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW],
+                        "icon" => "list-ul",
+                    ],
                     [
                         "label" => "Непринятые ЗУК",
                         "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],

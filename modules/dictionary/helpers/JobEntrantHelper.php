@@ -29,6 +29,10 @@ class JobEntrantHelper
     const TPGU = 8;
     const EXAM = 9;
 
+    const ENTRANT_POTENTIAL_STATEMENT_DRAFT = 1;
+    const ENTRANT_POTENTIAL_NO_STATEMENT = 2;
+    const ENTRANT_POTENTIAL_NO_CG = 3;
+
 
 
     public static function listCategories()
