@@ -12,6 +12,8 @@ use dictionary\models\DisciplineCompetitiveGroup;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\CseViSelectHelper;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\StatementRejection;
 use modules\entrant\models\UserCg;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
@@ -664,9 +666,14 @@ class DictCompetitiveGroupHelper
             ->select("cg_id")
             ->andWhere(["user_id" => \Yii::$app->user->getId()])
             ->column();
+        $rejectionCg = StatementRejection::find()
+            ->select([StatementCg::tableName().'.cg_id'])
+            ->joinWith('statement.statementCg')
+            ->andWhere(['user_id'=>\Yii::$app->user->getId()])->column();
+        $totalCgArray = array_diff($selectedCg, $rejectionCg);
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
-            ->andWhere(["in", "id", $selectedCg])
+            ->andWhere(["in", "id", $totalCgArray])
             ->andWhere(['edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
             ->andWhere(['financing_type_id'=>DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->column();
