@@ -93,6 +93,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::COLLAGE,
             self::AGREEMENT,
             self::GRADUATE];
         return $array;
