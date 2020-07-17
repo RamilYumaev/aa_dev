@@ -14,6 +14,7 @@ use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\CseViSelectHelper;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementRejection;
+use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\UserCg;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
@@ -44,8 +45,8 @@ class DictCompetitiveGroupHelper
     const MAX_SPECIALTY_ALLOW = 3;
     const FORM_EDU_CATEGORY_1 = 1;
     const FORM_EDU_CATEGORY_2 = 2;
-  
-      public static function getEduFormsForAgreement()
+
+    public static function getEduFormsForAgreement()
     {
         return [self::EDU_FORM_OCH => 'Очной',
             self::EDU_FORM_OCH_ZAOCH => 'Очно-заочной',
@@ -54,7 +55,7 @@ class DictCompetitiveGroupHelper
 
     public static function diplomaForEducationLevel()
     {
-        return[
+        return [
             self::EDUCATION_LEVEL_SPO => "диплом о среднем профессиональном образовании",
             self::EDUCATION_LEVEL_BACHELOR => "диплом бакалавра",
             self::EDUCATION_LEVEL_MAGISTER => "диплом магистра",
@@ -73,14 +74,16 @@ class DictCompetitiveGroupHelper
         ];
     }
 
-    public static function categoryForm() {
+    public static function categoryForm()
+    {
         return [
-           self::FORM_EDU_CATEGORY_1 => [self::EDU_FORM_OCH, self::EDU_FORM_OCH_ZAOCH],
+            self::FORM_EDU_CATEGORY_1 => [self::EDU_FORM_OCH, self::EDU_FORM_OCH_ZAOCH],
             self::FORM_EDU_CATEGORY_2 => self::EDU_FORM_ZAOCH,
         ];
     }
 
-    public static function formCategory() {
+    public static function formCategory()
+    {
         return [self::EDU_FORM_OCH => self::FORM_EDU_CATEGORY_1,
             self::EDU_FORM_OCH_ZAOCH => self::FORM_EDU_CATEGORY_1,
             self::EDU_FORM_ZAOCH => self::FORM_EDU_CATEGORY_2];
@@ -244,7 +247,7 @@ class DictCompetitiveGroupHelper
         )->all() as $value) {
             $specialRight = $value->special_right_id ? self::specialRightName($value->special_right_id) : "";
             $array[$value->id] = $value->year
-                . " / " .  self::eduLevelAbbreviatedName($value->edu_level)
+                . " / " . self::eduLevelAbbreviatedName($value->edu_level)
                 . " / " . $value->faculty->full_name
                 . " / " . $value->specialty->name
                 . " / " . $value->specialization->name
@@ -276,7 +279,7 @@ class DictCompetitiveGroupHelper
             . ($special_right ? " / " . $specialRight : "");
     }
 
-    public static function getUrl($level, $specialRight, $govLineStatus,$tpguStatus)
+    public static function getUrl($level, $specialRight, $govLineStatus, $tpguStatus)
     {
 
         if ($specialRight) {
@@ -310,10 +313,9 @@ class DictCompetitiveGroupHelper
                     $url = "#";
 
             }
-        } else if($tpguStatus){
+        } else if ($tpguStatus) {
             $url = "get-mpgu-tpgu";
-        }
-        else {
+        } else {
             switch ($level) {
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO :
                     $url = "get-college";
@@ -382,14 +384,14 @@ class DictCompetitiveGroupHelper
 
     public static function groupByFacultySpecialityAllUser($user_id, $form = null)
     {
-          if ($form) {
-              $query = DictCompetitiveGroup::find()->userCg($user_id)->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-                  ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
-          }else {
-             $query =  DictCompetitiveGroup::find()->userCg($user_id)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-                  ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
-          }
-          return $query->all();
+        if ($form) {
+            $query = DictCompetitiveGroup::find()->userCg($user_id)->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
+        } else {
+            $query = DictCompetitiveGroup::find()->userCg($user_id)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
+        }
+        return $query->all();
     }
 
     public static function groupByExams($user_id)
@@ -400,7 +402,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id])
             ->andWhere(['not', ['cse_subject_id' => null]])
-            ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline'=>true])
+            ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true])
             ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
             //  ->groupBy(['discipline_competitive_group.discipline_id'])
@@ -456,7 +458,7 @@ class DictCompetitiveGroupHelper
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id])
-            ->andWhere(['not', ['cse_subject_id'=> null]])
+            ->andWhere(['not', ['cse_subject_id' => null]])
             ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
             ->asArray()
             ->all();
@@ -479,8 +481,8 @@ class DictCompetitiveGroupHelper
             ->all();
 
         return self::selectCseViCompositeDiscipline($data, true, $user_id) ??
-               self::selectCseViCompositeDiscipline($data, false, $user_id)  ??
-               self::cseCompositeDiscipline($data, $user_id);
+            self::selectCseViCompositeDiscipline($data, false, $user_id) ??
+            self::cseCompositeDiscipline($data, $user_id);
 
     }
 
@@ -494,18 +496,18 @@ class DictCompetitiveGroupHelper
                     /* $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$value['cse_subject_id']] . " балл(-а, ов), "; */
                 }
                 if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                    $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 =>392];
-                    $array  = CseSubjectHelper::maxMarkSubject($user_id);
+                    $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 => 392];
+                    $array = CseSubjectHelper::maxMarkSubject($user_id);
                     arsort($array);
                     foreach ($array as $key1 => $value1) {
-                        if(key_exists($key1, $arrayComposite)) {
+                        if (key_exists($key1, $arrayComposite)) {
                             $ex .= $value['name'] . ", ";
-                           /* $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$key1] . " балл(-а, ов), "; */
-                        break;
+                            /* $ex .= $value['name'] . " - " . CseSubjectHelper::maxMarkSubject($user_id)[$key1] . " балл(-а, ов), "; */
+                            break;
                         }
                     }
                 }
-            }else {
+            } else {
                 if (!$value['cse_subject_id'] && !$value['composite_discipline']) {
                     $ex .= $value['name'] . ", ";
                 }
@@ -522,16 +524,16 @@ class DictCompetitiveGroupHelper
                 if (!$cse) {
                     if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
                         if (key_exists($value['id'], $dataVi)) {
-                            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                                $ex .=  DictCseSubjectHelper::listLanguage()[$dataVi[$value['id']]]   .", ";
+                            if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                                $ex .= DictCseSubjectHelper::listLanguage()[$dataVi[$value['id']]] . ", ";
                             } else {
-                                $ex .= $value['name']  .", ";
+                                $ex .= $value['name'] . ", ";
                             }
 
                         }
                     }
-                    if (!$value['cse_subject_id'] && !$value['composite_discipline'] && $value['id'] !=DictCseSubjectHelper::BALL_SPO_ID ) {
-                        $ex .= $value['name'] .", ";
+                    if (!$value['cse_subject_id'] && !$value['composite_discipline'] && $value['id'] != DictCseSubjectHelper::BALL_SPO_ID) {
+                        $ex .= $value['name'] . ", ";
                     }
                 } else {
                     if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
@@ -540,7 +542,7 @@ class DictCompetitiveGroupHelper
                                 $ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " , ";
                                 /*$ex .= DictCseSubjectHelper::listLanguage()[$dataCse[$value['id']][1]] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), ";*/
                             } else {
-                                $ex .= $value['name'] .", ";
+                                $ex .= $value['name'] . ", ";
                                 /* $ex .= $value['name'] . " - " . $dataCse[$value['id']][2] . " балл(-а, ов), "; */
                             }
                         }
@@ -561,8 +563,8 @@ class DictCompetitiveGroupHelper
                 if (!$cse) {
                     if ($dataVi = CseViSelectHelper::modelOne($user_id)->dataVi()) {
                         if (key_exists($value['id'], $dataVi)) {
-                            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                                $ex=  DictCseSubjectHelper::disciplineId($dataVi[$value['id']]);
+                            if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+                                $ex = DictCseSubjectHelper::disciplineId($dataVi[$value['id']]);
                             }
                         }
                     }
@@ -570,7 +572,7 @@ class DictCompetitiveGroupHelper
                     if ($dataCse = CseViSelectHelper::modelOne($user_id)->dataCse()) {
                         if (array_key_exists($value['id'], $dataCse)) {
                             if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
-                              $ex=  DictCseSubjectHelper::aisId($dataCse[$value['id']][1]);
+                                $ex = DictCseSubjectHelper::aisId($dataCse[$value['id']][1]);
                             }
                         }
 
@@ -584,15 +586,15 @@ class DictCompetitiveGroupHelper
 
     private static function cseCompositeDiscipline($data, $userId)
     {
-        $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 =>392];
-        $array  = CseSubjectHelper::maxMarkSubject($userId);
+        $arrayComposite = [9 => 4, 10 => 5, 12 => 6, 11 => 7, 13 => 392];
+        $array = CseSubjectHelper::maxMarkSubject($userId);
         arsort($array);
         foreach ($data as $key => $value) {
-            if($value['id'] == DictCseSubjectHelper::LANGUAGE) {
+            if ($value['id'] == DictCseSubjectHelper::LANGUAGE) {
                 foreach ($array as $key1 => $value1)
-                if(key_exists($key1, $arrayComposite)) {
-                    return DictCseSubjectHelper::aisId($key1);
-                }
+                    if (key_exists($key1, $arrayComposite)) {
+                        return DictCseSubjectHelper::aisId($key1);
+                    }
             }
         }
         return null;
@@ -667,15 +669,20 @@ class DictCompetitiveGroupHelper
             ->andWhere(["user_id" => \Yii::$app->user->getId()])
             ->column();
         $rejectionCg = StatementRejection::find()
-            ->select([StatementCg::tableName().'.cg_id'])
+            ->select([StatementCg::tableName() . '.cg_id'])
             ->joinWith('statement.statementCg')
-            ->andWhere(['user_id'=>\Yii::$app->user->getId()])->column();
+            ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
+        $rejectionCg2 = StatementRejectionCg::find()
+            ->select([StatementCg::tableName() . '.cg_id'])
+            ->joinWith('statementCg.statement')
+            ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
         $totalCgArray = array_diff($selectedCg, $rejectionCg);
+        $totalCgArray = array_diff($selectedCg, $rejectionCg2);
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
             ->andWhere(["in", "id", $totalCgArray])
             ->andWhere(['edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
-            ->andWhere(['financing_type_id'=>DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+            ->andWhere(['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->column();
         if (count($selectedSpecialty) == self::MAX_SPECIALTY_ALLOW && !in_array($cg->speciality_id, $selectedSpecialty) && $cg->isBudget()) {
             throw new \DomainException("Заявления на бюджет можно подавать только на три направления подготовки");
@@ -691,11 +698,11 @@ class DictCompetitiveGroupHelper
             ->formEdu($education_form_id)
             ->specialRight($specRight)
             ->specialization($specialization_id);
-            if($ids) {
-                $query->andWhere(['id'=>$ids]);
-            }
-            $query->select(['financing_type_id']);
-            return $query->column();
+        if ($ids) {
+            $query->andWhere(['id' => $ids]);
+        }
+        $query->select(['financing_type_id']);
+        return $query->column();
     }
 
 
@@ -734,19 +741,19 @@ class DictCompetitiveGroupHelper
 
     }
 
-    public static function dataArray($cgId):array
+    public static function dataArray($cgId): array
     {
-        $cg = DictCompetitiveGroup::findOne(['id'=>$cgId]);
+        $cg = DictCompetitiveGroup::findOne(['id' => $cgId]);
 
         return [
-            'faculty'=>$cg->faculty->full_name ?? "",
-            'specialty'=> $cg->specialty->getCodeWithName() ?? "",
-            'specialization'=>$cg->specialization->name ?? "",
-            'education_level'=>$cg->edu_level,
-            'edu_form'=> self::formName($cg->education_form_id) ?? "",
-            'financing_type_id'=> self::financingTypeName($cg->financing_type_id) ?? "",
+            'faculty' => $cg->faculty->full_name ?? "",
+            'specialty' => $cg->specialty->getCodeWithName() ?? "",
+            'specialization' => $cg->specialization->name ?? "",
+            'education_level' => $cg->edu_level,
+            'edu_form' => self::formName($cg->education_form_id) ?? "",
+            'financing_type_id' => self::financingTypeName($cg->financing_type_id) ?? "",
             'is086' => $cg->enquiry_086_u_status,
-            'foreigner_status'=>$cg->foreigner_status,
+            'foreigner_status' => $cg->foreigner_status,
             'special_right' => self::specialRightNameForAppZos()[$cg->special_right_id] ?? "На основные места",
         ];
     }
@@ -758,7 +765,6 @@ class DictCompetitiveGroupHelper
             self::TARGET_PLACE => 'На места в пределах целевой квоты',
         ];
     }
-
 
 
 }
