@@ -16,7 +16,7 @@ $cg = $receipt->contractCg->statementCg->cg;
 $reg = AddressHelper::registrationResidence($receipt->contractCg->statementCg->statement->user_id);
 $faculty = $cg->faculty->full_name;
 $number = $receipt->contractCg->number;
-$fio_entrant = $profile['last_name'] . $profile['first_name'];
+$fio_entrant = $profile['last_name'] . " " . $profile['first_name']. " " . $profile['patronymic'];
 $anketa = Yii::$app->user->identity->anketa();
 
 if ($receipt->contractCg->typeEntrant()) {
@@ -179,7 +179,7 @@ $header = ReceiptHelper::header($anketa->university_choice);
             <td colspan="5" class="text-center fs-10">(адрес плательщика)</td>
         </tr>
         <tr>
-            <td colspan="2" class="bb text-center v-align-bottom"><strong><i><?= $fio_payer ?></i></strong></td>
+            <td colspan="2" class="bb text-center v-align-bottom"><strong><i><?= $fio_entrant ?></i></strong></td>
             <td class="bb text-center" colspan="2"><strong><i><?= $faculty ?></i></strong></td>
             <td class="bb text-center v-align-bottom"><strong><i>1 1</i></strong></td>
         </tr>
