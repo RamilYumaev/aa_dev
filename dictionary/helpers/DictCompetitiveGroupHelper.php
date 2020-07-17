@@ -671,10 +671,12 @@ class DictCompetitiveGroupHelper
         $rejectionCg = StatementRejection::find()
             ->select([StatementCg::tableName() . '.cg_id'])
             ->joinWith('statement.statementCg')
+            ->andWhere([StatementRejection::tableName(). '.`status_id`'=> 2])
             ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
         $rejectionCg2 = StatementRejectionCg::find()
             ->select([StatementCg::tableName() . '.cg_id'])
             ->joinWith('statementCg.statement')
+            ->andWhere([StatementRejectionCg::tableName().'.`status_id`' => 2])
             ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
         $totalCgArray = array_diff($selectedCg, $rejectionCg);
         $totalCgArray = array_diff($selectedCg, $rejectionCg2);
