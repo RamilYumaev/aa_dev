@@ -40,7 +40,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ["class" => "btn btn-primary"]) : ""; ?>
                                         <?= $agreement->number ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' => $agreement->id],
                                             ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/create-pdf', 'id' => $agreement->id],
-                                            ['class' => 'btn btn-large btn-warning']) ?>
+                                            ['class' => 'btn btn-large btn-warning', "data-confirm" => " Подтверждаю, что введенные данные корректны и соответствуют заполняемым полям"]) ?>
                                         <?= $agreement->pdf_file && $agreement->statusSuccess() ? Html::a('Скачать подписанный договор', ['statement-agreement-contract-cg/get', 'id' => $agreement->id],
                                             ['class' => 'btn btn-large btn-primary']) : "" ?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',

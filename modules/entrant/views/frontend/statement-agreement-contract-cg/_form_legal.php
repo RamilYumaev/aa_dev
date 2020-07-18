@@ -47,7 +47,7 @@ $this->title = "Форма добавления данных о Юридичес
                 ]
             ]) ?>
             <div class="form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', "data-confirm" => " Подтверждаю, что введенные данные корректны и соответствуют заполняемым полям"]) ?>
             </div>
             <?php ActiveForm::end(); ?>
         </div>
