@@ -669,20 +669,22 @@ class DictCompetitiveGroupHelper
             ->andWhere(["user_id" => \Yii::$app->user->getId()])
             ->column();
         $rejectionCg = StatementRejection::find()
-            ->select([StatementCg::tableName() . '.cg_id'])
+            ->select([StatementCg::tableName() . '.`cg_id`'])
             ->joinWith('statement.statementCg')
-            ->andWhere([StatementRejection::tableName(). '.`status_id`'=> 2])
-            ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
+            ->andWhere(['user_id' => \Yii::$app->user->getId()])
+            ->andWhere([StatementRejection::tableName().".`status_id`"=>2])
+            ->column();
         $rejectionCg2 = StatementRejectionCg::find()
-            ->select([StatementCg::tableName() . '.cg_id'])
+            ->select([StatementCg::tableName() . '.`cg_id`'])
             ->joinWith('statementCg.statement')
-            ->andWhere([StatementRejectionCg::tableName().'.`status_id`' => 2])
-            ->andWhere(['user_id' => \Yii::$app->user->getId()])->column();
-        $totalCgArray = array_diff($selectedCg, $rejectionCg);
-        $totalCgArray = array_diff($selectedCg, $rejectionCg2);
+            ->andWhere(['user_id' => \Yii::$app->user->getId()])
+            ->andWhere([StatementRejectionCg::tableName().".`status_id`" => 2])
+            ->column();
+        $arrayToUnset = array_merge($rejectionCg, $rejectionCg2);
+       $totalArray = array_diff($selectedCg, $arrayToUnset);
         $selectedSpecialty = DictCompetitiveGroup::find()->distinct()
             ->select("speciality_id")
-            ->andWhere(["in", "id", $totalCgArray])
+            ->andWhere(["in", "id", $totalArray])
             ->andWhere(['edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
             ->andWhere(['financing_type_id' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->column();

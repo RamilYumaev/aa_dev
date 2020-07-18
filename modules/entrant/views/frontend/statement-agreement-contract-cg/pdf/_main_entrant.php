@@ -106,7 +106,7 @@ if ($eduDurationMonth >= 1 / 12) {
             <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>
 
         <?php endif; ?>),
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого устанавливается федеральным органом исполнительной власти, осуществляющим
         функции по выработке и реализации государственной политики и нормативно-правовому регулированию
         в сфере
@@ -123,9 +123,9 @@ if ($eduDurationMonth >= 1 / 12) {
         ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>среднее профессиональное
             образование
         <?php else: ?>высшее образование
-        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>),
-        <?php endif; ?>
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>
+        <?php endif; ?>),
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого самостоятельно устанавливается Исполнителем.
     </p>
     <p align="justify">
