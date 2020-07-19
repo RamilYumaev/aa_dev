@@ -46,6 +46,7 @@ class DocumentEducationService
         $model = DocumentEducation::create($form, $userSchool->school_id);
         $this->repository->save($model);
         $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
+        $this->addOtherDoc($form->without_appendix, $model->user_id, OtherDocumentHelper::WITHOUT_APPENDIX);
         return $model;
     }
 
@@ -57,6 +58,7 @@ class DocumentEducationService
             $this->conflictSchool($userSchool, $anketa);
             $model->data($form, $userSchool->school_id);
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
+            $this->addOtherDoc($form->without_appendix, $model->user_id, OtherDocumentHelper::WITHOUT_APPENDIX);
             if (!$this->statementRepository->getStatementStatusNoDraft($model->user_id)) {
                 $model->detachBehavior("moderation");
             }
@@ -98,6 +100,7 @@ class DocumentEducationService
         $userId = $model->user_id;
         $this->repository->remove($model);
         $this->otherDocDelete($userId, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
+        $this->otherDocDelete($userId, OtherDocumentHelper::WITHOUT_APPENDIX);
 
     }
 

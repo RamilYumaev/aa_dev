@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 
 class DocumentEducationForm extends Model
 {
-    public $type, $series, $number, $date, $user_id, $year, $school_id, $surname, $name, $patronymic;
+    public $type, $series, $number, $date, $user_id, $year, $school_id, $surname, $name, $patronymic, $without_appendix;
 
     private $_documentEducation;
     public $original;
@@ -49,7 +49,7 @@ class DocumentEducationForm extends Model
         return [
             [['type', 'series',
                 'number', 'date', 'year', 'school_id'], 'required'],
-            [['type', 'school_id','original', 'fio'], 'integer'],
+            [['type', 'school_id','original', 'fio','without_appendix'], 'integer'],
             [['series',],'string', 'max' => 10],
             [['surname', 'name', 'patronymic',],'string', 'max' => 255],
             [['surname', 'name', 'patronymic',], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',

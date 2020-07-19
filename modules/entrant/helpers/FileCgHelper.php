@@ -93,12 +93,19 @@ class FileCgHelper
         return "Заявление ПK МПГУ ОТЗЫВ" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
-
-
-
     public static function fileNameConsent($extension = '.docx')
     {
         return "Заявление ПK МПГУ ЗОС" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
+    public static function fileNameTpguAgreement($extension = '.docx')
+    {
+        return "Разрешение на заключение договора" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
+    public static function fileNameWithoutAppendix($extension = '.docx')
+    {
+        return "Заявление о подачи без приложения (обложки)" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
     public static function fileNameStatementOther($extension = '.docx')

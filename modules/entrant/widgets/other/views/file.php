@@ -40,6 +40,19 @@ use yii\helpers\Html;
                             : "";
 
                         ?>
+                        <?= $other->type_note == \modules\entrant\helpers\OtherDocumentHelper::STATEMENT_AGREE_TPGU ?
+                            Html::a('Скачать заявление', ['other-document/pdf-tpgu', 'id' =>  $other->id],
+                                ['class' => 'btn btn-large btn-warning'])
+                            : "";
+
+                        ?>
+                        <?= $other->type_note == \modules\entrant\helpers\OtherDocumentHelper::WITHOUT_APPENDIX ?
+                            Html::a('Скачать заявление', ['other-document/pdf-without-appendix', 'id' =>  $other->id],
+                                ['class' => 'btn btn-large btn-warning'])
+                            : "";
+
+                        ?>
+
                     <?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
             </tr>
             <tr>

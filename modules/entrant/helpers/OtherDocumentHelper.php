@@ -13,12 +13,17 @@ class OtherDocumentHelper
     const TRANSLATION_DOCUMENT_EDU = 2;
     const TRANSLATION_DOCUMENT_NAME = 3 ;
     const STATEMENT_TARGET = 4;
+    const STATEMENT_AGREE_TPGU = 5;
+    const WITHOUT_APPENDIX = 6;
 
     public static function translationList() {
         return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостоверяющего личность",
             self::TRANSLATION_DOCUMENT_EDU  => "Перевод документа об образовании",
             self::TRANSLATION_DOCUMENT_NAME  => "Документ о смене ФИО",
-            self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении'
+            self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении',
+            self::STATEMENT_AGREE_TPGU => 'Заявление о разрешении на дистанционное заключение договора 
+            об оказании платных образовательных услуг',
+            self::WITHOUT_APPENDIX => 'Заявление о подачи документа об образовании без приложения (без обложки)',
         ];
     }
 
