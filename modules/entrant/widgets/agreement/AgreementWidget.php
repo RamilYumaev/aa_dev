@@ -1,10 +1,8 @@
 <?php
 namespace modules\entrant\widgets\agreement;
 
-use common\auth\models\UserSchool;
 use common\helpers\EduYearHelper;
 use modules\entrant\models\Agreement;
-use modules\entrant\models\DocumentEducation;
 use yii\base\Widget;
 
 class AgreementWidget extends Widget

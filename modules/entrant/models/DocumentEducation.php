@@ -32,6 +32,7 @@ use modules\entrant\models\queries\DocumentEducationQuery;
  * @property string $patronymic
  * @property string $surname
  * @property string $name
+ * @property  integer $without_appendix
  *
 **/
 
@@ -66,6 +67,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         $this->patronymic = !$form->fio ? $form->patronymic : null;
         $this->name = !$form->fio ? $form->name : null;
         $this->user_id = $form->user_id;
+        $this->without_appendix = $form->without_appendix;
     }
 
     public function getValue($property){
@@ -170,6 +172,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'patronymic' => 'Отчество',
             'surname' => "Фамилия",
             'name' => 'Имя',
+            'without_appendix' => 'Без приложения или обложки',
         ];
     }
 
@@ -180,7 +183,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
 
     public function isDataNoEmpty(): bool
     {
-        $arrayNoRequired = ['user_id', 'original','patronymic'];
+        $arrayNoRequired = ['user_id', 'original','patronymic', 'without_appendix'];
         if(!$this->name && !$this->surname)
         {
             array_push($arrayNoRequired, 'surname','name');

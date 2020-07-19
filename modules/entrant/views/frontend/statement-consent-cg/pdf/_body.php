@@ -14,7 +14,7 @@
 
 
 /* @var $statementConsent modules\entrant\models\StatementConsentCg */
-$nameFull = $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
+$nameFull = $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
 
 ?>
 <div class="mt-200 fs-15">
@@ -81,7 +81,7 @@ $nameFull = $name->nominative ?? $profile['last_name'] . " " . $profile['first_n
             <td></td>
             <td width="15%"><?=date("d.m.Y")?> г.</td>
             <td class="bb" width="35%"></td>
-            <td width="30%"><?= $name->nominative ?></td>
+            <td width="30%"><?= $nameFull ?></td>
             <td></td>
         </tr>
         <tr>

@@ -207,28 +207,39 @@ class SiteController extends Controller
         return "success";
     }
 
-public function actionIaCg()
-{
-    $aisIaCg = iaCgAis::find()->all();
-    if($aisIaCg) {
-        foreach ($aisIaCg as $iaAis) {
-            $sdoCg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $iaAis->competitive_group_id])->one();
-            if (!$sdoCg) {
-                return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
+    public function actionIaCg()
+    {
+        $aisIaCg = iaCgAis::find()->all();
+        if ($aisIaCg) {
+            foreach ($aisIaCg as $iaAis) {
+                $sdoCg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $iaAis->competitive_group_id])->one();
+                if (!$sdoCg) {
+                    return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
+                }
+                if ($this->getIaCg($iaAis->individual_achievement_id, $sdoCg->id)) {
+                    continue;
+                } else {
+                    $newIaCgSdo = new DictIndividualAchievementCg();
+                    $newIaCgSdo->individual_achievement_id = $iaAis->individual_achievement_id;
+                    $newIaCgSdo->competitive_group_id = $sdoCg->id;
+                    if (!$newIaCgSdo->save()) {
+                        $error = Json::encode($newIaCgSdo->errors);
+                        return "Ошибка $error";
+                    }
+                }
             }
-            $newIaCgSdo = new DictIndividualAchievementCg();
-            $newIaCgSdo->individual_achievement_id = $iaAis->individual_achievement_id;
-            $newIaCgSdo->competitive_group_id = $sdoCg->id;
-            if (!$newIaCgSdo->save()) {
-                $error = Json::encode($newIaCgSdo->errors);
-                return "Ошибка $error";
-            }
+        } else {
+            return "Таблица individual_achievement_cg_ais пуста";
         }
-    }else{
-        return "Таблица individual_achievement_cg_ais пуста";
+        return "success";
     }
-    return "success";
-}
+
+    private function getIaCg($iaId, $cgId)
+    {
+        return DictIndividualAchievementCg::find()
+            ->andWhere(['individual_achievement_id' => $iaId])
+            ->andWhere(['competitive_group_id' => $cgId])->exists();
+    }
 
     public function actionClearCache()
     {

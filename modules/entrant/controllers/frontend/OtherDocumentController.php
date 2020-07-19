@@ -165,6 +165,54 @@ class OtherDocumentController extends Controller
     }
 
     /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionPdfTpgu($id)
+    {
+        $other = $this->findModel($id);
+        if($other->type_note != OtherDocumentHelper::STATEMENT_AGREE_TPGU) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('pdf-tpgu', ["other" => $other ]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameTpguAgreement( ".pdf"));
+        $render = $pdf->render();
+
+        return $render;
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionPdfWithoutAppendix($id)
+    {
+        $other = $this->findModel($id);
+        if($other->type_note != OtherDocumentHelper::WITHOUT_APPENDIX) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('pdf-without-appendix', ["other" => $other ]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameWithoutAppendix( ".pdf"));
+        $render = $pdf->render();
+
+        return $render;
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException

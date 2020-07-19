@@ -9,7 +9,7 @@ use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 
-class DeclinationBehavior extends  Behavior
+class DeclinationBehavior extends Behavior
 {
     /**
      * @var BaseActiveRecord
@@ -17,7 +17,7 @@ class DeclinationBehavior extends  Behavior
     public $owner;
     private $repository;
 
-    public function __construct(DeclinationFioRepository $repository,$config = [])
+    public function __construct(DeclinationFioRepository $repository, $config = [])
     {
         $this->repository = $repository;
         parent::__construct($config);
@@ -29,7 +29,7 @@ class DeclinationBehavior extends  Behavior
     public function events()
     {
         return [
-        ActiveRecord::EVENT_AFTER_UPDATE=> 'afterUpdate',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'afterUpdate',
         ];
     }
 
@@ -42,8 +42,12 @@ class DeclinationBehavior extends  Behavior
         if (!is_null($this->owner->fio)) {
             $declination = $this->repository->findByUserId($this->owner->user_id);
             if ($declination) {
-                $declination->data($this->owner->fio);
-            }else {
+                if ($this->owner->twoWordIntoPatronymic()) {
+                    $declination->data($this->owner->fio, " ".$this->owner->patronymic);
+                } else {
+                    $declination->data($this->owner->fio);
+                }
+            } else {
                 $declination = DeclinationFio::defaultCreate($this->owner->fio, $this->owner->user_id);
             }
             $this->repository->save($declination);
