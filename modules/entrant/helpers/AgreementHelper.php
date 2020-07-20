@@ -22,7 +22,7 @@ class AgreementHelper
     const FIO_GENITIVE = 2;
     const POSITION_NOMINATIVE = 3;
     const POSITION_GENITIVE = 4;
-    const PROCURATION =5;
+    const PROCURATION = 5;
     const FIO_SHORT = 6;
 
 
@@ -60,16 +60,16 @@ class AgreementHelper
         return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
     }
 
-    public static function data($universityChoice)
+    public static function data($universityChoice, $collegeStatus = false)
     {
         return [
             'accidence' => self::accidence()[$universityChoice],
-            'positionsGenitive' => self::positionsGenitive()[$universityChoice],
-            'positionNominative' => self::positionNominative()[$universityChoice],
-            'directorNameShort' => self::directorNameShort()[$universityChoice],
-            'directorNameGenitiveFull' => self::directorNameGenitiveFull()[$universityChoice],
-            'directorNameNominativeFull' => self::directorNameNominativeFull()[$universityChoice],
-            'procuration' => self::procuration()[$universityChoice],
+            'positionsGenitive' => self::positionsGenitive($collegeStatus)[$universityChoice],
+            'positionNominative' => self::positionNominative($collegeStatus)[$universityChoice],
+            'directorNameShort' => self::directorNameShort($collegeStatus)[$universityChoice],
+            'directorNameGenitiveFull' => self::directorNameGenitiveFull($collegeStatus)[$universityChoice],
+            'directorNameNominativeFull' => self::directorNameNominativeFull($collegeStatus)[$universityChoice],
+            'procuration' => self::procuration($collegeStatus)[$universityChoice],
 
         ];
     }
@@ -258,7 +258,8 @@ class AgreementHelper
         ];
     }
 
-    public static function columnAgreement($column, $value) {
+    public static function columnAgreement($column, $value)
+    {
         $query = (new AgreementReadRepository())->readData()
             ->select('agreement.' . $column)->groupBy('agreement.' . $column);
         return ArrayHelper::map($query->all(), $column, $value);
@@ -285,7 +286,7 @@ class AgreementHelper
                 } else {
                     return '31 августа';
                 }
-            }else{
+            } else {
                 return self::cameOnAugust31() ? '25 ноября' : '31 августа';
             }
         }
@@ -298,8 +299,8 @@ class AgreementHelper
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
     {
-        if($collegeStatus){
-            switch ($type){
+        if ($collegeStatus) {
+            switch ($type) {
                 case self::FIO_NOMINATIVE :
                     return "Владимирова Татьяна Николаевна";
                     break;
@@ -318,8 +319,8 @@ class AgreementHelper
                 case self::PROCURATION :
                     return "№ 19 от 24 марта 2020 г.";
             }
-        }else{
-            switch ($type){
+        } else {
+            switch ($type) {
                 case self::FIO_NOMINATIVE :
                     return "Страхов Василий Вячеславович";
                     break;

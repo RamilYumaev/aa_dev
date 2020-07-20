@@ -16,7 +16,9 @@ $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id)
 $passport = PassportDataHelper::dataArray($agreement->statementCg->statement->user_id);
 $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement->user_id);
 $cg = $agreement->statementCg->cg;
-$agreementData = AgreementHelper::data($anketa->university_choice);
+$collegeStatus = $cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+\Yii::$app->session->setFlash($collegeStatus);
+$agreementData = AgreementHelper::data($anketa->university_choice,$collegeStatus);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $totalCost = $cg->education_year_cost * $cg->education_duration;
 $costExplode = explode(".", $totalCost);
