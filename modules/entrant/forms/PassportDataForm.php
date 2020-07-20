@@ -56,7 +56,7 @@ class PassportDataForm extends Model
             [['date_of_birth', 'date_of_issue',], 'safe'],
             [['date_of_issue',], 'validateDateOfBirth'],
             [['authority','place_of_birth'], 'match', 'pattern' => '/^[а-яёА-ЯЁ0-9,.№()"\-\s]+$/u',
-                'message' => 'Значение поля должно содержать только буквы кириллицы, цифры, пробел, тире, запятую, точку'],
+                'message' => 'Значение поля должно содержать только буквы кириллицы, цифры, пробел, тире, запятую, точку? кобки, кавычки'],
             [['date_of_issue', 'date_of_birth'], MaxDateValidate::class],
             [['date_of_birth', 'date_of_issue'], 'date', 'format' => 'd.m.Y'],
             !$this->requiredAttributes ?
