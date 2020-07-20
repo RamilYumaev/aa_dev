@@ -7,6 +7,7 @@ namespace dictionary\models;
 use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
 use modules\dictionary\helpers\DictCseSubjectHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 
 class DictDiscipline extends \yii\db\ActiveRecord
@@ -31,6 +32,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->cse_subject_id = $form->cse_subject_id;
         $discipline->ais_id = $form->ais_id;
         $discipline->dvi = $form->dvi;
+        $discipline->is_och = $form->is_och;
         $discipline->composite_discipline = $form->composite_discipline;
         return $discipline;
     }
@@ -39,6 +41,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
     {
         $this->name = $form->name;
         $this->links = $form->links;
+        $this->is_och = $form->is_och;
         $this->cse_subject_id = $form->cse_subject_id;
         $this->ais_id = $form->ais_id;
         $this->dvi = $form->dvi;
@@ -63,6 +66,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'ais_id' => "ID АИС ВУЗ",
             'dvi' => "Дополнительное вступительное испытание бакалавриата",
             'composite_discipline' => "Составная дисциплина",
+            'is_och' => "Очный экзамен?",
         ];
     }
 
@@ -87,6 +91,11 @@ class DictDiscipline extends \yii\db\ActiveRecord
     public static function cseToDisciplineConverter(array $cseId): array
     {
         return self::find()->select("id")->andWhere(['in', 'cse_subject_id', $cseId])->column();
+    }
+
+    public function getNameIsOch()
+    {
+        return DictDefaultHelper::name($this->is_och);
     }
 
     public static function dviDiscipline(): array
