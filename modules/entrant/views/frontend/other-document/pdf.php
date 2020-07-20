@@ -48,7 +48,7 @@
     </table>
 <table  class="mt-20" width="100%">
     <tr>
-        <td width="45%" class="v-align-bottom">являясь законным родителем или другим представителем</td>
+        <td width="45%" class="v-align-bottom">являясь родителем или законным представителем</td>
         <td class="bb"></td>
     </tr>
     <tr>
