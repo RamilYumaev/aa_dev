@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id
  * @property integer $resource_id
  * @property integer $voz_id
+ * @property integer $exam_check
  * @property  integer $hostel_id
  * @property float $mark_spo
  * @property integer $chernobyl_status_id
@@ -71,8 +72,13 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'voz' => "Нуждаюсь в создании специальных условий для лиц с ОВЗ и инвалидов при проведении вступительных испытаний?",
             'hostel' => 'Нуждаюсь в общежитии?',
             'resource'=> 'Откуда узнали об МПГУ?',
-
+            'exam_check' => "Экзамен"
         ];
+    }
+
+    public function setExamCheck($examCheck)
+    {
+        return $this->exam_check = $examCheck;
     }
 
     public function getResource()
