@@ -34,7 +34,8 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',
                                                 'data-target' => '#modal', 'data-modalTitle' => 'Кто выступает в роли заказчика?']) : ""; ?>
-                                        <?= $agreement->typePersonalOrLegal() && !$agreement->number ? Html::a('Добавить/редактировать данные 
+                                        <?= ($agreement->typePersonalOrLegal() && !$agreement->number) ||
+                                        ($agreement->typePersonalOrLegal() && $agreement->statusNoAccepted()) ? Html::a('Добавить/редактировать данные 
                                                 заказчика договора',
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],
                                             ["class" => "btn btn-primary"]) : ""; ?>
