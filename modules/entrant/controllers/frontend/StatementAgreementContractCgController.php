@@ -277,7 +277,7 @@ class StatementAgreementContractCgController extends Controller
                  try {
                      $this->service->createOrUpdatePersonal($form, $agreement->id);
                      if($agreement->statusNoAccepted()){
-                         $this->exportData($agreement, "Договор успено обновлен!");
+                         $this->exportData($agreement, "Договор успешно обновлен!");
                      }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
@@ -295,7 +295,7 @@ class StatementAgreementContractCgController extends Controller
                  try {
                      $this->service->createOrUpdateLegal($form, $agreement->id);
                      if($agreement->statusNoAccepted()){
-                         $this->exportData($agreement, "Договор успено обновлен!");
+                         $this->exportData($agreement, "Договор успешно обновлен!");
                      }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
