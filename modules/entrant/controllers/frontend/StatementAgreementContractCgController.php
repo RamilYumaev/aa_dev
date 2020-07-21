@@ -277,7 +277,7 @@ class StatementAgreementContractCgController extends Controller
                  try {
                      $this->service->createOrUpdatePersonal($form, $agreement->id);
                      if($agreement->statusNoAccepted()){
-                         $this->exportData($agreement);
+                         $this->exportData($agreement, "Договор успено обновлен!");
                      }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
@@ -295,7 +295,7 @@ class StatementAgreementContractCgController extends Controller
                  try {
                      $this->service->createOrUpdateLegal($form, $agreement->id);
                      if($agreement->statusNoAccepted()){
-                         $this->exportData($agreement);
+                         $this->exportData($agreement, "Договор успено обновлен!");
                      }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
@@ -445,7 +445,7 @@ class StatementAgreementContractCgController extends Controller
     }
 
 
-    protected function exportData(StatementAgreementContractCg $agreement)
+    protected function exportData(StatementAgreementContractCg $agreement, $message = "Договор успешно сформирован")
     {
         if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
             Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
@@ -469,7 +469,7 @@ class StatementAgreementContractCgController extends Controller
         try {
             if (array_key_exists('number', $result)) {
                 $this->service->addNumber($agreement->id, $result['number']);
-                Yii::$app->session->setFlash('success', "Договор успешно сформирован");
+                Yii::$app->session->setFlash('success', $message);
             } else if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
             }
