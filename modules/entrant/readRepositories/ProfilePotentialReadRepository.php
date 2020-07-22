@@ -42,7 +42,7 @@ class ProfilePotentialReadRepository
                     'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                     ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                        CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+                        CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             } else if ($this->isID == JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT) {
                 $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM statement)');
                 $query->innerJoin(UserCg::tableName(), 'user_cg.user_id=profiles.user_id');
