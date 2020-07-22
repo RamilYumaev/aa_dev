@@ -32,7 +32,7 @@ class StatementReadRepository
                 ->andWhere(['not in',
                     'statement.status', StatementHelper::STATUS_WALT_SPECIAL])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
         }
 
         if ($this->jobEntrant->isTPGU()) {
