@@ -1,6 +1,7 @@
 <?php
 
 use modules\dictionary\helpers\DisciplineExaminerHelper;
+use modules\exam\helpers\ExamQuestionGroupHelper;
 use yii\helpers\Html;
 use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
@@ -19,7 +20,7 @@ use mihaildev\elfinder\ElFinder;
                 : DisciplineExaminerHelper::listDiscipline(),['prompt' => ""]); ?>
         <?= $form->field($model, 'question_group_id')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите группу вопросов',],
-            'data' => ['1'],
+            'data' =>$model->question_group_id ? ExamQuestionGroupHelper::listQuestionGroupIds($model->discipline_id) : [],
             'pluginOptions' => [
                 'allowClear' => true,
             ],
@@ -60,6 +61,7 @@ disciplineSelect.on("change", function() {
         }
     });
 });
+disciplineSelect.trigger("init");
 JS
 );
 ?>

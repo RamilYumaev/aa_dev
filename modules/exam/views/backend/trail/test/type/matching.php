@@ -8,7 +8,7 @@ use testing\helpers\TestQuestionHelper;
 ?>
 <?= $quent->question->text ?>
 <?php $a= yii\helpers\Json::decode($quent->result);?>
-<?php foreach (AnswerHelper::answerList($quent->question_id) as $index => $name): ?>
+<?php foreach (ExamAnswerHelper::answerList($quent->question_id) as $index => $name): ?>
     <p><?= $name ?>
         <?= Html::dropDownList("AnswerAttempt[matching][$index]", $a["matching"][$index] ?? [], ExamAnswerHelper::answerMatchingList($quent->question_id))?> </p>
 <?php endforeach; ?>

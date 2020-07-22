@@ -154,11 +154,16 @@ class StatementHelper
     }
 
     public static function columnStatementCg($column, $value) {
-      $query = (new StatementCgReadRepository(self::entrantJob()))
-            ->readData()
-            ->select($column)
-            ->groupBy($column)->all();
-        return ArrayHelper::map($query, $column, $value);
+          $query = (new StatementCgReadRepository(self::entrantJob()))
+                ->readData()
+                ->select($column)
+                ->groupBy($column)->all();
+            return ArrayHelper::map($query, $column, $value);
+    }
+
+
+    public static function statementSuccess($userId, $eduLevel) {
+        $statement = Statement::find()->eduLevel($eduLevel)->user($userId)->status(self::STATUS_ACCEPTED);
     }
 
 }

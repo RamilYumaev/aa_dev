@@ -12,6 +12,12 @@ class CseViSelectHelper
         return $cseSubjectResult = CseViSelect::findOne(['user_id' => $userId]);
     }
 
+    public static function viUser ($userId)
+    {
+        $model = self::modelOne($userId);
+        return $model && $model->dataVi() ? array_values($model->dataVi()): false;
+    }
+
     public static function inKeyVi($key, array $data) {
         if($data) {
             if(key_exists($key, $data)) {

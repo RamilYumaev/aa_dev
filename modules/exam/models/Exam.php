@@ -7,6 +7,8 @@ namespace modules\exam\models;
 use dictionary\models\DictDiscipline;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\exam\forms\ExamForm;
+use modules\exam\models\queries\ExamAttemptQuery;
+use modules\exam\models\queries\ExamQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -81,9 +83,12 @@ class Exam extends ActiveRecord
             'date_range_reserve' => "Резервная дата экзамена (от и до)",
             'time_range' => "Время экзамена (от и до)",
             'time_range_reserve' => "Резервное время экзамена (от и до)"
-
         ];
     }
 
+    public static function find(): ExamQuery
+    {
+        return new  ExamQuery(static::class);
+    }
 
 }
