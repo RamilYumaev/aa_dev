@@ -95,7 +95,7 @@ class ExamAnswerService
                  $a = 0;
                 foreach ($data as $index => $value) {
                     if(ExamAnswer::find()
-                        ->where([ 'is_correct' => true,'quest_id'=>$key])
+                        ->where([ 'is_correct' => true,'question_id'=>$key])
                         ->andWhere(['id' => $index, 'answer_match'=> $value])->exists()){
                         ++$a;
                     }
