@@ -64,7 +64,7 @@ class ProfileStatementReadRepository
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
         } elseif ($this->jobEntrant->isCategoryTarget()) {
             if ($this->isID == JobEntrantHelper::TARGET_BB) {
                 $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
@@ -74,7 +74,8 @@ class ProfileStatementReadRepository
             } else {
                 $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
                     CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere([
-                    'and', ['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT], ['>', 'statement.status', StatementHelper::STATUS_DRAFT]]);
+                    'and', ['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT],
+                    ['>', 'statement.status', StatementHelper::STATUS_DRAFT]]);
             }
         } elseif ($this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
