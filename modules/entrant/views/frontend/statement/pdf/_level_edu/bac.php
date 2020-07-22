@@ -85,8 +85,12 @@ $och = false;
 </table>
 <?php if ($cse): ?>
     <p>
-        Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
+       <?=($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
+       "Прошу допустить меня к вступительным испытаниям по следующим предметам:":
+           "Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ:"?>  <?= $cse ?>
     </p>
+<?php else :?>
+
 <?php endif; ?>
 <?php if ($noCse): ?>
     <p>
@@ -204,7 +208,6 @@ foreach ($signaturePoint as $signature) :?>
             </tr>
             <tr>
                 <td></td>
-                1
                 <td class="text-center fs-7">(Подпись)</td>
                 <td></td>
                 <td class="text-center fs-7">(Фамилия И.О.)</td>

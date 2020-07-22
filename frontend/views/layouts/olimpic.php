@@ -51,7 +51,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?php if (!($_SERVER['HTTP_HOST'] === 'olympic:8080' or !$_SERVER['HTTP_HOST'] == 'st.3profi.ru')) : ?>
+<?php if ($_SERVER['HTTP_HOST'] == 'sdo.mpgu.org') : ?>
 
 
     <!-- VK Widget -->
