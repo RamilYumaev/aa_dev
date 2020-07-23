@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\exam\services;
 
 use common\helpers\FlashMessages;
@@ -44,11 +45,11 @@ class ExamResultService
     public function create($attempt_id, $question_id, $tq_id, ExamFinalMarkResultForm $form)
     {
         $res = $this->repository->get($attempt_id, $question_id, $tq_id);
-        $this->transactionManager->wrap(function () use ($res, $form){
-            $res->setMark($form->mark);
+        $this->transactionManager->wrap(function () use ($res, $form) {
+            $res->setMark($form->mark, $form->note);
             $this->repository->save($res);
             $testAttempt = $this->testAttemptRepository->get($res->attempt_id);
-            $testResult  = ExamResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
+            $testResult = ExamResult::find()->where(['attempt_id' => $testAttempt->id])->sum('mark');
             $testAttempt->edit($testResult);
             $this->testAttemptRepository->save($testAttempt);
         });
