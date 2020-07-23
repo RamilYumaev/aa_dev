@@ -160,7 +160,7 @@ class ExamStatementController extends Controller
      */
 
 
-    public function actionDateReserve($id)
+    public function actionReserveDate($id)
     {
         $model = $this->findModel($id);
         $form = new ExamDateReserveForm();
@@ -170,14 +170,14 @@ class ExamStatementController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->addReserveDate($model->id, $form);
+                $this->service->addReserveDate($model->id, $form, $this->jobEntrant);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('message', [
+        return $this->renderAjax('date', [
             'model' => $form,
         ]);
     }

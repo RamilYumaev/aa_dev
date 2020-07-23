@@ -91,7 +91,7 @@ class ExamStatementService
         $this->repository->save($modelNew);
 
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
-            $modelNew->textEmailFirst, $modelNew->urlExam);
+            $modelNew->textEmailReserve, $modelNew->urlExam);
 
 
     }

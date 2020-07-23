@@ -5,7 +5,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>
-<?php $form = ActiveForm::begin(['id'=> 'form-src']); ?>
+<?php $form = ActiveForm::begin(['id'=> 'form-src', 'enableAjaxValidation' => true]); ?>
     <?= $form->field($model, 'src_bbb')->textInput(); ?>
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

@@ -2,6 +2,7 @@
 
 use modules\dictionary\helpers\DisciplineExaminerHelper;
 use modules\exam\helpers\ExamQuestionGroupHelper;
+use testing\helpers\TestQuestionHelper;
 use yii\helpers\Html;
 use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
@@ -31,7 +32,8 @@ use mihaildev\elfinder\ElFinder;
     </div>
     <div class='box-footer'>
         <p id="error-message" style="color: red"></p>
-        <?= Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success', 'data-confirm' => "Вы уверены, что хотите сохранить?"]) ?>
+        <?= Yii::$app->controller->action->id == 'update' && $model->type_id == TestQuestionHelper::TYPE_CLOZE ? "":
+            Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success', 'data-confirm' => "Вы уверены, что хотите сохранить?"]) ?>
     </div>
 </div>
 <?php

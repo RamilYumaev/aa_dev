@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $examStatement modules\exam\models\ExamStatement*/
-/* @var $jobEntrant \modules\dictionary\models\JobEntrant */
+/* @var $jobEntrant modules\dictionary\models\JobEntrant */
 
 $jobEntrant = Yii::$app->user->identity->jobEntrant();
 
@@ -31,15 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box box-default">
             <div class="box box-header">
                 <h4>Данные</h4>
-                <?= $jobEntrant && $jobEntrant->isCategoryTarget() ? Html::a("В резервный день",
-                    ['exam-statement/reserve-date']).Html::a("Завершить и очистить нарушения",
+                <?= $jobEntrant  ? Html::a("В резервный день",
+                    ['exam-statement/reserve-date', 'id'=> $examStatement->id],['data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal',
+                            'data-modalTitle' =>'Добавить резервную дату', 'class'=> 'btn btn-danger']).Html::a("Завершить и очистить нарушения",
                         ['exam-statement/end-violation']) : ''?>
             </div>
             <div class="box-body">
                 <?= DetailView::widget([
                     'model' => $examStatement,
                     'attributes' => [
-                       "date:date",
+                        "date:date",
                         "entrantFio",
                         "proctorFio",
                         'exam.discipline.name',
