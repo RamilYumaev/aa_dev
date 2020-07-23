@@ -25,8 +25,8 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                     <div class="col-md-4 mt-20 fs-15">
                     </div>
                     <div class="col-md-3 mt-30">
-                        <?= Html::a("Завершить заочный тур", $url,
-                            ['data' => ['confirm' => 'Вы действительно хотите завершить заочный тур?', 'method' => 'POST'], 'class' => 'btn btn-primary']) ?>
+                        <?= Html::a("Завершить экзамен", $url,
+                            ['data' => ['confirm' => 'Вы действительно хотите завершить экзамен?', 'method' => 'POST'], 'class' => 'btn btn-primary']) ?>
                     </div>
                     <?php foreach ($models
 
