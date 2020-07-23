@@ -8,6 +8,7 @@ use modules\exam\models\ExamStatement;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
 use modules\entrant\helpers\SelectDataHelper;
+use modules\exam\widgets\exam\TestAttemptStatementWidget;
 use yii\grid\SerialColumn;
 use yii\helpers\Html;
 use entrant\assets\modal\ModalAsset;
@@ -41,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                       Html::a('Просмотр', ['exam-statement/view', 'id' => $model->id],['class'=> "btn btn-info btn-block"]).
                                         '<br/> <center><span class="'.ExamStatementHelper::listStatusColor()[$model->status].'">'.$model->statusName.'</span></center>
                                            <br/> <center><span class="label label-danger">Нарушения '.$model->getViolation()->count().'</span></center>
-                                            </td></tr>';
+                                            </td></tr><tr>
+                                            <td colspan="5">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id]).'</td>
+                                            </tr>';
                         }
                     },
                 'columns' => [
