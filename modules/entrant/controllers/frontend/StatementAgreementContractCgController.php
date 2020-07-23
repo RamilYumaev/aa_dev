@@ -239,37 +239,7 @@ class StatementAgreementContractCgController extends Controller
     {
         $agreement= $this->findModel($id);
         if($agreement->typeEntrant() || $agreement->typePersonal() || $agreement->typeLegal()) {
-            if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
-                Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
-                return $this->redirect(Yii::$app->request->referrer);
-            }
-            $ch = curl_init();
-            $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract?access-token=' . $this->token());
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
-            if ($status_code !== 200) {
-                Yii::$app->session->setFlash("error", "Ошибка! $result");
-                return $this->redirect(Yii::$app->request->referrer);
-            }
-            curl_close($ch);
-            $result = Json::decode($result);
-            try {
-                if (array_key_exists('number', $result)) {
-                      $this->service->addNumber($id, $result['number']);
-                      Yii::$app->session->setFlash('success', "Договор успешно сформирован");
-                } else if (array_key_exists('message', $result)) {
-                    Yii::$app->session->setFlash('warning', $result['message']);
-                }
-
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
+            $this->exportData($agreement);
         }else {
             Yii::$app->session->setFlash('warning', "Вы не выбрали заказчика или отсуствуют его данные");
 
@@ -294,7 +264,7 @@ class StatementAgreementContractCgController extends Controller
     public function actionForm($id)
     {
         $agreement= $this->findModel($id);
-        if($agreement->number) {
+        if($agreement->number && !$agreement->statusNoAccepted()) {
             Yii::$app->session->setFlash('warning', "Редактировать нельзя, так как Вы сформировали договор");
             return $this->redirect(['post-document/agreement-contract']);
         } else {
@@ -306,6 +276,9 @@ class StatementAgreementContractCgController extends Controller
              if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                  try {
                      $this->service->createOrUpdatePersonal($form, $agreement->id);
+                     if($agreement->statusNoAccepted()){
+                         $this->exportData($agreement, "Договор успешно обновлен!");
+                     }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
                      Yii::$app->errorHandler->logException($e);
@@ -321,6 +294,9 @@ class StatementAgreementContractCgController extends Controller
              if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                  try {
                      $this->service->createOrUpdateLegal($form, $agreement->id);
+                     if($agreement->statusNoAccepted()){
+                         $this->exportData($agreement, "Договор успешно обновлен!");
+                     }
                      return $this->redirect(['post-document/agreement-contract']);
                  } catch (\DomainException $e) {
                      Yii::$app->errorHandler->logException($e);
@@ -466,6 +442,42 @@ class StatementAgreementContractCgController extends Controller
             return $this->redirect('default/index');
         }
         return $anketa;
+    }
+
+
+    protected function exportData(StatementAgreementContractCg $agreement, $message = "Договор успешно сформирован")
+    {
+        if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
+            Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $ch = curl_init();
+        $data = Json::encode(DataExportHelper::dataIncomingContract($agreement, $incoming));
+        curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'].'/agreement-contract?access-token=' . $this->token());
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        if ($status_code !== 200) {
+            Yii::$app->session->setFlash("error", "Ошибка! $result");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        curl_close($ch);
+        $result = Json::decode($result);
+        try {
+            if (array_key_exists('number', $result)) {
+                $this->service->addNumber($agreement->id, $result['number']);
+                Yii::$app->session->setFlash('success', $message);
+            } else if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
     }
 
 
