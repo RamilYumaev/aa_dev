@@ -94,7 +94,12 @@ $userId = Yii::$app->user->identity->getId();
     </div>
     <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>
     <div class="mt-20 table-responsive">
+        <?php if(DictCompetitiveGroupHelper::tempAspIABlock($userId)) : ?>
+        <p class="text-danger">Учет индивидуальных достижений временно недоступен по техническим причинам.
+            Функция будет доступна 27.07.2020 в 10:00. Просим прощения за доставленные неудобства!</p>
+        <?php else :?>
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
+        <?php endif;?>
     </div>
     <?php if(\modules\entrant\helpers\UserCgHelper::userIsBudgetAndBachelor($userId)):?>
     <div class="mt-20 table-responsive">

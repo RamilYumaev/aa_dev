@@ -771,4 +771,12 @@ class DictCompetitiveGroupHelper
     }
 
 
+    public static function tempAspIABlock($userId){
+        $userCg = UserCg::find()->select('cg_id')->andWhere(['user_id'=>$userId])->column();
+        return DictCompetitiveGroup::find()
+            ->andWhere(['in','id',$userCg])
+            ->andWhere(['edu_level'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])->exists();
+    }
+
+
 }
