@@ -185,23 +185,25 @@ class ExamQuestionController extends Controller
                 }
             }
         }elseif($model->type_id == TestQuestionHelper::TYPE_CLOZE) {
-            $form = new ExamQuestionNestedUpdateForm($this->jobEntrant,$model);
-            if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-                $form->questProp = $form->questPropMore();
-                if (Model::loadMultiple($form->questProp, Yii::$app->request->post())
-                    && Model::validateMultiple($form->questProp)) {
-                    if ($form->answerClozeMore()) {
-                        $form->answerCloze = $form->answerClozeMore();
-                        try {
-                            $this->service->updateNested($id, $form);
-                            return $this->redirect(['index']);
-                        } catch (\DomainException $e) {
-                            Yii::$app->errorHandler->logException($e);
-                            Yii::$app->session->setFlash('error', $e->getMessage());
-                        }
-                    }
-                }
-            }
+//            $form = new ExamQuestionNestedUpdateForm($this->jobEntrant, $model);
+//            if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+//                $form->questProp = $form->questPropMore();
+//                if (Model::loadMultiple($form->questProp, Yii::$app->request->post())
+//                    && Model::validateMultiple($form->questProp)) {
+//                    if ($form->answerClozeMore()) {
+//                        $form->answerCloze = $form->answerClozeMore();
+//                        try {
+//                            $this->service->updateNested($id, $form);
+//                            return $this->redirect(['index']);
+//                        } catch (\DomainException $e) {
+//                            Yii::$app->errorHandler->logException($e);
+//                            Yii::$app->session->setFlash('error', $e->getMessage());
+//                        }
+//                    }
+//                }
+//            }
+            Yii::$app->session->setFlash('warning', "Вложенные ответы нельзя редактировать");
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

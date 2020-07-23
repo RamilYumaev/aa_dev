@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php DynamicFormWidget::begin([
                 'widgetContainer' => 'dynamicform_wrapper',
-                'widgetBody' => '.container-items',
-                'widgetItem' => '.cloze-item',
+                'widgetBody' => '.container-nested-items',
+                'widgetItem' => '.nested-item',
                 'limit' => 10,
                 'min' => 1,
-                'insertButton' => '.add-cloze',
-                'deleteButton' => '.remove-cloze',
+                'insertButton' => '.add-nested',
+                'deleteButton' => '.remove-nested',
                 'model' => $model->questProp[0],
                 'formId' => 'dynamic-form',
                 'formFields' => [
@@ -47,13 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>Вложенные ответы</th>
                     <th style="width: 450px;">Настройки вложенного ответа</th>
                     <th class="text-center" style="width: 90px;">
-                        <button type="button" class="add-cloze btn btn-success btn-xs"><span class="fa fa-plus"></span></button>
+                        <button type="button" class="add-nested btn btn-success btn-xs"><span class="fa fa-plus"></span></button>
                     </th>
                 </tr>
                 </thead>
-                <tbody class="container-items">
+                <tbody class="container-nested-items">
                 <?php foreach ($model->questProp as $index => $questProp): ?>
-                    <tr class="cloze-item">
+                    <tr class="nested-item">
                         <td class="vcenter">
                             <?= Html::activeHiddenInput($questProp, "[{$index}]id"); ?>
                             <?= $form->field($questProp, "[{$index}]name")->textInput(['maxlength' => true]) ?>
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) ?>
                         </td>
                         <td class="text-center vcenter" style="width: 90px; verti">
-                            <button type="button" class="remove-cloze btn btn-danger btn-xs"><span class="fa fa-minus"></span></button>
+                            <button type="button" class="remove-nested btn btn-danger btn-xs"><span class="fa fa-minus"></span></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -78,10 +78,15 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php DynamicFormWidget::end(); ?>
             </div>
         </div>
-    </div>
-
     <?= $form->field($model, "id")->hiddenInput()->label('') ?>
     <?php ActiveForm::end(); ?>
 </div>
-
-
+<?php
+$this->registerJs(<<<JS
+"use strict";
+$(".dynamicform_wrapper").on("afterInsert", function(e, item) {
+    item.children[0].childNodes[1].value = "";
+});
+JS
+);
+?>

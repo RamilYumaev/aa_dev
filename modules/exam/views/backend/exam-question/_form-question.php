@@ -31,7 +31,7 @@ use mihaildev\elfinder\ElFinder;
     </div>
     <div class='box-footer'>
         <p id="error-message" style="color: red"></p>
-        <?= Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success', 'data-confirm' => "Вы уверены, что хотите сохранить?"]) ?>
     </div>
 </div>
 <?php

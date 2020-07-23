@@ -34,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'date_end:date',
                     'time_start',
                     'time_end',
+                    'date_start_reserve:date',
+                    'date_end_reserve:date',
+                    'time_start_reserve',
+                    'time_end_reserve',
                     ['class' => ActionColumn::class, 'controller' => 'exam', 'template' => '{update} {view}']
                 ],
             ]); ?>

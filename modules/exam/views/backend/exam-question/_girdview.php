@@ -25,7 +25,6 @@ use yii\grid\ActionColumn;
                         ['attribute' => 'question_group_id',
                             'filter'=> $searchModel->filterQuestionGroup(),
                             'value'=> 'questionGroup.name'],
-
                         ['attribute' => 'discipline_id',
                             'filter'=> $searchModel->filterDiscipline(),
                             'value'=> 'discipline.name'],

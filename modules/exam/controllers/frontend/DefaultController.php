@@ -5,6 +5,8 @@ namespace modules\exam\controllers\frontend;
 
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\services\AdditionalInformationService;
+use modules\exam\behaviors\ExamRedirectBehavior;
+use modules\exam\helpers\ExamCgUserHelper;
 use Yii;
 use yii\web\Controller;
 
@@ -18,6 +20,14 @@ class DefaultController extends Controller
         $this->service = $service;
     }
 
+
+    public function behaviors()
+    {
+        return [
+            ExamRedirectBehavior::class,
+        ];
+    }
+
     /**
      * @return mixed
      */
@@ -27,7 +37,7 @@ class DefaultController extends Controller
         if($model && !$model->exam_check) {
             return $this->redirect(['consent']);
         }
-        return $this->render('index');
+        return $this->render('index', ['examList' => ExamCgUserHelper::examList($this->getUserId())]);
     }
 
     /**

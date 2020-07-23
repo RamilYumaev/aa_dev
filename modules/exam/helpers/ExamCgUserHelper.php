@@ -35,7 +35,7 @@ class ExamCgUserHelper
        return $query->distinct()->column();
     }
 
-    private static function disciplineExam($userId) {
+    public static function disciplineExam($userId) {
         $viAsCSE = self::examVIAsCse($userId);
         $vi =self::examVI($userId);
         if ($viAsCSE && $vi)  {
@@ -56,10 +56,18 @@ class ExamCgUserHelper
        return self::discipline($userId, true);
     }
 
-    public static  function examExists($userId) {
+    public static function examExists($userId) {
         $discipline = self::disciplineExam($userId);
         if($discipline) {
             return Exam::find()->discipline($discipline)->exists();
+        }
+        return false;
+    }
+
+    public static function examList($userId) {
+        $discipline = self::disciplineExam($userId);
+        if($discipline) {
+            return Exam::find()->discipline($discipline)->all();
         }
         return false;
     }
