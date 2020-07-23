@@ -16,6 +16,8 @@ class ExamQuestionNestedForm extends Model
             $this->name = $questionProposition->name;
             $this->is_start = $questionProposition->is_start;
             $this->type = $questionProposition->type;
+        }else {
+            $this->id = null;
         }
         parent::__construct($config);
     }
@@ -25,7 +27,7 @@ class ExamQuestionNestedForm extends Model
         return [
             ['name', 'required'],
             [['is_start'], 'boolean'],
-            [['type'], 'integer'],
+            [['type', 'id'], 'integer'],
             [['name'], 'string'],
         ];
     }

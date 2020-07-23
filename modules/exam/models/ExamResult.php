@@ -1,6 +1,7 @@
 <?php
 
 namespace modules\exam\models;
+
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\FileUploadBehavior;
@@ -16,10 +17,9 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property integer $priority
  * @property string $updated
  * @property string $result
-
+ * @property  string $note
  *
  **/
-
 class ExamResult extends ActiveRecord
 {
 
@@ -28,9 +28,10 @@ class ExamResult extends ActiveRecord
         return '{{%exam_result}}';
     }
 
-    public static function create($attempt_id, $question_id, $priority, $tq_id) {
+    public static function create($attempt_id, $question_id, $priority, $tq_id)
+    {
         $result = new static();
-        $result->attempt_id =$attempt_id;
+        $result->attempt_id = $attempt_id;
         $result->question_id = $question_id;
         $result->priority = $priority;
         $result->result = null;
@@ -43,19 +44,22 @@ class ExamResult extends ActiveRecord
         $this->result = $file;
     }
 
-    public function setMark($mark): void
+    public function setMark($mark, $note): void
     {
         $this->mark = $mark;
+        $this->note = $note;
     }
 
-    public function edit($result, $mark) {
+    public function edit($result, $mark)
+    {
         $this->updated = date("Y-m-d H:i:s");
         $this->result = $result;
         $this->mark = $mark;
     }
 
-    public function getPath() {
-        return $this->attempt_id."/".$this->tq_id."/". $this->question_id;
+    public function getPath()
+    {
+        return $this->attempt_id . "/" . $this->tq_id . "/" . $this->question_id;
     }
 
     public function attributeLabels()
@@ -70,7 +74,8 @@ class ExamResult extends ActiveRecord
         ];
     }
 
-    public function getQuestion () {
+    public function getQuestion()
+    {
         return $this->hasOne(ExamQuestion::class, ['id' => "question_id"]);
     }
 

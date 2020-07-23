@@ -206,7 +206,6 @@ class ExamQuestionService
 
     public function updateNested($id, ExamQuestionNestedUpdateForm $form)
     {
-
         $deletedQuestionPropIdsIDs = array_diff($form->oldQuestionPropIds, array_filter(ArrayHelper::map($form->questProp, 'id', 'id')));
         $deletedAnswerClozeIds = array_diff($form->oldAnswerClozeIds, $form->answerClozeIds);
         $this->transactionManager->wrap(function () use ($id, $form, $deletedQuestionPropIdsIDs, $deletedAnswerClozeIds) {

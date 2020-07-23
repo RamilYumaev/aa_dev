@@ -40,13 +40,24 @@ class DateFormatHelper
             ]];
     }
 
-    public static function dateWidgetRangeSearch($searchModel, $from, $to) {
+    public static  function  dateSettingStartWidget() : array
+    {
+        return [
+            'language' => 'ru',
+            'pluginOptions' => [
+                'startDate' => '+0d',
+                'autoclose'=>true,
+                'format' => 'yyyy-mm-dd',
+            ]];
+    }
+
+    public static function dateWidgetRangeSearch($searchModel, $from, $to, $type = DatePicker::TYPE_RANGE) {
         return DatePicker::widget([
             'language' => 'ru',
             'model' => $searchModel,
             'attribute' => $from,
             'attribute2' => $to,
-            'type' => DatePicker::TYPE_RANGE,
+            'type' => $type,
             'separator' => '-',
             'pluginOptions' => [
                 'todayHighlight' => true,

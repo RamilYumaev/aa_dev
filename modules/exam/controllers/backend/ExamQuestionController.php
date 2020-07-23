@@ -185,7 +185,7 @@ class ExamQuestionController extends Controller
                 }
             }
         }elseif($model->type_id == TestQuestionHelper::TYPE_CLOZE) {
-            $form = new ExamQuestionNestedUpdateForm($this->jobEntrant,$model);
+            $form = new ExamQuestionNestedUpdateForm($this->jobEntrant, $model);
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                 $form->questProp = $form->questPropMore();
                 if (Model::loadMultiple($form->questProp, Yii::$app->request->post())

@@ -114,6 +114,28 @@ class ExamAttemptController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionPauseAttempt($id)
+    {
+        try {
+            $this->service->pause($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionStartAttempt($id)
+    {
+        try {
+           $this->service->start($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
     public function actionEnd($test_id)
     {
@@ -126,7 +148,6 @@ class ExamAttemptController extends Controller
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
-
 
     /**
      * @param integer $id

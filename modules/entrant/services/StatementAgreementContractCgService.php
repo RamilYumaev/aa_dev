@@ -149,6 +149,11 @@ class StatementAgreementContractCgService
     public function addReceipt($period, $id)
     {
         $contract = $this->repository->get($id);
+
+        if($this->receiptContractRepository->isExitsContract($contract->id)) {
+            throw new \DomainException('Вы уже сформировали квитанцию');
+        }
+
         $cost =  $contract->statementCg->cg->education_year_cost;
         $discount = $contract->statementCg->cg->discount;
         $totalCost = $cost - ($cost * ($discount/100));

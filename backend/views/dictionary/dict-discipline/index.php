@@ -1,5 +1,6 @@
 <?php
 
+use modules\dictionary\helpers\DictDefaultHelper;
 use yii\grid\ActionColumn;
 use yii\grid\SerialColumn;
 use yii\helpers\Html;
@@ -27,6 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => SerialColumn::class],
                     'name',
                     ['attribute'=> 'cse_subject_id', 'value'=> 'cseSubject'],
+                    ['attribute'=> 'is_och', 'filter'=>DictDefaultHelper::nameList(),
+                        'value'=> 'nameIsOch'],
                     ['class' => ActionColumn::class,
                         'template'=>'{update} {delete}'],
                 ]

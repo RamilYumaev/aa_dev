@@ -28,6 +28,10 @@ return [
             'class' => \modules\entrant\FrontendEntrant::class,
             'viewPath' => "@modules/entrant/views/frontend",
         ],
+        'exam' => [
+            'class' => \modules\exam\FrontendExam::class,
+            'viewPath' => "@modules/exam/views/frontend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],

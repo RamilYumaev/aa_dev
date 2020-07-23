@@ -16,6 +16,8 @@ class ExamAnswerNestedForm extends Model
             $this->id = $answer->id;
             $this->name = $answer->name;
             $this->is_correct = $answer->is_correct;
+        }else {
+            $this->id = null;
         }
         parent::__construct($config);
     }
@@ -24,6 +26,7 @@ class ExamAnswerNestedForm extends Model
     {
         return [
             [['is_correct'], 'boolean'],
+            [['id'], 'integer'],
             [['name'], 'string'],
         ];
     }

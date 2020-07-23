@@ -10,11 +10,12 @@ use yii\data\ActiveDataProvider;
 
 class DictDisciplineSearch extends Model
 {
-    public $name;
+    public $name, $is_och;
 
     public function rules(): array
     {
         return [
+            [['is_och',], 'integer'],
             [['name',], 'safe'],
         ];
     }
@@ -37,6 +38,9 @@ class DictDisciplineSearch extends Model
             $query->where('0=1');
             return $dataProvider;
         }
+
+        $query
+            ->andFilterWhere([ 'is_och' => $this->is_och]);
 
         $query
             ->andFilterWhere(['like', 'name', $this->name]);

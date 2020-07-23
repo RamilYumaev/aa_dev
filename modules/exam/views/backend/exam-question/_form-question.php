@@ -1,6 +1,8 @@
 <?php
 
 use modules\dictionary\helpers\DisciplineExaminerHelper;
+use modules\exam\helpers\ExamQuestionGroupHelper;
+use testing\helpers\TestQuestionHelper;
 use yii\helpers\Html;
 use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
@@ -19,7 +21,7 @@ use mihaildev\elfinder\ElFinder;
                 : DisciplineExaminerHelper::listDiscipline(),['prompt' => ""]); ?>
         <?= $form->field($model, 'question_group_id')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите группу вопросов',],
-            'data' => ['1'],
+            'data' =>$model->question_group_id ? ExamQuestionGroupHelper::listQuestionGroupIds($model->discipline_id) : [],
             'pluginOptions' => [
                 'allowClear' => true,
             ],
@@ -30,7 +32,8 @@ use mihaildev\elfinder\ElFinder;
     </div>
     <div class='box-footer'>
         <p id="error-message" style="color: red"></p>
-        <?= Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success']) ?>
+        <?= Yii::$app->controller->action->id == 'update' && $model->type_id == TestQuestionHelper::TYPE_CLOZE ? "":
+            Html::submitButton('Сохранить', [ 'id'=> $id, 'class' => 'btn btn-success', 'data-confirm' => "Вы уверены, что хотите сохранить?"]) ?>
     </div>
 </div>
 <?php
@@ -60,6 +63,7 @@ disciplineSelect.on("change", function() {
         }
     });
 });
+disciplineSelect.trigger("init");
 JS
 );
 ?>
