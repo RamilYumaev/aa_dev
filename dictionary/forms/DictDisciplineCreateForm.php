@@ -9,7 +9,7 @@ use yii\base\Model;
 
 class DictDisciplineCreateForm extends Model
 {
-    public $name, $links, $cse_subject_id, $ais_id, $dvi, $composite_discipline;
+    public $name, $links, $cse_subject_id, $ais_id,$is_och, $dvi, $composite_discipline;
 
     public function __construct($config = [])
     {
@@ -25,7 +25,7 @@ class DictDisciplineCreateForm extends Model
             [['name'], 'required'],
             ['name', 'unique', 'targetClass' => DictDiscipline::class, 'message' => 'Такая дисциплина уже есть в справочнике'],
             [['name', 'links'], 'string', 'max' => 255],
-            [['cse_subject_id', 'ais_id', 'dvi', 'composite_discipline'], 'integer']
+            [['cse_subject_id', 'ais_id', 'is_och', 'dvi', 'composite_discipline'], 'integer']
         ];
     }
 

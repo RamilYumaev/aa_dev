@@ -10,13 +10,14 @@ class DisciplineExaminerHelper
 {
     public static function listDiscipline() {
         return DictDiscipline::find()->select(['name','id'])
+            ->andWhere(['is_och' => 0])
             ->andWhere('id NOT IN (SELECT discipline_id FROM examiner_discipline)')
             ->indexBy('id')->column();
     }
 
     public static function listDisciplineReserve($ids) {
         return DictDiscipline::find()->select(['name','id'])
-            ->andWhere(['id'=> $ids])
+            ->andWhere(['id'=> $ids, 'is_och' => 0])
             ->indexBy('id')->column();
     }
 
