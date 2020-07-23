@@ -106,11 +106,11 @@ class ExamStatement extends ActiveRecord
     }
     
     public function getProctorFio() {
-        return $this->profileProctor->fio;
+        return  $this->profileProctor ? $this->profileProctor->fio : null;
     }
 
     public function getEntrantFio() {
-        return $this->profileEntrant->fio;
+        return $this->profileEntrant ? $this->profileEntrant->fio : null;
     }
 
 
