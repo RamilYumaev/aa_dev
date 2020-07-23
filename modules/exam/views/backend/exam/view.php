@@ -30,6 +30,10 @@ ModalAsset::register($this);
                         'date_end:date',
                         'time_start',
                         'time_end',
+                        'date_start_reserve:date',
+                        'date_end_reserve:date',
+                        'time_start_reserve',
+                        'time_end_reserve',
                     ],
                 ]) ?>
             </div>

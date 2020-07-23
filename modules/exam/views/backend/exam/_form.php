@@ -28,17 +28,45 @@ use yii\helpers\Html;
         <?= $form->field($model, 'time_range')->widget(DateRangePicker::class, [
             'convertFormat'=>true, 'language' => 'ru',
             'pluginOptions'=>[
-                    'datePicker'=>false,
+                'datePicker'=>false,
                 "timePicker"=> true,
                 "timePicker24Hour"=> true,
                 'timePickerIncrement'=>5,
                 'locale'=>['format'=>'H:i:s',]
             ],
             'pluginEvents' => [
-                    "show.daterangepicker" => "function(ev, picker) {
+                "show.daterangepicker" => "function(ev, picker) {
                        picker.container.find('.calendar-table').hide();
                     }",
-                ],
+            ],
+
+        ])?>
+        <?= $form->field($model, 'date_range_reserve')->widget(DateRangePicker::class, [
+            'convertFormat'=>true,
+            'language' => 'ru',
+            'id' =>'r_g',
+            'pluginOptions'=>[
+                "timePicker"=> false,
+                "timePicker24Hour"=> false,
+                'timePickerIncrement'=>1,
+                'locale'=>['format'=>'d.m.Y']
+            ]
+        ])?>
+        <?= $form->field($model, 'time_range_reserve')->widget(DateRangePicker::class, [
+            'convertFormat'=>true, 'language' => 'ru',
+            'id' =>"t_d",
+            'pluginOptions'=>[
+                'datePicker'=>false,
+                "timePicker"=> true,
+                "timePicker24Hour"=> true,
+                'timePickerIncrement'=>5,
+                'locale'=>['format'=>'H:i:s',]
+            ],
+            'pluginEvents' => [
+                "show.daterangepicker" => "function(ev, picker) {
+                       picker.container.find('.calendar-table').hide();
+                    }",
+            ],
 
         ])?>
         <div class="form-group">

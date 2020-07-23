@@ -13,7 +13,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
     'model' => $modelsAnswerCloze[0],
     'formId' => 'dynamic-form',
     'formFields' => [
-        'description'
+        'name',
+        'is_correct'
     ],
 ]); ?>
     <table class="table table-bordered">

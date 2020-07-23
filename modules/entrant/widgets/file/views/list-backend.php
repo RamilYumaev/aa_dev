@@ -26,14 +26,17 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
     <?php foreach ($files as $key => $file): ?>
     <tr>
         <td>Файл <?= ++$key ?> </td>
-        <td><?= Html::a("Скачать", ["file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
+        <td><?= Html::a("Скачать", ["/data-entrant/file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
         <?php if(!$jobEntrant->isCategoryCOZ()): ?>
-        <td><?= Html::a("Принять", ["file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
+        <td><?= Html::a("Принять", ["/data-entrant/file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
                 'data-method' => 'post']) ?></td>
        <?php endif; ?>
-        <td><?= Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
+    <?php if(Yii::$app->controller->id != "exam-statement"): ?>
+        <td><?= Html::a("Отклонить", ["/data-entrant/file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения']) ?></td>
+    <?php endif; ?>
         <td><span class="label label-<?= FileHelper::colorName($file->status)?>"><?=$file->statusName?></span></td>
+
     </tr>
     <?php endforeach; ?>
 </table>

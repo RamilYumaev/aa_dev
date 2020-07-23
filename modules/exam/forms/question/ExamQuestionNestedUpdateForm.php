@@ -47,7 +47,8 @@ class ExamQuestionNestedUpdateForm extends CompositeForm
                 $this->answerCloze[$index] = array_map(function ($answer) {
                     return new ExamAnswerNestedForm($answer);
                 }, $answerClozeAll);
-                $this->oldAnswer = ArrayHelper::merge(ArrayHelper::index($answerClozeAll, 'id'), $this->oldAnswer);
+                $this->oldAnswer = ArrayHelper::merge(ArrayHelper::index($answerClozeAll, 'id'),
+                    $this->oldAnswer);
             } else {
                     $this->answerCloze[$index] =[new ExamAnswerNestedForm()];
                 }
@@ -93,7 +94,7 @@ class ExamQuestionNestedUpdateForm extends CompositeForm
                 foreach ($this->answerCloze as $index => $answers) {
                     $this->answerClozeIds = ArrayHelper::merge($this->answerClozeIds , array_filter(ArrayHelper::getColumn($answers, 'id')));
                     foreach ($answers as $i => $answer) {
-                        $data['AnswerClozeForm'] = $answer;
+                        $data['ExamAnswerNestedForm'] = $answer;
                         $form = (isset($answer['id']) && isset($this->oldAnswer[$answer['id']])) ? $this->oldAnswer[$answer['id']] : new ExamAnswerNestedForm();
                         $form->load($data);
                         $this->answerCloze[$index][$i] = $form;
