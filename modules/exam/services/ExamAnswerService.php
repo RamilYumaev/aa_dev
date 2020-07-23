@@ -17,7 +17,7 @@ use yii\web\UploadedFile;
 
 class ExamAnswerService
 {
-    private  $repository,
+    private $repository,
         $testRepository,
         $testQuestionRepository,
         $testAndQuestionsRepository,

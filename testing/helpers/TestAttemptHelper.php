@@ -16,6 +16,7 @@ class TestAttemptHelper
 
     const NO_END_TEST = 0;
     const END_TEST = 1;
+    const PAUSE_TEST =2;
 
     const MIN_BALL_GOLD = 75;
     const MIN_BALL_NO_GOLD = 50;

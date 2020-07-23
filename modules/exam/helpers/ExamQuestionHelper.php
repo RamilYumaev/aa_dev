@@ -61,6 +61,16 @@ class ExamQuestionHelper
         ];
     }
 
+    public static function getAllTypesExam()
+    {
+        return [
+            self::TYPE_SELECT_ONE => 'Выбрать вариант',
+            self::TYPE_MATCHING => 'Сопоставить',
+            self::TYPE_ANSWER_DETAILED => 'Развернутый ответ',
+            self::TYPE_CLOZE => 'Вложенные ответы',
+        ];
+    }
+
     public static function getAllFileTypes()
     {
         return [

@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <?= Html::a('Создать', ['exam/create'], ['class' => 'btn btn-success mb-10']) ?>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,

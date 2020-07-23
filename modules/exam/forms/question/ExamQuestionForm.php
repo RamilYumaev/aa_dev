@@ -31,7 +31,7 @@ class ExamQuestionForm extends Model
     public function defaultRules()
     {
         return [
-            [['type_id', 'title', 'text'], 'required'],
+            [['type_id', 'title', 'text', 'discipline_id'], 'required'],
             [['type_id', 'question_group_id','discipline_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['text'], 'string'],

@@ -9,10 +9,12 @@ class ExamFinalMarkResultForm extends Model
 {
     public $mark;
     private $t_q;
+    public $note;
 
     public function __construct(ExamResult $testResult, $config = [])
     {
         $this->mark = $testResult->mark;
+        $this->note = $testResult->note;
         $this->t_q= ExamQuestionInTest::findOne($testResult->tq_id)->mark;
         parent::__construct($config);
     }
@@ -21,6 +23,7 @@ class ExamFinalMarkResultForm extends Model
     {
         return [
             ['mark', 'required'],
+            ['note', 'string'],
             ['mark', 'number', 'min' => 0, 'max' => $this->t_q],
         ];
     }
@@ -29,6 +32,7 @@ class ExamFinalMarkResultForm extends Model
     {
         return [
             'mark' => 'Оценка',
+            'note' => 'Комментарий к ответу',
         ];
     }
 }

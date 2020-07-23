@@ -14,6 +14,9 @@ use kartik\select2\Select2;
     <?php $form = ActiveForm::begin(['id' => 'test-form',  'enableAjaxValidation' => true]); ?>
 
     <?= $form->field($model, 'mark')->textInput([]) ?>
+    <?= $form->field($model, 'note')->widget(CKEditor::class, [
+        'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
+    ]); ?>
 
     <div class="form-group">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>

@@ -20,7 +20,7 @@ use yii\grid\ActionColumn;
                         'id',
                         'title',
                         ['attribute' => 'type_id',
-                            'filter'=> ExamQuestionHelper::getAllTypes(),
+                            'filter'=> ExamQuestionHelper::getAllTypesExam(),
                             'value'=> 'typeName'],
                         ['attribute' => 'question_group_id',
                             'filter'=> $searchModel->filterQuestionGroup(),
