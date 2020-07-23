@@ -77,7 +77,7 @@ class TestQuestionHelper
     {
         return [
             self::CLOZE_SELECT => 'Список',
-            self::CLOZE_TEXT => 'Краткий ответ',
+          //  self::CLOZE_TEXT => 'Краткий ответ',
         ];
     }
 

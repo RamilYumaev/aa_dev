@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <?= Html::a('Создать', ['exam/create'], ['class' => 'btn btn-success mb-10']) ?>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
@@ -34,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'date_end:date',
                     'time_start',
                     'time_end',
+                    'date_start_reserve:date',
+                    'date_end_reserve:date',
+                    'time_start_reserve',
+                    'time_end_reserve',
                     ['class' => ActionColumn::class, 'controller' => 'exam', 'template' => '{update} {view}']
                 ],
             ]); ?>

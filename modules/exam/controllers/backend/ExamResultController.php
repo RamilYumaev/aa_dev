@@ -66,8 +66,11 @@ class ExamResultController extends Controller
             'model' => $form,
         ]);
     }
+
     /**
-     * @param integer $id
+     * @param $attempt_id
+     * @param $question_id
+     * @param $tq_id
      * @return mixed
      * @throws NotFoundHttpException
      */

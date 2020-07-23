@@ -6,7 +6,6 @@ namespace modules\entrant\services;
 
 use modules\entrant\forms\AdditionalInformationForm;
 use modules\entrant\models\AdditionalInformation;
-use modules\entrant\models\SubmittedDocuments;
 use modules\entrant\repositories\AdditionalInformationRepository;
 use modules\entrant\repositories\StatementRepository;
 
@@ -32,6 +31,12 @@ class AdditionalInformationService
             $model= AdditionalInformation::create($form);
         }
             $this->repository->save($model);
+    }
+
+    public function examCheck(AdditionalInformation $model)
+    {
+        $model->setExamCheck(1);
+        $this->repository->save($model);
     }
 
 

@@ -21,6 +21,8 @@ class ExamForm extends Model
             $this->setAttributes($exam->getAttributes(), false);
             $this->date_range = $exam->getDateValue("date_start")." - ".$exam->getDateValue("date_end");
             $this->time_range = $exam->time_start." - ".$exam->time_end;
+            $this->date_range_reserve = $exam->date_start_reserve ? $exam->getDateValue("date_start_reserve")." - ".$exam->getDateValue("date_end_reserve"): null;
+            $this->time_range_reserve = $exam->time_start_reserve ? $exam->time_start_reserve." - ".$exam->time_end_reserve : null;
             $this->_exam = $exam;
         }
 
