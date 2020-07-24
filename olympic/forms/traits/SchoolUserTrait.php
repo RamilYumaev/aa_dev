@@ -83,7 +83,7 @@ trait SchoolUserTrait
             [['check_region_and_country_school', 'check_new_school', 'check_rename_school'],'boolean'],
             [['school_id','country_school', 'school',  'region_school'], 'integer'],
             [['new_school'], 'string'],
-            [['new_school'], 'match', 'pattern' => '/^[а-яёА-ЯЁ0-9,.№()"<>/\-\s]+$/u',
+            [['new_school'], 'match', 'pattern' => '/^[а-яёА-ЯЁ0-9,.№()"<>\/\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы, цифры, пробел, тире, запятую, точку, знак номера'],
 
             ['country_school', 'required', 'when' => function ($model) {
