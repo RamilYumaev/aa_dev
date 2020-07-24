@@ -31,10 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box box-default">
             <div class="box box-header">
                 <h4>Данные</h4>
-                <?= $jobEntrant  ? Html::a("В резервный день",
+                <?= $jobEntrant && $jobEntrant->isCategoryTarget() && $examStatement->statusError() ? Html::a("В резервный день",
                     ['exam-statement/reserve-date', 'id'=> $examStatement->id],['data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal',
-                            'data-modalTitle' =>'Добавить резервную дату', 'class'=> 'btn btn-danger']).Html::a("Завершить и очистить нарушения",
-                        ['exam-statement/end-violation']) : ''?>
+                            'data-modalTitle' =>'Добавить резервную дату', 'class'=> 'btn btn-danger']).($examStatement->getViolation()->count() ? Html::a("Завершить и очистить нарушения",
+                        ['exam-statement/reset-violation', 'id'=> $examStatement->id], [ 'class'=> 'btn btn-info', 'data-confirm'=> "Вы уверены, что хотите очистить нарушения и завершить?" ]) : "") : ''?>
             </div>
             <div class="box-body">
                 <?= DetailView::widget([
@@ -58,6 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \modules\exam\widgets\statement\ExamStatementWidget::widget(['examId'=> $examStatement->exam_id, 'userId'=> $examStatement->entrant_user_id]) ?>
     </div>
     <div class="col-md-6">
-        <?= \modules\exam\widgets\violation\ExamViolationWidget::widget(['examStatementId'=> $examStatement->id]) ?>
+        <?= \modules\exam\widgets\violation\ExamViolationWidget::widget(['examStatement'=> $examStatement]) ?>
     </div>
 </div>

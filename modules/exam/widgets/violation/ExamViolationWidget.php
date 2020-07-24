@@ -1,24 +1,24 @@
 <?php
 namespace modules\exam\widgets\violation;
 
-use modules\exam\models\ExamViolation;
+use modules\exam\models\ExamStatement;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
 
 class ExamViolationWidget extends Widget
 {
     public $view = "index";
-    public $examStatementId;
+    /* @var $examStatement ExamStatement */
+    public $examStatement;
 
     public function run()
     {
-        $query = ExamViolation::find()->andWhere(['exam_statement_id' => $this->examStatementId]);
-        $dataProvider = new ActiveDataProvider(['query'=> $query, 'pagination' => [
+        $dataProvider = new ActiveDataProvider(['query'=> $this->examStatement->getViolation(), 'pagination' => [
             'pageSize' =>  4,
         ],]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
-            'examStatementId' => $this->examStatementId,
+            'examStatement' => $this->examStatement,
         ]);
     }
 

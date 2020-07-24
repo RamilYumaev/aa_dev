@@ -47,6 +47,7 @@ class ExamViolation extends ActiveRecord
         ];
     }
 
+
     public static function labels()
     {
         $test = new static();

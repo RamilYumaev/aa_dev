@@ -4,20 +4,20 @@
 namespace modules\exam\helpers;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\entrant\helpers\CseViSelectHelper;
 use modules\entrant\models\StatementCg;
 use modules\exam\models\Exam;
-use modules\exam\models\queries\ExamQuery;
 
 class ExamCgUserHelper
 {
     private static function discipline($userId, $vi)
     {
         $viExam = CseViSelectHelper::viUser($userId);
-        $ids =StatementCg::find()->statementUserCgIdActualColumn($userId);
+        $ids =StatementCg::find()->statementUserCgIdActualColumn($userId, self::formCategory());
         if ($vi && !is_array($viExam)) {
             return false;
         }
@@ -70,5 +70,18 @@ class ExamCgUserHelper
             return Exam::find()->discipline($discipline)->all();
         }
         return false;
+    }
+
+    public static function isTimeZa()
+    {
+        return time() < strtotime(date("Y").'-09-01');
+    }
+
+
+    private  static  function formCategory()
+    {
+        return self::isTimeZa()
+            ? DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 :
+            DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ;
     }
 }

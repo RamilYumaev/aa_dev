@@ -23,6 +23,9 @@ class ExamTestReadRepository
     public function quentTests($id, $userId) {
         $testAttempt = $this->isAttempt($id, $userId);
         $this->isExamSuccess($testAttempt->user_id, $testAttempt->exam_id);
+        if ($testAttempt->isAttemptPause()) {
+            throw new \DomainException('Ваша попытка прохождения теста приостановлена. Обратитесь к проктору');
+        }
         if ($testAttempt->isAttemptEnd() || $testAttempt->end < date("Y-m-d H:i:s")) {
             throw new \DomainException('Ваша попытка прохождения теста закончена');
         }

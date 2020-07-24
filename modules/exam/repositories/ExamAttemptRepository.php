@@ -47,6 +47,10 @@ class ExamAttemptRepository extends RepositoryDeleteSaveClass
         return $model = ExamAttempt::find()->andWhere(['exam_id'=>$exam_id, 'user_id'=> $userId])->exists();
     }
 
+    public function attemptExamUser($exam_id, $userId): ? ExamAttempt
+    {
+        return $model = ExamAttempt::findOne(['exam_id'=>$exam_id, 'user_id'=> $userId]);
+    }
 
 
-}
+    }

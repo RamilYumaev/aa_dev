@@ -1,5 +1,7 @@
 <?php
 
+use modules\exam\helpers\ExamResultHelper;
+use modules\exam\models\ExamAttempt;
 use olympic\helpers\auth\ProfileHelper;
 use testing\helpers\TestResultHelper;
 use yii\helpers\Html;
@@ -14,10 +16,10 @@ use yii\helpers\Html;
     </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
-            'rowOptions' => function( \modules\exam\models\ExamAttempt $model){
-                if ((!is_null($model->mark) && is_null($model->mark)) && TestResultHelper::isPreResult($model->id)) {
+            'rowOptions' => function( ExamAttempt $model){
+                if ((!is_null($model->mark) && is_null($model->mark)) && ExamResultHelper::isPreResult($model->id)) {
                     return ['class' => 'warning'];
-                } elseif( !is_null($model->mark) && TestResultHelper::isPreResultAll($model->id)) {
+                } elseif( !is_null($model->mark) && ExamResultHelper::isPreResultAll($model->id)) {
                     return ['class' => 'warning'];
                 } else {
                     return  is_null($model->mark) ? ['class' => 'default'] :['class' => 'success'];
@@ -25,10 +27,8 @@ use yii\helpers\Html;
             },
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['attribute' => "ФИО участника",
-                    'value'=> function ($model) {
-                      return  ProfileHelper::profileFullName($model->user_id);
-                    }
+                ['attribute' => "user_id",
+                    'value'=> 'profile.fio'
                 ],
                 'start:datetime',
                 'end:datetime',

@@ -29,21 +29,25 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'rowOptions' => function(ExamStatement $model){
+                        return ['class' => 'warning'];
+                },
                 'afterRow' =>function (ExamStatement $model, $key, $index, $grid)
                     {
                         if($model->proctor_user_id) {
                         return '<tr><td colspan="2">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
-                                      Html::a('Допустить', ['exam-statement/status', 'id' => $model->id],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]).
+                            ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]) : "").
+                            ($model->statusSuccess() ? Html::a('Завершить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::END_STATUS],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите завершить?"]) : "").
                                       Html::a('BigBlueButton', $model->src_bbb,['class'=> "btn bg-purple btn-block",  'target'=>'_blank']).
-                                      Html::a('В резервный день', ['exam-statement/message', 'id' => $model->id],['data-pjax' => 'w123', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить сообщение', 'class'=> "btn btn-warning btn-block"]).
-                                      Html::a('Нарушение', ['exam-violation/create','examStatementId' => $model->id],
-                                          ['data-pjax' => 'w7', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить нарушение', 'class'=>'btn btn-danger btn-block']).
+                            (!$model->statusError() ? Html::a('В резервный день', ['exam-statement/message', 'id' => $model->id],['data-pjax' => 'w123', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить сообщение', 'class'=> "btn btn-warning btn-block"]) : "").
+                            ($model->statusSuccess() ?  Html::a('Нарушение', ['exam-violation/create','examStatementId' => $model->id],
+                                          ['data-pjax' => 'w7', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить нарушение', 'class'=>'btn btn-danger btn-block']) : "").
                                       Html::a('Просмотр', ['exam-statement/view', 'id' => $model->id],['class'=> "btn btn-info btn-block"]).
                                         '<br/> <center><span class="'.ExamStatementHelper::listStatusColor()[$model->status].'">'.$model->statusName.'</span></center>
                                            <br/> <center><span class="label label-danger">Нарушения '.$model->getViolation()->count().'</span></center>
                                             </td></tr><tr>
-                                            <td colspan="5">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id]).'</td>
+                                            <td colspan="5">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type]).'</td>
                                             </tr>';
                         }
                     },
@@ -52,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                     'attribute' => 'date',
                     'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to', \kartik\date\DatePicker::TYPE_INPUT),
-                    'format' => 'date',],
+                     'value' => 'dateView'],
 
                     [
                         'attribute' => 'exam_id',

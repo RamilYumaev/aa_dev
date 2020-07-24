@@ -1,8 +1,10 @@
 <?php
 namespace modules\exam\services;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\services\UserAisService;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
@@ -11,7 +13,10 @@ use modules\exam\forms\ExamStatementMessageForm;
 use modules\exam\helpers\ExamCgUserHelper;
 use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\Exam;
+use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamStatement;
+use modules\exam\models\ExamViolation;
+use modules\exam\repositories\ExamAttemptRepository;
 use modules\exam\repositories\ExamRepository;
 use modules\exam\repositories\ExamStatementRepository;
 
@@ -19,16 +24,19 @@ class ExamStatementService
 {
     private $repository;
     private $examRepository;
-    private  $aisService;
+    private $examAttemptRepository;
+    private $aisService;
 
-    public function __construct(ExamStatementRepository $repository, UserAisService $aisService, ExamRepository $examRepository)
+    public function __construct(ExamStatementRepository $repository, UserAisService $aisService, ExamRepository $examRepository,
+                                ExamAttemptRepository $examAttemptRepository)
     {
         $this->repository = $repository;
         $this->examRepository = $examRepository;
+        $this->examAttemptRepository = $examAttemptRepository;
         $this->aisService = $aisService;
     }
 
-    public function register($examId, $userId)
+    public function register($examId, $userId, $type)
     {
         $exam = $this->examRepository->get($examId);
         $disciplineUser = ExamCgUserHelper::disciplineExam($userId);
@@ -39,20 +47,13 @@ class ExamStatementService
         if($this->repository->getExamUserExists($exam->id, $userId)) {
             throw new \DomainException("Такая заявка на экзамен существует");
         }
-        $this->repository->save(ExamStatement::create($userId, $exam->id, $exam->date_start,0));
-    }
-
-    public function edit($id, ExamForm $form)
-    {
-        $model = $this->repository->get($id);
-        $model->data($form);
-        $model->save($model);
-    }
-
-    public function remove($id)
-    {
-        $model = $this->repository->get($id);
-        $this->repository->remove($model);
+        if($type && !$exam->date_start_reserve) {
+            throw new \DomainException("Зарегистриурйте позже, дата экзамена еще не определена");
+        }
+        if(($type && $exam->isDateReserveExamEnd()) || (!$type && $exam->isDateExamEnd())) {
+            throw new \DomainException("Экзамен закончился");
+        }
+        $this->repository->save(ExamStatement::create($userId, $exam->id, $type ? $exam->date_start_reserve : $exam->date_start, $type));
     }
 
     public function addSrc($id, ExamSrcBBBForm $form, JobEntrant $jobEntrant)
@@ -66,10 +67,19 @@ class ExamStatementService
         }
     }
 
-    public function status($id)
+    public function status($id, $status)
     {
+        $array = [ExamStatementHelper::SUCCESS_STATUS, ExamStatementHelper::END_STATUS];
         $model = $this->repository->get($id);
-        $model->setStatus(ExamStatementHelper::SUCCESS_STATUS);
+        if($model->getViolation()->count() && $status == ExamStatementHelper::END_STATUS) {
+            throw new \DomainException("Вы не можете завершить, так как имеются нарушения");
+        }
+
+        if(!in_array($status, $array)) {
+            throw new \DomainException("Можно только допустить или завершить");
+        }
+
+        $model->setStatus($status);
         $this->repository->save($model);
     }
 
@@ -81,6 +91,18 @@ class ExamStatementService
         $this->repository->save($model);
     }
 
+    public function resetViolation($id)
+    {
+        $model = $this->repository->get($id);
+        if(!$model->statusError()) {
+            throw new \DomainException('Данная заявка не имеет статуса "Нарушение"');
+        }
+        $model->setStatus(ExamStatementHelper::END_STATUS);
+        ExamViolation::deleteAll(['exam_statement_id' => $model->id]);
+        $this->repository->save($model);
+    }
+
+
     public function addReserveDate($id, ExamDateReserveForm $form, JobEntrant $jobEntrant)
     {
         $model = $this->repository->get($id);
@@ -89,10 +111,12 @@ class ExamStatementService
         $modelNew = ExamStatement::create($model->entrant_user_id, $model->exam_id,
         $form->date, ExamStatementHelper::RESERVE_TYPE);
         $this->repository->save($modelNew);
-
+        $attempt = $this->examAttemptRepository->attemptExamUser($model->exam_id, $model->entrant_user_id);
+        if($attempt) {
+            $this->examAttemptRepository->remove($attempt);
+        }
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
             $modelNew->textEmailReserve, $modelNew->urlExam);
-
 
     }
 

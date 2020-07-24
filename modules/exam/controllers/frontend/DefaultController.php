@@ -3,6 +3,8 @@
 
 namespace modules\exam\controllers\frontend;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictDiscipline;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\services\AdditionalInformationService;
 use modules\exam\behaviors\ExamRedirectBehavior;
@@ -18,6 +20,7 @@ class DefaultController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+
     }
 
 
@@ -37,7 +40,9 @@ class DefaultController extends Controller
         if($model && !$model->exam_check) {
             return $this->redirect(['consent']);
         }
-        return $this->render('index', ['examList' => ExamCgUserHelper::examList($this->getUserId())]);
+            return $this->render('index', [
+                'examList' => ExamCgUserHelper::examList($this->getUserId())]);
+
     }
 
     /**

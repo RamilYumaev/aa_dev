@@ -22,6 +22,19 @@ if(!Yii::$app->user->isGuest ) {
                         ['label' => 'Список', 'url' => ['/dictionary-module/dict-schools']],
                         ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
                     ]] : [],
+                \Yii::$app->user->can('proctor') ? ['label' => 'Заявки на экзамен',
+                    "items" => [
+                        [
+                            "label" => 'Новые заявки',
+                            "url" => ['/data-exam/exam-statement/index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => 'Мои заявки',
+                            "url" => ['/data-exam/exam-statement/my-list'],
+                            "icon" => "table",
+                        ],
+                    ]] : [],
             ]
 
         );
@@ -53,6 +66,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Абитуриенты ТД', 'url' => ['/data-entrant/default/index', 'is_id' => JobEntrantHelper::TASHKENT_BB]],
                 ['label' => 'Абитуриенты ЦиС', 'url' => ['/data-entrant/default/index', 'is_id' => JobEntrantHelper::TARGET_BB]],
                 ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
+                ['label' => 'Заявки на экзамен РД', 'url' => ['/data-exam/exam-statement/violation']],
             ]
 
         );

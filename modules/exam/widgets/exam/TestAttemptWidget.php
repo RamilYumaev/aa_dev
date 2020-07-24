@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 class TestAttemptWidget extends Widget
 {
     public $test_id;
+    public $type;
     /**
      * @var string
      */
@@ -19,7 +20,7 @@ class TestAttemptWidget extends Widget
 
     public function run()
     {
-        $query = ExamAttempt::find()->test($this->test_id)->orderByMark();
+        $query = ExamAttempt::find()->test($this->test_id)->type($this->type)->orderByMark();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
