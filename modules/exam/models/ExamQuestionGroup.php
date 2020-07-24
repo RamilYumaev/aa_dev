@@ -43,7 +43,7 @@ class ExamQuestionGroup extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Имя',
+            'name' => 'Название группы',
             'discipline_id'=> 'Дисциплина'
         ];
     }
