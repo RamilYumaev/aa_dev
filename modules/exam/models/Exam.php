@@ -94,7 +94,7 @@ class Exam extends ActiveRecord
     {
         return [
             'user_id' => "Создатель",
-            'discipline_id'=> 'Дисциплина',
+            'discipline_id'=> 'Вступительное испытание',
             'date_start' => "Дата начала экзамена",
             'date_end' => "Дата окончания экзамена",
             'time_start' => "Время начала экзамена",
