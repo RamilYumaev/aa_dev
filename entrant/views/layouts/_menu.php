@@ -63,9 +63,9 @@ if(!Yii::$app->user->isGuest ) {
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
-                ['label' => 'Экзамены', 'url' => ['/data-exam/exam/index']],
                 ['label' => 'Группы вопросов', 'url' => ['/data-exam/exam-question-group/index']],
                 ['label' => 'Вопросы', 'url' => ['/data-exam/exam-question/index']],
+                ['label' => 'Экзамены', 'url' => ['/data-exam/exam/index']],
             ]
 
         );
