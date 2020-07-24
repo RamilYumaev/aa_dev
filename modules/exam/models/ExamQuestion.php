@@ -60,7 +60,7 @@ class ExamQuestion extends ActiveRecord
             'title' => 'Заголовок',
             'text' => 'Вопрос',
             'file_type_id' => 'Загружаемый тип файла',
-            'discipline_id' => "Дисциплина",
+            'discipline_id' => "Вступительное испытание",
             'type' => 'Тип вопроса',
         ];
     }
