@@ -328,10 +328,10 @@ class AgreementHelper
                     return "Шонуса Ивана Харлампиевича";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return "Проректор";
+                    return "Проректор по социальной работе и комплексной безопасности";
                     break;
                 case self::POSITION_GENITIVE :
-                    return "проректора";
+                    return "проректора по социальной работе и комплексной безопасности";
                     break;
                 case self::FIO_SHORT :
                     return "И.Х. Шонус";
