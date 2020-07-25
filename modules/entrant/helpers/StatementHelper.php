@@ -120,7 +120,7 @@ class StatementHelper
             ->select([$value,'statement_individual_achievements.'.$column])
             ->indexBy('statement_individual_achievements.'.$column);
 
-        return ArrayHelper::map($query->all(), $column, $value);
+        return $query->column();
     }
 
     public static function columnStatementConsent($column, $value) {
