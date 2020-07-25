@@ -114,11 +114,11 @@ class StatementHelper
     }
 
 
-    public static function columnStatementIa($column, $value) {
+    public static function columnStatementIa($column, $joinW, $value) {
         $query =  (new StatementIAReadRepository(self::entrantJob()))
-            ->readData()
-            ->select('statement_individual_achievements.'.$column)
-            ->groupBy('statement_individual_achievements.'.$column);
+            ->readData()->joinWith($joinW)
+            ->select([$value,'statement_individual_achievements.'.$column])
+            ->indexBy('statement_individual_achievements.'.$column);
 
         return ArrayHelper::map($query->all(), $column, $value);
     }
