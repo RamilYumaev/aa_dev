@@ -1,5 +1,6 @@
 <?php
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -28,28 +29,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                             'attribute' => 'user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('user_id',  'profileUser.fio'), 'user_id', 'profileUser.fio'),
+                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('user_id',  'profileUser', 'CONCAT(first_name, \' \', last_name, \' \', patronymic)'), 'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
 
                     ],
                     [
                         'attribute' => 'faculty_id',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('faculty_id',  'faculty.full_name'), 'faculty_id', 'faculty.full_name'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('faculty_id',  'faculty', 'full_name'), 'faculty_id', 'faculty.full_name'),
                          'value' => 'faculty.full_name'
                     ],
                     [
                         'attribute' => 'speciality_id',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('speciality_id', 'speciality.codeWithName'), 'speciality_id',  'speciality.codeWithName'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('speciality_id', 'speciality', 'CONCAT(code, \' \', name)'), 'speciality_id',  'speciality.codeWithName'),
                          'value' => 'speciality.codeWithName'
                     ],
                     [
                         'attribute' => 'edu_level',
-                        'filter' => StatementHelper::columnStatement('edu_level',  'eduLevel'),
+                        'filter' => DictCompetitiveGroupHelper::getEduLevels(),
                         'value'=>'eduLevel',
                     ],
                     [
                         'attribute' => 'special_right',
-                        'filter' => StatementHelper::columnStatement('special_right',  'specialRight'),
+                        'filter' => DictCompetitiveGroupHelper::getSpecialRight(),
                          'value' => 'specialRight'
                     ],                    [
                         'attribute' => 'created_at',
