@@ -107,11 +107,12 @@ class StatementHelper
         return \Yii::$app->user->identity->jobEntrant();
     }
 
-    public static function columnStatement($column, $value) {
-        $query = (new StatementReadRepository(self::entrantJob()))->readData()
-            ->select('statement.'.$column)->groupBy('statement.'.$column);
-        return ArrayHelper::map($query->all(), $column, $value);
+    public static function columnStatement($column, $joinW, $value) {
+        $query = (new StatementReadRepository(self::entrantJob()))->readData()->joinWith($joinW)
+            ->select([$value,'statement.'.$column])->indexBy('statement.'.$column);
+        return  $query->column();
     }
+
 
     public static function columnStatementIa($column, $value) {
         $query =  (new StatementIAReadRepository(self::entrantJob()))
