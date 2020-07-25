@@ -1,5 +1,6 @@
 <?php
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -24,20 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                             'attribute' => 'user_id',
-                           /* 'filter' => SelectDataHelper::dataSearchModel($searchModel,
-                                StatementHelper::columnStatementIa('user_id',  'profileUser.fio'),
-                                'user_id', 'profileUser.fio'),*/
+                           'filter' => SelectDataHelper::dataSearchModel($searchModel,
+                                StatementHelper::columnStatementIa('user_id',  'profileUser', 'CONCAT(first_name, \' \', last_name, \' \', patronymic)'),
+                                'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
 
                     ],
                     [
                         'attribute' => 'edu_level',
-                      /*  'filter' => StatementHelper::columnStatementIa('edu_level',  'eduLevel'),*/
+                         'filter' => DictCompetitiveGroupHelper::getEduLevels(),
                         'value'=>'eduLevel',
                     ],
                     [
                         'attribute' => 'created_at',
-                      /*  'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),*/
+                       'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
