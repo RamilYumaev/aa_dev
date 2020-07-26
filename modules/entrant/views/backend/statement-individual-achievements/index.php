@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                             'attribute' => 'user_id',
                            'filter' => SelectDataHelper::dataSearchModel($searchModel,
-                                StatementHelper::columnStatementIa('user_id',  'profileUser', 'CONCAT(first_name, \' \', last_name, \' \', patronymic)'),
+                                StatementHelper::columnStatementIa('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)'),
                                 'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
 
