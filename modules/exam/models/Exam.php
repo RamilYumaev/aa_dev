@@ -87,7 +87,7 @@ class Exam extends ActiveRecord
     }
 
     public function examStatementUser($userId){
-        return $this->getExamStatement()->andWhere(['entrant_user_id'=> $userId])->one();
+        return $this->getExamStatement()->andWhere(['entrant_user_id'=> $userId])->all();
     }
 
     public function attributeLabels()
@@ -118,7 +118,15 @@ class Exam extends ActiveRecord
 
     public function getDateExamReserve()
     {
-        return  $this->date_start_reserve == $this->date_end_reserve ? $this->getDateValue('date_start_reserve') : $this->getDateValue('date_start_reserve').' - '.$this->getDateValue('date_end_reserve');
+        return $this->date_start_reserve ? ($this->date_start_reserve == $this->date_end_reserve ? $this->getDateValue('date_start_reserve') : $this->getDateValue('date_start_reserve').' - '.$this->getDateValue('date_end_reserve')) : "-";
+    }
+
+    public function isDateExamEnd() {
+        return time() > strtotime($this->dateTimeEndExam);
+    }
+
+    public function isDateReserveExamEnd() {
+        return time() > strtotime($this->dateTimeReserveEndExam);
     }
 
     public function getTimeExam()
@@ -130,6 +138,17 @@ class Exam extends ActiveRecord
     {
         return  $this->date_end.' '.$this->time_end;
     }
+
+    public function getDateTimeStartExam()
+    {
+        return  $this->date_start.' '.$this->time_start;
+    }
+
+    public function getDateTimeReserveStartExam()
+    {
+        return  $this->date_start_reserve.' '.$this->time_start_reserve;
+    }
+
 
     public function getDateTimeReserveEndExam()
     {

@@ -74,6 +74,40 @@ class ExamStatement extends ActiveRecord
         return ExamStatementHelper::listStatus()[$this->status];
     }
 
+    public function statusSuccess() {
+        return $this->status == ExamStatementHelper::SUCCESS_STATUS;
+    }
+
+    public function statusEnd() {
+        return $this->status == ExamStatementHelper::END_STATUS;
+    }
+
+    public function statusReserve() {
+        return $this->status == ExamStatementHelper::RESERVE_STATUS;
+    }
+
+    public function statusWalt() {
+        return $this->status == ExamStatementHelper::WALT_STATUS;
+    }
+
+    public function statusError() {
+        return $this->status == ExamStatementHelper::ERROR_RESERVE_STATUS;
+    }
+
+    public function typeReserve() {
+        return $this->type == ExamStatementHelper::RESERVE_TYPE;
+    }
+
+    public function typeZaOch() {
+        return $this->type == ExamStatementHelper::USUAL_TYPE_ZA_OCH;
+    }
+
+    public function typeOch() {
+        return $this->type == ExamStatementHelper::USUAL_TYPE_OCH;
+    }
+
+
+
     public function attributeLabels()
     {
         return [
@@ -118,13 +152,21 @@ class ExamStatement extends ActiveRecord
         return $this->hasMany(ExamViolation::class, ['exam_statement_id'=>'id']);
     }
 
+
+
     public function getTextEmailFirst(){
         return "В личном кабинете Вам назначена персональная виртуальная комната для проведения вступительного испытания 
         ".$this->exam->discipline->name.". Получить ее Вы сможете перейдя в раздел «Экзамены» по ссылке";
     }
 
+    public function getDateView() {
+        return $this->typeReserve() ? DateFormatHelper::formatView($this->date). " в ".$this->exam->time_start : DateFormatHelper::formatView($this->date);
+    }
+
+
+
     public function getTextEmailReserve(){
-        return "Вам назначена повторная попытка сдачи вступительного испытания  ".$this->exam->discipline->name.". на ".DateFormatHelper::formatView($this->date)." г. ".$this->exam->timeExam.".
+        return "Вам назначена повторная попытка сдачи вступительного испытания  ".$this->exam->discipline->name.". на ".$this->dateView.".
         Ожидайте, пожалуйста, ссылку на личную виртуальную комнату системы прокторинга МПГУ. Вы также можете увидеть ее в разделе «Экзамены» в личном кабинете поступающего в МПГУ по ссылке";
     }
 

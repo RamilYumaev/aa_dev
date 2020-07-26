@@ -50,11 +50,11 @@ class ExamAttemptController extends Controller
         $this->testRepository = $testRepository;
     }
 
-    public function actionIndex($test_id)
+    public function actionIndex($test_id, $type)
     {
         $test = $this->testRepository->get($test_id);
         return $this->render('index', [
-            'test' => $test]);
+            'test' => $test, 'type' => $type]);
     }
 
     public function actionView($id)

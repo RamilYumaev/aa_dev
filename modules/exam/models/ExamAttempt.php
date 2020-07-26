@@ -5,11 +5,10 @@ namespace modules\exam\models;
 
 
 use modules\entrant\models\AdditionalInformation;
+use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\queries\ExamAttemptQuery;
-use olympic\helpers\PersonalPresenceAttemptHelper;
-use olympic\models\OlimpicList;
+use olympic\models\auth\Profiles;
 use testing\helpers\TestAttemptHelper;
-use testing\models\queries\TestAttemptQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -116,11 +115,13 @@ class ExamAttempt extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'Пользователь',
+            'user_id' => 'Абитуриент',
             'start' => 'Начало',
             'end' => 'Окончание',
             'test_id' => 'Тест',
             'mark' => 'Результат',
+            'type' => "Тип",
+            'typeName' => "Тип"
         ];
     }
     public function  isMarkNull() {
@@ -150,12 +151,24 @@ class ExamAttempt extends ActiveRecord
         return $this->status == TestAttemptHelper::PAUSE_TEST;
     }
 
+    public function  getTypeName() {
+        return ExamStatementHelper::listTypes()[$this->type];
+    }
+
     public function  isAttemptNoEnd() {
         return $this->status == TestAttemptHelper::NO_END_TEST;
     }
 
     public function  getInformation() {
         return $this->hasOne(AdditionalInformation::class, ['user_id'=>'user_id']);
+    }
+
+    public function  getProfile() {
+        return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
+    }
+
+    public function  getTest() {
+        return $this->hasOne(ExamTest::class, ['id'=>'test_id']);
     }
 
     public static function find(): ExamAttemptQuery

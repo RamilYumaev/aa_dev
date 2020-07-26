@@ -110,18 +110,35 @@ class ExamStatementController extends Controller
 
     /**
      * @param integer $id
+     * @param integer $status
      * @return mixed
      */
-    public function actionStatus($id)
+    public function actionStatus($id, $status)
     {
         try {
-            $this->service->status($id);
+            $this->service->status($id, $status);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionResetViolation($id)
+    {
+        try {
+            $this->service->resetViolation($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
 
     /**

@@ -33,6 +33,11 @@ class ExamAttemptQuery  extends  \yii\db\ActiveQuery
         return  $this->andWhere(['test_id'=> $test]);
     }
 
+    public function type($type)
+    {
+        return  $this->andWhere(['type'=> $type]);
+    }
+
     public function user($user)
     {
         return  $this->andWhere(['user_id'=>$user]);
