@@ -107,50 +107,66 @@ class StatementHelper
         return \Yii::$app->user->identity->jobEntrant();
     }
 
-    public static function columnStatement($column, $value) {
-        $query = (new StatementReadRepository(self::entrantJob()))->readData()
-            ->select('statement.'.$column)->groupBy('statement.'.$column);
-        return ArrayHelper::map($query->all(), $column, $value);
+    public static function columnStatement($column, $joinW, $value) {
+        $query = (new StatementReadRepository(self::entrantJob()))->readData()->joinWith($joinW)
+            ->select([$value,'statement.'.$column])->indexBy('statement.'.$column);
+        return  $query->column();
     }
 
-    public static function columnStatementIa($column, $value) {
+
+    public static function columnStatementIa($column, $joinW, $value) {
         $query =  (new StatementIAReadRepository(self::entrantJob()))
-            ->readData()
-            ->select('statement_individual_achievements.'.$column)
-            ->groupBy('statement_individual_achievements.'.$column);
+            ->readData()->joinWith($joinW)
+            ->select([$value,'statement_individual_achievements.'.$column])
+            ->indexBy('statement_individual_achievements.'.$column);
 
-        return ArrayHelper::map($query->all(), $column, $value);
+        return $query->column();
     }
 
-    public static function columnStatementConsent($column, $value) {
-        return ArrayHelper::map((new StatementReadRepository(self::entrantJob()))
+    public static function columnStatementConsent($column,  $joinW, $value) {
+        return (new StatementReadRepository(self::entrantJob()))
             ->readData()
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
-            ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])
-            ->select('statement.'.$column)->groupBy('statement.'.$column)->all(), $column, $value);
+            ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])->joinWith( $joinW)
+            ->select([$value,'statement.'.$column])->indexBy('statement.'.$column)->column();
     }
 
     public static function columnStatementConsentCg($column, $value) {
-        return ArrayHelper::map((new StatementCgReadRepository(self::entrantJob()))
+        $array = [];
+        $query = (new StatementCgReadRepository(self::entrantJob()))
             ->readData()
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = statement_cg.id')
             ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])
-            ->select('statement_cg.'.$column)->groupBy('statement_cg.'.$column)->all(), $column, $value);
+            ->select($column)->indexBy($column)->all();
+        foreach ($query as $stCg) {
+            /* @var  $stCg StatementCg  */
+            $array[$stCg->{$column}] = $stCg->cg->{$value};
+        }
+        return $array;
+
     }
 
 
-    public static function columnStatementAgreement($column, $value) {
-        return ArrayHelper::map(Statement::find()->alias('statement')->statusNoDraft("statement.")
+    public static function columnStatementAgreement($column, $joinW, $value) {
+        return Statement::find()->alias('statement')->statusNoDraft("statement.")
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementAgreementContractCg::tableName() . ' consent', 'consent.statement_cg = cg.id')
-            ->select($column)->groupBy($column)->all(), $column, $value);
+            ->joinWith( $joinW)
+            ->select([$value,'statement.'.$column])->indexBy('statement.'.$column)->column();
     }
 
     public static function columnStatementAgreementCg($column, $value) {
-        return ArrayHelper::map(StatementCg::find()->alias('cg')
+        $array = [];
+        $query = StatementCg::find()->alias('cg')
             ->innerJoin(StatementAgreementContractCg::tableName() . ' contract', 'contract.statement_cg = cg.id')
-            ->select($column)->groupBy($column)->all(), $column, $value);
+            ->select($column)->indexBy($column)->all();
+        foreach ($query as $stCg) {
+            /* @var  $stCg StatementCg  */
+            $array[$stCg->{$column}] = $stCg->cg->{$value};
+        }
+        return $array;
+
     }
 
     public static function columnStatementCg($column, $value) {
