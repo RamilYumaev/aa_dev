@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => \yii\grid\SerialColumn::class],
                     [
                             'attribute' => 'statementCg.statement.user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser', 'CONCAT(first_name, \' \', last_name, \' \', patronymic)'), 'user_id', 'statementCg.statement.profileUser.fio'),
+                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)'), 'user_id', 'statementCg.statement.profileUser.fio'),
                             'value'=> 'statementCg.statement.profileUser.fio'
                     ],
                     'number',
