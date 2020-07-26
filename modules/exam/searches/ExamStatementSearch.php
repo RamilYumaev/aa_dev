@@ -2,6 +2,7 @@
 namespace modules\exam\searches;
 
 use modules\dictionary\models\JobEntrant;
+use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\ExamStatement;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -36,7 +37,9 @@ class ExamStatementSearch extends Model
         ]);
         if($this->jobEntrant && $this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere(['proctor_user_id'=> $this->jobEntrant->user_id]);
-        }else {
+        }else if($this->jobEntrant && $this->jobEntrant->isCategoryTarget()) {
+            $query->andWhere(['status'=> ExamStatementHelper::ERROR_RESERVE_STATUS]);
+        }else{
             $query->andWhere(['proctor_user_id'=> null]);
         }
 
