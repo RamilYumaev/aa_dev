@@ -139,6 +139,17 @@ class Exam extends ActiveRecord
         return  $this->date_end.' '.$this->time_end;
     }
 
+    public function getDateTimeStartExam()
+    {
+        return  $this->date_start.' '.$this->time_start;
+    }
+
+    public function getDateTimeReserveStartExam()
+    {
+        return  $this->date_start_reserve.' '.$this->time_start_reserve;
+    }
+
+
     public function getDateTimeReserveEndExam()
     {
         return  $this->date_end_reserve.' '.$this->time_end_reserve;

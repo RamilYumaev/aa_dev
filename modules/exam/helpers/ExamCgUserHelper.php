@@ -74,7 +74,7 @@ class ExamCgUserHelper
 
     public static function isTimeZa()
     {
-        return time() < strtotime(date("Y").'-09-01');
+        return time() > strtotime(date("Y").'-09-01');
     }
 
 

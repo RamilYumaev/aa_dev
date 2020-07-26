@@ -98,6 +98,15 @@ class ExamStatement extends ActiveRecord
         return $this->type == ExamStatementHelper::RESERVE_TYPE;
     }
 
+    public function typeZaOch() {
+        return $this->type == ExamStatementHelper::USUAL_TYPE_ZA_OCH;
+    }
+
+    public function typeOch() {
+        return $this->type == ExamStatementHelper::USUAL_TYPE_OCH;
+    }
+
+
 
     public function attributeLabels()
     {
@@ -142,6 +151,8 @@ class ExamStatement extends ActiveRecord
     public function getViolation() {
         return $this->hasMany(ExamViolation::class, ['exam_statement_id'=>'id']);
     }
+
+
 
     public function getTextEmailFirst(){
         return "В личном кабинете Вам назначена персональная виртуальная комната для проведения вступительного испытания 

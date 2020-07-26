@@ -75,6 +75,10 @@ class ExamStatementService
             throw new \DomainException("Вы не можете завершить, так как имеются нарушения");
         }
 
+        if($status == ExamStatementHelper::SUCCESS_STATUS) {
+           $this->isStartExam($model);
+        }
+
         if(!in_array($status, $array)) {
             throw new \DomainException("Можно только допустить или завершить");
         }
@@ -118,6 +122,18 @@ class ExamStatementService
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
             $modelNew->textEmailReserve, $modelNew->urlExam);
 
+    }
+
+    private function isStartExam(ExamStatement $examStatement) {
+        if($examStatement->typeOch() && !(time() > strtotime($examStatement->exam->dateTimeStartExam))) {
+            throw new \DomainException("Не может быть допущен раньше ".$examStatement->exam->dateTimeStartExam);
+        }
+        if($examStatement->typeZaOch() && !(time() > strtotime($examStatement->exam->dateTimeReserveStartExam))) {
+            throw new \DomainException("Не может быть допущен раньше ".$examStatement->exam->dateTimeReserveStartExam);
+        }
+        if($examStatement->typeReserve() && !(time() > strtotime($examStatement->date." ".$examStatement->exam->time_start))) {
+            throw new \DomainException("Не может быть допущен раньше ".$examStatement->date." ".$examStatement->exam->time_start);
+        }
     }
 
 }
