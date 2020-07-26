@@ -34,7 +34,7 @@ class ExamStatementController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->isCategoryCOZ()) {
+        if(!$this->jobEntrant->isCategoryCOZ() || !$this->jobEntrant->isCategoryTarget()) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {
