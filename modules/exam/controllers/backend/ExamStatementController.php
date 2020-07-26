@@ -5,6 +5,7 @@ namespace modules\exam\controllers\backend;
 
 
 use kartik\date\DatePicker;
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
@@ -34,7 +35,7 @@ class ExamStatementController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->isCategoryCOZ() || !$this->jobEntrant->isCategoryTarget()) {
+        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::isProctor())) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {
