@@ -1,5 +1,7 @@
 <?php
 
+use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\Faculty;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -13,24 +15,23 @@ use yii\helpers\Html;
 
 $this->title = "Отозванные заявления о согласии на зачисление";
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="user-index">
     <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
                     [
                             'attribute' => 'statementCg.statement.user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsent('user_id',  'profileUser.fio'), 'user_id', 'statementCg.statement.profileUser.fio'),
+                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsent('user_id',  'profileUser', 'CONCAT(first_name, \' \', last_name, \' \', patronymic)'), 'user_id', 'statementCg.statement.profileUser.fio'),
                             'value'=> 'statementCg.statement.profileUser.fio'
 
                     ],
                     [
                             'attribute' => 'cg',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsentCg('cg_id',  'cg.fullNameB'), 'cg', 'statementCg.cg.fullNameB'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementConsentCg('cg_id',  'fullNameB'), 'cg', 'statementCg.cg.fullNameB'),
                          'label' => "Конкурсная группа",
                          'value' => 'statementCg.cg.fullNameB'
                     ],

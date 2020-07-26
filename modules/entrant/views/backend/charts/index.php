@@ -13,15 +13,13 @@ $this->title = "Ход подачи документов";
 ?>
 
 
-<?php foreach ($cgs
-
-               as $key => $cg) : ?>
+<?php foreach ($cgs as $key => $cg) : ?>
     <?php if ($key % 3 == 0): ?>
         <div class="row">
     <?php endif; ?>
-    <div class="col-md-4">
-        <?= \modules\entrant\widgets\cpk\charts\ChartBarWidget::widget(['key' => $key, 'cg' => $cg]) ?>
-    </div>
+            <div class="col-md-4">
+                <?= \modules\entrant\widgets\cpk\charts\ChartBarWidget::widget(['key' => $key, 'cg' => $cg]) ?>
+            </div>
     <?php if ($key % 3 == 2): ?>
         </div>
     <?php endif; ?>
