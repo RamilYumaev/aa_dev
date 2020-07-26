@@ -117,6 +117,15 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function isProctor()
+    {
+        $array = [
+            self::COZ,
+            self::TARGET,
+        ];
+        return $array;
+    }
+
 
     public static function statusList()
     {
