@@ -3,6 +3,7 @@
 use entrant\assets\modal\ModalAsset;
 use modules\exam\helpers\ExamAttemptHelper;
 use modules\exam\helpers\ExamQuestionInTestHelper;
+use modules\exam\helpers\ExamStatementHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
@@ -35,7 +36,19 @@ ModalAsset::register($this);
                     ],
                     ['label' => "Количество попыток",
                         'format'=>'raw',
-                        'value' => Html::a(ExamAttemptHelper::count($test->id), ['exam-attempt/index', 'test_id' => $test->id]),
+                        'value' => $test->getAttempt()->count(),
+                    ],
+                    ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::USUAL_TYPE_OCH].')',
+                        'format'=>'raw',
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_OCH ]),
+                    ],
+                    ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::USUAL_TYPE_ZA_OCH].')',
+                        'format'=>'raw',
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_ZA_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_ZA_OCH ]),
+                    ],
+                    ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::RESERVE_TYPE].')',
+                        'format'=>'raw',
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::RESERVE_TYPE), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::RESERVE_TYPE ]),
                     ],
                 ],
             ]) ?>

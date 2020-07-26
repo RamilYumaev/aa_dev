@@ -1,5 +1,6 @@
 <?php
 namespace modules\exam\helpers;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\exam\models\ExamStatement;
 
 class ExamStatementHelper
@@ -31,7 +32,7 @@ class ExamStatementHelper
             self::SUCCESS_STATUS => "Допущен",
             self::ERROR_RESERVE_STATUS => "Нарушение/Резервный",
             self::END_STATUS => "Завершен",
-            self::RESERVE_STATUS => "Рассмотрен"
+            self::RESERVE_STATUS => "Перенос на резервный день"
         ];
     }
 
@@ -57,4 +58,7 @@ class ExamStatementHelper
             ->select(['CONCAT(first_name, \' \', last_name, \' \', patronymic)', 'entrant_user_id'])
             ->indexBy('entrant_user_id')->column();
     }
+
+
+
 }

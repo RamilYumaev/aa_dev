@@ -7,6 +7,7 @@ use modules\entrant\models\AdditionalInformation;
 use modules\entrant\services\AdditionalInformationService;
 use modules\exam\behaviors\ExamRedirectBehavior;
 use modules\exam\helpers\ExamCgUserHelper;
+use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\services\ExamStatementService;
 use Yii;
 use yii\filters\VerbFilter;
@@ -31,6 +32,7 @@ class ExamStatementController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'register' => ['POST'],
+                    'register-za' => ['POST'],
                 ],
             ],
         ];
@@ -43,13 +45,29 @@ class ExamStatementController extends Controller
     public function actionRegister($examId)
     {
         try {
-            $this->service->register($examId, $this->getUserId());
+            $this->service->register($examId, $this->getUserId(), ExamStatementHelper::USUAL_TYPE_OCH);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+    /**
+     * @param $examId
+     * @return mixed
+     */
+    public function actionRegisterZa($examId)
+    {
+        try {
+            $this->service->register($examId, $this->getUserId(), ExamStatementHelper::USUAL_TYPE_ZA_OCH);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
     private function getUserId()
     {

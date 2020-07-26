@@ -47,6 +47,15 @@ class ExamTest extends ActiveRecord
         return $this->hasOne(Exam::class, ['id'=>'exam_id']);
     }
 
+    public function getAttempt(){
+        return $this->hasMany(ExamAttempt::class,['test_id'=> 'id']);
+    }
+
+    public function getCountAttempt($type)
+    {
+        return $this->getAttempt()->andWhere(['type'=> $type])->count();
+    }
+
 
     public function attributeLabels()
     {

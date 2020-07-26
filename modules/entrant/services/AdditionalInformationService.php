@@ -36,6 +36,7 @@ class AdditionalInformationService
     public function examCheck(AdditionalInformation $model)
     {
         $model->setExamCheck(1);
+        $model->detachBehavior("moderation");
         $this->repository->save($model);
     }
 
