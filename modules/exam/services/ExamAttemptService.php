@@ -8,6 +8,7 @@ use common\auth\repositories\UserRepository;
 use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
 use modules\exam\helpers\ExamQuestionInTestHelper;
+use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamQuestion;
 use modules\exam\models\ExamQuestionInTest;
@@ -59,7 +60,6 @@ class ExamAttemptService
         $this->userRepository = $userRepository;
         $this->transactionManager = $transactionManager;
         $this->examStatementRepository = $examStatementRepository;
-
     }
 
     public  function createDefault($test_id) {
@@ -172,8 +172,17 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->isAttemptTestExamUser($test->id, $test->exam_id, $userId);
         $testResult  = ExamResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
         $testAttempt->setStatus(TestAttemptHelper::END_TEST);
-        $testAttempt->edit($testResult);
-        $this->testAttemptRepository->save($testAttempt);
+        $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $userId);
+        if(!$modelStatement) {
+            throw new \DomainException("Ожидайте допуск к экзамену");
+        }
+        $this->transactionManager->wrap(function () use ($testAttempt, $testResult, $modelStatement){
+            $testAttempt->edit($testResult);
+            $this->testAttemptRepository->save($testAttempt);
+            $modelStatement->setStatus($modelStatement->getViolation() ? ExamStatementHelper::ERROR_RESERVE_STATUS : ExamStatementHelper::END_STATUS);
+            $this->examStatementRepository->save($modelStatement);
+        });
+
         return $testAttempt;
     }
 

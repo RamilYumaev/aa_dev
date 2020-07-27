@@ -13,7 +13,7 @@ use yii\helpers\Html;
     <?php foreach($results as $result) : ?>
        <?= Html::a($result->priority,
             [$url, 'id'=> $result->attempt->test_id, 'page' => $result->priority],
-            ['class'=> $result->result ?'btn btn-warning': 'btn btn-default']) ?>
+            ['class'=> $result->priority == Yii::$app->request->get("page") ? 'btn btn-primary' : ($result->result ?'btn btn-warning': 'btn btn-default')]) ?>
     <?php endforeach; ?>
 </div>
 
