@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '<tr><td colspan="2">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
                             ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]) : "").
-                            ($model->statusSuccess() ? Html::a('Завершить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::END_STATUS],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите завершить?"]) : "").
+                            ($model->statusSuccess() && !$model->getViolation()->count() ? Html::a('Завершить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::END_STATUS],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите завершить?"]) : "").
                                       Html::a('BigBlueButton', $model->src_bbb,['class'=> "btn bg-purple btn-block",  'target'=>'_blank']).
                             (!$model->statusError() ? Html::a('Резервный/Нарушение', ['exam-statement/message', 'id' => $model->id],['data-pjax' => 'w123', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Добавить сообщение', 'class'=> "btn btn-warning btn-block"]) : "").
                             ($model->statusSuccess() ?  Html::a('Добавить нарушение', ['exam-violation/create','examStatementId' => $model->id],
