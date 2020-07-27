@@ -1,5 +1,6 @@
 <?php
 $date = date("Y-m-d H:i:s");
+$time = date("Y-m-d H:i:s",time() + $time);
 $script = <<<JS
 function checkTime(i) {
     if (i<10) {i = "0" + i};  // add zero in front of numbers < 10

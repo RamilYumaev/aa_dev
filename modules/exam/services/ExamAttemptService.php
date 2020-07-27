@@ -118,9 +118,13 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->get($id);
         $test = $this->testRepository->get($testAttempt->test_id);
         $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $testAttempt->user_id);
+
+        $this->isEndAttempt($testAttempt);
+
         if(!$modelStatement) {
             throw new \DomainException("Ожидайте допуск к экзамену");
         }
+
 
         $testAttempt->setStatus(TestAttemptHelper::PAUSE_TEST);
         $testAttempt->addMinute();
@@ -131,6 +135,9 @@ class ExamAttemptService
     {
         $testAttempt = $this->testAttemptRepository->get($id);
         $test = $this->testRepository->get($testAttempt->test_id);
+
+        $this->isEndAttempt($testAttempt);
+
         $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $testAttempt->user_id);
         if(!$modelStatement) {
             throw new \DomainException("Ожидайте допуск к экзамену");
@@ -185,5 +192,11 @@ class ExamAttemptService
     {
         $model = $this->testAttemptRepository->get($id);
         $this->testAttemptRepository->remove($model);
+    }
+
+    public function isEndAttempt(ExamAttempt $attempt) {
+        if ($attempt->isAttemptEnd())  {
+            throw new \DomainException("Данный экзамен завершен абитуриентом!");
+        }
     }
 }

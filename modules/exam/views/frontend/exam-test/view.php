@@ -11,6 +11,8 @@ use yii\helpers\Url;
 /* @var $models yii\data\ActiveDataProvider */
 /* @var $quent \modules\exam\models\ExamQuestion */
 /* @var $test \modules\exam\models\ExamTest */
+/* @var $attempt \modules\exam\models\ExamAttempt */
+
 
 $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
 ?>
@@ -24,7 +26,7 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                     </div>
                     <div class="col-md-4 mt-20 fs-15">
                         Оставшееся время:<br/><span
-                                class="pl-20"><?= $this->render('_time', ['time' => $time, 'url'=> $url]) ?></span>
+                                class="pl-20"><?= $this->render('_time', ['time' => $attempt->end, 'url'=> $url]) ?></span>
                     </div>
                     <div class="col-md-3 mt-30">
                         <?= Html::a("Завершить экзамен", $url,
@@ -74,4 +76,5 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
         </div>
     </div>
 </div>
+<?= \modules\exam\widgets\exam\TestResultTableWidget::widget(['attemptId'=> $attempt->id, 'urlTest' => 'exam-test/view']) ?>
 

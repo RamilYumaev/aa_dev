@@ -49,7 +49,7 @@ class ExamTestController extends Controller
             $attempt = $this->repository->isAttempt($id, $this->getUserId());
             $pages = $this->repository->pageCount($id, $this->getUserId());
             return $this->render('view', [
-                'time' => $attempt->end,
+                'attempt' => $attempt,
                 'test' => $this->find($id),
                 'pages' => $pages,
                 'models' => $this->repository->pageOffset($id, $this->getUserId()),

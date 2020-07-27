@@ -118,7 +118,7 @@ class ExamStatement extends ActiveRecord
             'id' => 'ID',
             'date' => 'Дата экзамена',
             'proctor_user_id' => 'Проктор',
-            'entrant_user_id' => 'Абиуриент',
+            'entrant_user_id' => 'Абитуриент',
             'proctorFio' => 'Проктор',
             'entrantFio' => 'Абиуриент',
             'src_bbb' => 'Ссылка BigBlueButton',
