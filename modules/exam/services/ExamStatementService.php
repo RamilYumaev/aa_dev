@@ -79,7 +79,7 @@ class ExamStatementService
             'entrant_user_id' => $model->entrant_user_id])->count();
 
         if($status == ExamStatementHelper::SUCCESS_STATUS && $count > 0) {
-            throw new \DomainException("Вы не можете допустить больше 1 экзамена");
+            throw new \DomainException("Вы не можете допустиь  абитуриента к сдаче больше 1 экзамена одновременно");
         }
 
         if($status == ExamStatementHelper::SUCCESS_STATUS) {

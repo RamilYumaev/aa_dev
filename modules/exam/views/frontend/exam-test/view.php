@@ -25,6 +25,7 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                         <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]); ?>
                     </div>
                     <div class="col-md-4 mt-20 fs-15">
+                        <?= $attempt->profile->fio ?>
                         Оставшееся время:<br/><span
                                 class="pl-20"><?= $this->render('_time', ['time' => $attempt->end, 'url'=> $url]) ?></span>
                     </div>
