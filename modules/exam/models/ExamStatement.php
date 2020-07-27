@@ -106,6 +106,10 @@ class ExamStatement extends ActiveRecord
         return $this->type == ExamStatementHelper::USUAL_TYPE_OCH;
     }
 
+    public function srcDisabled() {
+        return $this->statusError() || $this->statusReserve() || $this->statusEnd();
+    }
+
 
 
     public function attributeLabels()

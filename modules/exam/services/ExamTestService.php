@@ -39,6 +39,9 @@ class ExamTestService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if($model->getAttempt()->count()) {
+            throw new \DomainException("Вы не можете удалить тест, так как имеется попытка");
+        }
         $this->repository->remove($model);
     }
 
