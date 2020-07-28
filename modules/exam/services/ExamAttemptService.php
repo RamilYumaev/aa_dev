@@ -100,7 +100,7 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->isAttemptTestExamUser($test->id, $test->exam_id, $userId);
         if (!$testAttempt) {
             if($this->testAttemptRepository->isAttemptExamUser($test->exam_id, $userId))  {
-                throw new \DomainException("У вас есть такая попытка на данный экзамен ".$test->exam->discipline->name);
+                throw new \DomainException("У вас есть попытка на данный экзамен ".$test->exam->discipline->name);
             }
             $testAttempt = ExamAttempt::create($test->id, $modelStatement);
             $this->transactionManager->wrap(function () use ($testAttempt, $test){
@@ -179,7 +179,8 @@ class ExamAttemptService
         $this->transactionManager->wrap(function () use ($testAttempt, $testResult, $modelStatement){
             $testAttempt->edit($testResult);
             $this->testAttemptRepository->save($testAttempt);
-            $modelStatement->setStatus($modelStatement->getViolation() ? ExamStatementHelper::ERROR_RESERVE_STATUS : ExamStatementHelper::END_STATUS);
+            $modelStatement->setStatus($modelStatement->getViolation()->count() ?
+                ExamStatementHelper::ERROR_RESERVE_STATUS : ExamStatementHelper::END_STATUS);
             $this->examStatementRepository->save($modelStatement);
         });
 

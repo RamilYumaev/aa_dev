@@ -1,5 +1,5 @@
 <?php
-
+Yii::$app->session->setTimeout(86400);
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use yii\bootstrap\ActiveForm;
