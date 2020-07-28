@@ -14,6 +14,7 @@ class CseSubjectResultWidget extends Widget
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'userId' => $this->userId
         ]);
     }
 

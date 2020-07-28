@@ -5,17 +5,20 @@ namespace modules\entrant\controllers\frontend;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\behaviors\AnketaRedirectBehavior;
+use modules\entrant\forms\CseSubjectMarkForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\services\CseSubjectResultService;
 use yii\base\Model;
+use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class CseSubjectResultController extends Controller
 {
@@ -64,6 +67,37 @@ class CseSubjectResultController extends Controller
             }
         }
         return $this->render('create', [
+            'model' => $form,
+            'isKeys' => CseSubjectHelper::listSubject($this->getUserId())
+        ]);
+    }
+
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionAdd($id)
+    {
+        $model = $this->findModel($id);
+        $form = new CseSubjectMarkForm();
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->add($model->id, $form);
+                return $this->redirect(['default/cse']);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            }
+        return $this->renderAjax('_add_form', [
             'model' => $form,
             'isKeys' => CseSubjectHelper::listSubject($this->getUserId())
         ]);
