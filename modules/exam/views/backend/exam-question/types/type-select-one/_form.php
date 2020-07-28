@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 /* @var $model->question  testing\forms\question\TestQuestionForm */
 /* @var $model->answer  testing\forms\question\TestAnswerForm */
 
-QuestionSelectTypeOneAsset::register($this);
+// QuestionSelectTypeOneAsset::register($this);
 ?>
 <div class="row">
     <div class="customer-form">

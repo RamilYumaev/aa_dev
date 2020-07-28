@@ -10,7 +10,7 @@ use mihaildev\elfinder\ElFinder;
 /* @var $this yii\web\View */
 /* @var $model testing\forms\question\TestQuestionTypesForm */
 
-QuestionMatchingAsset::register($this);
+// QuestionMatchingAsset::register($this);
 
 ?>
 <div class="row">
