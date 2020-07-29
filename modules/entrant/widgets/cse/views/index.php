@@ -18,7 +18,8 @@ use modules\entrant\helpers\StatementHelper;
                 'columns' => [
                     'year',
                     ['attribute' => 'result', 'value' => 'dataResult', 'format' => 'raw'],
-                    ['class' => \yii\grid\ActionColumn::class, 'controller' => 'cse-subject-result', 'template' => StatementHelper::isStatementSend($userId) ? '{update}{link}{delete}' : '{update}{delete}' ,
+                    ['class' => \yii\grid\ActionColumn::class, 'controller' => 'cse-subject-result', 'template' => '{update}{delete}']
+                    /*['class' => \yii\grid\ActionColumn::class, 'controller' => 'cse-subject-result', 'template' => StatementHelper::isStatementSend($userId) ? '{update}{link}{delete}' : '{update}{delete}' ,
                         'buttons' => [
                             'link' => function ($url,$model) {
                                 return Html::a(
@@ -26,7 +27,7 @@ use modules\entrant\helpers\StatementHelper;
                                     ['cse-subject-result/add', 'id'=>$model->id], ['data-pjax' => 'w0',
                                         'class'=> 'btn btn-warning', 'data-toggle' => 'modal', 'data-modalTitle' =>'Добавить ЕГЭ -'.$model->year, 'data-target' => '#modal']);
                             },
-                        ]]
+                        ]]*/
                     ]
             ]) ?>
         </div>
