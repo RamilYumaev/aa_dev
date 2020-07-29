@@ -29,7 +29,7 @@ use yii\helpers\Html;
         ],
 
         ['value' => function ($model) {
-            return Html::a("Просмотр", ['default/files', 'user' => $model->user_id], ['class' => 'btn btn-info']);
+            return Html::a("Просмотр", ['data-entrant/default/files', 'user' => $model->user_id], ['class' => 'btn btn-info']);
         },
             'format' => "raw",
         ]
