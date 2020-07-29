@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
         src="<?= Yii::getAlias('@frontendInfo/instructions/_text_consent.html')?>">
 </iframe>
 <?php $form = ActiveForm::begin(['id' => 'edu', 'options' => []]); ?>
-<?= Html::checkbox("exam", false ,  ['label'=>'Я прочитал(-а) и принимаю все условия проведения дистанционного экзаменов'])?>
+<?= Html::checkbox("exam", false ,  ['label'=>' прочитал(-а) и принимаю все условия проведения 
+вступительных испытаний в МПГУ с использованием дистанционных технологий'])?>
 <div class="form-group m-10">
         <?= Html::submitButton("Принять", ['class' => 'btn btn-success']) ?>
 </div>
