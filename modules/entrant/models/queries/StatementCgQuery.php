@@ -59,11 +59,12 @@ class StatementCgQuery extends \yii\db\ActiveQuery
 
     public function statementUserLevelCg($eduLevel, $formCategory) {
         return $this
-            ->innerJoin(Statement::tableName(), 'statement.id=statement_cg.statement_id')
-            ->andWhere([ 'status_id' => null,
+            ->joinWith('statement')
+            ->andWhere(['status_id' => null,
                 'statement.edu_level'=> $eduLevel,
                 'statement.form_category'=> $formCategory,
-                'statement.status' => StatementHelper::STATUS_ACCEPTED])->select('user_id')->groupBy('user_id')->column();
+                'statement.status' => StatementHelper::STATUS_ACCEPTED])
+            ->select('user_id')->groupBy('user_id')->column();
     }
 
 
