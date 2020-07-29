@@ -38,7 +38,7 @@ class ExamCgUserHelper
     public static function disciplineLevel($userId, $eduLevel, $formCategory)
     {
         $viExam = CseViSelectHelper::viUser($userId);
-        $ids =StatementCg::find()->statementUserCgIdActualLevelColumn($userId, $eduLevel, $formCategory);
+        $ids = StatementCg::find()->statementUserCgIdActualLevelColumn($userId, $eduLevel, $formCategory);
         $query = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
