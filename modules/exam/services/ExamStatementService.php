@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\StatementCg;
 use modules\entrant\services\UserAisService;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
@@ -141,6 +142,36 @@ class ExamStatementService
         if($examStatement->typeReserve() && !(time() > strtotime($examStatement->date." ".$examStatement->exam->time_start))) {
             throw new \DomainException("Не может быть допущен раньше ".$examStatement->date." ".$examStatement->exam->time_start);
         }
+    }
+
+    public function addAllStatement($eduLevel, $formCategory) {
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
+        foreach ($users as $user) {
+            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory);
+            if(!$disciplines) {
+                continue;
+            }
+            foreach ($disciplines as $discipline) {
+                $exam = $this->examRepository->getDisciplineId($discipline);
+                if(!$exam){
+                    continue;
+                }
+                if($this->repository->getExamUserExists($exam->id, $user)) {
+                    continue;
+                }
+                if($formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 && !$exam->date_start_reserve) {
+                    continue;
+                }
+                $this->repository->save(ExamStatement::create(
+                    $user,
+                    $exam->id,
+                    $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ?
+                        $exam->date_start_reserve : $exam->date_start,
+                    $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ? 1 :0 ));
+            }
+
+        }
+
     }
 
 }

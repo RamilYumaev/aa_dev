@@ -35,6 +35,25 @@ class ExamCgUserHelper
        return $query->distinct()->column();
     }
 
+    public static function disciplineLevel($userId, $eduLevel, $formCategory)
+    {
+        $viExam = CseViSelectHelper::viUser($userId);
+        $ids =StatementCg::find()->statementUserCgIdActualLevelColumn($userId, $eduLevel, $formCategory);
+        $query = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->select(['dict_discipline.id'])
+            ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
+        if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && is_array($viExam)) {
+            $query->andWhere(['dict_discipline.id'=> $viExam ])
+                ->orWhere(['cse_subject_id' => null, 'dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
+        }
+        else {
+            $query->andWhere(['cse_subject_id' => null]);
+        }
+        return $query->distinct()->column();
+    }
+
     public static function disciplineExam($userId) {
         $viAsCSE = self::examVIAsCse($userId);
         $vi =self::examVI($userId);

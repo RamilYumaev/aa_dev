@@ -126,6 +126,22 @@ class ExamStatementController extends Controller
     }
 
     /**
+     * @param $eduLevel
+     * @param $formCategory
+     * @return mixed
+     */
+    public function actionAllStatementCreate($eduLevel, $formCategory)
+    {
+        try {
+            $this->service->addAllStatement($eduLevel, $formCategory);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      */

@@ -19,12 +19,15 @@ ModalAsset::register($this);
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::$app->controller->action->id == 'my-list' ? "Ваши заявки на экзамен" : "Новые заявки на экзамен";
-
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="user-index">
     <div class="box">
+        <div class="box-header">
+            <?php if(Yii::$app->controller->action->id == 'index' && Yii::$app->user->can('dev')): ?>
+                <?= $this->render('_buttons') ?>
+            <?php endif;?>
+        </div>
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
