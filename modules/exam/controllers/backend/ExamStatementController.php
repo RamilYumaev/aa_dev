@@ -128,12 +128,13 @@ class ExamStatementController extends Controller
     /**
      * @param $eduLevel
      * @param $formCategory
+     * @param $off
      * @return mixed
      */
-    public function actionAllStatementCreate($eduLevel, $formCategory)
+    public function actionAllStatementCreate($eduLevel, $formCategory, $off)
     {
         try {
-            $this->service->addAllStatement($eduLevel, $formCategory);
+            $this->service->addAllStatement($eduLevel, $formCategory, $off);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
