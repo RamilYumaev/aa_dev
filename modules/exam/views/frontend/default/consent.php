@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 $this->title = "Соглашение";
 
-$this->params['breadcrumbs'][] = ['label' => 'Экзмены', 'url' => ['default/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Экзамены', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <center>

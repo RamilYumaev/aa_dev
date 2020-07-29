@@ -1,6 +1,7 @@
 <?php
 
-use modules\exam\helpers\ExamCgUserHelper;use yii\bootstrap\Modal;
+use modules\exam\helpers\ExamCgUserHelper;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $examList bool | array*/
@@ -27,7 +28,7 @@ $userId = Yii::$app->user->identity->getId();
                 $examStatements = $exam->examStatementUser($userId);
                 ?>
                 <?php if (ExamCgUserHelper::isTimeZa()): ?>
-                <tr>
+                <tr class="info">
                     <td><?= $exam->discipline->name?></td>
                     <td><?= $exam->dateExamReserve ?></td>
                     <td><?= $exam->timeExamReserve ?></td>
@@ -36,7 +37,7 @@ $userId = Yii::$app->user->identity->getId();
                     </td>
                 </tr>
                 <?php else: ?>
-                <tr>
+                <tr class="info">
                     <td><?= $exam->discipline->name?></td>
                     <td><?= $exam->dateExam ?></td>
                     <td><?= $exam->timeExam ?></td>
@@ -60,17 +61,18 @@ $userId = Yii::$app->user->identity->getId();
                                 <td><?= $examStatement->dateView ?></td>
                                 <td><?= $examStatement->typeName ?></td>
                                 <td><?= $examStatement->statusName ?></td>
-                                <td> <?= $examStatement->src_bbb ? Html::a("Ссылка на кабинет",  $examStatement->src_bbb  , ["class" => "btn btn-primary", 'target'=>'_blank']) : "" ?></td>
+                                <td> <?= $examStatement->src_bbb  && !$examStatement->srcDisabled() ? Html::a("Ссылка на кабинет",  $examStatement->src_bbb  , ["class" => "btn btn-primary", 'target'=>'_blank']) : "" ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </table>
                     </td>
                 </tr>
+                <?php if($exam->getExamTest()->count()) :?>
                 <tr>
                     <td colspan="4">
                         <table class="table table-bordered">
                             <tr>
-                                <th>Наименовнаие теста</th>
+                                <th>Наименование теста</th>
                                 <th></th>
                             </tr>
                             <?php foreach ($exam->examTest as $test) :?>
@@ -83,7 +85,7 @@ $userId = Yii::$app->user->identity->getId();
                         </table>
                     </td>
                 </tr>
-            <?php endif; endforeach; ?>
+            <?php endif; endif; endforeach; ?>
         </table>
     </div>
 </div>

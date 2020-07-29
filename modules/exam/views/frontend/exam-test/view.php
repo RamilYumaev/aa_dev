@@ -1,5 +1,5 @@
 <?php
-
+Yii::$app->session->setTimeout(86400);
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use yii\bootstrap\ActiveForm;
@@ -11,20 +11,37 @@ use yii\helpers\Url;
 /* @var $models yii\data\ActiveDataProvider */
 /* @var $quent \modules\exam\models\ExamQuestion */
 /* @var $test \modules\exam\models\ExamTest */
+/* @var $attempt \modules\exam\models\ExamAttempt */
+
 
 $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
+
+
 ?>
+<style type="text/css">
+    /* Отключение возможности выделения в теге DIV */
+    .noselect {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+</style>
 <div class="container gray">
     <div class="row">
         <div class="row">
+            <center><h3><?= $attempt->profile->fio ?></h3></center>
             <div class="col-md-10 col-md-offset-1 white mt-50 dashedBlue">
                 <div class="row">
                     <div class="col-md-5 mt-10">
-                        <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]); ?>
+                        <?= \modules\exam\widgets\exam\TestResultTableWidget::widget(['attemptId'=> $attempt->id, 'urlTest' => 'exam-test/view']) ?>
+                        <?php /* \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]) */ ?>
                     </div>
                     <div class="col-md-4 mt-20 fs-15">
+
                         Оставшееся время:<br/><span
-                                class="pl-20"><?= $this->render('_time', ['time' => $time, 'url'=> $url]) ?></span>
+                                class="pl-20"><?= $this->render('_time', ['time' => $attempt->end, 'url'=> $url]) ?></span>
                     </div>
                     <div class="col-md-3 mt-30">
                         <?= Html::a("Завершить экзамен", $url,
@@ -33,7 +50,7 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                     <?php foreach ($models as $quent): ?>
                 </div>
                 <hr/>
-                <div class="row">
+                <div class="row noselect">
                     <div class="col-md-10 col-md-offset-1">
                         <?php $form = ActiveForm::begin(['id' => 'edu', 'options' => [
                             'enctype' => 'multipart/form-data']]); ?>
@@ -74,4 +91,5 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
         </div>
     </div>
 </div>
+
 

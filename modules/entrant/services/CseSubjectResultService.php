@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\services;
 
+use modules\entrant\forms\CseSubjectMarkForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\repositories\CseSubjectResultRepository;
@@ -22,6 +23,15 @@ class CseSubjectResultService
         $this->repository->save($model);
         return $model;
     }
+
+    public function add($id, CseSubjectMarkForm $form)
+    {
+        $model = $this->repository->get($id);
+        $dataUpdate = $model->dateJsonDecode() +[$form->subject_id => $form->mark];
+        $model->setResult($dataUpdate);
+        $this->repository->save($model);
+    }
+
 
     public function edit($id, CseSubjectResultForm $form)
     {

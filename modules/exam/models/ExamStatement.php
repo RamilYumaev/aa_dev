@@ -106,6 +106,10 @@ class ExamStatement extends ActiveRecord
         return $this->type == ExamStatementHelper::USUAL_TYPE_OCH;
     }
 
+    public function srcDisabled() {
+        return $this->statusError() || $this->statusReserve() || $this->statusEnd();
+    }
+
 
 
     public function attributeLabels()
@@ -114,7 +118,7 @@ class ExamStatement extends ActiveRecord
             'id' => 'ID',
             'date' => 'Дата экзамена',
             'proctor_user_id' => 'Проктор',
-            'entrant_user_id' => 'Абиуриент',
+            'entrant_user_id' => 'Абитуриент',
             'proctorFio' => 'Проктор',
             'entrantFio' => 'Абиуриент',
             'src_bbb' => 'Ссылка BigBlueButton',

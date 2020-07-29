@@ -46,7 +46,7 @@ class TestController extends Controller
             $attempt = $this->repository->isAttempt($id);
             $pages = $this->repository->pageCount($id);
             return $this->render('@modules/exam/views/backend/trail/test/view', [
-                'time' => $attempt->end,
+                'attempt'=> $attempt,
                 'test' => $this->find($id),
                 'pages' => $pages,
                 'models' => $this->repository->pageOffset($id),

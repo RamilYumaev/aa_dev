@@ -8,6 +8,7 @@ use common\auth\repositories\UserRepository;
 use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
 use modules\exam\helpers\ExamQuestionInTestHelper;
+use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamQuestion;
 use modules\exam\models\ExamQuestionInTest;
@@ -59,7 +60,6 @@ class ExamAttemptService
         $this->userRepository = $userRepository;
         $this->transactionManager = $transactionManager;
         $this->examStatementRepository = $examStatementRepository;
-
     }
 
     public  function createDefault($test_id) {
@@ -100,7 +100,7 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->isAttemptTestExamUser($test->id, $test->exam_id, $userId);
         if (!$testAttempt) {
             if($this->testAttemptRepository->isAttemptExamUser($test->exam_id, $userId))  {
-                throw new \DomainException("У вас есть такая попытка на данный экзамен ".$test->exam->discipline->name);
+                throw new \DomainException("У вас есть попытка на данный экзамен ".$test->exam->discipline->name);
             }
             $testAttempt = ExamAttempt::create($test->id, $modelStatement);
             $this->transactionManager->wrap(function () use ($testAttempt, $test){
@@ -118,9 +118,13 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->get($id);
         $test = $this->testRepository->get($testAttempt->test_id);
         $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $testAttempt->user_id);
+
+        $this->isEndAttempt($testAttempt);
+
         if(!$modelStatement) {
             throw new \DomainException("Ожидайте допуск к экзамену");
         }
+
 
         $testAttempt->setStatus(TestAttemptHelper::PAUSE_TEST);
         $testAttempt->addMinute();
@@ -131,6 +135,9 @@ class ExamAttemptService
     {
         $testAttempt = $this->testAttemptRepository->get($id);
         $test = $this->testRepository->get($testAttempt->test_id);
+
+        $this->isEndAttempt($testAttempt);
+
         $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $testAttempt->user_id);
         if(!$modelStatement) {
             throw new \DomainException("Ожидайте допуск к экзамену");
@@ -165,8 +172,18 @@ class ExamAttemptService
         $testAttempt = $this->testAttemptRepository->isAttemptTestExamUser($test->id, $test->exam_id, $userId);
         $testResult  = ExamResult::find()->where(['attempt_id'=>$testAttempt->id])->sum('mark');
         $testAttempt->setStatus(TestAttemptHelper::END_TEST);
-        $testAttempt->edit($testResult);
-        $this->testAttemptRepository->save($testAttempt);
+        $modelStatement = $this->examStatementRepository->getExamStatusSuccess($test->exam_id, $userId);
+        if(!$modelStatement) {
+            throw new \DomainException("Ожидайте допуск к экзамену");
+        }
+        $this->transactionManager->wrap(function () use ($testAttempt, $testResult, $modelStatement){
+            $testAttempt->edit($testResult);
+            $this->testAttemptRepository->save($testAttempt);
+            $modelStatement->setStatus($modelStatement->getViolation()->count() ?
+                ExamStatementHelper::ERROR_RESERVE_STATUS : ExamStatementHelper::END_STATUS);
+            $this->examStatementRepository->save($modelStatement);
+        });
+
         return $testAttempt;
     }
 
@@ -185,5 +202,11 @@ class ExamAttemptService
     {
         $model = $this->testAttemptRepository->get($id);
         $this->testAttemptRepository->remove($model);
+    }
+
+    public function isEndAttempt(ExamAttempt $attempt) {
+        if ($attempt->isAttemptEnd())  {
+            throw new \DomainException("Данный экзамен завершен абитуриентом!");
+        }
     }
 }

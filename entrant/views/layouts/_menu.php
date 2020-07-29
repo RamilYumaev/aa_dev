@@ -15,6 +15,8 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']],
+                ['label' => 'Абитуриенты c ОФ', 'url' => ['/data-entrant/default/index-file']],
+                ['label' => 'Файлы', 'url' => ['/data-entrant/file/index']],
                \Yii::$app->user->can('moderation') ? ['label' => 'Модерация', 'url' => ['/moderation']] : [],
                \Yii::$app->user->can('ticket') ? ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']] : [],
                \Yii::$app->user->can('edu_school') ? ['label' => 'Учебные организации', 'url' => '#',

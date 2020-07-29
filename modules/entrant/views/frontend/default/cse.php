@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+\frontend\assets\modal\ModalAsset::register($this);
 /* @var $this yii\web\View */
 $this->title = 'Мои результаты ЕГЭ';
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];

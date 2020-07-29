@@ -6,6 +6,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
+use modules\entrant\searches\ProfilesFileSearch;
 use modules\entrant\searches\ProfilesStatementSearch;
 use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
@@ -66,7 +67,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param integer $id
+     * @param null $type
      * @param  $is_id
      * @return mixed
      */
@@ -79,6 +80,22 @@ class DefaultController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => $type
+        ]);
+    }
+
+    /**
+     * @param null $status
+     * @return mixed
+     */
+    public function actionIndexFile()
+    {
+        $searchModel = new ProfilesFileSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index-file', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
         ]);
     }
     /**

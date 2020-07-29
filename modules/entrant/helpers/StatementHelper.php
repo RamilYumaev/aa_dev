@@ -182,4 +182,8 @@ class StatementHelper
         $statement = Statement::find()->eduLevel($eduLevel)->user($userId)->status(self::STATUS_ACCEPTED);
     }
 
+    public static function isStatementSend($userId) {
+       return Statement::find()->user($userId)->statusNoDraft()->exists();
+    }
+
 }

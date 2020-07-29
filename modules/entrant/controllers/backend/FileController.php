@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
@@ -9,6 +10,8 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\searches\FileSearch;
+use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\FileService;
 use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
@@ -58,6 +61,28 @@ class FileController extends Controller
             throw new NotFoundHttpException('Запрошенный файл не найден.');
         }
         return Yii::$app->response->sendFile($filePath);
+    }
+
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    /**
+     * @return mixed
+     */
+
+
+    public function actionIndex()
+    {
+        $searchModel = new FileSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 

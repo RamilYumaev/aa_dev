@@ -60,9 +60,9 @@ ModalAsset::register($this);
     <?php $form = ActiveForm::begin(); ?>
     <div class="box box-header">
         <?php if($test->draft()) :?>
-        <?= Html::a('Добавить вопрос', ['exam-question-in-test/add-question',
+        <?= Yii::$app->user->can("oneQuestion") ? Html::a('Добавить вопрос', ['exam-question-in-test/add-question',
             'test_id'=>$test->id,], ['data-pjax' => 'w7', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
-            'data-modalTitle' =>'Добавить вопрос', 'data-target' => '#modal']); ?>
+            'data-modalTitle' =>'Добавить вопрос', 'data-target' => '#modal']) : ""; ?>
         <?= Html::a('Добавить группу вопросов', ['exam-question-in-test/add-group',
             'test_id'=>$test->id,], ['data-pjax' => 'w6', 'class' => 'btn btn-info', 'data-toggle' => 'modal',
             'data-modalTitle' =>'Добавить группу вопросов', 'data-target' => '#modal']); ?>

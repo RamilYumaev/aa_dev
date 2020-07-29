@@ -1,5 +1,5 @@
 <?php
-
+Yii::$app->session->setTimeout(86400);
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use yii\bootstrap\ActiveForm;
@@ -12,6 +12,8 @@ use yii\helpers\Url;
 /* @var $quent testing\models\TestAndQuestions */
 /* @var $test \testing\models\Test */
 
+/* @var $attempt modules\exam\models\ExamAttempt */
+
 $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
 ?>
 <div class="container gray">
@@ -23,6 +25,9 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                         <?= \yii\widgets\LinkPager::widget(['pagination' => $pages, 'lastPageLabel'=> true, 'maxButtonCount' => 7]); ?>
                     </div>
                     <div class="col-md-4 mt-20 fs-15">
+                        Оставшееся время сессии:<br/><span
+                                class="pl-20"><?= $this->render('_time', ['time' =>  ini_get("session.gc_maxlifetime"), 'url'=> $url]) ?></span>
+
                     </div>
                     <div class="col-md-3 mt-30">
                         <?= Html::a("Завершить экзамен", $url,
@@ -74,4 +79,5 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
         </div>
     </div>
 </div>
+<?= \modules\exam\widgets\exam\TestResultTableWidget::widget(['attemptId'=> $attempt->id, 'urlTest' => 'test/view']) ?>
 

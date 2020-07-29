@@ -73,11 +73,12 @@ class ExamTestController extends Controller
         if (Model::loadMultiple($examQuestionInTest->arrayMark, Yii::$app->request->post())) {
             try {
                 $this->examQuestionInTestService->addMark($examQuestionInTest);
+                return $this->redirect(['exam/view','id'=> $model->exam_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-               return $this->redirect(['view','id'=> $model->id]);
+
         }
 
         return $this->render('view', [

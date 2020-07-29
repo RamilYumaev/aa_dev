@@ -75,6 +75,13 @@ class ExamStatementService
             throw new \DomainException("Вы не можете завершить, так как имеются нарушения");
         }
 
+        $count = ExamStatement::find()->where(['status' => ExamStatementHelper::SUCCESS_STATUS,
+            'entrant_user_id' => $model->entrant_user_id])->count();
+
+        if($status == ExamStatementHelper::SUCCESS_STATUS && $count > 0) {
+            throw new \DomainException("Вы не можете допустиь  абитуриента к сдаче больше 1 экзамена одновременно");
+        }
+
         if($status == ExamStatementHelper::SUCCESS_STATUS) {
            $this->isStartExam($model);
         }
