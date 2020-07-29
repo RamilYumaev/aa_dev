@@ -21,6 +21,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\readRepositories\FileReadCozRepository;
 use Yii;
 
 class FileHelper
@@ -76,6 +77,16 @@ class FileHelper
         ];
     }
 
+    public static function listModelsCOZ() {
+        return [
+            DocumentEducation::class,
+            PassportData::class,
+            Address::class,
+            OtherDocument::class,
+            StatementConsentPersonalData::class
+        ];
+    }
+
     public static function validateModel($hash){
         foreach(self::listModels() as  $model) {
           if(Yii::$app->getSecurity()->decryptByKey($hash, $model)) {
@@ -126,5 +137,36 @@ class FileHelper
             ReceiptContract::class => "receipt-contract"
         ];
     }
+
+    public static function listName() {
+        return [
+            DocumentEducation::class => "Документ об образовании",
+            PassportData::class => "Паспортные даннные",
+            Address::class => "Адрес",
+            OtherDocument::class => "Прочие документы",
+            Agreement::class => "Целевые договора",
+            PersonalEntity::class=>"Данные заказчика (Ф)",
+            LegalEntity::class=>"Данные заказчика (Ю)",
+            StatementIndividualAchievements::class => "Индивидуальные достижения",
+            Statement::class => "ЗУК",
+            StatementConsentPersonalData::class => "Персональные данные",
+            StatementConsentCg::class => "ЗОС",
+            StatementRejection::class =>'Отзыв ЗУК',
+            StatementRejectionCgConsent::class => "Отзыв ЗОС",
+            StatementAgreementContractCg::class=> 'Договор',
+            StatementRejectionCg::class =>'Отзыв КГ',
+            ReceiptContract::class => "Квитанция"
+        ];
+    }
+
+    public static function entrantJob() {
+        return \Yii::$app->user->identity->jobEntrant();
+    }
+
+    public static function columnFioFile() {
+        return (new FileReadCozRepository(self::entrantJob()))
+            ->readData()->joinWith('profileUser')->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)','files.user_id'])->indexBy('files.user_id')->column();
+    }
+
 
 }

@@ -11,6 +11,7 @@ use dictionary\helpers\DictRegionHelper;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\File;
 use modules\entrant\models\Statement;
 use modules\entrant\models\UserAis;
 use olympic\forms\auth\ProfileCreateForm;
@@ -132,6 +133,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function getAis()
     {
         return $this->hasOne(UserAis::class, ['user_id' => 'user_id']);
+    }
+
+    public function getFile()
+    {
+        return $this->hasMany(File::class, ['user_id' => 'user_id']);
     }
 
     public function getStatement()
