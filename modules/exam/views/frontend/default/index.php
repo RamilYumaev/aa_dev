@@ -95,4 +95,3 @@ $userId = Yii::$app->user->identity->getId();
 <?php Modal::begin(['id'=>'modal', 'size'=> Modal::SIZE_LARGE, 'header' => "<h4 id='header-h4'></h4>", 'clientOptions' => ['backdrop' => false]]);
 echo "<div id='modalContent'></div>";
 Modal::end()?>
-<?php var_dump( StatementCg::find()->statementUserLevelCg(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1)); ?>

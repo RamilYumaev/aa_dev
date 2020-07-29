@@ -144,8 +144,8 @@ class ExamStatementService
         }
     }
 
-    public function addAllStatement($eduLevel, $formCategory) {
-        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
+    public function addAllStatement($eduLevel, $formCategory, $off) {
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory, $off);
         foreach ($users as $user) {
             $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory);
             if(!$disciplines) {
