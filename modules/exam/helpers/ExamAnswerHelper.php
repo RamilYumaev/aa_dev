@@ -21,8 +21,8 @@ class ExamAnswerHelper
     }
 
     public static function answerNameOne($id): ? string
-    {
-        return ExamAnswer::findOne($id)->name;
+    { $answer = ExamAnswer::findOne($id);
+        return  $answer ? $answer->name : null ;
     }
 
     public static function answerNameAll($ids)

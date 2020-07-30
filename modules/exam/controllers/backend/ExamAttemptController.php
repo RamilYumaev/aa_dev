@@ -69,13 +69,14 @@ class ExamAttemptController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $type = $model->type;
         try {
             $this->service->remove($id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['index', 'test_id' => $model->test_id]);
+        return $this->redirect(['index', 'test_id' => $model->test_id, 'type'=> $type]);
     }
 
     public function actionUpdateTestResult($testId)

@@ -57,5 +57,10 @@ class ExamQuestionNested extends ActiveRecord
         return $test->attributeLabels();
     }
 
+    public function getAnswer(){
+        return $this->hasMany(ExamAnswerNested::class, ['question_nested_id' => 'id']);
+    }
+
+
 
 }

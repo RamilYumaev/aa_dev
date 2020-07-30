@@ -15,6 +15,7 @@ use modules\exam\models\ExamQuestionInTest;
 use modules\exam\models\ExamResult;
 use modules\exam\models\ExamTest;
 use modules\exam\repositories\ExamAttemptRepository;
+use modules\exam\repositories\ExamQuestionRepository;
 use modules\exam\repositories\ExamResultRepository;
 use modules\exam\repositories\ExamStatementRepository;
 use modules\exam\repositories\ExamTestRepository;
@@ -153,10 +154,16 @@ class ExamAttemptService
             ->orderBy($test->random_order ? new Expression('rand()') : ['id'=>SORT_ASC])->all();
         foreach ($testAndQuestions as $index => $value) {
             if ($value->question_group_id) {
-                $que = $this->randQuestionsFromGroup($value->question_group_id)->id;
+                $question= $this->randQuestionsFromGroup($value->question_group_id);
+                if(!$question) {
+                    throw new \DomainException("Не найден вопрос к группе ".$value->questionGroup->name);
+                }
+                $que = $question->id;
             } else {
                 $que = $value->question_id;
             }
+
+
             $examResult = ExamResult::create($attempt_id, $que, ++$index, $value->id);
             $this->testResultRepository->save($examResult);
         }

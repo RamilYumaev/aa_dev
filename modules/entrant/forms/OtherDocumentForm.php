@@ -87,7 +87,7 @@ class OtherDocumentForm extends Model
             return $this->typesDocument;
         }
         return [
-            DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
+            /* DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ, */
             DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
             DictIncomingDocumentTypeHelper::TYPE_OTHER
         ];

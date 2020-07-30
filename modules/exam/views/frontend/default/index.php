@@ -19,6 +19,7 @@ $userId = Yii::$app->user->identity->getId();
 <div class="container">
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
+
         <table class="table">
             <tr>
                 <th>Наименование</th>
