@@ -57,7 +57,7 @@ class DefaultController extends Controller
         if (Yii::$app->request->post()) {
             $exam = Yii::$app->request->post('exam');
             if(!$exam) {
-                Yii::$app->session->setFlash("warning", 'Вы не поставили птичку');
+                Yii::$app->session->setFlash("warning", 'Вы не согласились с условиями проведения вступительных испытаний');
                 return $this->redirect(Yii::$app->request->referrer);
             } else {
                 try {
