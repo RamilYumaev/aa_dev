@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         if($model->proctor_user_id) {
                         return '<tr><td colspan="2">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
+                            $model->profileEntrant->phone.'<br/>'.
                             ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]) : "").
                             ($model->statusSuccess() && !$model->getViolation()->count() ? Html::a('Завершить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::END_STATUS],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите завершить?"]) : "").
                             ($model->statusWalt() ? Html::a('Редактировать BigBlueButton', ['exam-statement/src', 'id' => $model->id],
