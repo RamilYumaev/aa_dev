@@ -12,11 +12,11 @@ use yii\helpers\Html; ?>
 <div>
     <?= $text ?>: <?= Html::a(Html::encode($url), $url) ?>,предварительно авторизовавшись в личном кабинете поступающего в МПГУ. <br />
         Начать экзамен рекомендуем в 10:00 по МСК. Предварительно необходимо пройти процедуру индентификации и допуска к экзамену. Начать идентификацию рекомендуем с 9:30 по МСК.  <br />
-    Подробнее о прохождении дистанционного экзамена Вы можете узнать по ссылке на инструкцию : <?= Html::a(Html::encode('https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit'), 'https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit') ?>
-        или просмотрев виде-инструкцию  <?= Html::a(Html::encode('https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be'), 'https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be') ?> <br />
+    Подробнее о прохождении дистанционного вступительного экзамена Вы можете узнать по ссылке на инструкцию : <?= Html::a(Html::encode('https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit'), 'https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit') ?>
+        или просмотрев видео-инструкцию  <?= Html::a(Html::encode('https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be'), 'https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be') ?> <br />
 
         Телефоны для связи с прокторами: <br />
-        84994000248 добавочные, номера: 691, 625, 659 и 692, 640, 657 и 658. <br />
+        84994000248 добавочные номера: 691, 625, 659, 692, 640, 657, 658. <br />
 
         Техническая поддержка: <br />
         support_priem@mpgu.edu <br />
