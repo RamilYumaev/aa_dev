@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
     <div class="box">
         <div class="box-header">
-            <?php if(Yii::$app->controller->action->id == 'index'): ?>
+            <?php if(Yii::$app->controller->action->id == 'index' && Yii::$app->user->can('dev')): ?>
                 <?= $this->render('_buttons') ?>
             <?php endif;?>
         </div>
