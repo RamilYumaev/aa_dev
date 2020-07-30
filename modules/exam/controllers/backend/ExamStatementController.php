@@ -74,10 +74,10 @@ class ExamStatementController extends Controller
         \moonland\phpexcel\Excel::widget([
             'asAttachment'=>true,
             'fileName' => date('d-m-Y H-i-s').' file',
-            'models' => ExamStatement::find()->andWhere(['date'=>$date])->andWhere(['is not','proctor_user_id', null])->all(),
+            'models' => ExamStatement::find()->andWhere(['date'=>$date])->andWhere(['is','proctor_user_id', null])->all(),
             'mode' => 'export', //default value as 'export'
-            'columns' => ['entrantFio'], //without header working, because the header will be get label from attribute label.
-            'headers' => ['entrantFio' => "Абитуриент", 'Проктор' ],
+            'columns' => ['entrantFio', 'exam.discipline.name'], //without header working, because the header will be get label from attribute label.
+            'headers' => ['entrantFio' => "Абитуриент", 'exam.discipline.name'=> "Наименование экзамена" ],
         ]);
     }
 
