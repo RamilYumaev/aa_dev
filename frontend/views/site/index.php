@@ -6,7 +6,7 @@ use yii\helpers\Html;
 $this->title = 'Личный кабинет поступающего в МПГУ';
 ?>
 
-<?php if (ExamCgUserHelper::examExists(Yii::$app->user->identity->getId())) : ?>
+<?php if (!Yii::$app->user->isGuest && ExamCgUserHelper::examExists(Yii::$app->user->identity->getId())) : ?>
     <div class="row mt-30">
         <div class="col-md-2 col-md-offset-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
