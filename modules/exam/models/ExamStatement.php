@@ -160,7 +160,7 @@ class ExamStatement extends ActiveRecord
 
     public function getTextEmailFirst(){
         return "В личном кабинете Вам назначена персональная виртуальная комната для проведения вступительного испытания 
-        ".$this->exam->discipline->name.". Получить ее Вы сможете перейдя в раздел «Экзамены» по ссылке";
+        ".$this->exam->discipline->name.". Получить доступ для прохождения Вы сможете". DateFormatHelper::formatView($this->date).", перейдя в раздел «Экзамены» по ссылке:";
     }
 
     public function getDateView() {
