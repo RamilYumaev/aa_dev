@@ -5,6 +5,8 @@ namespace modules\exam\controllers\backend;
 
 
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\PdfHelper;
 use modules\exam\forms\ExamForm;
 use modules\exam\forms\ExamQuestionGroupForm;
 use modules\exam\forms\question\ExamQuestionForm;
@@ -87,6 +89,28 @@ class ExamQuestionController extends Controller
             'exam' => $exam
         ]);
     }
+
+    /**
+     * @param integer $discipline_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionPdf($discipline_id)
+    {
+        $questions = ExamQuestion::find()->andWhere(['discipline_id' => $discipline_id])->all();
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('pdf/main', ["questions" => $questions]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
+        $render = $pdf->render();
+        return $render;
+    }
+
+
 
     /**
      * @param $type

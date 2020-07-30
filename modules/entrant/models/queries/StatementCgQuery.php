@@ -64,9 +64,8 @@ class StatementCgQuery extends \yii\db\ActiveQuery
                 'statement.edu_level'=> $eduLevel,
                 'statement.form_category'=> $formCategory,
                 'statement.status' => StatementHelper::STATUS_ACCEPTED])
-            ->select('user_id')->groupBy('user_id')->limit(50)->offset($offset)->column();
+            ->select('user_id')->groupBy('user_id')->limit(500)->offset($offset)->column();
     }
-
 
 
 

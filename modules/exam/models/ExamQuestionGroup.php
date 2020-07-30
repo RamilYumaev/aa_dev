@@ -38,6 +38,9 @@ class ExamQuestionGroup extends ActiveRecord
         return $this->hasOne(DictDiscipline::class, ['id'=>'discipline_id']);
     }
 
+    public function getQuestion(){
+        return $this->hasMany(ExamQuestion::class, ['question_group_id'=>'id']);
+    }
 
     public function attributeLabels()
     {

@@ -53,9 +53,9 @@ class ProfileFileReadRepository
                 ->indexBy("other_document.user_id")->column()]);
         $query->innerJoin(File::tableName(), 'files.user_id=profiles.user_id');
         $query->andWhere(['files.model'=> FileHelper::listModelsCOZ()]);
-        $query->select(['statement.user_id', 'files.updated_at', 'files.status',  'last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone']);
+        $query->select(['profiles.user_id', 'files.status',  'last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone']);
         $query->andWhere(['files.status' => FileHelper::STATUS_NO_ACCEPTED]);
-        $query->orderBy(['files.updated_at' => SORT_DESC]);
+        $query->orderBy(['profiles.user_id' => SORT_DESC]);
         $query->distinct();
         return $query;
     }

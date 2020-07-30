@@ -38,6 +38,9 @@ class DictCountryHelper
 
     public static function countryName($key): ?string
     {
-        return ArrayHelper::getValue(self::countryList(), $key);
+        if(!is_float($key)) {
+            return ArrayHelper::getValue(self::countryList(), $key);
+        }
+        return  null;
     }
 }

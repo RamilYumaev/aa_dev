@@ -65,9 +65,18 @@ class ExamQuestion extends ActiveRecord
         ];
     }
 
+    public function isNestedType() {
+        return $this->type_id == ExamQuestionHelper::TYPE_CLOZE;
+    }
+
     public function getAnswer () {
         return $this->hasMany(ExamAnswer::class, ['question_id' => "id"]);
     }
+
+    public function getQuestionNested () {
+        return $this->hasMany(ExamQuestionNested::class, ['question_id' => "id"]);
+    }
+
 
     public function getAnswerCorrect () {
         return $this->getAnswer()->andWhere( ['is_correct' => true]);

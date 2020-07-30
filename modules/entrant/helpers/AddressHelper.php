@@ -30,7 +30,10 @@ class AddressHelper
 
     public static function typeName($type): ? string
     {
-        return ArrayHelper::getValue(self::typeOfAddress(), $type);
+        if(!is_float($type)) {
+            return ArrayHelper::getValue(self::typeOfAddress(), $type);
+        }
+        return null;
     }
 
     public static function isExits($user_id): bool

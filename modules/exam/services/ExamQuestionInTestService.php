@@ -3,7 +3,6 @@ namespace modules\exam\services;
 
 use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
-use modules\exam\forms\ExamQuestionGroupForm;
 use modules\exam\forms\ExamQuestionInTestForm;
 use modules\exam\forms\ExamQuestionInTestTableMarkForm;
 use modules\exam\models\ExamQuestionGroup;
@@ -59,6 +58,10 @@ class ExamQuestionInTestService
                 throw new \DomainException('Группа вопросов  "'. $question_group_id->name . '" уже используется');
                 continue;
             }
+            if(!$question_group_id->getQuestion()->count()) {
+                throw new \DomainException('Отсутсвуют вопросы к группе "'. $question_group_id->name . '"');
+            }
+
             $exam = ExamQuestionInTest::create($question_group_id->id, null, $test->id);
             $this->repository->save($exam);
         }
