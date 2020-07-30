@@ -7,6 +7,8 @@ namespace modules\exam\controllers\backend;
 use kartik\date\DatePicker;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\AisReturnDataHelper;
+use modules\entrant\readRepositories\ProfileStatementReadRepository;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
 use modules\exam\forms\ExamSrcBBBForm;
@@ -62,6 +64,20 @@ class ExamStatementController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+    public function actionExcel($date)
+    {
+        \moonland\phpexcel\Excel::widget([
+            'asAttachment'=>true,
+            'fileName' => date('d-m-Y H-i-s').' file',
+            'models' => ExamStatement::find()->andWhere(['date'=>$date])->andWhere(['is not','proctor_user_id', null])->all(),
+            'mode' => 'export', //default value as 'export'
+            'columns' => ['entrantFio'], //without header working, because the header will be get label from attribute label.
+            'headers' => ['entrantFio' => "Абитуриент", 'Проктор' ],
         ]);
     }
 
