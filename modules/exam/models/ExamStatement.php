@@ -178,4 +178,9 @@ class ExamStatement extends ActiveRecord
         return Url::to('@frontendInfo/exam/default/index', true);
     }
 
+    public function setProctor($proctor)
+    {
+        $this->proctor_user_id = $proctor;
+    }
+
 }

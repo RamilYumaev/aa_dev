@@ -36,8 +36,13 @@ if(!Yii::$app->user->isGuest ) {
                             "url" => ['/data-exam/exam-statement/my-list'],
                             "icon" => "table",
                         ],
+                        \Yii::$app->user->can('proctor-admin') ? [
+                            "label" => 'Заявки с прокторами',
+                            "url" => ['/data-exam/exam-statement/index-admin'],
+                            "icon" => "table",
+                        ] : [],
                     ]] : [],
-            ]
+          ]
 
         );
     }  elseif($jobEntrant && $jobEntrant->isAgreement()) {
