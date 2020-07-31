@@ -55,10 +55,8 @@ class ExamStatementHelper
 
     public static function proctorList() {
         return ExamStatement::find()->joinWith('profileProctor')
-            ->select(['CONCAT(last_name, \' \', first_name,  \' \', patronymic)', 'entrant_user_id'])
-            ->indexBy('entrant_user_id')->column();
+            ->select(['CONCAT(last_name, \' \', first_name,  \' \', patronymic)', 'proctor_user_id'])
+            ->indexBy('proctor_user_id')->column();
     }
-
-
 
 }

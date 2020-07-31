@@ -11,6 +11,7 @@ use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
 use modules\exam\forms\ExamSrcBBBForm;
 use modules\exam\forms\ExamStatementMessageForm;
+use modules\exam\forms\ExamStatementProctorForm;
 use modules\exam\helpers\ExamCgUserHelper;
 use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\Exam;
@@ -172,6 +173,13 @@ class ExamStatementService
 
         }
 
+    }
+
+    public function updateProctor($id, ExamStatementProctorForm $form)
+    {
+        $model = $this->repository->get($id);
+        $model->setProctor($form->proctor_user_id);
+        $this->repository->save($model);
     }
 
 }

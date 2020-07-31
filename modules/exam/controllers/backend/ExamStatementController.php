@@ -13,9 +13,11 @@ use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
 use modules\exam\forms\ExamSrcBBBForm;
 use modules\exam\forms\ExamStatementMessageForm;
+use modules\exam\forms\ExamStatementProctorForm;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamStatement;
 use modules\exam\searches\ExamSearch;
+use modules\exam\searches\ExamStatementAdminSearch;
 use modules\exam\searches\ExamStatementSearch;
 use modules\exam\services\ExamStatementService;
 use yii\base\ExitException;
@@ -104,6 +106,20 @@ class ExamStatementController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index-bb', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function actionIndexAdmin()
+    {
+        $searchModel = new ExamStatementAdminSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index-admin', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -200,6 +216,34 @@ class ExamStatementController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         }
         return $this->renderAjax('message', [
+            'model' => $form,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionUpdateProctor($id)
+    {
+        $model = $this->findModel($id);
+        $form = new ExamStatementProctorForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->updateProctor($model->id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('update-proctor', [
             'model' => $form,
         ]);
     }
