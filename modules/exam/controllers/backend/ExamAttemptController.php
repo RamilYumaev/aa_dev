@@ -87,7 +87,7 @@ class ExamAttemptController extends Controller
 
         foreach ($incompleteAttempts as $attempt) {
             $testResult = ExamResult::find()->where(['attempt_id' => $attempt->id])->sum('mark');
-            $attempt->seStatus(TestAttemptHelper::END_TEST);
+            $attempt->setStatus(TestAttemptHelper::END_TEST);
             $attempt->edit($testResult);
             if (!$attempt->save()) {
                 $error = Json::encode($attempt->errors);
