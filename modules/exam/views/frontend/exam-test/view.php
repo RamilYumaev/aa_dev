@@ -1,5 +1,4 @@
 <?php
-Yii::$app->session->setTimeout(86400);
 use yii\helpers\Html;
 use testing\helpers\TestQuestionHelper;
 use yii\bootstrap\ActiveForm;
@@ -91,5 +90,6 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
         </div>
     </div>
 </div>
+
 
 
