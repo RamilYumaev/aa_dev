@@ -6,7 +6,8 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+/* @var  $attempt  \modules\exam\models\ExamAttempt */
+$s = $attempt->test->exam->discipline_id == 22;
 ?>
 <div class="box box-default">
     <div class="box box-header">
@@ -27,8 +28,7 @@ use yii\helpers\Html;
             'columns' => [
                ['attribute'=>'question_id',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
-                'updated:datetime',
-                'mark',
+                $s ? 'mark' : 'updated:datetime',
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update}',
                     'controller' => 'exam-result',

@@ -32,7 +32,7 @@ use yii\helpers\Html;
                 ],
                 'start:datetime',
                 'end:datetime',
-                'mark',
+               // 'mark',
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => !\common\auth\helpers\UserHelper::isManagerOlympic()  ?'{view}' : '{view}' ,
                     'controller' => 'exam-attempt',

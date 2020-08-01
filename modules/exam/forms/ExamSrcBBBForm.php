@@ -7,11 +7,14 @@ use yii\base\Model;
 
 class ExamSrcBBBForm extends Model
 {
-    public $src_bbb;
+    public $src_bbb, $time, $voz;
+    public $exam_st;
 
     public function __construct(ExamStatement $examStatement, $config = [])
     {
         $this->setAttributes($examStatement->getAttributes(), false);
+        $this->exam_st = $examStatement;
+        $this->voz = $examStatement->information->voz_id ? true : false;
         parent::__construct($config);
     }
 
@@ -23,8 +26,9 @@ class ExamSrcBBBForm extends Model
     {
         return [
             ['src_bbb', 'string', 'max'=>255],
-            ['src_bbb', 'required'],
-            ['src_bbb', 'unique', 'targetClass'=> ExamStatement::class],
+            ['time', 'string', 'max'=>5],
+            [['src_bbb','time'], 'required'],
+           $this->exam_st->src_bbb ? ['src_bbb', 'unique', 'filter'=> ['<>', 'id', $this->exam_st->id], 'targetClass'=> ExamStatement::class] : ['src_bbb', 'unique', 'targetClass'=> ExamStatement::class],
         ];
     }
 
@@ -34,6 +38,7 @@ class ExamSrcBBBForm extends Model
 
     public function attributeLabels()
     {
-       return [ 'src_bbb' => 'Ссылка BigBlueButton',];
+       return [ 'src_bbb' => 'Ссылка BigBlueButton',
+           'time' => 'Время начала',];
     }
 }

@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'afterRow' =>function (ExamStatement $model, $key, $index, $grid)
                     {
                         if($model->proctor_user_id) {
-                        return '<tr><td colspan="2">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
+                        return '<tr><td colspan="3">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
                             $model->profileEntrant->phone.'<br/>'.
                             ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]) : "").
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         '<br/> <center><span class="'.ExamStatementHelper::listStatusColor()[$model->status].'">'.$model->statusName.'</span></center>
                                            <br/> <center><span class="label label-danger">Нарушения '.$model->getViolation()->count().'</span></center>
                                             </td></tr><tr>
-                                            <td colspan="5">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type]).'</td>
+                                            <td colspan="6">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type]).'</td>
                                             </tr>';
                         }
                     },
@@ -63,6 +63,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'date',
                     'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to', \kartik\date\DatePicker::TYPE_INPUT),
                      'value' => 'dateView'],
+
+                    [
+                        'attribute' => 'time',
+                        'filter' => ExamStatementHelper::timeList(),
+                        'value' => 'time'],
 
                     [
                         'attribute' => 'exam_id',

@@ -18,6 +18,19 @@ $this->params['breadcrumbs'][] = ['label' => "Попытки ".$attempt->typeNam
 
 $this->params['breadcrumbs'][] = $this->title;
 ModalAsset::register($this);
+
+$column = [
+        ['attribute' => 'user_id',
+            'value' => $attempt->profile->fio,
+        ],
+        'start:datetime',
+        'end:datetime',
+        'typeName',
+         'mark',
+];
+if ($attempt->test->exam->discipline_id !== 22) {
+    unset($column[4]);
+}
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -29,15 +42,7 @@ ModalAsset::register($this);
             <div class="box-body">
                 <?= DetailView::widget([
                     'model' => $attempt,
-                    'attributes' => [
-                        ['attribute' => 'user_id',
-                            'value' => $attempt->profile->fio,
-                            ],
-                        'start:datetime',
-                        'end:datetime',
-                        'mark',
-                        'typeName',
-                    ],
+                    'attributes' => $column,
                 ]) ?>
             </div>
         </div>
@@ -46,7 +51,7 @@ ModalAsset::register($this);
 
 <div class="row">
     <div class="col-md-12">
-        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt_id'=>$attempt->id]) ?>
+        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt'=>$attempt]) ?>
     </div>
 </div>
 

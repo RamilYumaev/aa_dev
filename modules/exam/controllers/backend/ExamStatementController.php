@@ -70,13 +70,12 @@ class ExamStatementController extends Controller
     }
 
 
-
-    public function actionExcel($date, $off)
+    public function actionExcel($date, $off=0)
     {
         \moonland\phpexcel\Excel::widget([
             'asAttachment'=>true,
-            'fileName' => date('d-m-Y H-i-s').' file',
-            'models' => ExamStatement::find()->andWhere(['date'=>$date])->andWhere(['is','proctor_user_id', null])->limit(500)->offset($off)->all(),
+            'fileName' => date('d-m-Y H-i-s')."-".$off,
+            'models' => ExamStatement::find()->andWhere(['date'=>$date])->andWhere(['is','proctor_user_id', null])->limit(250)->offset($off)->all(),
             'mode' => 'export', //default value as 'export'
             'columns' => ['entrantFio', 'exam.discipline.name'], //without header working, because the header will be get label from attribute label.
             'headers' => ['entrantFio' => "Абитуриент", 'exam.discipline.name'=> "Наименование экзамена" ],

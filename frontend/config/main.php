@@ -81,6 +81,7 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
+            'savePath'=> '@frontend/runtime/session',
             'cookieParams' => ['httponly' => true, 'lifetime' => 86400],
             'timeout' => 86400, //session expire
             'useCookies' => true,

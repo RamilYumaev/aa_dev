@@ -4,12 +4,13 @@
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $text string */
+/* @var $time string */
 /* @var $url string */
  ?>
 <?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
 
-<?= $text ?>: <?=$url ?>,предварительно авторизовавшись в личном кабинете поступающего в МПГУ.
-    Начать экзамен рекомендуем в 10:00 по МСК. Предварительно необходимо пройти процедуру индентификации и допуска к экзамену. Начать идентификацию рекомендуем с 9:30 по МСК.
+<?= $text ?> <?=$url ?>,предварительно авторизовавшись в личном кабинете поступающего в МПГУ.
+    Начать экзамен рекомендуем в <?= $time ?> по МСК. Предварительно необходимо пройти процедуру индентификации и допуска к экзамену. Начать идентификацию рекомендуем за полчаса до начала экзамена.
     Подробнее о прохождении дистанционного вступительного испытания Вы можете узнать по ссылке на инструкцию https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit
     или просмотрев видео-инструкцию https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be (https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be)
 
