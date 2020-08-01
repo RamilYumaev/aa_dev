@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'date',
                     'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to', \kartik\date\DatePicker::TYPE_INPUT),
                     'format' => 'date',],
+                    [
+                        'attribute' => 'time',
+                        'filter' => ExamStatementHelper::timeList(),
+                        'value' => 'time'],
 
                     [
                         'attribute' => 'exam_id',

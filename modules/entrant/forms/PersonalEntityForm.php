@@ -59,8 +59,8 @@ class PersonalEntityForm extends Model
             [['date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
             [['date_of_issue'], MaxDateValidate::class],
             [['phone'], 'string', 'max' => 25],
-            $this->uniqueRules(),
-            $this->uniquePhone(),
+           // $this->uniqueRules(),
+           // $this->uniquePhone(),
             [['phone'], PhoneInputValidator::class],
         ];
     }

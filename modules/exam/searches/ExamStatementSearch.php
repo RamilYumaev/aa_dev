@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 
 class ExamStatementSearch extends Model
 {
-    public $exam_id, $entrant_user_id, $proctor_user_id, $date_from, $date_to, $type;
+    public $exam_id, $entrant_user_id, $proctor_user_id, $date_from, $date_to, $type, $time;
     public $jobEntrant;
 
     public function __construct(JobEntrant $entrant = null, $config = [])
@@ -22,6 +22,7 @@ class ExamStatementSearch extends Model
     {
         return [
             [['exam_id','entrant_user_id', 'proctor_user_id','type'], 'integer'],
+            [['time'], 'safe'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -53,6 +54,7 @@ class ExamStatementSearch extends Model
         $query->andFilterWhere([
             'exam_id' => $this->exam_id,
             'type' => $this->type,
+            'time' => $this->time,
             'entrant_user_id'=>$this->entrant_user_id,
             'proctor_user_id' => $this->proctor_user_id
         ]);

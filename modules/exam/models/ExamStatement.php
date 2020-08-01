@@ -2,6 +2,7 @@
 namespace modules\exam\models;
 
 use modules\entrant\helpers\DateFormatHelper;
+use modules\entrant\models\AdditionalInformation;
 use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\queries\ExamAttemptQuery;
 use olympic\models\auth\Profiles;
@@ -17,6 +18,7 @@ use yii\helpers\Url;
  * @property integer $proctor_user_id
  * @property integer $exam_id
  * @property string $date
+ * @property string $time
  * @property integer $type
  * @property string $message
  * @property string $src_bbb
@@ -41,9 +43,10 @@ class ExamStatement extends ActiveRecord
         return $exam;
     }
 
-    public function data($userId, $src){
+    public function data($userId, $src, $time){
         $this->proctor_user_id = $userId;
         $this->src_bbb = $src;
+        $this->time = $time;
     }
 
     public function setStatus($status)
@@ -117,6 +120,7 @@ class ExamStatement extends ActiveRecord
         return [
             'id' => 'ID',
             'date' => 'Дата экзамена',
+            'time' => 'Время начала',
             'proctor_user_id' => 'Проктор',
             'entrant_user_id' => 'Абитуриент',
             'proctorFio' => 'Проктор',
@@ -141,6 +145,10 @@ class ExamStatement extends ActiveRecord
 
     public function getProfileProctor() {
         return $this->hasOne(Profiles::class, ['user_id'=>'proctor_user_id']);
+    }
+
+    public function  getInformation() {
+        return $this->hasOne(AdditionalInformation::class, ['user_id'=>'entrant_user_id']);
     }
     
     public function getProctorFio() {

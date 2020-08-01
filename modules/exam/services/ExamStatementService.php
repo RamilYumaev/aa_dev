@@ -62,10 +62,10 @@ class ExamStatementService
     {
         $model = $this->repository->get($id);
         if($form->src_bbb){
-            $model->data($jobEntrant->user_id, $form->src_bbb);
+            $model->data($jobEntrant->user_id, $form->src_bbb, $form->time);
             $this->repository->save($model);
             $this->aisService->examSend($jobEntrant->email_id, $model->entrant_user_id,
-                $model->textEmailFirst, $model->urlExam);
+                $model->textEmailFirst, $model->urlExam, $model->time);
         }
     }
 
