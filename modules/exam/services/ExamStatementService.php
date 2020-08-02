@@ -163,12 +163,15 @@ class ExamStatementService
                 if($formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 && !$exam->date_start_reserve) {
                     continue;
                 }
-                $this->repository->save(ExamStatement::create(
+
+                $examSt = ExamStatement::create(
                     $user,
                     $exam->id,
                     $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ?
                         $exam->date_start_reserve : $exam->date_start,
-                    $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ? 1 :0 ));
+                    $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ? 1 :0 );
+
+                $this->repository->save($examSt);
             }
 
         }
