@@ -54,14 +54,14 @@ $userId = Yii::$app->user->identity->getId();
                     <td colspan="4">
                         <table class="table table-bordered">
                             <tr>
-                                <th>Дата экзамена</th>
+                                <th>Дата и время экзамена</th>
                                 <th>Тип завки на экзамен</th>
                                 <th>Статус</th>
                                 <th></th>
                             </tr>
                             <?php foreach ($examStatements as $examStatement) :?>
                             <tr>
-                                <td><?= $examStatement->dateView ?></td>
+                                <td><?= $examStatement->dateView ?> <?= $examStatement->time ?></td>
                                 <td><?= $examStatement->typeName ?></td>
                                 <td><?= $examStatement->statusName ?></td>
                                 <td> <?= $examStatement->src_bbb  && !$examStatement->srcDisabled() ? Html::a("Комната для прокторинга и получениия допуска",  $examStatement->src_bbb  , ["class" => "btn btn-primary", 'target'=>'_blank']) : "" ?></td>

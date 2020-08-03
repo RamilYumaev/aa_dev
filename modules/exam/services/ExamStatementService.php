@@ -129,7 +129,7 @@ class ExamStatementService
             $this->examAttemptRepository->remove($attempt);
         }
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
-            $modelNew->textEmailReserve, $modelNew->urlExam);
+            $modelNew->textEmailReserve, $modelNew->urlExam, "10:00");
 
     }
 
@@ -182,6 +182,7 @@ class ExamStatementService
     {
         $model = $this->repository->get($id);
         $model->setProctor($form->proctor_user_id);
+        $model->setTime($form->time);
         $this->repository->save($model);
     }
 

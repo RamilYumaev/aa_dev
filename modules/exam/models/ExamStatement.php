@@ -64,6 +64,11 @@ class ExamStatement extends ActiveRecord
         $this->type = $type;
     }
 
+    public function setTime($time)
+    {
+        $this->time= $time;
+    }
+
     public  function setMessage($message)
     {
         $this->message = $message;

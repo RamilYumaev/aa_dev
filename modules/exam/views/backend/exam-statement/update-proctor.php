@@ -1,5 +1,5 @@
 <?php
-/* @var $model modules\exam\forms\ExamDateReserveForm */
+/* @var $model modules\exam\forms\ExamStatementProctorForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
 use kartik\date\DatePicker;
@@ -9,6 +9,10 @@ use modules\exam\helpers\ExamStatementHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
+$times = ExamStatementHelper::timeList();
+if ($model->voz) {
+    unset($times['14:00']);
+}
 ?>
 <?php $form = ActiveForm::begin(['id'=> 'form-message']); ?>
 <?= $form->field($model, 'proctor_user_id')->widget(Select2::class, [
@@ -16,6 +20,7 @@ use yii\helpers\Html;
     'options'=> ['placeholder'=>'Выберите проктора'],
     'pluginOptions' => ['allowClear' => true],
 ]) ?>
+<?= $form->field($model, 'time')->dropDownList($times); ?>
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
