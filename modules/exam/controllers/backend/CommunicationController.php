@@ -48,20 +48,6 @@ class CommunicationController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'export-data' => ['POST'],
-                    'export-statement' => ['POST'],
-                    'export-statement-ia'=> ['POST']
-                ],
-            ],
-        ];
-    }
-
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return Yii::$app->user->identity->jobEntrant();

@@ -16,7 +16,7 @@ class ExamDataExportHelper {
         $cse = $exam->discipline->cse_subject_id;
         $disciplineCg = $exam->discipline->disciplineCgAisColumn($filial);
         $examAttempts = ExamAttempt::find()->type($type)->exam($exam->id)->select(['exam_attempt.user_id', 'mark'])->joinWith('anketa')
-            ->andWhere(['university_choice'=> $filial ?? AnketaHelper::HEAD_UNIVERSITY])
+            ->andWhere(['university_choice'=> $filial ? $filial : AnketaHelper::HEAD_UNIVERSITY])
             ->all();
         $n = 0;
         $exams = [1,2,4,8,19];
