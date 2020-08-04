@@ -40,15 +40,21 @@ ModalAsset::register($this);
                     ],
                     ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::USUAL_TYPE_OCH].')',
                         'format'=>'raw',
-                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_OCH ]),
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_OCH ])." "
+                        .Html::a("Экспорт в АИС", ['communication/export-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::USUAL_TYPE_OCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+                        .Html::a("json", ['communication/json-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::USUAL_TYPE_OCH], ['data-method' => 'post', 'class' => 'btn btn-warning'])." ",
                     ],
                     ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::USUAL_TYPE_ZA_OCH].')',
                         'format'=>'raw',
-                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_ZA_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_ZA_OCH ]),
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::USUAL_TYPE_ZA_OCH), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::USUAL_TYPE_ZA_OCH ])." "
+                            .Html::a("Экспорт в АИС", ['communication/export-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::USUAL_TYPE_ZA_OCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+                            .Html::a("json", ['communication/json-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::USUAL_TYPE_ZA_OCH], ['data-method' => 'post', 'class' => 'btn btn-warning'])." ",
                     ],
                     ['label' => "Количество попыток (". ExamStatementHelper::listTypes()[ExamStatementHelper::RESERVE_TYPE].')',
                         'format'=>'raw',
-                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::RESERVE_TYPE), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::RESERVE_TYPE ]),
+                        'value' => Html::a($test->getCountAttempt(ExamStatementHelper::RESERVE_TYPE), ['exam-attempt/index', 'test_id' => $test->id, 'type'=> ExamStatementHelper::RESERVE_TYPE ])." "
+                            .Html::a("Экспорт в АИС", ['communication/export-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::RESERVE_TYPE], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+                         .Html::a("json", ['communication/json-data', 'examId' => $test->exam_id, 'type'=>ExamStatementHelper::RESERVE_TYPE], ['data-method' => 'post', 'class' => 'btn btn-warning'])." ",
                     ],
                 ],
             ]) ?>

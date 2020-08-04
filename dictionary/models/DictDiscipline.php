@@ -8,6 +8,7 @@ use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
+use modules\dictionary\models\DictCseSubject;
 use modules\entrant\helpers\CseSubjectHelper;
 
 class DictDiscipline extends \yii\db\ActiveRecord
@@ -103,6 +104,20 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return self::find()->select("id")
             ->andWhere(['dvi' => self::DVI_STATUS])
             ->column();
+    }
+
+    public function getDisciplineCg() {
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['discipline_id'=>'id']);
+    }
+
+    public function getCse() {
+        return $this->hasOne(DictCseSubject::class, ['id'=>'cse_subject_id']);
+    }
+
+
+    public function getDisciplineCgAisColumn(){
+        return $this->getDisciplineCg()->joinWith("competitiveGroup")->select('dict_competitive_group.ais_id')
+            ->andWhere(['year'=>"2019-2020"])->column();
     }
 
     public static function compositeDiscipline()
