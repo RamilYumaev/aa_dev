@@ -22,7 +22,7 @@ class DictFacultyHelper
     const SERGIEV_POSAD_BRANCH = 40;
 
     const NO_FACULTY_ID = [19,20,25,26,27,33,35];
-
+    const FACULTY_FILIAL = [self::ANAPA_BRANCH, self::POKROV_BRANCH, self::SERGIEV_POSAD_BRANCH, self::SERGIEV_POSAD_BRANCH, self::DERBENT_BRANCH];
 
     public static function facultyList(): array
     {

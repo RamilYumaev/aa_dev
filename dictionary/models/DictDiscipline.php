@@ -6,6 +6,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
+use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\dictionary\models\DictCseSubject;
@@ -114,10 +115,16 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return $this->hasOne(DictCseSubject::class, ['id'=>'cse_subject_id']);
     }
 
-
-    public function getDisciplineCgAisColumn(){
-        return $this->getDisciplineCg()->joinWith("competitiveGroup")->select('dict_competitive_group.ais_id')
-            ->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0])->column();
+    public function disciplineCgAisColumn($filial){
+        $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
+            ->select('dict_competitive_group.ais_id');
+            if($filial) {
+                $query->andWhere(['faculty_id'=> $filial]);
+            } else {
+                $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL]);
+            }
+            $query->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0]);
+            return $query->column();
     }
 
     public static function compositeDiscipline()

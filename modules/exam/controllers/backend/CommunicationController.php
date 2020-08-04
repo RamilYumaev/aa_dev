@@ -71,11 +71,12 @@ class CommunicationController extends Controller
     /**
      * @param $examId
      * @param $type
+     * @param null $filial
      * @return mixed
      * @throws NotFoundHttpException
      */
 
-    public function actionExportData($examId, $type)
+    public function actionExportData($examId, $type, $filial = null)
     {
         $exam = $this->findModel($examId);
         $token = Yii::$app->user->identity->getAisToken();
@@ -85,7 +86,7 @@ class CommunicationController extends Controller
             return $this->redirect(['data-entrant/communication/form']);
         } else {
             $ch = curl_init();
-            $data = Json::encode(ExamDataExportHelper::dataExportExamAll($examId, $type));
+            $data = Json::encode(ExamDataExportHelper::dataExportExamAll($examId, $type, $filial));
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/incoming-exam/?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
@@ -117,13 +118,14 @@ class CommunicationController extends Controller
     /**
      * @param $examId
      * @param $type
+     * @param null $filial
      * @return mixed
      * @throws NotFoundHttpException
      */
 
-    public function actionJsonData($examId, $type) {
+    public function actionJsonData($examId, $type, $filial = null) {
         $exam = $this->findModel($examId);
-        $result =  Json::encode(ExamDataExportHelper::dataExportExamAll($examId, $type));
+        $result =  Json::encode(ExamDataExportHelper::dataExportExamAll($exam->id, $type, $filial));
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $result;
     }
