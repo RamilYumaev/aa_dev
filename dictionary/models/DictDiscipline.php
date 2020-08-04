@@ -107,23 +107,26 @@ class DictDiscipline extends \yii\db\ActiveRecord
             ->column();
     }
 
-    public function getDisciplineCg() {
-        return $this->hasMany(DisciplineCompetitiveGroup::class, ['discipline_id'=>'id']);
+    public function getDisciplineCg()
+    {
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['discipline_id' => 'id']);
     }
 
-    public function getCse() {
-        return $this->hasOne(DictCseSubject::class, ['id'=>'cse_subject_id']);
+    public function getCse()
+    {
+        return $this->hasOne(DictCseSubject::class, ['id' => 'cse_subject_id']);
     }
 
-    public function disciplineCgAisColumn($filial){
+    public function disciplineCgAisColumn($filial = 0)
+    {
         $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
             ->select('dict_competitive_group.ais_id');
-        $query->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0]);
-            if($filial) {
-               return $query->andWhere(['faculty_id'=> $filial])->column();
-            } else {
-              return  $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL])->column();
-            }
+        $query->andWhere(['year' => "2019-2020"])->andWhere(['foreigner_status' => 0]);
+        if ($filial) {
+            return $query->andWhere(['faculty_id' => $filial])->column();
+        } else {
+            return $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL])->column();
+        }
 
     }
 
