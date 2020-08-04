@@ -86,7 +86,7 @@ class CommunicationController extends Controller
         } else {
             $ch = curl_init();
             $data = Json::encode(ExamDataExportHelper::dataExportExamAll($examId, $type));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'incoming-exam/?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/incoming-exam/?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
