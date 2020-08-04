@@ -117,7 +117,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
 
     public function getDisciplineCgAisColumn(){
         return $this->getDisciplineCg()->joinWith("competitiveGroup")->select('dict_competitive_group.ais_id')
-            ->andWhere(['year'=>"2019-2020"])->column();
+            ->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0])->column();
     }
 
     public static function compositeDiscipline()
