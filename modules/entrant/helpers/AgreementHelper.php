@@ -322,22 +322,22 @@ class AgreementHelper
         } else {
             switch ($type) {
                 case self::FIO_NOMINATIVE :
-                    return "Шонус Иван Харлампиевич";
+                    return "Страхов Василий Вячеславович";
                     break;
                 case self::FIO_GENITIVE :
-                    return "Шонуса Ивана Харлампиевича";
+                    return "Страхова Василия Вячеславовича";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return "Проректор по социальной работе и комплексной безопасности";
+                    return "Проректор по развитию";
                     break;
                 case self::POSITION_GENITIVE :
-                    return "проректора по социальной работе и комплексной безопасности";
+                    return "проректора по развитию";
                     break;
                 case self::FIO_SHORT :
-                    return "И.Х. Шонус";
+                    return "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return "№ 09 от 31 янв. 2020 г.";
+                    return "№ 12 от 31 янв. 2020 г.";
             }
 
         }
