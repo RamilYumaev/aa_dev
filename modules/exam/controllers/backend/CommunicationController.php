@@ -123,7 +123,7 @@ class CommunicationController extends Controller
      * @throws NotFoundHttpException
      */
 
-    public function actionJsonData($examId, $type, $filial = null) {
+    public function actionJsonData($examId, $type, $filial = 0) {
         $exam = $this->findModel($examId);
         $result =  Json::encode(ExamDataExportHelper::dataExportExamAll($exam->id, $type, $filial));
         Yii::$app->response->format = Response::FORMAT_JSON;
