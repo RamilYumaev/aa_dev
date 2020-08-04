@@ -63,7 +63,7 @@ $userId = Yii::$app->user->identity->getId();
                             <tr>
                                 <td><?= $examStatement->dateView ?> <?= $examStatement->time ?></td>
                                 <td><?= $examStatement->typeName ?></td>
-                                <td><?= $examStatement->statusName ?></td>
+                                <td><?= $examStatement->statusError() ? ($examStatement->getViolation() ? "Нарушение" : "Резервный") : $examStatement->statusName ?></td>
                                 <td> <?= $examStatement->src_bbb  && !$examStatement->srcDisabled() ? Html::a("Комната для прокторинга и получениия допуска",  $examStatement->src_bbb  , ["class" => "btn btn-primary", 'target'=>'_blank']) : "" ?></td>
                             </tr>
                             <?php endforeach; ?>

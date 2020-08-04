@@ -2,19 +2,22 @@
 
 namespace modules\exam\helpers;
 
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\StatementCg;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamAttempt;
 
 class ExamDataExportHelper {
 
-    public static function dataExportExamAll($examId, $type)
+    public static function dataExportExamAll($examId, $type, $filial)
     {
         $exam = Exam::findOne($examId);
         $aisIdDiscipline = $exam->discipline->ais_id;
         $cse = $exam->discipline->cse_subject_id;
-        $disciplineCg = $exam->discipline->disciplineCgAisColumn;
-        $examAttempts = ExamAttempt::find()->type($type)->exam($exam->id)->select(['user_id', 'mark'])->all();
+        $disciplineCg = $exam->discipline->disciplineCgAisColumn($filial);
+        $examAttempts = ExamAttempt::find()->type($type)->exam($exam->id)->select(['exam_attempt.user_id', 'mark'])->joinWith('anketa')
+            ->andWhere(['university_choice'=> $filial ?? AnketaHelper::HEAD_UNIVERSITY])
+            ->all();
         $n = 0;
         $exams = [1,2,4,8,19];
         $result['exam']['exam_list'] = [

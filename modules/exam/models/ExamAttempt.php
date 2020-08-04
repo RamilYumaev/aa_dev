@@ -5,6 +5,7 @@ namespace modules\exam\models;
 
 
 use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\Anketa;
 use modules\exam\helpers\ExamStatementHelper;
 use modules\exam\models\queries\ExamAttemptQuery;
 use olympic\models\auth\Profiles;
@@ -165,6 +166,10 @@ class ExamAttempt extends ActiveRecord
 
     public function  getProfile() {
         return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
+    }
+
+    public function  getAnketa() {
+        return $this->hasOne(Anketa::class, ['user_id'=>'user_id']);
     }
 
     public function  getTest() {
