@@ -118,13 +118,13 @@ class DictDiscipline extends \yii\db\ActiveRecord
     public function disciplineCgAisColumn($filial){
         $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
             ->select('dict_competitive_group.ais_id');
+        $query->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0]);
             if($filial) {
-                $query->andWhere(['faculty_id'=> $filial]);
+               return $query->andWhere(['faculty_id'=> $filial])->column();
             } else {
-                $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL]);
+              return  $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL])->column();
             }
-            $query->andWhere(['year'=>"2019-2020"])->andWhere(['foreigner_status'=> 0]);
-            return $query->column();
+
     }
 
     public static function compositeDiscipline()
