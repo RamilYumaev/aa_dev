@@ -14,6 +14,7 @@ class ExamStatementHelper
     const ERROR_RESERVE_STATUS = 2;
     const END_STATUS = 3;
     const RESERVE_STATUS = 4;
+    const CANCEL_STATUS = 5;
 
     public static function listTypes ()
     {
@@ -42,7 +43,8 @@ class ExamStatementHelper
             self::SUCCESS_STATUS => "Допущен",
             self::ERROR_RESERVE_STATUS => "Нарушение/Резервный",
             self::END_STATUS => "Завершен",
-            self::RESERVE_STATUS => "Перенос на резервный день"
+            self::RESERVE_STATUS => "Перенос на резервный день",
+            self::CANCEL_STATUS => "Аннулирован"
         ];
     }
 
@@ -54,6 +56,7 @@ class ExamStatementHelper
             self::ERROR_RESERVE_STATUS => "label label-danger",
             self::END_STATUS => "label label-primary",
             self::RESERVE_STATUS => "label label-info",
+            self::CANCEL_STATUS => "label label-danger"
         ];
     }
 

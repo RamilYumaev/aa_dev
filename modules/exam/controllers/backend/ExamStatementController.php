@@ -188,6 +188,21 @@ class ExamStatementController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionResetAttempt($id)
+    {
+        try {
+            $this->service->resetAttempt($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
 
     /**

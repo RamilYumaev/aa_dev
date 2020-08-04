@@ -10,6 +10,7 @@
 <?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
 
 <?= $text ?> <?=$url ?>,предварительно авторизовавшись в личном кабинете поступающего в МПГУ.
+    <?php if($time) : ?>
     Начать экзамен рекомендуем в <?= $time ?> по МСК. Предварительно необходимо пройти процедуру индентификации и допуска к экзамену. Начать идентификацию рекомендуем за полчаса до начала экзамена.
     Подробнее о прохождении дистанционного вступительного испытания Вы можете узнать по ссылке на инструкцию https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit
     или просмотрев видео-инструкцию https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be (https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be)
@@ -25,7 +26,7 @@
     Для поступающих в аспирантуру: https://t.me/joinchat/NO93URipPcKHwb3BKTbxVw
 
     Удачного экзамена!
-
+    <?php endif; ?>
     Письмо сгенерировано автоматически и отвечать на него не нужно.
     С уважением,
     приемная комиссия МПГУ

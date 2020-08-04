@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\services\UserAisService;
 use modules\exam\forms\ExamDateReserveForm;
@@ -129,8 +130,19 @@ class ExamStatementService
             $this->examAttemptRepository->remove($attempt);
         }
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
-            $modelNew->textEmailReserve, $modelNew->urlExam, "10:00");
+            $modelNew->textEmailReserve, $modelNew->urlExam, null);
 
+    }
+
+    public function resetAttempt($id)
+    {
+        $model = $this->repository->get($id);
+        $model->setStatus(ExamStatementHelper::CANCEL_STATUS);
+        $this->repository->save($model);
+        $attempt = $this->examAttemptRepository->attemptExamUser($model->exam_id, $model->entrant_user_id);
+        if($attempt) {
+            $this->examAttemptRepository->remove($attempt);
+        }
     }
 
     private function isStartExam(ExamStatement $examStatement) {
