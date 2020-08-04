@@ -7,6 +7,7 @@ use modules\entrant\widgets\file\FileWidget;
 use modules\entrant\widgets\file\FileListWidget;
 /* @var $model modules\entrant\models\PassportData*/
 ?>
+<?php if($model) : ?>
 <div class="panel panel-default">
     <div class="panel-heading"><h4>Скан свидетельства о рождении</h4></div>
     <div class="panel-body">
@@ -32,4 +33,4 @@ use modules\entrant\widgets\file\FileListWidget;
         <?= FileListWidget::widget(['record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>
     </div>
 </div>
-
+<?php endif;?>

@@ -10,6 +10,7 @@ use modules\entrant\widgets\file\FileListWidget;
         "header" => "Скан свидетельства о рождении",
         "type" => Box::TYPE_SUCCESS,
         "filled" => true,]) ?>
+<?php if($model) : ?>
 <table class="table table-bordered">
     <tr>
         <th>Документ, удостоверяющий личность</th>
@@ -28,3 +29,4 @@ use modules\entrant\widgets\file\FileListWidget;
 </table>
 <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>
 <?php Box::end(); ?>
+<?php endif;?>
