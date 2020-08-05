@@ -130,8 +130,4 @@ class CommunicationController extends Controller
     }
 
 
-
-
-
-
 }

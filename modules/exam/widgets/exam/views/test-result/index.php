@@ -28,7 +28,7 @@ $s = $attempt->test->exam->discipline_id == 22;
             'columns' => [
                ['attribute'=>'question_id',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
-                $s ? 'mark' : 'updated:datetime',
+               'mark',
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update}',
                     'controller' => 'exam-result',
