@@ -18,14 +18,16 @@ use yii\helpers\Html;
             'columns' => [
                 'start:datetime',
                 $markShow ? 'mark' : 'end:datetime',
-                ['value' => function(ExamAttempt $model) {
-                  if($model->isAttemptEnd()) {
-                      return '';
-                  } elseif($model->isAttemptPause()) {
-                      return Html::a("Возобновить",['exam-attempt/start-attempt', 'id' =>$model->id], ['class'=> 'btn btn-success']);
-                  }
-                  else {
-                      return Html::a("Остановить",['exam-attempt/pause-attempt',  'id' =>$model->id], ['class'=> 'btn btn-warning']);
+                ['value' => function(ExamAttempt $model) use($markShow) {
+                  if (!$markShow) {
+                      if($model->isAttemptEnd()) {
+                          return '';
+                      } elseif($model->isAttemptPause()) {
+                          return Html::a("Возобновить",['exam-attempt/start-attempt', 'id' =>$model->id], ['class'=> 'btn btn-success']);
+                      }
+                      else {
+                          return Html::a("Остановить",['exam-attempt/pause-attempt',  'id' =>$model->id], ['class'=> 'btn btn-warning']);
+                      }
                   }
 
                 }, 'format'=>'raw']

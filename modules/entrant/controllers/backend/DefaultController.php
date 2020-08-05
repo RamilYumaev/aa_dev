@@ -7,6 +7,7 @@ use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
 use modules\entrant\searches\ProfilesFileSearch;
+use modules\entrant\searches\ProfilesStatementCOZFOKSearch;
 use modules\entrant\searches\ProfilesStatementSearch;
 use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
@@ -73,7 +74,7 @@ class DefaultController extends Controller
      */
     public function actionIndex($type = null, $is_id = null)
     {
-        $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type, $is_id);
+        $searchModel = $this->getJobEntrant()->isCategoryCOZ() ? new ProfilesStatementSearch($this->jobEntrant, $type, $is_id) : new  ProfilesStatementCOZFOKSearch($this->jobEntrant, $type, $is_id);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -172,7 +173,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id): Profiles
     {
-        $query = (new ProfileStatementReadRepository($this->jobEntrant))->readData(null)
+        $query = (new ProfileStatementReadRepository($this->jobEntrant))->profileDefaultQuery()
             ->andWhere(['profiles.user_id' => $id]);
 
         if (($model = $query->one()) !== null) {
