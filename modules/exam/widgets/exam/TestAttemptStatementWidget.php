@@ -10,6 +10,7 @@ class TestAttemptStatementWidget extends Widget
     public $examId;
     public $userId;
     public $type;
+    public $markShow = false;
     /**
      * @var string
      */
@@ -24,6 +25,7 @@ class TestAttemptStatementWidget extends Widget
 
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
+            'markShow' => $this->markShow
         ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use modules\exam\widgets\exam\TestAttemptStatementWidget;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
@@ -31,7 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box box-default">
             <div class="box box-header">
                 <h4>Данные</h4>
-                <?= $jobEntrant && $examStatement->statusError() ? Html::a("В резервный день",
+                <?= Html::a('BigBlueButton',  $examStatement->src_bbb,['class'=> "btn bg-purple",  'target'=>'_blank']) ?>
+                <?= $jobEntrant && $jobEntrant->isCategoryTarget() &&  $examStatement->statusError() ? Html::a("В резервный день",
                     ['exam-statement/reserve-date', 'id'=> $examStatement->id],['data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal',
                             'data-modalTitle' =>'Добавить резервную дату', 'class'=> 'btn btn-danger']).($examStatement->getViolation()->count() ? Html::a("Завершить и очистить нарушения",
                         ['exam-statement/reset-violation', 'id'=> $examStatement->id], [ 'class'=> 'btn btn-info', 'data-confirm'=> "Вы уверены, что хотите очистить нарушения и завершить?" ]).
@@ -52,6 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]) ?>
             </div>
+            <?php if($jobEntrant && $jobEntrant->isCategoryTarget()) : ?>
+            <div class="box-footer">
+                <?= TestAttemptStatementWidget::widget(['userId'=>  $examStatement->entrant_user_id, 'examId' =>  $examStatement->exam_id, 'type' => $examStatement->type, 'markShow' => true]) ?>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

@@ -15,6 +15,12 @@ class DisciplineExaminerHelper
             ->indexBy('id')->column();
     }
 
+    public static function listDisciplineAll() {
+        return DictDiscipline::find()->select(['name','id'])
+            ->andWhere(['is_och' => 0])
+            ->indexBy('id')->column();
+    }
+
     public static function listDisciplineReserve($ids) {
         return DictDiscipline::find()->select(['name','id'])
             ->andWhere(['id'=> $ids, 'is_och' => 0])
