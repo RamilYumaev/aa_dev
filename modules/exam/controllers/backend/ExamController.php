@@ -59,6 +59,20 @@ class ExamController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function actionIndexExport()
+    {
+        $searchModel = new ExamSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index-export', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException

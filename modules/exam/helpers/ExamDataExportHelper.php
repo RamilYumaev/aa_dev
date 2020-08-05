@@ -6,6 +6,7 @@ use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\StatementCg;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamAttempt;
+use yii\helpers\Html;
 
 class ExamDataExportHelper {
 
@@ -40,6 +41,16 @@ class ExamDataExportHelper {
         }
 
         return $result;
+    }
+    
+    public static function linkExport($examId, $type){
+        return Html::a("Экспорт в АИС ".$type, ['communication/export-data', 'examId' => $examId, 'type'=>$type], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("Экспорт в АИС Анапа ".$type, ['communication/export-data', 'examId' => $examId, 'type'=>$type, 'filial'=>\dictionary\helpers\DictFacultyHelper::ANAPA_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("Экспорт в АИС Покров ".$type, ['communication/export-data', 'examId' => $examId, 'type'=>$type, 'filial'=>\dictionary\helpers\DictFacultyHelper::POKROV_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("Экспорт в АИС Ставрополь ".$type, ['communication/export-data', 'examId' =>$examId, 'type'=>$type, 'filial'=>\dictionary\helpers\DictFacultyHelper::STAVROPOL_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("Экспорт в АИС Дербент ".$type, ['communication/export-data', 'examId' => $examId, 'type'=>$type, 'filial'=>\dictionary\helpers\DictFacultyHelper::DERBENT_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("Экспорт в АИС Сергиев-Посад ".$type, ['communication/export-data', 'examId' => $examId, 'type'=>$type, 'filial'=>\dictionary\helpers\DictFacultyHelper::SERGIEV_POSAD_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success'])." "
+        .Html::a("json ".$type, ['communication/json-data', 'examId' => $examId, 'type'=>$type], ['data-method' => 'post', 'class' => 'btn btn-warning']);
     }
 
 

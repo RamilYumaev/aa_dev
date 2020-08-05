@@ -71,7 +71,7 @@ class ExamSearch extends Model
     public function filterDiscipline() {
         return $this->jobEntrant->isCategoryExam()
             ? DisciplineExaminerHelper::listDisciplineReserve($this->jobEntrant->examiner->disciplineColumn)
-            : DisciplineExaminerHelper::listDiscipline();
+            : DisciplineExaminerHelper::listDisciplineAll();
     }
 
 

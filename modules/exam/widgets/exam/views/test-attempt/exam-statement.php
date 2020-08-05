@@ -5,6 +5,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $markShow bool */
 
 ?>
 <div class="box box-primary">
@@ -16,7 +17,7 @@ use yii\helpers\Html;
             'dataProvider' => $dataProvider,
             'columns' => [
                 'start:datetime',
-                'end:datetime',
+                $markShow ? 'mark' : 'end:datetime',
                 ['value' => function(ExamAttempt $model) {
                   if($model->isAttemptEnd()) {
                       return '';
