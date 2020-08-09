@@ -117,6 +117,21 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function listCategoriesCoz()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            self::GRADUATE,
+            DictFacultyHelper::COLLAGE,
+            self::FOK
+        ];
+        return $array;
+    }
+
     public static function isProctor()
     {
         $array = [

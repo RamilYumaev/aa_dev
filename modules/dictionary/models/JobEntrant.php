@@ -20,7 +20,8 @@ use yii\db\ActiveRecord;
  * @property integer $faculty_id
  * @property integer $email_id
  * @property integer $examiner_id
- * @property integer $status;
+ * @property integer $right_full
+ * @property integer $status
  *
  **/
 
@@ -41,6 +42,7 @@ class JobEntrant extends ActiveRecord
         $this->faculty_id = $this->category_id == JobEntrantHelper::FOK ? $form->faculty_id : null;
         $this->examiner_id = $this->category_id == JobEntrantHelper::EXAM ? $form->examiner_id : null;
         $this->email_id = $form->email_id ?? null;
+        $this->right_full = $form->right_full;
     }
 
     public function setStatus($status) {
@@ -137,7 +139,8 @@ class JobEntrant extends ActiveRecord
             'faculty_id' => 'Факультет',
             'status' => 'Статус',
             'examiner_id' => "Председатель экзаменационной комиссии",
-            'email_id' => "Email  для рассылки"
+            'email_id' => "Email  для рассылки",
+            'right_full' => "Неограниченные права",
         ];
     }
 }
