@@ -24,6 +24,7 @@ use yii\helpers\Html;
             'data'=>\common\auth\helpers\SettingEmailHelper::all(),
             'options'=> ['placeholder'=>'Выберите пользователя'],
             'pluginOptions' => ['allowClear' => true]]) ?>
+        <?= $form->field($model, 'right_full')->checkbox()?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

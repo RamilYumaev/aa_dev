@@ -2,6 +2,7 @@
 
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
@@ -12,6 +13,7 @@ use modules\entrant\searches\ProfilesStatementSearch;
 use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
 use Yii;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,6 +39,20 @@ class DefaultController extends Controller
             ],
         ];
     }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->right_full) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
+
 
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
@@ -74,7 +90,7 @@ class DefaultController extends Controller
      */
     public function actionIndex($type = null, $is_id = null)
     {
-        $searchModel = $this->getJobEntrant()->isCategoryCOZ() ? new ProfilesStatementSearch($this->jobEntrant, $type, $is_id) : new  ProfilesStatementCOZFOKSearch($this->jobEntrant, $type, $is_id);
+        $searchModel = !in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesCoz()) ? new ProfilesStatementSearch($this->jobEntrant, $type, $is_id) : new  ProfilesStatementCOZFOKSearch($this->jobEntrant, $type, $is_id);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
