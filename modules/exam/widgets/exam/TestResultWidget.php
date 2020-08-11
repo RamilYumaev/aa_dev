@@ -13,6 +13,7 @@ class TestResultWidget extends Widget
      * @var ExamAttempt
      */
     public $attempt;
+    public $size = 20;
     /**
      * @var string
      */
@@ -23,6 +24,9 @@ class TestResultWidget extends Widget
         $query = ExamResult::find()->where(['attempt_id'=>$this->attempt->id]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => $this->size,
+            ],
         ]);
 
         return $this->render($this->view, [

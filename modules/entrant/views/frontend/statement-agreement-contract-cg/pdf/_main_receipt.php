@@ -19,15 +19,15 @@ $number = $receipt->contractCg->number;
 $fio_entrant = $profile['last_name'] . " " . $profile['first_name']. " " . $profile['patronymic'];
 $anketa = Yii::$app->user->identity->anketa();
 
-if ($receipt->contractCg->typeEntrant()) {
-    $fio_payer = $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'];
-    $address_payer = $reg['full'];
+if ($receipt->contractCg->typeLegal()) {
+    $fio_payer = $receipt->contractCg->legal->fio;
+    $address_payer = $receipt->contractCg->legal->fio;
 } elseif ($receipt->contractCg->typePersonal()) {
     $fio_payer = $receipt->contractCg->personal->fio;
     $address_payer = $receipt->contractCg->personal->fio;
 } else {
-    $fio_payer = $receipt->contractCg->legal->fio;
-    $address_payer = $receipt->contractCg->legal->fio;
+    $fio_payer = $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'];
+    $address_payer = $reg['full'];
 }
 $cost = $receipt->contractCg->statementCg->cg->education_year_cost;
 $discount = $cg->discount;

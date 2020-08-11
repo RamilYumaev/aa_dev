@@ -48,7 +48,7 @@ class StatementAgreementContractSearch extends  Model
             'query' => $query,
         ]);
 
-        if($this->status) {
+        if(!is_null($this->status)) {
             $query->andWhere(['consent.status_id' => $this->status]);
         }
 

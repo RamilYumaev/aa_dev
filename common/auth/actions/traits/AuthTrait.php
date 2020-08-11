@@ -3,6 +3,7 @@
 namespace common\auth\actions\traits;
 
 use common\auth\actions\LoginAction;
+use common\auth\actions\LoginTelegramAction;
 use common\auth\actions\LogOutAction;
 use common\components\AuthHandler;
 
@@ -15,6 +16,10 @@ trait AuthTrait
             'auth' => [
                 'class' => 'yii\authclient\AuthAction',
                 'successCallback' => [$this, 'onAuthSuccess'],
+            ],
+            'auth-telegram' => [
+                'class' => LoginTelegramAction::class,
+                'role' => $this->role,
             ],
             'login' => [
                 'class' => LoginAction::class,

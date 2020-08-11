@@ -13,7 +13,16 @@ use backend\widgets\adminlte\components\AdminLTE;
     </div>
     <div class="box-body">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
+                <?= InfoContractWidget::widget([
+                    'colorBox' => AdminLTE::BG_YELLOW,
+                    'entrant'=> $jobEntrant,
+                    'icon'=> 'check-remove',
+                    'status' => ContractHelper::STATUS_NEW,
+                    'str' => "Неотправленные", 'link' => ['/data-entrant/agreement-contract/index', 'status'=>ContractHelper::STATUS_NEW]])
+                ?>
+            </div>
+        <div class="col-md-3">
             <?= InfoContractWidget::widget([
                 'colorBox' => AdminLTE::BG_ORANGE,
                 'entrant'=> $jobEntrant,
@@ -22,7 +31,7 @@ use backend\widgets\adminlte\components\AdminLTE;
                 'str' => "Новые", 'link' => ['/data-entrant/agreement-contract/index', 'status'=>  ContractHelper::STATUS_WALT,]])
             ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <?= InfoContractWidget::widget([
                 'colorBox' => AdminLTE::BG_LIGHT_BLUE,
                 'entrant'=> $jobEntrant,
@@ -31,7 +40,7 @@ use backend\widgets\adminlte\components\AdminLTE;
                 'str' => "Взято в работу", 'link' => ['/data-entrant/agreement-contract/index', 'status'=> ContractHelper::STATUS_VIEW]])
             ?>
         </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= InfoContractWidget::widget([
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'entrant'=> $jobEntrant,

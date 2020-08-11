@@ -32,9 +32,7 @@ class ExamDataExportHelper {
             $result["exam"]["exam_incoming"][$n]=[
                 "internal_discipline_id" =>"",
                 'incoming_id' => $attempt->profile->ais->incoming_id,
-                'mark' => !is_null($cse) ? ($attempt->mark >= $exam->discipline->cse->min_mark  ?
-                    $attempt->mark : $exam->discipline->cse->min_mark) : ($attempt->mark >= 41   ?
-                    $attempt->mark : 41),
+                'mark' => $attempt->mark,
             ];
             $n++;
 

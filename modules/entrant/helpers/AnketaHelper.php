@@ -186,7 +186,7 @@ class AnketaHelper
             'year' => EduYearHelper::eduYear()]);
         $specialRightDocument = OtherDocument::find()
             ->andWhere(["user_id" => $userId])
-            ->andWhere(["in", "type", [33, 44]])
+            ->andWhere(["in", "type", [33, 44, 48]])
             ->exists(); //@TODO
 
         $arrayEduLevel = self::getPermittedEducationLevels($level);

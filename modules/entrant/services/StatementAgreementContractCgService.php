@@ -104,10 +104,24 @@ class StatementAgreementContractCgService
         $this->repository->remove($statement);
     }
 
-    public function add($id,  $customer)
+    public function add($id,  $customer, $rec = 0)
     {
         $statement = $this->repository->get($id);
         $statement->setType($customer);
+        if($rec) {
+            if($statement->type == 2) {
+               if(!$this->personalEntityRepository->getIdUser($rec, $statement->statementCg->statement->user_id)) {
+                   throw new \DomainException('Данные не найдены');
+               }
+            }
+            if($statement->type == 3) {
+                if(!$this->legalEntityRepository->getIdUser($rec, $statement->statementCg->statement->user_id)) {
+                    throw new \DomainException('Данные не найдены '.$rec);
+                }
+            }
+        }
+        $statement->setRecordId($rec);
+        $statement->detachBehavior('contract');
         $this->repository->save($statement);
         return $statement;
     }
@@ -159,7 +173,8 @@ class StatementAgreementContractCgService
         $totalCost = $cost - ($cost * ($discount/100));
         $receiptCost = ReceiptHelper::costDefault($totalCost, ReceiptHelper::listSep()[$period]);
         $a = str_replace(',','.',$receiptCost);
-        $a = floatval($a);
+        $a = preg_replace( "/[^x\d|*\.]/", "", $a);
+
         $receipt = ReceiptContract::create($contract->id, $period, $a);
         $this->receiptContractRepository->save($receipt);
     }
