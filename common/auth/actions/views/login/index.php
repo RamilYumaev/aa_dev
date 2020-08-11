@@ -28,9 +28,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     'baseAuthUrl' => ['account/auth'],
                     'popupMode' => false,
                 ]) ?>
+                <center>
+                <script async src="https://telegram.org/js/telegram-widget.js?11" data-telegram-login="MpguBot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+                <script type="text/javascript">
+                    function onTelegramAuth(user) {
+                        $.ajax({
+                            url: '/account/auth-telegram',
+                            method: 'post',
+                            data: user,
+                            dataType:'json',
+                            success: function (data) {
+
+                                window.location.href = '/';
+
+                            },
+                            error: function (error) {
+                                alert(error);
+
+                            }
+
+                        })
+                    }
+                </script>
+                </center>
             </div>
         </div>
-
         <h4 class="login-box-msg">или заполните, пожалуйста, форму:</h4>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>

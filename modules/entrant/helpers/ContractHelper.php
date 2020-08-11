@@ -2,6 +2,8 @@
 
 namespace modules\entrant\helpers;
 
+use modules\entrant\models\LegalEntity;
+use modules\entrant\models\PersonalEntity;
 use yii\helpers\ArrayHelper;
 
 class ContractHelper
@@ -69,6 +71,15 @@ class ContractHelper
 
     public static function statusAisNumber($key) {
         return ArrayHelper::getValue(self::statusAisList(),$key);
+    }
+
+    public static function legal($userId) {
+        return ArrayHelper::map(LegalEntity::find()->andWhere(['user_id'=> $userId])->all(),'id', 'name');
+    }
+
+    public static function personal($userId)
+    {
+        return ArrayHelper::map(PersonalEntity::find()->andWhere(['user_id' => $userId])->all(), 'id', 'fio');
     }
 
 

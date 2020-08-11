@@ -11,6 +11,7 @@ use modules\entrant\searches\ProfilesStatementSearch;
 use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
 use Yii;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -34,6 +35,19 @@ class EntrantPotentialController extends Controller
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->right_full) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /**

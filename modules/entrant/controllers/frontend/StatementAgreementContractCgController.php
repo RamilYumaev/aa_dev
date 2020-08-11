@@ -76,6 +76,11 @@ class StatementAgreementContractCgController extends Controller
             Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
             return $this->redirect(Yii::$app->request->referrer);
         }
+        $count = StatementAgreementContractCg::find()->statementUser($this->getUser())->count();
+        if ($count > 3) {
+            Yii::$app->session->setFlash("error", "Вы не можете создать больше 3-х договоров ");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         $ch = curl_init();
         $data = Json::encode([
             'token'=> "849968aa53dd0732df8c55939f6d1db9",
@@ -401,14 +406,26 @@ class StatementAgreementContractCgController extends Controller
     public function actionAdd($id)
     {
         $customer = Yii::$app->request->post('customer');
+        $idLegal= Yii::$app->request->post('id-legal');
+        $idPersonal = Yii::$app->request->post('id-personal');
         $agreement = $this->findModel($id);
         if($agreement->number) {
             Yii::$app->session->setFlash('warning', "Редактировать нельзя, так как Вы сформировали договор");
             return $this->redirect(['post-document/agreement-contract']);
         }
         if ($customer) {
+            if($customer == 2) {
+               $rec =  $idPersonal;
+            }elseif($customer == 3) {
+                $rec =  $idLegal;
+            } else {
+                $rec =0;
+            }
             try {
-                $statement = $this->service->add($agreement->id, $customer);
+                $statement = $this->service->add($agreement->id, $customer, $rec);
+                if($rec) {
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
                 return $this->redirect(['form', 'id' => $statement->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -418,7 +435,7 @@ class StatementAgreementContractCgController extends Controller
             }
 
         }
-        return $this->renderAjax('add',['type' => $agreement->type]);
+        return $this->renderAjax('add',['agreement' => $agreement]);
     }
 
     protected function findConsentCg($id) {

@@ -3,6 +3,8 @@
 
 namespace modules\exam\controllers\backend;
 
+use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\PdfHelper;
 use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamResult;
 use modules\exam\repositories\ExamTestRepository;
@@ -57,12 +59,39 @@ class ExamAttemptController extends Controller
             'test' => $test, 'type' => $type]);
     }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
     public function actionView($id)
     {
         $model = $this->findModel($id);
 
         return $this->render('view', [
             'attempt' => $model,]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('view_pdf', ['attempt' => $model]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
+        $render = $pdf->render();
+        return $render;
+
     }
 
 

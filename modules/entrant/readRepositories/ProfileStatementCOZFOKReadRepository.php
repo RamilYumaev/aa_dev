@@ -59,7 +59,6 @@ class ProfileStatementCOZFOKReadRepository
             $query->andWhere(['anketa.category_id' => [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         } elseif (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
-            $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
          }
         if ($type == AisReturnDataHelper::AIS_YES) {
