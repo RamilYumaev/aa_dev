@@ -91,5 +91,12 @@ class StatementConsentCgService
         $this->repository->save($statement);
     }
 
+    public function statusDraft($id)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus(StatementHelper::STATUS_WALT);
+        $this->repository->save($statement);
+    }
+
 
 }

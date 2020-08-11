@@ -41,6 +41,8 @@ use modules\entrant\widgets\file\FileListWidget;
                 ['data-method' => 'post', 'class' => 'btn btn-info']) : "" ?>
                 <?= $consent->statusWalt()  ? Html::a('Взять в работу', ['statement-consent-cg/status-view', 'id' => $consent->id, ],
                     ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
+                <?= $consent->isStatusNoAccepted() ? Html::a('Возврат', ['statement-consent-cg/status-reset', 'id' => $consent->id, ],
+                    ['class' => 'btn btn-warning', 'data' =>["confirm" => "Вы уверены, что хотите сделать возврат?"]]) : "" ?>
             </td>
         </tr>
     </table>
