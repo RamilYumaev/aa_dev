@@ -33,6 +33,12 @@ $userId = Yii::$app->user->identity->getId();
 <p>В случае возникновения вопросов в рамках заключения договора об оказании платных образовательных услуг
     обращайтесь по тел. 8(495)438-18-57 или на многоканальный телефон Приемной комиссии МПГУ - 8(499)702-41-41</p>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center"><?=Html::a('Образец договора об оказании платных образовательных услуг',
+                            "@frontendInfo/documents/obrazec.pdf", ['target'=> "_blank"])?></p>
+                </div>
+            </div>
             <?= \modules\entrant\widgets\statement\StatementCgContractWidget::widget(['userId' => $userId]); ?>
         </div>
     </div>
