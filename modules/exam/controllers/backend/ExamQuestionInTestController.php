@@ -4,10 +4,12 @@
 namespace modules\exam\controllers\backend;
 
 
+use modules\dictionary\models\JobEntrant;
 use modules\exam\forms\ExamQuestionInTestForm;
 use modules\exam\repositories\ExamTestRepository;
 use modules\exam\services\ExamQuestionInTestService;
 use testing\repositories\TestRepository;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -36,6 +38,24 @@ class ExamQuestionInTestController extends Controller
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->testRepository = $testRepository;
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /**

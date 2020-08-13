@@ -13,6 +13,7 @@ use modules\exam\searches\ExamQuestionGroupSearch;
 use modules\exam\searches\ExamSearch;
 use modules\exam\services\ExamQuestionGroupService;
 use modules\exam\services\ExamService;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -45,6 +46,19 @@ class ExamQuestionGroupController extends Controller
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /**

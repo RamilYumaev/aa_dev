@@ -26,6 +26,7 @@ use testing\forms\question\TestQuestionClozeForm;
 use testing\forms\question\TestQuestionClozeUpdateForm;
 use testing\forms\question\TestQuestionTypesForm;
 use testing\helpers\TestQuestionHelper;
+use yii\base\ExitException;
 use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
@@ -62,6 +63,18 @@ class ExamQuestionController extends Controller
         return Yii::$app->user->identity->jobEntrant();
     }
 
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
     /**
      * @return mixed
      */
@@ -75,6 +88,8 @@ class ExamQuestionController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+
 
     /**
      * @param integer $id

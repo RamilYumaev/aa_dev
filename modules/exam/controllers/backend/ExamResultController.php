@@ -4,6 +4,7 @@
 namespace modules\exam\controllers\backend;
 
 use kartik\form\ActiveForm;
+use modules\dictionary\models\JobEntrant;
 use modules\exam\forms\ExamFinalMarkResultForm;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamResult;
@@ -11,6 +12,7 @@ use modules\exam\services\ExamResultService;
 use testing\forms\AddFinalMarkResultForm;
 use testing\models\TestResult;
 use testing\services\TestResultService;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -37,6 +39,24 @@ class ExamResultController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /**

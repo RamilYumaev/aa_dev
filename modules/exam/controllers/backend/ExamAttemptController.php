@@ -3,6 +3,7 @@
 
 namespace modules\exam\controllers\backend;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\exam\models\ExamAttempt;
@@ -19,6 +20,7 @@ use testing\models\TestResult;
 use testing\repositories\TestRepository;
 use testing\services\TestAndQuestionsService;
 use testing\services\TestAttemptService;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -51,6 +53,24 @@ class ExamAttemptController extends Controller
         $this->service = $service;
         $this->testRepository = $testRepository;
     }
+
+//    /* @return  JobEntrant*/
+//    protected function getJobEntrant() {
+//        return Yii::$app->user->identity->jobEntrant();
+//    }
+//
+//    public function beforeAction($event)
+//    {
+//        if(!$this->jobEntrant->isCategoryExam()) {
+//            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+//            Yii::$app->getResponse()->redirect(['site/index']);
+//            try {
+//                Yii::$app->end();
+//            } catch (ExitException $e) {
+//            }
+//        }
+//        return true;
+//    }
 
     public function actionIndex($test_id, $type)
     {
