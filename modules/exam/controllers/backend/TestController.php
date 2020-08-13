@@ -2,8 +2,10 @@
 namespace modules\exam\controllers\backend;
 
 use common\helpers\FlashMessages;
+use modules\dictionary\models\JobEntrant;
 use modules\exam\readRepositories\ExamReadRepository;
 use modules\exam\services\ExamAnswerService;
+use yii\base\ExitException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -19,6 +21,24 @@ class TestController extends Controller
         parent::__construct($id, $module, $config);
         $this->repository = $repository;
         $this->service = $service;
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /*

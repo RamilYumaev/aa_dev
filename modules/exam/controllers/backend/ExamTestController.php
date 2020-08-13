@@ -1,6 +1,7 @@
 <?php
 
 namespace modules\exam\controllers\backend;
+use modules\dictionary\models\JobEntrant;
 use modules\exam\forms\ExamQuestionInTestTableMarkForm;
 use modules\exam\forms\ExamTestForm;
 use modules\exam\models\ExamQuestionInTest;
@@ -12,6 +13,7 @@ use testing\forms\TestAndQuestionsTableMarkForm;
 use testing\models\TestAndQuestions;
 use testing\services\TestAndQuestionsService;
 use testing\services\TestService;
+use yii\base\ExitException;
 use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
@@ -44,6 +46,24 @@ class ExamTestController extends Controller
                 ],
             ],
         ];
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->isCategoryExam()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
     /**
