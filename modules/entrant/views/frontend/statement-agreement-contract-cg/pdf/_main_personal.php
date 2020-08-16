@@ -27,7 +27,12 @@ $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement
 $cg = $agreement->statementCg->cg;
 $agreementData = AgreementHelper::data($anketa->university_choice);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
+<<<<<<< fix_dog
 $totalCost = $cg->education_year_cost * $cg->education_duration;
+=======
+$duration = $collegeStatus ? ceil($cg->education_duration) : $cg->education_duration;
+$totalCost = $cg->education_year_cost * $duration;
+>>>>>>> local
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
 $costMonet = $costExplode[1] ?? "00";
