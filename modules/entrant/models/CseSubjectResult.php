@@ -106,4 +106,9 @@ class CseSubjectResult extends ActiveRecord
             ];
     }
 
+    public function setResult(array $dataUpdate)
+    {
+        $this->result = Json::encode($dataUpdate, JSON_NUMERIC_CHECK);
+    }
+
 }

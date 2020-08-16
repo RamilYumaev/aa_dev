@@ -260,6 +260,18 @@ class UserAisService
         }
     }
 
+    public function examSend($email_id, $user_id,  $text, $url, $time)
+    {
+        $profile = $this->profileRepository->getUser($user_id);
+        try {
+            $this->sendExam($email_id, $profile, $text, $url, $time)->send();
+            \Yii::$app->session->setFlash('success', 'Отправлено.');
+        } catch (\Swift_TransportException $e) {
+            \Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+    }
+
+
     private function sendEmailSuccess($emailId, Profiles $profile, $text)
     {
         $mailer = \Yii::$app->selectionCommitteeMailer;
@@ -291,7 +303,18 @@ class UserAisService
             ->setSubject("Договорный отдел МПГУ");
     }
 
-
-
+    private function sendExam($emailId, Profiles $profile, $text, $url, $time)
+    {
+        $mailer = \Yii::$app->selectionCommitteeMailer;
+        $mailer->idSettingEmail = $emailId;
+        $configTemplate =  ['html' => 'entrant-html', 'text' => 'entrant-text'];
+        $configData = ['profile' => $profile, 'text'=>$text, 'url' => $url, 'time' => $time];
+        return $mailer
+            ->mailer()
+            ->compose($configTemplate, $configData)
+            ->setFrom([$mailer->getFromSender() => 'МПГУ робот'])
+            ->setTo($profile->user->email)
+            ->setSubject("Экзамен МПГУ");
+    }
 
 }

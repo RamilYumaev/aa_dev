@@ -21,6 +21,10 @@ return [
             'class' => \modules\entrant\BackendEntrant::class,
             'viewPath' => "@modules/entrant/views/backend",
         ],
+        'data-exam' => [
+            'class' => \modules\exam\BackendExam::class,
+            'viewPath' => "@modules/exam/views/backend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
@@ -99,6 +103,12 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+//                'except' => [
+//                    'yii\web\HttpException:403',
+//                    'yii\web\HttpException:404',
+//                    'yii\web\HttpException:400',
+//                    'yii\web\HttpException:401',
+//                ],
             ],
         ],
         'errorHandler' => [

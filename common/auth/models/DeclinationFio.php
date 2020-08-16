@@ -1,6 +1,7 @@
 <?php
 
 namespace common\auth\models;
+
 use common\auth\forms\DeclinationFioForm;
 use wapmorgan\yii2inflection\Inflector;
 use yii\db\ActiveRecord;
@@ -21,16 +22,18 @@ class DeclinationFio extends ActiveRecord
         return $declination;
     }
 
-    public function data($fio) {
-        $this->nominative = self::declinationFio($fio, Inflector::NOMINATIVE);
-        $this->genitive = self::declinationFio($fio, Inflector::GENITIVE);
-        $this->dative = self::declinationFio($fio, Inflector::DATIVE);
-        $this->accusative = self::declinationFio($fio, Inflector::ACCUSATIVE);
-        $this->ablative = self::declinationFio($fio, Inflector::ABLATIVE);
-        $this->prepositional =self::declinationFio($fio, Inflector::PREPOSITIONAL);
+    public function data($fio, $twoWordPatronymic = "")
+    {
+        $this->nominative = self::declinationFio($fio, Inflector::NOMINATIVE) . $twoWordPatronymic;
+        $this->genitive = self::declinationFio($fio, Inflector::GENITIVE) . $twoWordPatronymic;
+        $this->dative = self::declinationFio($fio, Inflector::DATIVE) . $twoWordPatronymic;
+        $this->accusative = self::declinationFio($fio, Inflector::ACCUSATIVE) . $twoWordPatronymic;
+        $this->ablative = self::declinationFio($fio, Inflector::ABLATIVE) . $twoWordPatronymic;
+        $this->prepositional = self::declinationFio($fio, Inflector::PREPOSITIONAL) . $twoWordPatronymic;
     }
 
-    public function edit(DeclinationFioForm $form) {
+    public function edit(DeclinationFioForm $form)
+    {
         $this->nominative = $form->nominative;
         $this->genitive = $form->genitive;
         $this->dative = $form->dative;
@@ -39,8 +42,9 @@ class DeclinationFio extends ActiveRecord
         $this->prepositional = $form->prepositional;
     }
 
-    public static function declinationFio($fio, $case) {
-        return  Yii::$app->inflection->inflectName($fio, $case);
+    public static function declinationFio($fio, $case)
+    {
+        return Yii::$app->inflection->inflectName($fio, $case);
     }
 
     /**
@@ -62,7 +66,7 @@ class DeclinationFio extends ActiveRecord
 
     public static function labels()
     {
-        $declination= new static();
+        $declination = new static();
         return $declination->attributeLabels();
 
     }

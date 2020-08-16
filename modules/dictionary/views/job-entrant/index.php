@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <?= Html::a('Создать', ['job-entrant/create'], ['class' => 'btn btn-success']) ?>
         </div>
-        <div class="box-body">
+        <div class="table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel'=> $searchModel,

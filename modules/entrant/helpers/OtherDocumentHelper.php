@@ -13,12 +13,17 @@ class OtherDocumentHelper
     const TRANSLATION_DOCUMENT_EDU = 2;
     const TRANSLATION_DOCUMENT_NAME = 3 ;
     const STATEMENT_TARGET = 4;
+    const STATEMENT_AGREE_TPGU = 5;
+    const WITHOUT_APPENDIX = 6;
 
     public static function translationList() {
-        return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостворяющего личность",
+        return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостоверяющего личность",
             self::TRANSLATION_DOCUMENT_EDU  => "Перевод документа об образовании",
             self::TRANSLATION_DOCUMENT_NAME  => "Документ о смене ФИО",
-            self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении'
+            self::STATEMENT_TARGET => 'Согласие на заключение договора о целевом обучении',
+            self::STATEMENT_AGREE_TPGU => 'Заявление о разрешении на дистанционное заключение договора 
+            об оказании платных образовательных услуг',
+            self::WITHOUT_APPENDIX => 'Заявление о подачи документа об образовании без приложения (без обложки)',
         ];
     }
 
@@ -46,7 +51,8 @@ class OtherDocumentHelper
     public static function isExitsUpdateName($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=>[DictIncomingDocumentTypeHelper::ID_NAME_UPDATE,
-            DictIncomingDocumentTypeHelper::ID_NAME_WEDDING, DictIncomingDocumentTypeHelper::ID_NAME_WEDDING_DOC]])->exists();
+            DictIncomingDocumentTypeHelper::ID_NAME_WEDDING, DictIncomingDocumentTypeHelper::ID_NAME_WEDDING_DOC,
+            DictIncomingDocumentTypeHelper::ID_NAME_BREAK_WEDDING]])->exists();
     }
 
     public static function preemptiveRightUser($user_id, $type_id) {

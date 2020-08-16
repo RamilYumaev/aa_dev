@@ -48,7 +48,7 @@ class DataExportHelper
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
-        $receptionMethodId = in_array($anketa->category_id, CategoryStruct::UMSGroup()) ? 2 : 1;
+        $receptionMethodId = in_array($anketa->category_id, array_merge(CategoryStruct::UMSGroup(), [CategoryStruct::TPGU_PROJECT])) ? 2 : 1;
         $result = [
             'incoming' => [
                 'surname' => $profile->last_name,
@@ -133,8 +133,12 @@ class DataExportHelper
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
         && $organization->organization->ais_id ? $organization->organization->ais_id : null;
         foreach ($statement->statementCg as $currentApplication) {
-            $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
-                $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+            if ($anketa->category_id == CategoryStruct::TPGU_PROJECT) {
+                $noCse = 1;
+            } else {
+                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
+                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+            }
             $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
                 $statement->user_id,
                 $statement->faculty_id,
@@ -203,7 +207,7 @@ class DataExportHelper
 
     public static function dataCSE($userId)
     {
-        $cse = CseViSelectHelper::dataInAIASCSE($userId);
+        $cse = self::uniqueMultiArray($userId);
         $n = 0;
         if ($cse) {
             $result['documentsCse'] = [];
@@ -213,7 +217,7 @@ class DataExportHelper
                         'year' => $key,
                         'type_id' => 1,
                     ];
-                foreach ($cse[$key] as $data) {
+                foreach ($value as $data) {
                     $result['documentsCse'][$n]['subject'][] = [
                         'cse_subject_id' => $data['ex'] == DictCseSubjectHelper::LANGUAGE ? DictCseSubjectHelper::aisId($data['language']) : DictCseSubjectHelper::aisId($data['cse']),
                         'mark' => $data['mark'],
@@ -221,11 +225,30 @@ class DataExportHelper
                 }
                 $n++;
             }
+
             return $result;
         }
 
         return [];
     }
+
+
+    public static function uniqueMultiArray($userId)
+    {
+        $temp_array = [];
+        $key_array = [];
+        $cse = CseViSelectHelper::dataInAIASCSE($userId);
+        foreach ($cse as $key => $val) {
+            foreach ($cse[$key] as $data) {
+                if (!in_array($data['cse'], $key_array)) {
+                    $key_array[] = $data['cse'];
+                    $temp_array[$key][] = $data;
+                }
+            }
+        }
+        return $temp_array;
+    }
+
 
     public static function cse($userId)
     {
@@ -272,7 +295,10 @@ class DataExportHelper
         $patronymic = "";
         $result['documents'] = [];
 
-        foreach (PassportData::find()->where(['user_id' => $userId])->all() as $currentDocument) {
+        foreach (PassportData::find()
+                     ->andWhere(['user_id' => $userId])
+                     ->orderBy(['main_status'=> SORT_DESC])
+                     ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 1,
@@ -326,7 +352,9 @@ class DataExportHelper
             ];
         }
 
-        foreach (DocumentEducation::find()->where(['user_id' => $userId])->all() as $currentDocument) {
+        foreach (DocumentEducation::find()
+                     ->andWhere(['user_id' => $userId])
+                     ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 3,
@@ -368,39 +396,40 @@ class DataExportHelper
         foreach ($agreement->statement as $statement) {
             foreach ($statement->statementCg as $currentApplication) {
                 $result['incoming']['competitive_groups'][] =
-                     $currentApplication->cg->ais_id;
+                    $currentApplication->cg->ais_id;
             }
         }
         return $result;
     }
 
-    public static function dataIncomingContract(StatementAgreementContractCg $contractCg, UserAis $userAis) {
-        if($contractCg->typeEntrant()) {
-           return ['export_agreement' =>[
-                'token'=> '849968aa53dd0732df8c55939f6d1db9',
-                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
-                "incoming_id"=>$userAis->incoming_id,
+    public static function dataIncomingContract(StatementAgreementContractCg $contractCg, UserAis $userAis)
+    {
+        if ($contractCg->typeEntrant()) {
+            return ['export_agreement' => [
+                'token' => '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
+                "incoming_id" => $userAis->incoming_id,
                 'agreement' => [
-                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
-                    'customer_type_id'=>2,
+                    'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id' => 2,
                     'customer_is_abiturient_status' => 1,
-                    'current_status_id'=>1,
+                    'current_status_id' => 1,
                 ],
             ]];
-        } elseif($contractCg->typePersonal()) {
+        } elseif ($contractCg->typePersonal()) {
             /* @var $personal PersonalEntity */
             $personal = $contractCg->personal;
-            return ['export_agreement' =>[
-                'token'=> '849968aa53dd0732df8c55939f6d1db9',
-                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
-                "incoming_id"=>$userAis->incoming_id,
+            return ['export_agreement' => [
+                'token' => '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
+                "incoming_id" => $userAis->incoming_id,
                 'agreement' => [
-                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
-                    'customer_type_id'=>2,
+                    'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id' => 2,
                     'customer_is_abiturient_status' => 0,
-                    'current_status_id'=>1,
+                    'current_status_id' => 1,
                     'individual_surname' => $personal->surname,
-                    'individual_name' =>  $personal->name,
+                    'individual_name' => $personal->name,
                     'individual_patronymic' => $personal->patronymic,
                     'individual_passport_series' => $personal->series,
                     'individual_passport_number' => $personal->number,
@@ -420,20 +449,20 @@ class DataExportHelper
                     'individual_phone' => $personal->phone,
                 ],
             ]];
-        }elseif($contractCg->typeLegal()) {
+        } elseif ($contractCg->typeLegal()) {
             /* @var $legal LegalEntity */
             $legal = $contractCg->legal;
-            return ['export_agreement' =>[
-                'token'=> '849968aa53dd0732df8c55939f6d1db9',
-                'competitive_group_id'=>$contractCg->statementCg->cg->ais_id,
-                "incoming_id"=>$userAis->incoming_id,
+            return ['export_agreement' => [
+                'token' => '849968aa53dd0732df8c55939f6d1db9',
+                'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
+                "incoming_id" => $userAis->incoming_id,
                 'agreement' => [
-                    'date'=>\Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
-                    'customer_type_id'=>1,
+                    'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
+                    'customer_type_id' => 1,
                     'customer_is_abiturient_status' => 0,
-                    'current_status_id'=>1,
+                    'current_status_id' => 1,
                     'entity_name' => $legal->name,
-                    'entity_agent_document' =>$legal->footing,
+                    'entity_agent_document' => $legal->footing,
                     'entity_agent_surname' => $legal->surname,
                     'entity_agent_name' => $legal->first_name,
                     'entity_agent_patronymic' => $legal->patronymic,
@@ -453,28 +482,30 @@ class DataExportHelper
                     'entity_address_housing' => $legal->housing,
                     'entity_address_building' => $legal->building,
                     'entity_address_flat' => $legal->flat,
-                    'entity_post_address_line'=>$legal->address_postcode,
+                    'entity_post_address_line' => $legal->address_postcode,
                     'entity_phone' => $legal->phone,
                 ],
             ]];
         }
     }
 
-    public static function dataContractStatus(StatementAgreementContractCg $contractCg, $statusKey) {
-            return
-                ['agreement'=>['number'=>$contractCg->number,
-                    'status_id'=>ContractHelper::statusAisNumber($statusKey)]];
-        }
-
-
-    public static function dataReceipt(ReceiptContract $receiptContract) {
+    public static function dataContractStatus(StatementAgreementContractCg $contractCg, $statusKey)
+    {
         return
-            ['receipt' =>[
-            'number'=> $receiptContract->contractCg->number,
-            'bank'=>$receiptContract->bank,
-            'pay_sum'=>$receiptContract->pay_sum,
-            'pay_date'=>$receiptContract->date,
-        ]];
+            ['agreement' => ['number' => $contractCg->number,
+                'status_id' => ContractHelper::statusAisNumber($statusKey)]];
+    }
+
+
+    public static function dataReceipt(ReceiptContract $receiptContract)
+    {
+        return
+            ['receipt' => [
+                'number' => $receiptContract->contractCg->number,
+                'bank' => $receiptContract->bank,
+                'pay_sum' => $receiptContract->pay_sum,
+                'pay_date' => $receiptContract->date,
+            ]];
     }
 
 

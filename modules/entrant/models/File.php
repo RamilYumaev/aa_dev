@@ -7,6 +7,7 @@ use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\queries\FileQuery;
 use modules\usecase\ImageGD;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
+use olympic\models\auth\Profiles;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -80,6 +81,13 @@ class File extends ActiveRecord
         return  $this->status == FileHelper::STATUS_NO_ACCEPTED;
     }
 
+    public function getProfileUser() {
+        return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getModelName() {
+        return FileHelper::listName()[$this->model];
+    }
 
     public function setFile(UploadedFile $file): void
     {
@@ -87,12 +95,13 @@ class File extends ActiveRecord
         $this->file_name_base= \Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-
     public function attributeLabels()
     {
         return [
-            'type'=>'Тип',
-            'file_name'=>'Файл',
+            'user_id'=>'Абитуриент',
+            'model'=>'Модель',
+            'updated_at' => "Дата обновления",
+            'status' => "Статус"
         ];
     }
 

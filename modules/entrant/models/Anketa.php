@@ -73,6 +73,10 @@ class Anketa extends ActiveRecord
 
 
     }
+    public function isTpgu()
+    {
+        return $this->category_id == CategoryStruct::TPGU_PROJECT;
+    }
 
     public function isAgreement()
     {
@@ -152,6 +156,7 @@ class Anketa extends ActiveRecord
             'edu_finish_year' => 'В каком году Вы окончили последнюю образовательную организацию?',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
+            'category' => 'Категория',
             'university_choice' => 'Куда Вы собираетесь подавать документы?',
             'province_of_china' => 'Из какой Вы провинции?',
             'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',
@@ -196,6 +201,10 @@ class Anketa extends ActiveRecord
             AnketaHelper::HIGH_GRADUATE_LEVEL_ONLY_CONTRACT))
         ) {
             $result[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        }
+        if($this->category_id == CategoryStruct::TPGU_PROJECT){
+            $level = DictCompetitiveGroup::find()->distinct()->select('edu_level')->onlyTpgu()->column();
+            return $level;
         }
 
         return array_uintersect($result, self::existsLevel($this->university_choice), "strcasecmp");

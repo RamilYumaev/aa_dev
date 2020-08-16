@@ -1,5 +1,6 @@
 <?php
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
@@ -17,31 +18,31 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
                     [
                             'attribute' => 'user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel,
-                                StatementHelper::columnStatementIa('user_id',  'profileUser.fio'),
+                           'filter' => SelectDataHelper::dataSearchModel($searchModel,
+                                StatementHelper::columnStatementIa('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)'),
                                 'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
 
                     ],
                     [
                         'attribute' => 'edu_level',
-                        'filter' => StatementHelper::columnStatementIa('edu_level',  'eduLevel'),
+                         'filter' => DictCompetitiveGroupHelper::getEduLevels(),
                         'value'=>'eduLevel',
                     ],
                     [
                         'attribute' => 'created_at',
-                        'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
+                       'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
                     ['value' => function ($model) {
-                        return '<span class="label label-'.StatementHelper::colorName( $model->status).'">
+                        return '<span class="label label-'.StatementHelper::colorList()[$model->status].'">
                         '.$model->statusNameJob.'</span>';
                     }, 'format'=> 'raw' ],
                     ['class' => ActionColumn::class, 'controller' => 'statement-individual-achievements', 'template' => '{view}']

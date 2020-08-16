@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'url'=>'olympiads/baccalaureate']),
                 ],
                 [
-                'header' => 'в магистартуру',
+                'header' => 'в магистратуру',
                 'content' => $this->render('_menu',[ 'menu'=>
                     OlympicListHelper::olympicMenu(OlympicHelper::FOR_STUDENT, DictFacultyHelper::NO_FILIAL),
                     'url'=>'olympiads/magistracy'])

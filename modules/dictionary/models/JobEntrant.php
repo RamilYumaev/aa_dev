@@ -19,7 +19,9 @@ use yii\db\ActiveRecord;
  * @property integer $category_id
  * @property integer $faculty_id
  * @property integer $email_id
- * @property integer $status;
+ * @property integer $examiner_id
+ * @property integer $right_full
+ * @property integer $status
  *
  **/
 
@@ -38,7 +40,9 @@ class JobEntrant extends ActiveRecord
         $this->user_id = $form->user_id;
         $this->category_id = $form->category_id;
         $this->faculty_id = $this->category_id == JobEntrantHelper::FOK ? $form->faculty_id : null;
+        $this->examiner_id = $this->category_id == JobEntrantHelper::EXAM ? $form->examiner_id : null;
         $this->email_id = $form->email_id ?? null;
+        $this->right_full = $form->right_full;
     }
 
     public function setStatus($status) {
@@ -62,6 +66,10 @@ class JobEntrant extends ActiveRecord
         return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
     }
 
+    public function getExaminer() {
+        return $this->hasOne(DictExaminer::class, ['id' => 'examiner_id']);
+    }
+
     public function getCategory() {
         return JobEntrantHelper::listCategories()[$this->category_id];
     }
@@ -76,6 +84,10 @@ class JobEntrant extends ActiveRecord
 
     public function isCategoryUMS() {
         return $this->category_id == JobEntrantHelper::UMS;
+    }
+
+    public function isTPGU(){
+        return $this->category_id == JobEntrantHelper::TPGU;
     }
 
     public function isCategoryTarget() {
@@ -98,6 +110,10 @@ class JobEntrant extends ActiveRecord
         return $this->category_id == DictFacultyHelper::COLLAGE;
     }
 
+    public function isCategoryExam() {
+        return $this->category_id == JobEntrantHelper::EXAM;
+    }
+
     public function getStatusName() {
         return JobEntrantHelper::statusList()[$this->status];
     }
@@ -109,6 +125,8 @@ class JobEntrant extends ActiveRecord
     public function getFullNameJobEntrant() {
          if($this->isCategoryFOK()) {
              return $this->category.". ".$this->faculty->full_name;
+         }elseif ($this->isCategoryExam()) {
+             return $this->category.". ".$this->examiner->fio;
          }
         return $this->category;
     }
@@ -120,7 +138,9 @@ class JobEntrant extends ActiveRecord
             'user_id' => "Пользователь",
             'faculty_id' => 'Факультет',
             'status' => 'Статус',
-            'email_id' => "Email  для рассылки"
+            'examiner_id' => "Председатель экзаменационной комиссии",
+            'email_id' => "Email  для рассылки",
+            'right_full' => "Неограниченные права",
         ];
     }
 }

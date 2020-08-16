@@ -12,6 +12,18 @@ class CseViSelectHelper
         return $cseSubjectResult = CseViSelect::findOne(['user_id' => $userId]);
     }
 
+    public static function viUser ($userId)
+    {
+        $model = self::modelOne($userId);
+        return $model && $model->dataVi() ? array_values($model->dataVi()): false;
+    }
+
+    public static function viKeyUser ($userId)
+    {
+        $model = self::modelOne($userId);
+        return $model && $model->dataVi() ? $model->dataVi(): false;
+    }
+
     public static function inKeyVi($key, array $data) {
         if($data) {
             if(key_exists($key, $data)) {
@@ -31,6 +43,10 @@ class CseViSelectHelper
     }
 
     public static function isCorrect($userId) {
+        if((\Yii::$app->user->identity->anketa())->isTpgu())
+        {
+            return true;
+        }
         $model =  self::modelOne($userId);
         $data = true;
         $exams = DictCompetitiveGroupHelper::groupByExams($userId);

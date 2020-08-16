@@ -27,7 +27,7 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
         user-select: none;
     }
 </style>
-<div class="container-fluid gray">
+<div class="container gray">
     <div class="row">
         <div class="row">
             <center><h3><?= $attempt->profile->fio ?></h3></center>

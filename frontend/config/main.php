@@ -28,6 +28,10 @@ return [
             'class' => \modules\entrant\FrontendEntrant::class,
             'viewPath' => "@modules/entrant/views/frontend",
         ],
+        'exam' => [
+            'class' => \modules\exam\FrontendExam::class,
+            'viewPath' => "@modules/exam/views/frontend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
@@ -77,6 +81,10 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
+            'savePath'=> '@frontend/runtime/session',
+            'cookieParams' => ['httponly' => true, 'lifetime' => 86400],
+            'timeout' => 86400, //session expire
+            'useCookies' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -84,6 +92,12 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\web\HttpException:403',
+                        'yii\web\HttpException:404',
+                        'yii\web\HttpException:400',
+                        'yii\web\HttpException:401',
+                    ],
                 ],
             ],
         ],

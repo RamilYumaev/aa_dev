@@ -66,6 +66,7 @@ class Agreement extends YiiActiveRecordAndModeration
             'number'=> 'Номер договора',
             'year' =>   'Год',
             'user_id'=> "Абитуриент",
+            'message'=> "Сообщение об ошибке",
             'status_id' => 'Статус'
         ];
     }

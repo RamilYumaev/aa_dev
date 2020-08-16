@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+\frontend\assets\modal\ModalAsset::register($this);
 /* @var $this yii\web\View */
 $this->title = 'Мои результаты ЕГЭ';
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
@@ -15,7 +16,7 @@ $userId = Yii::$app->user->identity->getId();
     </div>
 </div>
 <div class="container m-20">
-    <p class="label label-warning fs-15">После внесения всех необходимых предметов ЕГЭ, необходимо вернутся назад к выбору уровням!</p>
+    <p class="label label-info fs-15">После внесения всех необходимых предметов ЕГЭ, необходимо вернутся назад к выбору уровням!</p>
 
 <?= \modules\entrant\widgets\cse\CseSubjectResultWidget::widget(['userId' => $userId]);?>
 

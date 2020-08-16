@@ -4,7 +4,6 @@
 namespace modules\entrant\services;
 
 use common\transactions\TransactionManager;
-use modules\entrant\forms\BaseMessageForm;
 use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
@@ -13,7 +12,6 @@ use yii\helpers\FileHelper as IfFile;
 use modules\entrant\repositories\FileRepository;
 use yii\db\BaseActiveRecord;
 use yii\web\UploadedFile;
-use Zxing\QrReader;
 
 class FileService
 {
@@ -62,7 +60,14 @@ class FileService
             $this->correctImageFile($form->file_name);
             $model->setFile($form->file_name);
             if($model->isNoAcceptedStatus())
-            {$model->setStatus(FileHelper::STATUS_WALT);}
+            {
+                $model->setStatus(FileHelper::STATUS_WALT);
+                $modelOne = $model->model::findOne($model->record_id);
+                if(method_exists($modelOne, 'setStatus')) {
+                    $modelOne->setStatus(FileHelper::STATUS_WALT);
+                    $modelOne->save();
+                }
+            }
             $this->repository->save($model);
         }
     }

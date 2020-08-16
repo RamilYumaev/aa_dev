@@ -155,8 +155,12 @@ class AnketaHelper
     public static function getButton($level, $specialRight = null)
     {
         $govLineStatus = false;
+        $tpguStatus = false;
         if ((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
             $govLineStatus = true;
+        }
+        if((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::TPGU_PROJECT){
+            $tpguStatus =true;
         }
 
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
@@ -169,7 +173,7 @@ class AnketaHelper
         }
 
         return Html::a($anchor, ["applications/"
-            . DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus)],
+            . DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus, $tpguStatus)],
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
@@ -182,7 +186,7 @@ class AnketaHelper
             'year' => EduYearHelper::eduYear()]);
         $specialRightDocument = OtherDocument::find()
             ->andWhere(["user_id" => $userId])
-            ->andWhere(["in", "type", [33, 44]])
+            ->andWhere(["in", "type", [33, 44, 48]])
             ->exists(); //@TODO
 
         $arrayEduLevel = self::getPermittedEducationLevels($level);

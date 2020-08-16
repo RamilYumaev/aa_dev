@@ -23,7 +23,7 @@ $result = "";
 
 foreach ($currentFaculty as $faculty) {
 
-    $cgFacultyBase = DictCompetitiveGroup::find()
+    $cgFaculty = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->budgetOnly()
         ->foreignerStatus(1)
@@ -31,12 +31,6 @@ foreach ($currentFaculty as $faculty) {
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();
-
-    if (!in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SPO, AnketaHelper::SCHOOL_TYPE_NPO])) {
-        $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
-    }
-
-    $cgFaculty = $cgFacultyBase->all();
 
     if ($cgFaculty) {
 

@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\FileForm;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
@@ -9,10 +10,14 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\searches\FileSearch;
+use modules\entrant\searches\StatementSearch;
 use modules\entrant\services\FileService;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -59,6 +64,28 @@ class FileController extends Controller
     }
 
 
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    /**
+     * @return mixed
+     */
+
+
+    public function actionIndex()
+    {
+        $searchModel = new FileSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /**
      * @param $hash
      * @param $id
@@ -78,6 +105,8 @@ class FileController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addMessage($file->id, $form);
+                $link = $file ? $file->hashId : "";
+                return $this->redirect(Yii::$app->request->referrer.$link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -101,11 +130,14 @@ class FileController extends Controller
         $model = $this->findModel($id, $modelName);
         try {
             $this->service->accepted($model->id);
+            $link = $model ? $model->hashId : "";
+            return $this->redirect(Yii::$app->request->referrer.$link);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->redirect(Yii::$app->request->referrer);
+
     }
 
 

@@ -181,7 +181,7 @@ class StatementAgreementContractCg extends ActiveRecord
     public function attributeLabels()
     {
         return [ "created_at" => "Дата создания",
-                 "updated_at" => "Дата  обновленя",
+                 "updated_at" => "Дата  обновления",
                   'fio' => "ФИО  Абитуриента",
                  'cg' => "Конкурсная группа",
                  'number' => "Номер договора",

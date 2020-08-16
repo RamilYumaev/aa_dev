@@ -36,15 +36,19 @@ class StatementReadConsentRepository
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
+        if ($this->jobEntrant->isTPGU()) {
+            $query->andWhere(['anketa.category_id' => CategoryStruct::TPGU_PROJECT]);
+        }
+
         if($this->jobEntrant->isCategoryUMS()) {
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
-                CategoryStruct::SPECIAL_RIGHT_COMPETITION]])
-            ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
-                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]])
+                ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

@@ -6,7 +6,10 @@ namespace dictionary\models;
 
 use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
+use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
+use modules\dictionary\models\DictCseSubject;
 use modules\entrant\helpers\CseSubjectHelper;
 
 class DictDiscipline extends \yii\db\ActiveRecord
@@ -31,6 +34,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->cse_subject_id = $form->cse_subject_id;
         $discipline->ais_id = $form->ais_id;
         $discipline->dvi = $form->dvi;
+        $discipline->is_och = $form->is_och;
         $discipline->composite_discipline = $form->composite_discipline;
         return $discipline;
     }
@@ -39,6 +43,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
     {
         $this->name = $form->name;
         $this->links = $form->links;
+        $this->is_och = $form->is_och;
         $this->cse_subject_id = $form->cse_subject_id;
         $this->ais_id = $form->ais_id;
         $this->dvi = $form->dvi;
@@ -63,6 +68,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'ais_id' => "ID АИС ВУЗ",
             'dvi' => "Дополнительное вступительное испытание бакалавриата",
             'composite_discipline' => "Составная дисциплина",
+            'is_och' => "Очный экзамен?",
         ];
     }
 
@@ -89,11 +95,39 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return self::find()->select("id")->andWhere(['in', 'cse_subject_id', $cseId])->column();
     }
 
+    public function getNameIsOch()
+    {
+        return DictDefaultHelper::name($this->is_och);
+    }
+
     public static function dviDiscipline(): array
     {
         return self::find()->select("id")
             ->andWhere(['dvi' => self::DVI_STATUS])
             ->column();
+    }
+
+    public function getDisciplineCg()
+    {
+        return $this->hasMany(DisciplineCompetitiveGroup::class, ['discipline_id' => 'id']);
+    }
+
+    public function getCse()
+    {
+        return $this->hasOne(DictCseSubject::class, ['id' => 'cse_subject_id']);
+    }
+
+    public function disciplineCgAisColumn($filial = 0)
+    {
+        $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
+            ->select('dict_competitive_group.ais_id');
+        $query->andWhere(['year' => "2019-2020"])->andWhere(['foreigner_status' => 0]);
+        if ($filial) {
+            return $query->andWhere(['faculty_id' => $filial])->column();
+        } else {
+            return $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL])->column();
+        }
+
     }
 
     public static function compositeDiscipline()

@@ -84,5 +84,19 @@ class StatementConsentCgService
         $this->rejectionCgConsentRepository->remove($statement);
     }
 
+    public function statusView($id)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus(StatementHelper::STATUS_VIEW);
+        $this->repository->save($statement);
+    }
+
+    public function statusDraft($id)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus(StatementHelper::STATUS_WALT);
+        $this->repository->save($statement);
+    }
+
 
 }

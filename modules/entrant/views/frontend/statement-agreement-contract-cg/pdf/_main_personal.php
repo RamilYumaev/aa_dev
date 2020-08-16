@@ -25,14 +25,11 @@ $personal->date_of_issue;
 $personal->authority;
 $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement->user_id);
 $cg = $agreement->statementCg->cg;
-$agreementData = AgreementHelper::data($anketa->university_choice);
+$collegeStatus = $cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+$agreementData = AgreementHelper::data($anketa->university_choice,$collegeStatus);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
-<<<<<<< fix_dog
-$totalCost = $cg->education_year_cost * $cg->education_duration;
-=======
 $duration = $collegeStatus ? ceil($cg->education_duration) : $cg->education_duration;
 $totalCost = $cg->education_year_cost * $duration;
->>>>>>> local
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
 $costMonet = $costExplode[1] ?? "00";
@@ -94,7 +91,7 @@ if ($eduDurationMonth >= 1 / 12) {
             <?php endif; ?>
         <?php endif; ?>
         направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>,
-        направленность (профиль) <strong><?= $cg->specialization->name ?></strong>
+        направленность (профиль) <strong><?= $cg->specialization->name ?? $cg->specialty->name?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
         программой Исполнителя.
@@ -118,7 +115,7 @@ if ($eduDurationMonth >= 1 / 12) {
             образование
         <?php else: ?>высшее образование -
             <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?><?php endif; ?>),
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого устанавливается федеральным органом исполнительной власти, осуществляющим
         функции по выработке и реализации государственной политики и нормативно-правовому регулированию
         в сфере
@@ -135,9 +132,9 @@ if ($eduDurationMonth >= 1 / 12) {
         ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>среднее профессиональное
             образование
         <?php else: ?>высшее образование
-        <?php endif; ?>
         - <?= DictCompetitiveGroupHelper::eduLevelForAgreement()[$cg->edu_level] ?>
-        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>
+        <?php endif; ?>),
+        - <?= DictCompetitiveGroupHelper::diplomaForEducationLevel()[$cg->edu_level] ?>,
         образец которого самостоятельно устанавливается Исполнителем.
     </p>
     <p align="justify">
@@ -217,7 +214,7 @@ if ($eduDurationMonth >= 1 / 12) {
         телефона, паспортных, анкетных и других данных.</p>
     <p class="text-center"><strong>3. Стоимость образовательных услуг, сроки и порядок их оплаты</strong></p>
     <p align="justify">3.1. Полная стоимость образовательных услуг за весь период обучения Обучающегося
-        составляет:
+        составляет
         <?= $costRuble
         . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?>рублей(-я) <?= $costMonet ?>
         копеек(-йки),
@@ -268,6 +265,8 @@ if ($eduDurationMonth >= 1 / 12) {
         3.7. В случае, если оплата обучения осуществляется за счет средств образовательного кредита,
         Обучающийся и (или) Заказчик обязаны проинформировать об этом Исполнителя в течение 10 (десяти)
         календарных дней после заключения Договора на оформление образовательного кредита.
+    </p>
+    <p align="justify">
         3.8. Во время нахождения в академическом отпуске оплата не взимается, а после возвращения из
         отпуска оплата производится в соответствии с разделом 3 настоящего Договора.
     </p>
@@ -304,8 +303,10 @@ if ($eduDurationMonth >= 1 / 12) {
     <p class="fs-7" style="text-indent: 60px">(ненужное вычеркнуть)</p>
     <div>фактически понесенных им расходов.</div>
     <p class="text-center"><strong>5. Ответственность Исполнителя, Заказчика и Обучающегося</strong></p>
-    ответственность, предусмотренную законодательством Российской Федерации и настоящим
-    Договором.
+    <p align="justify">
+        5.1. За Неисполнение или ненадлежащее исполнение своих обязательств по Договору Стороны несут ответственность,
+    предусмотренную законодательством Российской Федерации и настоящим Договором.
+    </p>
     <p align="justify">
         5.2. При обнаружении недостатка образовательной услуги, в том числе оказания не в полном
         объеме, предусмотренном образовательными программами (частью образовательной программы),

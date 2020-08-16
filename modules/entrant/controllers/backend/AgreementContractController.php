@@ -5,6 +5,7 @@ namespace modules\entrant\controllers\backend;
 
 
 use common\helpers\EduYearHelper;
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\ContractMessageForm;
@@ -20,6 +21,7 @@ use modules\entrant\searches\StatementAgreementContractSearch;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\AgreementService;
 use modules\entrant\services\StatementAgreementContractCgService;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
 use Yii;
@@ -36,17 +38,31 @@ class AgreementContractController extends Controller
         $this->service = $service;
     }
 
+    public function beforeAction($event)
+    {
+        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesAgreement())) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
+
     /**
      * @param null $status
+     * @param null $faculty
+     * @param null $eduLevel
      * @return mixed
      */
-    public function actionIndex($status = null)
+    public function actionIndex($status = null, $faculty = null, $eduLevel = null)
     {
-        $searchModel = new StatementAgreementContractSearch($status, $this->jobEntrant);
+        $searchModel = new StatementAgreementContractSearch($status, $this->jobEntrant, $faculty, $eduLevel);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'status'=> $status,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -181,6 +197,9 @@ class AgreementContractController extends Controller
 
     public function actionIsMonth($id, $status)
     {
+        if(!\Yii::$app->user->can('month-receipt')) {
+            throw  new NotFoundHttpException("У вас нет прав", 403);
+        }
         $contract = $this->findModel($id);
         try {
             $this->service->month($contract->id, $status);

@@ -18,7 +18,7 @@ $cpk = in_array($anketa->citizenship_id, $cpkCountryArray)
     || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION;
 if ($cpk) {
 
-    $actual = AddressHelper::actual($user_id);
+   // $actual = AddressHelper::actual($user_id);
     $reg = AddressHelper::registrationResidence($user_id);
 }
 ?>

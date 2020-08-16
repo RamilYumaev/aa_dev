@@ -14,13 +14,17 @@ class StatementAgreementContractSearch extends  Model
 {
     public $faculty_id,  $cg, $user_id, $date_from, $date_to, $number;
     public $status, $status_id;
+    public $faculty;
+    public $edulevel;
     private $jobEntrant;
 
 
-    public function __construct($status, JobEntrant $jobEntrant,   $config = [])
+    public function __construct($status, JobEntrant $jobEntrant, $faculty, $eduLevel,  $config = [])
     {
         $this->status = $status;
         $this->jobEntrant = $jobEntrant;
+        $this->faculty = $faculty;
+        $this->edulevel = $eduLevel;
         parent::__construct($config);
     }
 
@@ -38,13 +42,13 @@ class StatementAgreementContractSearch extends  Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = (new ContractReadRepository($this->jobEntrant))->readData()->orderByCreatedAtDesc();
+        $query = (new ContractReadRepository($this->jobEntrant, $this->faculty, $this->edulevel))->readData()->orderByCreatedAtDesc();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        if($this->status) {
+        if(!is_null($this->status)) {
             $query->andWhere(['consent.status_id' => $this->status]);
         }
 

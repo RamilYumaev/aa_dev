@@ -2,14 +2,18 @@
 
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
+use modules\entrant\searches\ProfilesFileSearch;
+use modules\entrant\searches\ProfilesStatementCOZFOKSearch;
 use modules\entrant\searches\ProfilesStatementSearch;
 use modules\entrant\services\EmailDeliverService;
 use olympic\models\auth\Profiles;
 use Yii;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,6 +39,20 @@ class DefaultController extends Controller
             ],
         ];
     }
+
+    public function beforeAction($event)
+    {
+        if(!$this->jobEntrant->right_full) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
+
 
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
@@ -66,19 +84,35 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param integer $id
+     * @param null $type
      * @param  $is_id
      * @return mixed
      */
     public function actionIndex($type = null, $is_id = null)
     {
-        $searchModel = new ProfilesStatementSearch($this->jobEntrant, $type, $is_id);
+        $searchModel = !in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesCoz()) ? new ProfilesStatementSearch($this->jobEntrant, $type, $is_id) : new  ProfilesStatementCOZFOKSearch($this->jobEntrant, $type, $is_id);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => $type
+        ]);
+    }
+
+    /**
+     * @param null $status
+     * @return mixed
+     */
+    public function actionIndexFile()
+    {
+        $searchModel = new ProfilesFileSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index-file', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
         ]);
     }
     /**
@@ -155,7 +189,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id): Profiles
     {
-        $query = (new ProfileStatementReadRepository($this->jobEntrant))->readData(null)
+        $query = (new ProfileStatementReadRepository($this->jobEntrant))->profileDefaultQuery()
             ->andWhere(['profiles.user_id' => $id]);
 
         if (($model = $query->one()) !== null) {

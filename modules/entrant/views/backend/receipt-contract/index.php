@@ -22,14 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     [       'attribute' => 'contractCg.statementCg.statement.user_id',
-                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser.fio'), 'user_id', 'statementCg.statement.profileUser.fio'),
+                            'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatementAgreement('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)'), 'user_id', 'statementCg.statement.profileUser.fio'),
                             'value'=> 'contractCg.statementCg.statement.profileUser.fio'
 
                     ],

@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\readRepositories\AgreementReadRepository;
@@ -16,6 +17,14 @@ class AgreementHelper
     const STATUS_VIEW = 1;
     const STATUS_ACCEPTED = 2;
     const STATUS_NO_ACCEPTED = 3;
+
+    const FIO_NOMINATIVE = 1;
+    const FIO_GENITIVE = 2;
+    const POSITION_NOMINATIVE = 3;
+    const POSITION_GENITIVE = 4;
+    const PROCURATION = 5;
+    const FIO_SHORT = 6;
+
 
     public static function statusList()
     {
@@ -51,16 +60,16 @@ class AgreementHelper
         return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
     }
 
-    public static function data($universityChoice)
+    public static function data($universityChoice, $collegeStatus = false)
     {
         return [
             'accidence' => self::accidence()[$universityChoice],
-            'positionsGenitive' => self::positionsGenitive()[$universityChoice],
-            'positionNominative' => self::positionNominative()[$universityChoice],
-            'directorNameShort' => self::directorNameShort()[$universityChoice],
-            'directorNameGenitiveFull' => self::directorNameGenitiveFull()[$universityChoice],
-            'directorNameNominativeFull' => self::directorNameNominativeFull()[$universityChoice],
-            'procuration' => self::procuration()[$universityChoice],
+            'positionsGenitive' => self::positionsGenitive($collegeStatus)[$universityChoice],
+            'positionNominative' => self::positionNominative($collegeStatus)[$universityChoice],
+            'directorNameShort' => self::directorNameShort($collegeStatus)[$universityChoice],
+            'directorNameGenitiveFull' => self::directorNameGenitiveFull($collegeStatus)[$universityChoice],
+            'directorNameNominativeFull' => self::directorNameNominativeFull($collegeStatus)[$universityChoice],
+            'procuration' => self::procuration($collegeStatus)[$universityChoice],
 
         ];
     }
@@ -103,7 +112,7 @@ class AgreementHelper
                                                 Наименование банка –ЮЖНОЕ ГУ Банка России по Краснодарскому краю<br/>
                                                 БИК – 040349001<br/>
                                                 р/с – 40501810000002000002<br/>
-                                                ОКТМО – 03703000001<br/>
+                                                ОКТМО – 03703000<br/>
                                                 КБК 00000000000000000130 – за оказание платных услуг<br/>
                                                 л/с – Отдел №2 УФК по Краснодаскому краю 20186В01260",
             AnketaHelper::POKROV_BRANCH => "Федеральное государственное бюджетное образовательное учреждение высшего 
@@ -177,34 +186,34 @@ class AgreementHelper
         ];
     }
 
-    public static function positionsGenitive()
+    public static function positionsGenitive($collegeStatus = false)
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'первого проректора',
-            AnketaHelper::ANAPA_BRANCH => 'директора анапского филиала',
-            AnketaHelper::POKROV_BRANCH => 'директора покровского филиала',
-            AnketaHelper::STAVROPOL_BRANCH => 'директора ставропольского филиала',
-            AnketaHelper::DERBENT_BRANCH => 'директора дербентского филиала',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора сергиево-посадского филиала',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::POSITION_GENITIVE),
+            AnketaHelper::ANAPA_BRANCH => 'директора Анапского филиала',
+            AnketaHelper::POKROV_BRANCH => 'директора Покровского филиала',
+            AnketaHelper::STAVROPOL_BRANCH => 'директора Ставропольского филиала',
+            AnketaHelper::DERBENT_BRANCH => 'директора Дербентского филиала',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора Сергиево-Посадского филиала',
         ];
     }
 
-    public static function positionNominative()
+    public static function positionNominative($collegeStatus = false)
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Первый проректор',
-            AnketaHelper::ANAPA_BRANCH => 'Директор анапского филиала',
-            AnketaHelper::POKROV_BRANCH => 'Директор покровского филиала',
-            AnketaHelper::STAVROPOL_BRANCH => 'Директор ставропольского филиала',
-            AnketaHelper::DERBENT_BRANCH => 'Директор дербентского филиала',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор сергиево-посадского филиала',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::POSITION_NOMINATIVE),
+            AnketaHelper::ANAPA_BRANCH => 'Директор Анапского филиала',
+            AnketaHelper::POKROV_BRANCH => 'Директор Покровского филиала',
+            AnketaHelper::STAVROPOL_BRANCH => 'Директор Ставропольского филиала',
+            AnketaHelper::DERBENT_BRANCH => 'Директор Дербентского филиала',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор Сергиево-Посадского филиала',
         ];
     }
 
-    public static function directorNameShort()
+    public static function directorNameShort($collegeStatus = false)
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'В.П. Дронов',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::FIO_SHORT),
             AnketaHelper::ANAPA_BRANCH => 'Е.А. Некрасова',
             AnketaHelper::POKROV_BRANCH => 'Л.В. Бойченко',
             AnketaHelper::STAVROPOL_BRANCH => 'Н.Н. Сотникова',
@@ -213,10 +222,10 @@ class AgreementHelper
         ];
     }
 
-    public static function directorNameGenitiveFull()
+    public static function directorNameGenitiveFull($collegeStatus = false)
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Дронова Виктора Павловича',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::FIO_GENITIVE),
             AnketaHelper::ANAPA_BRANCH => 'Некрасовой Елены Анатольевны',
             AnketaHelper::POKROV_BRANCH => 'Бойченко Людмилы Васильевны',
             AnketaHelper::STAVROPOL_BRANCH => 'Сотниковой Натальи Николаевны',
@@ -225,10 +234,10 @@ class AgreementHelper
         ];
     }
 
-    public static function directorNameNominativeFull()
+    public static function directorNameNominativeFull($collegeStatus = false)
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => 'Дронов Виктор Павлович',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::FIO_NOMINATIVE),
             AnketaHelper::ANAPA_BRANCH => 'Некрасова Елена Анатольевна',
             AnketaHelper::POKROV_BRANCH => 'Бойченко Людмила Васильевна',
             AnketaHelper::STAVROPOL_BRANCH => 'Сотникова Наталья Николаевна',
@@ -237,19 +246,20 @@ class AgreementHelper
         ];
     }
 
-    public static function procuration() // Доверенность
+    public static function procuration($collegeStatus = false) // Доверенность
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => '№ 04 от 31 янв. 2020 г.',
-            AnketaHelper::ANAPA_BRANCH => '№ 10 от 30 апр. 2019 г.',
-            AnketaHelper::POKROV_BRANCH => '№ 11 от 13 мая 2019 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 17 от 13 мая 2019 г.',
+            AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
+            AnketaHelper::ANAPA_BRANCH => '№ 48 от 06 июля 2020 г.',
+            AnketaHelper::POKROV_BRANCH => '№ 25 от 12 мая 2020 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 30 от 12 мая 2020 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 13 мая 2019 г.',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 29 от 12.05.2020 г.',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июля 2020 г.',
         ];
     }
 
-    public static function columnAgreement($column, $value) {
+    public static function columnAgreement($column, $value)
+    {
         $query = (new AgreementReadRepository())->readData()
             ->select('agreement.' . $column)->groupBy('agreement.' . $column);
         return ArrayHelper::map($query->all(), $column, $value);
@@ -276,8 +286,8 @@ class AgreementHelper
                 } else {
                     return '31 августа';
                 }
-            }else{
-                return ''; //@todo дата не известна
+            } else {
+                return self::cameOnAugust31() ? '25 ноября' : '31 августа';
             }
         }
     }
@@ -285,5 +295,51 @@ class AgreementHelper
     private static function cameOnAugust31()
     {
         return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2020-08-31 18:00');
+    }
+
+    private static function collegeVuzSwitcher($collegeStatus, $type)
+    {
+        if ($collegeStatus) {
+            switch ($type) {
+                case self::FIO_NOMINATIVE :
+                    return "Владимирова Татьяна Николаевна";
+                    break;
+                case self::FIO_GENITIVE :
+                    return "Владимировой Татьяны Николаевны";
+                    break;
+                case self::POSITION_NOMINATIVE :
+                    return "Проректор по связям с общественностью";
+                    break;
+                case self::POSITION_GENITIVE :
+                    return "проректора по связям с общественностью";
+                    break;
+                case self::FIO_SHORT :
+                    return "Т.Н. Владимирова";
+                    break;
+                case self::PROCURATION :
+                    return "№ 19 от 24 марта 2020 г.";
+            }
+        } else {
+            switch ($type) {
+                case self::FIO_NOMINATIVE :
+                    return "Страхов Василий Вячеславович";
+                    break;
+                case self::FIO_GENITIVE :
+                    return "Страхова Василия Вячеславовича";
+                    break;
+                case self::POSITION_NOMINATIVE :
+                    return "Проректор по развитию";
+                    break;
+                case self::POSITION_GENITIVE :
+                    return "проректора по развитию";
+                    break;
+                case self::FIO_SHORT :
+                    return "В.В. Страхов";
+                    break;
+                case self::PROCURATION :
+                    return "№ 12 от 31 янв. 2020 г.";
+            }
+
+        }
     }
 }

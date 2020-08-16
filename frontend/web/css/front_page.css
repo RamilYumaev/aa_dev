@@ -842,17 +842,20 @@ select {
 .button-left {
     position: absolute;
     left: 10px;
-    top: 200px;
+    top: 90px;
 }
 
 .button-right {
     position: absolute;
     right: 145px;
-    top: 200px;
+    top: 90px;
 }
 
 .m-30 {
     margin: 30px;
+}
+.mt-70{
+    margin-top: 70px;
 }
 
 .p-20 {

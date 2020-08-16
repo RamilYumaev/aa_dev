@@ -27,8 +27,8 @@ use \dictionary\helpers\DictCountryHelper;
             <?php endif; ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'date_of_birth')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?php if (!$neededCountry): ?>
-                <?= $form->field($model, 'date_of_birth')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
                 <?= $form->field($model, 'place_of_birth')->textInput(['maxlength' => true]) ?>
             <?php endif; ?>
             <?= $form->field($model, 'date_of_issue')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>

@@ -34,13 +34,14 @@ use modules\entrant\widgets\file\FileListWidget;
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',
                                                 'data-target' => '#modal', 'data-modalTitle' => 'Кто выступает в роли заказчика?']) : ""; ?>
-                                        <?= $agreement->typePersonalOrLegal() && !$agreement->number ? Html::a('Добавить/редактировать данные 
+                                        <?= ($agreement->typePersonalOrLegal() && !$agreement->number) ||
+                                        ($agreement->typePersonalOrLegal() && $agreement->statusNoAccepted()) ? Html::a('Добавить/редактировать данные 
                                                 заказчика договора',
                                             ["statement-agreement-contract-cg/form", "id" => $agreement->id],
                                             ["class" => "btn btn-primary"]) : ""; ?>
                                         <?= $agreement->number ? Html::a('Скачать договор', ['statement-agreement-contract-cg/pdf', 'id' => $agreement->id],
                                             ['class' => 'btn btn-large btn-warning']) : Html::a('Сформировать договор', ['statement-agreement-contract-cg/create-pdf', 'id' => $agreement->id],
-                                            ['class' => 'btn btn-large btn-warning']) ?>
+                                            ['class' => 'btn btn-large btn-warning', "data-confirm" => " Подтверждаю, что введенные данные корректны и соответствуют заполняемым полям"]) ?>
                                         <?= $agreement->pdf_file && $agreement->statusSuccess() ? Html::a('Скачать подписанный договор', ['statement-agreement-contract-cg/get', 'id' => $agreement->id],
                                             ['class' => 'btn btn-large btn-primary']) : "" ?>
                                         <?= $agreement->statusDraft() ? Html::a('Удалить',
@@ -60,7 +61,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <tr>
                                         <td>Данные о законном представителе - Заказчике платных образовательных услуг:
                                             <?= $agreement->personal->dataFull ?></td>
-                                        <td>Необходимо загрузить паспортыне данные Заказчика</td>
+                                        <td>Необходимо загрузить паспортные данные Заказчика</td>
                                     </tr>
                                     <tr>
                                         <td><?= FileWidget::widget(['record_id' => $agreement->personal->id, 'model' => \modules\entrant\models\PersonalEntity::class]) ?></td>
@@ -71,7 +72,7 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <tr>
                                         <td>Данные о Юридическом лице - Заказчике платных образовательных услуг:
                                             <?= $agreement->legal->dataFull ?></td>
-                                        <td>Необходимо загрузить паспортыне данные Заказчика и карту предприятия</td>
+                                        <td>Необходимо загрузить паспортные данные Заказчика и карту предприятия</td>
                                     </tr>
                                     <tr>
                                         <td> <?= FileWidget::widget(['record_id' => $agreement->legal->id, 'model' => \modules\entrant\models\LegalEntity::class]) ?></td>
@@ -85,30 +86,30 @@ use modules\entrant\widgets\file\FileListWidget;
                                     <td colspan="2">
                                         <?= Html::a('Скачать квитанцию', ['statement-agreement-contract-cg/pdf-receipt', 'id' => $agreement->receiptContract->id],
                                             ['class' => 'btn btn-large btn-warning']) ?>
-                                        <?= Html::a('Удалить', ['statement-agreement-contract-cg/delete-receipt', 'id' => $agreement->receiptContract->id],
+                                        <?= $agreement->receiptContract->statusDraft() ? Html::a('Удалить', ['statement-agreement-contract-cg/delete-receipt', 'id' => $agreement->receiptContract->id],
                                             ['class' => 'btn btn-danger', 'data-method' => "post",
-                                                "data-confirm" => "Вы уверены что хотите удалить?"]) ?>
+                                                "data-confirm" => "Вы уверены что хотите удалить?"]) : ""?>
                                         <?= $agreement->receiptContract->isNullData() ? Html::a('Добавить данные квитанции',
                                             ["statement-agreement-contract-cg/update-receipt", "id" => $agreement->receiptContract->id],
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w4', 'data-toggle' => 'modal',
                                                 'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']) :
-                                            Html::a('Редактировать данные квитанции',
+                                            (!$agreement->receiptContract->statusAccepted() ? Html::a('Редактировать данные квитанции',
                                                 ["statement-agreement-contract-cg/update-receipt", "id" => $agreement->receiptContract->id],
                                                 ["class" => "btn btn-primary",
                                                     'data-pjax' => 'w4', 'data-toggle' => 'modal',
-                                                    'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']); ?>
+                                                    'data-target' => '#modal', 'data-modalTitle' => 'Данные квитанции']) : ""); ?>
                                     </td>
                                 </tr>
-                                <?php if ($agreement->receiptContract->isNullData()): ?>
+                                <?php if (!$agreement->receiptContract->isNullData()): ?>
                                     <tr>
                                     <td colspan="2">
-
-                                        <?php
-                                        FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?>
+                                        <?= FileWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class]) ?>
                                         <?= FileListWidget::widget(['record_id' => $agreement->receiptContract->id, 'model' => \modules\entrant\models\ReceiptContract::class,
                                             'userId' => $statement->statement->user_id]) ?>
                                     </td>
+
+                                    </tr>
                                 <?php endif; ?>
 
                             <?php else: ?>
@@ -131,6 +132,6 @@ use modules\entrant\widgets\file\FileListWidget;
             <?php endforeach; ?>
         </table>
         <?php else: ?>
-        <p> Вы не сформиировали заявление о согласии на зачисление или данное заявление не имеет статус "Принято"
+        <p> Вы не сформировали заявление о согласии на зачисление или данное заявление не принято.
         <p>
             <?php endif; ?>

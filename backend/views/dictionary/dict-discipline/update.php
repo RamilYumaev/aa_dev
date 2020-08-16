@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = 'Обновить';
                 ['prompt'=> "Выберите предмет ЕГЭ"]) ?>
             <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'dvi')->checkbox() ?>
+            <?= $form->field($model, 'is_och')->checkbox() ?>
             <?= $form->field($model, 'composite_discipline')->checkbox() ?>
         </div>
     </div>

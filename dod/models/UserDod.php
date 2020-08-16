@@ -43,7 +43,7 @@ class UserDod extends \yii\db\ActiveRecord
         return [
             'count'=>'Количество участников вебинара',
             'status_edu' => "Статус участника",
-            'school_id' => "Учебная оргнаизация",
+            'school_id' => "Учебная организация",
             'form_of_participation' => "Форма участия"
         ];
     }

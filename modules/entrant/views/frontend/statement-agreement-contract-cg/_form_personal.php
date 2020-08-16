@@ -17,6 +17,8 @@ $this->title = "Форма добавления данных о законном
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-30">
+            <p class="text-danger">ВНИМАНИЕ! Заполняйте поля согласно их названию, соблюдая регистр и падежи.
+                Внесенные данные напрямую передаются в договор и не подлежат редактированию после отправки в приемную комиссию!</p>
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id' => 'form-personal']); ?>
             <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
@@ -40,7 +42,7 @@ $this->title = "Форма добавления данных о законном
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'division_code')->widget(MaskedInput::class, ['mask' => '999-999',]) ?>
             <div class="form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success',  "data-confirm" => " Подтверждаю, что введенные данные корректны и соответствуют заполняемым полям"]) ?>
             </div>
             <?php ActiveForm::end(); ?>
         </div>

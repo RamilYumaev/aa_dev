@@ -26,6 +26,12 @@ class JobEntrantHelper
     const MPGU_PP = 3;
     const TASHKENT_BB = 4;
     const TARGET_BB = 5;
+    const TPGU = 8;
+    const EXAM = 9;
+
+    const ENTRANT_POTENTIAL_STATEMENT_DRAFT = 1;
+    const ENTRANT_POTENTIAL_NO_STATEMENT = 2;
+    const ENTRANT_POTENTIAL_NO_CG = 3;
 
 
 
@@ -44,7 +50,9 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",
             DictFacultyHelper::STAVROPOL_BRANCH => "Ставропольский филиал МПГУ (Ставропольский край)",
             DictFacultyHelper::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
-            DictFacultyHelper::COLLAGE => "Колледж МПГУ"
+            DictFacultyHelper::COLLAGE => "Колледж МПГУ",
+            self::TPGU => "Совместный проект МПГУ - ТПГУ",
+            self::EXAM => "Экзаменационная комиссия"
         ];
 
         return $array;
@@ -77,6 +85,20 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function listCategoriesAgreement()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::COLLAGE,
+            self::AGREEMENT,
+            self::GRADUATE];
+        return $array;
+    }
+
     public static function listCategoriesZUK()
     {
         $array = [
@@ -89,7 +111,32 @@ class JobEntrantHelper
             self::MPGU,
             DictFacultyHelper::COLLAGE,
             self::UMS,
+            self::FOK,
+            self::TPGU,
+        ];
+        return $array;
+    }
+
+    public static function listCategoriesCoz()
+    {
+        $array = [
+            DictFacultyHelper::SERGIEV_POSAD_BRANCH,
+            DictFacultyHelper::ANAPA_BRANCH,
+            DictFacultyHelper::POKROV_BRANCH,
+            DictFacultyHelper::STAVROPOL_BRANCH,
+            DictFacultyHelper::DERBENT_BRANCH,
+            self::GRADUATE,
+            DictFacultyHelper::COLLAGE,
             self::FOK
+        ];
+        return $array;
+    }
+
+    public static function isProctor()
+    {
+        $array = [
+            self::COZ,
+            self::TARGET,
         ];
         return $array;
     }

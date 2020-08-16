@@ -22,6 +22,7 @@ array_merge(
                 ['label' => 'Должности', 'url' => ['/dictionary-module/dict-post-education']],
                 ['label' => 'Справочник ЕГЭ', 'url' => ['/dictionary-module/dict-cse-subject']],
                 ['label' => 'Справочник ИД', 'url' => ['/dictionary-module/dict-individual-achievement']],
+                ['label' => 'Справочник ПЭК', 'url' => ['/dictionary-module/dict-examiner']],
                 ['label' => 'Сотрудники ЦПК', 'url' => ['/dictionary-module/job-entrant']],
             ])]] : []),
 

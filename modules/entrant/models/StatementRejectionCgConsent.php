@@ -86,6 +86,10 @@ class StatementRejectionCgConsent extends ActiveRecord
         return $this->status_id == StatementHelper::STATUS_DRAFT;
     }
 
+    public function isStatusView() {
+        return $this->status_id == StatementHelper::STATUS_VIEW;
+    }
+
     public function getStatusNameJob() {
         return StatementHelper::statusJobName($this->status_id);
     }

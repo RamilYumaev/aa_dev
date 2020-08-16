@@ -18,7 +18,7 @@ class DictSchoolsReportRepository
     public function isSchoolId($school_id)
     {
         if (DictSchoolsReport::findOne(['school_id' => $school_id])) {
-            throw new \DomainException('Такая учебная оргнаизация существует.');
+            throw new \DomainException('Такая учебная организация существует.');
         }
     }
 

@@ -21,7 +21,7 @@ class PassportDataForm extends Model
     {
         if ($passportData) {
             $this->setAttributes($passportData->getAttributes(), false);
-            $this->date_of_birth = $passportData->getValue("date_of_birth");
+            $this->date_of_birth = $passportData->date_of_birth ? $passportData->getValue("date_of_birth") : null;
             $this->date_of_issue = $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
         } else {
@@ -55,6 +55,8 @@ class PassportDataForm extends Model
                 'whenClient' => 'function (attribute, value) { return $("#passportdataform-type").val() == 1}'],
             [['date_of_birth', 'date_of_issue',], 'safe'],
             [['date_of_issue',], 'validateDateOfBirth'],
+            [['authority','place_of_birth'], 'match', 'pattern' => '/^[а-яёА-ЯЁ0-9,.№()"<>\/\-\s]+$/u',
+                'message' => 'Значение поля должно содержать только буквы кириллицы, цифры, пробел, специальные символы . № ( ) " < > /'],
             [['date_of_issue', 'date_of_birth'], MaxDateValidate::class],
             [['date_of_birth', 'date_of_issue'], 'date', 'format' => 'd.m.Y'],
             !$this->requiredAttributes ?

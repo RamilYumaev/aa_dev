@@ -9,6 +9,7 @@ use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\dictionary\models\DictCategory;
 use modules\entrant\forms\AnketaForm;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\OtherDocument;
@@ -47,6 +48,7 @@ class AnketaService
 
     private function addOtherDoc(AnketaForm $form) {
         $other = $this->otherDocumentRepository->getUserNote($form->user_id, OtherDocumentHelper::TRANSLATION_PASSPORT);
+        $otherTPGU = $this->otherDocumentRepository->getUserNote($form->user_id, OtherDocumentHelper::STATEMENT_AGREE_TPGU);
         if ($form->citizenship_id != DictCountryHelper::RUSSIA)  {
             if(!$other) {
                 $this->otherDocumentRepository->save(OtherDocument::createNote(
@@ -55,6 +57,17 @@ class AnketaService
         } else {
             if($other) {
                 $this->otherDocumentRepository->remove($other);
+            }
+        }
+        if($form->category_id == CategoryStruct::TPGU_PROJECT){
+            if(!$otherTPGU){
+                $this->otherDocumentRepository->save(OtherDocument::createNote(
+                    OtherDocumentHelper::STATEMENT_AGREE_TPGU, DictIncomingDocumentTypeHelper::ID_AFTER_DOC, $form->user_id,null ));
+            }
+
+        }else {
+            if ($otherTPGU) {
+                $this->otherDocumentRepository->remove($otherTPGU);
             }
         }
 
