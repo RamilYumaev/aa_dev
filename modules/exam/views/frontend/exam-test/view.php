@@ -50,7 +50,7 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                 </div>
                 <hr/>
                 <div class="row noselect">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-11">
                         <?php $form = ActiveForm::begin(['id' => 'edu', 'options' => [
                             'enctype' => 'multipart/form-data']]); ?>
                         <?php switch ($quent->question->type_id):

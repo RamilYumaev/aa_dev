@@ -20,7 +20,8 @@ $collegeStatus = $cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_S
 \Yii::$app->session->setFlash($collegeStatus);
 $agreementData = AgreementHelper::data($anketa->university_choice,$collegeStatus);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
-$totalCost = $cg->education_year_cost * $cg->education_duration;
+$duration = $collegeStatus ? ceil($cg->education_duration) : $cg->education_duration;
+$totalCost = $cg->education_year_cost * $duration;
 $costExplode = explode(".", $totalCost);
 $costRuble = $costExplode[0];
 $costMonet = $costExplode[1] ?? "00";

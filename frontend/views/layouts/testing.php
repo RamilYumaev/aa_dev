@@ -30,7 +30,7 @@ AppAsset::register($this);
     require_once ('switcher-user.php');
     ?>
     <div id="wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
