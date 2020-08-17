@@ -21,6 +21,11 @@ class ExamStatementRepository extends RepositoryDeleteSaveClass
         return ExamStatement::find()->andWhere(['exam_id'=>$examId, 'entrant_user_id' =>$userId])->exists();
     }
 
+    public function getExamUserTypeExists($examId, $userId, $type)
+    {
+        return ExamStatement::find()->andWhere(['exam_id'=>$examId, 'entrant_user_id' =>$userId, 'type' => $type])->exists();
+    }
+
     public function getExamStatusSuccessExists($examId, $userId)
     {
         return ExamStatement::find()->andWhere(['exam_id'=>$examId, 'status'=>ExamStatementHelper::SUCCESS_STATUS, 'entrant_user_id' =>$userId])->exists();

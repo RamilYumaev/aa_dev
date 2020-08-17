@@ -98,7 +98,7 @@ class ExamAttempt extends ActiveRecord
         } else {
             $examDateEnd = strtotime($examStatement->date." ".$examStatement->exam->timeEnd);
             if($futureDate > $examDateEnd) {
-                $formatDate = $examStatement->exam->dateTimeReserveEndExam;
+                $formatDate = $examStatement->date." 18:00:00";
             } else {
                 $formatDate = date("Y-m-d H:i:s", $futureDate);
             }

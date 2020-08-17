@@ -4,6 +4,7 @@
 namespace modules\exam\controllers\backend;
 
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\ContractHelper;
 use modules\entrant\helpers\DataExportHelper;
@@ -24,6 +25,7 @@ use modules\exam\helpers\ExamDataExportHelper;
 use modules\exam\models\Exam;
 use olympic\models\auth\Profiles;
 use olympic\services\auth\UserService;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\httpclient\Client;
@@ -51,6 +53,19 @@ class CommunicationController extends Controller
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!!in_array($this->jobEntrant->category_id, JobEntrantHelper::isExamRight())) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
 

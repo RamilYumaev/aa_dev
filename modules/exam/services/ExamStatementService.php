@@ -122,6 +122,11 @@ class ExamStatementService
         $model = $this->repository->get($id);
         $model->setStatus(ExamStatementHelper::RESERVE_STATUS);
         $this->repository->save($model);
+        if ($this->repository->getExamUserTypeExists($model->exam_id,
+            $model->entrant_user_id,
+            ExamStatementHelper::RESERVE_TYPE)) {
+            throw new \DomainException("Заявка на резервный день существует");
+        }
         $modelNew = ExamStatement::create($model->entrant_user_id, $model->exam_id,
         $form->date, ExamStatementHelper::RESERVE_TYPE);
         $this->repository->save($modelNew);

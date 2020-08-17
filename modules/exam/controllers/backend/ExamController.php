@@ -4,6 +4,7 @@
 namespace modules\exam\controllers\backend;
 
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\LanguageForm;
 use modules\entrant\models\Language;
@@ -47,7 +48,7 @@ class ExamController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->isCategoryExam()) {
+        if(!!in_array($this->jobEntrant->category_id, JobEntrantHelper::isExamRight())) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {
