@@ -31,10 +31,10 @@ class StatementConsentCgService
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
         if(($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
             StatementHelper::STATUS_WALT,
-            StatementHelper::STATUS_ACCEPTED]) && $cg->cg->isBudget()) ||
+            StatementHelper::STATUS_ACCEPTED, StatementHelper::STATUS_VIEW]) && $cg->cg->isBudget()) ||
             ($this->repository->exitsCg($userId, [StatementHelper::STATUS_DRAFT,
                 StatementHelper::STATUS_WALT,
-                StatementHelper::STATUS_ACCEPTED], $cg->cg_id) && $cg->cg->isContractCg())
+                StatementHelper::STATUS_ACCEPTED, StatementHelper::STATUS_VIEW], $cg->cg_id) && $cg->cg->isContractCg())
         ) {
         throw new \DomainException('Вы уже сформировали заявление о согласии на зачисление');
         }

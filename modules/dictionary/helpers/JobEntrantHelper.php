@@ -141,6 +141,15 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function isExamRight()
+    {
+        $array = [
+            self::COZ,
+            self::EXAM
+        ];
+        return $array;
+    }
+
 
     public static function statusList()
     {

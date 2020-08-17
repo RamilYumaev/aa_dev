@@ -3,6 +3,7 @@
 
 namespace modules\exam\controllers\backend;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
@@ -54,23 +55,23 @@ class ExamAttemptController extends Controller
         $this->testRepository = $testRepository;
     }
 
-//    /* @return  JobEntrant*/
-//    protected function getJobEntrant() {
-//        return Yii::$app->user->identity->jobEntrant();
-//    }
-//
-//    public function beforeAction($event)
-//    {
-//        if(!$this->jobEntrant->isCategoryExam()) {
-//            Yii::$app->session->setFlash("warning", 'Страница недоступна');
-//            Yii::$app->getResponse()->redirect(['site/index']);
-//            try {
-//                Yii::$app->end();
-//            } catch (ExitException $e) {
-//            }
-//        }
-//        return true;
-//    }
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!!in_array($this->jobEntrant->category_id, JobEntrantHelper::isExamRight())) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
 
     public function actionIndex($test_id, $type)
     {
