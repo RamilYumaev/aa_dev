@@ -5,12 +5,14 @@ use modules\entrant\helpers\StatementHelper;
 use modules\entrant\widgets\file\FileListBackendWidget;
 use yii\helpers\Html;
 use modules\entrant\widgets\file\FileListWidget;
-
-
 /* @var $this yii\web\View */
 /* @var $statement modules\entrant\models\Statement*/
 /* @var $statementCg modules\entrant\models\StatementCg*/
 /* @var $isUserSchool bool */
+/* @var $jobEntrant \modules\dictionary\models\JobEntrant */
+/* @var $anketaUser \modules\entrant\models\Anketa */
+$jobEntrant = Yii::$app->user->identity->jobEntrant();
+$anketaUser =$statement->profileUser->anketa;
 ?>
 <?php  Box::begin(
     [
@@ -22,21 +24,22 @@ use modules\entrant\widgets\file\FileListWidget;
         <?= $statement->speciality->codeWithName ?>/
         <?= $statement->eduLevel ?>/
         <?= $statement->specialRight ?>
-
-        <?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
-    ['class' => 'btn btn-large btn-warning'])?>
-        <?= $statement->statusNewViewJob() && $statement->isAllFilesAccepted() ?
-            Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-                ['/data-entrant/communication/export-statement',
-                    'user' => $statement->user_id, 'statement' => $statement->id],
-                ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
-        <?=  $statement->statusNewViewJob() ? Html::a("Отклонить", ["statement/message",  'id' => $statement->id], ["class" => "btn btn-danger",
-            'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения заявления']) :"" ?>
-        <?= $statement->statusNoAccepted() ? Html::a('Возврат', ['statement/status', 'id' => $statement->id, 'status'=>StatementHelper::STATUS_WALT],
-            ['class' => 'btn btn-success']) : "" ?>
-        <?= $statement->statusNewJob() ? Html::a('Взять в работу', ['statement/status-view', 'id' => $statement->id],
-            ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
-
+        <?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id], ['class' => 'btn btn-large btn-warning'])?>
+        <?php if($anketaUser->isExemption() && $jobEntrant->isCategoryFOK()) :?>
+        <?= "" ?>
+        <?php else: ?>
+            <?= $statement->statusNewViewJob() && $statement->isAllFilesAccepted() ?
+                Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
+                    ['/data-entrant/communication/export-statement',
+                        'user' => $statement->user_id, 'statement' => $statement->id],
+                    ['data-method' => 'post', 'class' => 'btn btn-success']) : '';  ?>
+            <?=  $statement->statusNewViewJob() ? Html::a("Отклонить", ["statement/message",  'id' => $statement->id], ["class" => "btn btn-danger",
+                'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения заявления']) :"" ?>
+            <?= $statement->statusNoAccepted() ? Html::a('Возврат', ['statement/status', 'id' => $statement->id, 'status'=>StatementHelper::STATUS_WALT],
+                ['class' => 'btn btn-success']) : "" ?>
+            <?= $statement->statusNewJob() ? Html::a('Взять в работу', ['statement/status-view', 'id' => $statement->id],
+                ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
+        <?php endif;?>
                  <span class="label label-<?= StatementHelper::colorName($statement->status)?>">
                         <?=$statement->statusNameJob?></span>
     </p>
