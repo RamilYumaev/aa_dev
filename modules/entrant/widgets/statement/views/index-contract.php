@@ -114,7 +114,7 @@ use modules\entrant\widgets\file\FileListWidget;
 
                             <?php else: ?>
                                 <tr>
-                                    <td><?= $agreement->statusAccepted() ? Html::a('Сформировать квитанцию',
+                                    <td><?= $agreement->statusAccepted() ||  $agreement->statusSuccess() ? Html::a('Сформировать квитанцию',
                                             ["statement-agreement-contract-cg/add-receipt", "id" => $agreement->id],
                                             ["class" => "btn btn-primary",
                                                 'data-pjax' => 'w3', 'data-toggle' => 'modal',

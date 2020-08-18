@@ -18,8 +18,8 @@ use backend\widgets\adminlte\components\AdminLTE;
                     'colorBox' => AdminLTE::BG_YELLOW,
                     'entrant'=> $jobEntrant,
                     'icon'=> 'check-remove',
-                    'status' => ContractHelper::STATUS_NEW,
-                    'str' => "Неотправленные", 'link' => ['/data-entrant/agreement-contract/index', 'status'=>ContractHelper::STATUS_NEW]])
+                    'status' => null,
+                    'str' => "Неотправленные", 'link' => ['/data-entrant/agreement-contract/index', 'status'=>null]])
                 ?>
             </div>
         <div class="col-md-3">

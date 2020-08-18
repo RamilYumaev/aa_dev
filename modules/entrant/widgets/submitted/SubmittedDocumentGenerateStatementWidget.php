@@ -11,6 +11,7 @@ class SubmittedDocumentGenerateStatementWidget extends Widget
 {
     public $userId;
     public $formCategory;
+    public $eduLevel;
     private $view = "detail";
 
     public function run()
@@ -20,7 +21,7 @@ class SubmittedDocumentGenerateStatementWidget extends Widget
     }
 
     private function listCgUser() {
-        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser(), DictCompetitiveGroupHelper::categoryForm()[$this->formCategory]);
+        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser(), $this->eduLevel, DictCompetitiveGroupHelper::categoryForm()[$this->formCategory]);
     }
 
     private function getIdUser() {

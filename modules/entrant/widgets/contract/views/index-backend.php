@@ -21,7 +21,7 @@ use yii\widgets\DetailView;
     ['class' => 'btn btn-large btn-info', 'data'=>['confirm'=> "Вы уверены, что хотите взять в  работу?"]]) : ""?>
     <?= $model->statusWalt() || $model->statusView() ? Html::a('Проверен', ['agreement-contract/status', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_ACCEPTED],
     ['class' => 'btn btn-large btn-success', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) : ""?>
-    <?=  $model->statusAccepted() && $model->receiptContract && $model->receiptContract->statusAccepted() && $model->pdf_file ? Html::a('Подписан', ['communication/export-contract', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_SUCCESS],
+    <?=  $model->statusAccepted()  && $model->pdf_file ? Html::a('Подписан', ['communication/export-contract', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_SUCCESS],
     ['class' => 'btn btn-large btn-primary', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) ." ". Html::a('Недействительный', ['communication/export-contract', 'id' =>  $model->id, 'status' => ContractHelper::STATUS_NO_REAL],
         ['class' => 'btn btn-large btn-danger', 'data'=>['confirm'=> "Вы уверены, что хотите изменить статус договора?"]]) : ""?>
     <?=  $model->statusAccepted() ? Html::a("Прикрепить файл  (pdf)", ['agreement-contract/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-warning",
