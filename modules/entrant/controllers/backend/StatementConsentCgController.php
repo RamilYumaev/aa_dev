@@ -7,8 +7,10 @@ use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
+use modules\entrant\readRepositories\StatementReadConsentRepository;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\StatementConsentCgService;
+use modules\exam\models\ExamStatement;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -52,6 +54,34 @@ class StatementConsentCgController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionExport()
+    {
+        $model = (new StatementReadConsentRepository($this->jobEntrant))->readData()->andWhere(['consent.status'=>  StatementHelper::STATUS_ACCEPTED]);
+
+        \moonland\phpexcel\Excel::widget([
+            'asAttachment'=>true,
+            'fileName' => date('d-m-Y H-i-s')."- ЗОС",
+            'models' => $model->all(),
+            'mode' => 'export', //default value as 'export'
+            'columns' => [
+                'statementCg.statement.profileUser.fio',
+                'statementCg.cg.specialty.codeWithName',
+                'statementCg.cg.specialisationName',
+                'statementCg.cg.eduLevel',
+                'statementCg.cg.formEdu',
+                'statementCg.cg.budget',
+                'statementCg.cg.specialRight'], //without header working, because the header will be get label from attribute label.
+            'headers' => ['statementCg.statement.profileUser.fio' => "Абитуриент",
+                'statementCg.cg.specialty.codeWithName'=> "Направление подготовки",
+                'statementCg.cg.specialisationName' => "Программа",
+                'statementCg.cg.eduLevel' =>"Уровень образования",
+                'statementCg.cg.formEdu' => "Форма обучения",
+                'statementCg.cg.budget'=> "Бюджет\договор",
+                'statementCg.cg.specialRight'=>"Основание приема"],
+        ]);
+    }
+
 
     /**
      * @param $id

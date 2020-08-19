@@ -17,6 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <div class="box">
+        <div class="box-header">
+          <?= Html::a("Excel Принятых ЗОС", 'export', ['class'=> "btn btn-success"]) ?>
+        </div>
         <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

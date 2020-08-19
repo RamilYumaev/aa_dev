@@ -38,15 +38,15 @@ class StatementCgReadRepository
         }
 
         if($this->jobEntrant->isCategoryUMS()) {
+            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
 
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
-                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
          //   $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
-            $query->andWhere(['anketa.category_id'=> [CategoryStruct::GOV_LINE_COMPETITION,
-                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+             $query->andWhere(['anketa.category_id'=> [CategoryStruct::WITHOUT_COMPETITION,
+                CategoryStruct::SPECIAL_RIGHT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {
