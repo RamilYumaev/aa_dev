@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\StatementCg;
 use yii\base\Widget;
+use yii\helpers\Json;
 
 class ChartBarWidget extends Widget
 {
@@ -31,7 +32,7 @@ class ChartBarWidget extends Widget
         $zuk = StatementCg::find()->statementAcceptedStatus($ids)->count();
         $zos = StatementCg::find()->statementConsentAcceptedStatus($ids)->count();
         return $this->render($this->view, ['key'=> $this->key, 'cg'=> $this->cg,
-            'kcp' => $kcp->sum('kcp'), 'zuk' => $zuk, 'zos' => $zos]);
+            'kcp' => $kcp->sum('kcp'), 'zuk' => $zuk, 'zos' => $zos, 'ids'=>Json::encode($ids)]);
     }
 
 }
