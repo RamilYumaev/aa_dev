@@ -57,6 +57,7 @@ foreach ($currentFaculty as $faculty) {
     $cgFacultyBase = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->onlySpecialRight()
+        ->andWhere(['education_form_id'=>DictCompetitiveGroupHelper::EDU_FORM_ZAOCH])
         ->withoutForeignerCg()
         ->currentAutoYear()
         ->faculty($faculty)
@@ -174,6 +175,8 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 
 <div class="container">
     <h2 class="text-center"><?= $this->title ?></h2>
+    <p class="text-danger fs-15">Прием документов по вступительным испытаниями и по результатам ЕГЭ на очную и очно-заочную формы обучения завершен.
+        <a target="_blank" href="http://mpgu.su/postuplenie/aktualno-prijomnaja-kampanija-2020/">Подробнее</a>.</p>
     <div class="row">
         <div class="col-md-6">
             <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>

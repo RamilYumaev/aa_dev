@@ -4,6 +4,7 @@
 namespace modules\entrant\helpers;
 
 
+use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
 use dictionary\models\DictCompetitiveGroup;
 
 class Settings
@@ -32,12 +33,12 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
      */
-    public $ZukBacOchBudgetCse = '2020-08-26 18:00:00';
+    public $ZukBacOchBudgetCse = '2020-08-18 18:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата бюджетной основы
      */
-    public $ZukBacOchBudgetVi = '2020-08-25 00:00:00';
+    public $ZukBacOchBudgetVi = '2020-07-24 18:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
@@ -93,12 +94,12 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений магистратуры бюджет
      */
-    public $ZukMagOchBudget = "2020-08-25 00:00:00";
+    public $ZukMagOchBudget = "2020-08-07 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений магистратуры бюджет
      */
-    public $ZukMagZaOchBudget = "2020-08-25 00:00:00";
+    public $ZukMagZaOchBudget = "2020-09-04 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений магистратуры бюджет
@@ -300,7 +301,8 @@ class Settings
             $this->allowCgCseContractFilial($cg) &&
             $this->allowCgUmsGovLine($cg) &&
             $this->allowCgCseBudget($cg) &&
-            $this->allowCgVi($cg);
+            $this->allowCgVi($cg) &&
+            $this->allowMagCgBudget($cg);
     }
 
     public function allowCgVi(DictCompetitiveGroup $cg)
@@ -368,6 +370,9 @@ class Settings
     // БАКАЛАВРИАТ ЕГЭ БЮДЖЕТ
     public function allowCgCseBudget(DictCompetitiveGroup $cg): bool
     {
+       if(!$cg->isBachelor()){
+           return true;
+       }
         if ($this->ochOrOchZaOch($cg) && $cg->isBudget() && !$cg->isUmsCg()) {
             return strtotime($this->ZukBacOchBudgetCse) > $this->currentDate();
         }
@@ -379,6 +384,24 @@ class Settings
         return true;
     }
 
+    public function allowMagCgBudget(DictCompetitiveGroup $cg): bool
+    {
+
+        if(!$cg->isMagistracy()){
+            return true;
+        }
+        if ($cg->isMagistracy() && $cg->isBudget() && !$cg->isUmsCg()) {
+            if ($this->ochOrOchZaOch($cg)) {
+                return strtotime($this->ZukMagOchBudget) > $this->currentDate();
+            } else {
+                return strtotime($this->ZukMagZaOchBudget) > $this->currentDate();
+            }
+        }
+
+        return true;
+
+
+    }
     /**
      * @param DictCompetitiveGroup $cg
      * @return bool
@@ -439,6 +462,7 @@ class Settings
         }
         return true;
     }
+
     // Проверка вышел ли срок
     public function allowSpoOchBudgetMoscow()
     {
@@ -577,6 +601,7 @@ class Settings
     {
         return !$cg->isBudget() && !$cg->isUmsCg();
     }
+
 
     private function ochOrOchZaOch(DictCompetitiveGroup $cg)
     {
