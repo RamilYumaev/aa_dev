@@ -297,11 +297,17 @@ class Settings
      */
     public function allowCgForSave(DictCompetitiveGroup $cg)
     {
+        $k1 = $this->allowCgCseContractMoscow($cg);
+        $k2 = $this->allowCgCseContractFilial($cg);
+        $k3 = $this->allowCgUmsGovLine($cg);
+        $k4 = $this->allowCgCseBudget($cg);
+        $k5 = $this->allowCgVi($cg);
+        $k6 = $this->allowMagCgBudget($cg);
+
         return $this->allowCgCseContractMoscow($cg) &&
             $this->allowCgCseContractFilial($cg) &&
             $this->allowCgUmsGovLine($cg) &&
             $this->allowCgCseBudget($cg) &&
-            $this->allowCgVi($cg) &&
             $this->allowMagCgBudget($cg);
     }
 
