@@ -59,7 +59,7 @@ class StatementConsentCgController extends Controller
     public function actionExport($cg)
     {
         $cgs = Json::decode($cg);
-        $model = (new StatementReadConsentRepository($this->jobEntrant))->readData()->andWhere([
+        $model = (new StatementReadConsentRepository($this->jobEntrant))->readConsentData()->andWhere([
             'consent.status'=>  StatementHelper::STATUS_ACCEPTED, 'cg.cg_id'=>$cgs]);
 
         \moonland\phpexcel\Excel::widget([
