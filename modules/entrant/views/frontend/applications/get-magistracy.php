@@ -32,7 +32,6 @@ foreach ($currentFaculty as $faculty) {
         ->contractOnly()
         ->ForeignerCgSwitch()
         ->currentAutoYear()
-       // ->andWhere(['education_form_id'=>DictCompetitiveGroupHelper::EDU_FORM_ZAOCH])
         ->faculty($faculty)
         ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
         ->all();

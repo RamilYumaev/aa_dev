@@ -174,7 +174,7 @@ class DictCompetitiveGroup extends ActiveRecord
 
         if ($cgBudget &&
             $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
-            $setting->allowCgCseBudget($cgBudget)
+            $setting->allowCgCseBudget($cgBudget) && $setting->allowMagCgBudget($cgBudget)
         ) {
             return [
                 "status" => 1,
@@ -414,6 +414,22 @@ class DictCompetitiveGroup extends ActiveRecord
     public function isTarget()
     {
         return $this->special_right_id == DictCompetitiveGroupHelper::TARGET_PLACE;
+    }
+
+    public function isMagistracy()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
+    }
+
+    public function isBachelor()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
+
+    }
+
+    public function isHighGraduate()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
     }
 
 
