@@ -364,6 +364,27 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $specialRight;
     }
 
+    public function getEduLevel() {
+        return DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+    }
+
+    public function getBudget() {
+        return DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+    }
+
+    public function getSpecialRight() {
+        return DictCompetitiveGroupHelper::specialRightName($this->special_right_id);
+    }
+
+    public function getFormEdu() {
+        return  DictCompetitiveGroupHelper::formName($this->education_form_id);
+    }
+
+    public function getSpecialisationName() {
+       return $this->specialization->name ?? "";
+    }
+
+
 
     public function isGovLineCg(): bool
     {

@@ -33,6 +33,7 @@ class StatementReadConsentRepository
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::SPECIAL_RIGHT_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
