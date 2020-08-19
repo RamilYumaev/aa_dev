@@ -11,6 +11,7 @@ use modules\entrant\readRepositories\StatementReadConsentRepository;
 use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\services\StatementConsentCgService;
 use modules\exam\models\ExamStatement;
+use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -55,9 +56,11 @@ class StatementConsentCgController extends Controller
         ]);
     }
 
-    public function actionExport()
+    public function actionExport($cg)
     {
-        $model = (new StatementReadConsentRepository($this->jobEntrant))->readData()->andWhere(['consent.status'=>  StatementHelper::STATUS_ACCEPTED]);
+        $cgs = Json::decode($cg);
+        $model = (new StatementReadConsentRepository($this->jobEntrant))->readData()->andWhere([
+            'consent.status'=>  StatementHelper::STATUS_ACCEPTED, 'cg.cg_id'=>$cgs]);
 
         \moonland\phpexcel\Excel::widget([
             'asAttachment'=>true,

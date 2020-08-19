@@ -4,12 +4,14 @@
 /* @var $kcp integer */
 /* @var $zos integer */
 /* @var $zuk integer */
+/* @var $ids string */
 /* @var $cg \dictionary\models\DictCompetitiveGroup */
-?>
+
+use yii\helpers\Html; ?>
 <div class="box box-success">
             <div class="box-header with-border">
               <p class="box-title"> <?= $cg->getFullNameV() ?></p>
-
+                <?= Html::a("Скачать протокол", ['statement-consent-cg/export', 'cg'=> $ids], ['class'=> "btn btn-success"]) ?>
 <div class="box-tools pull-right">
     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
     </button>
