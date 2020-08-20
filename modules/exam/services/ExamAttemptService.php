@@ -7,8 +7,11 @@ namespace modules\exam\services;
 use common\auth\repositories\UserRepository;
 use common\helpers\FlashMessages;
 use common\transactions\TransactionManager;
+use modules\exam\helpers\ExamQuestionHelper;
 use modules\exam\helpers\ExamQuestionInTestHelper;
 use modules\exam\helpers\ExamStatementHelper;
+use modules\exam\models\ExamAnswer;
+use modules\exam\models\ExamAnswerNested;
 use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamQuestion;
 use modules\exam\models\ExamQuestionInTest;
@@ -38,6 +41,7 @@ use testing\repositories\TestAttemptRepository;
 use testing\repositories\TestRepository;
 use testing\repositories\TestResultRepository;
 use yii\db\Expression;
+use yii\helpers\Json;
 
 class ExamAttemptService
 {
@@ -204,7 +208,6 @@ class ExamAttemptService
         return $testAttempt;
     }
 
-
     public function remove($id)
     {
         $model = $this->testAttemptRepository->get($id);
@@ -215,5 +218,27 @@ class ExamAttemptService
         if ($attempt->isAttemptEnd())  {
             throw new \DomainException("Данный экзамен завершен абитуриентом!");
         }
+    }
+
+    public function correctMark($id)
+    {
+        $model = $this->testAttemptRepository->get($id);
+        $results = $model->getResult();
+        if($results->count()) {
+            foreach ($results->andWhere(['mark'=>[0, null]])->all() as $result) {
+                /* @var $result ExamResult */
+                $markResult = $results->sum('mark');
+                if($model->mark == $markResult) {
+                    break;
+                }
+                if(!$result->question->getCorrectAnswer()) {
+                    continue;
+                }
+                $json = Json::encode($result->question->getCorrectAnswer());
+                $result->edit($json, $result->questionInTest->mark);
+                $this->testResultRepository->save($result);
+            }
+        }
+
     }
 }

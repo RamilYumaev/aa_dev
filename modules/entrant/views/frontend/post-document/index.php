@@ -90,6 +90,7 @@ $userId =  Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'eduLevel' =>
                     [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO]]);  ?>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId, 'eduLevel' =>
                 [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,

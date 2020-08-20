@@ -140,6 +140,18 @@ class ExamAttemptController extends Controller
 
     }
 
+    public function actionCorrectMark($id)
+    {
+        try {
+           $this->service->correctMark($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
     public function actionStart($test_id)
     {
         try {
