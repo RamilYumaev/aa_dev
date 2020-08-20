@@ -176,6 +176,11 @@ class ExamAttempt extends ActiveRecord
         return $this->hasOne(ExamTest::class, ['id'=>'test_id']);
     }
 
+    public function  getResult() {
+        return $this->hasMany(ExamResult::class, ['attempt_id'=>'id']);
+    }
+
+
     public static function find(): ExamAttemptQuery
     {
         return new  ExamAttemptQuery(static::class);

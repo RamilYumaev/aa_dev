@@ -79,6 +79,11 @@ class ExamResult extends ActiveRecord
         return $this->hasOne(ExamQuestion::class, ['id' => "question_id"]);
     }
 
+    public function getQuestionInTest()
+    {
+        return $this->hasOne(ExamQuestionInTest::class, ['id' => "tq_id"]);
+    }
+
     public function getAttempt()
     {
         return $this->hasOne(ExamAttempt::class, ['id' => "attempt_id"]);

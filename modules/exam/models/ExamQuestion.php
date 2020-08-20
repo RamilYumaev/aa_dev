@@ -82,13 +82,44 @@ class ExamQuestion extends ActiveRecord
         return $this->getAnswer()->andWhere( ['is_correct' => true]);
     }
 
-    public function getAnswerUser ($ids) {
+    public function getCorrectAnswer(){
+        switch ($this->type_id):
+            case ExamQuestionHelper::TYPE_SELECT:
+                $answer = ['select'=>$this->getAnswerCorrect()->select('id')->column()];
+                break;
+            case ExamQuestionHelper::TYPE_SELECT_ONE:
+                $answer = ['select-one'=> $this->getAnswerCorrect()->select('id')->one() ? $this->getAnswerCorrect()->select('id')->one()->id : "" ];
+                break;
+            case ExamQuestionHelper::TYPE_MATCHING:
+                $answer = ['matching' => $this->getAnswerCorrect()->select( ['answer_match','id'])->indexBy('id')->column()];
+                break;
+            case ExamQuestionHelper::TYPE_ANSWER_SHORT:
+                $answer = ['short'=> $this->getAnswerCorrect()->select('id')->one() ? $this->getAnswerCorrect()->select('name')->one()->name : "" ];
+                break;
+            case ExamQuestionHelper::TYPE_ANSWER_DETAILED:
+                $answer = "";
+                break;
+            case ExamQuestionHelper::TYPE_FILE:
+                $answer = null;
+                break;
+            default:
+                $ids = $this->getQuestionNested()->andWhere(['type'=>1])->select('id')->column();
+                $anw = ExamAnswerNested::find()->select(['name','question_nested_id'])->andWhere(['is_correct'=> true, 'question_nested_id'=> $ids  ])->indexBy('question_nested_id')->column();
+                $data=['select-cloze'=>$anw];
+                $answer = $data['select-cloze'] ? $data : null;
+        endswitch;
+        return $answer;
+    }
+
+    public function getAnswerUser($ids) {
         return $this->getAnswer()->andWhere(['id' =>$ids]);
     }
 
     public function getQuestionGroup(){
         return $this->hasOne(ExamQuestionGroup::class, ['id'=>'question_group_id']);
     }
+
+
 
     public function getDiscipline(){
         return $this->hasOne(DictDiscipline::class, ['id'=>'discipline_id']);

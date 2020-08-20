@@ -61,6 +61,10 @@ class ExamQuestionNested extends ActiveRecord
         return $this->hasMany(ExamAnswerNested::class, ['question_nested_id' => 'id']);
     }
 
+    public function getNestedAnswerCorrect() {
+        return $this->getAnswer()->select(['name','question_nested_id'])->andWhere(['is_correct'=> true])->indexBy('question_nested_id')->column();
+    }
+
 
 
 }

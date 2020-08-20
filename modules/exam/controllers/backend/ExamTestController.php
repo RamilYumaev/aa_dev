@@ -53,18 +53,18 @@ class ExamTestController extends Controller
         return Yii::$app->user->identity->jobEntrant();
     }
 
-    public function beforeAction($event)
-    {
-        if(!$this->jobEntrant->isCategoryExam()) {
-            Yii::$app->session->setFlash("warning", 'Страница недоступна');
-            Yii::$app->getResponse()->redirect(['site/index']);
-            try {
-                Yii::$app->end();
-            } catch (ExitException $e) {
-            }
-        }
-        return true;
-    }
+//    public function beforeAction($event)
+//    {
+//        if(!$this->jobEntrant->isCategoryExam()) {
+//            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+//            Yii::$app->getResponse()->redirect(['site/index']);
+//            try {
+//                Yii::$app->end();
+//            } catch (ExitException $e) {
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * @return mixed
