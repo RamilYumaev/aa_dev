@@ -39,14 +39,15 @@ class PostDocumentController extends Controller
                     'visit' => ['POST'],
                     'mail' => ['POST'],
                     'ecp' => ['POST'],
-                    'send'=> ['POST']
+                    'send'=> ['POST'],
+                    'record-send'=> ['POST']
                 ],
             ],
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'send', 'mail', 'visit', 'online', 'ecp','consent-rejection', 'statement-rejection'],
+                        'actions' => ['index', 'send', 'mail', 'visit',  'record-send','online', 'ecp','consent-rejection', 'statement-rejection', 'rejection-record',],
                     'allow' => true,
                     'roles' => ['@'],
                         ],
@@ -94,6 +95,11 @@ class PostDocumentController extends Controller
         return $this->render('agreement-contract');
     }
 
+    public function actionRejectionRecord()
+    {
+        return $this->render('rejection-record');
+    }
+
 
     /**
      * @return mixed
@@ -130,6 +136,17 @@ class PostDocumentController extends Controller
     public function actionSend() {
         try {
             $this->service->send($this->getUserId());
+            return $this->redirect('/');
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionRecordSend() {
+        try {
+            $this->service->sendRecord($this->getUserId());
             return $this->redirect('/');
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

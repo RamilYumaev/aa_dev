@@ -98,6 +98,11 @@ class FileCgHelper
         return "Заявление ПK МПГУ ЗОС" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileNameRejectionRecord($extension = '.docx')
+    {
+        return "Заявление ПK МПГУ ОЗ" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+    }
+
     public static function fileNameTpguAgreement($extension = '.docx')
     {
         return "Разрешение на заключение договора" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;

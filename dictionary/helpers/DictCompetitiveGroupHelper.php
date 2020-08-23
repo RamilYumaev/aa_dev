@@ -96,6 +96,23 @@ class DictCompetitiveGroupHelper
             self::EDU_FORM_ZAOCH => 'Заочная'];
     }
 
+    public static function getEduFormsAccusative(): array
+    {
+        return [self::EDU_FORM_OCH => 'очную',
+            self::EDU_FORM_OCH_ZAOCH => 'очно-заочную',
+            self::EDU_FORM_ZAOCH => 'заочную'];
+    }
+
+    public static function eduLevelGenitive(): array
+    {
+        return [
+            self::EDUCATION_LEVEL_SPO => "спо",
+            self::EDUCATION_LEVEL_BACHELOR => "бакалавриата",
+            self::EDUCATION_LEVEL_MAGISTER => "магистратуры",
+            self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "аспирантуры",
+        ];
+    }
+
     public static function getFinancingTypes(): array
     {
         return [self::FINANCING_TYPE_BUDGET => 'Бюджет', self::FINANCING_TYPE_CONTRACT => 'Договор'];
