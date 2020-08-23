@@ -28,6 +28,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\models\SubmittedDocuments;
 use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\readRepositories\ReceiptReadRepository;
@@ -45,6 +46,7 @@ use modules\entrant\repositories\StatementIndividualAchievementsRepository;
 use modules\entrant\repositories\StatementPersonalDataRepository;
 use modules\entrant\repositories\StatementRejectionCgConsentRepository;
 use modules\entrant\repositories\StatementRejectionCgRepository;
+use modules\entrant\repositories\StatementRejectionRecordRepository;
 use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\SubmittedDocumentsRepository;
@@ -64,6 +66,7 @@ class SubmittedDocumentsService
     private $rejectionCgConsentRepository;
     private $statementAgreementContractCgRepository;
     private $receiptContractRepository;
+    private $rejectionRecordRepository;
 
 
     public function __construct(SubmittedDocumentsRepository $repository,
@@ -75,6 +78,7 @@ class SubmittedDocumentsService
                                 StatementRejectionCgRepository $statementRejectionCgRepository,
                                 StatementRejectionCgConsentRepository $rejectionCgConsentRepository,
                                 StatementAgreementContractCgRepository $statementAgreementContractCgRepository,
+                                StatementRejectionRecordRepository $rejectionRecordRepository,
                                 FileRepository $fileRepository,
                                 ReceiptContractRepository $receiptContractRepository,
                                 TransactionManager $manager)
@@ -91,6 +95,7 @@ class SubmittedDocumentsService
         $this->receiptContractRepository = $receiptContractRepository;
         $this->statementAgreementContractCgRepository = $statementAgreementContractCgRepository;
         $this->fileRepository = $fileRepository;
+        $this->rejectionRecordRepository = $rejectionRecordRepository;
     }
 
     public function create($type, $user_id)
@@ -121,6 +126,16 @@ class SubmittedDocumentsService
         });
     }
 
+
+    public function sendRecord($user_id)
+    {
+        $this->manager->wrap(function () use ($user_id) {
+            $this->statementRejectionRecord($user_id);
+            $this->files($user_id);
+        });
+    }
+
+
     private function files($userId)
     {
         $files = File::find()->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
@@ -148,6 +163,21 @@ class SubmittedDocumentsService
             }
 
             $this->statementRepository->save($statement);
+        }
+    }
+
+    private function statementRejectionRecord($userId)
+    {
+        $statements = StatementRejectionRecord::find()->andWhere(['user_id' => $userId, 'status' => StatementHelper::STATUS_DRAFT])->all();
+        /* @var $statement \modules\entrant\models\StatementRejectionRecord */
+
+        foreach ($statements as $statement) {
+            if (!$statement->countFilesAndCountPagesTrue()) {
+                throw new \DomainException('Загружены не все файлы заявления!');
+            }
+            $statement->setStatus(StatementHelper::STATUS_WALT);
+
+            $this->rejectionRecordRepository->save($statement);
         }
     }
 

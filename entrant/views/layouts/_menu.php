@@ -231,6 +231,8 @@ if(!Yii::$app->user->isGuest ) {
 
                 ['label' => 'Абитуриенты (ЗИД)', 'url' => ['/data-entrant/default/index']],
 
+                $jobEntrant->isCategoryMPGU() ?  ['label' => 'Заявления (ИПЗ)', 'url' => ['/data-entrant/statement-rejection-record/index']] :[] ,
+
                 $jobEntrant->isCategoryMPGU() ?
                     ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']]:
                     ['label' => 'Пот. абитуруенты', 'items'=> [

@@ -21,6 +21,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\readRepositories\FileReadCozRepository;
 use Yii;
 
@@ -71,6 +72,7 @@ class FileHelper
             StatementConsentCg::class,
             StatementRejectionCg::class,
             StatementRejection::class,
+            StatementRejectionRecord::class,
             StatementRejectionCgConsent::class,
             StatementAgreementContractCg::class,
             ReceiptContract::class
@@ -112,6 +114,7 @@ class FileHelper
             StatementRejection::class => 0,
             StatementRejectionCgConsent::class =>0,
             StatementAgreementContractCg::class=>0,
+            StatementRejectionRecord::class=>0,
             StatementRejectionCg::class =>0,
             ReceiptContract::class => 0,
         ];
@@ -131,6 +134,7 @@ class FileHelper
             StatementConsentPersonalData::class => "personal",
             StatementConsentCg::class => "consent",
             StatementRejection::class =>'st-rejection',
+            StatementRejectionRecord::class =>'st-rejection-record',
             StatementRejectionCgConsent::class => 'st-rejection-consent',
             StatementAgreementContractCg::class=> 'st-agreement',
             StatementRejectionCg::class =>'st-rejection-cg',
@@ -155,6 +159,7 @@ class FileHelper
             StatementRejectionCgConsent::class => "Отзыв ЗОС",
             StatementAgreementContractCg::class=> 'Договор',
             StatementRejectionCg::class =>'Отзыв КГ',
+            StatementRejectionRecord::class =>'Отзыв зачисления',
             ReceiptContract::class => "Квитанция"
         ];
     }

@@ -13,6 +13,7 @@ use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementIndividualAchievements;
+use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementCgReadRepository;
 use modules\entrant\readRepositories\StatementIAReadRepository;
@@ -180,6 +181,22 @@ class StatementHelper
 
     public static function statementSuccess($userId, $eduLevel) {
         return Statement::find()->eduLevel($eduLevel)->user($userId)->status(self::STATUS_ACCEPTED)->exists();
+    }
+
+    public static function columnRejectionRecord($column,  $joinW, $value) {
+        return StatementRejectionRecord::find()->joinWith( $joinW)
+            ->select([$value, $column])->indexBy($column)->column();
+    }
+
+    public static function columnRejectionRecordCg($column, $value) {
+        $array = [];
+        $query =  StatementRejectionRecord::find()->select($column)->indexBy($column)->all();
+        foreach ($query as $stCg) {
+            /* @var  $stCg StatementCg  */
+            $array[$stCg->{$column}] = $stCg->cg->{$value};
+        }
+        return $array;
+
     }
 
 }
