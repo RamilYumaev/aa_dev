@@ -10,7 +10,14 @@ use yii\data\ActiveDataProvider;
 class StatementRejectionRecordSearch extends  Model
 {
     public  $cg, $user_id, $date_from, $date_to, $status;
+    private $statusId;
 
+
+    public function __construct($status, $config = [])
+    {
+        $this->statusId = $status;
+        parent::__construct($config);
+    }
 
     public function rules()
     {
@@ -37,6 +44,10 @@ class StatementRejectionRecordSearch extends  Model
             return $dataProvider;
         }
         $query->andFilterWhere(['status'=>  $this->status]);
+
+        if ($this->statusId) {
+            $query->andWhere(['status'=>  $this->statusId]);
+        }
 
         if (!empty($this->user_id)) {
             $query->andWhere(['user_id' => $this->user_id]);

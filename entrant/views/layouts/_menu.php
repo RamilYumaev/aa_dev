@@ -17,6 +17,8 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']],
                 ['label' => 'Абитуриенты c ОФ', 'url' => ['/data-entrant/default/index-file']],
                 ['label' => 'Файлы', 'url' => ['/data-entrant/file/index']],
+                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ)', 'url' => ['/data-entrant/statement-rejection-record/index']] :[] ,
+                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ) ВР', 'url' => ['/data-entrant/statement-rejection-record/index', 'status'=> StatementHelper::STATUS_VIEW]] :[] ,
                \Yii::$app->user->can('moderation') ? ['label' => 'Модерация', 'url' => ['/moderation']] : [],
                \Yii::$app->user->can('ticket') ? ['label' => 'Вопросы от абитуриентов', 'url' => ['/support']] : [],
                \Yii::$app->user->can('edu_school') ? ['label' => 'Учебные организации', 'url' => '#',
