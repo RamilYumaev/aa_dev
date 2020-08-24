@@ -4,6 +4,7 @@ namespace modules\entrant\forms;
 
 use modules\entrant\models\StatementAgreementContractCg;
 use yii\base\Model;
+use yii\db\BaseActiveRecord;
 use yii\web\UploadedFile;
 
 class FilePdfForm extends Model
@@ -12,7 +13,7 @@ class FilePdfForm extends Model
 
     private $_file;
 
-    public function __construct(StatementAgreementContractCg $file = null, $config = [])
+    public function __construct(BaseActiveRecord $file = null, $config = [])
     {
         if($file){
             $this->setAttributes($file->getAttributes(), false);

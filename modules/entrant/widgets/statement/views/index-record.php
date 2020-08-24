@@ -48,6 +48,7 @@ use modules\entrant\widgets\file\FileListWidget;
                         <td>№<?= $record->order_name?> От <?= $record->order_date?></td>
                         <td><span class="label label-<?= StatementHelper::colorName($record->status)?>">
                                 <?=$record->statusName?></span> <br />
+                           <?= ($record->pdf_file ? Html::a("Скачать файл", ['/abiturient/statement-rejection-record/get', 'id' => $record->id], ["class" => "btn btn-info btn-block"]) : "") ?>
                         </td>
                     </tr>
                    <?php if($isDownload) : ?>

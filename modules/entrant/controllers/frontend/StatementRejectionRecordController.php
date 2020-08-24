@@ -110,6 +110,22 @@ class  StatementRejectionRecordController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionGet($id)
+    {
+        $model = $this->findModel($id);
+        $filePath = $model->getUploadedFilePath('pdf_file');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
 
 
     private function  getUser() {

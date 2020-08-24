@@ -40,7 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             Html::a('Скачать заявление', ['statement-rejection-record/pdf', 'id' =>  $model->id], ['class' => 'btn btn-large btn-warning  btn-block']).
                             Html::a('Взять в работу', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_VIEW], ['class' => 'btn btn-large btn-info  btn-block']).
                             Html::a('Принять', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_ACCEPTED], ['class' => 'btn btn-large btn-success  btn-block']).
-                            Html::a('Отклонить', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_NO_ACCEPTED], ['class' => 'btn btn-large btn-danger btn-block'])
+                            Html::a('Отклонить', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_NO_ACCEPTED], ['class' => 'btn btn-large btn-danger btn-block']).
+                            Html::a("Прикрепить файл  (pdf)", ['statement-rejection-record/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-primary btn-block",
+                                'data-pjax' => 'w5', 'data-toggle' => 'modal',
+                                'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']).
+                            ($model->pdf_file ? Html::a("Скачать файл", ['statement-rejection-record/get', 'id' => $model->id], ["class" => "btn btn-info btn-block"]) : "")
                             .'</td></tr>';
                 },
                 'columns' => [
