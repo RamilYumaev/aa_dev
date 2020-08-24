@@ -29,9 +29,9 @@ class StatementRejectionRecordController extends Controller
     }
 
 
-    public function actionIndex()
+    public function actionIndex($status = null)
     {
-        $searchModel = new StatementRejectionRecordSearch();
+        $searchModel = new StatementRejectionRecordSearch($status);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

@@ -106,7 +106,7 @@ class DictCompetitiveGroupHelper
     public static function eduLevelGenitive(): array
     {
         return [
-            self::EDUCATION_LEVEL_SPO => "спо",
+            self::EDUCATION_LEVEL_SPO => "CПО",
             self::EDUCATION_LEVEL_BACHELOR => "бакалавриата",
             self::EDUCATION_LEVEL_MAGISTER => "магистратуры",
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "аспирантуры",
