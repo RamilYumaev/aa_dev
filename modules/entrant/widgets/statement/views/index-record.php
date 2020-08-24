@@ -21,7 +21,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <div class="panel-heading"><h4>Приказы о зачислении <?= $isDownload ? "" : Html::a("Исключить", "/abiturient/post-document/rejection-record") ?></h4></div>
         <div class="panel-body">
             <?php foreach ($orderTransfer as $order): ?>
-                <table class="table">
+                <table class="table table-bordered">
                     <tr>
                         <td><?=$order->cg->fullNameB?></td>
                         <td>№<?= $order->order_name?> От <?= $order->order_date?></td>
@@ -42,7 +42,7 @@ use modules\entrant\widgets\file\FileListWidget;
         <div class="panel-heading"><h4>Заявления об исключении из приказа о зачислении</h4></div>
         <div class="panel-body">
             <?php foreach ($statementRecord as $record): ?>
-                <table class="table">
+                <table class="table table-bordered">
                     <tr>
                         <td><?=$record->cg->fullNameB ?></td>
                         <td>№<?= $record->order_name?> От <?= $record->order_date?></td>
