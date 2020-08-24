@@ -49,6 +49,6 @@ use modules\entrant\widgets\file\FileListWidget;
                 <?php endif; ?>
             <?php endforeach; ?>
         </table>
-        <?php endif; ?>
     </div>
 </div>
+<?php endif; ?>
