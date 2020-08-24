@@ -23,7 +23,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
     <p align="center">заявление.</p>
     <p align="justify" class="lh-1-5">
         Я, <?= $name->nominative ?? $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'] ?>,
-        прошу исключить меня из приказа МПГУ от <?=$statementRejection->order_date ?> № <?= $statementRejection->order_name ?>
+        прошу исключить меня из приказа МПГУ от <?=\modules\entrant\helpers\DateFormatHelper::formatView($statementRejection->order_date) ?> № <?= $statementRejection->order_name ?>
         о зачислении в число студентов 1 курса по образовательной программе <?= $cg->edu_level== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "среднего профессионального образования" : "высшего образования"?> – программе <?= DictCompetitiveGroupHelper::eduLevelGenitive()[$cg->edu_level] ?> –
         на <?= DictCompetitiveGroupHelper::getEduFormsAccusative()[$cg->education_form_id] ?> форму обучения
         <?=$cg->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET ? 'на место, финансируемое из федерального бюджета' : 'по договору об оказании платных образовательных услуг'?>,
