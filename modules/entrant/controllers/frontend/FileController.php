@@ -14,6 +14,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
+use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\services\FileService;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
@@ -84,6 +85,7 @@ class FileController extends Controller
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCg::class && !$modelOne->count_pages) ||
             ($model == StatementAgreementContractCg::class &&  !$modelOne->count_pages)  ||
+            ($model == StatementRejectionRecord::class &&  !$modelOne->count_pages)  ||
             ($model == ReceiptContract::class &&  !$modelOne->count_pages)
         )
         {
