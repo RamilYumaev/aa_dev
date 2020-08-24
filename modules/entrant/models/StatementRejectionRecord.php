@@ -2,6 +2,7 @@
 
 namespace modules\entrant\models;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -9,6 +10,8 @@ use modules\entrant\models\queries\StatementConsentCgQuery;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
+use yiidreamteam\upload\FileUploadBehavior;
 
 /**
  * This is the model class for table "{{%statement_rejection_record}}".
@@ -16,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $status;
  * @property integer $user_id;
+ * @property string $pdf_file
  * @property integer $cg_id;
  * @property integer $created_at;
  * @property integer $updated_at;
@@ -33,8 +37,19 @@ class StatementRejectionRecord extends ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class, FileBehavior::class];
+        return [TimestampBehavior::class, FileBehavior::class,
+            [   'class' => FileUploadBehavior::class,
+            'attribute' => 'pdf_file',
+            'filePath' => '@frontend/file/pdf_record/[[id]]/[[attribute_pdf_file]]',
+        ]];
     }
+
+    public function setFile(UploadedFile $file): void
+    {
+        $this->pdf_file = $file;
+    }
+
+
 
     public static function create($cg_id, $status_id, $user_id, $date, $name) {
         $statementCg = new static();

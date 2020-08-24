@@ -49,4 +49,13 @@ class StatementRejectionRecordService
         $this->repository->save($statement);
     }
 
+    public function addFile($id, \modules\entrant\forms\FilePdfForm $form)
+    {
+        $statement = $this->repository->get($id);
+        if($form->file_name) {
+            $statement->setFile($form->file_name);
+        }
+        $this->repository->save($statement);
+    }
+
 }
