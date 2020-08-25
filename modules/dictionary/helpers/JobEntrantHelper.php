@@ -150,6 +150,15 @@ class JobEntrantHelper
         return $array;
     }
 
+    public static function isIPZ()
+    {
+        $array = [
+            self::COZ,
+            self::MPGU
+        ];
+        return $array;
+    }
+
 
     public static function statusList()
     {
