@@ -23,12 +23,12 @@ class Settings
      * @var string
      * Окончание приема ЗУК в СПО договор Москва
      */
-    public $ZukSpoOchMoscowContract = '2020-08-25 00:00:00';
+    public $ZukSpoOchMoscowContract = '2020-08-25 18:00:00';
     /**
      * @var string
      * Окончание приема ЗУК в СПО договор филиалы
      */
-    public $ZukSpoOchFilialContract = '2020-08-25 00:00:00';
+    public $ZukSpoOchFilialContract = '2020-08-25 18:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
@@ -43,12 +43,12 @@ class Settings
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
      */
-    public $ZukBacZaOchBudgetCse = '2020-08-26 00:00:00';
+    public $ZukBacZaOchBudgetCse = '2020-09-04 17:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата бюджетной основы
      */
-    public $ZukBacZaOchBudgetVi = "2020-08-25 00:00:00";
+    public $ZukBacZaOchBudgetVi = "2020-09-04 17:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы Москва
@@ -58,7 +58,7 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата договорной основы Москва
      */
-    public $ZukBacOchContractViMoscow = "2020-08-25 00:00:00";
+    public $ZukBacOchContractViMoscow = "2020-09-04 17:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы Филиалы
@@ -73,23 +73,23 @@ class Settings
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата договорной основы, Москва
      */
-    public $ZukBacZaOchContractMoscowCse = "2020-08-25 00:00:00";
+    public $ZukBacZaOchContractMoscowCse = "2020-09-04 17:00:00";
     /**
      * @var string
      * Окончание приема заочных заявлений бакалавриата на договор в филиалах по ЕГЭ
      */
-    public $ZukBacZaOchContractFilialCse = "2020-08-25 00:00:00";
+    public $ZukBacZaOchContractFilialCse = "2020-09-04 17:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата договорной основы, Москва
      */
-    public $ZukBacZaOchContractMoscowVi = "2020-08-25 00:00:00";
+    public $ZukBacZaOchContractMoscowVi = "2020-09-04 17:00:00";
 
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата договорной основы, Филиалы
      */
-    public $ZukBacZaOchContractFilialVi = "2020-08-25 00:00:00";
+    public $ZukBacZaOchContractFilialVi = "2020-09-04 17:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений магистратуры бюджет
