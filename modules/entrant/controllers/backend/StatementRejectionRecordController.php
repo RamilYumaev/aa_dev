@@ -2,6 +2,7 @@
 
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\FilePdfForm;
 use modules\entrant\helpers\FileCgHelper;
@@ -14,6 +15,7 @@ use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\searches\StatementRejectionRecordSearch;
 use modules\entrant\services\StatementConsentCgService;
 use modules\entrant\services\StatementRejectionRecordService;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -29,6 +31,25 @@ class StatementRejectionRecordController extends Controller
     {
         $this->service = $service;
         parent::__construct($id, $module, $config);
+    }
+
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::isIPZ())) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
 
