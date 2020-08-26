@@ -503,7 +503,7 @@ class DataExportHelper
             ['receipt' => [
                 'number' => $receiptContract->contractCg->number,
                 'bank' => $receiptContract->bank,
-                'pay_sum' => $receiptContract->pay_sum,
+                'pay_sum' => round($receiptContract->pay_sum),
                 'pay_date' => $receiptContract->date,
             ]];
     }
