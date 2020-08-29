@@ -227,8 +227,8 @@ class ExamAttemptService
         if($results->count()) {
             foreach ($results->andWhere(['mark'=>[0, null]])->all() as $result) {
                 /* @var $result ExamResult */
-                $markResult = $results->sum('mark');
-                if($model->mark == $markResult) {
+                $markResult = ExamResult::find()->where(['attempt_id'=> $model->id])->sum('mark');
+                if($model->mark <= $markResult) {
                     break;
                 }
                 if(!$result->question->getCorrectAnswer()) {
@@ -237,6 +237,8 @@ class ExamAttemptService
                 $json = Json::encode($result->question->getCorrectAnswer());
                 $result->edit($json, $result->questionInTest->mark);
                 $this->testResultRepository->save($result);
+
+                echo $markResult;
             }
         }
 

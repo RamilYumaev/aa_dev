@@ -24,6 +24,5 @@ class AisOrderTransfer extends ActiveRecord
 
     public function getCg() {
         return $this->hasOne(DictCompetitiveGroup::class, ['ais_id'=> 'ais_cg']);
-
     }
 }
