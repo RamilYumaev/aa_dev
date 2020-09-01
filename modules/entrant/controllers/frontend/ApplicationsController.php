@@ -263,7 +263,7 @@ class ApplicationsController extends Controller
     {
         if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
             $currentFaculty = array_unique(DictCompetitiveGroup::find()
-                ->allActualFacultyWithoutBranch()->eduLevel($eduLevel)->column());
+                ->allActualFacultyWithoutBranch($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? true : false)->eduLevel($eduLevel)->column());
         } else {
             $currentFaculty = array_unique(DictCompetitiveGroup::find()
                 ->branch($this->anketa->university_choice)->eduLevel($eduLevel)->column());

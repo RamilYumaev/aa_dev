@@ -23,7 +23,7 @@ class Settings
      * @var string
      * Окончание приема ЗУК в СПО договор Москва
      */
-    public $ZukSpoOchMoscowContract = '2020-08-25 18:00:00';
+    public $ZukSpoOchMoscowContract = '2020-11-25 18:00:00';
     /**
      * @var string
      * Окончание приема ЗУК в СПО договор филиалы
