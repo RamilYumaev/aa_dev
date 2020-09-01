@@ -84,7 +84,7 @@ $userId =  Yii::$app->user->identity->getId();
             <p align="justify">Тип фотографий – на документы. Допускается фотография, сделанная самостоятельно
                 анфас на нейтральном фоне без бликов и теней, без присутствия посторонних предметов и иных лиц в кадре.</p>
             <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['userId' => $userId]); ?>
-
+            <?php /*
             <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
                 загружается отдельно</p>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
@@ -92,6 +92,7 @@ $userId =  Yii::$app->user->identity->getId();
                     [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
                          DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO]]);  ?>
+             */ ?>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId, 'eduLevel' =>
                 [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR],
