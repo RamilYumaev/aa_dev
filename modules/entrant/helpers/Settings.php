@@ -23,7 +23,7 @@ class Settings
      * @var string
      * Окончание приема ЗУК в СПО договор Москва
      */
-    public $ZukSpoOchMoscowContract = '2020-08-25 18:00:00';
+    public $ZukSpoOchMoscowContract = '2020-11-25 18:00:00';
     /**
      * @var string
      * Окончание приема ЗУК в СПО договор филиалы
@@ -63,12 +63,12 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата договорной основы Филиалы
      */
-    public $ZukBacOchContractCseFilial = "2020-08-25 00:00:00";
+    public $ZukBacOchContractCseFilial = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ВИ) бакалавриата договорной основы Филиалы
      */
-    public $ZukBacOchContractViFilial = "2020-08-25 00:00:00";
+    public $ZukBacOchContractViFilial = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата договорной основы, Москва
@@ -104,22 +104,22 @@ class Settings
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений магистратуры бюджет
      */
-    public $ZukMagOchContract = "2020-08-25 00:00:00";
+    public $ZukMagOchContract = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений магистратуры бюджет
      */
-    public $ZukMagZaOchContract = "2020-08-25 00:00:00";
+    public $ZukMagZaOchContract = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных заявлений аспирантуры бюджет
      */
-    public $ZukAspOchBudget = "2020-08-25 00:00:00";
+    public $ZukAspOchBudget = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема очных заявлений аспирантуры договор
      */
-    public $ZukAspOchContract = "2020-08-25 00:00:00";
+    public $ZukAspOchContract = "2020-08-31 18:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений аспирантуры договор

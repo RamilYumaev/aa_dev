@@ -103,14 +103,18 @@ class ApplicationsController extends Controller
 
     public function actionGetGraduate()
     {
-        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
 
-        $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
-
-
-        return $this->render('get-graduate', [
-            'currentFaculty' => $currentFaculty,
-        ]);
+        Yii::$app->session->setFlash('info', 'Прием документов в аспирантуру окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
+//        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+//
+//        $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+//
+//
+//        return $this->render('get-graduate', [
+//            'currentFaculty' => $currentFaculty,
+//        ]);
     }
 
     public function actionGetMpguTpgu()
