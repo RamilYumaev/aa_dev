@@ -87,6 +87,7 @@ $userId =  Yii::$app->user->identity->getId();
 
             <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
                 загружается отдельно</p>
+            <p class="text-info">Прием документов в аспирантуру окончен!</p>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'eduLevel' =>
                     [ /* DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
@@ -94,7 +95,7 @@ $userId =  Yii::$app->user->identity->getId();
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO]]);  ?>
 
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId, 'eduLevel' =>
-                [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+                [DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR],
                 'formCategory' =>DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2]); ?>
 
