@@ -26,17 +26,24 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['tpgu_status'=> true]);
     }
 
-    public function allActualFacultyWithoutBranch()
+    public function allActualFacultyWithoutBranch($spo = false)
     {
         return $this
             ->select('faculty_id')
             ->withoutBranch()
-            ->allowDeadLineEducationForm()
+            ->allowDeadLineEducationForm($spo)
             ->currentAutoYear();
     }
 
-    public function allowDeadLineEducationForm()
+    public function allowDeadLineEducationForm($spo)
     {
+        if($spo && (\Yii::$app->user->identity->setting())->allowSpoContractMoscow()) {
+            return $this->andWhere(['in', 'education_form_id',
+                [DictCompetitiveGroupHelper::EDU_FORM_ZAOCH,
+                    DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH,
+                    DictCompetitiveGroupHelper::EDU_FORM_OCH
+                ]]);
+        }
         if (!(\Yii::$app->user->identity->setting())->allowBacCseOchContactMoscow()) {
             return $this->andWhere(['education_form_id' => DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]);
         }

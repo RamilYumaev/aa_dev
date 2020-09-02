@@ -48,7 +48,7 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-
+            if($currentCg->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
             $trColor = UserCgHelper::trColor($currentCg);
             $result .= "<tr" . $trColor . ">";
@@ -112,6 +112,7 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                 ['target=> "_blank"']) : "";
             $result .= "</td>";
             $result .= "</tr>";
+            }
         }
     } else {
         continue;

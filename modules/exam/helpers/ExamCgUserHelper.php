@@ -108,8 +108,9 @@ class ExamCgUserHelper
 
     private  static  function formCategory()
     {
-        return self::isTimeZa()
-            ? DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 :
-            DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ;
+//        return self::isTimeZa()
+//            ? DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 :
+//            DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ;
+        return [1,2];
     }
 }

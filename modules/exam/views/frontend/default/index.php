@@ -10,7 +10,7 @@ use yii\helpers\Html;
 /* @var $exam modules\exam\models\Exam*/
 /* @var $examStatement modules\exam\models\ExamStatement*/
 /* @var $test modules\exam\models\ExamTest */
-$this->title =  ExamCgUserHelper::isTimeZa() ? "Экзамены для поступающих на заочную форму" : "Экзамены";
+$this->title = "Экзамены";
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 
@@ -23,32 +23,23 @@ $userId = Yii::$app->user->identity->getId();
         <table class="table">
             <tr>
                 <th>Наименование</th>
-                <th>Дата</th>
-                <th>Время</th>
+                <th>Дата и время (для очной и очно-заочной формы)</th>
+                <th>Дата и время (для заочной формы)</th>
+                <th></th>
                 <th></th>
             </tr>
             <?php foreach ($examList as $exam) :
                 $examStatements = $exam->examStatementUser($userId);
                 ?>
-                <?php if (ExamCgUserHelper::isTimeZa()): ?>
                 <tr class="info">
                     <td><?= $exam->discipline->name?></td>
-                    <td><?= $exam->dateExamReserve ?></td>
-                    <td><?= $exam->timeExamReserve ?></td>
-                    <td><?= !$examStatements ? Html::a("Регистрация", ["exam-statement/register-za", 'examId'=> $exam->id], ["class" => "btn btn-primary",
-                            'data'=>['confirm' => 'Вы уверены, что хотите зарегистрироваться?', 'method'=>'post']]) : ""?>
-                    </td>
-                </tr>
-                <?php else: ?>
-                <tr class="info">
-                    <td><?= $exam->discipline->name?></td>
-                    <td><?= $exam->dateExam ?></td>
-                    <td><?= $exam->timeExam ?></td>
+                    <td><?= $exam->dateExam ?> <?= $exam->timeExam ?></td>
+                    <td><?= $exam->dateExamReserve ?> <?= $exam->timeExamReserve ?></td>
                     <td><?= !$examStatements ? Html::a("Регистрация", ["exam-statement/register", 'examId'=> $exam->id], ["class" => "btn btn-primary",
                             'data'=>['confirm' => 'Вы уверены, что хотите зарегистрироваться?', 'method'=>'post']]) : ""?>
                     </td>
                 </tr>
-                <?php endif; ?>
+
                 <?php if($examStatements):?>
                 <tr>
                     <td colspan="4">

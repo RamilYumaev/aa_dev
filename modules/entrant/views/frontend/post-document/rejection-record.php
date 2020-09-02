@@ -26,8 +26,10 @@ $userId =  Yii::$app->user->identity->getId();
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
         <div class="col-md-12">
+            <?php /*
             <?= \modules\entrant\widgets\statement\StatementRecordAndRejectionWidget::widget(['userId' => $userId, 'isDownload'=> true]); ?>
             <?= Html::a("Отправить", ['post-document/record-send'], ["class" => "btn btn-success btn-lg", 'data'=> ['method' => 'post']]) ?>
+           */ ?>
         </div>
     </div>
 </div>

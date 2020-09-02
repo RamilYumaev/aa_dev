@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\repositories;
 
+use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\usecase\RepositoryDeleteSaveClass;
 
@@ -30,6 +31,11 @@ class StatementConsentCgRepository extends RepositoryDeleteSaveClass
     public function exitsCg($userId, $status, $cgId)
     {
         return StatementConsentCg::find()->statementStatusAndCg($userId, $status, $cgId)->exists();
+    }
+
+    public function oneAcceptedCg($userId, $cgId)
+    {
+        return StatementConsentCg::find()->statementStatusAndCg($userId, StatementHelper::STATUS_ACCEPTED, $cgId)->one();
     }
 
 }

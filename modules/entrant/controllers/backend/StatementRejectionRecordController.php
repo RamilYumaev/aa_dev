@@ -2,7 +2,9 @@
 
 namespace modules\entrant\controllers\backend;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\forms\FilePdfForm;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -13,10 +15,13 @@ use modules\entrant\searches\StatementConsentSearch;
 use modules\entrant\searches\StatementRejectionRecordSearch;
 use modules\entrant\services\StatementConsentCgService;
 use modules\entrant\services\StatementRejectionRecordService;
+use yii\base\ExitException;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class StatementRejectionRecordController extends Controller
 {
@@ -26,6 +31,25 @@ class StatementRejectionRecordController extends Controller
     {
         $this->service = $service;
         parent::__construct($id, $module, $config);
+    }
+
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function beforeAction($event)
+    {
+        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::isIPZ())) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
     }
 
 
@@ -78,6 +102,52 @@ class StatementRejectionRecordController extends Controller
         $render = $pdf->render();
         return $render;
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionGet($id)
+    {
+        $model = $this->findModel($id);
+        $filePath = $model->getUploadedFilePath('pdf_file');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionFilePdf($id)
+    {
+        $model = $this->findModel($id);
+        $form = new FilePdfForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->addFile($model->id, $form);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('@modules/entrant/views/backend/agreement-contract/file', [
+            'model' => $form,
+        ]);
+    }
+
 
     /**
      * @param integer $id
