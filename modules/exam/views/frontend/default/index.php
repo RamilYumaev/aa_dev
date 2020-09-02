@@ -35,9 +35,7 @@ $userId = Yii::$app->user->identity->getId();
                     <td><?= $exam->discipline->name?></td>
                     <td><?= $exam->dateExam ?> <?= $exam->timeExam ?></td>
                     <td><?= $exam->dateExamReserve ?> <?= $exam->timeExamReserve ?></td>
-                    <td><?= !$examStatements ? Html::a("Регистрация", ["exam-statement/register", 'examId'=> $exam->id], ["class" => "btn btn-primary",
-                            'data'=>['confirm' => 'Вы уверены, что хотите зарегистрироваться?', 'method'=>'post']]) : ""?>
-                    </td>
+                    <td></td>
                 </tr>
 
                 <?php if($examStatements):?>
