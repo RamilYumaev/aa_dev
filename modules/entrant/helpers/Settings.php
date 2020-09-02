@@ -5,6 +5,7 @@ namespace modules\entrant\helpers;
 
 
 use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 
 class Settings
@@ -28,7 +29,7 @@ class Settings
      * @var string
      * Окончание приема ЗУК в СПО договор филиалы
      */
-    public $ZukSpoOchFilialContract = '2020-08-25 18:00:00';
+    public $ZukSpoOchFilialContract = '2020-11-25 18:00:00';
     /**
      * @var string
      * Абитуриент - окончание приема очных и очно-заочных заявлений (ЕГЭ) бакалавриата бюджетной основы
@@ -332,8 +333,13 @@ class Settings
         if ($this->budgetCpk($cg)) {
             return true;
         }
-        if ($this->ochOrOchZaOch($cg)) {
-            return $this->allowBacCseOchContactMoscow();
+        if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  && $this->ochOrOchZaOch($cg)) {
+            return  $this->allowSpoContractMoscow();
+        }
+
+        if ($cg->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  && $this->ochOrOchZaOch($cg)) {
+            return   $this->allowBacCseOchContactMoscow();
+
         }
         if ($cg->isZaOchCg()) {
             return $this->allowBacCseZaOchContractMoscow();
@@ -355,8 +361,14 @@ class Settings
         if ($cg->isBudget() || $cg->isUmsCg()) {
             return true;
         }
-        if (($cg->isOchCg() || $cg->isOchZaOchCg())) {
+
+        if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  && ($cg->isOchCg() || $cg->isOchZaOchCg())) {
+            return  $this->allowSpoContractFilial();
+        }
+
+        if ($cg->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  && ($cg->isOchCg() || $cg->isOchZaOchCg())) {
             return $this->allowBacCseOchContractFilial();
+
         }
         return true;
     }

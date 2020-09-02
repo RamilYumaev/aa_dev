@@ -203,7 +203,7 @@ class ApplicationsController extends Controller
     protected function renderList($level, $specialRight, $govLineStatus, $tpguStatus)
     {
 
-        $currentFacultyBase = $this->universityChoiceBase();
+        $currentFacultyBase = $this->universityChoiceBase($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? true : false);
 
         if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();
@@ -249,11 +249,11 @@ class ApplicationsController extends Controller
 
     }
 
-    private function universityChoiceBase()
+    private function universityChoiceBase($spo = false)
     {
         if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
             $model = DictCompetitiveGroup::find()
-                ->allActualFacultyWithoutBranch();
+                ->allActualFacultyWithoutBranch($spo);
         } else {
             $model = DictCompetitiveGroup::find()
                 ->branch($this->anketa->university_choice);

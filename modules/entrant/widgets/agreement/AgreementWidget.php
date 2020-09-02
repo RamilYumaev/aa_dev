@@ -11,7 +11,7 @@ class AgreementWidget extends Widget
     public $view;
     public function run()
     {
-        $model = Agreement::findOne(['user_id' => $this->userId, 'year' =>EduYearHelper::eduYear()]);
+        $model = Agreement::findOne(['user_id' => $this->userId, 'year' =>"2019-2020"]);
         return $this->render($this->view, [
             'model'=> $model,
         ]);
