@@ -1,5 +1,6 @@
 <?php
 
+use kartik\select2\Select2;
 use modules\exam\helpers\ExamAnswerHelper;
 use testing\helpers\AnswerHelper;
 use yii\helpers\Html;
@@ -10,5 +11,10 @@ use testing\helpers\TestQuestionHelper;
 <?php $a= yii\helpers\Json::decode($quent->result);?>
 <?php foreach (ExamAnswerHelper::answerList($quent->question_id) as $index => $name): ?>
     <p><?= $name ?>
-        <?= Html::dropDownList("AnswerAttempt[matching][$index]", $a["matching"][$index] ?? [], ExamAnswerHelper::answerMatchingList($quent->question_id))?> </p>
+        <?=  Select2::widget([
+            'name' => "AnswerAttempt[matching][$index]",
+            'value' => $a["matching"][$index] ?? null,
+            'data' => ExamAnswerHelper::answerMatchingList($quent->question_id),
+        ]); ?>
+    </p>
 <?php endforeach; ?>
