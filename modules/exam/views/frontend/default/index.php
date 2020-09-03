@@ -1,6 +1,8 @@
 <?php
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\exam\helpers\ExamCgUserHelper;
 use yii\bootstrap\Modal;
@@ -13,12 +15,23 @@ use yii\helpers\Html;
 $this->title = "Экзамены";
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
+$isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
+    ->user($userId)->status(StatementHelper::STATUS_SUCCESS)->exists();
 
 \frontend\assets\modal\ModalAsset::register($this);
  ?>
 <div class="container">
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
+        <?php if ($isStatementGraduate) : ?>
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    Уважаемый абитуриент, ссылка на сдачу устного экзамена по специальной дисциплине появится в этом разделе 8 сентября 2020 года. <br />
+                    Для прохождения экзамена необходимо будет подключиться за пол часа за экзамена для прохождения процедуры верификации.
+                </p>
+            </div>
+            <p></p>
+        <?php endif; ?>
 
         <table class="table">
             <tr>
