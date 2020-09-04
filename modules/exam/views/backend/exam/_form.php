@@ -67,11 +67,25 @@ use yii\helpers\Html;
                        picker.container.find('.calendar-table').hide();
                     }",
             ],
-
         ])?>
+        <?= $form->field($model, 'spec')->checkbox()->label("Специальный экзамен") ?>
+        <div id="spec">
+            <?= $form->field($model, 'src_bb')->textInput(['maxlength' => true]) ?>
+        </div>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+<?php $this->registerJs(<<<JS
+var spec = $("#spec");
+var checked = $('#examform-spec');
+checked.on("change init", function() {
+if (this.checked) {
+spec.show()
+} else {
+spec.hide();}});
+checked.trigger("init");
+JS
+);

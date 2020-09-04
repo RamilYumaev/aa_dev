@@ -64,6 +64,9 @@ class ExamStatementService
         $model = $this->repository->get($id);
         if($form->src_bbb){
             $model->data($jobEntrant->user_id, $form->src_bbb, $form->time);
+            if($model->exam->src_bb) {
+                $model->setStatus(ExamStatementHelper::SUCCESS_STATUS);
+            }
             $this->repository->save($model);
             $this->aisService->examSend($jobEntrant->email_id, $model->entrant_user_id,
                 $model->textEmailFirst, $model->urlExam, $model->time);

@@ -28,7 +28,9 @@ class ExamSrcBBBForm extends Model
             ['src_bbb', 'string', 'max'=>255],
             ['time', 'string', 'max'=>5],
             [['src_bbb','time'], 'required'],
-           $this->exam_st->src_bbb ? ['src_bbb', 'unique', 'filter'=> ['<>', 'id', $this->exam_st->id], 'targetClass'=> ExamStatement::class] : ['src_bbb', 'unique', 'targetClass'=> ExamStatement::class],
+            is_null($this->exam_st->exam->src_bb) ? ($this->exam_st->src_bbb ? ['src_bbb', 'unique', 'filter'=> ['<>', 'id', $this->exam_st->id],
+               'targetClass'=> ExamStatement::class] :
+               [ 'src_bbb', 'unique', 'targetClass'=> ExamStatement::class]) : ['src_bbb', 'default'],
         ];
     }
 
