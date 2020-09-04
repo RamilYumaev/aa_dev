@@ -26,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property string $time_end
  * @property string $time_start_reserve
  * @property string $time_end_reserve
+ * @property string $src_bb
  *
  **/
 
@@ -67,6 +68,8 @@ class Exam extends ActiveRecord
             $this->date_start_reserve = null;
             $this->date_end_reserve =  null;
         }
+
+        $this->src_bb = $form->spec ? $form->src_bb : null;
     }
 
     public function getDateValue($property)
@@ -116,7 +119,8 @@ class Exam extends ActiveRecord
             'date_range' => "Дата экзамена (от и до)",
             'date_range_reserve' => "Дата экзамена (от и до) для заочной формы",
             'time_range' => "Время экзамена (от и до)",
-            'time_range_reserve' => "Время экзамена (от и до) для заочной формы"
+            'time_range_reserve' => "Время экзамена (от и до) для заочной формы",
+            'src_bb' => 'Ссылка BigBlueButton',
         ];
     }
 

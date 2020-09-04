@@ -16,7 +16,7 @@ $this->title = "Экзамены";
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
-    ->user($userId)->status(StatementHelper::STATUS_SUCCESS)->exists();
+    ->user($userId)->status(StatementHelper::STATUS_ACCEPTED)->exists();
 
 \frontend\assets\modal\ModalAsset::register($this);
  ?>
@@ -32,7 +32,6 @@ $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::E
             </div>
             <p></p>
         <?php endif; ?>
-
         <table class="table">
             <tr>
                 <th>Наименование</th>
