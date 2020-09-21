@@ -106,9 +106,6 @@ foreach ($currentFaculty as $faculty) {
 aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
             $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
-                    $budgetAnalog["cgBudgetId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, $currentCg->cathedra_id)
-                . UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $currentCg->cathedra_id) :
                 UserCgHelper::link(

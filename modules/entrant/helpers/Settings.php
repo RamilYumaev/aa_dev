@@ -76,12 +76,12 @@ class Settings
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ЕГЭ) бакалавриата договорной основы, Москва
      */
-    public $ZukBacZaOchContractMoscowCse = "2020-09-04 17:00:00";
+    public $ZukBacZaOchContractMoscowCse = "2020-09-30 17:00:00";
     /**
      * @var string
      * Окончание приема заочных заявлений бакалавриата на договор в филиалах по ЕГЭ
      */
-    public $ZukBacZaOchContractFilialCse = "2020-09-04 17:00:00";
+    public $ZukBacZaOchContractFilialCse = "2020-09-30 17:00:00";
     /**
      * @var string
      * Абитуриент - окончание приема заочных заявлений (ВИ) бакалавриата договорной основы, Москва
