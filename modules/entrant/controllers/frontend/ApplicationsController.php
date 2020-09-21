@@ -104,17 +104,17 @@ class ApplicationsController extends Controller
     public function actionGetGraduate()
     {
 
-        Yii::$app->session->setFlash('info', 'Прием документов в аспирантуру окончен!');
-        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
-        Yii::$app->end();
-//        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
-//
-//        $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
-//
-//
-//        return $this->render('get-graduate', [
-//            'currentFaculty' => $currentFaculty,
-//        ]);
+//        Yii::$app->session->setFlash('info', 'Прием документов в аспирантуру окончен!');
+//        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+//        Yii::$app->end();
+        $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+
+        $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+
+
+        return $this->render('get-graduate', [
+            'currentFaculty' => $currentFaculty,
+        ]);
     }
 
     public function actionGetMpguTpgu()
@@ -183,7 +183,7 @@ class ApplicationsController extends Controller
 
         try {
             $cg = $this->service->repositoryCg->get($id);
-            if(!(\Yii::$app->user->identity->setting())->allowCgForSave($cg))
+            if(!(\Yii::$app->user->identity->setting())->allowCgForSave($cg) && !$cathedra_id)
             {
                 throw new \DomainException("Прием документов на данную образовательную программу окончен!");
             }
@@ -203,7 +203,9 @@ class ApplicationsController extends Controller
     protected function renderList($level, $specialRight, $govLineStatus, $tpguStatus)
     {
 
-        $currentFacultyBase = $this->universityChoiceBase($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? true : false);
+        $currentFacultyBase = $this->universityChoiceBase($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ||
+            $level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL
+            ? true : false);
 
         if ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $currentFaculty = $currentFacultyBase->onlySpecialRight()->column();

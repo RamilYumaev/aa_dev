@@ -24,7 +24,8 @@ class ViewAnswerAttemptTestColumn extends DataColumn
 {
     protected function renderDataCellContent($model, $key, $index): string
     {
-        return  $this->getQuestions($model).$this->getCorrectAnswer($model).'<br/> <br/>';
+        return  $this->getQuestions($model).$this->getCorrectAnswer($model).'<br/> <br/>'.
+            ($model->note ? "Комментарий экзаменатора: ".$model->note : "");
     }
 
     private function getQuestions(ExamResult $model): string

@@ -136,11 +136,7 @@ $cgFaculty = $cgFacultyBase->all();
                 . $currentCg->id .
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
-
-            $result .= ($budgetAnalog["status"] && !$contractOnly) ? UserCgHelper::link(
-                    $budgetAnalog["cgBudgetId"],
-                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
-                . UserCgHelper::link(
+            $result .= ($budgetAnalog["status"] && !$contractOnly) ?  UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
                 UserCgHelper::link(
