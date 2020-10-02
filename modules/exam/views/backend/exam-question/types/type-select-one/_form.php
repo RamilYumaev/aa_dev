@@ -55,6 +55,7 @@ use yii\widgets\ActiveForm;
                         <div class="panel-body">
                             <?= $form->field($answer, "[{$index}]name")->textInput(['maxlength' => true]) ?>
                             <?= $form->field($answer, "[{$index}]is_correct")->checkbox() ?>
+                            <?= $form->field($answer, "[{$index}]id")->hiddenInput()->label("") ?>
                         </div>
                     </div>
                     <?php endforeach; ?>

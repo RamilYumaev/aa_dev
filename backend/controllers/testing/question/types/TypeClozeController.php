@@ -82,6 +82,12 @@ class TypeClozeController extends Controller
         return $this->render('update', ['model' => $form,  'question' => $model]);
     }
 
+    public function actionView($id, $olympic_id)
+    {
+        $model = $this->findModel($id, $olympic_id);
+        return $this->render('view', ['question' => $model]);
+    }
+
 
     /**
      * @param integer $id

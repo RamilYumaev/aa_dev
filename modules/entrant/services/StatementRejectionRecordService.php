@@ -31,6 +31,9 @@ class StatementRejectionRecordService
     {
         $order = $this->aisTransferOrderRepository->get($id);
         $this->repository->isStatementRejection($userId, $order->cg->id);
+        if(!$order->cg->isHighGraduate() && !$order->cg->isZaOchCg()) {
+            throw new \DomainException('Прием заявлений об исключении из приказа о зачислении завершен');
+        }
         $st = StatementRejectionRecord::create($order->cg->id, 0, $userId, $order->order_date, $order->order_name);
         $this->repository->save($st);
     }

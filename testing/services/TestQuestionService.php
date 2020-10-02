@@ -252,15 +252,16 @@ class TestQuestionService
                     }
                     $this->questionPropositionRepository->save($questPropModel);
                     if($questProp->type) {
-                        if (isset($form->answerCloze[$index]) && is_array($form->answerCloze[$index])) {
-                            foreach ($form->answerCloze[$index] as $answerCloze) {
-                                if ($answerCloze->name) {
-                                    $isCorrect = $questProp->type == TestQuestionHelper::CLOZE_TEXT ? 1 : $answerCloze->is_correct;
-                                    if ($answerCloze->id) {
-                                        $answerClozeModel = $this->answerClozeRepository->get($answerCloze->id);
-                                        $answerClozeModel->edit($answerCloze->name, $isCorrect);
+                        $answerCloze = \Yii::$app->request->post('AnswerClozeForm');
+                        if ($answerCloze) {
+                            foreach ($answerCloze[$index] as $answer) {
+                                if ($answer['name']) {
+                                    $isCorrect = $questProp->type == TestQuestionHelper::CLOZE_TEXT ? 1 : $answer['is_correct'];
+                                    if ( $answer['id']) {
+                                        $answerClozeModel = $this->answerClozeRepository->get($answer['id']);
+                                        $answerClozeModel->edit($answer['name'], $isCorrect);
                                     }else {
-                                        $answerClozeModel = AnswerCloze::create($questPropModel->id, $answerCloze->name, $isCorrect);
+                                        $answerClozeModel = AnswerCloze::create($questPropModel->id, $answer['name'], $isCorrect);
                                     }
                                     $this->answerClozeRepository->save($answerClozeModel);
                                 }

@@ -3,12 +3,15 @@
 
 namespace modules\entrant\controllers\frontend;
 use common\auth\forms\ResetPasswordForm;
+use dictionary\helpers\DictFacultyHelper;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\forms\ReceiptContractForm;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
+use modules\entrant\helpers\SettingContract;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\PersonalEntity;
 use modules\entrant\models\ReceiptContract;
@@ -72,6 +75,10 @@ class StatementAgreementContractCgController extends Controller
     public function actionCreate($id)
     {
         $cg = $this->findConsentCg($id);
+        if (!SettingContract::isJob($cg->cg)) {
+                Yii::$app->session->setFlash("error", "Уже нельзя заключать договоры");
+                return $this->redirect(Yii::$app->request->referrer);
+        }
         if (($incoming = UserAis::findOne(['user_id' => $this->getUser()])) == null) {
             Yii::$app->session->setFlash("error", "Сбой системы. Попробуте в другой раз");
             return $this->redirect(Yii::$app->request->referrer);
@@ -243,6 +250,10 @@ class StatementAgreementContractCgController extends Controller
     public function actionCreatePdf($id)
     {
         $agreement= $this->findModel($id);
+        if (!SettingContract::isJob($agreement->statementCg->cg)) {
+            Yii::$app->session->setFlash("error", "Уже нельзя сформировать договор");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         if($agreement->typeEntrant() || $agreement->typePersonal() || $agreement->typeLegal()) {
             $this->exportData($agreement);
         }else {

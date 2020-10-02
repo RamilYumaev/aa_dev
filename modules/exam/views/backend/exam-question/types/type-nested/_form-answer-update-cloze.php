@@ -47,7 +47,10 @@ use wbraganca\dynamicform\DynamicFormWidget;
 $this->registerJs(<<<JS
 "use strict";
 $(".dynamicform_inner").on("afterInsert", function(e, item) {
-    item.children[0].childNodes[1].value = "";
+    e.preventDefault();
+   $(item).find("input").each(function() {
+        $(this).val("");
+    });
 });
 JS
 );

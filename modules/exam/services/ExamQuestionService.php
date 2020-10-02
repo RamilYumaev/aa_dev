@@ -226,15 +226,16 @@ class ExamQuestionService
                     }
                     $this->questionNestedRepository->save($questPropModel);
                     if($questProp->type) {
-                        if (isset($form->answerCloze[$index]) && is_array($form->answerCloze[$index])) {
-                            foreach ($form->answerCloze[$index] as $answerCloze) {
-                                if ($answerCloze->name) {
-                                    $isCorrect = $questProp->type == TestQuestionHelper::CLOZE_TEXT ? 1 : $answerCloze->is_correct;
-                                    if ($answerCloze->id) {
-                                        $answerClozeModel = $this->answerNestedRepository->get($answerCloze->id);
-                                        $answerClozeModel->edit($answerCloze->name, $isCorrect);
+                        $answerCloze = \Yii::$app->request->post('ExamAnswerNestedForm');
+                        if ($answerCloze) {
+                            foreach ($answerCloze[$index] as $answer) {
+                                if ($answer['name']) {
+                                    $isCorrect = $questProp->type == TestQuestionHelper::CLOZE_TEXT ? 1 : $answer['is_correct'];
+                                    if ( $answer['id']) {
+                                        $answerClozeModel = $this->answerNestedRepository->get($answer['id']);
+                                        $answerClozeModel->edit($answer['name'], $isCorrect);
                                     }else {
-                                        $answerClozeModel = ExamAnswerNested::create($questPropModel->id, $answerCloze->name, $isCorrect);
+                                        $answerClozeModel = ExamAnswerNested::create($questPropModel->id, $answer['name'], $isCorrect);
                                     }
                                     $this->answerNestedRepository->save($answerClozeModel);
                                 }

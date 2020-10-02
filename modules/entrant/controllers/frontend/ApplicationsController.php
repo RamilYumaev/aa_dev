@@ -6,6 +6,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\SettingContract;
 use modules\entrant\models\Anketa;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\services\ApplicationsService;
@@ -43,6 +44,12 @@ class ApplicationsController extends Controller
 
     public function actionGetBachelor()
     {
+        if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
+            Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+            Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+            Yii::$app->end();
+        }
+
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
 
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
@@ -54,6 +61,9 @@ class ApplicationsController extends Controller
 
     public function actionGetTargetBachelor()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
@@ -65,6 +75,10 @@ class ApplicationsController extends Controller
 
     public function actionGetSpecialRightBachelor()
     {
+
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
 
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
@@ -77,6 +91,10 @@ class ApplicationsController extends Controller
 
     public function actionGetMagistracy()
     {
+
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
 
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
@@ -89,6 +107,10 @@ class ApplicationsController extends Controller
 
     public function actionGetTargetMagistracy()
     {
+
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
         $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
 
@@ -104,7 +126,7 @@ class ApplicationsController extends Controller
     public function actionGetGraduate()
     {
 
-//        Yii::$app->session->setFlash('info', 'Прием документов в аспирантуру окончен!');
+//        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
 //        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
 //        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
@@ -119,6 +141,9 @@ class ApplicationsController extends Controller
 
     public function actionGetMpguTpgu()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         return $this->render('get-mpgu-tpgu', [
             'currentFaculty' => $currentFaculty,
@@ -127,6 +152,9 @@ class ApplicationsController extends Controller
 
     public function actionGetTargetGraduate()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
         $this->allowTarget(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
 
@@ -140,6 +168,9 @@ class ApplicationsController extends Controller
 
     public function actionGetGovLineBachelor()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
@@ -152,6 +183,9 @@ class ApplicationsController extends Controller
 
     public function actionGetGovLineMagistracy()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
         $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
@@ -166,6 +200,9 @@ class ApplicationsController extends Controller
 
     public function actionGetGovLineGraduate()
     {
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
         $this->isGovLineControl();
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
@@ -180,10 +217,9 @@ class ApplicationsController extends Controller
 
     public function actionSaveCg($id, $cathedra_id = null)
     {
-
         try {
             $cg = $this->service->repositoryCg->get($id);
-            if(!(\Yii::$app->user->identity->setting())->allowCgForSave($cg) && !$cathedra_id)
+            if(!SettingContract::isJob($cg))
             {
                 throw new \DomainException("Прием документов на данную образовательную программу окончен!");
             }

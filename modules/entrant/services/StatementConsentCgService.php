@@ -29,6 +29,11 @@ class StatementConsentCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
+
+        if($cg->cg->isBudget()) {
+            throw new \DomainException('Прием заявлений о согласии на зачисление завершен');
+        }
+
         if(($this->repository->exits($userId, [StatementHelper::STATUS_DRAFT,
             StatementHelper::STATUS_WALT,
             StatementHelper::STATUS_ACCEPTED, StatementHelper::STATUS_VIEW]) && $cg->cg->isBudget()) ||
@@ -95,6 +100,13 @@ class StatementConsentCgService
     {
         $statement = $this->repository->get($id);
         $statement->setStatus(StatementHelper::STATUS_WALT);
+        $this->repository->save($statement);
+    }
+
+    public function statusNo($id)
+    {
+        $statement = $this->repository->get($id);
+        $statement->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
         $this->repository->save($statement);
     }
 
