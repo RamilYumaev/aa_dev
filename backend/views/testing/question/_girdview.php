@@ -20,10 +20,10 @@ use yii\grid\ActionColumn;
                         'title',
                         'text:raw',
                         ['class' => ActionColumn::class,
-                            'template' => '{update} {delete}',
+                            'template' => ' {view} {delete}',
                             'buttons' => [
-                                'update' => function ($url, $model) {
-                                    return Html::a('<span class="glyphicon glyphicon-edit">', ['update',
+                                'view' => function ($url, $model) {
+                                    return Html::a('<span class="glyphicon glyphicon-eye-open">', ['view',
                                         'id' => $model->id, 'olympic_id' => $model->olympic_id]);
                                 },
                                 'delete' => function ($url, $model) {

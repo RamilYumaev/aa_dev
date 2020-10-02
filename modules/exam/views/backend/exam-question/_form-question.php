@@ -32,8 +32,7 @@ use mihaildev\elfinder\ElFinder;
     </div>
     <div class='box-footer'>
         <p id="error-message" style="color: red"></p>
-        <?= Yii::$app->controller->action->id == 'update' && $model->type_id == TestQuestionHelper::TYPE_CLOZE ? "":
-            Html::submitButton('Сохранить', $model->type_id == TestQuestionHelper::TYPE_CLOZE ? [ 'id'=> $id, 'class' => 'btn btn-success', 'data-confirm' => "Вы уверены, что хотите сохранить?"] :  [ 'id'=> $id, 'class' => 'btn btn-success',]) ?>
+        <?= Html::submitButton('Сохранить',    [ 'id'=> $id, 'class' => 'btn btn-success']) ?>
     </div>
 </div>
 <?php

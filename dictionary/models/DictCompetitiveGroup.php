@@ -8,6 +8,7 @@ use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
 use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
@@ -452,6 +453,26 @@ class DictCompetitiveGroup extends ActiveRecord
     {
         return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
     }
+
+    public function isSpo()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+    }
+
+    public function isHighGraduateOrSpo()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL ||
+            $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
+    }
+
+    public function isBachelorOrSpoFilial()
+    {
+        return ($this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ||
+            $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)  && in_array($this->faculty_id, DictFacultyHelper::FACULTY_FILIAL);
+    }
+
+
+
 
 
 }

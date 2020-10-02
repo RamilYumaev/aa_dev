@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "933b4d85a2d696ac698f56de1318fd66",
+    "content-hash": "f80ddd5bfdd889da02c012f4da992142",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -144,7 +144,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
+                "url": "git@github.com:twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -309,7 +309,7 @@
             "version": "1.12.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/components/jqueryui.git",
+                "url": "git@github.com:components/jqueryui.git",
                 "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
             },
             "dist": {
@@ -350,7 +350,7 @@
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bestiejs/punycode.js.git",
+                "url": "git@github.com:bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {
@@ -3963,10 +3963,10 @@
         },
         {
             "name": "wbraganca/yii2-dynamicform",
-            "version": "v2.0.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wbraganca/yii2-dynamicform.git",
+                "url": "git@github.com:wbraganca/yii2-dynamicform.git",
                 "reference": "bebb469055dc8f8f50b586eefe69d847ead7c11b"
             },
             "dist": {
@@ -8414,6 +8414,7 @@
         "kartik-v/yii2-widget-timepicker": 20,
         "himiklab/yii2-common": 20,
         "kartik-v/yii2-sortable": 20,
+        "wbraganca/yii2-dynamicform": 20,
         "kartik-v/yii2-date-range": 20,
         "kartik-v/yii2-widget-fileinput": 20,
         "kartik-v/yii2-widget-switchinput": 20

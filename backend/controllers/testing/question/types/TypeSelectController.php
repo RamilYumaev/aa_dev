@@ -71,10 +71,11 @@ class TypeSelectController extends Controller
         ]);
     }
 
-    public function actionView($id, $olympic_id) {
-        return $this->render('view', [
-            'question' => $this->findModel($id, $olympic_id)
-        ]);
+
+    public function actionView($id, $olympic_id)
+    {
+        $model = $this->findModel($id, $olympic_id);
+        return $this->render('view', ['question' => $model]);
     }
 
     /**

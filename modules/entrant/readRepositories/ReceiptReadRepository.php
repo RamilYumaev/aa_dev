@@ -28,7 +28,8 @@ class ReceiptReadRepository
         if ($this->jobEntrant->isAgreement()) {
             $query->andWhere(['statement.edu_level' => [
                 DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+                DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere(['statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);

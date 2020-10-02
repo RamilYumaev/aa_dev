@@ -37,6 +37,10 @@ $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
     $(".dynamicform_wrapper .panel-title-address").each(function(index) {
         $(this).html("Вариант ответа: " + (index + 1))
     });
+
+    $(".dynamicform_wrapper .panel-body:last").find("input").each(function() {
+        $(this).val("");
+    });
 });
 
 $(".dynamicform_wrapper").on("afterDelete", function(e) {

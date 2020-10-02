@@ -14,14 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="question-view">
     <p>
-        <?= Html::a('Обновить', ['update', 'id' => $question->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['delete', 'id' => $question->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Обновить вопрос', ['update', 'id' => $question->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <div class="box">

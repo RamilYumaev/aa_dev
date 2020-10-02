@@ -85,7 +85,10 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs(<<<JS
 "use strict";
 $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
-    item.children[0].childNodes[1].value = "";
+    e.preventDefault();
+    $(".dynamicform_wrapper .nested-item:last").find("input").each(function() {
+        $(this).val("");
+    });
 });
 JS
 );

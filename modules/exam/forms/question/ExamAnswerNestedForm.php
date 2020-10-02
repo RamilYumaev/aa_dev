@@ -25,7 +25,7 @@ class ExamAnswerNestedForm extends Model
     public function rules()
     {
         return [
-            [['is_correct'], 'boolean'],
+            [['is_correct'], 'integer'],
             [['id'], 'integer'],
             [['name'], 'string'],
         ];
