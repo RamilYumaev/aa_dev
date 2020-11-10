@@ -43,6 +43,7 @@ class OlimpicListCopyForm extends Model
         $this->year = $olympic->year;
         $this->percent_to_calculate = $olympic->percent_to_calculate;
         $this->_olympic = $olympic;
+        $this->cg_no_visible = $olympic->cg_no_visible;
         parent::__construct($config);
     }
 
@@ -57,12 +58,18 @@ class OlimpicListCopyForm extends Model
                 return $model->prefilling == 0;
             }, 'whenClient' => 'function(attribute, value){
                     return $("#olimpiclistcopyform-prefilling").val == 0}'],
-            [['competitiveGroupsList', 'classesList'], 'required', 'when' => function ($model) {
+            [['classesList'], 'required', 'when' => function ($model) {
                 return $model->edu_level_olymp == OlympicHelper::FOR_STUDENT
                     || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcopyform-edu_level_olymp").val() == 1 
             || $("#olimpiclistcopyform-edu_level_olymp").val() == 2}'],
+            [['competitiveGroupsList'], 'required', 'when' => function ($model) {
+                return ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT && !$model->cg_no_visible)
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible);
+            }, 'whenClient' => 'function(attribute, value){
+            return  ($("#olimpiclistcopyform-edu_level_olymp").val() == 1 && !$("#olimpiclistcopyform-cg_no_visible").prop("checked")) 
+            || ($("#olimpiclistcopyform-edu_level_olymp").val() == 2  && !$("#olimpiclistcopyform-cg_no_visible").prop("checked")) }'],
             ['time_of_distants_tour_type', 'required', 'when' => function ($model) {
                 return $model->form_of_passage == OlympicHelper::ZAOCHNAYA_FORMA;
             }, 'whenClient' => 'function(attribute, value){
@@ -90,7 +97,7 @@ class OlimpicListCopyForm extends Model
             }'],
             [['content', 'required_documents', 'year'], 'string'],
             [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть', 'targetAttribute' => ['name', 'year']],
-            [['chairman_id', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
+            [['chairman_id', 'cg_no_visible', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id', 'olimpic_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'auto_sum'], 'integer'],
             [['date_range', 'date_time_start_tour'], 'safe'],

@@ -32,7 +32,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['date_time_start_reg', 'date_time_finish_reg', 'edu_level_olymp', 'name', 'chairman_id', 'number_of_tours',
+                'attributes' => ['date_time_start_reg', 'cg_no_visible', 'date_time_finish_reg', 'edu_level_olymp', 'name', 'chairman_id', 'number_of_tours',
                     'edu_level_olymp', 'genitive_name', 'faculty_id', 'time_of_distants_tour_type', 'form_of_passage','time_of_tour', 'time_of_tour',
                     'content', 'required_documents', 'showing_works_and_appeal', 'time_of_distants_tour', 'prefilling', 'only_mpgu_students', 'list_position',
                     'auto_sum', 'date_time_start_tour','address', 'requiment_to_work_of_distance_tour', 'requiment_to_work','criteria_for_evaluating_dt',
@@ -89,6 +89,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
+        $olympic->cg_no_visible = $form->cg_no_visible;
         return $olympic;
     }
 
@@ -129,6 +130,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->event_type = $form->event_type;
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
+        $olympic->cg_no_visible = $form->cg_no_visible;
         return $olympic;
     }
 
@@ -166,6 +168,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $this->certificate_id = $form->certificate_id;
         $this->event_type = $form->event_type;
         $this->olimpic_id = $olimpic_id;
+        $this->cg_no_visible = $form->cg_no_visible;
         $this->year = $form->year;
     }
 
@@ -207,6 +210,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'certificate_id' => 'Выдается сертификат участнику',
             'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации',
             'percent_to_calculate' => 'Процент участников в следующий тур',
+            'cg_no_visible'=> "Игнорировать конкурсные группы?"
         ];
     }
 

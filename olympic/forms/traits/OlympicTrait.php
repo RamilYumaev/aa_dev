@@ -41,6 +41,7 @@ trait OlympicTrait
         $year,
         $date_range,
         $percent_to_calculate,
+        $cg_no_visible,
         $_olympic;
 
 
