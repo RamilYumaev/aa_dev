@@ -52,7 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'special_right',
                         'filter' => DictCompetitiveGroupHelper::getSpecialRight(),
                          'value' => 'specialRight'
-                    ],                    [
+                    ],
+                    [
                         'attribute' => 'created_at',
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',

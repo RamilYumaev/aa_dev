@@ -57,6 +57,8 @@ use yii\helpers\Html;
 
 <?= $form->field($model, 'only_mpgu_students')->checkbox(); ?>
 
+        <?= $form->field($model, 'cg_no_visible')->checkbox(); ?>
+
 <?= $form->field($model, 'competitiveGroupsList')->widget(Select2::class, [
     'options' => ['placeholder' => 'Выберите конкурсные группы', 'multiple' => true],
     'pluginOptions' => [

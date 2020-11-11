@@ -44,11 +44,10 @@ class ApplicationsController extends Controller
 
     public function actionGetBachelor()
     {
-        if ($this->anketa->university_choice == AnketaHelper::HEAD_UNIVERSITY) {
+
             Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
             Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
             Yii::$app->end();
-        }
 
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
 
@@ -126,9 +125,9 @@ class ApplicationsController extends Controller
     public function actionGetGraduate()
     {
 
-//        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
-//        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
-//        Yii::$app->end();
+        Yii::$app->session->setFlash('info', 'Прием документов  окончен!');
+        Yii::$app->getResponse()->redirect(['/abiturient/anketa/step2']);
+        Yii::$app->end();
         $this->permittedLevelChecked(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
 
         $currentFaculty = $this->unversityChoiceForController(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
