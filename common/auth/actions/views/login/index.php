@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'baseAuthUrl' => ['account/auth'],
                     'popupMode' => false,
                 ]) ?>
+                <?php if($_SERVER['HTTP_HOST'] == "sdo.mpgu.org") : ?>
                 <center>
                 <script async src="https://telegram.org/js/telegram-widget.js?11" data-telegram-login="MpguBot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
                 <script type="text/javascript">
@@ -51,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 </script>
                 </center>
+                <?php endif; ?>
             </div>
         </div>
         <h4 class="login-box-msg">или заполните, пожалуйста, форму:</h4>
