@@ -128,8 +128,9 @@ class ProfileHelper
     public static function getAllUserFullNameWithEmail()
     {
         return Profiles::find()
-            ->selectFullNameWithEmail()
-            ->joinWith('user', false)
+             ->selectFullNameWithEmail()
+             ->joinWith('user')
+             ->andWhere(['role'=> [ProfileHelper::ROLE_ENTRANT, self::ROLE_OPERATOR]])
             ->indexBy("user_id")
             ->column();
     }
