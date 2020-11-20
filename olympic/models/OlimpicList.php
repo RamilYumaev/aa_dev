@@ -187,6 +187,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'date_time_finish_reg' => 'Дата и время завершения регистрации',
             'time_of_distants_tour' => 'Продолжительность выполнения заданий заочного (дистанционного) тура в минутах',
             'date_time_start_tour' => 'Дата и время проведения очного тура',
+            'dateTimeTourStart' => 'Дата и время проведения очного тура',
+            'dateTimeRegStart'  => 'Дата и время начала регистрации',
+            'dateTimeRegEnd' => 'Дата и время завершения регистрации',
             'address' => 'Адрес проведения очного тура',
             'time_of_tour' => 'Продолжительность выполнения заданий очного тура в минутах',
             'requiment_to_work_of_distance_tour' => 'Требование к выполнению работ заочного (дистанционного) тура',
@@ -273,6 +276,17 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             Html::tag('strong','Дата и время проведения очного тура: ') .
             DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour)
             : '';
+    }
+
+    public function getDateTimeTourStart () {
+        return $this->date_time_start_tour ? DateTimeCpuHelper::getDateChpu($this->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_tour) : "";
+    }
+
+    public function getDateTimeRegStart () {
+        return  DateTimeCpuHelper::getDateChpu($this->date_time_start_reg) . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg);
+    }
+    public function getDateTimeRegEnd () {
+        return DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg) . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_finish_reg);
     }
 
     public function getAddressNameString () {
