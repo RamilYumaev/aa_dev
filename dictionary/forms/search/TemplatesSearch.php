@@ -13,12 +13,13 @@ class TemplatesSearch extends Model
 {
     public $name;
     public $type_id;
+    public $year;
 
     public function rules(): array
     {
         return [
-            [['type_id'], 'integer'],
-            [['name',], 'safe'],
+            [['type_id', ], 'integer'],
+            [['name','year'], 'safe'],
         ];
     }
 
@@ -47,6 +48,8 @@ class TemplatesSearch extends Model
 
         $query
             ->andFilterWhere(['like', 'name', $this->name]);
+        $query
+            ->andFilterWhere(['like', 'year', $this->year]);
 
         return $dataProvider;
     }
