@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use olympic\helpers\OlympicHelper;
 ?>
-<?php if ($olympic->isResultDistanceTour()) :?>
+<?php if ($olympic->isResultDistanceTour()  && $olympic->current_status == OlympicHelper::ZAOCH_FINISH) :?>
     <?= html::a('Результаты заочного (отборочного) тура',
             ['/print/olimp-result', 'olympic_id' => $olympic->id, 'numTour' => OlympicHelper::ZAOCH_FINISH]) ?> <br/>
 <?php endif; ?>
