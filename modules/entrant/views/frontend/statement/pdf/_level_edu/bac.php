@@ -30,6 +30,7 @@ $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $s
 
 $examBase = "Основание для допуска к сдаче вступительных испытаний:";
 
+$anketaOne= \modules\entrant\models\Anketa::findOne(['user'=>$statement->user_id]);
 
 $otherDocument = OtherDocument::find()
     ->where(['user_id' => $statement->user_id])->andWhere(['not', ['exemption_id' => false]])->one();
@@ -98,9 +99,9 @@ $och = false;
         <?php if ($noCseSuccess): ?>
             <?php if ($otherDocument): ?>
                 <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
-            <?php elseif (\Yii::$app->user->identity->anketa()->is_foreigner_edu_organization) ://@todo?>
+            <?php elseif ($anketaOne->is_foreigner_edu_organization) ://@todo?>
                 <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
-            <?php elseif (\Yii::$app->user->identity->anketa()->spoNpo()): ?>
+            <?php elseif ($anketaOne->spoNpo()): ?>
                 <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
             <?php endif; ?>
         <?php endif; ?>
@@ -110,7 +111,7 @@ $och = false;
 
 <table width="100%">
     <tr>
-        <td width="80%"> <?php if (\Yii::$app->user->identity->anketa()->isMoscow() && $och): ?>
+        <td width="80%"> <?php if ($anketaOne->isMoscow() && $och): ?>
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
             <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
