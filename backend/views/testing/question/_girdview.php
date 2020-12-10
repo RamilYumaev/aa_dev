@@ -20,7 +20,7 @@ use yii\grid\ActionColumn;
                         'title',
                         'text:raw',
                         ['class' => ActionColumn::class,
-                            'template' => ' {view} {delete}',
+                            'template' => '{delete}',
                             'buttons' => [
                                 'view' => function ($url, $model) {
                                     return Html::a('<span class="glyphicon glyphicon-eye-open">', ['view',

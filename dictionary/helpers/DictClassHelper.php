@@ -14,6 +14,10 @@ class DictClassHelper
     const COLLEDGE = 2;
     const BACALAVR = 3;
     const MAGISTR = 4;
+    const SCHOOL_LAST = 5;
+    const COLLEDGE_LAST = 6;
+    const BACALAVR_LAST = 7;
+    const MAGISTR_LAST = 8;
     const GRADUATED_SCHOOL = 10;
     const GRADUATED_COLLEGE = 20;
     const GRADUATED_BACALAVR = 30;
@@ -29,6 +33,10 @@ class DictClassHelper
             self::COLLEDGE => 'курс колледжа/техникума',
             self::BACALAVR => 'курс бакалавриата',
             self::MAGISTR => 'курс магистратуры',
+            self::SCHOOL_LAST => 'выпускной класс школы',
+            self::COLLEDGE_LAST => 'выпускной курс колледжа/техникума',
+            self::BACALAVR_LAST=> 'выпускной курс бакалавриата',
+            self::MAGISTR_LAST => 'выпускной курс магистратуры',
             self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
             self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
             self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
@@ -47,6 +55,31 @@ class DictClassHelper
             self::COLLEDGE => 'курс(ы) колледжа/техникума',
             self::BACALAVR => 'курс(ы) бакалавриата',
             self::MAGISTR => 'курс(ы) магистратуры',
+            self::SCHOOL_LAST => 'выпускной(ые) класс(ы) школы',
+            self::COLLEDGE_LAST => 'выпускной(ые) курс(ы) колледжа/техникума',
+            self::BACALAVR_LAST=> 'выпускной(ые) курс(ы) бакалавриата',
+            self::MAGISTR_LAST => 'выпускной(ые) курс(ы) магистратуры',
+            self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
+            self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
+            self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
+            self::GRADUATED_SPECIALIST => 'закончил(а) специалитет',
+            self::GRADUATED_MAGISTR => 'закончил(а) магистратуру',
+            self::GRADUATED_ASPIRANTURA => 'закончил(а) аспирантуру',
+            self::GRADUATED_DOCTORANTURA => 'закончил(а) докторантуру',
+        ];
+    }
+
+    public static function typeOfClassManyGenitive()
+    {
+        return [
+            self::SCHOOL => 'класса(ов) школы',
+            self::COLLEDGE => 'курса(ов) колледжа/техникума',
+            self::BACALAVR => 'курса(ов) бакалавриата',
+            self::MAGISTR => 'курса(ов) магистратуры',
+            self::SCHOOL_LAST => 'выпускного(ых) класса(ов) школы',
+            self::COLLEDGE_LAST => 'выпускного(ых) курса(ов) колледжа/техникума',
+            self::BACALAVR_LAST=> 'выпускного(ых) курса(ов) бакалавриата',
+            self::MAGISTR_LAST => 'выпускного(ых) курса(ов) магистратуры',
             self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
             self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
             self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
@@ -65,6 +98,10 @@ class DictClassHelper
             self::COLLEDGE,
             self::BACALAVR,
             self::MAGISTR,
+            self::SCHOOL_LAST,
+            self::COLLEDGE_LAST,
+            self::BACALAVR_LAST,
+            self::MAGISTR_LAST,
             self::GRADUATED_SCHOOL,
             self::GRADUATED_COLLEGE,
             self::GRADUATED_BACALAVR,
@@ -82,7 +119,7 @@ class DictClassHelper
 
     public static function typeManyName($type_id): string
     {
-        return ArrayHelper::getValue(self::typeOfClassMany(), $type_id);
+        return ArrayHelper::getValue(self::typeOfClassManyGenitive(), $type_id);
     }
 
     public static function classFullNameList(): array

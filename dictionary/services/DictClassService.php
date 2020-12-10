@@ -41,11 +41,11 @@ class DictClassService
 
         $model = DictClass::find();
         if ($onlyHs == OlympicHelper::FOR_STUDENT) {
-            $model = $model->typeClassAndOrderById([DictClassHelper::BACALAVR, DictClassHelper::MAGISTR]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::BACALAVR,  DictClassHelper::BACALAVR_LAST, DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST]);
         } elseif ($onlyHs == OlympicHelper::FOR_PUPLE) {
-            $model = $model->typeClassAndOrderById([DictClassHelper::SCHOOL, DictClassHelper::COLLEDGE]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::SCHOOL, DictClassHelper::SCHOOL_LAST,  DictClassHelper::COLLEDGE, DictClassHelper::COLLEDGE_LAST]);
         } else {
-            $model = $model->typeClassAndOrderById([DictClassHelper::MAGISTR]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST]);
         }
         $class = [];
 
