@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR], ['class'=>'btn btn-info'])?>
             <?php endif; ?>
        <?php endif; ?>
-    <?php if($olympic->isStatusAppeal() || (($olympic->isRegStatus() || $olympic->isDistanceFinish()) && !$olympic->isAppeal())) :?>
+    <?php if($olympic->isStatusAppeal() || (($olympic->isRegStatus()) && !$olympic->isAppeal())) :?>
     <?= Html::a("Завершить и опубликовать результаты",
         ['olympic/personal-presence-attempt/finish', 'olympic_id' => $olympic->id, 'status' => OlympicHelper::OCH_FINISH], ['class'=>'btn btn-info'])?>
         <?= Html::a("Поставить/редактировать оценки присутствующим на очном туре",
