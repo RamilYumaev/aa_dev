@@ -58,13 +58,13 @@ class PersonalPresenceAttemptService
             throw new \DomainException("Поставьте все призовые места участникам");
         }
         elseif($this->countRewardStatus($olympic->id)  > $this->countDefaultRewards($olympic->id)) {
-            throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать 40%(".$this->countDefaultRewards($olympic->id)." чел. ) от общего числа участников");
+            throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать ".OlympicHelper::USER_REWARDS."%(".$this->countDefaultRewards($olympic->id)." чел. ) от общего числа участников");
         }
         elseif(!$this->isMaxMarkOnFirstPlace($olympic->id)) {
             throw new \DomainException("Участник, который получил максимальный балл, не указан как победитель/призер");
         }
         elseif($this->countRewardFirstStatus($olympic->id)  > $this->countDefaultRewardsFirst($olympic->id)) {
-            throw new \DomainException("Количество победителей Мероприятия не должно превышать 10% (".$this->countDefaultRewardsFirst($olympic->id)."  чел. ) от общего количества участников");
+            throw new \DomainException("Количество победителей Мероприятия не должно превышать ".OlympicHelper::USER_REWARDS_GOLD." (".$this->countDefaultRewardsFirst($olympic->id)."  чел. ) от общего количества участников");
         }
         elseif(!$this->isCorrectCountNomination($olympic->id)) {
             throw new \DomainException("Отметьте номинации");
