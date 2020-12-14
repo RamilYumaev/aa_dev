@@ -18,7 +18,7 @@ class OlympicNominationHelper
         return OlimpicNomination::find()->where(['olimpic_id'=> $olympic_id]);
     }
 
-    public static function olympicName($key): string
+    public static function olympicName($key): ? string
     {
         return ArrayHelper::getValue(self::olympicNominationList(), $key);
     }
