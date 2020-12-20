@@ -90,7 +90,7 @@ class UserOlimpiadsService
         try {
             $this->transactionManager->wrap(function () use ($userOlympic, $user) {
                 $userTeacherClass = TeacherClassUser::create($userOlympic->id);
-                $userTeacherClass->setStatus(TeacherClassUserHelper::WAIT);
+                $userTeacherClass->setStatus(TeacherClassUserHelper::ACTIVE);
                 $userTeacherClass->generateVerificationToken();
                 $configTemplate = ['html' => 'verifyTeacherInUser-html', 'text' => 'verifyTeacherInUser-text'];
                 $configData = ['userOlympic' => $userOlympic, 'hash'=> $userTeacherClass->hash,
