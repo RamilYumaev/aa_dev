@@ -46,8 +46,7 @@ use olympic\models\UserOlimpiads;
                 if (is_null($userTeacherClass)) {
                     return Html::a("Подтвердить",
                         ['schools-setting/send-user', 'id' => $model->id], [
-                            'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это  Ваш ученик/студент и хотите отправить
-                        письмо с подтверждением?']);
+                            'data-method' => 'post', 'class' => 'btn btn-info', 'data-confirm' => 'Вы уверены, что это Ваш ученик/студент? Участнику будет отправлено контрольное письмо.']);
                 } else {
                    return \teacher\helpers\TeacherClassUserHelper::statusName($userTeacherClass->status);
                 }
