@@ -41,18 +41,27 @@ class DictClassService
 
         $model = DictClass::find();
         if ($onlyHs == OlympicHelper::FOR_STUDENT) {
-            $model = $model->typeClassAndOrderById([DictClassHelper::BACALAVR,  DictClassHelper::BACALAVR_LAST, DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::BACALAVR,
+                DictClassHelper::BACALAVR_LAST,
+                DictClassHelper::GRADUATED_BACALAVR,
+                DictClassHelper::MAGISTR,
+                DictClassHelper::MAGISTR_LAST,
+                DictClassHelper::GRADUATED_MAGISTR]);
         } elseif ($onlyHs == OlympicHelper::FOR_PUPLE) {
-            $model = $model->typeClassAndOrderById([DictClassHelper::SCHOOL, DictClassHelper::SCHOOL_LAST,  DictClassHelper::COLLEDGE, DictClassHelper::COLLEDGE_LAST]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::SCHOOL,
+                DictClassHelper::SCHOOL_LAST,
+                DictClassHelper::GRADUATED_SCHOOL,
+                DictClassHelper::COLLEDGE, DictClassHelper::COLLEDGE_LAST,
+                DictClassHelper::GRADUATED_COLLEGE]);
         } else {
-            $model = $model->typeClassAndOrderById([DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST]);
+            $model = $model->typeClassAndOrderById([DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST, DictClassHelper::GRADUATED_MAGISTR]);
         }
         $class = [];
 
         foreach ($model->all() as $classes) {
             $class[] = [
                 'id' => $classes->id,
-                'name' => $classes->name . '-й ' . DictClassHelper::typeName($classes->type),
+                'name' => ($classes->name ? $classes->name.'-й ': '') . DictClassHelper::typeName($classes->type),
             ];
         }
         return $class;
