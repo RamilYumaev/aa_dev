@@ -27,13 +27,36 @@ class ClassAndOlympicHelper
 
         $result = "";
         foreach ($typeClassOlympic as $type) {
-            foreach($classesOlympic as $class) {
-                if ($class['type'] == $type) {
-                    $result .= $class['name']. ", ";
+            if (!in_array($type, DictClassHelper::typesGraduated())){
+                foreach ($classesOlympic as $class) {
+                    if ($class['type'] == $type) {
+                        $result .= $class['name'] . ", ";
+                    }
+                }
+            $result = rtrim($result, ", ") . " ";
+            $result .= DictClassHelper::typeManyName($type) . ", ";
+            }
+        }
+
+        return $result ? "обучающиеся ". rtrim ($result, ", ") : "";
+    }
+
+    public static function olympicClassGraduateString($id) {
+
+        $typeClassOlympic = DictClassHelper::dictClassTypeAll(self::olympicClassList($id));
+        $result = "";
+        $array =DictClassHelper::typesGraduated();
+        $i = 0;
+        foreach ($typeClassOlympic as $type) {
+            if (in_array($type, $array)){
+                $result .= DictClassHelper::typeManyName($type) . ", ";
+                if (in_array($type, $array) && ($type != DictClassHelper::GRADUATED_SCHOOL || $type != DictClassHelper::GRADUATED_COLLEGE)) {
+                    $i++;
+                }
+                if ($i == 5) {
+                    return "выпускники организаций высшего образования";
                 }
             }
-            $result = rtrim($result, ", "). " ";
-            $result .= DictClassHelper::typeManyName($type).", ";
         }
 
         return rtrim ($result, ", ");

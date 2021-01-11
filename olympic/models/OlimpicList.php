@@ -329,7 +329,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         return [
             DictChairmansHelper::chairmansNameOne($this->chairman_id), //Фамилия И.О. председателя
             $this->genitive_name,    //Название мероприятия в родительном падеже
-            ClassAndOlympicHelper::olympicClassString($this->id), //классы/курсы участников
+            ClassAndOlympicHelper::olympicClassString($this->id). (ClassAndOlympicHelper::olympicClassString($this->id) == "" ? " ":
+                ClassAndOlympicHelper::olympicClassGraduateString($this->id)=="" ? "" : ", ").
+                ClassAndOlympicHelper::olympicClassGraduateString($this->id), //классы/курсы участников
             DateTimeCpuHelper::getDateChpu($this->date_time_start_reg)
             . ' года в ' . DateTimeCpuHelper::getTimeChpu($this->date_time_start_reg),//дата и время начала регистрации
             DateTimeCpuHelper::getDateChpu($this->date_time_finish_reg)

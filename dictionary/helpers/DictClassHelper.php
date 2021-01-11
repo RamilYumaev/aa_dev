@@ -80,13 +80,13 @@ class DictClassHelper
             self::COLLEDGE_LAST => 'выпускного(ых) курса(ов) колледжа/техникума',
             self::BACALAVR_LAST=> 'выпускного(ых) курса(ов) бакалавриата',
             self::MAGISTR_LAST => 'выпускного(ых) курса(ов) магистратуры',
-            self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
-            self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
-            self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
-            self::GRADUATED_SPECIALIST => 'закончил(а) специалитет',
-            self::GRADUATED_MAGISTR => 'закончил(а) магистратуру',
-            self::GRADUATED_ASPIRANTURA => 'закончил(а) аспирантуру',
-            self::GRADUATED_DOCTORANTURA => 'закончил(а) докторантуру',
+            self::GRADUATED_SCHOOL => 'выпускники школ',
+            self::GRADUATED_COLLEGE => 'выпускники колледжей и техникумов',
+            self::GRADUATED_BACALAVR => 'выпускники бакалавриата',
+            self::GRADUATED_SPECIALIST => 'выпускники специалитета',
+            self::GRADUATED_MAGISTR => ' выпускники магистратуры',
+            self::GRADUATED_ASPIRANTURA => 'выпускники аспирантуры',
+            self::GRADUATED_DOCTORANTURA => 'выпускники докторантуры',
         ];
     }
 
@@ -102,6 +102,19 @@ class DictClassHelper
             self::COLLEDGE_LAST,
             self::BACALAVR_LAST,
             self::MAGISTR_LAST,
+            self::GRADUATED_SCHOOL,
+            self::GRADUATED_COLLEGE,
+            self::GRADUATED_BACALAVR,
+            self::GRADUATED_SPECIALIST,
+            self::GRADUATED_MAGISTR,
+            self::GRADUATED_ASPIRANTURA,
+            self::GRADUATED_DOCTORANTURA,
+        ];
+    }
+
+    public static function typesGraduated(): array
+    {
+        return [
             self::GRADUATED_SCHOOL,
             self::GRADUATED_COLLEGE,
             self::GRADUATED_BACALAVR,

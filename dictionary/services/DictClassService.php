@@ -46,7 +46,10 @@ class DictClassService
                 DictClassHelper::GRADUATED_BACALAVR,
                 DictClassHelper::MAGISTR,
                 DictClassHelper::MAGISTR_LAST,
-                DictClassHelper::GRADUATED_MAGISTR]);
+                DictClassHelper::GRADUATED_SPECIALIST,
+                DictClassHelper::GRADUATED_MAGISTR,
+                DictClassHelper::GRADUATED_ASPIRANTURA,
+                DictClassHelper::GRADUATED_DOCTORANTURA]);
         } elseif ($onlyHs == OlympicHelper::FOR_PUPLE) {
             $model = $model->typeClassAndOrderById([DictClassHelper::SCHOOL,
                 DictClassHelper::SCHOOL_LAST,
