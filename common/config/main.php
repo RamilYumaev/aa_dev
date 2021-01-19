@@ -21,24 +21,6 @@ return [
             'defaultTimeZone' => 'Europe/Moscow',
             'timeZone' => 'Europe/Moscow'
         ],
-        'olympicMailer' => [
-            'class' => 'common\components\Mailer',
-            'defaultHost' => 'smtp.gmail.com',
-            'defaultUsername' => 'olimp@mpgu.edu',
-            'defaultPassword' => '20101986',
-            'defaultPort' => '465',
-            'defaultEncryption' => 'ssl',
-            'subject' => 'Оргкомитет Олимпиады МПГУ'
-        ],
-        'selectionCommitteeMailer' => [
-            'class' => 'common\components\Mailer',
-            'defaultHost' => 'smtp.gmail.com',
-            'defaultUsername' => 'cpk@mpgu.edu',
-            'defaultPassword' => 'w5h38c4v',
-            'defaultPort' => '465',
-            'defaultEncryption' => 'ssl',
-            'subject' => 'Приемная комиссия МПГУ'
-        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'dirMode' => '777',
