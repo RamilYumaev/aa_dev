@@ -63,7 +63,7 @@ if ($cpk) {
 
 <?php endif; ?>
 
-<?php if (!\Yii::$app->user->identity->eighteenYearsOld()): ?>
+<?php if ($passport['age'] <= 18): ?>
     <table class="mt-30" width="100%">
         <tr>
             <td width="10px">Я,</td>

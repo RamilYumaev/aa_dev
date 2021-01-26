@@ -172,6 +172,7 @@ class PassportData extends YiiActiveRecordAndModeration
             'date_of_issue' => DateFormatHelper::formatView($this->date_of_issue),
             'authority' => $this->authority,
             'division_code' => $this->division_code,
+            'age'=> $this->age()
         ];
     }
 
