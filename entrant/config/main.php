@@ -21,6 +21,10 @@ return [
             'class' => \modules\entrant\BackendEntrant::class,
             'viewPath' => "@modules/entrant/views/backend",
         ],
+        'management-user' => [
+            'class' => \modules\management\Management::class,
+            'viewPath' => "@modules/management/views/user",
+        ],
         'data-exam' => [
             'class' => \modules\exam\BackendExam::class,
             'viewPath' => "@modules/exam/views/backend",

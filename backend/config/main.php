@@ -10,6 +10,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'name' => "АИС Абитуриент",
+    'language'=> 'ru',
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
@@ -28,6 +29,14 @@ return [
     'modules' => [
         'dictionary-module' => [
             'class' => \modules\dictionary\Dictionary::class
+        ],
+        'management-user' => [
+            'class' => \modules\management\Management::class,
+            'viewPath' => "@modules/management/views/user",
+        ],
+        'management-admin' => [
+            'class' => \modules\management\AdminManagement::class,
+            'viewPath' => "@modules/management/views/admin",
         ],
         'support' => [
             'class' => \modules\support\ModuleBackend::class,

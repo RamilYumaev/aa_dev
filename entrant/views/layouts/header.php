@@ -26,6 +26,9 @@ use yii\helpers\Html;
                         <span class="hidden-xs"><?= \olympic\helpers\auth\ProfileHelper::profileFullName(Yii::$app->user->id) ?></span>
                     </a>
                     <ul class="dropdown-menu">
+                        <li>
+                            <?= Html::a('<span class="fa fa-clock-o"></span>', ['/management-user/schedule']) ?>
+                        </li>
                         <!-- User image -->
                         <li class="user-header">
                             <img src="/img/nophoto.png" class="img-circle"

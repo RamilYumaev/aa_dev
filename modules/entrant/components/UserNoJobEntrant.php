@@ -4,7 +4,7 @@
 namespace modules\entrant\components;
 use Yii;
 
-class  UserNoJobEntrant
+class UserNoJobEntrant
 {
     public function redirect() {
         if (!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->getId()) {
