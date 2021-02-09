@@ -13,7 +13,7 @@ class ScheduleRepository
     public function get($id): Schedule
     {
         if (!$model = Schedule::findOne($id)) {
-            throw new \Exception("Категория не найдена");
+            throw new \Exception("График не найден");
         }
         return $model;
     }
@@ -34,7 +34,7 @@ class ScheduleRepository
     public function save(Schedule $model): void
     {
         if (!$model->save()) {
-            throw new \Exception("Ошибка при сохранении категории");
+            throw new \Exception("Ошибка при сохранении");
         }
     }
 
@@ -47,7 +47,7 @@ class ScheduleRepository
     {
         if(!$model->delete())
         {
-            throw new \Exception("Ошибка при удалении категории");
+            throw new \Exception("Ошибка при удалении");
         }
     }
 

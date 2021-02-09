@@ -3,17 +3,25 @@
 
 namespace modules\management\services;
 
+use common\transactions\TransactionManager;
 use modules\management\forms\ScheduleForm;
+use modules\management\models\ManagementUser;
 use modules\management\models\Schedule;
+use modules\management\repositories\ManagementUserRepository;
 use modules\management\repositories\ScheduleRepository;
+use yii\base\Model;
 
 class ScheduleService
 {
     private $repository;
+    private $managementUserRepository, $transactionManager;
 
-    public function __construct(ScheduleRepository $repository)
+    public function __construct(ScheduleRepository $repository,    ManagementUserRepository $managementUserRepository,
+                                TransactionManager $transactionManager)
     {
         $this->repository = $repository;
+        $this->transactionManager =$transactionManager;
+        $this->managementUserRepository = $managementUserRepository;
     }
 
     /**
@@ -27,7 +35,11 @@ class ScheduleService
         $model = new Schedule();
         $model->setDataForm($form);
         $this->correctRate($form, $model);
-        $this->repository->save($model);
+        $this->transactionManager->wrap(function () use ($form, $model) {
+            $this->saveManagementUser($form, $model->user_id);
+            $this->repository->save($model);
+        });
+
         return $model;
     }
 
@@ -42,7 +54,12 @@ class ScheduleService
         $model = $this->repository->get($id);
         $model->setDataForm($form);
         $this->correctRate($form, $model);
-        $model->save($model);
+        $this->transactionManager->wrap(function () use ($model, $form) {
+            $this->deleteRelation($model->user_id);
+            $this->saveManagementUser($form, $model->user_id);
+            $model->save($model);
+        });
+
     }
 
     /**
@@ -76,6 +93,15 @@ class ScheduleService
         }
     }
 
+    private function saveManagementUser(ScheduleForm $form, $user) {
+        if ($form->postList) {
+            foreach ($form->postList as $post) {
+                $managementUser = ManagementUser::create($post, $user);
+                $this->managementUserRepository->save($managementUser);
+            }
+        }
+    }
+
     /**
      * @param $id
      * @throws \Throwable
@@ -85,7 +111,13 @@ class ScheduleService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        $this->deleteRelation($model->user_id);
         $this->repository->remove($model);
+    }
+
+    private function deleteRelation($userId)
+    {
+        ManagementUser::deleteAll(['user_id' => $userId]);
     }
 
 }

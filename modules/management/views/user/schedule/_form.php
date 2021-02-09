@@ -3,6 +3,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 use kartik\daterange\DateRangePicker;
+use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -24,6 +25,11 @@ $setting = [
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-schedule']); ?>
         <?= $form->field($model, 'rate')->dropDownList($model->getRateList(), ['prompt' => 'Выберите...'])?>
+        <?= $form->field($model, 'postList')->widget(Select2::class, [
+            'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => true],
+            'data' => \modules\management\models\PostManagement::find()->allColumn()
+        ]) ?>
         <?= $form->field($model, 'email')->textInput()?>
         <div class="row">
             <div class="col-md-6">

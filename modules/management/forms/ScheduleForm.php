@@ -12,11 +12,17 @@ class ScheduleForm extends Model
         $monday_odd, $tuesday_odd, $wednesday_odd, $thursday_odd, $friday_odd, $saturday_odd, $sunday_odd,
         $user_id, $vacation, $email, $rate;
     private $_schedule;
+    public $postList;
+
     public function __construct(Schedule $schedule = null, $userId = null, $config = [])
     {
         if ($schedule) {
             $this->setAttributes($schedule->getAttributes(), false);
+            $this->postList = $schedule->getManagementPosts()->select('post_management_id')->column();
             $this->_schedule = $schedule;
+
+        }else {
+            $this->postList = [];
         }
         if ($userId) {
             $this->user_id = $userId;
@@ -30,7 +36,8 @@ class ScheduleForm extends Model
             [['monday_even', 'tuesday_even', 'wednesday_even', 'thursday_even', 'friday_even', 'saturday_even', 'sunday_even',
                 'monday_odd', 'tuesday_odd', 'wednesday_odd', 'thursday_odd', 'friday_odd', 'saturday_odd', 'sunday_odd' ], 'string', 'max'=> 11],
             [['rate'], 'integer'],
-            [['email', 'rate', 'vacation'], 'required' ],
+            [['email', 'rate', 'vacation', 'postList'], 'required' ],
+            [['postList'], 'safe' ],
             [['email'],'email'],
             [['vacation'], 'boolean'],
         ];
@@ -52,7 +59,7 @@ class ScheduleForm extends Model
 
     public function attributeLabels()
     {
-        return (new Schedule())->attributeLabels();
+        return (new Schedule())->attributeLabels()+['postList'=> "Должность"];
     }
 
     public function getRateList()

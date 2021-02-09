@@ -141,6 +141,10 @@ class Schedule extends ActiveRecord
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
     }
 
+    public function getManagementPosts() {
+        return $this->hasMany(ManagementUser::class, ['user_id' => 'user_id']);
+    }
+
     public function attributeLabels()
     {
         return [

@@ -3,6 +3,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 use kartik\color\ColorInput;
+use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>
@@ -12,6 +13,11 @@ use yii\helpers\Html;
         <?php $form = ActiveForm::begin(['id'=> 'form-post-management']); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'name_short')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'taskList')->widget(Select2::class, [
+            'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => true],
+            'data' => \modules\management\models\DictTask::find()->allColumn()
+        ]) ?>
         <?= $form->field($model, 'is_director')->checkbox() ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

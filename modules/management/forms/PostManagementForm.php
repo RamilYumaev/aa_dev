@@ -1,23 +1,24 @@
 <?php
 
 namespace modules\management\forms;
-
-
 use modules\management\models\PostManagement;
 use yii\base\Model;
 
 class PostManagementForm extends Model
 {
-    public $name, $name_short, $is_director;
+    public $name, $name_short, $is_director, $taskList;
     private $_postManagement;
 
     public function __construct(PostManagement $postManagement = null, $config = [])
     {
         if ($postManagement) {
             $this->setAttributes($postManagement->getAttributes(), false);
+            $this->taskList = $postManagement->getManagementTasks()->select(['dict_task_id'])->column();
             $this->_postManagement = $postManagement;
-        }
+        } else {
+            $this->taskList = [];
 
+        }
         parent::__construct($config);
     }
     
@@ -25,9 +26,10 @@ class PostManagementForm extends Model
     public function defaultRules()
     {
         return [
-            [['name', 'name_short'], 'required'],
+            [['name', 'name_short','taskList'], 'required'],
             [['name', 'name_short'], 'string', 'max' => 255],
             [['is_director'], 'boolean'],
+            [['taskList'], 'safe'],
         ];
     }
 
@@ -48,6 +50,6 @@ class PostManagementForm extends Model
 
     public function attributeLabels()
     {
-        return (new PostManagement())->attributeLabels();
+        return (new PostManagement())->attributeLabels()+['taskList'=> "Функции"];
     }
 }

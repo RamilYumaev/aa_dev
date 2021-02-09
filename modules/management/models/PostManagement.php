@@ -45,6 +45,10 @@ class PostManagement extends ActiveRecord
         ];
     }
 
+    public function getManagementTasks() {
+        return $this->hasMany(ManagementTask::class, ['post_management_id'=> 'id']);
+    }
+
     public static function find(): PostManagementQuery
     {
         return new PostManagementQuery(static::class);
