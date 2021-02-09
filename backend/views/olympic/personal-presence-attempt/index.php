@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <?php if($olympic->isFormOfPassageDistantInternal() && !$olympic->isResultEndTour()) :?>
         <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
-            <?= !$model->isResultEndTour() ?  Html::a('Обновить ведомость', [
+            <?= !$olympic->isResultEndTour() ?  Html::a('Обновить ведомость', [
                 'olympic/personal-presence-attempt/create',
                 'olympic_id' =>  $olympic->id], ['class' => 'btn btn-warning btn-block']) : "" ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
