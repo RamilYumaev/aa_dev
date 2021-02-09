@@ -167,6 +167,28 @@ class PersonalPresenceAttemptController extends Controller
         return $this->redirect(['index', 'olympic_id' =>  $model->olimpic_id]);
     }
 
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\web\HttpException
+     */
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        try {
+            $olympic = $this->isFinishOlympic($model->olimpic_id);
+            $this->service->remove($model->id);
+            if (Yii::$app->request->isAjax) {
+                return $this->renderList($olympic->id);
+            }
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['index', 'olympic_id' =>  $model->olimpic_id]);
+    }
     /**
      * @param integer $id
      * @return mixed

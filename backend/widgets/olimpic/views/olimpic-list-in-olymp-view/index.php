@@ -2,6 +2,7 @@
 
 use olympic\helpers\OlympicHelper;
 use dictionary\helpers\DictFacultyHelper;
+use olympic\models\PersonalPresenceAttempt;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -35,7 +36,7 @@ use yii\helpers\Html;
                     ],
                     'year',
                     ['value' => function (\olympic\models\OlimpicList $model) {
-                    $url = 'olympic/personal-presence-attempt'. ($model->isResultEndTour() ? '/index' : '/create') ;
+                    $url = 'olympic/personal-presence-attempt'. (PersonalPresenceAttempt::find()->where(['olimpic_id'=> $model->id])->exists() ? '/index' : '/create');
                     return Html::a('Участники', [ 'olympic/user-olympic/index',
                             'olympic_id' => $model->id], ['class' => 'btn btn-success btn-block'])."</br>".
                         ($model->isTimeStartTour() ? Html::a('Ведомость', [

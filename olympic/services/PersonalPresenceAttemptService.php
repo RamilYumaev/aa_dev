@@ -271,6 +271,11 @@ class PersonalPresenceAttemptService
             $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::SECOND_PLACE)  &&
             $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::THIRD_PLACE);
     }
+    public function remove($id)
+    {
+        $model = $this->repository->get($id);
+        $this->repository->remove($model);
+    }
 
     private function isFirstMinBallFirstPlace($olympic_id) {
       return  $this->inRewardStatus($olympic_id, PersonalPresenceAttemptHelper::FIRST_PLACE);

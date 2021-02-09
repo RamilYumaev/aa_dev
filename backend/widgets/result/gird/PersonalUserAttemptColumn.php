@@ -56,7 +56,7 @@ class PersonalUserAttemptColumn extends DataColumn
 
         $isNoPresence = Html::a('Поставить неявку', ['olympic/personal-presence-attempt/no-presence-status', 'id' => $model->id],
             ['class' => 'btn btn-info']);
-        return $isPresence ." ". $isNoPresence;
+        return $isPresence ." ". $isNoPresence." ".$this->getButtonDeleteUser($model);
     }
 
     private function getButtonPresenceStatus(PersonalPresenceAttempt $model)
@@ -131,5 +131,13 @@ class PersonalUserAttemptColumn extends DataColumn
                 ['title' => Yii::t('yii', 'Delete'),
                     'class' => 'btn btn-danger',]
             );
+    }
+
+    private function getButtonDeleteUser(PersonalPresenceAttempt  $model) {
+            return
+                Html::a('удалить участника', ['olympic/personal-presence-attempt/delete','id' => $model->id],
+                    ['title' => Yii::t('yii', 'Delete'),
+                        'class' => 'btn btn-danger', 'data'=> ['method' => 'post', 'confirm' => "Вы точно хотите удалить участника из ведомости?"]]
+                );
     }
 }
