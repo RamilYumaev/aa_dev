@@ -19,12 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <?php if($olympic->isFormOfPassageDistantInternal() && !$olympic->isResultEndTour()) :?>
         <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
-            <?= !$olympic->isResultEndTour() ?  Html::a('Обновить ведомость', [
-                'olympic/personal-presence-attempt/create',
-                'olympic_id' =>  $olympic->id], ['class' => 'btn btn-warning']) : "" ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR, $olympic->id) ? Html::a("Запустить рассылку приглашений",
-                ['olympic/olympic-delivery-status/send-invitation', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
+                ['olympic/olympic-delivery-status/send-invitation', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']). (!$olympic->isResultEndTour() ?  Html::a('Обновить ведомость', [
+                    'olympic/personal-presence-attempt/create',
+                    'olympic_id' =>  $olympic->id], ['class' => 'btn btn-warning']) : "") :
                 Html::a("Просмотр состояния рассылки (приглашения)",
                     ['olympic/olympic-delivery-status/index', 'olympic_id' => $olympic->id,
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR], ['class'=>'btn btn-info'])?>
