@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
             <?= !$model->isResultEndTour() ?  Html::a('Обновить ведомость', [
                 'olympic/personal-presence-attempt/create',
-                'olympic_id' => $model->id], ['class' => 'btn btn-warning btn-block']) : "" ?>
+                'olympic_id' =>  $olympic->id], ['class' => 'btn btn-warning btn-block']) : "" ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_INVITATION_AFTER_DISTANCE_TOUR, $olympic->id) ? Html::a("Запустить рассылку приглашений",
                 ['olympic/olympic-delivery-status/send-invitation', 'olympic_id' => $olympic->id], ['class'=>'btn btn-info']) :
