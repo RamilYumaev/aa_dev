@@ -9,6 +9,7 @@ use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use modules\management\models\DictTask;
+use modules\management\models\ManagementUser;
 use modules\management\models\Schedule;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -23,13 +24,13 @@ $model->date_begin = date("Y-m-d");
         <div class="row">
             <div class="col-md-7">
                 <?= $form->field($model, 'director_user_id')->widget(Select2::class, [
-                    'data' =>Schedule::find()->getAllColumnDirector(),
+                    'data' => ManagementUser::find()->allColumn(),
                     'options' => ['placeholder' => 'Выберите постановщика'],
                     'pluginOptions' => ['allowClear' => true],
                 ]);?>
                 <?= $form->field($model, 'dict_task_id')->widget(Select2::class, [
                     'data' =>DictTask::find()->allColumn(),
-                    'options' => ['placeholder' => 'Выберите тег задачи'],
+                    'options' => ['placeholder' => 'Выберите функцию/задачу'],
                     'pluginOptions' => ['allowClear' => true],
                 ]);?>
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
@@ -58,7 +59,7 @@ $model->date_begin = date("Y-m-d");
                     'data-target' => '#modal',
                     'data-modalTitle' => 'Выберите дату крайнего срока'])?>
 
-                <?= $form->field($model, 'date_end')->textInput(); ?>
+                <?= $form->field($model, 'date_end')->textInput(['readonly'=> true]); ?>
 
                 <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
             </div>
@@ -71,22 +72,46 @@ $model->date_begin = date("Y-m-d");
 </div>
 <?php
 $url = \yii\helpers\Url::to(['task/work','userId'=>'']);
-echo $url;
+$urlTask = \yii\helpers\Url::to(['task/task']);
 $this->registerJs(<<<JS
 "use strict";
 var modal = $('#modal-button');
 var responsibleSelect = $('#taskform-responsible_user_id');
+var distTaskSelect = $('#taskform-dict_task_id');
+
 responsibleSelect
     .on("change init", function() {
         if($(this).val()) {
             modal.show();
             var url = '{$url}';
-            console.log(url);
             modal.attr('href', url + $(this).val());
         }else {
             modal.hide();
             $('#taskform-date_end').val("");
         }
-}).trigger("init");
+}).trigger('init');
+distTaskSelect.on('change', function() {
+  $.ajax({
+        url: '{$urlTask}',
+        method: 'GET',
+        async: false,
+        dataType: "json",
+        data: {task: distTaskSelect.val()},
+        success: function(result) {
+            var items = result.result;
+            console.log(items);
+            responsibleSelect.val('').trigger("change");
+            responsibleSelect.empty();
+            responsibleSelect.append("<option value=''></option>");
+            for(var index in items) { 
+                responsibleSelect.append($("<option></option>").attr("value", index).text(items[index]));
+            }
+        },
+        error: function() {
+          alert('Произошла непредвиденная ошибка. Пожалуйста, обратитесь к администратору.');
+        }
+    });
+});
+
 JS
 );

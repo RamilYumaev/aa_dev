@@ -3,6 +3,7 @@
 namespace modules\management\controllers\admin;
 
 
+use modules\management\models\ManagementUser;
 use modules\management\models\Schedule;
 use modules\management\searches\TaskSearch;
 use modules\management\services\TaskService;
@@ -32,6 +33,12 @@ class TaskController extends ControllerClass
     {
         $schedule = Schedule::findOne(['user_id'=> $userId]);
         return $this->renderAjax('_work',[ 'schedule'=> $schedule]);
+    }
+
+    public function actionTask($task)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['result'=> ManagementUser::find()->allColumnTask($task)];
     }
 
     public function actionTime($userId, $date)

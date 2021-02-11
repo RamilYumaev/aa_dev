@@ -137,6 +137,10 @@ class Schedule extends ActiveRecord
         ];
     }
 
+    public function getRateName () {
+        return $this->getRateList()[$this->rate];
+    }
+
     public function getProfile() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
     }
@@ -165,6 +169,7 @@ class Schedule extends ActiveRecord
             'saturday_odd' => 'Суббота',
             'sunday_odd' => 'Воскресенье',
             'rate' => 'Рабочая ставка',
+            'rateName' => 'Рабочая ставка',
             'vacation' => 'В отпуске?',
             'email' => 'Рабочая электронная почта'
         ];

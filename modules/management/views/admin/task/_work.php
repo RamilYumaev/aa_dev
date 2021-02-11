@@ -5,7 +5,6 @@
 use kartik\date\DatePicker;
 $daysWork = json_encode($schedule->getAllDateTwoWeek(date('Y-m-d')));
 $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=>'']);
-var_dump($schedule->getAllTimeWork('2021-02-08'));
 ?>
 <?= DatePicker::widget([
     'name' => 'dp_addon_1',

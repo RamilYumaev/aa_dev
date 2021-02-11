@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 /**
  * @property $name string
  * @property $name_short string
- * @property $is_director string
+ * @property $is_director bool
  * @property $id integer
  */
 class PostManagement extends ActiveRecord
