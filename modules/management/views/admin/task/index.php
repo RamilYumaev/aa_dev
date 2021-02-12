@@ -1,10 +1,15 @@
 <?php
 
 
+use kartik\date\DatePicker;
+use modules\entrant\helpers\SelectDataHelper;
+use modules\management\models\DictTask;
+use modules\management\models\ManagementUser;
+use modules\management\models\Schedule;
+use modules\management\models\Task;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
-use dictionary\models\DictClass;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,11 +29,50 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel'=> $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
+                    ['attribute' => 'director_user_id',
+                        'format' => "raw",
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, ManagementUser::find()->allColumn(),'director_user_id', 'directorProfile.fio'),
+                        'value' => function($model) {
+                            return $model->directorProfile->fio."<br />".$model->directorProfile->phone."<br />".$model->directorSchedule->email;
+                        }],
                     'title',
-                    'date_end:datetime',
+                    ['attribute' => 'dict_task_id',
+                        'format' => "raw",
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, DictTask::find()->allColumn(),'dict_task_id', 'dictTask.name'),
+                        'value' => function($model) {
+                            return Html::tag('span', $model->dictTask->name, ['class' => 'label label-default', 'style'=>['background-color'=> $model->dictTask->color]]);
+                        }],
+                    ['attribute' => 'responsible_user_id',
+                        'format' => "raw",
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, Schedule::find()->getAllColumnUser(),'responsible_user_id', 'responsibleProfile.fio'),
+                        'value' => function($model) {
+                            return $model->responsibleProfile->fio."<br />".$model->responsibleProfile->phone."<br />".$model->responsibleSchedule->email;
+                        }],
+                    ['attribute' => 'status',
+                        'format' => "raw",
+                        'filter' => array_filter(array_combine(array_keys((new Task)->getStatusList()), array_column((new Task)->getStatusList(), 'name'))),
+                        'value' => function($model) {
+                            return Html::tag('span', $model->statusName, ['class' => 'label label-'.$model->statusColor]);
+                        }],
+                    'position',
+                    ['attribute' => 'date_end',
+                        'filter' => DatePicker::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'date_from',
+                            'attribute2' => 'date_to',
+                            'type' => DatePicker::TYPE_RANGE,
+                            'separator' => '-',
+                            'pluginOptions' => [
+                                'todayHighlight' => true,
+                                'autoclose' => true,
+                                'format' => 'yyyy-mm-dd',
+                            ],
+                        ]),
+                        'format' => 'datetime',
+                    ],
                     ['class' => ActionColumn::class,
                         'controller' => "task",
-                        'template' => '{update} {delete}',
+                        'template' => '{update} {view} {delete}',
                     ],
                 ]
             ]); ?>

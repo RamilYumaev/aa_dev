@@ -49,8 +49,8 @@ $model->date_begin = date("Y-m-d");
                 ]);
                 ?>
                 <?= $form->field($model, 'responsible_user_id')->widget(Select2::class, [
-                    'data' => Schedule::find()->getAllColumnDirector(),
-                    'options' => ['placeholder' => 'Выберите постановщика'],
+                    'data' => Schedule::find()->getAllColumnUser(),
+                    'options' => ['placeholder' => 'Выберите ответственного'],
                     'pluginOptions' => ['allowClear' => true],
                 ])?>
                 <?= Html::a("Выбрать дату крайнего срока", ["task/work"], ["class" => "btn btn-danger", "id"=>"modal-button",

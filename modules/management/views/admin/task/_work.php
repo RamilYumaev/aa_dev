@@ -9,7 +9,7 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
 <?= DatePicker::widget([
     'name' => 'dp_addon_1',
     'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-    'options' => ['placeholder' => 'Введите дату начала исполнения', 'id'=>'date'],
+    'options' => ['placeholder' => 'Введите дату завершения', 'id'=>'date'],
     'pluginOptions' => [
         'language' => 'ru',
         'autoclose' => true,
@@ -56,7 +56,7 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
         }",
     ]]) ?>
 
-<?= \kartik\select2\Select2::widget( ['data' => [], 'name' =>'time', 'options' => ['placeholder' => 'Выберите постановщика', 'id'=> 'time'],
+<?= \kartik\select2\Select2::widget( ['data' => [], 'name' =>'time', 'options' => ['placeholder' => 'Выберите время', 'id'=> 'time'],
                     'pluginOptions' => ['allowClear' => true], 'pluginEvents' => [
         "change" => "function(e) { var date = $('#date').val(); $('#taskform-date_end').val(date+' '+e.target.value); }"]]) ?>
 <?php

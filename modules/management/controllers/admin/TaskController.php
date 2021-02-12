@@ -35,6 +35,17 @@ class TaskController extends ControllerClass
         return $this->renderAjax('_work',[ 'schedule'=> $schedule]);
     }
 
+    /**
+
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view',[ 'task'=> $model]);
+    }
+
+
     public function actionTask($task)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
