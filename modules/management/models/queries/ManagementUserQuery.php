@@ -40,4 +40,16 @@ class ManagementUserQuery extends ActiveQuery
             ->indexBy('post_management.name')->column();
     }
 
+    /**
+     * @return array
+     */
+    public function allColumnTaskUser($userId): array
+    {
+        return $this->joinWith('postManagement')
+            ->joinWith('managementTask')
+            ->andWhere(['user_id'=> $userId])
+            ->select(['management_task.name'])
+            ->indexBy('management_task.id')->column();
+    }
+
 }

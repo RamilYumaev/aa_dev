@@ -3,12 +3,14 @@ namespace modules\management\models;
 
 use modules\management\behaviors\HistoryTaskBehavior;
 use modules\management\forms\TaskForm;
+use modules\management\models\queries\TaskQuery;
 use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 
 /**
  * @property $title string
  * @property $text string
+ * @property $note string
  * @property $dict_task_id integer
  * @property $director_user_id integer
  * @property $responsible_user_id integer
@@ -58,8 +60,20 @@ class Task extends ActiveRecord
         $this->director_user_id = $form->director_user_id;
         $this->position =  $form->position;
         $this->responsible_user_id = $form->responsible_user_id;
-        $this->date_begin = $form->date_begin;
+        $this->date_begin = date("Y-m-d H:i:s");
         $this->date_end = $form->date_end;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    public function setNote($note) {
+        $this->note = $note;
+    }
+
+    public function getSubjectEmail() {
+        return '#'.$this->id.' '.$this->title.'. Статус задачи:'.$this->statusName;
     }
 
     public function attributeLabels()
@@ -73,6 +87,7 @@ class Task extends ActiveRecord
             'responsible_user_id' => 'Ответственный',
             'date_begin' => 'Дата постановки',
             'status' => 'Статус',
+            'note'=> 'Примечание',
             'statusName' => 'Статус',
             'position' => "Приоритет задачи",
             'date_end' =>  "Крайный срок",
@@ -109,10 +124,33 @@ class Task extends ActiveRecord
             self::STATUS_WORK => ['name' => "Взято в работу", 'color'=> 'primary'],
             self::STATUS_DONE => ['name' => "Выполнено", 'color'=> 'success'],
             self::STATUS_REWORK => ['name' => "Доработка", 'color'=> 'info'],
-            self::STATUS_ACCEPTED_TO_TIME => ['name' => "Приянто в срок", 'color'=> 'olive'],
-            self::STATUS_ACCEPTED_WITCH_OVERDUE => ['name' => "Приянто с просроченной", 'color'=> 'orange'],
+            self::STATUS_ACCEPTED_TO_TIME => ['name' => "Приянто в срок", 'color'=> 'success'],
+            self::STATUS_ACCEPTED_WITCH_OVERDUE => ['name' => "Приянто с просроченной", 'color'=> 'warning'],
             self::STATUS_NOT_EXECUTED => ['name' => "Не выполнено", 'color'=> 'danger'],
         ];
+    }
+
+    public function isStatusNew() {
+        return $this->status == self::STATUS_NEW;
+    }
+    public function isStatusWork() {
+        return $this->status == self::STATUS_WORK;
+    }
+    public function isStatusDone() {
+        return $this->status == self::STATUS_DONE;
+    }
+    public function isStatusRework() {
+        return $this->status == self::STATUS_REWORK;
+    }
+
+    public function isStatusAcceptedToTime() {
+        return $this->status == self::STATUS_ACCEPTED_TO_TIME;
+    }
+    public function isStatusAcceptedWitchOverdue() {
+        return $this->status == self::STATUS_ACCEPTED_WITCH_OVERDUE;
+    }
+    public function isStatusNotExecuted() {
+        return $this->status == self::STATUS_NOT_EXECUTED;
     }
 
     public function getStatusName () {
@@ -123,12 +161,8 @@ class Task extends ActiveRecord
         return $this->getStatusList()[$this->status]['color'];
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function getDay(){
-        $date = new \DateTimeImmutable($this->date_begin);
-        return strtolower($date->format('l'));
+    public static function find(): TaskQuery
+    {
+        return new TaskQuery(static::class);
     }
-
 }

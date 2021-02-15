@@ -1,12 +1,10 @@
 <?php
 
-use backend\assets\modal\ModalAsset;
 use modules\management\models\Task;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $task modules\management\models\Task*/
-ModalAsset::register($this);
 $this->title = $task->title;
 
 $this->params['breadcrumbs'][] = ['label' => 'Задачи', 'url' => ['task/index']];
@@ -77,13 +75,10 @@ $taskData = ['title', 'dictTask.name', 'statusName', 'date_end:datetime', 'posit
                 ]) ?>
             </div>
             <div class="box-footer">
-                <?= ($task->isStatusDone() ? Html::a('Доработка', ['task/rework', 'id' => $task->id],['class'=> "btn btn-info btn-block",   'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина доработки']).
-                    Html::a('Приянто в срок', ['task/status', 'id' => $task->id, 'status' =>
-                        Task::STATUS_ACCEPTED_TO_TIME],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
-                    Html::a('Принято с просроченной', ['task/status', 'id' => $task->id, 'status' =>
-                        Task::STATUS_ACCEPTED_WITCH_OVERDUE],['class'=> "btn btn-warning btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
-                    Html::a('Не принято', ['task/status', 'id' => $task->id, 'status' =>
-                        Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : ""); ?>
+                <?= ($task->isStatusNew() ? Html::a('Взять в работу', ['task/status', 'id' => $task->id, 'status' =>
+                    Task::STATUS_WORK],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите взять в работу?"]) : "").
+                ($task->isStatusWork() || $task->isStatusRework() ? Html::a('Выполнено', ['task/status', 'id' => $task->id, 'status' =>
+                    Task::STATUS_DONE],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "")?>
             </div>
         </div>
     </div>

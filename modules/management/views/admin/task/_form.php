@@ -15,7 +15,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 ModalAsset::register($this);
-$model->date_begin = date("Y-m-d");
 ?>
 
 <div class="box">
@@ -39,15 +38,6 @@ $model->date_begin = date("Y-m-d");
                 ]); ?>
             </div>
             <div class="col-md-5">
-                <?= $form->field($model, 'date_begin')->widget(DatePicker::class, [
-                    'options' => ['placeholder' => 'Введите дату начала исполнения'],
-                    'pluginOptions' => [
-                        'language' => 'ru',
-                        'autoclose' => true,
-                        'format' => 'yyyy-mm-dd'
-                    ]
-                ]);
-                ?>
                 <?= $form->field($model, 'responsible_user_id')->widget(Select2::class, [
                     'data' => Schedule::find()->getAllColumnUser(),
                     'options' => ['placeholder' => 'Выберите ответственного'],

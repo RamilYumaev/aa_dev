@@ -42,6 +42,10 @@ class DictTask extends ActiveRecord
         ];
     }
 
+    public function  getManagementTask() {
+        return $this->hasMany(ManagementTask::class, ['dict_task_id' => 'id']);
+    }
+
     public static function find(): DictTaskQuery
     {
         return new DictTaskQuery(static::class);

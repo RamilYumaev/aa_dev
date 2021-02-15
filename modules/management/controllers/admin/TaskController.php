@@ -11,6 +11,7 @@ use modules\management\forms\TaskForm;
 use modules\management\models\Task;
 use modules\usecase\ControllerClass;
 use Yii;
+use yii\base\Model;
 use yii\web\Response;
 
 class TaskController extends ControllerClass
@@ -36,6 +37,49 @@ class TaskController extends ControllerClass
     }
 
     /**
+     * @return string|Response
+     * @throws \yii\web\NotFoundHttpException
+     */
+
+    public function actionRework($id)
+    {
+        $model = $this->findModel($id);
+        /** @var TaskForm $form */
+        $form = new $this->formModel($model);
+        $form->scenario = TaskForm::SCENARIO_NOTE_REWORK;
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->rework($model->id, $form->note);
+                return $this->redirect(Yii::$app->request->referrer);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->renderAjax('_rework', [
+            'model' => $form,
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function actionIndex($overdue = null)
+    {
+        /**
+         * @var $searchModel Model
+         */
+        $searchModel = new $this->searchModel($overdue);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
+    /**
 
      * @throws \yii\web\NotFoundHttpException
      */
@@ -43,6 +87,22 @@ class TaskController extends ControllerClass
     {
         $model = $this->findModel($id);
         return $this->render('view',[ 'task'=> $model]);
+    }
+
+    /**
+
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionStatus($id, $status)
+    {
+        $model = $this->findModel($id);
+        try {
+            $this->service->status($model->id, $status);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 
@@ -58,6 +118,4 @@ class TaskController extends ControllerClass
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ['result'=> $schedule->getAllTimeWork($date)];
     }
-
-
 }

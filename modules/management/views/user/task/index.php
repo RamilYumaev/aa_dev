@@ -15,7 +15,6 @@ use backend\widgets\adminlte\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel modules\management\searches\TaskUserSearch*/
 
-
 $string = $searchModel->overdue ? ($searchModel->overdue == 'no' ? ". Актуальные" : ". Просроченные") :"";
 $this->title = 'Задачи'.$string;
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,17 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel'=> $searchModel,
                 'afterRow' => function (Task $model, $index, $grid) {
-                    return '<tr><td colspan="7">'.($model->isStatusDone() ? Html::a('Доработка', ['task/rework', 'id' => $model->id, 'status' =>
-                                Task::STATUS_REWORK],['class'=> "btn btn-info btn-block",   'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина доработки']).
-                            Html::a('Приянто в срок', ['task/status', 'id' => $model->id, 'status' =>
-                                Task::STATUS_ACCEPTED_TO_TIME],['class'=> "btn btn-success", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
-                            Html::a('Принято с просроченной', ['task/status', 'id' => $model->id, 'status' =>
-                                Task::STATUS_ACCEPTED_WITCH_OVERDUE],['class'=> "btn btn-warning", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
-                            Html::a('Не принято', ['task/status', 'id' => $model->id, 'status' =>
-                                Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td></tr>';
+                    return '<tr><td colspan="7">'.($model->isStatusNew() ? Html::a('Взять в работу', ['task/status', 'id' => $model->id, 'status' =>
+                            Task::STATUS_WORK],['class'=> "btn btn-primary", 'data-confirm'=> "Вы уверены, что хотите взять в работу?"]) : "").
+                        ($model->isStatusWork() || $model->isStatusRework() ? Html::a('Выполнено', ['task/status', 'id' => $model->id, 'status' =>
+                            Task::STATUS_DONE],['class'=> "btn btn-success", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td></tr>';
                 },
                 'columns' => [
-                    ['class' => ActionColumn::class,
+                        ['class' => ActionColumn::class,
                         'controller' => "task",
                         'template' => '{view}',
                     ],
@@ -54,15 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'title',
                     ['attribute' => 'dict_task_id',
                         'format' => "raw",
-                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, DictTask::find()->allColumn(),'dict_task_id', 'dictTask.name'),
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, DictTask::find()->allColumnUser($searchModel->userId),'dict_task_id', 'dictTask.name'),
                         'value' => function($model) {
                             return Html::tag('span', $model->dictTask->name, ['class' => 'label label-default', 'style'=>['background-color'=> $model->dictTask->color]]);
-                        }],
-                    ['attribute' => 'responsible_user_id',
-                        'format' => "raw",
-                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, Schedule::find()->getAllColumnUser(),'responsible_user_id', 'responsibleProfile.fio'),
-                        'value' => function($model) {
-                            return $model->responsibleProfile->fio."<br />".$model->responsibleProfile->phone."<br />".$model->responsibleSchedule->email;
                         }],
                     ['attribute' => 'status',
                         'format' => "raw",
@@ -88,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['class' => ActionColumn::class,
                         'controller' => "task",
-                        'template' => '{update} {delete} ',
+                        'template' => '{update}',
                     ],
                 ]
             ]); ?>
