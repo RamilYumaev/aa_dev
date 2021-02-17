@@ -10,6 +10,7 @@ class DictTaskForm extends Model
 {
     public $name, $color;
     private $_dictTask;
+    public $description;
 
     public function __construct(DictTask $dictTask = null, $config = [])
     {
@@ -25,8 +26,9 @@ class DictTaskForm extends Model
     public function defaultRules()
     {
         return [
-            [['name', 'color'], 'required'],
+            [['name', 'color','description'], 'required'],
             [['name'], 'string', 'max' => 255],
+            [['description'], 'string'],
             [['color'], 'string', 'max' => 7],
         ];
     }

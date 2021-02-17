@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
 /**
  * @property $name string
  * @property $color string
+ * @property $description string
  * @property $id integer
  */
 class DictTask extends ActiveRecord
@@ -30,6 +31,7 @@ class DictTask extends ActiveRecord
     public function data(DictTaskForm $form)
     {
         $this->name = $form->name;
+        $this->description = $form->description;
         $this->color = $form->color;
     }
 
@@ -37,8 +39,9 @@ class DictTask extends ActiveRecord
     {
         return [
             'id' => 'ИД',
-            'name' => 'Наименование функции',
-            'color' => "Цвет"
+            'name' => 'Наименование функции/Краткое наименование',
+            'color' => "Цвет",
+            'description' => 'Описание',
         ];
     }
 

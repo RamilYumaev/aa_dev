@@ -62,7 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => "raw",
                         'filter' =>SelectDataHelper::dataSearchModel($searchModel, DictTask::find()->allColumn(),'dict_task_id', 'dictTask.name'),
                         'value' => function($model) {
-                            return Html::tag('span', $model->dictTask->name, ['class' => 'label label-default', 'style'=>['background-color'=> $model->dictTask->color]]);
+                            return Html::tag('span', $model->dictTask->name, ['class' => 'label label-default', 'title' => $model->dictTask->description,
+                                'style'=>['background-color'=> $model->dictTask->color]]);
                         }],
                     ['attribute' => 'responsible_user_id',
                         'format' => "raw",

@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
+                    'description',
                     ['attribute' => 'color',
                     'format' => 'raw',
                     'value' => function($model) {
