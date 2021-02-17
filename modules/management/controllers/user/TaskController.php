@@ -32,6 +32,20 @@ class TaskController extends ControllerClass
         $this->service = $service;
     }
 
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->user->getIsGuest() && $user = Yii::$app->user->identity->getId()) {
+            /* @var $job  \modules\dictionary\models\JobEntrant */
+            $isSchedule = Schedule::find()->user($user)->exists();
+            if(!$isSchedule) {
+                Yii::$app->session->setFlash('warning', "Заполните личный график работы");
+                $this->redirect(['schedule/index']);
+                Yii::$app->end();
+            }
+        }
+        return true;
+    }
+
     /**
      * @return mixed
      */

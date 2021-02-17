@@ -2,6 +2,7 @@
 
 namespace modules\management\models\queries;
 
+use modules\management\models\PostRateDepartment;
 use yii\db\ActiveQuery;
 
 /**
@@ -13,10 +14,17 @@ class ManagementUserQuery extends ActiveQuery
      */
     public function allColumn(): array
     {
-        return $this->joinWith('profile')->joinWith('postManagementDirector')
-            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic, \' \', name_short)'])
+        $array = [];
+        $query = $this->joinWith('profile')->joinWith('postManagementDirector')
+            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)'])
             ->indexBy('user_id')->column();
+        foreach ($query as $key => $value) {
+            $array[$key] = $value." ". implode(', ', PostRateDepartment::find()->getAllColumnShortUser($key));
+        }
+        return $array;
     }
+
+
 
     /**
      * @return array
@@ -25,7 +33,7 @@ class ManagementUserQuery extends ActiveQuery
     {
         return $this->joinWith('profile')->joinWith('postManagement')->joinWith('managementTask')
             ->andWhere(['dict_task_id'=> $task])
-            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic, \' \', name_short)'])
+            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)'])
             ->indexBy('user_id')->column();
     }
 

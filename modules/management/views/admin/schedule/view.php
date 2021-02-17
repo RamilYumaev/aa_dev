@@ -1,5 +1,6 @@
 <?php
 
+use modules\management\models\PostRateDepartment;
 use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model modules\management\forms\DictTaskForm*/
@@ -8,9 +9,9 @@ $this->title = $model->profile->fio.". График работы" ;
 
 $this->params['breadcrumbs'][] = ['label' => 'Графики работ', 'url' => ['schedule/index']];
 $this->params['breadcrumbs'][] = $this->title;
-$info = ['rateName', 'vacation:boolean', 'email', 'profile.phone',  [
+$info = ['vacation:boolean', 'email', 'profile.phone',  [
     'label' => 'Должность',
-    'value' => implode(', ', \modules\management\models\ManagementUser::find()->allColumnManagementUser($model->user_id)),
+    'value' => implode(', ', PostRateDepartment::find()->getAllColumnUser($model->user_id)),
     'format' => 'raw',
 ]];
 $even = [ 'monday_even', 'tuesday_even', 'wednesday_even', 'thursday_even', 'friday_even', 'saturday_even', 'sunday_even'];

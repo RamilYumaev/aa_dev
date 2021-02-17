@@ -11,12 +11,12 @@ use yii\data\ActiveDataProvider;
 
 class ScheduleSearch extends Model
 {
-    public $user_id, $rate, $post;
+    public $user_id, $post, $isBlocked;
 
     public function rules()
     {
         return [
-            [['user_id', 'rate'], 'integer'],
+            [['user_id', 'isBlocked'], 'integer'],
             [['post'], 'safe'],
         ];
     }
@@ -33,7 +33,7 @@ class ScheduleSearch extends Model
 
         if (!empty($this->post)) {
             $query->innerJoin(ManagementUser::tableName() . ' m', 'm.user_id = s.user_id');
-            $query->andWhere(['m.post_management_id' => $this->post]);
+            $query->andWhere(['m.post_rate_id' => $this->post]);
         }
 
         if (!$this->validate()) {
@@ -41,7 +41,7 @@ class ScheduleSearch extends Model
             return $dataProvider;
         }
 
-        $query->filterWhere(['s.user_id'=> $this->user_id, 'rate'=> $this->rate]);
+        $query->filterWhere(['s.user_id'=> $this->user_id, 'isBlocked' => $this->isBlocked]);
 
         return $dataProvider;
     }

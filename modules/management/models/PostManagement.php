@@ -40,14 +40,12 @@ class PostManagement extends ActiveRecord
         return [
             'id' => 'ИД',
             'name' => 'Наименовнаие',
-            'name_short' => 'Наименовнаие',
+            'name_short' => 'Краткое наименовнаие',
             'is_director' => "Постановщик задач?"
         ];
     }
 
-    public function getManagementTasks() {
-        return $this->hasMany(ManagementTask::class, ['post_management_id'=> 'id']);
-    }
+
 
     public static function find(): PostManagementQuery
     {

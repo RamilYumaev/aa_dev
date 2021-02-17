@@ -228,6 +228,9 @@ use yii\helpers\Html;
 <!--                </li>-->
                 <!-- User Account: style can be found in dropdown.less -->
                 <li>
+                    <?= Html::a('<span class="fa fa-pencil-square-o"></span>', ['/management-user/default']) ?>
+                </li>
+                <li>
                     <?= Html::a('<span class="fa fa-clock-o"></span>', ['/management-user/schedule']) ?>
                 </li>
                 <li class="dropdown user user-menu">

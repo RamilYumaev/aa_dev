@@ -15,7 +15,10 @@ class TaskForm extends Model
         if ($task) {
             $this->setAttributes($task->getAttributes(), false);
             $this->task = $task;
+        }else {
+            $this->position =10;
         }
+
 
         parent::__construct($config);
     }
@@ -29,6 +32,7 @@ class TaskForm extends Model
             [['dict_task_id', 'director_user_id', 'responsible_user_id', 'position'], 'integer'],
             [['text'], 'string'],
             [['date_end'], 'safe'],
+            [['date_end'], 'date', 'format' => 'yyyy-M-d H:m'],
         ];
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use backend\assets\modal\ModalAsset;
+use modules\management\models\PostRateDepartment;
 use modules\management\models\Task;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -14,12 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 $director = [[ 'label' => 'ФИО','value' => $task->directorProfile->fio ], 'directorSchedule.email', 'directorProfile.phone',
     [
     'label' => 'Должность',
-    'value' => implode(', ', \modules\management\models\ManagementUser::find()->allColumnManagementUser($task->director_user_id)),
+    'value' => implode(', ',  PostRateDepartment::find()->getAllColumnShortUser($task->director_user_id)),
     'format' => 'raw',
 ]];
 $responsible = [[ 'label' => 'ФИО', 'value' => $task->responsibleProfile->fio],'responsibleSchedule.email', 'responsibleProfile.phone',  [
     'label' => 'Должность',
-    'value' => implode(', ', \modules\management\models\ManagementUser::find()->allColumnManagementUser($task->responsible_user_id)),
+    'value' => implode(', ', PostRateDepartment::find()->getAllColumnUser($task->responsible_user_id)),
     'format' => 'raw',
 ]];
 
@@ -89,13 +90,25 @@ $taskData = ['title', 'dictTask.name', 'statusName', 'date_end:datetime', 'posit
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="box box-danger"">
-        <div class="box-header">
-            <h4>История</h4>
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h4>Комментарии</h4>
+                <?= Html::a('Добавить комментарий', ['comment-task/create', 'id' => $task->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий'])?>
+            </div>
+            <div class="box-body">
+                <?= $this->render('_comment',['task' => $task]) ?>
+            </div>
         </div>
-        <div class="box-body">
-            <?= $this->render('_history',['task' => $task]) ?>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h4>История</h4>
+            </div>
+            <div class="box-body">
+                <?= $this->render('_history',['task' => $task]) ?>
+            </div>
         </div>
     </div>
 </div>

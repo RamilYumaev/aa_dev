@@ -37,7 +37,7 @@ class DictTask extends ActiveRecord
     {
         return [
             'id' => 'ИД',
-            'name' => 'Наименовнаие функции',
+            'name' => 'Наименование функции',
             'color' => "Цвет"
         ];
     }

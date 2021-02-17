@@ -26,7 +26,7 @@ class DictTaskQuery extends ActiveQuery
     public function allColumnUser($user_id): array
     {
         return $this->joinWith('managementTask')
-            ->innerJoin(ManagementUser::tableName(). 'mu', 'mu.post_management_id = management_task.post_management_id')
+            ->innerJoin(ManagementUser::tableName(). 'mu', 'mu.post_rate_id = management_task.post_rate_id')
             ->andWhere(['mu.user_id'=> $user_id])
             ->select(['name'])
             ->indexBy('id')

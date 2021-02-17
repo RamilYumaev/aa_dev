@@ -13,11 +13,6 @@ use yii\helpers\Html;
         <?php $form = ActiveForm::begin(['id'=> 'form-post-management']); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'name_short')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'taskList')->widget(Select2::class, [
-            'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
-            'pluginOptions' => ['allowClear' => true],
-            'data' => \modules\management\models\DictTask::find()->allColumn()
-        ]) ?>
         <?= $form->field($model, 'is_director')->checkbox() ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

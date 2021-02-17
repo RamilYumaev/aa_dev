@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%management_task}}".
  *
- * @property integer $post_management_id
+ * @property integer $post_rate_id
  * @property integer $dict_task_id
  **/
 
@@ -20,10 +20,10 @@ class ManagementTask extends ActiveRecord
         return "{{%management_task}}";
     }
 
-    public static function create($postManagementId, $dictTaskId)
+    public static function create($postRateId, $dictTaskId)
     {
         $managementTask = new static();
-        $managementTask->post_management_id = $postManagementId;
+        $managementTask->post_rate_id = $postRateId;
         $managementTask->dict_task_id = $dictTaskId;
 
         return $managementTask;

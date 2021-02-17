@@ -5,6 +5,7 @@ use modules\entrant\helpers\PdfHelper;
 use modules\management\forms\ScheduleForm;
 use modules\management\models\Schedule;
 use modules\management\searches\ScheduleSearch;
+use modules\management\services\ScheduleService;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
@@ -14,6 +15,11 @@ class ScheduleController extends Controller
 {
     private $service;
 
+    public function __construct($id, $module, ScheduleService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
 
     /**
      * @return mixed
@@ -62,6 +68,23 @@ class ScheduleController extends Controller
         return $this->render('view', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     */
+    public function actionBlocked($id, $is)
+    {
+        $model = $this->findModel($id);
+        try{
+            $this->service->blocked($model->id, $is);
+        }catch (\Exception $e) {
+            Yii::$app->session->setFlash('danger', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

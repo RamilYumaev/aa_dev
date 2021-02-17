@@ -1,8 +1,10 @@
 <?php
 
 use modules\entrant\helpers\SelectDataHelper;
+use modules\management\models\PostRateDepartment;
 use modules\management\models\Schedule;
 use backend\widgets\adminlte\grid\GridView;
+use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
@@ -30,12 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function($model) {
                               return $model->profile->fio."<br />".$model->profile->phone."<br />".$model->email;
                         }],
-                    ['attribute' => 'rate',
-                     'filter' => (new Schedule())->getRateList(),
-                      'value' => 'rateName'],
                     [ 'attribute'=>'post',
                             'class' => \modules\management\components\PostColumn::class,
-                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, \modules\management\models\PostManagement::find()->allColumn(),'post', ''), 'header'=> 'Должность'],
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, PostRateDepartment::find()->getAllColumn(),'post', ''),
+                        'header'=> 'Должность'],
+                    [ 'attribute'=>'isBlocked',
+                        'format' => 'raw',
+                        'filter' => ['Нет', 'Да'],
+                        'value' => function(Schedule $model) {
+                              return  Html::a($model->isBlocked ? 'Разблокировать': 'Заблокировать', ['blocked', 'id'=> $model->id,
+                                  'is' => $model->isBlocked ? false: true], ['class'=> $model->isBlocked ? 'btn btn-success' : 'btn btn-danger']);
+                        }
+                    ],
                     ['class' => \modules\management\components\DataCombineColumn::class,
                         'attributes' => ['monday_even' => ['value' => function (Schedule $model) {
                               return 'Четная';

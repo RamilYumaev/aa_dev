@@ -6,6 +6,7 @@ namespace modules\management\services;
 use common\transactions\TransactionManager;
 use modules\management\forms\ScheduleForm;
 use modules\management\models\ManagementUser;
+use modules\management\models\PostRateDepartment;
 use modules\management\models\Schedule;
 use modules\management\repositories\ManagementUserRepository;
 use modules\management\repositories\ScheduleRepository;
@@ -81,15 +82,23 @@ class ScheduleService
      * @throws \Exception
      */
     private function correctRate (ScheduleForm $form, Schedule $schedule) {
-        $even = $schedule->getCountHours('even');
-        $odd = $schedule->getCountHours('odd');
-        if($form->rate != $odd)
+        $sumRate = PostRateDepartment::find()->where(['id' => $form->postList])->sum('rate');
+        $maxRate = $sumRate;
+        $sumRate = $sumRate >= PostRateDepartment::FULL_RATE ?  PostRateDepartment::FULL_RATE : $sumRate;
+        $even = $schedule->getCountHours('even',  $sumRate);
+        $odd = $schedule->getCountHours('odd',  $sumRate);
+
+        if($maxRate > PostRateDepartment::FULL_RATE_HALF_RATE)
         {
-            throw new \Exception('Не совпадет с количеством рабочих часов нечетной недели.  У Вас '.$odd. ' ч. Должно быть '.$form->rate. ' часов');
+            throw new \Exception('Сумма рабочих ставок может составляться не более 1,5 ставки');
         }
-        if($form->rate != $even)
+        if($sumRate != $odd)
         {
-            throw new \Exception('Не совпадет с количеством рабочих часов четной недели. У Вас '.$even. ' ч. Должно быть '.$form->rate. ' часов');
+            throw new \Exception('Не совпадет с количеством рабочих часов нечетной недели.  У Вас '.$odd. ' ч. Должно быть '.$sumRate. ' часов');
+        }
+        if($sumRate != $even)
+        {
+            throw new \Exception('Не совпадет с количеством рабочих часов четной недели. У Вас '.$even. ' ч. Должно быть '. $sumRate. ' часов');
         }
     }
 
@@ -120,4 +129,17 @@ class ScheduleService
         ManagementUser::deleteAll(['user_id' => $userId]);
     }
 
+    /**
+     * @param $id
+     * @param $is
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+
+    public function blocked($id, $is)
+    {
+        $model = $this->repository->get($id);
+        $model->setIsBlocked($is);
+        $this->repository->save($model);
+    }
 }

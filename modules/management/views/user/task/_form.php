@@ -39,7 +39,6 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-5">
                 <?= $this->render('_work', ['schedule'=> $schedule]) ?>
-
                 <?= $form->field($model, 'date_end')->textInput(['readonly'=> true]); ?>
 
                 <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>

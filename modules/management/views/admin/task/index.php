@@ -1,6 +1,7 @@
 <?php
 
 
+use backend\assets\modal\ModalAsset;
 use kartik\date\DatePicker;
 use modules\entrant\helpers\SelectDataHelper;
 use modules\management\models\DictTask;
@@ -15,7 +16,7 @@ use backend\widgets\adminlte\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel modules\management\searches\TaskUserSearch*/
 
-
+ModalAsset::register($this);
 $string = $searchModel->overdue ? ($searchModel->overdue == 'no' ? ". Актуальные" : ". Просроченные") :"";
 $this->title = 'Задачи'.$string;
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,14 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel'=> $searchModel,
                 'afterRow' => function (Task $model, $index, $grid) {
-                    return '<tr><td colspan="7">'.($model->isStatusDone() ? Html::a('Доработка', ['task/rework', 'id' => $model->id, 'status' =>
-                                Task::STATUS_REWORK],['class'=> "btn btn-info btn-block",   'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина доработки']).
+                    return '<tr><td colspan="6">'.($model->isStatusDone() ? Html::a('Доработка', ['task/rework', 'id' => $model->id, 'status' =>
+                                Task::STATUS_REWORK],['class'=> "btn btn-info",   'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина доработки']).
                             Html::a('Приянто в срок', ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_ACCEPTED_TO_TIME],['class'=> "btn btn-success", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
                             Html::a('Принято с просроченной', ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_ACCEPTED_WITCH_OVERDUE],['class'=> "btn btn-warning", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
                             Html::a('Не принято', ['task/status', 'id' => $model->id, 'status' =>
-                                Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td></tr>';
+                                Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td>
+                     <td>Количество изменений задачи: '.$model->getHistoryTasks()->count().' </td>
+                     <td>'.Html::a('Комментарий', ['comment-task/create', 'id' => $model->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий']).'</td>
+                     <td>Количество комментарий: '.$model->getCommentTasks()->count().' </td>
+                     </tr>'
+                        ;
                 },
                 'columns' => [
                     ['class' => ActionColumn::class,

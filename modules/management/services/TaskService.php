@@ -31,6 +31,7 @@ class TaskService extends ServicesClass
     public function create(Model $form)
     {
        $model = parent::create($form);
+       $model->setStatus(Task::STATUS_NEW);
        $text = "У Вас новая задача";
        $this->sendEmailTask($model->responsibleProfile, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
        return $model;

@@ -13,8 +13,8 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $rate
  * @property integer $vacation
+ * @property boolean $isBlocked;
  * @property string $email
  * @property string $monday_even
  * @property string $tuesday_even
@@ -34,11 +34,6 @@ use yii\db\ActiveRecord;
 
 class Schedule extends ActiveRecord
 {
-    const FULL_RATE = 39;
-    const HALF_QUARTER_RATE = 30;
-    const HALF_RATE = 20;
-    const QUARTER_RATE = 10;
-    const LUNCH_TIME = 2700;
 
     public static function tableName()
     {
@@ -47,7 +42,6 @@ class Schedule extends ActiveRecord
 
     public function setDataForm(ScheduleForm $form)
     {
-        $this->rate = $form->rate;
         $this->vacation = $form->vacation;
         $this->email = $form->email;
         $this->monday_even = $form->monday_even;
@@ -67,16 +61,20 @@ class Schedule extends ActiveRecord
         $this->user_id = $form->user_id;
     }
 
-    public function getCountHours($week){
+    public function setIsBlocked($isBlocked) {
+         $this->isBlocked =  $isBlocked;
+    }
+
+    public function getCountHours($week, $rate){
         $sum = 0;
         $daysExcept = $week == 'even' ?
             ['monday_odd', 'tuesday_odd', 'wednesday_odd', 'thursday_odd', 'friday_odd', 'saturday_odd', 'sunday_odd'] :
             ['monday_even', 'tuesday_even', 'wednesday_even', 'thursday_even', 'friday_even', 'saturday_even', 'sunday_even'];
-        $except = array_merge(['user_id', 'id', 'email', 'vacation', 'rate'], $daysExcept);
+        $except = array_merge(['user_id', 'id', 'email', 'vacation', 'isBlocked'], $daysExcept);
         foreach ($this->getAttributes(null, $except) as  $key => $value) {
             if($value) {
                  $times = explode('-', $value);
-                 $timeLunch =  $this->rate == self::FULL_RATE ? self::LUNCH_TIME: 0;
+                 $timeLunch =  $rate >= PostRateDepartment::FULL_RATE ? PostRateDepartment::LUNCH_TIME: 0;
                  $timeBegin = strtotime($times[0]);
                  $timeEnd = strtotime($times[1]);
                  $total = ($timeEnd-$timeBegin-$timeLunch)/3600;
@@ -128,19 +126,6 @@ class Schedule extends ActiveRecord
         return $timeArray;
     }
 
-    public function getRateList() {
-        return [
-            self::FULL_RATE => 'Полная ставка',
-            self::HALF_QUARTER_RATE => '0,75 ставки',
-            self::HALF_RATE => '0,5 ставки',
-            self::QUARTER_RATE => '0,25 ставки',
-        ];
-    }
-
-    public function getRateName () {
-        return $this->getRateList()[$this->rate];
-    }
-
     public function getProfile() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
     }
@@ -168,8 +153,7 @@ class Schedule extends ActiveRecord
             'friday_odd' => 'Пятница',
             'saturday_odd' => 'Суббота',
             'sunday_odd' => 'Воскресенье',
-            'rate' => 'Рабочая ставка',
-            'rateName' => 'Рабочая ставка',
+            'isBlocked' => 'Запрет на ред. должн.',
             'vacation' => 'В отпуске?',
             'email' => 'Рабочая электронная почта'
         ];

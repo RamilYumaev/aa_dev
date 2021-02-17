@@ -1,9 +1,11 @@
 <?php
 /* @var $model modules\management\forms\ScheduleForm */
 /* @var $form yii\bootstrap\ActiveForm */
+/* @var $schedule modules\management\models\Schedule */
 
 use kartik\daterange\DateRangePicker;
 use kartik\select2\Select2;
+use modules\management\models\PostRateDepartment;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -24,12 +26,26 @@ $setting = [
 <div class="box">
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-schedule']); ?>
-        <?= $form->field($model, 'rate')->dropDownList($model->getRateList(), ['prompt' => 'Выберите...'])?>
+        <?php if(!$schedule || ($schedule && !$schedule->isBlocked)): ?>
         <?= $form->field($model, 'postList')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
             'pluginOptions' => ['allowClear' => true],
-            'data' => \modules\management\models\PostManagement::find()->allColumn()
+            'pluginEvents' => ["select2:select" => "function(e) {
+             var val = e.params.data.text;
+              if(val.indexOf('Полная ставка') >= 0 || val.indexOf('1,25 ставки') >= 0  || val.indexOf('1,5 ставки') >= 0)  {
+                    setValueTime(blockWeekOdd, '09:30-18:15', '09:30-17:15');
+                    setValueTime(blockWeekEven, '09:30-18:15', '09:30-17:15');
+              }
+               }",
+                "select2:unselect" => "function(e) {  
+                    console.log(e);
+                    setValueTime(blockWeekOdd, '', '');
+                    setValueTime(blockWeekEven, '', '');
+                   }",
+                ],
+            'data' => PostRateDepartment::find()->getAllColumn()
         ]) ?>
+        <?php endif; ?>
         <?= $form->field($model, 'email')->textInput()?>
         <div class="row">
             <div class="col-md-6">
@@ -68,23 +84,10 @@ $setting = [
 <?php
 $this->registerJs(<<<JS
 "use strict";
-
-var availableDates = ["2-2-2021"];
-function available(date) {
-  var dmy = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear();
-  if ($.inArray(dmy, availableDates) != -1) {
-    return [true, "","Available"];
-  } else {
-    return [false,"","unAvailable"];
-  }
-}
 // фильтруем список конкурсных групп
-var rateSelect = $('#scheduleform-rate');
 var blockWeekEven =  $('#week_even');
 var blockWeekOdd =  $('#week_odd');
-
-rateSelect.on("change", function() {
-    function setValueTime(selectorBlock, valTime, valTimeFriday) {
+function setValueTime(selectorBlock, valTime, valTimeFriday) {
        selectorBlock.find('input[type="text"]').each(function(i, v) {
             if($(v).attr('id').search('friday') != -1) {
                 $(v).val(valTimeFriday);
@@ -93,14 +96,5 @@ rateSelect.on("change", function() {
             }
         });     
     }
-    if(rateSelect.val() == 39) {
-        setValueTime(blockWeekOdd, "09:30-18:15", "09:30-17:15");
-        setValueTime(blockWeekEven, "09:30-18:15", "09:30-17:15");
-    }
-    else{
-        setValueTime(blockWeekOdd, "", "");
-        setValueTime(blockWeekEven, "", "");
-    }
-});
 JS
 );

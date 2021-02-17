@@ -118,6 +118,10 @@ class Task extends ActiveRecord
         return $this->hasMany(HistoryTask::class, ['task_id' => 'id']);
     }
 
+    public function getCommentTasks() {
+        return $this->hasMany(CommentTask::class, ['task_id' => 'id']);
+    }
+
     public function getStatusList() {
         return [
             self::STATUS_NEW => ['name' => "Новая", 'color'=> 'warning'],

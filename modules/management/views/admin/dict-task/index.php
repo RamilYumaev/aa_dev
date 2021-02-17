@@ -14,7 +14,6 @@ $this->title = 'Справочник задач/функций';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
-    <span class="glyphicon glyphicon-fast-backward"></span>
     <div class="box">
         <div class="box-header">
             <?= Html::a('Создать', ['dict-task/create'], ['class' => 'btn btn-success']) ?>

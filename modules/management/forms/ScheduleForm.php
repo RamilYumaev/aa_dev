@@ -10,7 +10,7 @@ class ScheduleForm extends Model
 {
     public $monday_even, $tuesday_even, $wednesday_even, $thursday_even, $friday_even, $saturday_even, $sunday_even,
         $monday_odd, $tuesday_odd, $wednesday_odd, $thursday_odd, $friday_odd, $saturday_odd, $sunday_odd,
-        $user_id, $vacation, $email, $rate;
+        $user_id, $vacation, $email;
     private $_schedule;
     public $postList;
 
@@ -18,7 +18,7 @@ class ScheduleForm extends Model
     {
         if ($schedule) {
             $this->setAttributes($schedule->getAttributes(), false);
-            $this->postList = $schedule->getManagementPosts()->select('post_management_id')->column();
+            $this->postList = $schedule->getManagementPosts()->select('post_rate_id')->column();
             $this->_schedule = $schedule;
 
         }else {
@@ -35,8 +35,7 @@ class ScheduleForm extends Model
         return [
             [['monday_even', 'tuesday_even', 'wednesday_even', 'thursday_even', 'friday_even', 'saturday_even', 'sunday_even',
                 'monday_odd', 'tuesday_odd', 'wednesday_odd', 'thursday_odd', 'friday_odd', 'saturday_odd', 'sunday_odd' ], 'string', 'max'=> 11],
-            [['rate'], 'integer'],
-            [['email', 'rate', 'vacation', 'postList'], 'required' ],
+            [['email', 'vacation', 'postList'], 'required' ],
             [['postList'], 'safe' ],
             [['email'],'email'],
             [['vacation'], 'boolean'],
@@ -59,12 +58,7 @@ class ScheduleForm extends Model
 
     public function attributeLabels()
     {
-        return (new Schedule())->attributeLabels()+['postList'=> "Должность"];
-    }
-
-    public function getRateList()
-    {
-        return (new Schedule())->getRateList();
+        return (new Schedule())->attributeLabels()+['postList'=> "Должность/Ставка/Отдел"];
     }
 
 

@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%management_user}}".
  *
- * @property integer $post_management_id
+ * @property integer $post_rate_id
  * @property integer $user_id
  **/
 
@@ -27,25 +27,24 @@ class ManagementUser extends ActiveRecord
     public static function create($postManagementId, $userId)
     {
         $managementUser = new static();
-        $managementUser->post_management_id = $postManagementId;
+        $managementUser->post_rate_id = $postManagementId;
         $managementUser->user_id = $userId;
-
         return $managementUser;
     }
 
     public function getPostManagement()
     {
-        return $this->hasOne(PostManagement::class, ['id' => 'post_management_id']);
+        return $this->hasOne(PostRateDepartment::class, ['id' => 'post_rate_id']);
     }
 
     public function getPostManagementDirector()
     {
-        return $this->getPostManagement()->where(['is_director' => true]);
+        return $this->getPostManagement()->joinWith('postManagement')->where(['is_director' => true]);
     }
 
     public function getManagementTask()
     {
-        return $this->hasMany(ManagementTask::class, ['post_management_id' => 'post_management_id']);
+        return $this->hasMany(ManagementTask::class, ['post_rate_id' => 'post_rate_id']);
     }
 
     public function getProfile()

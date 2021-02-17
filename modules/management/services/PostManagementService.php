@@ -28,37 +28,4 @@ class PostManagementService extends ServicesClass
         $this->transactionManager =$transactionManager;
         $this->managementTaskRepository = $managementTaskRepository;
     }
-
-    public function create(Model $form)
-    {
-        $this->transactionManager->wrap(function () use ($form) {
-            $model = parent::create($form);
-            $this->saveManagementTask($form, $model->id);
-        });
-    }
-
-    private function saveManagementTask(Model $form, $id) {
-        /** @var  $form PostManagementForm */
-        if ($form->taskList) {
-            foreach ($form->taskList as $task) {
-                $managementTak = ManagementTask::create($id, $task);
-                $this->managementTaskRepository->save($managementTak);
-            }
-        }
-    }
-
-    public function edit($id, Model $form)
-    {
-        $this->transactionManager->wrap(function () use ($id, $form) {
-            parent::edit($id, $form);
-            $this->deleteRelation($id);
-            $this->saveManagementTask($form, $id);
-        });
-    }
-
-    private function deleteRelation($id)
-    {
-        ManagementTask::deleteAll(['post_management_id' => $id]);
-    }
-
 }

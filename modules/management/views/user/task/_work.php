@@ -11,7 +11,7 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
         <?= DatePicker::widget([
             'name' => 'dp_addon_1',
             'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-            'options' => ['placeholder' => 'Введите дату завершения', 'id'=>'date'],
+            'options' => ['placeholder' => 'Введите дату завершения', 'id'=>'date', 'required'=>true],
             'pluginOptions' => [
                 'language' => 'ru',
                 'autoclose' => true,
@@ -19,7 +19,6 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
                 'format' =>  'yyyy-mm-dd',
                 'beforeShowDay'=> new \yii\web\JsExpression('function(d) {
                                  var availableDates =  Object.keys('.$daysWork.');
-                                 console.log(availableDates);
                                     var dmy = (d.getMonth()+1); 
                                     if(d.getMonth()<9) 
                                         dmy="0"+dmy; 
@@ -27,7 +26,6 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
                                     if(d.getDate()<10) dmy+="0"; 
                                         dmy+=d.getDate() + "-" + d.getFullYear(); 
                             
-                                    console.log(dmy+\' : \'+($.inArray(dmy, availableDates)));
                             
                                     if ($.inArray(dmy, availableDates) != -1) {
                                         return true; 
@@ -60,7 +58,7 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
 </div>
 <div class="form-group">
     <label class="control-label">Время</label>
-        <?= \kartik\select2\Select2::widget( ['data' => [], 'name' =>'time', 'options' => ['placeholder' => 'Выберите время', 'id'=> 'time'],
+        <?= \kartik\select2\Select2::widget( ['data' => [], 'name' =>'time', 'options' => ['required'=>true, 'placeholder' => 'Выберите время', 'id'=> 'time'],
                             'pluginOptions' => ['allowClear' => true], 'pluginEvents' => [
                 "change" => "function(e) { var date = $('#date').val(); $('#taskform-date_end').val(date+' '+e.target.value); }"]]) ?>
 </div>

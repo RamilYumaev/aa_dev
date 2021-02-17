@@ -14,6 +14,8 @@ return [
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
+        '@entrantRoot' => $params['entrantPath'],
+        '@entrantInfo' => $params['entrantHostInfo'],
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -22,7 +24,6 @@ return [
             \backend\widgets\adminlte\grid\GridView::class => \yii\grid\GridView::class,
             \yii\widgets\DetailView::class => [
                 'class' => \yii\widgets\DetailView::class,
-                'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '[нет данных]'],
             ],
         ]
     ],
@@ -60,7 +61,18 @@ return [
                     'name' => 'Global',
                     'options' => [
                         'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
-                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'], // Mimetype `image` и` text / plain` разрешено загружать
+                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',  'application/pdf'], // Mimetype `image` и` text / plain` разрешено загружать
+                        'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
+                    ],
+                ],
+                [
+                    'baseUrl' => '@entrant',
+                    'basePath' => '@entrantRoot',
+                    'path' => '/work/',
+                    'name' => 'UOPP',
+                    'options' => [
+                        'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
+                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',  'application/pdf'], // Mimetype `image` и` text / plain` разрешено загружать
                         'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
                     ],
                 ],

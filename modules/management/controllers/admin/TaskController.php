@@ -30,6 +30,19 @@ class TaskController extends ControllerClass
         $this->searchModel = $searchModel;
     }
 
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->user->getIsGuest() && $user = Yii::$app->user->identity->getId()) {
+            $isSchedule = Schedule::find()->user($user)->exists();
+            if(!$isSchedule) {
+                Yii::$app->session->setFlash('warning', "Заполните личный график работы");
+                $this->redirect(['schedule/index']);
+                Yii::$app->end();
+            }
+        }
+        return true;
+    }
+
     public function actionWork($userId)
     {
         $schedule = Schedule::findOne(['user_id'=> $userId]);
