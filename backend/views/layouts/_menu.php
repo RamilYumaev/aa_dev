@@ -114,7 +114,7 @@ array_merge(
             ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
         ])]],
 
-    Yii::$app->user->can('dev') ?
+    Yii::$app->user->can('dev_task') ?
     [['label' => 'УОПП', 'url' => '#',
         'items' => array_merge([
             ['label' => 'Спр. функций', 'url' => ['/management-admin/dict-task']],

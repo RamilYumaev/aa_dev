@@ -15,7 +15,7 @@ class AdminManagement extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dev']
+                        'roles' => ['dev_task']
                     ]
                 ],
             ],
