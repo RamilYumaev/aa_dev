@@ -12,6 +12,7 @@ use yii\helpers\Html;
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-post-management']); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'name_genitive')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'name_short')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'is_director')->checkbox() ?>
         <div class="form-group">

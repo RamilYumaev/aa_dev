@@ -8,6 +8,7 @@ class PostManagementForm extends Model
 {
     public $name, $name_short, $is_director;
     private $_postManagement;
+    public $name_genitive;
 
     public function __construct(PostManagement $postManagement = null, $config = [])
     {
@@ -22,8 +23,8 @@ class PostManagementForm extends Model
     public function defaultRules()
     {
         return [
-            [['name', 'name_short'], 'required'],
-            [['name', 'name_short'], 'string', 'max' => 255],
+            [['name', 'name_short','name_genitive'], 'required'],
+            [['name', 'name_short','name_genitive'], 'string', 'max' => 255],
             [['is_director'], 'boolean']
         ];
     }
