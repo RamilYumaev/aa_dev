@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 
 /**
  * @property $name string
+ * @property $name_genitive string
  * @property $name_short string
  * @property $is_director bool
  * @property $id integer
@@ -32,6 +33,7 @@ class PostManagement extends ActiveRecord
     {
         $this->name = $form->name;
         $this->name_short = $form->name_short;
+        $this->name_genitive = $form->name_genitive;
         $this->is_director = $form->is_director;
     }
 
@@ -40,6 +42,7 @@ class PostManagement extends ActiveRecord
         return [
             'id' => 'ИД',
             'name' => 'Наименовнаие',
+            'name_genitive' => 'Наименовнаие в родительном падеже',
             'name_short' => 'Краткое наименовнаие',
             'is_director' => "Постановщик задач?"
         ];

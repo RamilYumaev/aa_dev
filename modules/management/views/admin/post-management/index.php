@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
+                    'name_genitive',
                     'name_short',
                     'is_director:boolean',
                     ['class' => ActionColumn::class,
