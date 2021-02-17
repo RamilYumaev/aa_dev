@@ -227,8 +227,14 @@ use yii\helpers\Html;
 <!--                    </ul>-->
 <!--                </li>-->
                 <!-- User Account: style can be found in dropdown.less -->
-
+                <li>
+                    <?= Html::a('<span class="fa fa-pencil-square-o"></span>', ['/management-user/default']) ?>
+                </li>
+                <li>
+                    <?= Html::a('<span class="fa fa-clock-o"></span>', ['/management-user/schedule']) ?>
+                </li>
                 <li class="dropdown user user-menu">
+
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/img/nophoto.png" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= \olympic\helpers\auth\ProfileHelper::profileFullName(Yii::$app->user->id) ?></span>

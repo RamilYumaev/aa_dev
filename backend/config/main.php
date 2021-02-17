@@ -10,9 +10,12 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'name' => "АИС Абитуриент",
+    'language'=> 'ru',
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
+        '@entrantRoot' => $params['entrantPath'],
+        '@entrantInfo' => $params['entrantHostInfo'],
     ],
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -21,13 +24,20 @@ return [
             \backend\widgets\adminlte\grid\GridView::class => \yii\grid\GridView::class,
             \yii\widgets\DetailView::class => [
                 'class' => \yii\widgets\DetailView::class,
-                'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '[нет данных]'],
             ],
         ]
     ],
     'modules' => [
         'dictionary-module' => [
             'class' => \modules\dictionary\Dictionary::class
+        ],
+        'management-user' => [
+            'class' => \modules\management\Management::class,
+            'viewPath' => "@modules/management/views/user",
+        ],
+        'management-admin' => [
+            'class' => \modules\management\AdminManagement::class,
+            'viewPath' => "@modules/management/views/admin",
         ],
         'support' => [
             'class' => \modules\support\ModuleBackend::class,
@@ -51,7 +61,18 @@ return [
                     'name' => 'Global',
                     'options' => [
                         'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
-                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'], // Mimetype `image` и` text / plain` разрешено загружать
+                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',  'application/pdf'], // Mimetype `image` и` text / plain` разрешено загружать
+                        'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
+                    ],
+                ],
+                [
+                    'baseUrl' => '@entrant',
+                    'basePath' => '@entrantRoot',
+                    'path' => '/work/',
+                    'name' => 'UOPP',
+                    'options' => [
+                        'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
+                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',  'application/pdf'], // Mimetype `image` и` text / plain` разрешено загружать
                         'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
                     ],
                 ],

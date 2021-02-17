@@ -44,7 +44,6 @@ $this->title= "Главная. ".$text;
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
-
     <?php endif; ?>
     <?php if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())): ?>
         <?= $this->render('_coz_fok',['jobEntrant' => $jobEntrant])?>
