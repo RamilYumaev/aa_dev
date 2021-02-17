@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class DictDepartmentForm extends Model
 {
-    public $name, $name_short;
+    public $name, $name_short, $name_genitive;
     private $_DictDepartment;
 
     public function __construct(DictDepartment $DictDepartment = null, $config = [])
@@ -25,8 +25,8 @@ class DictDepartmentForm extends Model
     public function defaultRules()
     {
         return [
-            [['name','name_short'], 'required'],
-            [['name', 'name_short'], 'string', 'max' => 255],
+            [['name','name_short', 'name_genitive'], 'required'],
+            [['name', 'name_short','name_genitive'], 'string', 'max' => 255],
         ];
     }
 

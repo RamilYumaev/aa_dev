@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
 /**
  * @property $name string
  * @property $name_short string
+ * @property $name_genitive string
  * @property $id integer
  */
 class DictDepartment extends ActiveRecord
@@ -31,6 +32,7 @@ class DictDepartment extends ActiveRecord
     {
         $this->name = $form->name;
         $this->name_short = $form->name_short;
+        $this->name_genitive = $form->name_genitive;
     }
 
     public function attributeLabels()
@@ -39,6 +41,7 @@ class DictDepartment extends ActiveRecord
             'id' => 'ИД',
             'name' => 'Наименование отдела',
             'name_short' => 'Краткое наименование отдела',
+            'name_genitive' => 'Наименование отдела в родительном падеже',
         ];
     }
 

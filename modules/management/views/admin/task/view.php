@@ -24,7 +24,7 @@ $responsible = [[ 'label' => 'ФИО', 'value' => $task->responsibleProfile->fio
     'format' => 'raw',
 ]];
 
-$taskData = ['title', 'dictTask.name', 'statusName', 'date_end:datetime', 'position', 'note'];
+$taskData = ['title', 'dictTask.name', 'dictTask.description','statusName', 'date_end:datetime', 'position', 'note'];
 ?>
 <div class="row">
     <div class="col-md-6">

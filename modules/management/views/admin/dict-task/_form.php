@@ -11,6 +11,7 @@ use yii\helpers\Html;
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-dict-task']); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'description')->textarea() ?>
         <?= $form->field($model, 'color')->widget(ColorInput::classname(), [
             'options' => ['placeholder' => 'Выберите цвет'],
         ]);?>
