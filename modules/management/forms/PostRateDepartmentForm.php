@@ -1,9 +1,7 @@
 <?php
 
 namespace modules\management\forms;
-use modules\management\models\PostManagement;
 use modules\management\models\PostRateDepartment;
-use modules\management\models\queries\DictDepartmnetQuery;
 use yii\base\Model;
 
 class PostRateDepartmentForm extends Model

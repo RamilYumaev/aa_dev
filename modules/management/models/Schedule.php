@@ -3,6 +3,7 @@
 namespace modules\management\models;
 
 
+use modules\management\forms\DateOffForm;
 use modules\management\forms\ScheduleForm;
 use modules\management\models\queries\ScheduleQuery;
 use olympic\models\auth\Profiles;
@@ -86,6 +87,9 @@ class Schedule extends ActiveRecord
 
     public function getAllDateTwoWeek($date)
     {
+        $holidays = DateFeast::find()->select(["DATE_FORMAT(date, '%m-%d-%Y')"])->column();
+        $workDay = DateWork::find()->select(["DATE_FORMAT(workday, '%m-%d-%Y')","DATE_FORMAT(holiday, '%m-%d-%Y') as holiday"])->indexBy('holiday')->column();
+        $offDays = $this->getDatesOff()->select(["DATE_FORMAT(date, '%m-%d-%Y')"])->where(['isAllowed'=>true])->indexBy('id')->column();
         $begin = new \DateTime($date);
         $days = [];
         $twoWeek = new \DateTime($date);
@@ -98,7 +102,19 @@ class Schedule extends ActiveRecord
             $date = $date->format("m-d-Y");
             $column = strtolower($day).$week;
             if ($this->{$column}) {
-                $days[$date] = $date;
+                if(in_array($date, $holidays) || in_array($date, $offDays)) {
+                    continue;
+                }
+                if(key_exists($date, $workDay)) {
+                    $date = $workDay[$date];
+                    if (in_array($date, $offDays)) {
+                        continue;
+                    }
+                    $days[$date] = $date;
+                } else {
+                    $days[$date] = $date;
+                }
+
             }
         }
         return $days;
@@ -106,13 +122,14 @@ class Schedule extends ActiveRecord
 
     public function getAllTimeWork($date)
     {
+        $workDay = DateWork::find()->select('holiday')->indexBy('workday')->column();
+        $date = key_exists($date, $workDay) ? $workDay[$date] : $date;
         $date= new \DateTime($date);
         $day = $date->format("l");
         $timeArray = [];
         $week = $date->format('W') % 2 == 0 ? '_even' : '_odd';
         $column = strtolower($day).$week;
         $value = $this->{$column};
-
         if($value) {
             $times = explode("-", $value);
             $beginTime = new \DateTime($times[0]);
@@ -132,6 +149,10 @@ class Schedule extends ActiveRecord
 
     public function getManagementPosts() {
         return $this->hasMany(ManagementUser::class, ['user_id' => 'user_id']);
+    }
+
+    public function getDatesOff() {
+        return $this->hasMany(DateOff::class, ['schedule_id' => 'id']);
     }
 
     public function attributeLabels()

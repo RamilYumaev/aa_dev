@@ -15,7 +15,7 @@ $this->title = 'Графики';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
-    <div class="box">
+    <div class="box table-responsive">
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }],
                     [ 'attribute'=>'post',
                             'class' => \modules\management\components\PostColumn::class,
-                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, PostRateDepartment::find()->getAllColumn(),'post', ''),
+                        'filter' =>SelectDataHelper::dataSearchModel($searchModel, PostRateDepartment::find()->getAllColumn('name_short'),'post', ''),
                         'header'=> 'Должность'],
                     [ 'attribute'=>'isBlocked',
                         'format' => 'raw',
