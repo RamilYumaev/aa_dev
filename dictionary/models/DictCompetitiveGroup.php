@@ -12,6 +12,8 @@ use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\models\AisOrderTransfer;
+use modules\entrant\models\Infoda;
 use modules\entrant\models\UserCg;
 use yii\db\ActiveRecord;
 use yii\helpers\StringHelper;
@@ -120,6 +122,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'only_spo' => 'Только для абитуриентов из колледжа',
             'tpgu_status'=> 'для ТПГУ',
             'additional_set_status'=> 'Дополнительный набор',
+            'fullNameB'=> "Конкурсная группа"
         ];
     }
 
@@ -471,8 +474,7 @@ class DictCompetitiveGroup extends ActiveRecord
             $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)  && in_array($this->faculty_id, DictFacultyHelper::FACULTY_FILIAL);
     }
 
-
-
-
-
+    public function getAisOrderTransfer(){
+        return $this->hasMany(AisOrderTransfer::class, ['ais_cg' =>'ais_id']);
+    }
 }

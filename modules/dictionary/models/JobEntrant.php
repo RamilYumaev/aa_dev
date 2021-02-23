@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property integer $email_id
  * @property integer $examiner_id
  * @property integer $right_full
+ * @property integer $post
  * @property integer $status
  *
  **/
@@ -43,6 +44,7 @@ class JobEntrant extends ActiveRecord
         $this->examiner_id = $this->category_id == JobEntrantHelper::EXAM ? $form->examiner_id : null;
         $this->email_id = $form->email_id ?? null;
         $this->right_full = $form->right_full;
+        $this->post = $form->post ?? null;
     }
 
     public function setStatus($status) {
@@ -72,6 +74,10 @@ class JobEntrant extends ActiveRecord
 
     public function getCategory() {
         return JobEntrantHelper::listCategories()[$this->category_id];
+    }
+
+    public function getPostName() {
+        return JobEntrantHelper::postList()[$this->post];
     }
 
     public function isCategoryCOZ() {
@@ -141,6 +147,7 @@ class JobEntrant extends ActiveRecord
             'examiner_id' => "Председатель экзаменационной комиссии",
             'email_id' => "Email  для рассылки",
             'right_full' => "Неограниченные права",
+            'post' => "Должность",
         ];
     }
 }

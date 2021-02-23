@@ -168,10 +168,17 @@ class JobEntrantHelper
         ];
     }
 
+    public static function postList()
+    {
+        return [
+            null => 'Нет должности',
+            1 => 'Ответственный секретарь отборочной комиссии',
+            2 => 'Технический секретарь отборочной комиссиий',
+        ];
+    }
+
     public static function columnJobEntrant($column, $value) {
         return ArrayHelper::map(JobEntrant::find()->select($column)->groupBy($column)->all(), $column, $value);
     }
-
-
 
 }

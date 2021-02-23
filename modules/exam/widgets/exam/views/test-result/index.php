@@ -27,8 +27,11 @@ $s = $attempt->test->exam->discipline_id == 22;
             },
             'columns' => [
                ['attribute'=>'question_id',
+                   'header'=> 'Вопрос',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
-               'mark',
+                ['attribute'=>'mark',
+                    'header'=> 'Оценка',
+                    'value'=> 'mark'],
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update}',
                     'controller' => 'exam-result',

@@ -8,7 +8,7 @@ use kartik\mpdf\Pdf;
 
 class PdfHelper
 {
-    public static function generate($content, $fileName, $format = Pdf::FORMAT_A4, $orientation= Pdf::ORIENT_PORTRAIT)
+    public static function generate($content, $fileName, $format = Pdf::FORMAT_A4, $orientation= Pdf::ORIENT_PORTRAIT, $methods=[])
     {
         $pdf = new Pdf([
             // set to use core fonts only
@@ -35,7 +35,8 @@ class PdfHelper
             // set mPDF properties on the fly
             // call mPDF methods on the fly
             //'marginTop' => 40,
-        ]);
+            'methods' => $methods
+            ]);
         return $pdf;
     }
 
