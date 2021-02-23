@@ -19,13 +19,19 @@ use yii\helpers\Html;
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-
+                <li>
+                    <?= Html::a('<span class="fa fa-pencil"></span>', ['/management-user/default']) ?>
+                </li>
+                <li>
+                    <?= Html::a('<span class="fa fa-clock-o"></span>', ['/management-user/schedule']) ?>
+                </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/img/nophoto.png" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= \olympic\helpers\auth\ProfileHelper::profileFullName(Yii::$app->user->id) ?></span>
                     </a>
                     <ul class="dropdown-menu">
+
                         <!-- User image -->
                         <li class="user-header">
                             <img src="/img/nophoto.png" class="img-circle"

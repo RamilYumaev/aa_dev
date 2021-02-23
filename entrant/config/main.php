@@ -13,6 +13,8 @@ return [
     'aliases' => [
         '@frontendRoot' => $params['staticPath'],
         '@frontendInfo' => $params['staticHostInfo'],
+        '@entrantRoot' => $params['entrantPath'],
+        '@entrantInfo' => $params['entrantHostInfo'],
     ],
     'controllerNamespace' => 'entrant\controllers',
     'bootstrap' => ['log'],
@@ -20,6 +22,10 @@ return [
         'data-entrant' => [
             'class' => \modules\entrant\BackendEntrant::class,
             'viewPath' => "@modules/entrant/views/backend",
+        ],
+        'management-user' => [
+            'class' => \modules\management\Management::class,
+            'viewPath' => "@modules/management/views/user",
         ],
         'data-exam' => [
             'class' => \modules\exam\BackendExam::class,
@@ -54,6 +60,17 @@ return [
                     'options' => [
                         'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
                         'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'], // Mimetype `image` и` text / plain` разрешено загружать
+                        'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
+                    ],
+                ],
+                [
+                    'baseUrl' => '@entrant',
+                    'basePath' => '@entrantRoot',
+                    'path' => '/work/',
+                    'name' => 'UOPP',
+                    'options' => [
+                        'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
+                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword',  'application/pdf'], // Mimetype `image` и` text / plain` разрешено загружать
                         'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
                     ],
                 ],

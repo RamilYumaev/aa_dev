@@ -112,6 +112,17 @@ array_merge(
         'items' => array_merge([
             ['label' => 'Список', 'url' => ['/dictionary-module/dict-schools']],
             ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
-        ])]]
+        ])]],
+
+    Yii::$app->user->can('dev_task') ?
+    [['label' => 'УОПП', 'url' => '#',
+        'items' => array_merge([
+            ['label' => 'Спр. функций', 'url' => ['/management-admin/dict-task']],
+            ['label' => 'Спр. должностей', 'url' => ['/management-admin/post-management']],
+            ['label' => 'Отделы', 'url' => ['/management-admin/dict-department']],
+            ['label' => 'Сопоставление', 'url' => ['/management-admin/post-rate-department']],
+            ['label' => 'Графики работ', 'url' => ['/management-admin/schedule']],
+            ['label' => 'Задачи', 'url' => ['/management-admin/default']],
+        ])]] :[]
 
 )) : [];
