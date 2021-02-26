@@ -13,7 +13,7 @@ $s = $attempt->test->exam->discipline_id == 22;
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
-            'showHeader' => false,
+            'layout' => "{items}\n{pager}",
             'rowOptions' => function( ExamResult $model){
                 if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
                         $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
