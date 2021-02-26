@@ -13,11 +13,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="box box-primary">
+        <div class="box-header"><?= Yii::$app->session->setFlash('warning',
+                'Чтобы должность и ФИО  указаны в "Лицо, сформировашее документ", необходимо '.
+                \yii\helpers\Html::a('изменить/добавить должность',['profile/job-entrant'])); ?></div>
         <div class="box-body">
     <?php $i=0; foreach ($cg->getAisOrderTransfer()->all() as $order): ?>
          <?php if($order->userAis): $userId = $order->userAis->user_id ?>
             <div class="col-md-8">
-        <?= $i++.". ".$order->userAis->user->profiles->fio ?>
+        <?= ++$i.". ".$order->userAis->user->profiles->fio ?>
     </div>
     <div class="col-md-4">
         <?php foreach (DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->orderBy(['priority'=> SORT_ASC])->all() as $cgDiscipline):
@@ -25,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
            $examId = $exam ? $exam->id : 0;
            $examAttempt = \modules\exam\models\ExamAttempt::findOne(['exam_id'=> $examId, 'user_id' => $userId]);
            $examAttemptId = $examAttempt ? $examAttempt->id : 0; ?>
-        <?= Html::a($cgDiscipline->discipline->name, ['pdf', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) ?>
+        <?= $examAttemptId ? Html::a($cgDiscipline->discipline->name, ['pdf', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) : "" ?>
         <?php endforeach;?>
     </div>
     <?php endif; endforeach;?>

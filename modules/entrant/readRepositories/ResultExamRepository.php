@@ -23,8 +23,7 @@ class ResultExamRepository
 
     public function readData()
     {
-        $query = DictCompetitiveGroup::find()->currentYear('2019-2020')
-            ->finance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+        $query = DictCompetitiveGroup::find()->currentYear('2019-2020');
         if ($this->jobEntrant->isCategoryFOK()) {
             $query->faculty($this->jobEntrant->faculty_id)
                 ->eduLevel([DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
