@@ -123,6 +123,13 @@ array_merge(
             ['label' => 'Сопоставление', 'url' => ['/management-admin/post-rate-department']],
             ['label' => 'Графики работ', 'url' => ['/management-admin/schedule']],
             ['label' => 'Задачи', 'url' => ['/management-admin/default']],
-        ])]] :[]
+        ])],
+        ['label' => ' Календарь', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Выходные дни', 'url' => ['/management-admin/date-feast']],
+                ['label' => 'Перенесенные дни', 'url' => ['/management-admin/date-work']],
+                ['label' => 'Отгулы', 'url' => ['/management-admin/date-off']],
+            ])]
+        ] :[]
 
 )) : [];

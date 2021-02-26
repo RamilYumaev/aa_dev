@@ -129,7 +129,7 @@ class Task extends ActiveRecord
             self::STATUS_DONE => ['name' => "Выполнено", 'color'=> 'success'],
             self::STATUS_REWORK => ['name' => "Доработка", 'color'=> 'info'],
             self::STATUS_ACCEPTED_TO_TIME => ['name' => "Принято в срок", 'color'=> 'success'],
-            self::STATUS_ACCEPTED_WITCH_OVERDUE => ['name' => "Принято с просроченной", 'color'=> 'warning'],
+            self::STATUS_ACCEPTED_WITCH_OVERDUE => ['name' => "Принято с просрочкой", 'color'=> 'warning'],
             self::STATUS_NOT_EXECUTED => ['name' => "Не выполнено", 'color'=> 'danger'],
         ];
     }

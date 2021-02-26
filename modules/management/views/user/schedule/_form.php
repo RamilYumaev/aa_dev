@@ -24,6 +24,7 @@ $setting = [
     ];
 ?>
 <div class="box">
+    <div class="box-header"><?= Html::a("Взять отгул", ['date-off/create'], ['class'=> 'btn btn-info'])?></div>
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-schedule']); ?>
         <?php if(!$schedule || ($schedule && !$schedule->isBlocked)): ?>
