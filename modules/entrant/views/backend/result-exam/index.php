@@ -12,6 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <div class="box">
+        <div class="box-header"><?= Yii::$app->session->setFlash('warning',
+                'Чтобы должность и ФИО  указаны в "Лицо, сформировашее документ", необходимо '.
+                    \yii\helpers\Html::a('изменить/добавить должность','/profile/entrant-job')); ?></div>
         <div class="box-body table-responsive">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

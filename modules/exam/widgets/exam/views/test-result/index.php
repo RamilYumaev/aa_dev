@@ -10,9 +10,6 @@ use yii\helpers\Html;
 $s = $attempt->test->exam->discipline_id == 22;
 ?>
 <div class="box box-default">
-    <div class="box box-header">
-        <h4>Попытки данного теста</h4>
-    </div>
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
@@ -26,11 +23,12 @@ $s = $attempt->test->exam->discipline_id == 22;
                 }
             },
             'columns' => [
+                ['class' => \yii\grid\SerialColumn::class],
                ['attribute'=>'question_id',
                    'header'=> 'Вопрос',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
                 ['attribute'=>'mark',
-                    'header'=> 'Оценка',
+                    'header'=> 'Оценка. Итого:'.$attempt->getResult()->sum('mark'),
                     'value'=> 'mark'],
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update}',
