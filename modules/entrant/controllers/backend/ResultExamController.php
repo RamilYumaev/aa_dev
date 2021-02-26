@@ -88,7 +88,7 @@ class ResultExamController extends Controller
         $model = $this->findModelAttempt($attempt);
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
-        $methods =[  'SetHeader' => ['Распечатно из системы "АИС Абитуриент" || https://fok.sdo.mpgu.org  ' . date("d.m.Y H:i:s")],  'SetFooter' => ['|{PAGENO} из {PAGES}|'],];
+        $methods =[  'SetHeader' => ['Распечатно из системы "АИС Абитуриент" || https://fok.sdo.mpgu.org  ' . date("d.m.Y H:i:s")],  'SetFooter' => ['|{PAGENO} из {PAGE}|'],];
 
         $content = $this->renderPartial('view_pdf', ['attempt' => $model, 'jobEntrant'=> $this->jobEntrant]);
         $pdf = PdfHelper::generate($content, "Результаты экзамена. ". $model->test->exam->discipline->name. ". ". date("Y") ." ". date('Y-m-d H:i:s').".pdf",

@@ -28,7 +28,7 @@ $s = $attempt->test->exam->discipline_id == 22;
                    'header'=> 'Вопрос',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
                 ['attribute'=>'mark',
-                    'header'=> 'Оценка. Итого:'.$attempt->getResult()->sum('mark'),
+                    'header'=> 'Оценка. Итого: '.$attempt->getResult()->sum('mark'),
                     'value'=> 'mark'],
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => '{update}',
