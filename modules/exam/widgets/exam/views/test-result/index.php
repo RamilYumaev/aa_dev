@@ -13,6 +13,7 @@ $s = $attempt->test->exam->discipline_id == 22;
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
+            'showHeader' => false,
             'rowOptions' => function( ExamResult $model){
                 if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
                         $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
@@ -23,7 +24,7 @@ $s = $attempt->test->exam->discipline_id == 22;
                 }
             },
             'columns' => [
-                ['class' => \yii\grid\SerialColumn::class],
+                ['class' => \yii\grid\SerialColumn::class,  'header'=> '№ п/п',],
                ['attribute'=>'question_id',
                    'header'=> 'Вопрос',
                'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],

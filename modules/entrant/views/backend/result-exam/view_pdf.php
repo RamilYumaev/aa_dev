@@ -36,7 +36,7 @@ $column = [
 </div>
 <div class="row">
     <div class="col-md-12">
-        <center><h2>Материал вступительного испытания</h2></center>
+        <h2 align="center">Материал вступительного испытания</h2>
     </div>
 </div>
 <div class="row">

@@ -4,12 +4,16 @@
 /** @var  $cgDiscipline DisciplineCompetitiveGroup */
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\exam\models\Exam;
+use modules\exam\models\ExamAttempt;
 use yii\helpers\Html;
 
 
 $this->title = $cg->getFullNameB().'. Результаты экзамена';
 $this->params['breadcrumbs'][] = ['label' => 'КГ. Результаты экзамена', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$cgDisciplineArray = DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->select('discipline_id')->column();
+$examIdArray = Exam::find()->where(['discipline_id'=> $cgDisciplineArray ])->select('id')->column();
 ?>
 <div class="row">
     <div class="box box-primary">
@@ -18,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 \yii\helpers\Html::a('изменить/добавить должность','/profile/entrant-job')); ?></div>
         <div class="box-body">
     <?php $i=0; foreach ($cg->getAisOrderTransfer()->all() as $order): ?>
-         <?php if($order->userAis): $userId = $order->userAis->user_id ?>
+         <?php if($order->userAis): $userId = $order->userAis->user_id;
+           if (ExamAttempt::find()->andWhere(['exam_id'=> $examIdArray, 'user_id' => $userId])->exists()) : ?>
             <div class="col-md-8">
         <?= ++$i.". ".$order->userAis->user->profiles->fio ?>
     </div>
@@ -26,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php foreach (DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->orderBy(['priority'=> SORT_ASC])->all() as $cgDiscipline):
            $exam = Exam::findOne(['discipline_id'=> $cgDiscipline->discipline_id]);
            $examId = $exam ? $exam->id : 0;
-           $examAttempt = \modules\exam\models\ExamAttempt::findOne(['exam_id'=> $examId, 'user_id' => $userId]);
+           $examAttempt =  ExamAttempt::findOne(['exam_id'=> $examId, 'user_id' => $userId]);
            $examAttemptId = $examAttempt ? $examAttempt->id : 0; ?>
         <?= $examAttemptId ? Html::a($cgDiscipline->discipline->name, ['pdf', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) : "" ?>
         <?php endforeach;?>
     </div>
-    <?php endif; endforeach;?>
+    <?php endif; endif; endforeach;?>
     </div></div>
 </div>

@@ -20,9 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'columns' => [
                         'fullNameB',
-                        ['value'=> function(\dictionary\models\DictCompetitiveGroup $model) {
-                           return $model->getAisOrderTransfer()->count();
-                        }],
                     ['class' => ActionColumn::class, 'controller' => 'result-exam', 'template' => '{view}']
                 ],
             ]); ?>
