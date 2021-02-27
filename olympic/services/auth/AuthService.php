@@ -59,8 +59,6 @@ class AuthService
         if (!$user || !$user->isActive() || !$user->validatePassword($form->password)) {
             throw new \DomainException('Неверный логин или пароль.');
         }
-
-
         if (!\Yii::$app->authManager->getPermissionsByUser($user->id)) {
             throw new \DomainException('У вас нет прав для входа.');
         }

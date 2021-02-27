@@ -52,8 +52,22 @@ class AuthHandler
             if ($auth) {
                 $user = $this->userRepository->get($auth->user_id);
                 $this->updateUserInfo($user);
+                if($this->role == ProfileHelper::ROLE_OPERATOR)
+                {
+                    $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_OPERATOR];
+                }
+                elseif($this->role  == ProfileHelper::ROLE_ENTRANT)
+                {
+                    $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT, ProfileHelper::ROLE_OPERATOR];
+                }
+                elseif($this->role == ProfileHelper::ROLE_STUDENT)
+                {
+                    $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT];
+                }else{
+                    $roleArray  = [$this->role];
+                }
                 $profile = $this->profileRepository->getUser($user->id);
-                if ($profile->role !== $this->role) {
+                if (!in_array($profile->role, $roleArray)) {
                     Yii::$app->getSession()->setFlash('error', 'У Вас нет прав для входа.');
                     return;
                 }
