@@ -329,6 +329,14 @@ if(!Yii::$app->user->isGuest ) {
                 ],]
 
         );
-    } else {return [];}
+    } else {return array_merge(
+        [
+            ['label' => 'Профиль', 'url' => ['/profile/edit']],
+            ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+            ['label' => 'Информация для волонтеров', 'url' => ['/data-entrant/volunteering']],
+            ['label' => 'Информация ПК', 'url' => ['/profile/entrant-job']],
+        ]
+
+    );}
 
 }

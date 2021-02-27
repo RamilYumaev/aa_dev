@@ -32,9 +32,12 @@ class JobEntrantService
         $this->userRepository = $userRepository;
     }
 
-    public function createEntrantJob (JobEntrantAndProfileForm $form, $model) {
+    public function createEntrantJob (JobEntrantAndProfileForm $form, JobEntrant $model=null) {
         $this->transactionManager->wrap(function () use ($form, $model) {
             if($model){
+                if(!$model->isStatusDraft()) {
+                    throw new \DomainException('Ваша запись активирована, чтобы изменить данные, обращайтесь к администратору');
+                }
                 $jobEntrant = $this->repository->get($model->id);
                 $jobEntrant->data($form->jobEntrant);
             } else {

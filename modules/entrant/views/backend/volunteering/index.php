@@ -12,7 +12,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\jui\Dialog;
 
-$this->title = "Волотерство. Дополнительная информация";
+$this->title = "Волонтерство. Дополнительная информация";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin(['id'=> 'form-message']); ?>

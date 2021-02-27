@@ -45,7 +45,7 @@ class JobEntrantHelper
     public static function listCategories()
     {
         $array = [
-            self::VOLUNTEERING => "Волнтерство",
+            self::VOLUNTEERING => "Волонтерство",
             self::GRADUATE =>'Аспирантура',
             self::UMS => "Управление международных связей",
             self::MPGU => "Подкомиссия",
