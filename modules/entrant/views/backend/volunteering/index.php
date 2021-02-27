@@ -6,16 +6,17 @@
 /* @var $model \modules\dictionary\forms\VolunteeringForm /
 /* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 
+use entrant\assets\modal\ModalAsset;
 use modules\dictionary\models\Volunteering;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use yii\jui\Dialog;
+ModalAsset::register($this);
 
 $this->title = "Волонтерство. Дополнительная информация";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php $form = ActiveForm::begin(['id'=> 'form-message']); ?>
+<?php $form = ActiveForm::begin(['id'=> 'form-message' ]); ?>
 <div class="box box-primary">
     <div class="box-header">Добавление/Редактирование информации</div>
     <div class="box-body">
@@ -72,3 +73,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="box-footer"> <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?></div>
 </div>
+<?php ActiveForm::end(); ?>

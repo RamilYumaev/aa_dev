@@ -146,7 +146,7 @@ return [
         'rules' => [
             [
                 'allow' => true,
-                'roles' => ['entrant']
+                'roles' => ['@']
             ]
         ]],
 
