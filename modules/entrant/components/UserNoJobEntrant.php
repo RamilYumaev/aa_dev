@@ -10,7 +10,7 @@ class UserNoJobEntrant
         if (!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->getId()) {
             /* @var $job  \modules\dictionary\models\JobEntrant */
             $job = Yii::$app->user->identity->jobEntrant();
-            if (!$job  || $job->isStatusDraft()) {
+            if (!$job) {
                 return Yii::$app->getResponse()->redirect(['profile/entrant-job']);
             }
             if (is_null(Yii::$app->user->identity->getEmail())  || !Yii::$app->user->identity->isActive()) {

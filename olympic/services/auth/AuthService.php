@@ -31,8 +31,15 @@ class AuthService
 //            Если письмо не пришло, то проверьте, пожалуйста, папку Спам.');
 //        }
 
-        $roleArray = [];
-        if($role == ProfileHelper::ROLE_STUDENT)
+        if($role == ProfileHelper::ROLE_OPERATOR)
+        {
+            $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_OPERATOR];
+        }
+        elseif($role == ProfileHelper::ROLE_ENTRANT)
+        {
+            $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT, ProfileHelper::ROLE_OPERATOR];
+        }
+        elseif($role == ProfileHelper::ROLE_STUDENT)
         {
             $roleArray = [ProfileHelper::ROLE_ENTRANT, ProfileHelper::ROLE_STUDENT];
         }else{

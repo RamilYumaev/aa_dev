@@ -42,7 +42,7 @@ class DefaultController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->right_full) {
+        if(!$this->jobEntrant->right_full  ||  $this->jobEntrant->isStatusDraft()) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {

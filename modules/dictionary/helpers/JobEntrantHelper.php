@@ -14,6 +14,8 @@ class JobEntrantHelper
 
     const DRAFT = 0;
     const ACTIVE =1;
+
+    const VOLUNTEERING  = 0;
     const TARGET = 1;
     const MPGU = 2;
     const FOK =3;
@@ -21,23 +23,29 @@ class JobEntrantHelper
     const UMS =5;
     const COZ =6;
     const AGREEMENT =7;
+    const TPGU = 8;
+    const EXAM = 9;
+    const CALL = 10;
+    const INFORMATION = 11;
+    const REGISTRATION  = 12;
+    const PROCTORING =13;
+    const MAIL = 14;
+
     const MPGU_ID = 1;
     const MPGU_SR = 2;
     const MPGU_PP = 3;
     const TASHKENT_BB = 4;
     const TARGET_BB = 5;
-    const TPGU = 8;
-    const EXAM = 9;
 
     const ENTRANT_POTENTIAL_STATEMENT_DRAFT = 1;
     const ENTRANT_POTENTIAL_NO_STATEMENT = 2;
     const ENTRANT_POTENTIAL_NO_CG = 3;
 
 
-
     public static function listCategories()
     {
         $array = [
+            self::VOLUNTEERING => "Волнтерство",
             self::GRADUATE =>'Аспирантура',
             self::UMS => "Управление международных связей",
             self::MPGU => "Подкомиссия",
@@ -52,7 +60,21 @@ class JobEntrantHelper
             DictFacultyHelper::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
             DictFacultyHelper::COLLAGE => "Колледж МПГУ",
             self::TPGU => "Совместный проект МПГУ - ТПГУ",
-            self::EXAM => "Экзаменационная комиссия"
+            self::EXAM => "Экзаменационная комиссия",
+        ];
+
+        return $array;
+    }
+
+    public static function listVolunteeringCategories()
+    {
+        $array = [
+            self::CALL => "Call-центр",
+            self::INFORMATION => "Центр информации",
+            self::REGISTRATION =>"Центр регистрации",
+            self::PROCTORING => "Центр прокторинга",
+            self::COZ => "Центр обработки заявлений",
+            self::MAIL => "Почта",
         ];
 
         return $array;

@@ -5,6 +5,7 @@ use common\auth\services\SignupService;
 use common\helpers\FlashMessages;
 use modules\dictionary\forms\JobEntrantAndProfileForm;
 use modules\dictionary\forms\JobEntrantForm;
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\dictionary\services\JobEntrantService;
 use Yii;
@@ -40,7 +41,9 @@ class JobEntrantAction extends \yii\base\Action
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createEntrantJob($form, $model);
-
+                if($form->jobEntrant->category_id == JobEntrantHelper::VOLUNTEERING) {
+                    return $this->controller->redirect('/data-entrant/volunteering');
+                }
                 return $this->controller->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

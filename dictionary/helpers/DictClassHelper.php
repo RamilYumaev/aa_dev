@@ -169,4 +169,16 @@ class DictClassHelper
 
     }
 
+    public static function getListMPSU()
+    {
+        $classes = \dictionary\models\DictClass::find()->andWhere(['type' =>[self::BACALAVR,  self::MAGISTR ]])->orderBy("id")->all();
+        $result = [];
+        foreach ($classes as $class) {
+            $result[$class->id] = $class->getClassFullName();
+        }
+
+        return $result;
+
+    }
+
 }

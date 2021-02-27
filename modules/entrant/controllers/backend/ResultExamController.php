@@ -41,7 +41,7 @@ class ResultExamController extends Controller
 
     public function beforeAction($event)
     {
-        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK())) {
+        if($this->getJobEntrant()->isStatusDraft() || !in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) ) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {

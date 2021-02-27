@@ -8,7 +8,7 @@ use modules\entrant\helpers\StatementHelper;
 
 if(!Yii::$app->user->isGuest ) {
     $jobEntrant = Yii::$app->user->identity->jobEntrant();
-    if($jobEntrant && $jobEntrant->isCategoryCOZ()) {
+    if($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isCategoryCOZ()) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -47,7 +47,7 @@ if(!Yii::$app->user->isGuest ) {
           ]
 
         );
-    }  elseif($jobEntrant && $jobEntrant->isAgreement()) {
+    }  elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isAgreement()) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -67,7 +67,7 @@ if(!Yii::$app->user->isGuest ) {
         );
     }
 
-    elseif($jobEntrant && $jobEntrant->isCategoryTarget()) {
+    elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isCategoryTarget()) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -81,7 +81,7 @@ if(!Yii::$app->user->isGuest ) {
         );
     }
 
-    elseif($jobEntrant && $jobEntrant->isCategoryExam()) {
+    elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isCategoryExam()) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -95,7 +95,7 @@ if(!Yii::$app->user->isGuest ) {
     }
 
 
-    elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
+    elseif ($jobEntrant && !$jobEntrant->isStatusDraft() && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -256,7 +256,7 @@ if(!Yii::$app->user->isGuest ) {
 
         );
     }
-    elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())  && !in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK())) {
+    elseif ($jobEntrant && !$jobEntrant->isStatusDraft() && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())  && !in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK())) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
@@ -267,7 +267,7 @@ if(!Yii::$app->user->isGuest ) {
             ]
 
         );
-    }elseif ($jobEntrant && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && !in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
+    }elseif ($jobEntrant && !$jobEntrant->isStatusDraft() && in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZUK()) && !in_array($jobEntrant->category_id, JobEntrantHelper::listCategoriesZID())) {
         return array_merge(
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],

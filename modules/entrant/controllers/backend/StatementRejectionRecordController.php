@@ -41,7 +41,7 @@ class StatementRejectionRecordController extends Controller
 
     public function beforeAction($event)
     {
-        if(!in_array($this->jobEntrant->category_id, JobEntrantHelper::isIPZ())) {
+        if($this->getJobEntrant()->isStatusDraft() || !in_array($this->jobEntrant->category_id, JobEntrantHelper::isIPZ())) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {

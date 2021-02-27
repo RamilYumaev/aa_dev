@@ -39,7 +39,7 @@ class EntrantPotentialController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->right_full) {
+        if($this->getJobEntrant()->isStatusDraft() || !$this->jobEntrant->right_full) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {

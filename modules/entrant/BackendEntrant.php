@@ -17,7 +17,7 @@ class BackendEntrant extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['entrant']
+                        'roles' => ['@']
                     ]
                 ],
             ],

@@ -32,9 +32,4 @@ class EmailDeliversController extends Controller
         }
         return $this->redirect(['index']);
     }
-
-    public function actionNoAccepted() {
-
-    }
-
 }

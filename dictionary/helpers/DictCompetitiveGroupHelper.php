@@ -207,6 +207,12 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function listFinances(): array
+    {
+        return [self::FINANCING_TYPE_BUDGET => 'Бюджет', self::FINANCING_TYPE_CONTRACT => "Договор"];
+
+    }
+
     public static function formName($key): string
     {
         return ArrayHelper::getValue(self::getEduForms(), $key);

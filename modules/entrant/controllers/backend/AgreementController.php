@@ -34,18 +34,18 @@ class AgreementController extends Controller
         $this->service = $service;
     }
 
-//    public function beforeAction($event)
-//    {
-//        if(!$this->jobEntrant->isCategoryTarget()) {
-//            Yii::$app->session->setFlash("warning", 'Страница недоступна');
-//            Yii::$app->getResponse()->redirect(['site/index']);
-//            try {
-//                Yii::$app->end();
-//            } catch (ExitException $e) {
-//            }
-//        }
-//        return true;
-//    }
+    public function beforeAction($event)
+    {
+        if($this->getJobEntrant()->isStatusDraft() || !$this->jobEntrant->isCategoryTarget()) {
+            Yii::$app->session->setFlash("warning", 'Страница недоступна');
+            Yii::$app->getResponse()->redirect(['site/index']);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+        return true;
+    }
 
     public function actionIndex($status = null)
     {

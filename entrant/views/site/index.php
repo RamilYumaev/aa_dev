@@ -8,15 +8,13 @@ use modules\dictionary\helpers\JobEntrantHelper;
 
 /* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 $text = " ";
-
-
 if(!Yii::$app->user->isGuest ) {
     $jobEntrant = Yii::$app->user->identity->jobEntrant();
     $text = $jobEntrant ? $jobEntrant->fullNameJobEntrant : "";
 }
 $this->title= "Главная. ".$text;
 ?>
-<?php if($jobEntrant): ?>
+<?php if($jobEntrant && !$jobEntrant->isStatusDraft()): ?>
   <?php if($jobEntrant->isCategoryCOZ()):?>
     <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
