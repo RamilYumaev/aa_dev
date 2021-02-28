@@ -16,12 +16,12 @@ $this->title= "Главная. ".$text;
 ?>
 <?php if(!Yii::$app->user->identity->isActive()): ?>
     <div><?= Yii::$app->session->setFlash('warning',
-        'Ваша потча не подтверждена, то необходимо ' .
+        'Необходимо ' .
         \yii\helpers\Html::a('подтвердить почту', '/sign-up/user-edit')); ?></div>
     <?php endif;?>
 <?php if($jobEntrant && $jobEntrant->category_id == 0): ?>
     <div><?= Yii::$app->session->setFlash('info',
-            'Необходимо заполнить/редактировать дополнительную информацию ' .
+            'Необходимо заполнить/отредактировать дополнительную информацию ' .
             \yii\helpers\Html::a('здесь', '/data-entrant/volunteering')); ?></div>
 <?php endif;?>
 <?php if($jobEntrant && !$jobEntrant->isStatusDraft()): ?>
