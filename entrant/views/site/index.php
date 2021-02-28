@@ -14,6 +14,18 @@ if(!Yii::$app->user->isGuest ) {
 }
 $this->title= "Главная. ".$text;
 ?>
+<?php if(!Yii::$app->user->identity->isActive()): ?>
+    <div><?= Yii::$app->session->setFlash('warning',
+        'Ваша потча не подтверждена, то необходимо ' .
+        \yii\helpers\Html::a('подтвердить почту', '/sign-up/user-edit')); ?></div>
+    <?php endif;?>
+<?php if($jobEntrant && $jobEntrant->category_id == 0): ?>
+    <div><?= Yii::$app->session->setFlash('info',
+            'Необходимо заполнить/редактировать дополнительную информацию ' .
+            \yii\helpers\Html::a('здесь', '/data-entrant/volunteering')); ?></div>
+<?php endif;?>
+<div class="box-body table-responsive"> ?>
+</div>
 <?php if($jobEntrant && !$jobEntrant->isStatusDraft()): ?>
   <?php if($jobEntrant->isCategoryCOZ()):?>
     <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>

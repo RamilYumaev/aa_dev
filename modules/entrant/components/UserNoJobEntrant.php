@@ -13,7 +13,7 @@ class UserNoJobEntrant
             if (!$job) {
                 return Yii::$app->getResponse()->redirect(['profile/entrant-job']);
             }
-            if (is_null(Yii::$app->user->identity->getEmail())  || !Yii::$app->user->identity->isActive()) {
+            if (is_null(Yii::$app->user->identity->getEmail())) {
                 return Yii::$app->getResponse()->redirect(['sign-up/user-edit']);
             }
         }

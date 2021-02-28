@@ -15,16 +15,16 @@ use yii\helpers\Html;
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
-
         <div class="navbar-custom-menu">
-
             <ul class="nav navbar-nav">
+                <?php if(Yii::$app->user->can('work')):?>
                 <li>
                     <?= Html::a('<span class="fa fa-pencil"></span>', ['/management-user/default']) ?>
                 </li>
                 <li>
                     <?= Html::a('<span class="fa fa-clock-o"></span>', ['/management-user/schedule']) ?>
                 </li>
+                <?php endif; ?>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/img/nophoto.png" class="user-image" alt="User Image"/>

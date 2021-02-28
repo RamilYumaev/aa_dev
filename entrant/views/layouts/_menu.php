@@ -333,7 +333,7 @@ if(!Yii::$app->user->isGuest ) {
         [
             ['label' => 'Профиль', 'url' => ['/profile/edit']],
             ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
-            ['label' => 'Информация для волонтеров', 'url' => ['/data-entrant/volunteering']],
+            ['label' => 'Доп. информация', 'url' => ['/data-entrant/volunteering']],
             ['label' => 'Информация ПК', 'url' => ['/profile/entrant-job']],
         ]
 
