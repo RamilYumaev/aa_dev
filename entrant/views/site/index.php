@@ -24,8 +24,6 @@ $this->title= "Главная. ".$text;
             'Необходимо заполнить/редактировать дополнительную информацию ' .
             \yii\helpers\Html::a('здесь', '/data-entrant/volunteering')); ?></div>
 <?php endif;?>
-<div class="box-body table-responsive"> ?>
-</div>
 <?php if($jobEntrant && !$jobEntrant->isStatusDraft()): ?>
   <?php if($jobEntrant->isCategoryCOZ()):?>
     <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
