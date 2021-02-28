@@ -17,7 +17,7 @@ class Management extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['entrant','dev']
+                        'roles' => ['dev', 'work']
                     ]
                 ],
             ],
