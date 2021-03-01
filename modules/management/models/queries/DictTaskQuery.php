@@ -15,20 +15,20 @@ class DictTaskQuery extends ActiveQuery
     /**
      * @return array
      */
-    public function allColumn(): array
+    public function allColumn($name = 'name'): array
     {
-        return $this->select(['name'])->indexBy('id')->column();
+        return $this->select([$name])->indexBy('id')->column();
     }
 
     /**
      * @return array
      */
-    public function allColumnUser($user_id): array
+    public function allColumnUser($user_id, $name = 'name'): array
     {
         return $this->joinWith('managementTask')
             ->innerJoin(ManagementUser::tableName(). 'mu', 'mu.post_rate_id = management_task.post_rate_id')
             ->andWhere(['mu.user_id'=> $user_id])
-            ->select(['name'])
+            ->select([$name])
             ->indexBy('id')
             ->column();
     }
