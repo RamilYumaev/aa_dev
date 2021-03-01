@@ -7,9 +7,13 @@ $this->params['breadcrumbs'][] = $this->title;
 use backend\widgets\adminlte\components\AdminLTE;
 use modules\management\models\Task;
 use modules\management\widgets\InfoTaskFullUserWidget;
-use modules\management\widgets\InfoTaskUserWidget; ?>
+use modules\management\widgets\InfoTaskUserWidget;
+use yii\helpers\Html; ?>
 
 <div class="box">
+    <div class="box-header">
+        <?= Html::a('Новая задача', ['task/create'], ['class' => 'btn btn-success']) ?>
+    </div>
     <div class="box-body box-primary">
         <div class="row">
             <div class="col-md-6">

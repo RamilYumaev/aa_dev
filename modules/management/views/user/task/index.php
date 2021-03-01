@@ -20,7 +20,7 @@ $this->title = 'Задачи'.$string;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
-    <div class="box">
+    <div class="box table-responsive">
         <div class="box-header">
             <?= Html::a('Создать', ['task/create'], ['class' => 'btn btn-success']) ?>
         </div>

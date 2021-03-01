@@ -8,10 +8,15 @@ use backend\widgets\adminlte\components\AdminLTE;
 use modules\management\models\Task;
 use modules\management\widgets\InfoTaskWidget;
 use modules\management\widgets\InfoTaskFullWidget;
+use yii\helpers\Html;
+
 ?>
 
 <div class="box">
     <div class="box-body box-primary">
+        <div class="box-header">
+            <?= Html::a('Новая задача', ['task/create'], ['class' => 'btn btn-success']) ?>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <?= InfoTaskFullWidget::widget([

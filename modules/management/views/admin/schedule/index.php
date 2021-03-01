@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => \modules\management\components\DataCombineColumn::class,
                         'attributes' => ['wednesday_even', 'wednesday_odd'], 'headerTemplate'=>  "Среда"],
                     ['class' => \modules\management\components\DataCombineColumn::class,
-                        'attributes' => ['thursday_even', 'thursday_odd'], 'headerTemplate'=>  "Четвверг"],
+                        'attributes' => ['thursday_even', 'thursday_odd'], 'headerTemplate'=>  "Четверг"],
                     ['class' => \modules\management\components\DataCombineColumn::class,
                         'attributes' => ['friday_even', 'friday_odd'], 'headerTemplate'=>  "Пятница"],
                 ]
