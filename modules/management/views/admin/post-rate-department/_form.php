@@ -3,6 +3,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 use kartik\color\ColorInput;
+use kartik\file\FileInput;
 use kartik\select2\Select2;
 use modules\management\models\DictDepartment;
 use modules\management\models\PostManagement;
@@ -22,6 +23,7 @@ use yii\helpers\Html;
             'pluginOptions' => ['allowClear' => true],
             'data' => \modules\management\models\DictTask::find()->allColumn('description')
         ]) ?>
+        <?= $form->field($model, 'template_file')->widget(FileInput::class, ['language'=> 'ru']);?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

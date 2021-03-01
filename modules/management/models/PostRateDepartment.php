@@ -5,8 +5,12 @@ namespace modules\management\models;
 use modules\management\forms\PostRateDepartmentForm;
 use modules\management\models\queries\PostRateDepartmentQuery;
 use modules\management\models\queries\ScheduleQuery;
+use modules\usecase\ImageUploadBehaviorYiiPhp;
 use olympic\models\auth\Profiles;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
+use yiidreamteam\upload\FileUploadBehavior;
 
 /**
  * This is the model class for table "{{%post_rate_department}}".
@@ -14,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $dict_department_id
  * @property integer $post_management_id
+ * @property string $template_file
  * @property integer $rate
  **/
 
@@ -44,6 +49,9 @@ class PostRateDepartment extends ActiveRecord
         $this->rate = $form->rate;
         $this->dict_department_id = $form->dict_department_id;
         $this->post_management_id = $form->post_management_id;
+        if($form->template_file) {
+             $this->setFile($form->template_file);
+        }
     }
 
     public function getRateList() {
@@ -84,6 +92,7 @@ class PostRateDepartment extends ActiveRecord
             'rate' => 'Рабочая ставка',
             'dict_department_id' => 'Отдел',
             'post_management_id' => "Должность",
+            'template_file' => 'Файл шаблона должностой инструкции'
         ];
     }
 
@@ -94,5 +103,22 @@ class PostRateDepartment extends ActiveRecord
 
     public function getManagementTasks() {
         return $this->hasMany(ManagementTask::class, ['post_rate_id' => 'id']);
+    }
+
+    public function setFile(UploadedFile $file): void
+    {
+        $this->template_file = $file;
+    }
+
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => FileUploadBehavior::class,
+                'attribute' => 'template_file',
+                'filePath' => '@modules/management/template/[[attribute_id]].[[extension]]',
+            ],
+        ];
     }
 }
