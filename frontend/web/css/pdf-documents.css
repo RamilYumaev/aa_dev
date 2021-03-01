@@ -60,7 +60,7 @@ body {
     height: 60px;
 }
 
-.app-table {
+.app-table, .app-table-left {
     border-collapse: collapse;
 }
 
