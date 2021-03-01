@@ -20,7 +20,7 @@ use yii\helpers\Html;
         <?= $form->field($model, 'taskList')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
             'pluginOptions' => ['allowClear' => true],
-            'data' => \modules\management\models\DictTask::find()->allColumn()
+            'data' => \modules\management\models\DictTask::find()->allColumn('description')
         ]) ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

@@ -28,7 +28,7 @@ ModalAsset::register($this);
                     'pluginOptions' => ['allowClear' => true],
                 ]);?>
                 <?= $form->field($model, 'dict_task_id')->widget(Select2::class, [
-                    'data' =>DictTask::find()->allColumn(),
+                    'data' =>DictTask::find()->allColumn('description'),
                     'options' => ['placeholder' => 'Выберите функцию/задачу'],
                     'pluginOptions' => ['allowClear' => true],
                 ]);?>
