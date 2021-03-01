@@ -41,7 +41,7 @@ $column = [
 </div>
 <div class="row">
     <div class="col-md-12">
-        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt'=>$attempt, 'size'=> 50]) ?>
+        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt'=>$attempt, 'size'=> 50, 'view'=> 'test-result/index-pdf']) ?>
     </div>
 </div>
 <h4>Лицо, сформировавшее документ:</h4>

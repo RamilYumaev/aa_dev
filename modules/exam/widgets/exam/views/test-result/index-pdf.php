@@ -14,6 +14,7 @@ $s = $attempt->test->exam->discipline_id == 22;
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'layout' => "{items}\n{pager}",
+            'tableOptions' => ['class' => 'table table-bordered app-table-left'],
             'rowOptions' => function( ExamResult $model){
                 if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
                         $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
@@ -31,21 +32,6 @@ $s = $attempt->test->exam->discipline_id == 22;
                 ['attribute'=>'mark',
                     'header'=> 'Оценка. Итого: '.$attempt->getResult()->sum('mark'),
                     'value'=> 'mark'],
-                ['class' => \yii\grid\ActionColumn::class,
-                    'template' => '{update}',
-                    'controller' => 'exam-result',
-                    'buttons'=> [
-                        'update' => function ($url,$model) {
-                            return $model->question->type_id  == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
-                            $model->question->type_id  == TestQuestionHelper::TYPE_FILE ?
-                                Html::a(
-                                '<span class="glyphicon glyphicon-edit"></span>',
-                                   ['exam-result/update', 'attempt_id' => $model->attempt_id,
-                                       'question_id' => $model->question_id, 'tq_id' =>$model->tq_id],
-                                ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-modalTitle' =>'Редактировать оценку', 'data-target' => '#modal']) :"";
-                        },
-                ],
-            ],
         ]]) ?>
     </div>
 </div>
