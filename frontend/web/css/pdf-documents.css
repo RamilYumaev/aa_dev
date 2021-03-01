@@ -78,6 +78,12 @@ body {
     text-align: center;
 }
 
+.app-table-left th, .app-table-left td {
+    border: 0.5px solid black;
+    vertical-align: middle;
+    text-align: left;
+}
+
 .borderCollapse {
     border-collapse: collapse;
 }
