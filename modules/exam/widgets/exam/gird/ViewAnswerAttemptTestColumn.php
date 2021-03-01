@@ -62,7 +62,7 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 $answer = $data ? $data['matching'] : "";
                 $text.=   Html::tag('h4',"Ответ");
                 foreach (ExamAnswerHelper::answerMatching($model->question_id) as $id => $value) {
-                    $text.=   Html::tag('h4',$value ." - ". ($answer ? $answer[$id] : ""));
+                    $text.=   Html::tag('h4',$value ." - ". ($answer ? (key_exists($id, $answer)  ?  $answer[$id] : "")  : ""));
                 }
             }
                 break;

@@ -14,6 +14,7 @@ $s = $attempt->test->exam->discipline_id == 22;
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'layout' => "{items}\n{pager}",
+            'tableOptions' => ['class' => 'table table-bordered app-table'],
             'rowOptions' => function( ExamResult $model){
                 if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
                         $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
