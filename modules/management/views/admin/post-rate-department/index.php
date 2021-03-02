@@ -34,13 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $model->template_file ? Html::a('Скачать', ['post-rate-department/file','id'=> $model->id],
                                 ['class' => 'btn btn-info']) :"";
                         }],
-                    ['attribute' => 'template_file',
-                        'label'=> "Файл ДИ",
-                        'format' => 'raw',
-                        'value' => function(\modules\management\models\PostRateDepartment $model) {
-                            return $model->template_file ? Html::a('Скачать', ['post-rate-department/file','id'=> $model->id],
-                                ['class' => 'btn btn-info']) :"";
-                        }],
                     ['class' => ActionColumn::class,
                         'controller' => "post-rate-department",
                         'template' => '{update} {delete}',
