@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'afterRow' => function (Task $model, $index, $grid) {
                     return '<tr><td colspan="6">'.($model->isStatusDone() ? Html::a('Доработка', ['task/rework', 'id' => $model->id, 'status' =>
                                 Task::STATUS_REWORK],['class'=> "btn btn-info",   'data-pjax' => 'w1', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина доработки']).
-                            Html::a('Приянто в срок', ['task/status', 'id' => $model->id, 'status' =>
+                            Html::a("Принято в срок", ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_ACCEPTED_TO_TIME],['class'=> "btn btn-success", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
-                            Html::a('Принято с просроченной', ['task/status', 'id' => $model->id, 'status' =>
+                            Html::a('Принято не в срок', ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_ACCEPTED_WITCH_OVERDUE],['class'=> "btn btn-warning", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
                             Html::a('Не принято', ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td>
