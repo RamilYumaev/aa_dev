@@ -3,13 +3,16 @@
 namespace modules\management\controllers\admin;
 
 
+use Codeception\Lib\Di;
 use common\helpers\FileHelper;
+use modules\management\models\DictTask;
+use modules\management\models\PostManagement;
 use modules\management\searches\PostRateDepartmentSearch;
 use modules\management\services\PostRateDepartmentService;
 use modules\management\forms\PostRateDepartmentForm;
 use modules\management\models\PostRateDepartment;
 use modules\usecase\ControllerClass;
-use olympic\models\auth\Profiles;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class PostRateDepartmentController extends ControllerClass
@@ -42,8 +45,7 @@ class PostRateDepartmentController extends ControllerClass
             throw new NotFoundHttpException('Запрошенный файл не найден.');
         }
         $fileName = "Должностная инструкция ".$model->postManagement->name." ". ($model->dictDepartment ? $model->dictDepartment->name_short : ""). ".docx";
-
-        FileHelper::getFile(['dd','dd'], $filePath, $fileName);
+        $column = $model->getManagementTask()->select(['dict_task_id'])->column();
+        FileHelper::getFile(DictTask::find()->andWhere(['id'=>$column ])->asArray()->all(), $filePath, $fileName);
     }
-
 }

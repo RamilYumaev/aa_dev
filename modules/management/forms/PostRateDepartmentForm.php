@@ -29,7 +29,7 @@ class PostRateDepartmentForm extends Model
         return [
             [['post_management_id', 'rate', 'taskList'], 'required'],
             ['template_file', 'file',
-                'extensions' => 'doc, docx'],
+                'extensions' => 'docx'],
             [['post_management_id', 'rate', 'dict_department_id'], 'integer'],
             [['taskList'], 'safe'],
         ];

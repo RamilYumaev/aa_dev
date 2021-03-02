@@ -4,6 +4,7 @@
 namespace modules\management\models;
 
 use modules\dictionary\models\queries\DictIndividualAchievementCgQuery;
+use modules\dictionary\models\queries\DictTargetedTrainingOrganizationCgQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -27,5 +28,9 @@ class ManagementTask extends ActiveRecord
         $managementTask->dict_task_id = $dictTaskId;
 
         return $managementTask;
+    }
+
+    public function getDictTask() {
+        return $this->hasOne(DictTask::class, ['id'=> 'dict_task_id']);
     }
 }

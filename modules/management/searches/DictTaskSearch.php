@@ -9,12 +9,12 @@ use yii\data\ActiveDataProvider;
 
 class DictTaskSearch extends Model
 {
-    public $name;
+    public $name, $description;
 
     public function rules()
     {
         return [
-            ['name', 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -34,7 +34,9 @@ class DictTaskSearch extends Model
         }
 
         $query
+            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'name', $this->name]);
+
 
         return $dataProvider;
     }
