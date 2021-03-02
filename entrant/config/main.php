@@ -64,7 +64,7 @@ return [
                     ],
                 ],
                 [
-                    'baseUrl' => '@entrant',
+                    'baseUrl' => '@entrantInfo',
                     'basePath' => '@entrantRoot',
                     'path' => '/work/',
                     'name' => 'UOPP',
