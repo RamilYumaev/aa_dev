@@ -4,6 +4,7 @@ namespace modules\management\searches;
 
 
 use modules\management\models\Task;
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -14,9 +15,12 @@ class TaskSearch extends Model
     public $date_to;
 
     public $overdue;
+    public $userId;
+    private $admin;
 
-    public function __construct($overdue = null, $config = [])
+    public function __construct($overdue = null, $admin = false, $config = [])
     {
+        $this->userId = Yii::$app->user->identity->getId();
         $this->overdue = $overdue;
         parent::__construct($config);
     }
@@ -52,7 +56,7 @@ class TaskSearch extends Model
 
         if($this->overdue) {
             $where  = [$this->overdue == 'yes' ? '<' : '>','date_end', date("Y-m-d")];
-            $query->andWhere($where);
+            $query->andWhere($where)->status([Task::STATUS_NEW, Task::STATUS_REWORK, Task::STATUS_WORK]);
         }
 
         $query->filterWhere([
@@ -67,6 +71,10 @@ class TaskSearch extends Model
 
         ->andFilterWhere(['>=', 'date_end', $this->date_from ? $this->date_from . ' 00:00:00' : null])
         ->andFilterWhere(['<=', 'date_end', $this->date_to ?  $this->date_to . ' 23:59:59' : null]);
+
+        if(!$this->admin) {
+            $query->userResponsible($this->userId);
+        }
 
         return $dataProvider;
     }
