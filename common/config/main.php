@@ -2,7 +2,7 @@
 return [
     'language' => 'ru_RU',
      'timeZone' => 'Europe/Moscow',
-    'aliases' => [
+      'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
@@ -14,6 +14,9 @@ return [
                 'queue' => \yii\queue\debug\Panel::class,
             ],
         ],
+    ],
+    'bootstrap' => [
+        'queue', // Компонент регистрирует свои консольные команды
     ],
     'components' => [
       'formatter' => [
@@ -36,6 +39,12 @@ return [
             'assignmentTable' => '{{%auth_assignment}}',
             'ruleTable' => '{{%auth_rule}}',
         ],
-        'queue'=> ['class' => \yii\queue\sync\Queue::class, 'handle' => true,]
+        'queue' => [
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db', // DB connection component or its config
+            'tableName' => '{{%queue}}', // Table name
+            'channel' => 'default', // Queue channel key
+            'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
+        ],
     ],
 ];

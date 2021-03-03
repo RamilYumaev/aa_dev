@@ -5,6 +5,7 @@ namespace modules\management\controllers\admin;
 
 use Codeception\Lib\Di;
 use common\helpers\FileHelper;
+use modules\management\components\WriteJob;
 use modules\management\models\DictTask;
 use modules\management\models\PostManagement;
 use modules\management\searches\PostRateDepartmentSearch;
@@ -46,6 +47,13 @@ class PostRateDepartmentController extends ControllerClass
         }
         $fileName = "Должностная инструкция ".$model->postManagement->name." ". ($model->dictDepartment ? $model->dictDepartment->name_short : ""). ".docx";
         $column = $model->getManagementTask()->select(['dict_task_id'])->column();
+        Yii::$app->queue->push(new WriteJob([
+            'userId'=>3
+        ]));
+
+
         FileHelper::getFile(DictTask::find()->andWhere(['id'=>$column ])->asArray()->all(), $filePath, $fileName);
+
+
     }
 }
