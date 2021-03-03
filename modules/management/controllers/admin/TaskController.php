@@ -82,7 +82,7 @@ class TaskController extends ControllerClass
         /**
          * @var $searchModel Model
          */
-        $searchModel = new $this->searchModel($overdue);
+        $searchModel = new $this->searchModel($overdue, true);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
