@@ -6,7 +6,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 use backend\widgets\adminlte\components\AdminLTE;
 use modules\management\models\Task;
-use modules\management\widgets\InfoTaskFullUserWidget;
+use modules\management\widgets\InfoTaskFullWidget;
 use modules\management\widgets\InfoTaskUserWidget;
 use yii\helpers\Html; ?>
 
@@ -17,7 +17,7 @@ use yii\helpers\Html; ?>
     <div class="box-body box-primary">
         <div class="row">
             <div class="col-md-6">
-                <?= InfoTaskFullUserWidget::widget([
+                <?= InfoTaskFullWidget::widget([
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'icon'=> 'tasks',
                     'overdue' => false,
@@ -25,7 +25,7 @@ use yii\helpers\Html; ?>
                 ?>
             </div>
             <div class="col-md-6">
-                <?= InfoTaskFullUserWidget::widget([
+                <?= InfoTaskFullWidget::widget([
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'times-circle',
                     'link' => ['/management-user/task/index', 'overdue'=> 'yes']])

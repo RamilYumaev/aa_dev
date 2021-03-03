@@ -23,6 +23,7 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'icon'=> 'tasks',
                     'overdue' => false,
+                    'admin' => true,
                     'link' => ['/management-admin/task/index', 'overdue'=> 'no']])
                 ?>
             </div>
@@ -30,7 +31,7 @@ use yii\helpers\Html;
                 <?= InfoTaskFullWidget::widget([
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'times-circle',
-
+                    'admin' => true,
                     'link' => ['/management-admin/task/index', 'overdue'=> 'yes']])
                 ?>
             </div>
