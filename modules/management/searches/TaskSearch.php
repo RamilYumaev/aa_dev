@@ -22,6 +22,7 @@ class TaskSearch extends Model
     {
         $this->userId = Yii::$app->user->identity->getId();
         $this->overdue = $overdue;
+        $this->admin = $admin;
         parent::__construct($config);
     }
 
