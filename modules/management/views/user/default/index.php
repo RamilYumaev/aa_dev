@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = $this->title;
 use backend\widgets\adminlte\components\AdminLTE;
 use modules\management\models\Task;
 use modules\management\widgets\InfoTaskFullWidget;
-use modules\management\widgets\InfoTaskUserWidget;
+use modules\management\widgets\InfoTaskWidget;
 use yii\helpers\Html; ?>
 
 <div class="box">
@@ -21,14 +21,14 @@ use yii\helpers\Html; ?>
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'icon'=> 'tasks',
                     'overdue' => false,
-                    'link' => ['/management-user/task/index', 'overdue'=> 'no']])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-6">
                 <?= InfoTaskFullWidget::widget([
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'times-circle',
-                    'link' => ['/management-user/task/index', 'overdue'=> 'yes']])
+                    'link' => 'management-user'])
                 ?>
             </div>
         </div>
@@ -38,35 +38,35 @@ use yii\helpers\Html; ?>
     <div class="box-body">
         <div class="row">
             <div class="col-md-3">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'icon'=> 'plus',
                     'status' => Task::STATUS_NEW,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_NEW]])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-3">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_BLUE,
                     'icon'=> 'building',
                     'status' => Task::STATUS_WORK,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_WORK]])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-3">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_ORANGE,
                     'icon'=> 'check-square-o',
                     'status' => Task::STATUS_DONE,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_DONE]])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-3">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_GREEN,
                     'icon'=> 'hourglass-end',
                     'status' => Task::STATUS_ACCEPTED_TO_TIME,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_ACCEPTED_TO_TIME,]])
+                    'link' => 'management-user'])
                 ?>
             </div>
         </div>
@@ -76,27 +76,27 @@ use yii\helpers\Html; ?>
     <div class="box-body">
         <div class="row">
             <div class="col-md-4">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_LIGHT_BLUE,
                     'icon'=> 'pencil-square-o',
                     'status' => Task::STATUS_REWORK,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_REWORK]])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-4">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_YELLOW,
                     'icon'=> 'clock-o',
                     'status' => Task::STATUS_ACCEPTED_WITCH_OVERDUE,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>Task::STATUS_ACCEPTED_WITCH_OVERDUE ]])
+                    'link' => 'management-user'])
                 ?>
             </div>
             <div class="col-md-4">
-                <?= InfoTaskUserWidget::widget([
+                <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'minus-circle ',
                     'status' => Task::STATUS_NOT_EXECUTED,
-                    'link' => ['/management-user/task/index', 'TaskUserSearch[status]'=>  Task::STATUS_NOT_EXECUTED]])
+                    'link' => 'management-user'])
                 ?>
             </div>
         </div>

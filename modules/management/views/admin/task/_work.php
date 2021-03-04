@@ -59,5 +59,5 @@ $url = \yii\helpers\Url::to(['task/time', 'userId'=> $schedule->user_id, 'date'=
     <label class="control-label">Время</label>
 <?= \kartik\select2\Select2::widget( ['data' => [], 'name' =>'time', 'options' => ['placeholder' => 'Выберите время', 'id'=> 'time'],
                     'pluginOptions' => ['allowClear' => true], 'pluginEvents' => [
-        "change" => "function(e) { var date = $('#date').val(); $('#taskform-date_end').val(date+' '+e.target.value); }"]]) ?>
+        "change" => "function(e) { var date = $('#date').val(); $('#taskform-date_end').val(date+' '+e.target.value+':00'); }"]]) ?>
     </div>

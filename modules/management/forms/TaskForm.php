@@ -32,7 +32,7 @@ class TaskForm extends Model
             [['dict_task_id', 'director_user_id', 'responsible_user_id', 'position'], 'integer'],
             [['text'], 'string'],
             [['date_end'], 'safe'],
-            [['date_end'], 'date', 'format' => 'yyyy-M-d H:m'],
+            [['date_end'], 'date', 'format' => 'yyyy-M-d H:m:s'],
         ];
     }
 

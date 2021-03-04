@@ -58,9 +58,10 @@ class TaskController extends ControllerClass
     {
         $model = $this->findModel($id);
         /** @var TaskForm $form */
+        $schedule = Schedule::findOne(['user_id'=> $model->responsible_user_id]);
         $form = new $this->formModel($model);
         $form->scenario = TaskForm::SCENARIO_NOTE_REWORK;
-        if ($form->load(Yii::$app->request->post()) && $form->validate(false)) {
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->rework($model->id, $form->note);
                 return $this->redirect(Yii::$app->request->referrer);
@@ -71,6 +72,7 @@ class TaskController extends ControllerClass
         }
         return $this->renderAjax('_rework', [
             'model' => $form,
+            'schedule'=> $schedule
         ]);
     }
 
