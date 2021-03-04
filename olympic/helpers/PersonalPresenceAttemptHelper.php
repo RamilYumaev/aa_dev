@@ -113,7 +113,6 @@ class PersonalPresenceAttemptHelper
             $result .= '</strong>';
         }elseif(
             $olympicList->isFormOfPassageDistantInternal()
-            && $olympicList->isDistanceFinish()
             && self::exitInPersonalAttempt($user_id, $olympicList->id)
         )
             {
