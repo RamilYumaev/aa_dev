@@ -24,7 +24,7 @@ use yii\helpers\Html;
                     'icon'=> 'tasks',
                     'overdue' => false,
                     'admin' => true,
-                    'link' => ['/management-admin/task/index', 'overdue'=> 'no']])
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-6">
@@ -32,7 +32,7 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'times-circle',
                     'admin' => true,
-                    'link' => ['/management-admin/task/index', 'overdue'=> 'yes']])
+                    'link' => 'management-admin'])
                 ?>
             </div>
         </div>
@@ -46,7 +46,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_OLIVE,
                     'icon'=> 'plus',
                     'status' => Task::STATUS_NEW,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_NEW]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-3">
@@ -54,7 +55,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_BLUE,
                     'icon'=> 'building',
                     'status' => Task::STATUS_WORK,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_WORK]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-3">
@@ -62,7 +64,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_ORANGE,
                     'icon'=> 'check-square-o',
                     'status' => Task::STATUS_DONE,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_DONE]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-3">
@@ -70,7 +73,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_GREEN,
                     'icon'=> 'hourglass-end',
                     'status' => Task::STATUS_ACCEPTED_TO_TIME,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_ACCEPTED_TO_TIME,]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
         </div>
@@ -84,7 +88,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_LIGHT_BLUE,
                     'icon'=> 'pencil-square-o',
                     'status' => Task::STATUS_REWORK,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_REWORK]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-4">
@@ -92,7 +97,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_YELLOW,
                     'icon'=> 'clock-o',
                     'status' => Task::STATUS_ACCEPTED_WITCH_OVERDUE,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>Task::STATUS_ACCEPTED_WITCH_OVERDUE ]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
             <div class="col-md-4">
@@ -100,7 +106,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'minus-circle ',
                     'status' => Task::STATUS_NOT_EXECUTED,
-                    'link' => ['/management-admin/task/index', 'TaskSearch[status]'=>  Task::STATUS_NOT_EXECUTED]])
+                    'admin' => true,
+                    'link' => 'management-admin'])
                 ?>
             </div>
         </div>

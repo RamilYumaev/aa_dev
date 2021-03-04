@@ -5,6 +5,7 @@
 /* @var $str  string */
 /* @var $link string */
 /* @var $count integer */
+/* @var $status integer */
 
 use backend\widgets\adminlte\SmallBox;
 ?>
@@ -14,7 +15,7 @@ use backend\widgets\adminlte\SmallBox;
         "header" => $count,
         "icon" => $icon,
         "text" => $str,
-        'linkRoute'=> $link,
+        'linkRoute'=> ['/'.$link.'/task/index', 'TaskSearch[status]'=>  $status],
         'linkLabel' => 'Подробно <i class="fa fa-arrow-circle-right"></i>'
     ]
 )

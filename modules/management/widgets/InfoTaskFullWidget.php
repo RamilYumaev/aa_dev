@@ -26,7 +26,7 @@ class InfoTaskFullWidget extends Widget
             'colorBox' => $this->colorBox,
             'icon'=> $this->icon,
             'str' => $this->overdue ? "Просроченные" : "Актуальные",
-            'link'=> $this->link]);
+            'link'=> $this->link, 'parameter' => $this->overdue ? 'yes' : 'no']);
     }
 
 }
