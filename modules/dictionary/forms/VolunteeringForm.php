@@ -31,7 +31,8 @@ class VolunteeringForm extends Model
                 'number_edu', 'clothes_type', 'clothes_size',
                 'desire_work'], 'required'],
             [['form_edu', 'course_edu', 'finance_edu', 'clothes_type', 'clothes_size', 'job_entrant_id', 'faculty_id',], 'integer'],
-            [['link_vk', 'note', 'number_edu', ], 'string' , 'max' => 25],
+            [['link_vk', 'number_edu'], 'string' , 'max' => 255],
+            [['note' ], 'string' ],
             ['experience','boolean' ],
             ['desire_work','safe' ],
         ];
