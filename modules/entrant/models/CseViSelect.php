@@ -45,6 +45,10 @@ class CseViSelect extends ActiveRecord
         return "{{%cse_vi_select}}";
     }
 
+    public function getUserAis() {
+        return $this->hasOne(UserAis::class,['user_id' =>'user_id']);
+    }
+
     public function attributeLabels()
     {
         return [

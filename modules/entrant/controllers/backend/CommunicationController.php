@@ -25,6 +25,7 @@ use olympic\services\auth\UserService;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\httpclient\Client;
+use api\client\Client as AisClient;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -267,7 +268,21 @@ class CommunicationController extends Controller
 
     }
 
-    /**
+    public function actionExportCseIncoming($agreementId)
+    {
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
+            Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(['form']);
+        }else {
+            $aisClient = new AisClient();
+            $incoming = DataExportHelper::cseIncomingId();
+            echo $aisClient->postData('get-cse-result?access-token=' . $token, $incoming);
+        }
+    }
+
+        /**
      * @param $agreementId
      * @return mixed
      * @throws NotFoundHttpException

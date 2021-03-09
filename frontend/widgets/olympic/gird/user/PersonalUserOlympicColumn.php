@@ -18,7 +18,7 @@ class PersonalUserOlympicColumn extends DataColumn
 {
     protected function renderDataCellContent($model, $key, $index)
     {
-        return  $this->text($model->olympicOne);
+        return  $this->text($model->olympicOne).$model->olympicOne->id;
     }
 
     private function text(OlimpicList $olympic) {

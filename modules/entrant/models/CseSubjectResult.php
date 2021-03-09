@@ -106,6 +106,10 @@ class CseSubjectResult extends ActiveRecord
             ];
     }
 
+    public function getUserAis() {
+        return $this->hasOne(UserAis::class,['user_id' =>'user_id']);
+    }
+
     public function setResult(array $dataUpdate)
     {
         $this->result = Json::encode($dataUpdate, JSON_NUMERIC_CHECK);
