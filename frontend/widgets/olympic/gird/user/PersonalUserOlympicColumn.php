@@ -3,6 +3,7 @@
 namespace frontend\widgets\olympic\gird\user;
 
 use common\auth\helpers\UserSchoolHelper;
+use common\helpers\DateTimeCpuHelper;
 use olympic\helpers\DiplomaHelper;
 use olympic\models\OlimpicList;
 use testing\helpers\TestAttemptHelper;
@@ -10,8 +11,10 @@ use testing\helpers\TestHelper;
 use common\helpers\EduYearHelper;
 use testing\helpers\TestResultHelper;
 use testing\models\TestAttempt;
+use yii\bootstrap\Modal;
 use yii\grid\DataColumn;
 use yii\helpers\Html;
+use yii\jui\Dialog;
 
 
 class PersonalUserOlympicColumn extends DataColumn
@@ -67,6 +70,7 @@ class PersonalUserOlympicColumn extends DataColumn
     }
 
     private function textResult(OlimpicList $olympic) {
+        /** @var  $attempt TestAttempt */
         $attempt = $this->getAttempt($olympic);
         if (TestResultHelper::isPreResult($attempt->id)) {
             return "Оценка появится после завершение заочного тура";
@@ -74,7 +78,21 @@ class PersonalUserOlympicColumn extends DataColumn
             return "Предварительная оценка ".$attempt->mark.
                 " балла(-ов), итоговая оценка будет известна после окончания заочного тура";
         } else {
-            return $attempt->mark ?? 0;
+            return $olympic->isFormOfPassageDistantInternal() && $olympic->isResultEndTour() ?
+                $this->getMarkFormOfPassageDistantInternal($attempt, $olympic) : ($attempt->mark ?? 0);
         }
+    }
+
+    private function getMarkFormOfPassageDistantInternal(TestAttempt $attempt, OlimpicList $olimpic) {
+        Modal::begin([
+            'header' => '<h2>Информация</h2>',
+            'toggleButton' => [
+                'label' => $attempt->mark,
+                'tag' => 'button',
+                'style' => ['color'=> $attempt->isRewardMember() ? 'green': 'red'],
+            ],
+        ]);
+        echo $attempt->isRewardMember() ? 'Вы прошли в заключительный этап, который состоится' . DateTimeCpuHelper::getDateChpu($olimpic->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($olimpic->date_time_start_tour). ' по адресу: '.$olimpic->address :'К сожалению Вы не прошли в заключительный тур';
+        Modal::end();
     }
 }
