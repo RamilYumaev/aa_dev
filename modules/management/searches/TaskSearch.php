@@ -56,7 +56,7 @@ class TaskSearch extends Model
         }
 
         if($this->overdue) {
-            $where  = [$this->overdue == 'yes' ? '<' : '>','date_end', date("Y-m-d")];
+            $where  = [$this->overdue == 'yes' ? '<' : '>','date_end', date("Y-m-d H:i:s")];
             $query->andWhere($where)->status([Task::STATUS_NEW, Task::STATUS_REWORK, Task::STATUS_WORK]);
         }
 
