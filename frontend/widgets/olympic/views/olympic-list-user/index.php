@@ -1,6 +1,14 @@
 <?php
 \frontend\assets\modal\ModalAsset::register($this);
 use yii\bootstrap\Modal;
+
+$js = <<<SCRIPT
+/* To initialize BS3 tooltips set this below */
+$(function () { 
+    $("[data-toggle='tooltip']").tooltip(); 
+});
+SCRIPT;
+$this->registerJs($js);
 ?>
 <?= \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,

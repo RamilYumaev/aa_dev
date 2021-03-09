@@ -5,6 +5,7 @@ namespace frontend\widgets\olympic\gird\user;
 use common\auth\helpers\UserSchoolHelper;
 use common\helpers\DateTimeCpuHelper;
 use olympic\helpers\DiplomaHelper;
+use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
 use testing\helpers\TestAttemptHelper;
 use testing\helpers\TestHelper;
@@ -21,7 +22,7 @@ class PersonalUserOlympicColumn extends DataColumn
 {
     protected function renderDataCellContent($model, $key, $index)
     {
-        return  $this->text($model->olympicOne).$model->olympicOne->id;
+        return  $this->text($model->olympicOne);
     }
 
     private function text(OlimpicList $olympic) {
@@ -78,21 +79,16 @@ class PersonalUserOlympicColumn extends DataColumn
             return "Предварительная оценка ".$attempt->mark.
                 " балла(-ов), итоговая оценка будет известна после окончания заочного тура";
         } else {
-            return $olympic->isFormOfPassageDistantInternal() && $olympic->isResultEndTour() ?
+            return $olympic->isFormOfPassageDistantInternal() && $olympic->current_status == OlympicHelper::ZAOCH_FINISH ?
                 $this->getMarkFormOfPassageDistantInternal($attempt, $olympic) : ($attempt->mark ?? 0);
         }
     }
 
-    private function getMarkFormOfPassageDistantInternal(TestAttempt $attempt, OlimpicList $olimpic) {
-        Modal::begin([
-            'header' => '<h2>Информация</h2>',
-            'toggleButton' => [
-                'label' => $attempt->mark,
-                'tag' => 'button',
-                'style' => ['color'=> $attempt->isRewardMember() ? 'green': 'red'],
-            ],
-        ]);
-        echo $attempt->isRewardMember() ? 'Вы прошли в заключительный этап, который состоится' . DateTimeCpuHelper::getDateChpu($olimpic->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($olimpic->date_time_start_tour). ' по адресу: '.$olimpic->address :'К сожалению Вы не прошли в заключительный тур';
-        Modal::end();
+    private function getMarkFormOfPassageDistantInternal(TestAttempt $attempt, OlimpicList $olimpic)
+    {
+        $text = $attempt->isRewardMember() ? 'Вы прошли в заключительный этап, который состоится ' .
+            DateTimeCpuHelper::getDateChpu($olimpic->date_time_start_tour) . ' года в ' . DateTimeCpuHelper::getTimeChpu($olimpic->date_time_start_tour) . ' по адресу: ' . $olimpic->address : 'К сожалению Вы не прошли в заключительный тур';
+        return Html::a($attempt->mark, '#', [ 'data-toggle'=>"tooltip", 'title'=> $text,
+            'style' => ['color' => $attempt->isRewardMember() ? 'green' : 'red', 'text-decoration' => 'underline']]);
     }
 }
