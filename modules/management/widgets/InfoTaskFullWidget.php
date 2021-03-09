@@ -20,7 +20,7 @@ class InfoTaskFullWidget extends Widget
         if(!$this->admin) {
             $query->userResponsible(\Yii::$app->user->identity->getId());
         }
-        $where  = [$this->overdue ? '<' : '>','date_end', date("Y-m-d")];
+        $where  = [$this->overdue ? '<' : '>','date_end', date("Y-m-d H:i:s")];
         $query->andWhere($where)->status([Task::STATUS_NEW, Task::STATUS_REWORK, Task::STATUS_WORK]);
         return $this->render($this->view, ['count'=> $query->count(),
             'colorBox' => $this->colorBox,
