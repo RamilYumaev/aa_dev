@@ -279,7 +279,7 @@ class CommunicationController extends Controller
             $aisClient = new AisClient();
            // $incoming = DataExportHelper::cseIncomingId();
             $incoming  = [1720, 3709, 1196, 6255, 16499];
-            echo $aisClient->postData('sdo/get-cse-result?access-token=' . $token, $incoming);
+            var_dump($aisClient->postData('sdo/get-cse-result?access-token=' . $token, $incoming));
         }
     }
 
