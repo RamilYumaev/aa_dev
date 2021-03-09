@@ -24,6 +24,11 @@ return [
             ],
         ],
     ],
+    'modules' => [
+        'entrant-module' => [
+            'class' => \modules\entrant\ApiEntrant::class
+        ],
+    ],
     'components' => [
         'request' => [
             'cookieValidationKey' => 'fklsjgzkjpeosipoiops',
@@ -60,6 +65,8 @@ return [
              'showScriptName' => false,
              'rules' => [
                  '' => 'site/index',
+                 'entrant' => 'entrant-module/default/index',
+                 'entrant-export' => 'entrant-module/default/data-export',
                  'scan' => 'scan/index',
                  'scan/token' => 'scan/token',
                  'scan/presence' => 'scan/presence',

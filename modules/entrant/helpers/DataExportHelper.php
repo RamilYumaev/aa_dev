@@ -508,5 +508,17 @@ class DataExportHelper
             ]];
     }
 
+    public static function cseIncomingId()
+    {
+        $cse = CseSubjectResult::find()->joinWith('userAis')->select(['user_ais.incoming_id'])->indexBy('user_ais.incoming_id')->column();
+        $cseVi = CseViSelect::find()->joinWith('userAis')
+            ->andWhere(['NOT', ['result_cse' =>""]])
+            ->select(['user_ais.incoming_id'])
+            ->indexBy('user_ais.incoming_id')
+            ->column();
 
+        $result = array_merge($cse, $cseVi);
+        $array = array_diff($result, array('', 0, null));
+        return array_values($array);
+    }
 }

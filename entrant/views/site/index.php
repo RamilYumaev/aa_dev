@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use modules\dictionary\helpers\JobEntrantHelper;
+use modules\entrant\helpers\DataExportHelper;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -13,6 +14,7 @@ if(!Yii::$app->user->isGuest ) {
     $text = $jobEntrant ? $jobEntrant->fullNameJobEntrant : "";
 }
 $this->title= "Главная. ".$text;
+var_dump((new \api\client\Client())->postData('entrant-export',  DataExportHelper::cseIncomingId()));
 ?>
 <?php if(!Yii::$app->user->identity->isActive()): ?>
     <div><?= Yii::$app->session->setFlash('warning',

@@ -47,13 +47,7 @@ class PostRateDepartmentController extends ControllerClass
         }
         $fileName = "Должностная инструкция ".$model->postManagement->name." ". ($model->dictDepartment ? $model->dictDepartment->name_short : ""). ".docx";
         $column = $model->getManagementTask()->select(['dict_task_id'])->column();
-        Yii::$app->queue->push(new WriteJob([
-            'userId'=>3
-        ]));
-
 
         FileHelper::getFile(DictTask::find()->andWhere(['id'=>$column ])->asArray()->all(), $filePath, $fileName);
-
-
     }
 }
