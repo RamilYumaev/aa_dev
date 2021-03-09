@@ -268,7 +268,7 @@ class CommunicationController extends Controller
 
     }
 
-    public function actionExportCseIncoming($agreementId)
+    public function actionExportCseIncoming()
     {
         $token = Yii::$app->user->identity->getAisToken();
         if (!$token) {
