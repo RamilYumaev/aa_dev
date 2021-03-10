@@ -35,6 +35,10 @@ class DictDepartment extends ActiveRecord
         $this->name_genitive = $form->name_genitive;
     }
 
+    public function getPostRateDepartment() {
+        return $this->hasMany(PostRateDepartment::class, ['dict_department_id'=>'id']);
+    }
+
     public function attributeLabels()
     {
         return [

@@ -24,4 +24,13 @@ class DictDepartmentController extends ControllerClass
         $this->service = $service;
         $this->searchModel = $searchModel;
     }
+
+    /**
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionView($id){
+        $model = $this->findModel($id);
+
+        return $this->render('view', ['model'=>$model]);
+    }
 }

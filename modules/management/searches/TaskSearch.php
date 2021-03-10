@@ -17,12 +17,14 @@ class TaskSearch extends Model
     public $overdue;
     public $userId;
     private $admin;
+    private $key;
 
-    public function __construct($overdue = null, $admin = false, $config = [])
+    public function __construct($overdue = null, $key = "responsible_user_id", $admin = false, $config = [])
     {
         $this->userId = Yii::$app->user->identity->getId();
         $this->overdue = $overdue;
         $this->admin = $admin;
+        $this->key = $key;
         parent::__construct($config);
     }
 
@@ -74,7 +76,7 @@ class TaskSearch extends Model
         ->andFilterWhere(['<=', 'date_end', $this->date_to ?  $this->date_to . ' 23:59:59' : null]);
 
         if(!$this->admin) {
-            $query->userResponsible($this->userId);
+            $query->user($this->userId, $this->key);
         }
 
         return $dataProvider;

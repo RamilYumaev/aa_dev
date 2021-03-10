@@ -60,4 +60,17 @@ class ManagementUserQuery extends ActiveQuery
             ->indexBy('management_task.id')->column();
     }
 
+    public function user($userId)
+    {
+        return $this->andWhere(['user_id'=> $userId]);
+    }
+
+    public function assistant()
+    {
+        return $this->andWhere(['is_assistant'=> true]);
+    }
+
+    public function userDirector($userId) {
+       return  $this->joinWith('postManagementDirector')->user($userId);
+    }
 }
