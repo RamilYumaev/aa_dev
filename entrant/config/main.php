@@ -27,6 +27,10 @@ return [
             'class' => \modules\management\Management::class,
             'viewPath' => "@modules/management/views/user",
         ],
+        'management-director' => [
+            'class' => \modules\management\DirectorManagement::class,
+            'viewPath' => "@modules/management/views/director",
+        ],
         'data-exam' => [
             'class' => \modules\exam\BackendExam::class,
             'viewPath' => "@modules/exam/views/backend",

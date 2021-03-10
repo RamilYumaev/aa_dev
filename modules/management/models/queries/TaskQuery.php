@@ -11,9 +11,9 @@ class TaskQuery extends ActiveQuery
         return $this->andWhere(['status'=> $status]);
     }
 
-    public function userResponsible($userId)
+    public function user($userId, $key = 'responsible_user_id')
     {
-        return $this->andWhere(['responsible_user_id'=> $userId]);
+        return $this->andWhere([$key => $userId]);
     }
 
 }

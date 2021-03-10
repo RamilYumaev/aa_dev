@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'name_short',
                     ['class' => ActionColumn::class,
                         'controller' => "dict-department",
-                        'template' => '{update} {delete}',
+                        'template' => '{update} {view} {delete}',
                     ],
                 ]
             ]); ?>

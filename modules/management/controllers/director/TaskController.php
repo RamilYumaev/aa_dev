@@ -1,7 +1,6 @@
 <?php
 
-namespace modules\management\controllers\admin;
-
+namespace modules\management\controllers\director;
 
 use modules\management\models\ManagementUser;
 use modules\management\models\Schedule;
@@ -12,6 +11,7 @@ use modules\management\models\Task;
 use modules\usecase\ControllerClass;
 use Yii;
 use yii\base\Model;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class TaskController extends ControllerClass
@@ -30,24 +30,65 @@ class TaskController extends ControllerClass
         $this->searchModel = $searchModel;
     }
 
-    public function beforeAction($action)
-    {
-        if (!Yii::$app->user->getIsGuest() && $user = Yii::$app->user->identity->getId()) {
-            $isSchedule = Schedule::find()->user($user)->exists();
-            if(!$isSchedule) {
-                Yii::$app->session->setFlash('warning', "Заполните личный график работы");
-                $this->redirect(['schedule/index']);
-                Yii::$app->end();
-            }
-        }
-        return true;
-    }
-
     public function actionWork($userId)
     {
         $schedule = Schedule::findOne(['user_id'=> $userId]);
         return $this->renderAjax('_work',[ 'schedule'=> $schedule]);
     }
+
+    /**
+     * @return mixed|string|Response
+     * @throws NotFoundHttpException
+     */
+    public function actionCreate()
+    {
+        /** @var TaskForm $form */
+        $form = new $this->formModel;
+        $form->director_user_id = $this->getUser();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $model = $this->service->create($form);
+                return $this->redirect(['view', 'id'=> $model->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('create', [
+            'model' => $form,
+        ]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionUpdate($id)
+    {
+        /**
+         * @var $form Model
+         */
+        $model = $this->findModel($id);
+        $form = new $this->formModel($model);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->edit($model->id, $form);
+                return $this->redirect(['view', 'id'=> $model->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('update', [
+            'model' => $form,
+        ]);
+    }
+
+    public function getUser() {
+        return Yii::$app->user->identity->getId();
+    }
+
 
     /**
      * @return string|Response
@@ -84,7 +125,7 @@ class TaskController extends ControllerClass
         /**
          * @var $searchModel Model
          */
-        $searchModel = new $this->searchModel($overdue, 'null', true);
+        $searchModel = new $this->searchModel($overdue, 'director_user_id');
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

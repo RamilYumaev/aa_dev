@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $post_rate_id
  * @property integer $user_id
+ * @property boolean $is_assistant
  **/
 
 class ManagementUser extends ActiveRecord
@@ -30,6 +31,11 @@ class ManagementUser extends ActiveRecord
         $managementUser->post_rate_id = $postManagementId;
         $managementUser->user_id = $userId;
         return $managementUser;
+    }
+
+    public function setIsAssistant($value)
+    {
+        $this->is_assistant = $value;
     }
 
     public function getPostManagement()

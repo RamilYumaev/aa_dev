@@ -12,13 +12,14 @@ class InfoTaskFullWidget extends Widget
     public $str;
     public $link;
     public $overdue = true;
+    public $key = "responsible_user_id";
     public $admin = false;
 
     public function run()
     {
         $query = Task::find();
         if(!$this->admin) {
-            $query->userResponsible(\Yii::$app->user->identity->getId());
+            $query->user(\Yii::$app->user->identity->getId());
         }
         $where  = [$this->overdue ? '<' : '>','date_end', date("Y-m-d H:i:s")];
         $query->andWhere($where)->status([Task::STATUS_NEW, Task::STATUS_REWORK, Task::STATUS_WORK]);

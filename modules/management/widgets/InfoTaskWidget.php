@@ -11,6 +11,7 @@ class InfoTaskWidget extends Widget
     public $icon;
     public $status;
     public $link;
+    public $key = "responsible_user_id";
     public $admin = false;
 
     public function run()
@@ -18,7 +19,7 @@ class InfoTaskWidget extends Widget
         $query = Task::find();
         $query->status($this->status);
         if(!$this->admin) {
-            $query->userResponsible(\Yii::$app->user->identity->getId());
+            $query->user(\Yii::$app->user->identity->getId(), $this->key);
         }
         return $this->render($this->view, ['count'=> $query->count(),
             'colorBox' => $this->colorBox,

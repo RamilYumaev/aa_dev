@@ -48,8 +48,6 @@ class PostManagement extends ActiveRecord
         ];
     }
 
-
-
     public static function find(): PostManagementQuery
     {
         return new PostManagementQuery(static::class);
