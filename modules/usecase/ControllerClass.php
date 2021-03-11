@@ -104,6 +104,7 @@ class ControllerClass extends Controller
         }
         return $this->render('update', [
             'model' => $form,
+            'entity' => $model
         ]);
     }
 

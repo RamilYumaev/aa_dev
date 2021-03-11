@@ -24,6 +24,7 @@ array_merge(
                 ['label' => 'Справочник ИД', 'url' => ['/dictionary-module/dict-individual-achievement']],
                 ['label' => 'Справочник ПЭК', 'url' => ['/dictionary-module/dict-examiner']],
                 ['label' => 'Сотрудники ЦПК', 'url' => ['/dictionary-module/job-entrant']],
+                ['label' => 'Волонтеры', 'url' => ['/dictionary-module/volunteering']],
             ])]] : []),
 
 //    (Yii::$app->user->can('manager') ?

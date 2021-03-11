@@ -4,12 +4,14 @@
 namespace modules\dictionary\models;
 
 use common\auth\models\SettingEmail;
-use dictionary\helpers\DictFacultyHelper;
+use dictionary\helpers\DictCompetitiveGroupHelper;use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictClass;
 use dictionary\models\Faculty;
 use modules\dictionary\forms\VolunteeringForm;
 use modules\dictionary\helpers\JobEntrantHelper;
-use olympic\models\auth\Profiles;
+use modules\dictionary\models\queries\VolunteeringQuery;
+use modules\management\models\queries\ManagementUserQuery;
+use olympic\helpers\auth\ProfileHelper;use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 
 /**
@@ -63,7 +65,7 @@ class Volunteering extends ActiveRecord
     }
 
     public function getEntrantJob() {
-        return $this->hasOne(JobEntrant::class, ['id' => 'job_entrant_id']);
+        return $this->hasOne(JobEntrant::class, ['id' => 'job_entrant_id'])->joinWith('profileUser');
     }
 
     public function getSettingEmail() {
@@ -82,10 +84,33 @@ class Volunteering extends ActiveRecord
         return ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
     }
 
+    public function getClothesSize() {
+        return $this->listClothesSize()[$this->clothes_size];
+    }
+
+     public function getClothesType() {
+        return ProfileHelper::typeOfGender()[$this->clothes_type];
+    }
+
+    public function getFormEdu() {
+        return DictCompetitiveGroupHelper::getEduForms()[$this->form_edu];
+    }
+
+    public function getFinanceEdu() {
+        return DictCompetitiveGroupHelper::listFinances()[$this->finance_edu];
+    }
+
+    public function getDesireWork() {
+        return   implode(', ', array_map(function ($role) {
+            return JobEntrantHelper::listVolunteeringCategories()[$role];
+        }, json_decode($this->desire_work)));
+
+    }
+
     public function attributeLabels()
     {
         return [
-            'job_entrant_id'=> "EntrantJob ID",
+            'job_entrant_id'=> "Волонтер",
             'faculty_id' => "Факультет",
             'form_edu' => "Форма обучения",
             'course_edu' => "Курс",
@@ -98,5 +123,10 @@ class Volunteering extends ActiveRecord
             'link_vk' => "Ссылка на VK",
             'note' => "Коротко о Вас",
         ];
+    }
+
+    public static function find(): VolunteeringQuery
+    {
+        return new VolunteeringQuery(static::class);
     }
 }

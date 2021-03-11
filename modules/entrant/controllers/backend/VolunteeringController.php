@@ -48,7 +48,7 @@ class VolunteeringController extends Controller
         $form->job_entrant_id = $this->jobEntrant->id;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form, $model);
+                $this->service->createOne($form, $model);
                 return $this->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
