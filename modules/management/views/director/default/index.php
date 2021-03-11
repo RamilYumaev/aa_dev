@@ -97,8 +97,8 @@ use yii\helpers\Html;
                     'colorBox' => AdminLTE::BG_ORANGE,
                     'icon'=> 'clock-o',
                     'status' => Task::STATUS_ACCEPTED_WITCH_OVERDUE,
-                    'admin' => true,
-                    'link' => 'management-admin'])
+                    'key' => 'director_user_id',
+                    'link' => 'management-director'])
                 ?>
             </div>
             <div class="col-md-4">
