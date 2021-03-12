@@ -202,6 +202,11 @@ if(!Yii::$app->user->isGuest ) {
                     "url" => '/data-entrant/charts',
                     "icon" => "table",
                 ],
+                [
+                    "label" => "Результаты экз.",
+                    "url" => '/data-entrant/result-exam',
+                    "icon" => "table",
+                ],
                 ['label' => 'Отзыв (ЗОС)',
                     "items" => [
                         [
@@ -326,7 +331,11 @@ if(!Yii::$app->user->isGuest ) {
                     "label" => "Ход подачи",
                     "url" => '/data-entrant/charts',
                     "icon" => "table",
-                ],]
+                ], [
+                "label" => "Результаты экз.",
+                "url" => '/data-entrant/result-exam',
+                "icon" => "table",
+            ],]
 
         );
     } else {return array_merge(

@@ -39,6 +39,10 @@ return [
             'class' => \modules\management\AdminManagement::class,
             'viewPath' => "@modules/management/views/admin",
         ],
+        'management-director' => [
+            'class' => \modules\management\DirectorManagement::class,
+            'viewPath' => "@modules/management/views/director",
+        ],
         'support' => [
             'class' => \modules\support\ModuleBackend::class,
             'viewPath' => "@modules/support/views/backend",
