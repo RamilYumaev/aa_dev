@@ -6,6 +6,7 @@ use modules\dictionary\forms\DictCategoryForm;
 use modules\dictionary\models\DictCategory;
 use modules\dictionary\services\DictCategoryService;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -28,6 +29,15 @@ class DictCategoryController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
                 ],
             ],
         ];
