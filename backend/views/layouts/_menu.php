@@ -122,6 +122,8 @@ array_merge(
             ['label' => 'Спр. должностей', 'url' => ['/management-admin/post-management']],
             ['label' => 'Отделы', 'url' => ['/management-admin/dict-department']],
             ['label' => 'Сопоставление', 'url' => ['/management-admin/post-rate-department']],
+            ['label' => 'Категории док.', 'url' => ['/management-admin/category-document']],
+            ['label' => 'Реестр док.', 'url' => ['/management-admin/registry-document']],
             ['label' => 'Графики работ', 'url' => ['/management-admin/schedule']],
             ['label' => 'Задачи', 'url' => ['/management-admin/default']],
         ])],
