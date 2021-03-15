@@ -11,6 +11,8 @@ use modules\dictionary\searches\DictCathedraSearch;
 use modules\dictionary\services\DictCathedraService;
 use modules\dictionary\services\DictForeignLanguageService;
 use modules\usecase\ControllerClass;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 
 class DictCathedraController extends ControllerClass
@@ -28,5 +30,20 @@ class DictCathedraController extends ControllerClass
         $this->model = $model;
         $this->formModel = $formModel;
         $this->searchModel = $searchModel;
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
+                ],
+            ],
+        ];
     }
 }

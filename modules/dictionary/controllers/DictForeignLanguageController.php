@@ -8,6 +8,8 @@ use modules\dictionary\models\DictForeignLanguage;
 use modules\dictionary\searches\DictForeignLanguageSearch;
 use modules\dictionary\services\DictForeignLanguageService;
 use modules\usecase\ControllerClass;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 
 class DictForeignLanguageController extends ControllerClass
@@ -25,5 +27,26 @@ class DictForeignLanguageController extends ControllerClass
         $this->model = $model;
         $this->formModel = $formModel;
         $this->searchModel = $searchModel;
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
+                ],
+            ],
+        ];
     }
 }

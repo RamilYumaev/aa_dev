@@ -11,6 +11,7 @@ use dictionary\models\DictSchoolsReport;
 use dictionary\services\DictSchoolsReportService;
 use dictionary\services\DictSchoolsService;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
@@ -29,6 +30,15 @@ class DictSchoolsReportController extends Controller
     public function behaviors(): array
     {
         return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev',  'edu_school']
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -8,6 +8,8 @@ use modules\dictionary\services\DictOrganizationService;
 use modules\dictionary\forms\DictOrganizationForm;
 use modules\dictionary\models\DictOrganizations;
 use modules\usecase\ControllerClass;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class DictOrganizationsController extends ControllerClass
 {
@@ -23,6 +25,27 @@ class DictOrganizationsController extends ControllerClass
         $this->formModel = $formModel;
         $this->service = $service;
         $this->searchModel = $searchModel;
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
+                ],
+            ],
+        ];
     }
 
 }

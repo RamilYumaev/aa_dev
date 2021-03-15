@@ -7,6 +7,7 @@ use modules\dictionary\forms\DictCseSubjectForm;
 use modules\dictionary\models\DictCseSubject;
 use modules\dictionary\services\DictCseSubjectService;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -29,6 +30,15 @@ class DictCseSubjectController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
                 ],
             ],
         ];

@@ -8,6 +8,7 @@ use modules\dictionary\models\DictIndividualAchievement;
 use modules\dictionary\searches\DictIndividualAchievementSearch;
 use modules\dictionary\services\DictIndividualAchievementService;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -30,6 +31,15 @@ class DictIndividualAchievementController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev']
+                    ]
                 ],
             ],
         ];

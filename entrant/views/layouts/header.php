@@ -17,6 +17,11 @@ use yii\helpers\Html;
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <?php if(Yii::$app->user->can('volunteering')):?>
+                    <li>
+                        <?= Html::a('<span class="fa fa-users"></span>', ['/dictionary-module/volunteering/']) ?>
+                    </li>
+                <?php endif; ?>
                 <?php if(Yii::$app->user->can('work')):?>
                 <li>
                     <?= Html::a('<span class="fa fa-pencil"></span>', ['/management-user/default']) ?>

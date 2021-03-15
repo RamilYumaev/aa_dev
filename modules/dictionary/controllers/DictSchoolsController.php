@@ -8,6 +8,7 @@ use dictionary\forms\DictSchoolsEditForm;
 use dictionary\forms\search\DictSchoolsSearch;
 use dictionary\models\DictSchools;
 use dictionary\services\DictSchoolsService;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
@@ -27,6 +28,15 @@ class DictSchoolsController extends Controller
     public function behaviors(): array
     {
         return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev', 'edu_school']
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

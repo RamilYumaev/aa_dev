@@ -17,7 +17,7 @@ class Dictionary extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dev', 'edu_school']
+                        'roles' => ['@']
                     ]
                 ],
             ],

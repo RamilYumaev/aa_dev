@@ -11,6 +11,8 @@ use modules\dictionary\services\JobEntrantService;
 use modules\dictionary\services\VolunteeringService;
 use modules\usecase\ControllerClass;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class VolunteeringController extends ControllerClass
 {
@@ -38,5 +40,26 @@ class VolunteeringController extends ControllerClass
         }
         return $this->redirect(['index']);
 
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dev', 'volunteering']
+                    ]
+                ],
+            ],
+        ];
     }
 }
