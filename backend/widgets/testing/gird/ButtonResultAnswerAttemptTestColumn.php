@@ -18,11 +18,12 @@ class ButtonResultAnswerAttemptTestColumn extends DataColumn
 {
     protected function renderDataCellContent($model, $key, $index): string
     {
-        return  Html::tag('h4', $this->getProfile($model->user_id).
-                 $this->getNameOfPlace($model->reward_status).
-                 $this->getNomination($model->nomination_id)).
-                 ($this->isStatusActiveOlympic($model) ? Html::tag('br').
-                 $this->getRewardStatus($model): null);
+        $modelEntity = TestAttempt::findOne($model['id']);
+        return  Html::tag('h4', $this->getProfile($model['user_id']).
+                 $this->getNameOfPlace($model['reward_status']).
+                 $this->getNomination($model['nomination_id'])).
+                 ($this->isStatusActiveOlympic($modelEntity) ? Html::tag('br').
+                 $this->getRewardStatus($modelEntity): null);
     }
 
     private function getProfile($user_id): string
