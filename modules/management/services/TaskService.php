@@ -51,11 +51,12 @@ class TaskService extends ServicesClass
             ->setSubject($subject);
     }
 
-    public function rework($id, $note)
+    public function rework($id, Model $form)
     {
         $model = $this->repository->get($id);
         $model->setStatus(Task::STATUS_REWORK);
-        $model->setNote($note);
+        $model->setNote($form->note);
+        $model->setDateEnd($form->date_end);
         $this->repository->save($model);
         $text ='Причина доработки: '. $model->note;
         $this->sendEmailTask($model->responsibleProfile, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
