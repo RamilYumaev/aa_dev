@@ -60,7 +60,7 @@ class CommentTaskController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->renderAjax('_comment', [
+        return $this->renderAjax('@modules/management/views/admin/comment-task/_comment', [
             'model' => $form,
         ]);
     }
