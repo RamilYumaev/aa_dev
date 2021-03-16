@@ -1,11 +1,9 @@
 <?php
 namespace backend\widgets\testing;
 
-use testing\models\TestAndQuestions;
-use testing\models\TestAttempt;
-use testing\models\TestGroup;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 class TestAttemptWidget extends Widget
 {
@@ -17,7 +15,8 @@ class TestAttemptWidget extends Widget
 
     public function run()
     {
-        $query = TestAttempt::find()->test($this->test_id)->orderByMark();
+        $query = new Query;
+        $query = $query->from("test_attempt")->where('test_id='.$this->test_id)->indexBy('id')->orderBy('mark DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
