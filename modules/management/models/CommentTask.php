@@ -39,6 +39,11 @@ class CommentTask extends ActiveRecord
         return $comment;
     }
 
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
     public function getProfile() {
         return $this->hasOne(Profiles::class, ['user_id' => 'created_by']);
     }

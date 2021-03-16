@@ -8,6 +8,13 @@ use yii\base\Model;
 class CommentTaskForm extends Model
 {
     public $text;
+    public function __construct(CommentTask  $commentTask = null, $config = [])
+    {
+        if($commentTask) {
+            $this->text = $commentTask->text;
+        }
+        parent::__construct($config);
+    }
 
     public function rules()
     {

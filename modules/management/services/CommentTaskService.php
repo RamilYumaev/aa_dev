@@ -38,4 +38,12 @@ class CommentTaskService
         $this->repository->save($model);
         return $model;
     }
+
+    public function  edit(CommentTaskForm $form, $id)
+    {
+        $model = $this->repository->get($id);
+        $model->setText($form->text);
+        $this->repository->save($model);
+        return $model;
+    }
 }
