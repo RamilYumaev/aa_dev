@@ -2,31 +2,12 @@
 
 namespace modules\management\repositories;
 use modules\management\models\CommentTask;
+use modules\usecase\RepositoryClass;
 
-class CommentTaskRepository
+class CommentTaskRepository extends RepositoryClass
 {
-    /**
-     * @param CommentTask $model
-     * @throws \Exception
-     */
-    public function save(CommentTask $model): void
+    public function __construct(CommentTask $model)
     {
-        if (!$model->save()) {
-            throw new \Exception("Ошибка при сохранении");
-        }
+        $this->model = $model;
     }
-
-    /**
-     * @param CommentTask $model
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public function remove(CommentTask $model): void
-    {
-        if(!$model->delete())
-        {
-            throw new \Exception("Ошибка при удалении");
-        }
-    }
-
 }
