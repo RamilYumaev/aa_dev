@@ -63,7 +63,7 @@ class TaskController extends ControllerClass
         $form->scenario = TaskForm::SCENARIO_NOTE_REWORK;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->rework($model->id, $form->note);
+                $this->service->rework($model->id, $form);
                 return $this->redirect(Yii::$app->request->referrer);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

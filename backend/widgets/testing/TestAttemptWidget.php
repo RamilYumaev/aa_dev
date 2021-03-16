@@ -3,6 +3,7 @@ namespace backend\widgets\testing;
 
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\db\Query;
 
 class TestAttemptWidget extends Widget
@@ -17,8 +18,8 @@ class TestAttemptWidget extends Widget
     {
         $query = new Query;
         $query = $query->from("test_attempt")->where('test_id='.$this->test_id)->indexBy('id')->orderBy('mark DESC');
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $query->all(),
         ]);
 
         return $this->render($this->view, [

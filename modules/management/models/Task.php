@@ -68,6 +68,10 @@ class Task extends ActiveRecord
         $this->status = $status;
     }
 
+    public function setDateEnd($date) {
+        $this->date_end = $date;
+    }
+
     public function setNote($note) {
         $this->note = $note;
     }
