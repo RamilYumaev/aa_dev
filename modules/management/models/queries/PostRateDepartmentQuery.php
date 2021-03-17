@@ -38,6 +38,19 @@ class PostRateDepartmentQuery extends ActiveQuery
     /**
      * @return array
      */
+    public function getColumnUser($userId): array
+    {
+        $array = [];
+        foreach ($this->joinWith('managementUser')->where(['user_id'=>$userId])->all() as $item) {
+            $array[$item->id] = $item->postManagement->name_short . ($item->dictDepartment ? '/ '.$item->dictDepartment->name_short : '');
+
+        }
+        return $array;
+    }
+
+    /**
+     * @return array
+     */
     public function getAllColumnShortUser($userId): array
     {
         $array = [];

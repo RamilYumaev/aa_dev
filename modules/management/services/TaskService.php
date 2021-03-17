@@ -32,17 +32,17 @@ class TaskService extends ServicesClass
     {
        $model = parent::create($form);
        $model->setStatus(Task::STATUS_NEW);
-       $text = "У Вас новая задача";
-       $this->sendEmailTask($model->responsibleProfile, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
+       $text = "У Вас новая задача.";
+       $this->sendEmailTask($model, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
        return $model;
     }
 
-    private function sendEmailTask(Profiles $profile, $email, $text, $subject)
+    private function sendEmailTask(Task $task, $email, $text, $subject)
     {
         $mailer = \Yii::$app->taskMailer;
-
+        /** @var Task $model */
         $configTemplate =  ['html' => 'task/newTask-html', 'text' => 'task/newTask-text'];
-        $configData = ['profile' => $profile, 'text' => $text];
+        $configData = ['task' => $task, 'text' => $text];
         return $mailer
             ->mailer()
             ->compose($configTemplate, $configData)
@@ -53,13 +53,14 @@ class TaskService extends ServicesClass
 
     public function rework($id, Model $form)
     {
+        /** @var Task $model */
         $model = $this->repository->get($id);
         $model->setStatus(Task::STATUS_REWORK);
         $model->setNote($form->note);
         $model->setDateEnd($form->date_end);
         $this->repository->save($model);
-        $text ='Причина доработки: '. $model->note;
-        $this->sendEmailTask($model->responsibleProfile, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
+        $text ='Доработка. Причина доработки: '. $model->note;
+        $this->sendEmailTask($model, $model->responsibleSchedule->email, $text, $model->subjectEmail)->send();
     }
 
 }
