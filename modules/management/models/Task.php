@@ -1,11 +1,13 @@
 <?php
 namespace modules\management\models;
 
+use common\helpers\DateTimeCpuHelper;
 use modules\management\behaviors\HistoryTaskBehavior;
 use modules\management\forms\TaskForm;
 use modules\management\models\queries\TaskQuery;
 use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
+use yii\helpers\Html;
 
 /**
  * @property $title string
@@ -77,7 +79,7 @@ class Task extends ActiveRecord
     }
 
     public function getSubjectEmail() {
-        return '#'.$this->id.' '.$this->title.'. Статус задачи:'.$this->statusName;
+        return '#'.$this->id.' '.$this->title;
     }
 
     public function attributeLabels()
@@ -168,6 +170,12 @@ class Task extends ActiveRecord
     public function getStatusColor () {
         return $this->getStatusList()[$this->status]['color'];
     }
+
+    public function getDateEndString () {
+        return DateTimeCpuHelper::getDateChpu($this->date_end)
+                . '  года в ' . DateTimeCpuHelper::getTimeChpu($this->date_end);
+    }
+
 
     public static function find(): TaskQuery
     {
