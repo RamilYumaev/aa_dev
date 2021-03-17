@@ -72,6 +72,10 @@ class JobEntrant extends ActiveRecord
         return $this->hasOne(DictExaminer::class, ['id' => 'examiner_id']);
     }
 
+    public function getVolunteering() {
+        return $this->hasOne(Volunteering::class, ['job_entrant_id' => 'id']);
+    }
+
     public function getCategory() {
         return JobEntrantHelper::listCategories()[$this->category_id];
     }

@@ -20,7 +20,7 @@ $this->title= "Главная. ".$text;
         'Необходимо ' .
         \yii\helpers\Html::a('подтвердить почту', '/sign-up/user-edit')); ?></div>
     <?php endif;?>
-<?php if($jobEntrant && $jobEntrant->category_id == 0): ?>
+<?php if($jobEntrant && $jobEntrant->category_id == 0 && !$jobEntrant->volunteering): ?>
     <div><?= Yii::$app->session->setFlash('info',
             'Необходимо заполнить/отредактировать дополнительную информацию ' .
             \yii\helpers\Html::a('здесь', '/data-entrant/volunteering')); ?></div>
