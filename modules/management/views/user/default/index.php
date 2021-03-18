@@ -14,6 +14,7 @@ use yii\helpers\Html; ?>
 <div class="box">
     <div class="box-header">
         <?= Html::a('Новая задача', ['task/create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Реестр документов', ['registry-document/index'], ['class' => 'btn btn-info']) ?>
         <?= $isCreateTask ? Html::a('Ваши задачи как постановщик/помощника', ['/management-director/default'], ['class' => 'btn btn-primary']) : ''?>
     </div>
     <div class="box-body box-primary">

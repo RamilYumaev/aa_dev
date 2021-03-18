@@ -59,6 +59,14 @@ $taskData = ['title', 'dictTask.name', 'dictTask.description','statusName', 'dat
     <div class="col-md-8">
         <div class="box box-info">
             <div class="box-header">
+                <h4>Реестр документов</h4>
+                <?= Html::a('Добавить документ', ['create-document', 'id' => $task->id], ['class'=> "btn btn-info"])?>
+                <?= Html::a('Прикрепить документ', ['document-search', 'id' => $task->id], ['class'=> "btn btn-primary"])?>
+            </div>
+            <?= $this->render('_document',['task' => $task]) ?>
+        </div>
+        <div class="box box-info">
+            <div class="box-header">
                 <h4>Описание задачи</h4>
             </div>
             <div class="box-body">
