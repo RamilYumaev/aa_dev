@@ -124,6 +124,10 @@ class Task extends ActiveRecord
         return $this->hasMany(HistoryTask::class, ['task_id' => 'id']);
     }
 
+    public function getDocuments() {
+        return $this->hasMany(DocumentTask::class, ['task_id' => 'id']);
+    }
+
     public function getCommentTasks() {
         return $this->hasMany(CommentTask::class, ['task_id' => 'id']);
     }

@@ -16,6 +16,7 @@ use yii\helpers\Html;
     <div class="box-body box-primary">
         <div class="box-header">
             <?= Html::a('Новая задача', ['task/create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Реестр документов', ['registry-document/index'], ['class' => 'btn btn-info']) ?>
         </div>
         <div class="row">
             <div class="col-md-6">
