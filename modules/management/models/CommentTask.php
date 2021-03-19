@@ -2,6 +2,7 @@
 
 namespace modules\management\models;
 
+use common\helpers\DateTimeCpuHelper;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -46,6 +47,15 @@ class CommentTask extends ActiveRecord
 
     public function getProfile() {
         return $this->hasOne(Profiles::class, ['user_id' => 'created_by']);
+    }
+
+    public function getTask() {
+        return $this->hasOne(Task::class, ['id' => 'task_id']);
+    }
+
+    public function getDateByString () {
+        return DateTimeCpuHelper::getDateChpu($this->created_at)
+            . '  года в ' . DateTimeCpuHelper::getTimeChpu($this->created_at);
     }
 
 

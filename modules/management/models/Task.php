@@ -167,6 +167,10 @@ class Task extends ActiveRecord
         return $this->status == self::STATUS_NOT_EXECUTED;
     }
 
+    public function isStatusesAccepted() {
+        return $this->isStatusAcceptedToTime() || $this->isStatusAcceptedWitchOverdue();
+    }
+
     public function getStatusName () {
         return $this->getStatusList()[$this->status]['name'];
     }

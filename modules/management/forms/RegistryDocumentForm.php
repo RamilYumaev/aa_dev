@@ -9,7 +9,7 @@ use yii\web\UploadedFile;
 class RegistryDocumentForm extends Model
 {
     public $name, $link, $file, $access, $dict_department_id;
-    private $_registryDocument;
+    public $registryDocument;
     public $category_document_id;
     public $user_id;
 
@@ -17,7 +17,9 @@ class RegistryDocumentForm extends Model
     {
         if ($registryDocument) {
             $this->setAttributes($registryDocument->getAttributes(), false);
-            $this->_registryDocument = $registryDocument;
+            $this->registryDocument = $registryDocument;
+            $this->file = $registryDocument->file ?   $registryDocument->getUploadedFilePath('file') :
+                $registryDocument->file;
         }else {
             $this->user_id =  \Yii::$app->user->identity->getId();
         }
@@ -30,7 +32,10 @@ class RegistryDocumentForm extends Model
         return [
             [['name','category_document_id', 'access'], 'required'],
             [['file'], 'required', 'when'=> function($model) {
-                return !$model->link;
+                 if($model->registryDocument) {
+                     return !$model->link && !$model->registryDocument->file;
+                 }
+                    return !$model->link;
             }, 'enableClientValidation' => false],
             [['dict_department_id'], 'required', 'when'=> function($model) {
                 return $model->access == RegistryDocument::ACCESS_DEPARTMENT;
@@ -39,7 +44,7 @@ class RegistryDocumentForm extends Model
             [['access', 'dict_department_id'], 'integer'],
             [['name', 'link'],'trim'],
             ['file', 'file',
-                'extensions' => 'jpg, png, pdf, doc, docx, ppt, pptx, csv, xls, xlsx, eps, txt, rtf'],
+                'extensions' => 'jpg, png, pdf, doc, docx, ppt, pptx, csv, xls, xlsx, eps, txt, rtf',],
             [['category_document_id'], 'integer'],
         ];
     }

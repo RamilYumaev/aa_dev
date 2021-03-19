@@ -56,8 +56,10 @@ class ScheduleService
         $model->setDataForm($form);
         $this->correctRate($form, $model);
         $this->transactionManager->wrap(function () use ($model, $form) {
-            $this->deleteRelation($model->user_id);
-            $this->saveManagementUser($form, $model->user_id);
+            if(!$model->isBlocked) {
+                $this->deleteRelation($model->user_id);
+                $this->saveManagementUser($form, $model->user_id);
+            }
             $model->save($model);
         });
 
