@@ -6,11 +6,26 @@ use kartik\file\FileInput;
 use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+$array = ['language'=> 'ru'];
+$arrayV = $model->registryDocument ? ['pluginOptions' => [
+        'initialPreview'=>[
+                $model->registryDocument->getUploadedFileUrl('file')
+        ],
+        'initialPreviewAsData'=>true,
+        'initialPreviewConfig' => [
+            ['caption' => $model->registryDocument->file],
+        ],
+    'overwriteInitial'=>true
+    ]] :[];
+$options = $arrayV ? array_merge($arrayV, $array) : $array;
+
 ?>
+
 
 <div class="box">
     <div class="box-body">
-        <?php $form = ActiveForm::begin(['id'=> 'form-registry']); ?>
+        <?php $form = ActiveForm::begin(['id'=> 'form-registry']);?>
         <?= $form->field($model, 'access')->dropDownList((new \modules\management\models\RegistryDocument())->getAccessList()) ?>
         <?= $form->field($model, 'dict_department_id')->dropDownList(\modules\management\models\DictDepartment::find()->allColumn(),['prompt'=> 'Выберите отдел']) ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
@@ -18,7 +33,7 @@ use yii\helpers\Html;
             'options' => ['placeholder' => 'Выберите...'],
             'data' => \modules\management\models\CategoryDocument::find()->allColumn()
         ]) ?>
-        <?= $form->field($model, 'file')->widget(FileInput::class, ['language'=> 'ru']);?>
+        <?= $form->field($model, 'file')->widget(FileInput::class, $options);?>
         <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
     <div class="box">
-        <div class="box-header">
-            <?= Html::a('Создать', ['registry-document/create'], ['class' => 'btn btn-success']) ?>
-        </div>
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

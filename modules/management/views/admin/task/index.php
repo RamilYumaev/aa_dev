@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             Html::a('Не принято', ['task/status', 'id' => $model->id, 'status' =>
                                 Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").'</td>
                      <td>Количество изменений задачи: '.$model->getHistoryTasks()->count().' </td>
-                     <td>'.Html::a('Комментарий', ['comment-task/create', 'id' => $model->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий']).'</td>
+                     <td>'.(!$model->isStatusesAccepted() ? Html::a('Комментарий', ['comment-task/create', 'id' => $model->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий']):'').'</td>
                      <td>Количество комментарий: '.$model->getCommentTasks()->count().' </td>
                      </tr>'
                         ;

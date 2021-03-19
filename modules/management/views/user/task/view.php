@@ -100,7 +100,7 @@ $taskData = ['title', 'dictTask.name', 'dictTask.description','statusName', 'dat
                 <?= Html::a('Добавить комментарий', ['comment-task/create', 'id' => $task->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий'])?>
             </div>
             <div class="box-body">
-                <?= $this->render('_comment',['task' => $task]) ?>
+                <?= $task->isStatusesAccepted() ? $this->render('_comment',['task' => $task]): "" ?>
             </div>
         </div>
     </div>
