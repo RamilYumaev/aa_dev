@@ -97,10 +97,13 @@ $taskData = ['title', 'dictTask.name', 'dictTask.description','statusName', 'dat
         <div class="box box-danger">
             <div class="box-header">
                 <h4>Комментарии</h4>
-                <?= Html::a('Добавить комментарий', ['comment-task/create', 'id' => $task->id],['class'=> "btn btn-warning",   'data-pjax' => 'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий'])?>
+                <?= !$task->isStatusesAccepted() ?
+                    Html::a('Добавить комментарий', ['comment-task/create', 'id' => $task->id],
+                        ['class'=> "btn btn-warning",   'data-pjax' =>
+                            'w5', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавить комментарий']) : ""?>
             </div>
             <div class="box-body">
-                <?= $task->isStatusesAccepted() ? $this->render('_comment',['task' => $task]): "" ?>
+                <?=  $this->render('_comment',['task' => $task])?>
             </div>
         </div>
     </div>
