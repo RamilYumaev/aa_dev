@@ -88,12 +88,10 @@ class ResultExamController extends Controller
         $model = $this->findModelAttempt($attempt);
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
-        $methods =[  'SetHeader' => ['Распечатно из системы "АИС Абитуриент" || https://fok.sdo.mpgu.org  ' . date("d.m.Y H:i:s")],
-
-            'SetFooter' => ['|{PAGENO} из {nbpg}|'],];
-
+        $methods =['SetHeader' => ['Распечатано из системы "АИС Абитуриент" || https://fok.sdo.mpgu.org  ' . date("d.m.Y H:i:s")],
+            'SetFooter' => ['|{PAGENO} из {nbpg}|']];
         $content = $this->renderPartial('view_pdf', ['attempt' => $model, 'jobEntrant'=> $this->jobEntrant]);
-        $pdf = PdfHelper::generate($content, "Результаты экзамена. ". $model->test->exam->discipline->name. ". ". date("Y") ." ". date('Y-m-d H:i:s').".pdf",
+        $pdf = PdfHelper::generate($content, "Результаты экзамена. ".$model->profile->fio.". ".$model->test->exam->discipline->name. ". ". date("Y") ." ". date('Y-m-d H:i:s').".pdf",
             Pdf::FORMAT_A4,  Pdf::ORIENT_PORTRAIT, $methods);
         $render = $pdf->render();
         return $render;
@@ -132,8 +130,4 @@ class ResultExamController extends Controller
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
-
-
 }
