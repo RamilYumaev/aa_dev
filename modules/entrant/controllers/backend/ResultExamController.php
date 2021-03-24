@@ -110,7 +110,7 @@ class ResultExamController extends Controller
      */
     protected function findModel($id): DictCompetitiveGroup
     {
-        $query = (new ResultExamRepository($this->jobEntrant))->readData()->andwhere(['id'=>$id]);
+        $query = (new ResultExamRepository($this->jobEntrant))->readData()->andwhere(['cg.id'=>$id]);
 
         if (($model = $query->one())  !== null) {
             return $model;
