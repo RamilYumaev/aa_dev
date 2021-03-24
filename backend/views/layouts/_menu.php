@@ -21,6 +21,7 @@ array_merge(
                 ['label' => 'Вебинары', 'url' => '/web-conference/index'],
                 ['label' => 'Должности', 'url' => ['/dictionary-module/dict-post-education']],
                 ['label' => 'Справочник ЕГЭ', 'url' => ['/dictionary-module/dict-cse-subject']],
+                ['label' => 'Справочник ЦТ', 'url' => ['/dictionary-module/dict-ct-subject']],
                 ['label' => 'Справочник ИД', 'url' => ['/dictionary-module/dict-individual-achievement']],
                 ['label' => 'Справочник ПЭК', 'url' => ['/dictionary-module/dict-examiner']],
                 ['label' => 'Сотрудники ЦПК', 'url' => ['/dictionary-module/job-entrant']],

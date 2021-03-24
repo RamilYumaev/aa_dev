@@ -27,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => SerialColumn::class],
                     'name',
-                    ['attribute'=> 'cse_subject_id', 'value'=> 'cseSubject'],
+                    ['attribute'=> 'cse_subject_id', 'value'=> 'cse.name'],
+                    ['attribute'=> 'ct_subject_id', 'value'=> 'ct.name'],
                     ['attribute'=> 'is_och', 'filter'=>DictDefaultHelper::nameList(),
                         'value'=> 'nameIsOch'],
                     ['class' => ActionColumn::class,

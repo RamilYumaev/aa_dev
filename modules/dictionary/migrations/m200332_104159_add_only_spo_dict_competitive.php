@@ -3,9 +3,7 @@
 namespace modules\dictionary\migrations;
 
 use dictionary\models\DictCompetitiveGroup;
-use dictionary\models\DictDiscipline;
 use yii\db\Migration;
-use \modules\dictionary\models\DictOrganizations;
 
 /**
  * Class m200331_104158_table_dict_organization

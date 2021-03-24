@@ -7,9 +7,12 @@ namespace dictionary\models;
 use dictionary\forms\DictDisciplineCreateForm;
 use dictionary\forms\DictDisciplineEditForm;
 use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\queries\DictDisciplineQuery;
+use dictionary\models\queries\DictSchoolsQuery;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\dictionary\models\DictCseSubject;
+use modules\dictionary\models\DictCtSubject;
 use modules\entrant\helpers\CseSubjectHelper;
 
 class DictDiscipline extends \yii\db\ActiveRecord
@@ -32,6 +35,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->name = $form->name;
         $discipline->links = $form->links;
         $discipline->cse_subject_id = $form->cse_subject_id;
+        $discipline->ct_subject_id = $form->ct_subject_id;
         $discipline->ais_id = $form->ais_id;
         $discipline->dvi = $form->dvi;
         $discipline->is_och = $form->is_och;
@@ -45,6 +49,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $this->links = $form->links;
         $this->is_och = $form->is_och;
         $this->cse_subject_id = $form->cse_subject_id;
+        $this->ct_subject_id = $form->ct_subject_id;
         $this->ais_id = $form->ais_id;
         $this->dvi = $form->dvi;
         $this->composite_discipline = $form->composite_discipline;
@@ -65,6 +70,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'name' => 'Название дисциплины',
             'links' => 'Ссылка на сайте',
             'cse_subject_id' => "Предмет ЕГЭ",
+            'ct_subject_id' => "Предмет ЦТ",
             'ais_id' => "ID АИС ВУЗ",
             'dvi' => "Дополнительное вступительное испытание бакалавриата",
             'composite_discipline' => "Составная дисциплина",
@@ -117,6 +123,16 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return $this->hasOne(DictCseSubject::class, ['id' => 'cse_subject_id']);
     }
 
+    public function getCt()
+    {
+        return $this->hasOne(DictCtSubject::class, ['id' => 'ct_subject_id']);
+    }
+
+    public function getComposite()
+    {
+        return $this->hasMany(CompositeDiscipline::class, ['discipline_id' => 'id']);
+    }
+
     public function disciplineCgAisColumn($filial = 0)
     {
         $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
@@ -127,7 +143,6 @@ class DictDiscipline extends \yii\db\ActiveRecord
         } else {
             return $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL])->column();
         }
-
     }
 
     public static function compositeDiscipline()
@@ -153,5 +168,9 @@ class DictDiscipline extends \yii\db\ActiveRecord
         return $unionArray;
     }
 
+    public static function find(): DictDisciplineQuery
+    {
+        return new DictDisciplineQuery(static::class);
+    }
 
 }
