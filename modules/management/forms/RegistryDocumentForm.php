@@ -44,7 +44,7 @@ class RegistryDocumentForm extends Model
             [['access', 'dict_department_id'], 'integer'],
             [['name', 'link'],'trim'],
             ['file', 'file',
-                'extensions' => 'jpg, png, pdf, doc, docx, ppt, pptx, csv, xls, xlsx, eps, txt, rtf',],
+                'extensions' => 'jpg, png, pdf, doc, docx, ppt, pptx, csv, xls, xlsx, eps, txt, rtf, apk, json',],
             [['category_document_id'], 'integer'],
         ];
     }
