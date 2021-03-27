@@ -16,8 +16,8 @@ class JobEntrantAndProfileForm extends CompositeForm
         $this->profile = new ProfileEditForm();
         $this->jobEntrant = new JobEntrantForm($entrant);
         $this->jobEntrant->user_id =  $this->profile->user;
-        $this->profile->country_id = 46;
-        $this->profile->region_id = 52;
+        $this->profile->country_id = $this->profile->country_id ?? 46;
+        $this->profile->region_id =  $this->profile->region_id ?? 77;
 
         parent::__construct($config);
     }
