@@ -116,7 +116,7 @@ class DodController extends Controller
     protected function findDod($id)
     {
         $model = $this->repository->find($id);
-        if (!$model || $model->isTypeIntramural()  || !DateDodHelper::maxDate($model->date_time, $model->type, $model->dod_id)) {
+        if (!$model || !DateDodHelper::maxDate($model->date_time, $model->type, $model->dod_id)) {
             throw new HttpException('404', 'Такой страницы не существует');
          }
 
