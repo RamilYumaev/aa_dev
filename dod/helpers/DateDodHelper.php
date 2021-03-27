@@ -21,12 +21,12 @@ class DateDodHelper
     public static function listTypes(): array
     {
         return [
-            self::TYPE_INTRAMURAL =>'очный тип',
-            self::TYPE_INTRAMURAL_LIVE_BROADCAST =>'очный тип с прямой трансляцией',
+            self::TYPE_INTRAMURAL =>'очная',
+            self::TYPE_INTRAMURAL_LIVE_BROADCAST =>'очная с прямой трансляцией',
             self::TYPE_WEB => 'вебинар',
-            self::TYPE_REMOTE => 'дистанционный тип',
-            self::TYPE_HYBRID =>'очный и/или дистанционный',
-            self::TYPE_REMOTE_EDU => 'дистанционный для учебных организаций'
+            self::TYPE_REMOTE => 'дистанционная',
+            self::TYPE_HYBRID =>'очная и/или дистанционная',
+            self::TYPE_REMOTE_EDU => 'дистанционная для учебных организаций'
         ];
     }
 
