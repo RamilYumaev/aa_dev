@@ -140,9 +140,4 @@ class DateDod extends ActiveRecord
     {
         return new DateDodQuery(static::class);
     }
-
-
-
-
-
 }
