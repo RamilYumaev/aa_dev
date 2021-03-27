@@ -47,6 +47,12 @@ use dod\models\DateDod;
                         } return "";
                     },
                 ],
+                ['format'=> "raw",
+                    'value' => function (DateDod $model) {
+                            return Html::a("Участники",
+                                ['dod/user-dod/index', 'id' => $model->id], ['class'=>'btn btn-info']);
+                    },
+                ],
                 ['class' => \yii\grid\ActionColumn::class,
                     'controller' => '/dod/date-dod',
                     'template' => '{update} {delete}',
