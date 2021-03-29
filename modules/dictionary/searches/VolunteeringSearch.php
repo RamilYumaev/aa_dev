@@ -47,7 +47,7 @@ class VolunteeringSearch extends  Model
             'experience' => $this->experience,
             'clothes_type' => $this->clothes_type,
             'clothes_size' => $this->clothes_size,
-            'form_edu,' => $this->form_edu,
+            'form_edu' => $this->form_edu,
         ]);
 
 
