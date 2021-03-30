@@ -14,13 +14,12 @@ class UserCgHelper
 {
     public static function link($id, $financingTypeId,  $cathedra_id = null)
     {
-
         return self::getLinkBase(
             self::findUserCg($id) ? "glyphicon-minus" : "glyphicon-plus",
             $id,
             self::findUserCg($id) ? "/abiturient/applications/remove-cg"
                 : "/abiturient/applications/save-cg",
-            self::buttonName($financingTypeId),  $cathedra_id );
+            self::buttonName($financingTypeId),  $cathedra_id);
     }
 
 

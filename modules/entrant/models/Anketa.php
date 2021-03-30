@@ -176,7 +176,6 @@ class Anketa extends ActiveRecord
 
     public function getPermittedEducationLevels(): array
     {
-
         $result = [];
         if (in_array($this->current_edu_level, array_merge(
                 AnketaHelper::SPO_LEVEL,
@@ -207,7 +206,7 @@ class Anketa extends ActiveRecord
             return $level;
         }
 
-        return array_uintersect($result, self::existsLevel($this->university_choice), "strcasecmp");
+        return  $result;
     }
 
     public static function existsLevel($universityLevel)
@@ -250,7 +249,6 @@ class Anketa extends ActiveRecord
         return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>2])->exists();
     }
 
-
     public function onlyCse()
     {
         $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
@@ -259,7 +257,6 @@ class Anketa extends ActiveRecord
             && !($this->edu_finish_year == date("Y")
                 && $this->is_foreigner_edu_organization); // Если обычный Российкий выпускник школы
         // и не квотник
-
 
         $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
                 in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
