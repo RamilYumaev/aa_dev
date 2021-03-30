@@ -10,13 +10,16 @@ class DictCseSubjectForm extends Model
     public $name, $min_mark, $composite_discipline_status, $cse_status, $ais_id;
 
     private $_dictCseSubject;
+    private $model;
 
-    public function __construct(DictCseSubject $dictCseSubject = null, $config = [])
+    public function __construct(DictCseSubject $dictCseSubject = null, $model = DictCseSubject::class,  $config = [])
     {
         if($dictCseSubject){
             $this->setAttributes($dictCseSubject->getAttributes(), false);
             $this->_dictCseSubject = $dictCseSubject;
         }
+
+        $this->model = $model;
         parent::__construct($config);
     }
 
@@ -43,11 +46,11 @@ class DictCseSubjectForm extends Model
     {
         if ($this->_dictCseSubject) {
             return [
-                [['name', 'ais_id'], 'unique', 'targetClass' => DictCseSubject::class,
+                [['name', 'ais_id'], 'unique', 'targetClass' => $this->model,
                     'filter' => ['<>', 'id', $this->_dictCseSubject->id]],
             ];
         }
-        return [[['name', 'ais_id'], 'unique', 'targetClass' => DictCseSubject::class,]];
+        return [[['name', 'ais_id'], 'unique', 'targetClass' => $this->model]];
     }
 
     /**
