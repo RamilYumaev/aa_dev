@@ -62,7 +62,6 @@ class CategoryStruct
     public static function datasetQualifier($foreignerStatus, $educationLevel, $universityChoice)
     {
         if ($foreignerStatus) {
-
             return JsonAjaxField::data(self::foreignerGroup(), self::labelLists());
         } elseif ($educationLevel == AnketaHelper::SCHOOL_TYPE_SCHOOL_9
             || $educationLevel == AnketaHelper::SCHOOL_TYPE_PHD

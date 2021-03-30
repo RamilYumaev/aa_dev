@@ -5,6 +5,8 @@ namespace dictionary\helpers;
 
 
 use dictionary\models\Faculty;
+use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\models\Anketa;
 use yii\helpers\ArrayHelper;
 
 class DictFacultyHelper
@@ -41,5 +43,11 @@ class DictFacultyHelper
         return ArrayHelper::getValue(self::facultyList(), $id);
     }
 
-
+    public static function facultyListSetting(): array
+    {
+        return [AnketaHelper::HEAD_UNIVERSITY => "В головной вуз МПГУ"] +
+            Faculty::find()->andWhere(['id'=> self::FACULTY_FILIAL])
+                ->orWhere(['id'=> self::COLLAGE])->indexBy('id')
+                ->select('full_name')->column();
+    }
 }
