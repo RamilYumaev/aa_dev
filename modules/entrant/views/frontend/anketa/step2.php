@@ -1,6 +1,5 @@
 <?php
 
-use dictionary\models\DictDiscipline;
 use \modules\entrant\helpers\AnketaHelper;
 use \yii\helpers\Html;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
@@ -13,8 +12,8 @@ use \modules\entrant\helpers\CseSubjectHelper;
 $this->title = "Выбор уровня образования";
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1/']];
 $this->params['breadcrumbs'][] = $this->title;
-$userId = Yii::$app->user->identity->getId();
-$anketa = Yii::$app->user->identity->anketa();
+
+$userId = $anketa->user_id;
 $onlyCse = $anketa->onlyCse();
 
 ?>
@@ -39,7 +38,6 @@ $onlyCse = $anketa->onlyCse();
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                     <hr>
                         <?php
-
                         if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $onlyCse) {
                             $cseButton = Html::a("Мои результаты ЕГЭ", "/abiturient/default/cse",
                                 ["class" => "btn btn-bd-primary"]);
@@ -54,7 +52,6 @@ $onlyCse = $anketa->onlyCse();
                         } else {
                             echo "<div>".AnketaHelper::determinateRequiredNumberOfButtons($level)."</div>";
                         }
-
                         ?>
                 </div>
             </div>

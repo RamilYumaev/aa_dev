@@ -35,6 +35,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->currentAutoYear();
     }
 
+    public function allActualFaculty($eduLevel, $form)
+    {
+        return $this
+            ->eduLevel($eduLevel)
+            ->select('faculty_id')
+            ->formEdu($form)
+           // ->currentAutoYear()
+            ->column();
+    }
+
     public function allowDeadLineEducationForm($spo)
     {
         if($spo && (\Yii::$app->user->identity->setting())->allowSpoContractMoscow()) {

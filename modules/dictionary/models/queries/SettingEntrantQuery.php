@@ -37,10 +37,20 @@ class SettingEntrantQuery extends ActiveQuery
     }
 
     public function dateEnd() {
-        return $this->andWhere(['<', 'datetime_end',  date("Y-m-d H:i:s")]);
+        return $this->andWhere(['>', 'datetime_end',  date("Y-m-d H:i:s")]);
     }
 
-    public function existsOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type, $isVi): boolean
+    public function eduLevelOpen($eduLevel): bool
+    {
+        return $this->eduLevel($eduLevel)->dateEnd()->exists();
+    }
+
+    public function groupData($eduLevel, $select): array
+    {
+        return $this->select($select)->eduLevel($eduLevel)->dateEnd()->groupBy($select)->column();
+    }
+
+    public function existsOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type, $isVi): bool
     {
         $keyFaculty = key_exists($dictCompetitiveGroup->faculty_id, DictFacultyHelper::facultyListSetting()) ?
                 $dictCompetitiveGroup->faculty_id : AnketaHelper::HEAD_UNIVERSITY;

@@ -32,10 +32,12 @@ class AnketaController extends Controller
 
     public function behaviors()
     {
-        return [[
-            'class'=> AnketaRedirectBehavior::class,
-            'ids'=>['step1' ]]
-               ];
+        return [
+                [
+                'class'=> AnketaRedirectBehavior::class,
+                'ids'=>['step1' ]
+                ]
+            ];
     }
 
     public function actionStep1()
@@ -84,32 +86,24 @@ class AnketaController extends Controller
 
     public function actionStep2()
     {
-
         if ($this->anketa === null) {
             return $this->redirect(['step1']);
         }
-
-
         return $this->render("step2", ['anketa' => $this->anketa]);
-
-
     }
 
     public function actionChoiceEducationLevel()
     {
-
         $anketa = $this->findModelByUser();
         if (!$anketa) {
             $this->redirect("index");
         }
     }
 
-
     public function actionGetCategory($foreignerStatus, $educationLevel, $universityChoice)
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;
        // return ['result' => $this->service->category($foreignerStatus)];
-
         return ['result'=> CategoryStruct::datasetQualifier($foreignerStatus, $educationLevel, $universityChoice)];
     }
 
@@ -117,10 +111,7 @@ class AnketaController extends Controller
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;
         return ['result'=> AnketaHelper::educationLevelChoice($universityId)];
-
     }
-
-
     /**
      * @param $id
      * @return Anketa
@@ -140,7 +131,6 @@ class AnketaController extends Controller
             return $this->redirect('default/index');
         }
         return Anketa::findOne(['user_id' => $this->getUserId()]);
-
     }
 
     private function getUserId()

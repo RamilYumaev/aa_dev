@@ -24,7 +24,6 @@ class AnketaHelper
     const SCHOOL_TYPE_NPO = 9;
     const SCHOOL_TYPE_SCHOOL_9 = 10;
 
-
     const SPO_LEVEL = [
         self::SCHOOL_TYPE_SCHOOL_9,
         self::SCHOOL_TYPE_NPO,
@@ -108,8 +107,6 @@ class AnketaHelper
 
     public static function currentEducationLevel()
     {
-
-
         return [
             self::SCHOOL_TYPE_SCHOOL_9 => 'Основное общее образование (Аттестат за 9 классов)',
             self::SCHOOL_TYPE_SCHOOL => 'Среднее общее образование (Аттестат за 11 классов)',
