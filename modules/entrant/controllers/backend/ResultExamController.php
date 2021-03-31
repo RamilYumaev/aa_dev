@@ -97,6 +97,21 @@ class ResultExamController extends Controller
         return $render;
     }
 
+    /**
+     * @param $cg
+     * @param $attempt
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionViewR($cg, $attempt)
+    {
+        $this->findModel($cg);
+        $model = $this->findModelAttempt($attempt);
+        return $this->renderPartial('view_pdf', ['attempt' => $model, 'jobEntrant'=> $this->jobEntrant]);
+    }
+
 
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
