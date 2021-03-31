@@ -109,7 +109,7 @@ class ResultExamController extends Controller
     {
         $this->findModel($cg);
         $model = $this->findModelAttempt($attempt);
-        return $this->renderPartial('view_pdf', ['attempt' => $model, 'jobEntrant'=> $this->jobEntrant]);
+        return $this->renderAjax('view_pdf', ['attempt' => $model, 'jobEntrant'=> $this->jobEntrant]);
     }
 
 
