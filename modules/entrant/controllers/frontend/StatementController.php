@@ -83,6 +83,15 @@ class StatementController extends Controller
         return $render;
     }
 
+    public function actionPdfR($id)
+    {
+        $statement = $this->findModel($id);
+
+        $content = $this->renderPartial('pdf/_main', ["statement" => $statement ]);
+
+        return $content;
+    }
+
 
 
     /**

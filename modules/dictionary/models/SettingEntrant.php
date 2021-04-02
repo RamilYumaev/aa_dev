@@ -20,6 +20,8 @@ use yii\db\ActiveRecord;
  * @property integer $form_edu
  * @property integer $finance_edu
  * @property boolean $is_vi
+ * @property boolean $foreign_status
+ * @property boolean $tpgu_status
  * @property integer $special_right
  * @property string $datetime_start
  * @property string $note
@@ -52,6 +54,8 @@ class SettingEntrant extends ActiveRecord
         $this->datetime_start = $form->datetime_start;
         $this->datetime_end = $form->datetime_end;
         $this->edu_level = $form->edu_level;
+        $this->foreign_status = $form->foreign_status;
+        $this->tpgu_status = $form->tpgu_status;
     }
 
     public function getTypeList(): array
@@ -102,6 +106,8 @@ class SettingEntrant extends ActiveRecord
             'datetime_start'  => "Дата начала",
             'datetime_end'  => "Дата завершения",
             'note' => "Описание",
+            'tpgu_status' => "Только для ТПГУ",
+            'foreign_status' => 'Только для УМС'
         ];
     }
     public static function find(): SettingEntrantQuery

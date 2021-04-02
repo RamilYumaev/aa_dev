@@ -28,6 +28,9 @@ class DictFacultyHelper
     const FACULTY_FILIAL = [self::ANAPA_BRANCH, self::POKROV_BRANCH, self::STAVROPOL_BRANCH,
         self::SERGIEV_POSAD_BRANCH, self::DERBENT_BRANCH];
 
+    const FACULTY_NO_IN_UNI = [self::ANAPA_BRANCH, self::POKROV_BRANCH, self::STAVROPOL_BRANCH,
+        self::SERGIEV_POSAD_BRANCH, self::DERBENT_BRANCH, self::COLLAGE];
+
     public static function facultyList(): array
     {
         return Faculty::find()->select(['full_name','id'])->indexBy('id')->column();
@@ -49,5 +52,10 @@ class DictFacultyHelper
             Faculty::find()->andWhere(['id'=> self::FACULTY_FILIAL])
                 ->orWhere(['id'=> self::COLLAGE])->indexBy('id')
                 ->select('full_name')->column();
+    }
+
+    public static function getKeyFacultySetting($faculty_id) {
+        return key_exists($faculty_id, self::facultyListSetting()) ?
+            $faculty_id : AnketaHelper::HEAD_UNIVERSITY;
     }
 }

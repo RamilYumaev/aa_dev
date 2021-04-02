@@ -66,5 +66,4 @@ class AnketaRedirectBehavior  extends Behavior
     private function userWhere() {
         return ['user_id' => Yii::$app->user->identity->getId()];
     }
-
 }

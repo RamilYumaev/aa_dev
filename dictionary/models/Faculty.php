@@ -4,6 +4,8 @@ namespace dictionary\models;
 
 use dictionary\forms\FacultyCreateForm;
 use dictionary\forms\FacultyEditForm;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\queries\FacultyQuery;
 
 class Faculty extends \yii\db\ActiveRecord
 {
@@ -69,8 +71,16 @@ class Faculty extends \yii\db\ActiveRecord
         {
             return $model->id;
         }
-
         throw new \DomainException("Факультет не найден ".$key);
     }
 
+    public function getCg()
+    {
+        return $this->hasMany(DictCompetitiveGroup::class,['faculty_id' => 'id']);
+    }
+
+    public static function find(): FacultyQuery
+    {
+        return new FacultyQuery(static::class);
+    }
 }

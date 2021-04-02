@@ -8,6 +8,7 @@ use common\transactions\TransactionManager;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\CathedraCgRepository;
@@ -40,7 +41,12 @@ class ApplicationsService
         $this->cathedraCgRepository = $cathedraCgRepository;
     }
 
-    public function saveCg(DictCompetitiveGroup $cg, $cathedra_id, $anketa){
+    public function saveCg($id, $cathedra_id, $anketa) {
+        $cg = $this->repositoryCg->get($id);
+        if(!SettingEntrant::find()->isOpenZUK($cg))
+        {
+            throw new \DomainException("Прием документов на данную образовательную программу окончен!");
+        }
         DictCompetitiveGroupHelper::oneProgramGovLineChecker($cg);
         DictCompetitiveGroupHelper::noMore3Specialty($cg);
         DictCompetitiveGroupHelper::isAvailableCg($cg);
@@ -92,9 +98,11 @@ class ApplicationsService
                 }
             }
         });
+        return  $cg;
     }
 
-    public function removeCg(DictCompetitiveGroup $cg) {
+    public function removeCg($id) {
+        $cg = $this->repositoryCg->get($id);
         $this->transactionManager->wrap(function() use ($cg) {
             $userCg = $this->repository->get($cg->id);
             $statementCg = $this->statementCgRepository->getUserStatement($userCg->cg_id, $userCg->user_id);
@@ -116,6 +124,7 @@ class ApplicationsService
             }
             $this->repository->remove($userCg);
         });
+        return $cg;
     }
 
 

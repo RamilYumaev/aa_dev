@@ -13,10 +13,12 @@ use modules\entrant\helpers\PreemptiveRightHelper;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
 
-$cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
-    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);
-$noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
-    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
+$cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 1);
+$cseVi = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 2);
+$noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 3);
 $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
@@ -50,6 +52,13 @@ $och = false;
 <?php if($cse): ?>
     <p>
         Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
+    </p>
+<?php endif; ?>
+<?php if ($cseVi): ?>
+    <p>
+        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
+            "":
+            "Прошу засчитать в качестве балла по предметам ". $cseVi ." наивысший результат по всупительному испытанию или результату ЕГЭ"?>
     </p>
 <?php endif; ?>
 <?php if($noCse): ?>

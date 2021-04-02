@@ -80,13 +80,9 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId]); ?>
     </div>
-    <div class="mt-20 table-responsive">
-        <?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(['userId' => $userId]); ?>
-    </div>
-    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId)
-        && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists($userId) && !$anketa->isTpgu()): ?>
+    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
         <div class="mt-20 table-responsive">
-            <?= \modules\entrant\widgets\examinations\ExaminationsIndexWidget::widget(['userId' => $userId]); ?>
+            <?= \modules\entrant\widgets\discipline\UserDisciplineWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>
         </div>
     <?php endif; ?>
     <div class="mt-20 table-responsive">

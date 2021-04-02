@@ -11,6 +11,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
@@ -87,8 +88,7 @@ foreach ($currentFaculty as $faculty) {
                 . $currentCg->id .
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
-
-            $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
+            $result .= $budgetAnalog["status"] && !$contractOnly ?  UserCgHelper::link(
                     $budgetAnalog["cgBudgetId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
                 . UserCgHelper::link(

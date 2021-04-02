@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
@@ -46,6 +47,10 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
+
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
 
             $trColor = UserCgHelper::specialColor($currentCg->id);
             $result .= "<tr" . $trColor . ">";

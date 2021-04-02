@@ -149,7 +149,7 @@ class AnketaHelper
         return Anketa::findOne(['user_id' => $userId])->dataArray();
     }
 
-    public static function getButton($level, $specialRight = null)
+    public static function getButton($level, $department, $specialRight = null)
     {
         $govLineStatus = false;
         $tpguStatus = false;
@@ -159,22 +159,20 @@ class AnketaHelper
         if((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::TPGU_PROJECT){
             $tpguStatus =true;
         }
-
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
             $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $anchor = "Особая квота";
-
         } else {
             $anchor = "Общий конкурс";
         }
 
         return Html::a($anchor, ["applications/"
-            . DictCompetitiveGroupHelper::getUrl($level, $specialRight, $govLineStatus, $tpguStatus)],
+            . DictCompetitiveGroupHelper::getUrlString($level, $specialRight, $govLineStatus, $tpguStatus), 'department'=> $department],
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
-    public static function determinateRequiredNumberOfButtons($level)
+    public static function determinateRequiredNumberOfButtons($level, $department)
     {
         $buttonArray = [];
         $anketa = \Yii::$app->user->identity->anketa();
@@ -202,11 +200,11 @@ class AnketaHelper
         $result = "";
         if (count($buttonArray)) {
             foreach ($buttonArray as $button) {
-                $result .= self::getButton($level, $button) . "<br/>";
+                $result .= self::getButton($level, $department, $button) . "<br/>";
             }
         }
 
-        $result .= self::getButton($level);
+        $result .= self::getButton($level, $department);
 
         return $result;
 
@@ -229,6 +227,4 @@ class AnketaHelper
                 throw new \DomainException("Неправильно определен уровень образования");
         }
     }
-
-
 }

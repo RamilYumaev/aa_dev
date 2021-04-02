@@ -16,10 +16,12 @@ use \modules\entrant\models\OtherDocument;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right, $statement->columnIdCg());
 
-$cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
-    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);
-$noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
-    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
+$cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 1);
+$cseVi = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 2);
+$noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 3);
 $noCseSuccess = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
 $language = LanguageHelper::all($statement->user_id);
@@ -84,14 +86,25 @@ $och = false;
     <?php endforeach; ?>
     </tbody>
 </table>
+
+
 <?php if ($cse): ?>
     <p>
-       <?=($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
+       <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
        "Прошу допустить меня к вступительным испытаниям по следующим предметам:":
            "Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ:"?>  <?= $cse ?>
     </p>
 <?php else :?>
 
+<?php endif; ?>
+
+<?php if ($cseVi): ?>
+    <p>
+        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
+            "":
+            "Прошу засчитать в качестве балла по предметам ". $cseVi ." наивысший результат по всупительному испытанию или результату ЕГЭ"?>
+    </p>
+<?php else :?>
 <?php endif; ?>
 <?php if ($noCse): ?>
     <p>

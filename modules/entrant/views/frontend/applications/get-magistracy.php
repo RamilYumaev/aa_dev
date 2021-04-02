@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
 use yii\widgets\Pjax;
@@ -48,7 +49,9 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-            if($currentCg->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
             $trColor = UserCgHelper::trColor($currentCg);
             $result .= "<tr" . $trColor . ">";
@@ -82,7 +85,9 @@ foreach ($currentFaculty as $faculty) {
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
-            $result .= $budgetAnalog["status"] && !$contractOnly ?
+            $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
+                $budgetAnalog["cgBudgetId"],
+                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET).
                 UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
@@ -110,7 +115,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
                 ['target=> "_blank"']) : "";
             $result .= "</td>";
             $result .= "</tr>";
-            }
         }
     } else {
         continue;

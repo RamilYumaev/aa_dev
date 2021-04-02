@@ -3,13 +3,16 @@
 namespace common\auth;
 
 use common\auth\models\User;
+use dictionary\models\CompositeDiscipline;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\dictionary\forms\JobEntrantForm;
 use modules\dictionary\models\JobEntrant;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\Settings;
+use modules\entrant\helpers\UserDisciplineHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
 use olympic\readRepositories\UserOlympicReadRepository;
@@ -120,21 +123,8 @@ class Identity implements IdentityInterface
             ->andWhere(['in', 'discipline_id', $userSubjectArray])
             ->priorityThree()
             ->column();
-
-
         $array1 = array_uintersect(array_values($cgArrayPriority3), array_values($cgArrayPriority2), "strcasecmp");
-
         return array_uintersect(array_values($cgArrayPriority1), $array1, "strcasecmp");
-
-    }
-
-    public function filtrationCgByCse()
-    {
-        $userId = $this->getId();
-        $userArray = DictDiscipline::cseToDisciplineConverter(CseSubjectHelper::userSubjects($userId));
-        $finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
-        $filteredCg = $this->cseFilterCg($finalUserArrayCse);
-        return $filteredCg;
     }
 
     public function filtrationFacultyByCse()
@@ -143,11 +133,32 @@ class Identity implements IdentityInterface
         return $this->cseFilterFaculty($filteredCg);
     }
 
+    public function filtrationCgByCse()
+    {
+        $userId = $this->getId();
+        $userDisciplines = UserDisciplineHelper::allCtCse($userId);
+        $disciplines = DictDiscipline::find()
+            ->andWhere(['in','id', $userDisciplines])
+            ->orWhere(['in','id',
+                CompositeDiscipline::find()
+                    ->andWhere(['in', 'discipline_select_id', $userDisciplines])
+                    ->select('discipline_id')->groupBy('discipline_id')
+                    ->column()])
+            ->orWhere(['dvi'=> true])
+            ->orWhere(['is_och' => true])
+            ->column();
+        $filteredCg = $this->cseFilterCg($disciplines);
+        return $filteredCg;
+    }
+
     public function cseFilterFaculty($filteredCg)
     {
+        $array = array_filter($filteredCg, function($v, $k) {
+            return SettingEntrant::find()->isOpenZUK(DictCompetitiveGroup::findOne($v));
+        }, ARRAY_FILTER_USE_BOTH);
         $arrayModel = DictCompetitiveGroup::find()
             ->select("faculty_id")
-            ->andWhere(['in', 'id', $filteredCg])
+            ->andWhere(['in', 'id', $array])
             ->currentAutoYear()
             ->column();
 

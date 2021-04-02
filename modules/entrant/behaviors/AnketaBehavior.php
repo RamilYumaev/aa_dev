@@ -16,6 +16,7 @@ use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\SubmittedDocuments;
+use modules\entrant\models\UserDiscipline;
 use modules\entrant\models\UserIndividualAchievements;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
@@ -85,14 +86,11 @@ class AnketaBehavior extends Behavior
                 OtherDocument::deleteAll($this->userWhere());
             }
         }
-        if ($this->userCseResultExist() && !$this->checkUpdate()) {
-            CseSubjectResult::deleteAll($this->userWhere());
-        }
         if ($this->userCgExists() && !$this->checkUpdate()) {
             UserCg::deleteAll($this->userWhere());
         }
-        if ($this->userViExist() && !$this->checkUpdate()) {
-            CseViSelect::deleteAll($this->userWhere());
+        if ($this->userDiscipline() && !$this->checkUpdate()) {
+            UserDiscipline::deleteAll($this->userWhere());
         }
         if ($this->userSubmittedExists() && !$this->checkUpdate()) {
             SubmittedDocuments::deleteAll($this->userWhere());
@@ -110,14 +108,9 @@ class AnketaBehavior extends Behavior
         return UserCg::find()->findUser()->exists();
     }
 
-    private function userCseResultExist()
+    private function userDiscipline()
     {
-        return CseSubjectResult::find()->where($this->userWhere())->exists();
-    }
-
-    private function userViExist()
-    {
-        return CseViSelect::find()->where($this->userWhere())->exists();
+        return UserDiscipline::find()->where($this->userWhere())->exists();
     }
 
     private function userAgreement()

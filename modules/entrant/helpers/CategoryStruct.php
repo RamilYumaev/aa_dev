@@ -72,7 +72,6 @@ class CategoryStruct
             return JsonAjaxField::data(self::CPKGroup(), self::labelLists());
         } elseif ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             return JsonAjaxField::data([self::GENERAL_COMPETITION, self::TARGET_COMPETITION], self::labelLists());
-
         }
         return JsonAjaxField::data([self::GENERAL_COMPETITION], self::labelLists());
 

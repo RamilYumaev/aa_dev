@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute'=>'finance_edu', 'filter' => DictCompetitiveGroupHelper::listFinances(), 'value'=>'financeEdu'],
                     ['attribute'=>'type', 'filter'=> (new \modules\dictionary\models\SettingEntrant())->getTypeList(), 'value'=>'typeName'],
                     ['attribute'=>'is_vi', 'filter'=> ['Нет', 'Да'], 'value'=> 'is_vi', 'format' => 'boolean'],
+                    ['attribute'=>'foreign_status', 'filter'=> ['Нет', 'Да'], 'value'=> 'foreign_status', 'format' => 'boolean'],
+                    ['attribute'=>'tpgu_status', 'filter'=> ['Нет', 'Да'], 'value'=> 'tpgu_status', 'format' => 'boolean'],
                     'datetime_start:datetime',
                     'datetime_end:datetime',
                     ['class' => ActionColumn::class,

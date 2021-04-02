@@ -6,6 +6,7 @@
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\UserCgHelper;
 use yii\helpers\Html;
 use yii\web\View;
@@ -43,6 +44,9 @@ foreach ($currentFaculty as $faculty) {
 </tr>";
 
         foreach ($cgFaculty as $currentCg) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
 
             $trColor = UserCgHelper::trColor($currentCg);
             $result .= "<tr" . $trColor . ">";

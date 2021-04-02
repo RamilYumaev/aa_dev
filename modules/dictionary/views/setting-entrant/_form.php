@@ -9,8 +9,16 @@ use yii\helpers\Html;
 <div class="box">
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-job-entrant']); ?>
-        <?= $form->field($model, 'datetime_start')->widget(\kartik\datetime\DateTimePicker::class); ?>
-        <?= $form->field($model, 'datetime_end')->widget(\kartik\datetime\DateTimePicker::class); ?>
+        <?= $form->field($model, 'datetime_start')->widget(\kartik\datetime\DateTimePicker::class,
+            ['pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd hh:ii:00'
+        ]]); ?>
+        <?= $form->field($model, 'datetime_end')->widget(\kartik\datetime\DateTimePicker::class,
+            ['pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd hh:ii:00'
+            ]]); ?>
         <?= $form->field($model, 'faculty_id')->dropDownList(\dictionary\helpers\DictFacultyHelper::facultyListSetting())?>
         <?= $form->field($model, 'edu_level')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduLevelsAbbreviated())?>
         <?= $form->field($model, 'form_edu')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduForms()) ?>
@@ -19,6 +27,8 @@ use yii\helpers\Html;
         <?= $form->field($model, 'type')->dropDownList((new \modules\dictionary\models\SettingEntrant())->getTypeList()) ?>
         <?= $form->field($model, 'note')->textarea() ?>
         <?= $form->field($model, 'is_vi')->checkbox() ?>
+        <?= $form->field($model, 'foreign_status')->checkbox() ?>
+        <?= $form->field($model, 'tpgu_status')->checkbox() ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

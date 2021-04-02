@@ -1,9 +1,6 @@
 <?php
 
-
 namespace dictionary\models\queries;
-
-
 use dictionary\models\DictClass;
 
 class DictClassQuery extends \yii\db\ActiveQuery

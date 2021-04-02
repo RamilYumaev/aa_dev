@@ -3,6 +3,7 @@ namespace modules\dictionary\models\queries;
 
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AnketaHelper;
 use yii\db\ActiveQuery;
 
@@ -36,31 +37,72 @@ class SettingEntrantQuery extends ActiveQuery
         return $this->andWhere(['is_vi' => $isVi]);
     }
 
+    public function dateStart() {
+        return $this->andWhere(['<', 'datetime_start',  date("Y-m-d H:i:s")]);
+    }
+
     public function dateEnd() {
         return $this->andWhere(['>', 'datetime_end',  date("Y-m-d H:i:s")]);
     }
 
+    public function tpgu($isStatus) {
+        return $this->andWhere(['tpgu_status' => $isStatus]);
+    }
+
+    public function foreign($isStatus) {
+        return $this->andWhere(['foreign_status' => $isStatus]);
+    }
+
     public function eduLevelOpen($eduLevel): bool
     {
-        return $this->eduLevel($eduLevel)->dateEnd()->exists();
+        return $this->eduLevel($eduLevel)->dateStart()->dateEnd()->exists();
     }
 
     public function groupData($eduLevel, $select): array
     {
-        return $this->select($select)->eduLevel($eduLevel)->dateEnd()->groupBy($select)->column();
+        return $this->select($select)->eduLevel($eduLevel)->dateStart()->dateEnd()->groupBy($select)->column();
     }
 
-    public function existsOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type, $isVi): bool
+    public function existsOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type): bool
     {
-        $keyFaculty = key_exists($dictCompetitiveGroup->faculty_id, DictFacultyHelper::facultyListSetting()) ?
-                $dictCompetitiveGroup->faculty_id : AnketaHelper::HEAD_UNIVERSITY;
+        $keyFaculty = DictFacultyHelper::getKeyFacultySetting($dictCompetitiveGroup->faculty_id);
         return $this->faculty($keyFaculty)
             ->type($type)
             ->eduLevel($dictCompetitiveGroup->edu_level)
             ->eduForm($dictCompetitiveGroup->education_form_id)
             ->eduFinance($dictCompetitiveGroup->financing_type_id)
+            ->foreign($dictCompetitiveGroup->foreigner_status)
+            ->tpgu($dictCompetitiveGroup->tpgu_status)
             ->specialRight($dictCompetitiveGroup->special_right_id)
-            ->isVi($isVi)
-            ->dateEnd()->exists();
+            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->dateStart()
+            ->dateEnd()
+            ->exists();
+    }
+
+    public function existsFormEduOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type): bool
+    {
+        $keyFaculty = DictFacultyHelper::getKeyFacultySetting($dictCompetitiveGroup->faculty_id);
+        return $this->faculty($keyFaculty)
+            ->type($type)
+            ->eduLevel($dictCompetitiveGroup->edu_level)
+            ->eduForm($dictCompetitiveGroup->education_form_id)
+            ->eduFinance($dictCompetitiveGroup->financing_type_id)
+            ->foreign($dictCompetitiveGroup->foreigner_status)
+            ->tpgu($dictCompetitiveGroup->tpgu_status)
+            ->specialRight($dictCompetitiveGroup->special_right_id)
+            ->dateStart()
+            ->dateEnd()
+            ->exists();
+    }
+
+    public function isOpenFormZUK(DictCompetitiveGroup $dictCompetitiveGroup)
+    {
+        return $this->existsFormEduOpen($dictCompetitiveGroup, SettingEntrant::ZUK);
+    }
+
+    public function isOpenZUK(DictCompetitiveGroup $dictCompetitiveGroup)
+    {
+        return $this->existsOpen($dictCompetitiveGroup, SettingEntrant::ZUK);
     }
 }

@@ -72,6 +72,4 @@ class DictClass extends ActiveRecord
     {
         return new DictClassQuery(static::class);
     }
-
-
 }

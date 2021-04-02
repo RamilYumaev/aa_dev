@@ -11,6 +11,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CseSubjectHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
@@ -27,29 +28,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образ
 $this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
-//$userId = \Yii::$app->user->identity->getId();
-//
-//$userArray = DictDiscipline::cseToDisciplineConverter(
-//    CseSubjectHelper::userSubjects($userId));
-//
-//$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
-//
-//$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
-//
-//$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
-
-
 $filteredCg = \Yii::$app->user->identity->filtrationCgByCse();
 $filteredFaculty = \Yii::$app->user->identity->filtrationFacultyByCse();
 $anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-
 $setting = \Yii::$app->user->identity->setting();
-
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
-
     if (!in_array($faculty, $filteredFaculty) && $anketa->onlyCse()) {
         continue;
     }
@@ -82,17 +68,10 @@ $cgFaculty = $cgFacultyBase->all();
         $result .= "</tr>";
 
         foreach ($cgFaculty as $currentCg) {
-
-            if (!$setting->allowCgCseContractMoscow($currentCg)) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
                 continue;
             }
-
-            if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
-                continue;
-            }
-
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
-
             $trColor = UserCgHelper::trColor($currentCg);
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
@@ -122,11 +101,22 @@ $cgFaculty = $cgFacultyBase->all();
                 $result .= "<td>";
                 $result .= "<ol>";
                 foreach ($currentCg->examinations as $examination) {
-
+                    if($examination->discipline->composite_discipline) {
+                        $exams = $examination->discipline->getComposite();
+                        $count = $exams->count();
+                        $result .= "<li>";
+                        foreach($exams->all() as $index => $exam)
+                        {   ++$index;
+                            $result .= Html::a($exam->dictDisciplineSelect->name, $exam->dictDisciplineSelect->links, ['target' => '_blank']).($count == $index ? "" : "/");
+                        }
+                        $result .= "</li>";
+                    }
+                    else {
                     $result .= "<li>";
                     $result .= Html::a($examination->discipline->name, $examination->discipline->links,
                         ['target' => '_blank']);
                     $result .= "</li>";
+                    }
                 }
                 $result .= "</ol>";
                 $result .= "</td>";
@@ -136,7 +126,11 @@ $cgFaculty = $cgFacultyBase->all();
                 . $currentCg->id .
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
-            $result .= ($budgetAnalog["status"] && !$contractOnly) ?  UserCgHelper::link(
+            $result .= ($budgetAnalog["status"] && !$contractOnly) ?
+                UserCgHelper::link(
+                    $budgetAnalog["cgBudgetId"],
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET).
+                UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT) :
                 UserCgHelper::link(
