@@ -543,7 +543,8 @@ class DictCompetitiveGroupHelper
                 }
             }
             else {
-                if((!$value['cse_subject_id'] && !$value['composite_discipline']) || ($value['cse_subject_id'] && UserDiscipline::find()
+                if((!$value['cse_subject_id'] && !$value['composite_discipline']) ||
+                    ($value['cse_subject_id'] && UserDiscipline::find()
                     ->vi()
                     ->user($user_id)
                     ->discipline($value['id'])
@@ -569,12 +570,14 @@ class DictCompetitiveGroupHelper
 
     public static function getCompositeDiscipline($disciplineId, $userId)
     {
-        $models = CompositeDiscipline::find()->where(['discipline_id' => $disciplineId])->select('discipline_select_id')->column();
+        $models = CompositeDiscipline::find()->where(['discipline_id' => $disciplineId])
+            ->select('discipline_select_id')->column();
         $userDiscipline = UserDiscipline::find()
                    ->cseOrCt()
-                   ->user($userId)->discipline($models)->orderBy(['mark' => SORT_DESC])
+                   ->user($userId)->disciplineSelect($models)->orderBy(['mark' => SORT_DESC])
                    ->one();
-        return $userDiscipline ? $userDiscipline->dictDiscipline->name : "";
+        return $userDiscipline &&  !UserDiscipline::find()->discipline($disciplineId)
+            ->user($userId)->exists() ? $userDiscipline->dictDiscipline->name : "";
     }
 
 
