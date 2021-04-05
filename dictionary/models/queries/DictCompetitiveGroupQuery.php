@@ -207,6 +207,12 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('examinations');
     }
 
+    public function userCgAndExam($user_id, $disciplineId)
+    {
+        return $this->userCg($user_id)->examinations()->andWhere(['discipline_id'=>$disciplineId]);
+    }
+
+
     public function specialRightCel()
     {
         return $this->andWhere(

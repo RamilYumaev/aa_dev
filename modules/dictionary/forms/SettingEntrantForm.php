@@ -6,7 +6,7 @@ use yii\base\Model;
 class SettingEntrantForm extends Model
 {
     public $faculty_id, $is_vi, $note, $type, $form_edu, $special_right, $finance_edu, $datetime_start, $datetime_end,
-        $edu_level, $tpgu_status, $foreign_status;
+        $edu_level, $tpgu_status, $foreign_status, $cse_as_vi;
 
     public function __construct(SettingEntrant $settingEntrant = null, $config = [])
     {
@@ -26,7 +26,7 @@ class SettingEntrantForm extends Model
             [['faculty_id', 'form_edu', 'special_right', 'edu_level', 'type', 'finance_edu'], 'integer'],
             [['note'], 'string' ],
             [['datetime_start', 'datetime_end'], 'date', 'format' => 'yyyy-M-d H:m:s'],
-            [['is_vi', 'tpgu_status', 'foreign_status'],'boolean'],
+            [['is_vi', 'tpgu_status', 'foreign_status', 'cse_as_vi'],'boolean'],
         ];
     }
 

@@ -753,6 +753,14 @@ class DictCompetitiveGroupHelper
             ->exists();
     }
 
+    public static function getFormsFromUserAndDiscipline($userId, $disciplineId): array
+    {
+        return DictCompetitiveGroup::find()->userCgAndExam($userId, $disciplineId)
+            ->select('education_form_id')
+            ->indexBy('education_form_id')
+            ->column();
+    }
+
     public static function bachelorExistsUser($user_id)
     {
         return DictCompetitiveGroup::find()->userCg($user_id)

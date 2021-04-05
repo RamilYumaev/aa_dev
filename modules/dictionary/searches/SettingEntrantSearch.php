@@ -8,13 +8,13 @@ use yii\data\ActiveDataProvider;
 class SettingEntrantSearch extends Model
 {
     public  $faculty_id, $is_vi, $form_edu, $edu_level, $finance_edu, $type, $special_right,
-        $datetime_start, $datetime_end, $tpgu_status, $foreign_status;
+        $datetime_start, $datetime_end, $tpgu_status, $foreign_status, $cse_as_vi;
 
     public function rules()
     {
         return [
             [['form_edu', 'edu_level',
-                'is_vi','type', 'tpgu_status', 'foreign_status',
+                'is_vi','type', 'tpgu_status', 'foreign_status', 'cse_as_vi',
                 'finance_edu','faculty_id',], 'integer'],
             [['special_right', 'datetime_start', 'datetime_end'], 'safe'],
         ];
@@ -44,6 +44,7 @@ class SettingEntrantSearch extends Model
             'faculty_id' => $this->faculty_id,
             'tpgu_status' => $this->tpgu_status,
             'foreign_status' => $this->foreign_status,
+            'cse_as_vi' => $this->cse_as_vi,
             'is_vi' => $this->is_vi,
             'type' => $this->type,
             'form_edu,' => $this->form_edu,

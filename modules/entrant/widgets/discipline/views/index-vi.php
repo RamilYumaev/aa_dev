@@ -38,6 +38,7 @@ use yii\helpers\Html;
                     <td><?= $userDiscipline->year ?></td>
                     <td><?= $userDiscipline->mark ?></td>
                     <td><?= $userDiscipline->status_cse ?></td>
+                    <td><?= Html::a('Уточнение',['user-discipline/correction', 'discipline' => $key]) ?></td>
                 </tr>
                 <?php else: ?>
                 <tr  class="danger">
@@ -48,6 +49,7 @@ use yii\helpers\Html;
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td><?= Html::a('Уточнение',['user-discipline/correction', 'discipline' => $key]) ?></td>
                 </tr>
                 <?php endif; endforeach; ?>
             </table>

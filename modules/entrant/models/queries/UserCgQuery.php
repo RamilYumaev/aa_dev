@@ -17,6 +17,4 @@ class UserCgQuery extends ActiveQuery
     {
         return $this->andWhere(["user_id" => \Yii::$app->user->id]);
     }
-
-
 }

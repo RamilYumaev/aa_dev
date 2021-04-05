@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
  * @property boolean $is_vi
  * @property boolean $foreign_status
  * @property boolean $tpgu_status
+ * @property boolean $cse_as_vi
  * @property integer $special_right
  * @property string $datetime_start
  * @property string $note
@@ -56,6 +57,7 @@ class SettingEntrant extends ActiveRecord
         $this->edu_level = $form->edu_level;
         $this->foreign_status = $form->foreign_status;
         $this->tpgu_status = $form->tpgu_status;
+        $this->cse_as_vi = $form->cse_as_vi;
     }
 
     public function getTypeList(): array
@@ -107,7 +109,8 @@ class SettingEntrant extends ActiveRecord
             'datetime_end'  => "Дата завершения",
             'note' => "Описание",
             'tpgu_status' => "Только для ТПГУ",
-            'foreign_status' => 'Только для УМС'
+            'foreign_status' => 'Только для УМС',
+            'cse_as_vi' => 'ЕГЭ как ВИ',
         ];
     }
     public static function find(): SettingEntrantQuery
