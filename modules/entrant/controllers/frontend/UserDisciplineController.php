@@ -113,6 +113,29 @@ class UserDisciplineController extends Controller
         ]);
     }
 
+    public function actionCorrection($discipline) {
+        $config = ['user_id' => $this->getUserId()];
+        $exams = DictCompetitiveGroupHelper::groupByExams($this->getUserId());
+        if(!key_exists($discipline, $exams)) {
+            return $this->redirect('/abiturient/default');
+        }
+        $form = new UserDisciplineCseForm($this->modelDiscipline($discipline), $config);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->createOne($form);
+                return $this->redirect('/abiturient/default');
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('_form-cse-vi-ct', [
+            'model' => $form,
+            'nameExam' => $exams[$discipline],
+            'keyExam' => $discipline,
+        ]);
+    }
+
 
     /**
      * @param integer $id

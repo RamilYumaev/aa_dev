@@ -2,7 +2,10 @@
 namespace modules\entrant\services;
 
 
+use Cassandra\Set;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\repositories\DictDisciplineRepository;
+use modules\dictionary\models\SettingEntrant;
 use modules\dictionary\repositories\DictCseSubjectRepository;
 use modules\dictionary\repositories\DictCtSubjectRepository;
 use modules\entrant\forms\UserDisciplineCseForm;
@@ -46,6 +49,19 @@ class UserDisciplineService
         }
     }
 
+    public function createOne(UserDisciplineCseForm $form) {
+        if($form->type == UserDiscipline::VI) {
+            if(!$this->isOpenCseVi($form->user_id, $form->discipline_id)) {
+                throw new  \DomainException("Вы не можете выбрать тип ВИ, как так срок подачи истек");
+            }
+        }
+        if($id = $form->key) {
+            $this->edit($id, $form);
+        }else {
+            $this->create($form);
+        }
+    }
+
     public function edit($id, UserDisciplineCseForm $form)
     {
         $this->correctIdDiscipline($form);
@@ -67,6 +83,16 @@ class UserDisciplineService
         }
     }
 
+    private function isOpenCseVi($userId, $disciplineId) {
+        $eduForms = DictCompetitiveGroupHelper::getFormsFromUserAndDiscipline($userId, $disciplineId);
+        return SettingEntrant::find()->type(SettingEntrant::ZUK)->isCseAsVi(true)->eduForm($eduForms)->dateStart()->dateEnd()->exists();
+    }
+
+    /**
+     * @param $id
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function remove($id)
     {
         $model = $this->repository->get($id);

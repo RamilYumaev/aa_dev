@@ -37,6 +37,10 @@ class SettingEntrantQuery extends ActiveQuery
         return $this->andWhere(['is_vi' => $isVi]);
     }
 
+    public function isCseAsVi($isVi) {
+        return $this->andWhere(['cse_as_vi' => $isVi]);
+    }
+
     public function dateStart() {
         return $this->andWhere(['<', 'datetime_start',  date("Y-m-d H:i:s")]);
     }

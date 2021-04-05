@@ -62,7 +62,7 @@ class UserDisciplineCseForm extends Model
      */
     public function attributeLabels()
     {
-        return ['mark' => "Балл", 'discipline_id' => "Предмет", 'year' => 'Год'];
+        return (new UserDiscipline)->attributeLabels();
     }
 
     public function validateYear($attribute, $params)

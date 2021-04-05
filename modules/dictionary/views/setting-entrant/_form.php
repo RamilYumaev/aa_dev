@@ -27,6 +27,7 @@ use yii\helpers\Html;
         <?= $form->field($model, 'type')->dropDownList((new \modules\dictionary\models\SettingEntrant())->getTypeList()) ?>
         <?= $form->field($model, 'note')->textarea() ?>
         <?= $form->field($model, 'is_vi')->checkbox() ?>
+        <?= $form->field($model, 'cse_as_vi')->checkbox() ?>
         <?= $form->field($model, 'foreign_status')->checkbox() ?>
         <?= $form->field($model, 'tpgu_status')->checkbox() ?>
         <div class="form-group">
