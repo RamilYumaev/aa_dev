@@ -60,7 +60,6 @@ class Anketa extends ActiveRecord
         $this->current_edu_level = $form->current_edu_level;
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
-        $this->university_choice = $form->university_choice;
         $this->province_of_china = $form->province_of_china;
         $this->personal_student_number = $form->personal_student_number;
         if ($this->userSchool && !$this->userSchool->school->isRussia()) {
@@ -277,7 +276,6 @@ class Anketa extends ActiveRecord
 
     public function onlyContract($educationLevel)
     {
-
         $govLine = $this->category_id === CategoryStruct::GOV_LINE_COMPETITION;
 
         switch ($educationLevel) {
@@ -361,6 +359,12 @@ class Anketa extends ActiveRecord
     public function getUserSchool()
     {
         return $this->hasMany(UserSchool::class, ['user_id' => 'user_id'])->andWhere(['edu_year' => EduYearHelper::eduYear()])->one();
+    }
+
+    public function getUserDisciplineCseCt()
+    {
+        return $this->hasMany(UserDiscipline::class, ['user_id' => 'user_id'])
+            ->andWhere(['type'=> [UserDiscipline::CSE, UserDiscipline::CT]]);
     }
 
     public function spoNpo()

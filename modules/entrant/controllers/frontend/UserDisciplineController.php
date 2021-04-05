@@ -43,9 +43,9 @@ class UserDisciplineController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-//            [
-//            'class'=> AnketaRedirectBehavior::class,
-//            'ids'=>['update','delete']]
+           [
+            'class'=> AnketaRedirectBehavior::class,
+            'ids'=>['update','delete']]
         ];
     }
 
@@ -101,7 +101,7 @@ class UserDisciplineController extends Controller
         if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
             try {
                 $this->service->createMore($models);
-                return $this->redirect(['index']);
+                return $this->redirect('/abiturient/default');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

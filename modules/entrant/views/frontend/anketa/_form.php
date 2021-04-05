@@ -26,14 +26,12 @@ use \common\auth\helpers\UserSchoolHelper;
             <div class="col-md-12 mt-30">
                 <h1><?= Html::encode($this->title) ?></h1>
                 <?php $form = ActiveForm::begin(['id' => 'anketa-form', 'options' => ['autocomplete' => 'off']]); ?>
-                <?= $form->field($model, 'university_choice')->dropDownList(AnketaHelper::universityChoice(),
-                    ['prompt' => 'Выберите отделение университета']) ?>
                 <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList(),
                     ['prompt' => 'Выберите страну']) ?>
                 <?= $form->field($model, 'province_of_china')->dropDownList(ProvinceOfChinaHelper::getName(),
                     ['prompt' => 'Выберите провинцию']) ?>
-                <?= $form->field($model, 'current_edu_level')->dropDownList([]) ?>
-                <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder' => "2020"]) ?>
+                <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
+                <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder' => date('Y')]) ?>
                 <?php if (!UserSchoolHelper::userSchool($model->user_id, EduYearHelper::eduYear())): ?>
                     <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
                 <?php endif; ?>

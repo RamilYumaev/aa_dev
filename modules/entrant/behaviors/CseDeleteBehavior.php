@@ -7,6 +7,7 @@ namespace modules\entrant\behaviors;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\PassportData;
+use modules\entrant\models\UserDiscipline;
 use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
@@ -31,8 +32,8 @@ class CseDeleteBehavior extends Behavior
     }
     public function beforeUpdate()
     {
-        if ($this->userCseResultExist() && !$this->checkUpdate()) {
-            CseSubjectResult::deleteAll($this->userWhere());
+        if ($this->userDisciplineExist() && !$this->checkUpdate()) {
+           UserDiscipline::deleteAll($this->userWhere());
         }
         if ($this->userBirthDocument() && !$this->checkUpdate()) {
             PassportData::deleteAll(['user_id' => Yii::$app->user->identity->getId(),
@@ -41,9 +42,9 @@ class CseDeleteBehavior extends Behavior
         }
     }
 
-    private function userCseResultExist()
+    private function userDisciplineExist()
     {
-        return CseSubjectResult::find()->where($this->userWhere())->exists();
+        return UserDiscipline::find()->where($this->userWhere())->exists();
     }
 
     private function userBirthDocument()

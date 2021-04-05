@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
 use yii\helpers\Html;
 use modules\entrant\helpers\UserCgHelper;
@@ -66,8 +67,9 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-
-
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg->competitiveGroup);
             $trColor = UserCgHelper::trColor($currentCg->competitiveGroup);
             $result .= "<tr" . $trColor . ">";
@@ -105,7 +107,10 @@ foreach ($currentFaculty as $faculty) {
                 "\" aria-expanded=\"false\" 
 aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
-            $result .= $budgetAnalog["status"] && !$contractOnly ? UserCgHelper::link(
+            $result .= $budgetAnalog["status"] && !$contractOnly ?  UserCgHelper::link(
+                    $budgetAnalog["cgBudgetId"],
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, $currentCg->cathedra_id)
+                 .UserCgHelper::link(
                     $budgetAnalog["cgContractId"],
                     DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT, $currentCg->cathedra_id) :
                 UserCgHelper::link(

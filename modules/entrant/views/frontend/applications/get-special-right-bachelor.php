@@ -10,6 +10,7 @@ use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
 use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use yii\helpers\Html;
@@ -57,7 +58,6 @@ foreach ($currentFaculty as $faculty) {
     $cgFacultyBase = DictCompetitiveGroup::find()
         ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
         ->onlySpecialRight()
-        ->andWhere(['education_form_id'=>DictCompetitiveGroupHelper::EDU_FORM_ZAOCH])
         ->withoutForeignerCg()
         ->currentAutoYear()
         ->faculty($faculty)
@@ -85,11 +85,13 @@ foreach ($currentFaculty as $faculty) {
         $result .= "</tr>";
 
         foreach ($cgFaculty as $currentCg) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
 
             if (!in_array($currentCg->id, $filteredCg) && $anketa->onlyCse()) {
                 continue;
             }
-
 
             $trColor = UserCgHelper::specialColor($currentCg->id);
             $result .= "<tr" . $trColor . ">";

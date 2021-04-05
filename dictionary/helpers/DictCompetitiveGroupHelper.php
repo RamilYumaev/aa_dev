@@ -5,6 +5,7 @@ namespace dictionary\helpers;
 
 
 use common\helpers\EduYearHelper;
+use dictionary\models\CompositeDiscipline;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DictSpeciality;
@@ -12,10 +13,12 @@ use dictionary\models\DisciplineCompetitiveGroup;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\helpers\CseViSelectHelper;
+use modules\entrant\helpers\UserDisciplineHelper;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\UserCg;
+use modules\entrant\models\UserDiscipline;
 use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
@@ -302,9 +305,8 @@ class DictCompetitiveGroupHelper
             . ($special_right ? " / " . $specialRight : "");
     }
 
-    public static function getUrl($level, $specialRight, $govLineStatus, $tpguStatus)
+    public static function getUrlString($level, $specialRight, $govLineStatus, $tpguStatus)
     {
-
         if ($specialRight) {
             switch ($specialRight) {
                 case DictCompetitiveGroupHelper::SPECIAL_RIGHT :
@@ -352,14 +354,21 @@ class DictCompetitiveGroupHelper
                 case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL :
                     $url = "get-graduate";
                     break;
-
                 default :
                     $url = "#";
-
             }
         }
 
         return $url;
+    }
+
+    public static function getUrl(DictCompetitiveGroup $cg)
+    {
+        $specialRight = $cg->special_right_id;
+        $level = $cg->edu_level;
+        $govLineStatus = $cg->isGovLineCg();
+        $tpguStatus = $cg->tpgu_status;
+        return self::getUrlString($level, $specialRight, $govLineStatus, $tpguStatus);
     }
 
     public static function isAvailableCg(DictCompetitiveGroup $cg)
@@ -469,8 +478,108 @@ class DictCompetitiveGroupHelper
             ->all();
 
         return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
-
     }
+
+    public static function groupByExamsCseFacultyEduLevelSpecializationN($user_id, $faculty_id, $speciality_id, $ids, $type)
+    {
+        $typeCse = 1;
+        $typeCseVI = 2;
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
+            ->asArray()
+            ->all();
+        $result = [];
+        foreach ($data as $value) {
+            if($type == $typeCse) {
+                if ($value['cse_subject_id'] && UserDiscipline::find()
+                        ->cseOrCt()
+                        ->user($user_id)
+                        ->discipline($value['id'])
+                        ->exists()) {
+                    $result[] = $value['name'];
+                }elseif($value['composite_discipline']) {
+                    if(UserDiscipline::find()
+                        ->cseOrCt()
+                        ->user($user_id)
+                        ->discipline($value['id'])
+                        ->exists()) {
+                            $result[] = UserDiscipline::find()
+                                ->cseOrCt()
+                                ->user($user_id)
+                                ->discipline($value['id'])->one()->dictDisciplineSelect->name;
+                    }else {
+                        $name = self::getCompositeDiscipline($value['id'], $user_id);
+                        if($name) {
+                            $result[] = $name;
+                        }
+                    }
+                }
+            }
+            elseif($type == $typeCseVI) {
+                if ($value['cse_subject_id'] && UserDiscipline::find()
+                        ->cseOrCtAndVi()
+                        ->user($user_id)
+                        ->discipline($value['id'])
+                        ->exists()) {
+                    $result[] = $value['name'];
+                }elseif($value['composite_discipline']) {
+                    if(UserDiscipline::find()
+                        ->cseOrCtAndVi()
+                        ->user($user_id)
+                        ->discipline($value['id'])
+                        ->exists()) {
+
+                        $result[] = UserDiscipline::find()
+                            ->cseOrCtAndVi()
+                            ->user($user_id)
+                            ->discipline($value['id'])->one()->dictDisciplineSelect->name;
+                    }
+                }
+            }
+            else {
+                if((!$value['cse_subject_id'] && !$value['composite_discipline']) ||
+                    ($value['cse_subject_id'] && UserDiscipline::find()
+                    ->vi()
+                    ->user($user_id)
+                    ->discipline($value['id'])
+                    ->exists())) {
+                    $result[] = $value['name'];
+                }elseif($value['composite_discipline']) {
+                    if(UserDiscipline::find()
+                        ->vi()
+                        ->user($user_id)
+                        ->discipline($value['id'])
+                        ->exists()) {
+                            $result[] = UserDiscipline::find()
+                                ->vi()
+                                ->user($user_id)
+                                ->discipline($value['id'])->one()->dictDisciplineSelect->name;
+
+                    }
+                }
+            }
+        }
+        return  $result ? implode(', ', $result) : "";
+    }
+
+    public static function getCompositeDiscipline($disciplineId, $userId)
+    {
+        $models = CompositeDiscipline::find()->where(['discipline_id' => $disciplineId])
+            ->select('discipline_select_id')->column();
+        $userDiscipline = UserDiscipline::find()
+                   ->cseOrCt()
+                   ->user($userId)->disciplineSelect($models)->orderBy(['mark' => SORT_DESC])
+                   ->one();
+        return $userDiscipline &&  !UserDiscipline::find()->discipline($disciplineId)
+            ->user($userId)->exists() ? $userDiscipline->dictDiscipline->name : "";
+    }
+
 
     public static function groupByExamsNoCseId($user_id, $faculty_id, $speciality_id, $ids, $cse)
     {

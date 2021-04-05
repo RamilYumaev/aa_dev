@@ -2,6 +2,7 @@
 
 namespace modules\entrant\helpers;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\UserDiscipline;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -58,7 +59,7 @@ class PostDocumentHelper
             LanguageHelper::isExits($user_id) &&
             ProfileHelper::isDataNoEmpty($user_id) &&
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
-            CseViSelectHelper::isCorrect($user_id) &&
+            UserDisciplineHelper::isCorrect($user_id) &&
             AdditionalInformationHelper::isExits($user_id) &&
             AdditionalInformationHelper::isSpoMark($user_id) &&
             self::medicine($user_id) &&

@@ -10,6 +10,7 @@ use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\AisOrderTransfer;
@@ -142,6 +143,10 @@ class DictCompetitiveGroup extends ActiveRecord
         return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id'])->orderBy(['priority' => SORT_ASC]);
     }
 
+    public function isExamDviOrOch() {
+        return $this->getExaminations()->joinWith('discipline')->andWhere(['dvi'=> true])
+            ->orWhere(['is_och' => true])->exists();
+    }
 
     public function getUserCg()
     {
@@ -170,15 +175,12 @@ class DictCompetitiveGroup extends ActiveRecord
     public static function findBudgetAnalog($cgContract): array
     {
         $anketa = \Yii::$app->user->identity->anketa();
-        /* @var  $setting \modules\entrant\helpers\Settings */
-        $setting = \Yii::$app->user->identity->setting();
-
-
+        /** @var DictCompetitiveGroup $cgBudget */
         $cgBudget = self::find()->findBudgetAnalog($cgContract)->one();
 
         if ($cgBudget &&
             $anketa->category_id !== CategoryStruct::FOREIGNER_CONTRACT_COMPETITION &&
-            $setting->allowCgCseBudget($cgBudget) && $setting->allowMagCgBudget($cgBudget)
+            SettingEntrant::find()->isOpenZUK($cgBudget)
         ) {
             return [
                 "status" => 1,

@@ -41,7 +41,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->eduLevel($eduLevel)
             ->select('faculty_id')
             ->formEdu($form)
-           // ->currentAutoYear()
+            ->currentAutoYear()
             ->column();
     }
 
@@ -97,6 +97,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     public function faculty($facultyId)
     {
         return $this->andWhere(['faculty_id' => $facultyId]);
+    }
+
+    public function notInFaculty()
+    {
+        return $this->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_NO_IN_UNI]);
     }
 
     public function speciality($specialityId)
