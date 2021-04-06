@@ -7,6 +7,7 @@ namespace modules\entrant\helpers;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\InsuranceCertificateUser;
 use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
@@ -62,6 +63,7 @@ class FileHelper
             Statement::class,
             DocumentEducation::class,
             PassportData::class,
+            InsuranceCertificateUser::class,
             Address::class,
             OtherDocument::class,
             Agreement::class,
@@ -107,6 +109,7 @@ class FileHelper
             Agreement::class => 20,
             PersonalEntity::class=>5,
             LegalEntity::class=>5,
+            InsuranceCertificateUser::class => 1,
             StatementIndividualAchievements::class => 0,
             Statement::class => 0,
             StatementConsentPersonalData::class => 0,
@@ -138,7 +141,8 @@ class FileHelper
             StatementRejectionCgConsent::class => 'st-rejection-consent',
             StatementAgreementContractCg::class=> 'st-agreement',
             StatementRejectionCg::class =>'st-rejection-cg',
-            ReceiptContract::class => "receipt-contract"
+            ReceiptContract::class => "receipt-contract",
+            InsuranceCertificateUser::class => 'snils',
         ];
     }
 
@@ -160,7 +164,8 @@ class FileHelper
             StatementAgreementContractCg::class=> 'Договор',
             StatementRejectionCg::class =>'Отзыв КГ',
             StatementRejectionRecord::class =>'Отзыв зачисления',
-            ReceiptContract::class => "Квитанция"
+            ReceiptContract::class => "Квитанция",
+            InsuranceCertificateUser::class => 'СНИЛС',
         ];
     }
 

@@ -361,6 +361,11 @@ class Anketa extends ActiveRecord
         return $this->hasMany(UserSchool::class, ['user_id' => 'user_id'])->andWhere(['edu_year' => EduYearHelper::eduYear()])->one();
     }
 
+    public function getInsuranceCertificateUser()
+    {
+        return $this->hasMany(InsuranceCertificateUser::class, ['user_id' => 'user_id']);
+    }
+
     public function getUserDisciplineCseCt()
     {
         return $this->hasMany(UserDiscipline::class, ['user_id' => 'user_id'])
