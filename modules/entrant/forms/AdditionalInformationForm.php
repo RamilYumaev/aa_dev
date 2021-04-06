@@ -48,7 +48,7 @@ class AdditionalInformationForm extends Model
      */
     public function attributeLabels()
     {
-        return (new AdditionalInformation())->attributeLabels();
+        return (new AdditionalInformation())->attributeLabels()+['insuranceNumber'=> 'СНИЛС'];
     }
 
 }
