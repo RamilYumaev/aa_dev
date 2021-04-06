@@ -770,7 +770,7 @@ class DictCompetitiveGroupHelper
 
     public static function formOchExistsUser($user_id)
     {
-        return DictCompetitiveGroup::find()->userCg($user_id)
+        return DictCompetitiveGroup::find()->userCg($user_id)->notInFaculty()
             ->eduLevel([self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL])
             ->formEdu(self::EDU_FORM_OCH)
             ->exists();

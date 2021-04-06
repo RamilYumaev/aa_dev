@@ -21,7 +21,7 @@ use yii\helpers\Html;
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>
-            <?php if ($anketaMoscow && DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>
+            <?php if (DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>
             <?php if (is_null($addressMoscow) || ($addressMoscow && !$addressMoscow->isMoscow())): ?>
                 <?= $form->field($model, 'hostel_id')->checkbox(); ?>
             <?php endif; ?>
