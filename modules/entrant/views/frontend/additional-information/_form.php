@@ -22,7 +22,7 @@ use yii\widgets\MaskedInput;
             <?php endif; ?>
             <?= $form->field($model, 'insuranceNumber')->widget(MaskedInput::class, [
                 'mask' => '999-999-999 99',
-            ])->label("СНИЛС"); ?>
+            ]) ?>
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>
