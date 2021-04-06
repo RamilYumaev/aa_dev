@@ -27,8 +27,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 
     ];
     ?>
-    <?php if ($additional_information->anketa->isMoscow()
-        && DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
+    <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>
         <?php if (is_null($addressMoscow) || ($addressMoscow && !$addressMoscow->isMoscow())): ?>
             <?php array_push($columns, 'hostel') ?>
         <?php endif; ?>
