@@ -8,6 +8,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\MaskedInput;
+
 ?>
 <div class="container">
     <div class="row">
@@ -18,6 +20,9 @@ use yii\helpers\Html;
             <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($model->user_id)): ?>
                 <?= $form->field($model, 'mark_spo')->textInput(['placeholder'=>'4.44444']); ?>
             <?php endif; ?>
+            <?= $form->field($model, 'insuranceNumber')->widget(MaskedInput::class, [
+                'mask' => '999-999-999 99',
+            ])->label("СНИЛС"); ?>
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>

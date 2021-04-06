@@ -110,7 +110,10 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return $this->hasOne(Anketa::class, ['user_id' => 'user_id']);
     }
 
-
+    public function getInsuranceCertificate()
+    {
+        return $this->hasOne(InsuranceCertificateUser::class, ['user_id' => 'user_id']);
+    }
 
     public function dataArray(): array
     {

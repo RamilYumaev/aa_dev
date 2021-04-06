@@ -21,6 +21,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <?php
     $columns = [
         'resource',
+        'insuranceCertificate.number',
         'voz',
         'chernobyl',
         'mpguTraining'

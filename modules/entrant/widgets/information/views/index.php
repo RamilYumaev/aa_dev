@@ -18,9 +18,10 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                 <?php
                 $columns = [
                     'resource',
+                    'insuranceCertificate.number',
                     'voz',
                     'chernobyl',
-                    'mpguTraining'
+                    'mpguTraining',
                 ];
                 ?>
                 <?php if (DictCompetitiveGroupHelper::formOchExistsUser($additional_information->user_id)): ?>

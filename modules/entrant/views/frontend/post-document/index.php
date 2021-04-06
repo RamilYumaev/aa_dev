@@ -72,9 +72,13 @@ $userId =  Yii::$app->user->identity->getId();
                 об образовании, включающая в себя серию и номер документа, дату выдачи и наименование образовательной
                 организации. Приложение к документу загружается отдельными файлами. Допускаются узкие поля по краям
                 без присутствия посторонних предметов (частей тела, элементов одежды, т.п.).</p>
-
-
             <?= \modules\entrant\widgets\education\DocumentEducationFileWidget::widget(['userId' => $userId]); ?>
+
+            <?php if ($anketa->insuranceCertificateUser): ?>
+                <h4>Требования к документу СНИЛС:</h4>
+                <p align="justify"> необходимо загрузить подтверждающий скан (скан карточки или скриншот из личного кабинета)..</p>
+                <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+            <?php endif; ?>
 
             <?php if ($anketa->isAgreement()): ?>
                 <p class="label label-warning fs-15">Каждая страница договора о целевом обучении загружается отдельно</p>
