@@ -1,6 +1,7 @@
 <?php
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\dictionary\models\SettingEntrant;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
@@ -25,6 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel'=> $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
+                    ['value' => function($model) {
+                        /** @var SettingEntrant $model */
+                        return $model->isZUK() ? Html::a('Настр. КП', ['setting-competition-list','se'=>$model->id], ['class' => $model->settingCompetitionList ? 'btn btn-success':'btn btn-danger']) : "";
+                    }, 'format' => 'raw'],
                     ['attribute'=>'faculty_id', 'filter' => \dictionary\helpers\DictFacultyHelper::facultyListSetting(), 'value'=>'faculty'],
                     ['attribute'=>'form_edu', 'filter'=> DictCompetitiveGroupHelper::getEduForms(),'value'=>'formEdu'],
                     ['attribute'=>'edu_level', 'filter'=> DictCompetitiveGroupHelper::getEduLevelsAbbreviated(), 'value'=>'eduLevel'],
