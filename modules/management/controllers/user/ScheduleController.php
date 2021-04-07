@@ -31,7 +31,7 @@ class ScheduleController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->save($form);
-                Yii::$app->session->setFlash('success', "Успешно ".($model ? 'обновлено': 'добалвено'));
+                Yii::$app->session->setFlash('success', "Успешно ".($model ? 'обновлено': 'добавлено'));
             } catch (\Exception $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
