@@ -8,6 +8,9 @@ use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\forms\SettingEntrantForm;
 use modules\dictionary\forms\VolunteeringForm;
 use modules\dictionary\models\queries\SettingEntrantQuery;
+use modules\entrant\helpers\DateFormatHelper;
+use modules\management\models\DateFeast;
+use modules\management\models\DateWork;
 use yii\db\ActiveRecord;
 
 /**
@@ -70,11 +73,20 @@ class SettingEntrant extends ActiveRecord
         return $this->getTypeList()[$this->type];
     }
 
+    public function isZUK() {
+        return $this->type == self::ZUK;
+    }
+
     public static function tableName()
     {
         return "{{%setting_entrant}}";
     }
 
+    public function getString() {
+         return $this->typeName ." ". $this->eduLevel. " ". $this->formEdu. " ".$this->specialRight ." ". $this->financeEdu. " ".
+             $this->datetime_start . "-" . $this->datetime_end;
+
+    }
     public function getFaculty() {
         return DictFacultyHelper::facultyListSetting()[$this->faculty_id];
     }
@@ -93,6 +105,10 @@ class SettingEntrant extends ActiveRecord
 
     public function getFinanceEdu() {
         return DictCompetitiveGroupHelper::listFinances()[$this->finance_edu];
+    }
+
+    public function getSettingCompetitionList() {
+        return $this->hasOne(SettingCompetitionList::class, ['se_id'=>'id']);
     }
 
     public function attributeLabels()
@@ -116,5 +132,26 @@ class SettingEntrant extends ActiveRecord
     public static function find(): SettingEntrantQuery
     {
         return  new SettingEntrantQuery(static::class);
+    }
+
+    public function getDateStart() {
+        return DateFormatHelper::formatRecord($this->datetime_start);
+    }
+
+    public function getDateEnd() {
+        return DateFormatHelper::formatRecord($this->datetime_end);
+    }
+
+    public function getAllDateWork()
+    {
+        $begin = new \DateTime($this->datetime_start);
+        $days = [];
+        $end = new \DateTime($this->datetime_end);
+        for($i = $begin; $i <= $end; $i->modify('+1 day')) {
+            $date =  new \DateTime($i->format("Y-m-d"));
+            $date = $date->format("Y-m-d");
+            $days[$date] = $date;
+        }
+        return $days;
     }
 }
