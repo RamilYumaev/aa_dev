@@ -65,7 +65,7 @@ class DateDodHelper
 
     public static function dodDateNoActual(DateDod $dod, $class) {
          if ($dod->isTypeHybrid() || $dod->isTypeRemote()) {
-             self::linkOnline($dod, $class);
+             return self::linkOnline($dod, $class);
          } elseif ($dod->isTypeIntramuralLiveBroadcast() || $dod->isTypeWeb() || $dod->isTypeRemoteEdu()) {
               return self::dodLink($dod, $class, "Онлайн-трансляция");
          }else {
