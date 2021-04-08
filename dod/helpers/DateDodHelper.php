@@ -64,8 +64,11 @@ class DateDodHelper
     }
 
     public static function dodDateNoActual(DateDod $dod, $class) {
-         if ($dod->isTypeHybrid() || $dod->isTypeRemote()) {
-             self::linkOnline($dod, $class);
+        if ($dod->isTypeRemote()) {
+            return Html::a('Онлайн-участие','http://mpgu.su/den-otkrytyh-dverej-onlajn/', ['class' => $class]);
+        }
+         elseif ($dod->isTypeHybrid()) {
+             return self::linkOnline($dod, $class);
          } elseif ($dod->isTypeIntramuralLiveBroadcast() || $dod->isTypeWeb() || $dod->isTypeRemoteEdu()) {
               return self::dodLink($dod, $class, "Онлайн-трансляция");
          }else {
