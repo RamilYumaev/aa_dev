@@ -41,6 +41,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             ->eduLevel($eduLevel)
             ->select('faculty_id')
             ->formEdu($form)
+            ->indexBy('faculty_id')
             ->currentAutoYear()
             ->column();
     }
