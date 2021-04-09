@@ -9,6 +9,7 @@ use modules\dictionary\models\SettingEntrant;
 use modules\dictionary\repositories\DictCseSubjectRepository;
 use modules\dictionary\repositories\DictCtSubjectRepository;
 use modules\entrant\forms\UserDisciplineCseForm;
+use modules\entrant\models\UserAis;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\repositories\UserDisciplineRepository;
 
@@ -45,6 +46,30 @@ class UserDisciplineService
                 $this->edit($id, $form);
             }else {
                 $this->create($form);
+            }
+        }
+    }
+
+    public function updateStatuses(array $data) {
+        foreach ($data as $incomingSubjectCse) {
+            $userAis = UserAis::findOne(['incoming_id' => $incomingSubjectCse['incoming_id']]);
+            if($userAis) {
+                foreach ($incomingSubjectCse['cse_subjects'] as $value) {
+                   $cseSubject =  $this->cseSubjectRepository->getForAis($value['subject_id']);
+                   if($cseSubject) {
+                       $discipline = $this->dictDisciplineRepository->getCse($cseSubject->id);
+                       if($discipline) {
+                           /** @var UserDiscipline $model */
+                           $model = $this->repository->getUserCseDiscipline($discipline->id, $userAis->user_id);
+                           if($model) {
+                               $model->updateForAis($value['status_id'], $value['year'], $value['mark']);
+                               $this->repository->save($model);
+                           }
+                       }
+                   }
+
+                }
+
             }
         }
     }

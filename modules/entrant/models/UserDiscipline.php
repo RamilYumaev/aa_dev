@@ -32,6 +32,14 @@ class UserDiscipline extends  ActiveRecord
     const CSE_VI = 4;
     const CT_VI = 5;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_CANCEL_RR = 2;
+    const STATUS_CANCEL_OUT_RR = 3;
+    const STATUS_INVALID = 4;
+    const STATUS_DEADLINE = 5;
+    const STATUS_BELOW_MIN = 6;
+    const STATUS_NOT_FOUND = 0;
+
     public static function create(UserDisciplineCseForm $form) {
         $discipline =  new static();
         $discipline->data($form);
@@ -45,6 +53,12 @@ class UserDiscipline extends  ActiveRecord
         $this->mark = $form->type == self::VI ? null : $form->mark;
         $this->type = $form->type;
         $this->user_id = $form->user_id;
+    }
+
+    public function updateForAis($status, $year, $mark) {
+        $this->year = $year;
+        $this->mark = $mark;
+        $this->status_cse = $status;
     }
 
     public function getDictDiscipline() {
@@ -75,6 +89,29 @@ class UserDiscipline extends  ActiveRecord
         ];
     }
 
+    public function getStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Действующий',
+            self::STATUS_CANCEL_RR => 'Аннулирован с правом пересдачи',
+            self::STATUS_CANCEL_OUT_RR => 'Аннулирован без права пересдачи',
+            self::STATUS_INVALID => 'Недействительный результат по причине нарушения порядка проведения ГИА',
+            self::STATUS_DEADLINE => 'Истек срок',
+            self::STATUS_BELOW_MIN => 'Ниже минимума',
+            self::STATUS_NOT_FOUND => 'Не проверено'
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return $this->type == self::VI ? '' : $this->getStatusList()[$this->status_cse];
+    }
+
+    public function getUserAis()
+    {
+        return $this->hasOne(UserAis::class, ['user_id' => 'user_id']);
+    }
+
     public function getTypeListKey($nameKey) {
        return array_combine(array_keys($this->getTypeList()), array_column($this->getTypeList(), $nameKey));
     }
@@ -93,6 +130,7 @@ class UserDiscipline extends  ActiveRecord
         return ['mark' => 'Балл',
             'year' => 'Год сдачи',
             'type' => 'Тип',
+            'status_cse' => 'Статус',
             'discipline_id' => 'Предмет'];
     }
 

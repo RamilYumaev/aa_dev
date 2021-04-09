@@ -2,14 +2,22 @@
 namespace modules\entrant\controllers\api;
 
 use modules\entrant\helpers\DataExportHelper;
+use modules\entrant\jobs\api\CseJob;
+use modules\entrant\services\UserDisciplineService;
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\rest\Controller;
 
 
 class DefaultController extends Controller
 {
-   
+    private $service;
+
+    public function __construct($id, $module, UserDisciplineService $service,  $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
+
     public function actionIndex()
     {
         return [
@@ -17,13 +25,7 @@ class DefaultController extends Controller
         ];
     }
 
-    public function actionDataExport()
-    {
-        try {
-           return Yii::$app->request->getBodyParams();
-        } catch (InvalidConfigException $e) {
-        }
-    }
+
 
     public function verbs()
     {

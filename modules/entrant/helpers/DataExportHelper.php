@@ -28,6 +28,7 @@ use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementIa;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
+use modules\entrant\models\UserDiscipline;
 use modules\entrant\models\UserIndividualAchievements;
 use morphos\S;
 use olympic\models\auth\Profiles;
@@ -115,8 +116,7 @@ class DataExportHelper
         return array_merge($result,
             self::dataLanguage($userId),
             self::dataDocumentAll($userId, $profile),
-            self::dataCSE($userId),
-            self::cse($userId)
+            self::userDiscipline($userId)
         );
     }
 
@@ -274,6 +274,34 @@ class DataExportHelper
         }
         return [];
     }
+
+    public static function userDiscipline($userId)
+    {
+        $cse = UserDiscipline::find()->typeCse()->user($userId);
+        $dataYears = clone $cse;
+        if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
+            $result['documentsCse'] = [];
+            foreach ($dataYears as $key => $value) {
+                $result['documentsCse'][$key] =
+                    [
+                        'year' => $value,
+                        'type_id' => 1,
+                    ];
+                /** @var UserDiscipline $discipline */
+                foreach ($cse->year($value)->all() as $discipline) {
+                    $result['documentsCse'][$key]['subject'][] = [
+                        'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
+                        'mark' => $discipline->mark,
+                    ];
+                }
+            }
+            return $result;
+
+        }
+        return [];
+    }
+
+
 
     public static function dataLanguage($userId)
     {
@@ -510,15 +538,7 @@ class DataExportHelper
 
     public static function cseIncomingId()
     {
-        $cse = CseSubjectResult::find()->joinWith('userAis')->select(['user_ais.incoming_id'])->indexBy('user_ais.incoming_id')->column();
-        $cseVi = CseViSelect::find()->joinWith('userAis')
-            ->andWhere(['NOT', ['result_cse' =>""]])
-            ->select(['user_ais.incoming_id'])
-            ->indexBy('user_ais.incoming_id')
-            ->column();
-
-        $result = array_merge($cse, $cseVi);
-        $array = array_diff($result, array('', 0, null));
-        return array_values($array);
+        return UserDiscipline::find()->joinWith('userAis')->statusNoFound()->typeCse()->select(['user_ais.incoming_id'])
+            ->indexBy('user_ais.incoming_id')->column();
     }
 }

@@ -3,10 +3,8 @@
 /* @var $this yii\web\View */
 
 use modules\dictionary\helpers\JobEntrantHelper;
-use modules\entrant\helpers\DataExportHelper;
 
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 /* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 $text = " ";
 if(!Yii::$app->user->isGuest ) {

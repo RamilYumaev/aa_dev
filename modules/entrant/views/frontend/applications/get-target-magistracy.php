@@ -111,8 +111,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     $result .= "</table>";
 }
 ?>
-
-
     <?php Pjax::begin(['id' => 'get-target-magistracy', 'timeout' => false, 'enablePushState' => false]); ?>
 <div class="row min-scr">
     <div class="button-left">
