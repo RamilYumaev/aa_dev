@@ -52,4 +52,11 @@ class TestHelper
         return $find->test_id ?? null;
     }
 
+    public static function testActiveOlympicList($olympic_id)
+    {
+        $test = Test::find()
+            ->andwhere(['olimpic_id'=> $olympic_id, 'status' => self::ACTIVE])->one();
+        return $test->id ?? null;
+    }
+
 }

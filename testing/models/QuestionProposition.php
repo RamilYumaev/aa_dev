@@ -46,5 +46,9 @@ class QuestionProposition extends ActiveRecord
         return $test->attributeLabels();
     }
 
+    public function getAnswer () {
+        return $this->hasMany(AnswerCloze::class, ['quest_prop_id' => "id"]);
+    }
+
 
 }

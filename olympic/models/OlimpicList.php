@@ -90,6 +90,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
         $olympic->cg_no_visible = $form->cg_no_visible;
+        $olympic->is_volunteering = $form->is_volunteering;
         return $olympic;
     }
 
@@ -131,6 +132,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->olimpic_id = $olimpic_id;
         $olympic->year = $form->year;
         $olympic->cg_no_visible = $form->cg_no_visible;
+        $olympic->is_volunteering = $form->is_volunteering;
         return $olympic;
     }
 
@@ -169,6 +171,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $this->event_type = $form->event_type;
         $this->olimpic_id = $olimpic_id;
         $this->cg_no_visible = $form->cg_no_visible;
+        $this->is_volunteering = $form->is_volunteering;
         $this->year = $form->year;
     }
 
@@ -213,7 +216,8 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'certificate_id' => 'Выдается сертификат участнику',
             'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации',
             'percent_to_calculate' => 'Процент участников в следующий тур',
-            'cg_no_visible'=> "Игнорировать конкурсные группы?"
+            'cg_no_visible'=> "Игнорировать конкурсные группы?",
+            'is_volunteering' => 'Для волонтеров'
         ];
     }
 
@@ -474,5 +478,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'event_type' =>$value,
             'year' =>$value
             ];
+    }
+
+    public function getOlympic() {
+        return $this->hasOne(Olympic::class, ['id' => 'olimpic_id']);
     }
 }
