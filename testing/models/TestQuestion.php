@@ -59,6 +59,10 @@ class TestQuestion extends ActiveRecord
         return $this->hasMany(Answer::class, ['quest_id' => "id"]);
     }
 
+    public function getQuestionNested() {
+        return $this->hasMany(QuestionProposition::class, ['quest_id' => "id"]);
+    }
+
     public function getAnswerCorrect () {
         return $this->getAnswer()->andWhere( ['is_correct' => true]);
     }

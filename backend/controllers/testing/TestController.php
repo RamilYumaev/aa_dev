@@ -1,6 +1,9 @@
 <?php
 
 namespace backend\controllers\testing;
+use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\PdfHelper;
+use modules\exam\models\ExamQuestion;
 use olympic\models\OlimpicList;
 use testing\forms\search\TestSearch;
 use testing\forms\TestAndQuestionsTableMarkForm;
@@ -8,6 +11,7 @@ use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
 use testing\models\Test;
 use testing\models\TestAndQuestions;
+use testing\models\TestQuestion;
 use testing\services\TestAndQuestionsService;
 use testing\services\TestService;
 use yii\base\Model;
@@ -135,6 +139,19 @@ class TestController extends Controller
             'model' => $form,
             'Test' => $model,
         ]);
+    }
+
+    /**
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionPdf()
+    {
+        $questions = TestQuestion::find()->andWhere(['olympic_id' => 73])->all();
+        $content = $this->renderPartial('pdf/main', ["questions" => $questions]);
+        $pdf = PdfHelper::generate($content, "Ответы.pdf");
+        $render = $pdf->render();
+        return $render;
     }
 
     /**

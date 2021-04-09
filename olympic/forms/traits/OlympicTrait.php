@@ -42,6 +42,7 @@ trait OlympicTrait
         $date_range,
         $percent_to_calculate,
         $cg_no_visible,
+        $is_volunteering,
         $_olympic;
 
 

@@ -36,6 +36,7 @@ class OlimpicReadRepository
         $query->select('o.name, o.id');
         $query->where(['o.status' => OlympicHelper::ACTIVE]);
         $query->andWhere(['ol.prefilling' => OlympicHelper::PREFILING_BAS]);
+        $query->andWhere(['ol.is_volunteering' => false]);
         $query->andWhere(['ol.year' => EduYearHelper::eduYear() ]);
         $query->andWhere(['ol.prefilling' => false]);
         return $query;
@@ -77,6 +78,7 @@ class OlimpicReadRepository
             ->innerJoin(OlimpicList::tableName() . ' ol', 'ol.olimpic_id = o.id')
             ->where(['o.status' => OlympicHelper::ACTIVE, 'o.id'=> $id])
             ->andWhere(['ol.prefilling' => OlympicHelper::PREFILING_BAS])
+            ->andWhere(['ol.is_volunteering' => false])
             ->andWhere(['ol.year' => EduYearHelper::eduYear() ])
             ->one();
     }

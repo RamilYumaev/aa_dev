@@ -75,6 +75,20 @@ class UserOlimpiadsService
         });
     }
 
+    /**
+     * @param $olympic_id
+     * @param $user_id
+     * @throws \yii\web\HttpException
+     */
+    public function addVolunteering($olympic_id, $user_id) {
+        $olympic = $this->olimpicListRepository->get($olympic_id);
+        $user = $this->userRepository->get($user_id);
+        if(!$this->repository->isUserOlympic($olympic->id, $user->id)) {
+            $userOlympic = UserOlimpiads::create($olympic->id, $user->id);
+            $this->repository->save($userOlympic);
+        }
+    }
+
     public function remove($id) {
         $userOlympic = $this->repository->get($id);
         $this->repository->remove($userOlympic);

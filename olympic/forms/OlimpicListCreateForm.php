@@ -76,7 +76,7 @@ class OlimpicListCreateForm extends Model
             }'],
             [['content', 'required_documents'], 'string'],
             [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть',  'targetAttribute' => ['name', 'year']],
-            [['chairman_id', 'number_of_tours', 'cg_no_visible','form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
+            [['chairman_id', 'number_of_tours', 'cg_no_visible', 'is_volunteering', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'auto_sum', 'olimpic_id',
                 ], 'integer'],

@@ -4,6 +4,7 @@
 namespace backend\controllers\testing;
 
 use olympic\models\OlimpicList;
+use olympic\models\UserOlimpiads;
 use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
 use testing\helpers\TestAttemptHelper;
@@ -13,6 +14,7 @@ use testing\models\TestResult;
 use testing\repositories\TestRepository;
 use testing\services\TestAndQuestionsService;
 use testing\services\TestAttemptService;
+use yii\base\ExitException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -52,6 +54,7 @@ class TestAttemptController extends Controller
     {
         $test = $this->testRepository->get($test_id);
         $olympic = $this->olimpicListRepository->get($test->olimpic_id);
+        $this->disabled($olympic, $test_id);
         return $this->render('index', [
             'test' => $test,
             'olympic' => $olympic]);
@@ -155,5 +158,14 @@ class TestAttemptController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
+    public function disabled(OlimpicList $olimpicList, $test_id) {
+        if($olimpicList->disabled_a || $olimpicList->is_volunteering) {
+            Yii::$app->session->setFlash('error', "Страница находится на доработке...");
+            Yii::$app->getResponse()->redirect(['testing/test/view', 'id' => $test_id]);
+            try {
+                Yii::$app->end();
+            } catch (ExitException $e) {
+            }
+        }
+    }
 }
