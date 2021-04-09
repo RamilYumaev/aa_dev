@@ -62,7 +62,7 @@ class CommunicationAisController extends Controller
     public function actionDataExport()
     {
         $token = $this->getToken();
-        $url = \Yii::$app->params['ais_server'].'/?access-token=' . $token;
+        $url = 'get-cse-result?access-token=' . $token;
         if($data  = DataExportHelper::cseIncomingId()) {
             Yii::$app->queue->push(new CseJob($this->service, [
                 'data'=> $data, 'url' => $url
@@ -75,7 +75,7 @@ class CommunicationAisController extends Controller
         } else {
             $message = 'Не найдены новые непроверенные статусы ЕГЭ/ВИ';
         }
-        Yii::$app->session->setFlash("error", $message);
+        Yii::$app->session->setFlash("info", $message);
         return $this->redirect(Yii::$app->request->referrer);
     }
 

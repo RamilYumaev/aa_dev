@@ -2,7 +2,7 @@
 
 
 namespace modules\entrant\jobs\api;
-
+use api\client\Client;
 use modules\entrant\services\UserDisciplineService;
 use yii\base\BaseObject;
 
@@ -21,10 +21,9 @@ class CseJob extends BaseObject implements \yii\queue\JobInterface
 
     public function execute($queue)
     {
-       $result =  (new \api\client\Client())->postData($this->url, $this->data);
+        $result =  (new Client())->postData($this->url, $this->data);
         if ($result) {
             $this->service->updateStatuses(json_decode($result));
         }
-        $queue->run();
     }
 }
