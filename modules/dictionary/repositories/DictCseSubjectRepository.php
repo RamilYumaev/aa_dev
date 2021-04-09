@@ -14,6 +14,11 @@ class DictCseSubjectRepository
         return $model;
     }
 
+    public function getForAis($aisId): ? DictCseSubject
+    {
+        return DictCseSubject::findOne(['ais_id'=> $aisId]);
+    }
+
     public function save(DictCseSubject $model): void
     {
         if (!$model->save()) {

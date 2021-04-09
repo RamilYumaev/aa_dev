@@ -136,7 +136,6 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
 </div>
 <div class="container">
     <h2 class="text-center"><?= $this->title ?></h2>
-    <p class="text-danger fs-15">Прием документов в магистратуру на очную и очно-заочную форму обучения окончен 07.08.2020 в 17:00.</p>
     <div class="row">
         <div class="col-md-6">
             <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>

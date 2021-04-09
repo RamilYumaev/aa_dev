@@ -6,7 +6,6 @@ use yii\helpers\Html;
 $this->title = "Результаты ЕГЭ/ЦТ.";
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
-
  ?>
 <div class="container">
     <h1><?=$this->title?></h1>

@@ -115,6 +115,17 @@ class DefaultController extends Controller
 
         ]);
     }
+
+
+    /**
+     * @param null $status
+     * @return mixed
+     */
+    public function actionPage()
+    {
+
+        return $this->render('page');
+    }
     /**
      * @param integer $user
      * @return mixed

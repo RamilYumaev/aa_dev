@@ -4,6 +4,7 @@
 namespace dictionary\repositories;
 
 
+use Codeception\Lib\Di;
 use dictionary\models\DictDiscipline;
 
 class DictDisciplineRepository
@@ -16,6 +17,12 @@ class DictDisciplineRepository
         }
         return $model;
     }
+
+    public function getCse($cseId): ?DictDiscipline
+    {
+        return  DictDiscipline::findOne(['cse_subject_id' => $cseId]);
+    }
+
 
     public function save(DictDiscipline $model): void
     {

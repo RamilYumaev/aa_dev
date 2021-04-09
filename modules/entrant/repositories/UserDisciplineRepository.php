@@ -4,6 +4,7 @@
 namespace modules\entrant\repositories;
 
 
+use dictionary\models\DictDiscipline;
 use modules\entrant\models\UserDiscipline;
 
 class UserDisciplineRepository
@@ -22,6 +23,11 @@ class UserDisciplineRepository
             throw new \DomainException('Заявление уже удалено!');
         }
         return $model;
+    }
+
+    public function getUserCseDiscipline($discipline, $userId): ?UserDiscipline
+    {
+        return UserDiscipline::find()->user($userId)->typeCse()->disciplineSelect($discipline)->one();
     }
 
 

@@ -20,6 +20,16 @@ class UserDisciplineQuery extends ActiveQuery
         return $this->andWhere(["user_id" =>$user]);
     }
 
+    public function year($year)
+    {
+        return $this->andWhere(["year" =>$year]);
+    }
+
+    public function status($status)
+    {
+        return $this->andWhere(["status_cse" => $status]);
+    }
+
     public function discipline($discipline)
     {
         return $this->andWhere(["discipline_id" => $discipline]);
@@ -28,6 +38,16 @@ class UserDisciplineQuery extends ActiveQuery
     public function disciplineSelect($discipline)
     {
         return $this->andWhere(["discipline_select_id" => $discipline]);
+    }
+
+    public function typeCse()
+    {
+        return $this->type([UserDiscipline::CSE, UserDiscipline::CSE_VI]);
+    }
+
+    public function statusNoFound()
+    {
+        return $this->status(UserDiscipline::STATUS_NOT_FOUND);
     }
 
     public function cseOrCt() {
