@@ -95,7 +95,8 @@ class RegistryDocument extends ActiveRecord
             'text/svg',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/msword',
-            'image/svg+xml'
+            'image/svg+xml',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ];
         $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
