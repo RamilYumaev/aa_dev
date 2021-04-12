@@ -61,4 +61,9 @@ class Test extends ActiveRecord
        return $this->status == TestHelper::DRAFT;
     }
 
+    public function getAttempt($userId)
+    {
+        return $this->hasOne(TestAttempt::class, ['test_id'=> 'id'])->andWhere(['user_id'=> $userId])->one();
+    }
+
 }

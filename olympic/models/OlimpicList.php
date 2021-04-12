@@ -91,6 +91,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->year = $form->year;
         $olympic->cg_no_visible = $form->cg_no_visible;
         $olympic->is_volunteering = $form->is_volunteering;
+        $olympic->is_remote = $form->is_remote;
         return $olympic;
     }
 
@@ -133,6 +134,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $olympic->year = $form->year;
         $olympic->cg_no_visible = $form->cg_no_visible;
         $olympic->is_volunteering = $form->is_volunteering;
+        $olympic->is_remote = $form->is_remote;
         return $olympic;
     }
 
@@ -173,6 +175,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
         $this->cg_no_visible = $form->cg_no_visible;
         $this->is_volunteering = $form->is_volunteering;
         $this->year = $form->year;
+        $this->is_remote = $form->is_remote;
     }
 
     /**
@@ -217,7 +220,8 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'date_range' => 'Дата и время начала регистрации - дата и время завершения регистрации',
             'percent_to_calculate' => 'Процент участников в следующий тур',
             'cg_no_visible'=> "Игнорировать конкурсные группы?",
-            'is_volunteering' => 'Для волонтеров'
+            'is_volunteering' => 'Для волонтеров',
+            'is_remote' => 'Дистанционная на другой площадке'
         ];
     }
 
@@ -252,7 +256,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
     }
 
     public function getFormOfPassageString () {
-        return "Форма(ы) проведения: ". ($this->form_of_passage ? OlympicHelper::formOfPassageName($this->form_of_passage)  : 'Данные обновляются.');
+        return "Форма(ы) проведения: ". ($this->is_remote ? 'дистанционная' : ($this->form_of_passage ? OlympicHelper::formOfPassageName($this->form_of_passage)  : 'Данные обновляются.'));
     }
 
     public function getDateRegStartNameString () {

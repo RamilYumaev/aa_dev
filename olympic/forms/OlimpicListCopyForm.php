@@ -45,6 +45,7 @@ class OlimpicListCopyForm extends Model
         $this->_olympic = $olympic;
         $this->cg_no_visible = $olympic->cg_no_visible;
         $this->is_volunteering = $olympic->is_volunteering;
+        $this->is_remote = $olympic->is_remote;
         parent::__construct($config);
     }
 
@@ -98,7 +99,7 @@ class OlimpicListCopyForm extends Model
             }'],
             [['content', 'required_documents', 'year'], 'string'],
             [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть', 'targetAttribute' => ['name', 'year']],
-            [['chairman_id', 'cg_no_visible', 'is_volunteering', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
+            [['chairman_id', 'cg_no_visible', 'is_volunteering', 'is_remote', 'number_of_tours', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id', 'olimpic_id',
                 'only_mpgu_students', 'list_position', 'certificate_id', 'event_type', 'auto_sum'], 'integer'],
             [['date_range', 'date_time_start_tour'], 'safe'],
