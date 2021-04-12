@@ -11,6 +11,8 @@ use modules\management\repositories\DocumentTaskRepository;
 use modules\management\repositories\RegistryDocumentRepository;
 use modules\usecase\ServicesClass;
 use yii\base\Model;
+use yii\helpers\FileHelper as IfFile;
+use yii\web\UploadedFile;
 
 
 class RegistryDocumentService extends ServicesClass
@@ -58,6 +60,14 @@ class RegistryDocumentService extends ServicesClass
         }
 
         $this->documentTaskRepository->remove($documentTask);
+    }
+
+    public function correctImageFile(UploadedFile $file) {
+        $array = ["image/png", 'image/jpeg'];
+        $type = IfFile::getMimeTypeByExtension($file->tempName, null, false);
+        if (!in_array($type, $array)) {
+            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg');
+        }
     }
 
 }

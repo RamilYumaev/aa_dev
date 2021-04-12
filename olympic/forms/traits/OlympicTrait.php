@@ -43,6 +43,7 @@ trait OlympicTrait
         $percent_to_calculate,
         $cg_no_visible,
         $is_volunteering,
+        $is_remote,
         $_olympic;
 
 

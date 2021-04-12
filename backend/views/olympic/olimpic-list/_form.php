@@ -75,6 +75,8 @@ use yii\helpers\Html;
 
 <?= $form->field($model, 'number_of_tours')->dropDownList($model->numberOfTours()) ?>
 
+        <?= $form->field($model, 'is_remote')->checkbox(); ?>
+
 <?= $form->field($model, 'form_of_passage')->dropDownList($model->formOfPassage()) ?>
 
 <?= $form->field($model, 'time_of_distants_tour_type')->dropDownList($model->typeOfTimeDistanceTour()); ?>

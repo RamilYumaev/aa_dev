@@ -7,6 +7,7 @@ use modules\management\forms\DictTaskForm;
 use modules\management\forms\RegistryDocumentForm;
 use modules\management\models\queries\DictTaskQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\FileHelper as IfFile;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\FileUploadBehavior;
 
@@ -78,8 +79,28 @@ class RegistryDocument extends ActiveRecord
          ];
     }
 
+    /**
+     * @param UploadedFile $file
+     * @throws \yii\base\InvalidConfigException
+     */
     public function setFile(UploadedFile $file): void
     {
+        $array = [
+            "image/png",
+            'image/jpeg',
+            'application/pdf',
+            'image/x-eps',
+            'application/json',
+            'text/plain',
+            'text/svg',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/msword',
+            'image/svg+xml'
+        ];
+        $type = IfFile::getMimeType($file->tempName, null, false);
+        if (!in_array($type, $array)) {
+            throw new \DomainException($type. ' Неверный тип файла, разрешено загружать только файлы с расширением');
+        }
         $this->file = $file;
     }
 
