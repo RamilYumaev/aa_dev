@@ -2,17 +2,21 @@
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\UserDisciplineCseForm */
 /* @var $nameExam */
-/* @var $keyExam */
+/* @var $isBelarus */
 
 use dictionary\models\DictDiscipline;
 use modules\entrant\models\UserDiscipline;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-$this->title = "Вступительные испытания + ЕГЭ + ЦТ. Утончнение. ". $nameExam;
+$this->title = "Вступительные испытания + ЕГЭ".($isBelarus ? "+ ЦТ.":".")." Уточнение. ". $nameExam;
 
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
+$data = (new UserDiscipline())->getTypeListKey('name_short');
+if (!$isBelarus) {
+    unset($data[UserDiscipline::CT_VI], $data[UserDiscipline::CT]);
+}
 ?>
 <div class="container">
     <div class="row">
@@ -38,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php else: ?>
                 <?= $field->hiddenInput(['value'=> $model->discipline_select_id ?: $keyExam])?>
             <?php endif; ?>
-            <?= $form->field($model, "type")->dropDownList((new UserDiscipline())->getTypeListKey('name_short')) ?>
+            <?= $form->field($model, "type")->dropDownList($data) ?>
             <?= $form->field($model, "mark")->textInput() ?>
             <?= $form->field($model, "year")->textInput() ?>
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
@@ -46,4 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-
+<?php
+$this->registerJS(<<<JS
+var typeSelect = $("#userdisciplinecseform-type");
+var year = $("#userdisciplinecseform-year");
+var mark = $("#userdisciplinecseform-mark");
+$(typeSelect).on("change init", function() {
+     if(this.value == 2){
+         year.attr('disabled', true).val('');
+         mark.attr('disabled', true).val('');
+     }else {
+         mark.attr('disabled', false);
+         year.attr('disabled', false);
+     }
+}).trigger("init");
+JS
+);

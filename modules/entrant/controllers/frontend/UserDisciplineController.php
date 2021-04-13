@@ -59,11 +59,15 @@ class UserDisciplineController extends Controller
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'isBelarus' => $this->getAnketa()->isBelarus(),
         ]);
     }
 
     public function actionCreateCt()
     {
+        if(!$this->getAnketa()->isBelarus()) {
+            $this->redirect('index');
+        }
         $config = ['user_id' => $this->getUserId(), 'type'=>UserDiscipline::CT];
         $form = new UserDisciplineCseForm(null, $config);
         return $this->formCreate($form, 'create-ct');
@@ -109,7 +113,8 @@ class UserDisciplineController extends Controller
         }
         return $this->render('cse-vi-ct', [
             'models' => $models,
-            'exams' => $exams
+            'exams' => $exams,
+            'isBelarus' => $this->getAnketa()->isBelarus(),
         ]);
     }
 
@@ -133,6 +138,7 @@ class UserDisciplineController extends Controller
             'model' => $form,
             'nameExam' => $exams[$discipline],
             'keyExam' => $discipline,
+            'isBelarus' => $this->getAnketa()->isBelarus(),
         ]);
     }
 
@@ -183,9 +189,11 @@ class UserDisciplineController extends Controller
         return UserDiscipline::findOne(['discipline_id'=>$disciplineId, 'user_id' => $this->getUserId()]);
     }
 
-    /**
-     * @param integer $id
+    /**     * @param integer $id
+
      * @return mixed
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -198,8 +206,18 @@ class UserDisciplineController extends Controller
         return $this->redirect(['index']);
     }
 
+    private function getIdentity()
+    {
+        return  Yii::$app->user->identity;
+    }
+
     private function getUserId()
     {
-        return  Yii::$app->user->identity->getId();
+        return  $this->getIdentity()->getId();
+    }
+
+    private function getAnketa()
+    {
+        return  $this->getIdentity()->anketa();
     }
 }
