@@ -1,9 +1,9 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
-/* @var $isKeys array */
+/* @var $isBelarus $bool */
 use yii\helpers\Html;
-$this->title = "Результаты ЕГЭ/ЦТ.";
+$this->title =  $isBelarus ? "Результаты ЕГЭ/ЦТ": "Результаты ЕГЭ";
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
  ?>
@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a("Добавить ЕГЭ",
             ["user-discipline/create-cse"], ["class" => "btn btn-primary"]) ?>
-        <?= Html::a("Добавить ЦТ",
-            ["user-discipline/create-ct"], ["class" => "btn btn-success"]) ?>
+        <?=  $isBelarus ?  Html::a("Добавить ЦТ",
+            ["user-discipline/create-ct"], ["class" => "btn btn-success"]) : ""?>
     </p>
     <div class="mt-20 table-responsive">
         <?= \yii\grid\GridView::widget([

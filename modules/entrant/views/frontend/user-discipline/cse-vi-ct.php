@@ -3,17 +3,22 @@
 /* @var $model modules\entrant\forms\UserDisciplineCseForm */
 /* @var $models array */
 /* @var $exams array */
+/* @var $isBelarus bool */
 
 use dictionary\models\DictDiscipline;
 use modules\entrant\models\UserDiscipline;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-$this->title = "Вступительные испытания + ЕГЭ + ЦТ. Утончнение.";
+$this->title = "Вступительные испытания + ЕГЭ".($isBelarus ? "+ ЦТ.":".")." Уточнение.";
 
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $a = 0;
 $keys = array_values(array_flip($exams));
+$data = (new UserDiscipline())->getTypeListKey('name_short');
+if (!$isBelarus) {
+    unset($data[UserDiscipline::CT_VI], $data[UserDiscipline::CT]);
+}
 ?>
 <div class="container">
     <div class="row">
@@ -57,7 +62,7 @@ $keys = array_values(array_flip($exams));
                         <?= $field->hiddenInput(['value'=> $model->discipline_select_id ?: $key])?>
                         <?php endif; ?>
                     </td>
-                    <td><?= $form->field($model, "[$index]type")->label("")->dropDownList((new UserDiscipline())->getTypeListKey('name_short')) ?></td>
+                    <td><?= $form->field($model, "[$index]type")->label("")->dropDownList($data) ?></td>
                     <td><?= $form->field($model, "[$index]mark")->label("") ?></td>
                     <td><?= $form->field($model, "[$index]year")->label("") ?></td>
                 </tr>
