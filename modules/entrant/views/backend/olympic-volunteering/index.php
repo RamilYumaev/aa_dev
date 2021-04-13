@@ -12,7 +12,7 @@ use yii\helpers\Html;
 
 
 \entrant\assets\modal\ModalAsset::register($this);
-$this->title = "Олимпиада для волонтеров";
+$this->title = "Тестирование";
 $this->params['breadcrumbs'][] = $this->title;
 ?> 
 <?php foreach ($olympics as $olympic) :
