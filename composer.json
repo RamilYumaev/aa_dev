@@ -65,7 +65,8 @@
     "ext-curl": "*",
     "hashids/hashids": "^2.0",
     "yiidoc/yii2-redactor": "*",
-    "kartik-v/yii2-widget-colorinput": "*"
+    "kartik-v/yii2-widget-colorinput": "*",
+    "kreait/firebase-php" : "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
