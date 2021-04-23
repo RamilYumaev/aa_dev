@@ -66,10 +66,6 @@ class CommunicationAisController extends Controller
         if($data  = DataExportHelper::cseIncomingId()) {
             Yii::$app->queue->push(new CseJob($this->service, [
                 'data'=> $data, 'url' => $url
-                    /*[['incoming_id' => 44,'cse_subjects' => [
-                    ['subject_id' =>1, 'mark' =>69, 'year' =>2021, 'status_id' =>1],
-                    ['subject_id' =>7, 'mark' =>79, 'year' =>2021,'status_id' =>2]]]]*/
-
             ]));
             $message = 'Задание отправлено в очередь';
         } else {

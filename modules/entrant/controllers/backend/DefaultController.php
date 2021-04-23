@@ -118,7 +118,6 @@ class DefaultController extends Controller
 
 
     /**
-     * @param null $status
      * @return mixed
      */
     public function actionPage()

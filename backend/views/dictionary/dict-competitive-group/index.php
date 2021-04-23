@@ -27,11 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'id',
+                    [
+                        'value' => function ($model) {
+                            return $model->ais_id && !$model->tpgu_status && !$model->foreigner_status ? Html::a('Обновить КС', ['send', 'id' => $model->id], ['class'=>'btn btn-warning',
+                                'data'=>['confirm'=> 'Вы уверены, что хотите это сделать?']]) :'';
+                        },
+                        'format' => 'raw'
+                    ],
                     ['attribute' => 'faculty_id',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel, $searchModel->facultyList(),'faculty_id', 'faculty.full_name'),
                         'value' => 'faculty.full_name',
                     ],
-
                     ['attribute' => 'speciality_id',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel,$searchModel->specialityCodeList(),'speciality_id', 'specialty.codeWithName'),
                         'value' => 'specialty.codeWithName',

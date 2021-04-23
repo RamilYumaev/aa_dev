@@ -84,6 +84,19 @@ class SettingEntrantQuery extends ActiveQuery
             ->exists();
     }
 
+    public function oneDictCompetitiveGroup(DictCompetitiveGroup $dictCompetitiveGroup): ?SettingEntrant
+    {
+        $keyFaculty = DictFacultyHelper::getKeyFacultySetting($dictCompetitiveGroup->faculty_id);
+        return $this->faculty($keyFaculty)
+            ->type(SettingEntrant::ZOS)
+            ->eduLevel($dictCompetitiveGroup->edu_level)
+            ->eduForm($dictCompetitiveGroup->education_form_id)
+            ->eduFinance($dictCompetitiveGroup->financing_type_id)
+            ->specialRight($dictCompetitiveGroup->special_right_id)
+            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->one();
+    }
+
     public function existsFormEduOpen(DictCompetitiveGroup $dictCompetitiveGroup, $type): bool
     {
         $keyFaculty = DictFacultyHelper::getKeyFacultySetting($dictCompetitiveGroup->faculty_id);

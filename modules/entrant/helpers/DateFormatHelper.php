@@ -3,6 +3,7 @@
 namespace modules\entrant\helpers;
 
 
+use backend\widgets\olimpic\OlipicListInOLymipViewWidget;
 use kartik\date\DatePicker;
 
 class DateFormatHelper
@@ -65,8 +66,18 @@ class DateFormatHelper
                 'format' => 'yyyy-mm-dd',
             ],
         ]);
-
     }
 
+    public static function isWeekEnd($date): bool
+    {
+        $dateObject = new \DateTime($date);
+        $day = $dateObject->format("N");
+        return in_array($day, [6,7]);
+    }
 
+    public static function format($date, $format): string
+    {
+        $dateObject = new \DateTime($date);
+        return $dateObject->format($format);
+    }
 }

@@ -23,7 +23,7 @@ class CseJob extends BaseObject implements \yii\queue\JobInterface
     {
         $result =  (new Client())->postData($this->url, $this->data);
         if ($result) {
-            $this->service->updateStatuses(json_decode($result));
+            $this->service->updateStatuses($result);
         }
     }
 }

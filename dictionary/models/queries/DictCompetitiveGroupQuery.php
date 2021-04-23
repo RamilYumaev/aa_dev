@@ -26,6 +26,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['tpgu_status'=> true]);
     }
 
+    public function tpgu($status){
+        return $this->andWhere(['tpgu_status'=> $status]);
+    }
+
     public function allActualFacultyWithoutBranch($spo = false)
     {
         return $this
@@ -105,6 +109,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_NO_IN_UNI]);
     }
 
+    public function filialAndCollege()
+    {
+        return $this->andWhere(['in', 'faculty_id', DictFacultyHelper::FACULTY_NO_IN_UNI]);
+    }
+
     public function speciality($specialityId)
     {
         return $this->andWhere(['speciality_id' => $specialityId]);
@@ -168,17 +177,36 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $query;
     }
 
+    public function cgAllGroup($cgContract)
+    {
+        return $this->andWhere(
+            ['faculty_id' => $cgContract->faculty_id,
+                'year' => $cgContract->year,
+                'speciality_id' => $cgContract->speciality_id,
+                'specialization_id' => $cgContract->specialization_id,
+                'foreigner_status' => 0,
+                'edu_level' => $cgContract->edu_level,
+                'education_form_id' => $cgContract->education_form_id,
+                'spo_class' => $cgContract->spo_class,
+            ]
+        )->all();
+    }
+
     public function foreignerStatus($foreignerStatus)
     {
-        return $this->andWhere(['foreigner_status' => $foreignerStatus]
-        );
+        return $this->andWhere(['foreigner_status' => $foreignerStatus]);
     }
 
     public function formEdu($formId)
     {
-        return $this->andWhere(['education_form_id' => $formId]
-        );
+        return $this->andWhere(['education_form_id' => $formId]);
     }
+
+    public function aisId($aisId)
+    {
+        return $this->andWhere(['ais_id' => $aisId]);
+    }
+
 
     public function contractOnly()
     {
@@ -277,5 +305,4 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         return \Yii::$app->user->identity->anketa();
     }
-
 }

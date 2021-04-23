@@ -10,6 +10,7 @@ use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
@@ -141,6 +142,16 @@ class DictCompetitiveGroup extends ActiveRecord
     public function getExaminations()
     {
         return $this->hasMany(DisciplineCompetitiveGroup::class, ['competitive_group_id' => 'id'])->orderBy(['priority' => SORT_ASC]);
+    }
+
+    public function getExaminationsAisId()
+    {
+        return $this->getExaminations()
+            ->joinWith('discipline')
+            ->select(['name', 'ais_id'])
+            ->andWhere(['not', ['ais_id'=> null]])
+            ->indexBy('ais_id')
+        ->column();
     }
 
     public function isExamDviOrOch() {
@@ -374,7 +385,16 @@ class DictCompetitiveGroup extends ActiveRecord
         return DictCompetitiveGroupHelper::getEduLevelsAbbreviated()[$this->edu_level];
     }
 
-    public function getBudget() {
+    public function getEduLevelFull() {
+        return DictCompetitiveGroupHelper::getEduLevels()[$this->edu_level];
+    }
+
+
+    public function getCompetitiveList() {
+        return  $this->hasMany(CompetitionList::class,['ais_cg_id'=> 'ais_id']);
+    }
+
+    public function getFinance() {
         return DictCompetitiveGroupHelper::getFinancingTypes()[$this->financing_type_id];
     }
 
@@ -389,8 +409,6 @@ class DictCompetitiveGroup extends ActiveRecord
     public function getSpecialisationName() {
        return $this->specialization->name ?? "";
     }
-
-
 
     public function isGovLineCg(): bool
     {
