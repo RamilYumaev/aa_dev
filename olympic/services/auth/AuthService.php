@@ -5,6 +5,7 @@ namespace olympic\services\auth;
 use olympic\forms\auth\LoginForm;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
+use olympic\models\auth\Profiles;
 use olympic\repositories\auth\ProfileRepository;
 use \olympic\helpers\auth\ProfileHelper;
 
@@ -47,6 +48,12 @@ class AuthService
         }
 
         $profile = $this->profileRepository->getUser($user->id);
+        if(!$profile) {
+            $profile = Profiles::createDefault($user);
+            $profile->setRole($role);
+            $this->profileRepository->save($profile);
+        }
+        
         if (!in_array($profile->role, $roleArray)) {
             throw new \DomainException('У Вас нет прав для входа.');
         }
