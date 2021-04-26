@@ -1,38 +1,104 @@
-version: '3.2'
-
+version: '2'
 services:
 
-  frontend:
-    build: frontend
-    ports:
-      - 20080:80
-    volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
-
-  backend:
-    build: backend
-    ports:
-      - 21080:80
-    volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
-
   mysql:
-    image: mysql:5.7
+    env_file:
+      - ./.env
+    image: mysql:5.7.22
+    container_name: mysql_46
+    ports:
+      - "4506:3306"
+    volumes:
+      - ./var/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=verysecret
-      - MYSQL_DATABASE=yii2advanced
-      - MYSQL_USER=yii2advanced
-      - MYSQL_PASSWORD=secret
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+  phpmyadmin:
+    env_file:
+      - ./.env
+    image: phpmyadmin/phpmyadmin
 
-  #pgsql:
-  #  image: postgres:9.5
-  #  environment:
-  #    - POSTGRES_DB=yii2advanced
-  #    - POSTGRES_USER=yii2advanced
-  #    - POSTGRES_PASSWORD=secret
+    depends_on:
+      - mysql
+    ports:
+      - 8181:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_USERNAME: "${MYSQL_USER}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+
+  vol_app_source:
+    image: tianon/true
+    volumes:
+      - ./:/app
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: "Dockerfile-${PHP_VERSION}"
+    expose:
+      - 9000
+    volumes_from:
+      - vol_app_source
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+  workspace:
+    build:
+      context: ./docker/workspace
+      dockerfile: "Dockerfile-${PHP_VERSION}"
+    volumes_from:
+      - vol_app_source
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+  yii:
+    build:
+      context: ./docker/workspace
+      dockerfile: "Dockerfile-${PHP_VERSION}"
+    volumes_from:
+      - vol_app_source
+    depends_on:
+      - mysql
+    entrypoint: ["php", "yii"]
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    working_dir: /app
+
+  nginx-api:
+    build:
+      context: ./docker/nginx-api
+    depends_on:
+      - php-fpm
+    volumes_from:
+      - vol_app_source
+    ports:
+      - 8003:8003
+
+  nginx-backend:
+    build:
+      context: ./docker/nginx-backend
+    depends_on:
+      - php-fpm
+    volumes_from:
+      - vol_app_source
+    ports:
+      - 8002:8002
+
+  nginx-frontend:
+    build:
+      context: ./docker/nginx-frontend
+    depends_on:
+      - php-fpm
+    volumes_from:
+      - vol_app_source
+    ports:
+      - 8001:8001

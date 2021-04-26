@@ -68,7 +68,6 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'baseUrl'=>'',
         ],
         'user' => [
             'identityClass' => 'common\auth\Identity',
