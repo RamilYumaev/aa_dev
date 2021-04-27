@@ -8,8 +8,8 @@
 ~~~~
 docker-compose run --rm workspace composer install
 
-docker-compose run --rm workspace mkdir frontend/web/assets
-docker-compose run --rm workspace mkdir backend/web/assets
+docker-compose run --rm workspace mkdir -m777 backend/web/assets
+docker-compose run --rm workspace mkdir -m777 frontend/web/assets
 
 docker-compose run --rm workspace php init
 docker-compose run --rm yii migrate
