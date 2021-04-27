@@ -29,4 +29,8 @@ class SettingEntrantService extends ServicesClass
         }
         $this->competitionListRepository->save($model);
     }
+
+    public function updateAll($status) {
+        SettingCompetitionList::updateAll(['is_auto'=>$status]);
+    }
 }

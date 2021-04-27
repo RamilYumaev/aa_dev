@@ -97,10 +97,11 @@ class RegistryDocument extends ActiveRecord
             'application/msword',
             'image/svg+xml',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel',
         ];
         $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
-            throw new \DomainException($type. ' Неверный тип файла, разрешено загружать только файлы с расширением');
+            throw new \DomainException($type. ' Неверный тип файла');
         }
         $this->file = $file;
     }

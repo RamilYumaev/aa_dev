@@ -7,6 +7,9 @@ use dictionary\forms\DictCompetitiveGroupCreateForm;
 use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\services\DictCompetitiveGroupService;
+use modules\dictionary\components\RegisterCompetitiveListComponent;
+use modules\dictionary\models\RegisterCompetitionList;
+use modules\dictionary\models\SettingEntrant;
 use Yii;
 use dictionary\forms\search\DictCompetitiveGroupSearch;
 use yii\filters\VerbFilter;
@@ -147,6 +150,31 @@ class DictCompetitiveGroupController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ['result' => $this->service->getAllFullCg($year, $educationLevelId, $educationFormId,
             $facultyId, $specialityId, $foreignerStatus, $financingTypeId)];
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionSend($id)
+    {
+        $model = $this->findModel($id);
+        try {
+            if ((($settingEntrant = SettingEntrant::find()->oneDictCompetitiveGroup($model)) == null) || !$settingEntrant->settingCompetitionList) {
+                throw new \DomainException('Настройки на данный конкурсный список не существуют.');
+            }
+            /** @var RegisterCompetitionList $register */
+            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
+                ->push(array($model->ais_id), $settingEntrant->settingCompetitionList, date('Y-m-d'));
+            Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
+                'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 

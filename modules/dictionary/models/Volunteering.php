@@ -104,7 +104,6 @@ class Volunteering extends ActiveRecord
         return   implode(', ', array_map(function ($role) {
             return JobEntrantHelper::listVolunteeringCategories()[$role];
         }, json_decode($this->desire_work)));
-
     }
 
     public function attributeLabels()

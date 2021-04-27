@@ -48,6 +48,7 @@ $optionTime = [ 'pluginOptions' => [
             'data' => $modelSettingEntrant->getAllDateWork()
         ]) ?>
         <?= $form->field($model, 'interval')->textInput(); ?>
+        <?= $form->field($model, 'is_auto')->checkbox(); ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

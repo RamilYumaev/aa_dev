@@ -5,9 +5,11 @@ namespace modules\dictionary\models;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\forms\SettingEntrantForm;
 use modules\dictionary\forms\VolunteeringForm;
 use modules\dictionary\models\queries\SettingEntrantQuery;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\management\models\DateFeast;
 use modules\management\models\DateWork;
@@ -77,6 +79,10 @@ class SettingEntrant extends ActiveRecord
         return $this->type == self::ZUK;
     }
 
+    public function isZOS() {
+        return $this->type == self::ZOS;
+    }
+
     public static function tableName()
     {
         return "{{%setting_entrant}}";
@@ -111,6 +117,22 @@ class SettingEntrant extends ActiveRecord
         return $this->hasOne(SettingCompetitionList::class, ['se_id'=>'id']);
     }
 
+    public function getAllCgAisId() {
+        $query = DictCompetitiveGroup::find()
+            ->formEdu($this->form_edu)
+            ->finance($this->finance_edu)
+            ->eduLevel($this->edu_level)
+            ->specialRight($this->special_right)
+            ->foreignerStatus($this->foreign_status)
+            ->tpgu($this->tpgu_status);
+        if($this->faculty_id == AnketaHelper::HEAD_UNIVERSITY) {
+            $query->notInFaculty();
+        }else {
+            $query->faculty($this->faculty_id);
+        }
+        return $query->currentAutoYear()->select('ais_id')->column();
+    }
+
     public function attributeLabels()
     {
         return [
@@ -134,12 +156,19 @@ class SettingEntrant extends ActiveRecord
         return  new SettingEntrantQuery(static::class);
     }
 
-    public function getDateStart() {
+    public function getDateStart()
+    {
         return DateFormatHelper::formatRecord($this->datetime_start);
     }
 
-    public function getDateEnd() {
+    public function getDateEnd()
+    {
         return DateFormatHelper::formatRecord($this->datetime_end);
+    }
+
+    public function isSettingCompetitionList()
+    {
+         return $this->isZOS() && !$this->tpgu_status && !$this->foreign_status;
     }
 
     public function getAllDateWork()

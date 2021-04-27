@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => \yii\grid\SerialColumn::class],
                     ['value' => function($model) {
                         /** @var SettingEntrant $model */
-                        return $model->isZUK() ? Html::a('Настр. КП', ['setting-competition-list','se'=>$model->id], ['class' => $model->settingCompetitionList ? 'btn btn-success':'btn btn-danger']) : "";
+                        return $model->isSettingCompetitionList() ? Html::a('Настр. КП', ['setting-competition-list','se'=>$model->id], ['class' => $model->settingCompetitionList ? 'btn btn-success':'btn btn-danger']) : "";
                     }, 'format' => 'raw'],
                     ['attribute'=>'faculty_id', 'filter' => \dictionary\helpers\DictFacultyHelper::facultyListSetting(), 'value'=>'faculty'],
                     ['attribute'=>'form_edu', 'filter'=> DictCompetitiveGroupHelper::getEduForms(),'value'=>'formEdu'],
