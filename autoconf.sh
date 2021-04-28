@@ -1,17 +1,26 @@
 #!/bin/bash
 
-do_install() {
-   docker-compose exec frontend composer install
-   docker-compose exec frontend php yii migrate/up
-}
+    do_install() {
+       docker-compose run --rm workspace composer install
+       docker-compose run --rm workspace mkdir -m777 backend/web/assets
+       docker-compose run --rm workspace mkdir -m777 frontend/web/assets
+       docker-compose run --rm workspace php init
+    }
 
-do_update() {
-    docker-compose exec frontend composer update
-    docker-compose exec frontend php yii migrate/up
+    do_update() {
+        docker-compose run --rm workspace composer update
+        docker-compose run --rm workspace php yii migrate
+    }
+
+    do_migrate() {
+     docker-compose run --rm workspace php yii migrate
     }
 case "$1" in
     install)
         do_install
+        ;;
+      migrate)
+        do_migrate
         ;;
     update)
         do_update

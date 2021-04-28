@@ -20,14 +20,11 @@ return [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
         ],
-        'migrate-entrant' => [
+        'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationNamespaces' => ['modules\entrant\migrations', 'modules\support\migrations',
-                'modules\exam\migrations', 'modules\management\migrations',  'yii\queue\db\migrations',],
-        ],
-        'migrate-dictionary' => [
-            'class' => 'yii\console\controllers\MigrateController',
-            'migrationNamespaces' => ['modules\dictionary\migrations'],
+                'modules\exam\migrations', 'modules\management\migrations',  'yii\queue\db\migrations',
+                'modules\dictionary\migrations'],
         ],
     ],
     'components' => [

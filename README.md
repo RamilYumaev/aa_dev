@@ -6,12 +6,9 @@ docker-compose up -d
 
 После запуска docker
 ~~~~
-docker-compose run --rm workspace composer install
-
-docker-compose run --rm workspace mkdir -m777 backend/web/assets
-docker-compose run --rm workspace mkdir -m777 frontend/web/assets
-
-docker-compose run --rm workspace php init
+autoconf.sh install
+autoconf.sh update
+autoconf.sh migrate
 ~~~~
 
 URLs localhost
