@@ -44,6 +44,14 @@ class AuthController extends Controller
      */
     public function actionIndex()
     {
-        return ['token' => $this->service->getSdoToken(Yii::$app->user->getId())->token ];
+        $model = $this->service->getSdoToken(Yii::$app->user->getId());
+        if(!$model->profile){
+            return ['message'=> 'Не заполнен профиль! Дальнейшая работа невозможна!'];
+        }
+        return [
+            'lastName'=> $model->profile->last_name,
+            'firstName'=>$model->profile->first_name,
+            'patronymic'=> $model->profile->patronymic,
+            'token' => $model->token ];
     }
 }

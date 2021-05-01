@@ -35,4 +35,8 @@ class UserSdoToken extends ActiveRecord
     {
         return '{{%user_sdo_token}}';
     }
+
+    public function getProfile(){
+        return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
+    }
 }
