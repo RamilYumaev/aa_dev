@@ -52,6 +52,7 @@ class AuthController extends Controller
             'lastName'=> $model->profile->last_name,
             'firstName'=>$model->profile->first_name,
             'patronymic'=> $model->profile->patronymic,
+            'email'=>$model->profile->user->email,
             'token' => $model->token ];
     }
 }
