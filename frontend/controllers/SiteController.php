@@ -107,7 +107,7 @@ class SiteController extends Controller
             ->andWhere(['year' => $year])
             ->all();
 
-        echo count($allAisCg);
+       // echo count($allAisCg);
 
         $key = 0;
 

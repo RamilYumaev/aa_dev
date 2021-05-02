@@ -19,6 +19,8 @@ class AisCg extends ActiveRecord
             return "2019";
         } elseif ($year == "2019-2020") {
             return "2020";
+        }elseif ($year == "2020-2021"){
+            return "2021";
         }
 
         throw new \DomainException("получен не предусмотренный год");
