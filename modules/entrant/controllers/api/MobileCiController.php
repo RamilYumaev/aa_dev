@@ -37,12 +37,14 @@ class MobileCiController extends Controller
     }
 
 
-    public function actionIndex(){
-        return ['message'=>"Okay"];
+    public function actionIndex()
+    {
+        return ['message' => "Okay"];
     }
 
-    public function actionGetCgs($educationLevelId){
-        $cgs =[];
+    public function actionGetCgs($educationLevelId)
+    {
+        $cgs = [];
         $model = DictCompetitiveGroup::find()
             ->eduLevel($educationLevelId)
             ->tpgu(false)
@@ -54,28 +56,27 @@ class MobileCiController extends Controller
 
         $key = 1;
 
-    foreach ($model as $cg){
-        if(!SettingEntrant::find()->isOpenFormZUK($cg)){
-          continue;
+        foreach ($model as $cg) {
+            if (!SettingEntrant::find()->isOpenFormZUK($cg)) {
+                continue;
+            }
+
+            $cgs[$key]['competitive_group_id'] = $cg->id;
+            $cgs[$key]['faculty_name'] = $cg->faculty->full_name;
+            $cgs[$key]['specialty_name'] = $cg->specialty->codeWithName;
+            $cgs[$key]['specialization_name'] = $cg->specialization->name;
+            $cgs[$key]['education_form_id'] = $cg->education_form_id;
+            $cgs[$key]['cg_name'] = $cg->fullNameCg;
+
+            foreach ($cg->examinations as $examination) {
+                $cgs[$key]['examinations_id'][] = $examination->discipline->id;
+                $cgs[$key]['examinations'][$examination->priority]['subject_id'] = $examination->discipline->id;
+                $cgs[$key]['examinations'][$examination->priority]['subject_name'] = $examination->discipline->name;
+            }
+            $key++;
+
+
         }
-
-        $cgs[$key]['competitive_group_id'] = $cg->id;
-        $cgs[$key]['faculty_name'] = $cg->faculty->full_name;
-        $cgs[$key]['specialty_name'] = $cg->specialty->codeWithName;
-        $cgs[$key]['specialization_name'] = $cg->specialization->name;
-        $cgs[$key]['education_form_id'] = $cg->education_form_id;
-        $cgs[$key]['cg_name'] = $cg->fullNameCg;
-
-        foreach ($cg->examinations as $examination){
-            $cgs[$key]['examinations_id'][] = $examination->discipline->id;
-            $cgs[$key]['examinations'][$examination->priority]['subject_id'] =  $examination->discipline->id;
-            $cgs[$key]['examinations'][$examination->priority]['subject_name'] =  $examination->discipline->name;
-        }
-
-        $key++;
-
-
-    }
         return $cgs;
     }
 }
