@@ -45,10 +45,6 @@ class Identity implements IdentityInterface
         return $this->user->ais_token;
     }
 
-    public function setting()
-    {
-        return new Settings();
-    }
 
 
     public function isUser(): int

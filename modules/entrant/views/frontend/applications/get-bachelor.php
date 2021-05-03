@@ -32,7 +32,6 @@ $filteredCg = \Yii::$app->user->identity->filtrationCgByCse();
 $filteredFaculty = \Yii::$app->user->identity->filtrationFacultyByCse();
 $anketa = \Yii::$app->user->identity->anketa();
 $contractOnly = $anketa->onlyContract(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
-$setting = \Yii::$app->user->identity->setting();
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
@@ -68,7 +67,7 @@ $cgFaculty = $cgFacultyBase->all();
         $result .= "</tr>";
 
         foreach ($cgFaculty as $currentCg) {
-            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg) || !in_array($currentCg->id, $filteredCg )) {
                 continue;
             }
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);

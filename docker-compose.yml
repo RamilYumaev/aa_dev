@@ -47,6 +47,7 @@ services:
       - DB_DSN
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - PHP_IDE_CONFIG
 
   workspace:
     build:

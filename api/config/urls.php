@@ -9,4 +9,6 @@ return [
     'scan/presence' => 'scan/presence',
     'communication' => 'communication/index',
     'dictionary' => 'communication/dictionary',
+    'mobile-ci'=>'entrant-module/mobile-ci/index',
+    'mobile-ci/get-cgs' => 'entrant-module/mobile-ci/get-cgs',
 ];
