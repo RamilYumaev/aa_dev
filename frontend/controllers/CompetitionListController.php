@@ -4,6 +4,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
+use yii\db\ActiveQuery;
 use yii\web\Controller;
 
 class CompetitionListController extends Controller
@@ -67,11 +68,53 @@ class CompetitionListController extends Controller
         $query = RegisterCompetitionList::find()
         ->joinWith('competitionList')
         ->andWhere([
-            'competition_list.ais_cg_id'=> $cg,
+            'ais_cg_id'=> $cg,
             'status'=> RegisterCompetitionList::STATUS_SUCCESS,
             'type'=> $type
         ]);
 
+        $cgModel = DictCompetitiveGroup::find()->aisId($cg)->one();
+
+        return $this->renderCompetitionOneList($query, $type, $date, $id,
+            $cgModel->faculty_id,
+            $cgModel->edu_level,
+            $cgModel->special_right_id,
+            $cgModel->financing_type_id,
+            $cgModel->speciality_id,
+            $cgModel->education_form_id,
+            $cgModel->faculty->filial, $cgModel->ais_id);
+    }
+
+    public function actionEntrantGraduateList($faculty, $speciality, $finance, $form, $type, $special = null, $date = null, $id = null)
+    {
+        $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        $query = RegisterCompetitionList::find()
+            ->joinWith(['competitionList', 'settingEntrant'])
+            ->andWhere([
+                'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                'special_right' =>  $special,
+                'edu_level' =>  $eduLevel,
+                'form_edu' => $form,
+                 RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
+                'speciality_id' => $speciality,
+                'finance_edu' => $finance,
+                 CompetitionList::tableName().'.type'=> $type
+            ]);
+
+        return $this->renderCompetitionOneList($query, $type, $date, $id,  $faculty, $eduLevel, $special, $finance, $speciality, $form);
+    }
+
+    protected function renderCompetitionOneList(ActiveQuery $query,
+                                                $type,
+                                                $date,
+                                                $id,
+                                                $faculty,
+                                                $eduLevel,
+                                                $special,
+                                                $finance,
+                                                $speciality,
+                                                $form,
+                                                $isFilial = false, $cg = null) {
         $query1= clone $query;
 
         $dates = $query->select('date')->groupBy('date')->orderBy(['date'=>SORT_DESC])->column();
@@ -81,11 +124,21 @@ class CompetitionListController extends Controller
         }
 
         $rCls = $query1->andWhere(['date' => $date ?? $dates[0]])->orderBy(['number_update'=> SORT_ASC])->all();
-
-        $cgModel =DictCompetitiveGroup::find()->aisId($cg)->one();
-
-        return $this->render('entrant-list',['dates'=> $dates,
-            'cg' => $cgModel, 'type' => $type, 'rCls' => $rCls, 'date'=> $date, 'id'=> $id]);
+        $array = [
+            'dates'=> $dates,
+            'type' => $type,
+            'rCls' => $rCls,
+            'date'=> $date ?? $dates[0],
+            'id'=> $id,
+            'faculty'=> $faculty,
+            'eduLevel' =>$eduLevel,
+            'isFilial' => $isFilial,
+            'special' =>  $special,
+            'formEdu' => $form,
+            'speciality' => $speciality,
+            'finance' => $finance,
+            'aisId' => $cg
+        ];
+        return $this->render('entrant-list', $array);
     }
-
 }

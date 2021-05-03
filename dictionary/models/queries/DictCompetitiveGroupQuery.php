@@ -177,19 +177,26 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $query;
     }
 
-    public function cgAllGroup($cgContract)
+    public function cgAllGroup($cgContract, $eduLevel)
     {
-        return $this->andWhere(
-            ['faculty_id' => $cgContract->faculty_id,
-                'year' => $cgContract->year,
-                'speciality_id' => $cgContract->speciality_id,
-                'specialization_id' => $cgContract->specialization_id,
-                'foreigner_status' => 0,
-                'edu_level' => $cgContract->edu_level,
-                'education_form_id' => $cgContract->education_form_id,
-                'spo_class' => $cgContract->spo_class,
-            ]
-        )->all();
+        $array1 = ['faculty_id' => $cgContract->faculty_id,
+        'education_form_id' => $cgContract->education_form_id,
+        'speciality_id' => $cgContract->speciality_id];
+
+        $array2 =[
+            'specialization_id' => $cgContract->specialization_id,
+            'foreigner_status' => 0,
+            'year' => $cgContract->year,
+            'edu_level' => $cgContract->edu_level,
+            'spo_class' => $cgContract->spo_class,
+        ];
+
+        if($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
+        {
+           return $this->andWhere($array1)->select(['financing_type_id', 'special_right_id'])->groupBy(['financing_type_id', 'special_right_id'])->all();
+        }
+
+        return $this->andWhere(array_merge($array1, $array2))->all();
     }
 
     public function foreignerStatus($foreignerStatus)

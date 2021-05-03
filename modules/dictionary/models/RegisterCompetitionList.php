@@ -4,6 +4,8 @@
 namespace modules\dictionary\models;
 
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictSpeciality;
+use dictionary\models\Faculty;
 use yii\db\ActiveRecord;
 
 /**
@@ -15,6 +17,8 @@ use yii\db\ActiveRecord;
  * @property integer $status
  * @property integer $type_update
  * @property integer $number_update
+ * @property integer $speciality_id;
+ * @property integer $faculty_id;
  * @property string $date
  * @property string $time
  * @property string $error_message
@@ -30,10 +34,12 @@ class RegisterCompetitionList extends ActiveRecord
     const STATUS_SUCCESS = 2;
     const STATUS_ERROR = 3;
 
-    public function data($aisCgId, $typeUpdate, $numberUpdate, $seId)
+    public function data($aisCgId,  $typeUpdate, $numberUpdate, $specialityId, $facultyId, $seId)
     {
         $this->ais_cg_id = $aisCgId;
         $this->type_update = $typeUpdate;
+        $this->speciality_id = $specialityId;
+        $this->faculty_id = $facultyId;
         $this->se_id = $seId;
         $this->number_update = $numberUpdate;
         $this->date = date("Y-m-d");
@@ -84,6 +90,11 @@ class RegisterCompetitionList extends ActiveRecord
         return $this->hasOne(SettingCompetitionList::class,['se_id'=> 'se_id']);
     }
 
+    public function getSettingEntrant()
+    {
+        return $this->hasOne(SettingEntrant::class,['id'=> 'se_id']);
+    }
+
     public function getCompetitionList()
     {
         return $this->hasMany(CompetitionList::class,['rcl_id'=> 'id']);
@@ -94,6 +105,20 @@ class RegisterCompetitionList extends ActiveRecord
         return $this->hasOne(DictCompetitiveGroup::class, ['ais_id' => 'ais_cg_id']);
     }
 
+    public function getCgFacultyAndSpeciality()
+    {
+        return $this->hasOne(DictCompetitiveGroup::class, ['speciality_id' => 'speciality_id', 'faculty_id' => 'faculty_id'])->andWhere(['financing_type_id'=>2]);
+    }
+
+    public function getFaculty()
+    {
+        return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
+    }
+
+    public function getSpeciality()
+    {
+        return $this->hasOne(DictSpeciality::class, ['id' => 'speciality_id']);
+    }
 
     public function attributeLabels()
     {

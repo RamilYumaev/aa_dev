@@ -105,6 +105,10 @@ class SettingEntrant extends ActiveRecord
         return DictCompetitiveGroupHelper::getEduLevelsAbbreviated()[$this->edu_level];
     }
 
+    public function getEduLevelFull() {
+        return DictCompetitiveGroupHelper::getEduLevels()[$this->edu_level];
+    }
+
     public function getFormEdu() {
         return DictCompetitiveGroupHelper::getEduForms()[$this->form_edu];
     }
@@ -130,7 +134,41 @@ class SettingEntrant extends ActiveRecord
         }else {
             $query->faculty($this->faculty_id);
         }
-        return $query->currentAutoYear()->select('ais_id')->column();
+        return $query->currentAutoYear()->select(['ais_id','speciality_id','faculty_id'])->asArray()->all();
+    }
+
+    public function getAllGraduateCgAisId() {
+        $query = DictCompetitiveGroup::find()
+            ->formEdu($this->form_edu)
+            ->finance($this->finance_edu)
+            ->eduLevel($this->edu_level)
+            ->specialRight($this->special_right)
+            ->foreignerStatus($this->foreign_status)
+            ->tpgu($this->tpgu_status)
+            ->currentAutoYear()
+            ->notInFaculty()
+            ->select(['speciality_id','faculty_id'])
+            ->groupBy(['speciality_id','faculty_id'])
+            ->all();
+        $array = [];
+        foreach ($query as $item) {
+            $array[] = [
+                'faculty_id'=> $item->faculty_id,
+                'speciality_id' => $item->speciality_id,
+                'ais_id' => DictCompetitiveGroup::find()
+                ->formEdu($this->form_edu)
+                ->finance($this->finance_edu)
+                ->eduLevel($this->edu_level)
+                ->specialRight($this->special_right)
+                ->foreignerStatus($this->foreign_status)
+                ->tpgu($this->tpgu_status)
+                ->speciality($item->speciality_id)
+                ->faculty($item->faculty_id)
+                ->currentAutoYear()
+                ->select('ais_id')
+                ->column()];
+        }
+        return $array;
     }
 
     public function attributeLabels()
@@ -165,6 +203,18 @@ class SettingEntrant extends ActiveRecord
     {
         return DateFormatHelper::formatRecord($this->datetime_end);
     }
+
+    public function isGraduate()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+    }
+
+
+    public function isContract()
+    {
+        return $this->finance_edu == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+    }
+
 
     public function isSettingCompetitionList()
     {

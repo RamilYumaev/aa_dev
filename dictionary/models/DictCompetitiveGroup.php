@@ -11,6 +11,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use modules\dictionary\models\CompetitionList;
+use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\CseSubjectHelper;
@@ -390,8 +391,11 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
 
-    public function getCompetitiveList() {
-        return  $this->hasMany(CompetitionList::class,['ais_cg_id'=> 'ais_id']);
+    public function getRegisterCompetitionList($type) {
+        return  RegisterCompetitionList::find()->joinWith('competitionList')
+            ->andWhere(['ais_cg_id' => $this->ais_id])
+            ->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS,
+            'type'=> $type])->one();
     }
 
     public function getFinance() {

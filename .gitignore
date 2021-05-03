@@ -4,6 +4,7 @@
 /yii_test.bat
 var
 
+modules/entrant/files
 # phpstorm project files
 .idea
 
