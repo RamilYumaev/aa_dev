@@ -3,11 +3,14 @@
 /** @var $data array */
 /** @var $this \yii\web\View*/
 /** @var $model modules\dictionary\models\CompetitionList */
-/** @var $cg dictionary\models\DictCompetitiveGroup */
+/** @var $rcl modules\dictionary\models\RegisterCompetitionList */
+/** @var $entrantSetting modules\dictionary\models\SettingEntrant */
+use modules\entrant\helpers\DateFormatHelper;
 
-$cg = $model->registerCompetitionList->cg;
-$this->title = $cg->getFullNameCg();
-use modules\entrant\helpers\DateFormatHelper; ?>
+$rcl = $model->registerCompetitionList;
+$entrantSetting = $rcl->settingEntrant;
+$this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
+ ?>
 <div class="row">
     <div class="col-md-12">
         <p>
@@ -15,31 +18,20 @@ use modules\entrant\helpers\DateFormatHelper; ?>
             "Московский педагогический государственный университет" <br/>
             учебный год <?= $data['year']?>,<br/>
             дата публикации списка и время обновления <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
-            категория поступающих <?= $model->getTypeName($cg->special_right_id) ?>,<br/>
-            Структурное подразделение: <?= $cg->faculty->full_name ?>,<br/>
-            направление подготовки <?= $cg->specialty->codeWithName ?>,<br/>
-            уровень образования <?= $cg->eduLevelFull ?>,<br/>
-            <?php if($cg->specialisationName): ?>
-            профиль(и) <?= $cg->specialisationName ?>,<br/>
-            <?php endif; ?>
-            форма обучения <?= $cg->formEdu ?>,<br/>
-            вид финансирования <?= $cg->finance ?>,<br/>
-            <?php if($cg->isContractCg()) : ?>
+            категория поступающих <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>
+            Структурное подразделение: <?= $rcl->faculty->full_name ?>,<br/>
+            направление подготовки <?= $rcl->speciality->codeWithName ?>,<br/>
+            уровень образования <?= $entrantSetting->eduLevelFull ?>,<br/>
+            форма обучения <?= $entrantSetting->formEdu ?>,<br/>
+            вид финансирования <?= $entrantSetting->financeEdu ?>,<br/>
+            <?php if( $entrantSetting->isContract()) :?>
             стоимость обучения <?= $data['price_per_semester'] ?> <br/>
             <?php endif; ?>
-            <?php if ($cg->isBudget()) : ?>
             контрольные цифры приема:
-                <?php if (is_null($cg->special_right_id)) : ?>
-                <?= $data['kcp']['sum'] ?>,
-                     квота - <?= $data['kcp']['quota'] ?>,
-                    целевые - <?= $data['kcp']['target'] ?>
-                <?php elseif ($cg->isKvota()): ?>
-                    <?= $data['kcp']['quota'] ?>,
-                <?php elseif ($cg->isTarget()): ?>
-                <?=  $data['kcp']['target']  ?>,
-                <?php endif; ?>
-            <?= $data['kcp']['transferred'] ?? '' ?>,<br/>
-            <?php endif; ?>
+            <?= $data['kcp']['sum'] ?>,
+            Квота <?= $data['kcp']['quota'] ?>,
+            Целевые <?= $data['kcp']['target'] ?>,
+            <?= $data['kcp']['transferred'] ?>,<br/>
         </p>
     </div>
 </div>
@@ -49,10 +41,10 @@ use modules\entrant\helpers\DateFormatHelper; ?>
             <table class="table table">
                 <tr>
                     <th>№ п/п</th>
-                    <th>Фамилия Имя Отчество</th>
                     <th>СНИЛС</th>
+                    <th>Направленность</th>
                     <th>Сумма баллов</th>
-                    <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
                     <th>Индивидуальные достижения</th>
@@ -64,14 +56,13 @@ use modules\entrant\helpers\DateFormatHelper; ?>
                 <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr>
                     <td><?=$i++?></td>
-                    <td> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                     <td><?=$entrant['snils']?></td>
+                    <td><?= $entrant['specialization_name'] ?></td>
                     <td><?= $entrant['total_sum']?></td>
-                    <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
-                        $subject = $entrant['subjects'][$key];
-                    ?>
-                        <td><?= is_int($key) ? $subject['ball']. ($subject['subject_type'] == 1 ? ($subject['check_status'] == 1 ?', проверено':", не проверено"):"") : ""?></td>
+                        $subject = $entrant['subjects'][$key]; ?>
+                        <td><?= is_int($key) ? $subject['ball']. ($subject['subject_type'] == 1 ? ($subject['check_status'] == 1 ?', проверено':", не проверено"):"") :""?></td>
                     <?php endforeach; ?>
                     <td>
                     <?php if(key_exists('individual_achievements', $entrant)) :?>
@@ -81,7 +72,6 @@ use modules\entrant\helpers\DateFormatHelper; ?>
                     </td>
                     <td><?= $entrant['zos'] ? '+': '-'?></td>
                     <td><?= $entrant['hostel_need_status'] ? 'Да': 'Нет'?></td>
-                    <td><?= $entrant['zos']?></td>
                     <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                 <?php endforeach; ?>
                 </tr>

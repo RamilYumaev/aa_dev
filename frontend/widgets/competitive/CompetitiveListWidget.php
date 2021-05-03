@@ -10,6 +10,7 @@ class CompetitiveListWidget extends Widget
 {
     /* @var $date string */
     public $id;
+    public $view = 'list-one';
 
     public function run()
     {
@@ -19,6 +20,6 @@ class CompetitiveListWidget extends Widget
         }
         $path = \Yii::getAlias('@modules').$model->json_file;
         $json = file_get_contents($path);
-        return $this->render('list-one',['data'=>json_decode($json,true),  'model' => $model]);
+        return $this->render($this->view,['data'=>json_decode($json,true),  'model' => $model]);
     }
 }

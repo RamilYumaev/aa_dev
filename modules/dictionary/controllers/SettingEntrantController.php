@@ -138,8 +138,11 @@ class SettingEntrantController extends ControllerClass
             throw new NotFoundHttpException('Такой страницы не существует.');
         }
         try {
+            $cgs = explode(',', $model->ais_cg_id);
+            $array = ['ais_id'=> $cgs ? $cgs : $model->ais_cg_id,
+                'faculty_id' => $model->faculty_id, 'speciality_id' => $model->speciality_id];
             $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
-                ->push(array($model->ais_cg_id), $model->settingCompetitionList, date('Y-m-d'));
+                ->push(array($array), $model->settingCompetitionList, date('Y-m-d'));
             Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
                 'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
         } catch (\DomainException $e) {

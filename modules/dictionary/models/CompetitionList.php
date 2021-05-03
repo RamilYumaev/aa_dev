@@ -11,7 +11,6 @@ use yii\db\ActiveRecord;
  * This is the model class for table "{{%competition_list}}".
  *
  * @property integer $id
- * @property integer $ais_cg_id
  * @property integer $rcl_id
  * @property integer $type
  * @property string $datetime
@@ -20,28 +19,30 @@ use yii\db\ActiveRecord;
 
 class CompetitionList extends ActiveRecord
 {
-    public function data($aisCgId, $rclId, $type, $datetime, $jsonFile)
+    public function data($rclId, $type, $datetime, $jsonFile)
     {
-        $this->ais_cg_id = $aisCgId;
         $this->rcl_id = $rclId;
         $this->type = $type;
         $this->datetime = $datetime;
         $this->json_file = $jsonFile;
     }
 
-    public function getCg()
-    {
-        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id'=> 'ais_cg_id']);
-    }
-
     public function listType()
     {
         return [
-            1 => 'Общий конкурс',
-            2=> 'Лица,имеющие право на прием на обучение за счет бюджетных ассигнований в пределах особой квоты',
-            3=> 'Лица, поступающие на целевое обучение',
-            4=> 'Лица,имеющие право на прием без вступительных испытаний'
-            ];
+            DictCompetitiveGroupHelper::USUAL => 'Общий конкурс',
+            DictCompetitiveGroupHelper::SPECIAL_RIGHT => 'Лица,имеющие право на прием на обучение за счет бюджетных ассигнований в пределах особой квоты',
+            DictCompetitiveGroupHelper::TARGET_PLACE=> 'Лица, поступающие на целевое обучение',
+            'list_bvi' => 'Лица,имеющие право на прием без вступительных испытаний'
+        ];
+    }
+
+    public function getTypeName($type) {
+        return $this->isBvi() ? $this->listType()['list_bvi'] : $this->listType()[$type];
+    }
+
+    public function isBvi() {
+        return $this->type == 'list_bvi';
     }
 
     public static function listTitle($department = false)
@@ -55,22 +56,18 @@ class CompetitionList extends ActiveRecord
         ];
     }
 
-
-    public function getTypeName()
-    {
-        return $this->listType()[$this->type];
-    }
-
-
     public static function tableName()
     {
         return "{{%competition_list}}";
     }
 
+    public function getRegisterCompetitionList() {
+        return $this->hasOne(RegisterCompetitionList::class,['id'=>'rcl_id']);
+    }
+
     public function attributeLabels()
     {
         return [
-            'ais_cg_id' => "АИС КГ ИД",
             'rcl_id' => "RCL ID",
             'type' => "Тип",
             'datetime' => "Дата обновления",

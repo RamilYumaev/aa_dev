@@ -12,7 +12,6 @@ class CompetitionListController extends Controller
     {
        $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
        $handler->handle();
-       echo 'sula';
     }
 
     public function actionSendMail()

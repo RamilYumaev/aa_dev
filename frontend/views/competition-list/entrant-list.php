@@ -5,7 +5,15 @@
 /** @var $dates array */
 /** @var $date string */
 /** @var $id integer */
+/** @var $aisId integer */
+/** @var $isFilial boolean */
+/** @var $eduLevel $eduLevel */
+/** @var $special */
+/** @var $formEdu */
+/** @var $speciality */
+/** @var $finance */
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\models\CompetitionList;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
@@ -16,9 +24,18 @@ use yii\widgets\Pjax;
 /* @var $rcl modules\dictionary\models\RegisterCompetitionList */
 /* @var $cl modules\dictionary\models\CompetitionList */
 $jsonDates = json_encode($dates);
-$this->title = $cg->getFullNameCg();
-$url = \yii\helpers\Url::to(['entrant-list', 'cg'=> $cg->ais_id, 'type'=> $type]);
-$array = CompetitionList::listTitle($cg->faculty->filial)[$cg->edu_level];
+$graduateLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+$isGraduate = $eduLevel == $graduateLevel;
+$url = \yii\helpers\Url::to($isGraduate ?
+    ['entrant-graduate-list',
+        'faculty' => $faculty,
+        'speciality' => $speciality,
+        'special' => $special,
+        'form' => $formEdu,
+        'finance' => $finance,
+        'type'=>$type]:
+    ['entrant-list', 'cg'=> $aisId, 'type'=> $type]);
+$array = CompetitionList::listTitle($isFilial)[$eduLevel];
 $this->params['breadcrumbs'][] = ['label' => 'Конкурсные списки', 'url' => ['competition-list/index']];
 $this->params['breadcrumbs'][] = ['label' => $array['name'], 'url' => ['competition-list/'.$array['url']]];
 $this->params['breadcrumbs'][] = $this->title;
@@ -69,18 +86,25 @@ $countRCls = count($rCls);?>
                   'url': '".$url."&date='+ymd,
                  
             })
-             
                 }",
             ]]) ?>
         <?php foreach ($rCls as $index => $rcl) : $cls = $rcl->getCompetitionList()->andWhere(['type'=> $type])->all(); ?>
             <?php foreach ($cls as $cl): $idLast = $cl->id ?>
-                <?= Html::a(++$index,['entrant-list', 'cg'=> $cl->ais_cg_id, 'type'=>$type, 'date' =>$rcl->date, 'id'=> $cl->id],
+                <?= Html::a(++$index, $isGraduate ? ['entrant-graduate-list',
+                    'faculty' => $rcl->faculty_id,
+                    'speciality' => $rcl->speciality_id,
+                    'special' => $rcl->settingEntrant->special_right,
+                    'form' => $rcl->settingEntrant->form_edu,
+                    'finance' => $rcl->settingEntrant->finance_edu,
+                    'type'=>$type,
+                    'date' =>$rcl->date,
+                    'id'=> $cl->id] : ['entrant-list', 'cg'=> $rcl->ais_cg_id, 'type'=>$type, 'date' =>$rcl->date, 'id'=> $cl->id],
                     ['class'=> $idLast == $id || (!$id && $countRCls == $index) ? 'btn btn-warning' :'btn btn-info']) ?>
             <?php endforeach;?>
         <?php endforeach;?>
     </div>
     <div class="col-md-9">
-        <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['id'=>$id ?? $idLast]);?>
+        <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['view' => $isGraduate ? 'list-one-graduate' : 'list-one','id'=>$id ?? $idLast]);?>
     </div>
 </div>
 <?php Pjax::end(); ?>
