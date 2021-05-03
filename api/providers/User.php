@@ -1,6 +1,7 @@
 <?php
 namespace api\providers;
 
+use common\auth\models\UserSdoToken;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -72,7 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::find()->joinWith('accessToken')->andWhere(['token'=>$token])->one();
     }
 
     /**
@@ -197,6 +198,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id' =>'id' ]);
+    }
+
+    public function getAccessToken()
+    {
+        return $this->hasOne(UserSdoToken::class, ['user_id'=>'id']);
     }
 
     /**

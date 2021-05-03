@@ -47,7 +47,7 @@ class SettingEntrantSearch extends Model
             'cse_as_vi' => $this->cse_as_vi,
             'is_vi' => $this->is_vi,
             'type' => $this->type,
-            'form_edu,' => $this->form_edu,
+            'form_edu' => $this->form_edu,
         ]);
 
         $query
