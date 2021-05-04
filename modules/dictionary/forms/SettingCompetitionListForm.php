@@ -6,7 +6,7 @@ use yii\base\Model;
 class SettingCompetitionListForm extends Model
 {
     public $date_start, $date_end, $time_start, $time_end, $se_id, $time_start_week,
-        $time_end_week, $interval, $date_ignore, $is_auto;
+        $time_end_week, $interval, $date_ignore, $is_auto, $end_date_zuk;
 
     public function __construct(SettingCompetitionList $competitionList = null, $config = [])
     {
@@ -25,6 +25,7 @@ class SettingCompetitionListForm extends Model
         return [
             [['date_start', 'date_end', 'time_start', 'time_end', 'time_start_week', 'time_end_week', 'interval'], 'required'],
             [['interval', 'se_id', 'is_auto'], 'integer'],
+            [['end_date_zuk'], 'datetime', 'format' => 'yyyy-M-d H:m:s'],
             [['date_start', 'date_end'], 'date', 'format' => 'yyyy-M-d'],
             [['date_ignore'],'safe' ],
             [['time_start', 'time_end', 'time_start_week', 'time_end_week'], 'time', 'format' => 'H:m:s'],

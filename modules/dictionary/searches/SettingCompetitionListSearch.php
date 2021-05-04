@@ -7,13 +7,13 @@ use yii\data\ActiveDataProvider;
 
 class SettingCompetitionListSearch extends Model
 {
-    public  $is_auto, $date_start, $date_end, $time_start, $time_end, $date_ignore;
+    public  $is_auto, $date_start, $date_end, $time_start, $time_end, $date_ignore, $end_date_zuk;
 
     public function rules()
     {
         return [
             [['is_auto',], 'integer'],
-            [['date_start', 'date_end', 'time_start', 'time_end', 'date_ignore'], 'safe'],
+            [['date_start', 'date_end', 'time_start', 'time_end','end_date_zuk', 'date_ignore'], 'safe'],
         ];
     }
     /**
@@ -44,6 +44,7 @@ class SettingCompetitionListSearch extends Model
             ->andFilterWhere(['like','time_start', $this->time_start])
             ->andFilterWhere(['like','time_end', $this->time_end])
             ->andFilterWhere(['like','date_start', $this->date_start])
+            ->andFilterWhere(['like','end_date_zuk', $this->end_date_zuk])
             ->andFilterWhere(['like','date_end', $this->date_end]);
 
         return $dataProvider;
