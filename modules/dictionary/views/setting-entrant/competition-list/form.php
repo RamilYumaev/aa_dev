@@ -42,6 +42,13 @@ $optionTime = [ 'pluginOptions' => [
         <?= $form->field($model, 'time_end')->widget(\kartik\time\TimePicker::class, $optionTime); ?>
         <?= $form->field($model, 'time_start_week')->widget(\kartik\time\TimePicker::class, $optionTime); ?>
         <?= $form->field($model, 'time_end_week')->widget(\kartik\time\TimePicker::class, $optionTime); ?>
+        <?= $form->field($model, 'end_date_zuk')->widget(\kartik\datetime\DateTimePicker::class,
+            ['pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd hh:ii:00',
+                'startDate'=> $modelSettingEntrant->getDateStart(),
+                'endDate' =>  $modelSettingEntrant->getDateEnd(),
+            ]]); ?>
         <?= $form->field($model, 'date_ignore')->widget(\kartik\select2\Select2::class, [
             'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
             'pluginOptions' => ['allowClear' => true],

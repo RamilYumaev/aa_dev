@@ -2,6 +2,7 @@
 
 
 namespace modules\dictionary\jobs;
+use api\client\Client;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use yii\base\BaseObject;
@@ -10,6 +11,7 @@ use yii\helpers\FileHelper;
 class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
 {
     public $url;
+    public $accessToken = '';
 
     /** @var RegisterCompetitionList $register */
 
@@ -29,7 +31,12 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
     public function generate()
     {
         $this->saveRegister(RegisterCompetitionList::STATUS_SEND);
-        //$result =  (new Client())->postData($this->url, $this->data);
+        $array['cg'] = $this->register->ais_cg_id;
+        $array['access_token'] = $this->accessToken;
+        if($this->register->settingCompetitionList->isEndDateZuk()) {
+            $array['status']=1;
+        }
+        //$result =  (new Client())->getData($this->url, $array);
         $item = $this->getData();
             $this->saveCompetitionList($item, 'list', 'list_bvi');
             $this->saveCompetitionList($item, 'list_bvi', 'list');

@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'time_start:time',
                     'date_end:date',
                     'time_end:time',
+                    'end_date_zuk:datetime',
                     ['value' => function($model) {
                         /** @var \modules\dictionary\models\SettingCompetitionList $model */
                         return  Html::a('Реестр', ['register','se'=>$model->se_id], ['class' => 'btn btn-warning']);
