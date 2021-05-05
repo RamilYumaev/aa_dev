@@ -44,6 +44,7 @@ class MobileCiController extends Controller
 
     public function actionGetCgs($educationLevelId)
     {
+        $cgsArray = [];
         $cgs = [];
         $model = DictCompetitiveGroup::find()
             ->eduLevel($educationLevelId)
@@ -54,29 +55,29 @@ class MobileCiController extends Controller
             ->withoutBranch()
             ->all();
 
-        $key = 1;
+       // $key = 1;
 
         foreach ($model as $cg) {
             if (!SettingEntrant::find()->isOpenFormZUK($cg)) {
                 continue;
             }
-
-            $cgs[$key]['competitive_group_id'] = $cg->id;
-            $cgs[$key]['faculty_name'] = $cg->faculty->full_name;
-            $cgs[$key]['specialty_name'] = $cg->specialty->codeWithName;
-            $cgs[$key]['specialization_name'] = $cg->specialization->name;
-            $cgs[$key]['education_form_id'] = $cg->education_form_id;
-            $cgs[$key]['cg_name'] = $cg->fullNameCg;
+            $cgs['examinations_id'] = [];
+            $cgs['competitive_group_id'] = $cg->id;
+            $cgs['faculty_name'] = $cg->faculty->full_name;
+            $cgs['specialty_name'] = $cg->specialty->codeWithName;
+            $cgs['specialization_name'] = $cg->specialization->name;
+            $cgs['education_form_id'] = $cg->education_form_id;
+            $cgs['cg_name'] = $cg->fullNameCg;
 
             foreach ($cg->examinations as $examination) {
-                $cgs[$key]['examinations_id'][] = $examination->discipline->id;
-                $cgs[$key]['examinations'][$examination->priority]['subject_id'] = $examination->discipline->id;
-                $cgs[$key]['examinations'][$examination->priority]['subject_name'] = $examination->discipline->name;
+                $cgs['examinations_id'][] = $examination->discipline->id;
             }
-            $key++;
+            $cgsArray[] = $cgs;
+
+          //  $key++;
 
 
         }
-        return $cgs;
+        return $cgsArray;
     }
 }
