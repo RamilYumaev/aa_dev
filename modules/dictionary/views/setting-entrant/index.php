@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'datetime_end:datetime',
                     ['class' => ActionColumn::class,
                         'controller' => "setting-entrant",
-                        'template' => '{update} {delete}',
+                        'template' => '{update} {view} {delete}',
                     ],
                 ]
             ]); ?>

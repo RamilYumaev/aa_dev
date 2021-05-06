@@ -1,6 +1,8 @@
 <?php
 
 namespace modules\dictionary\controllers;
+use Cassandra\Set;
+use dictionary\forms\search\DictCompetitiveGroupSearch;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\components\RegisterCompetitiveListComponent;
@@ -152,6 +154,55 @@ class SettingEntrantController extends ControllerClass
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionSendCg($id)
+    {
+        if (($model = DictCompetitiveGroup::findOne($id)) == null) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+        try {
+            if ((($settingEntrant = SettingEntrant::find()->oneDictCompetitiveGroup($model)) == null) || !$settingEntrant->settingCompetitionList) {
+                throw new \DomainException('Настройки на данный конкурсный список не существуют.');
+            }
+            /** @var RegisterCompetitionList $register */
+            $array = ['ais_id'=> $model->ais_id,
+                'faculty_id' => $model->faculty_id, 'speciality_id' => $model->speciality_id];
+            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
+                ->push(array($array), $settingEntrant->settingCompetitionList, date('Y-m-d'));
+            Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
+                'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSendCgGraduate($id,$se, $faculty, $speciality)
+    {
+        try {
+            if (($settingEntrant = SettingEntrant::findOne($se)) == null) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+            /** @var RegisterCompetitionList $register */
+            $array = ['ais_id'=> $id,
+                'faculty_id' => $faculty, 'speciality_id' => $speciality];
+            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
+                ->push(array($array), $settingEntrant->settingCompetitionList, date('Y-m-d'));
+            Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
+                'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
     /**
      * @return mixed
@@ -178,6 +229,24 @@ class SettingEntrantController extends ControllerClass
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('competition-list/register/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
+    /**
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id)
+    {
+        $modelSettingEntrant = $this->findModel($id);
+        $searchModel = new DictCompetitiveGroupSearch($modelSettingEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('view', [
+            'model' => $modelSettingEntrant,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

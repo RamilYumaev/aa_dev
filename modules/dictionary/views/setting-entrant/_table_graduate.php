@@ -18,11 +18,24 @@ use yii\helpers\Html;
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => \yii\grid\SerialColumn::class],
-        'id' ,
         [
-            'value' => function ($model){
-                return $model->ais_id && !$model->tpgu_status && !$model->foreigner_status ? Html::a('Обновить КС', ['send-cg', 'id' => $model->id], ['class'=>'btn btn-warning',
-                    'data'=>['confirm'=> 'Вы уверены, что хотите это сделать?']]) :'';
+            'value' => function ($cg) use ($model){
+              $data = implode(',', DictCompetitiveGroup::find()
+                    ->formEdu($model->form_edu)
+                    ->finance($model->finance_edu)
+                    ->eduLevel($model->edu_level)
+                    ->specialRight($model->special_right)
+                    ->foreignerStatus($model->foreign_status)
+                    ->tpgu($model->tpgu_status)
+                    ->speciality($cg->speciality_id)
+                    ->faculty($cg->faculty_id)
+                    ->currentAutoYear()
+                    ->select('ais_id')
+                  ->andWhere(['not', ['ais_id' => null]])
+                    ->column());
+              return $data . ($data ? Html::a('Обновить КС', ['send-cg-graduate', 'id' => $data, 'se'=> $model->id, 'faculty'=> $cg->faculty_id,
+                      'speciality'=>$cg->speciality_id], ['class'=>'btn btn-warning pull-right',
+                  'data'=>['confirm'=> 'Вы уверены, что хотите это сделать?']]) :'');
             },
             'format' => 'raw'
         ],
@@ -34,10 +47,7 @@ use yii\helpers\Html;
             'filter' => SelectDataHelper::dataSearchModel($searchModel,$searchModel->specialityCodeList(),'speciality_id', 'specialty.codeWithName'),
             'value' => 'specialty.codeWithName',
         ],
-        ['attribute' => 'specialization_id',
-            'filter' => SelectDataHelper::dataSearchModel($searchModel,$searchModel->specializationList(),'specialization_id', 'specialization.name'),
-            'value' => 'specialization.name'
-        ],
-    ]
-]); ?>
 
+    ]
+]);
+?>

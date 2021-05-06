@@ -12,8 +12,8 @@ class RegisterCompetitionListSearch extends Model
     public function rules()
     {
         return [
-            [['status', 'type_update', 'number_update', 'ais_cg_id', 'se_id'], 'integer'],
-            [['date', 'time'], 'safe'],
+            [['status', 'type_update', 'number_update',  'se_id'], 'integer'],
+            [['date', 'ais_cg_id','time'], 'safe'],
         ];
     }
     /**
@@ -38,13 +38,13 @@ class RegisterCompetitionListSearch extends Model
         $query->andFilterWhere([
             'status' =>  $this->status,
             'se_id' => $this->se_id,
-            'ais_cg_id' => $this->ais_cg_id,
             'type_update' => $this->type_update,
             'number_update' => $this->number_update,
         ]);
 
         $query
             ->andFilterWhere(['like', 'date', $this->date])
+            ->andFilterWhere(['like', 'ais_cg_id', $this->ais_cg_id])
             ->andFilterWhere(['like', 'time', $this->time]);
 
         return $dataProvider;

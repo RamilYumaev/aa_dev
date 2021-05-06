@@ -93,6 +93,8 @@ class SettingEntrantQuery extends ActiveQuery
             ->eduForm($dictCompetitiveGroup->education_form_id)
             ->eduFinance($dictCompetitiveGroup->financing_type_id)
             ->specialRight($dictCompetitiveGroup->special_right_id)
+            ->foreign($dictCompetitiveGroup->foreigner_status)
+            ->tpgu($dictCompetitiveGroup->tpgu_status)
             ->isVi($dictCompetitiveGroup->isExamDviOrOch())
             ->one();
     }
