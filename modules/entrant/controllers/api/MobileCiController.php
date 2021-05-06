@@ -5,6 +5,7 @@ namespace modules\entrant\controllers\api;
 
 
 use api\providers\User;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\SettingEntrant;
 use yii\filters\AccessControl;
@@ -66,7 +67,7 @@ class MobileCiController extends Controller
             $cgs['faculty_name'] = $cg->faculty->full_name;
             $cgs['specialty_name'] = $cg->specialty->codeWithName;
             $cgs['specialization_name'] = $cg->specialization->name;
-            $cgs['education_form_id'] = $cg->education_form_id;
+            $cgs['education_form_name'] = DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id];
             $cgs['cg_name'] = $cg->fullNameCg;
 
             foreach ($cg->examinations as $examination) {
