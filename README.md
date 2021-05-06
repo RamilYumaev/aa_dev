@@ -11,8 +11,12 @@ autoconf.sh update
 autoconf.sh migrate
 ~~~~
 
-URLs localhost
 ~~~~
+docker-compose run --rm workspace mkdir -m777 entrant/web/assets
+docker-compose run --rm workspace mkdir -m777 operator/web/assets
+~~~~
+URLs localhost
+
 FRONTEND
 http://localhost:8001
 
@@ -22,10 +26,18 @@ http://localhost:8002
 API
 http://localhost:8003/
 
+ENTRANT 
+http://localhost:8004/
+
+OPERATOR
+http://localhost:8005/
+
 PHPMYADMIN
 http://localhost:8181/
 
 u:root p:root
 ~~~~
+
+
 
 
