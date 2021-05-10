@@ -59,7 +59,7 @@ class ApplicationsService
             $userCg = UserCg::create($cg->id, $cathedra_id);
             $formCategory = DictCompetitiveGroupHelper::formCategory()[$cg->education_form_id];
             $statement = $this->statementRepository->getStatementFull($userCg->user_id,
-                $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level, $formCategory);
+                $cg->faculty_id, $cg->speciality_id, $cg->special_right_id, $cg->edu_level, $formCategory, $cg->financing_type_id);
             if($statement) {
                 if($statement->files) {
                     throw new \DomainException('Вы не можете добавить, так как в заявлении присутствует загруженный файл');
@@ -74,8 +74,11 @@ class ApplicationsService
                 $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg)->one();
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
-                    $userCg = UserCg::create($shareCg->id, null);
-                    $this->repository->save($userCg);
+                    if(SettingEntrant::find()->isOpenZUK($shareCg)) {
+                        $userCg = UserCg::create($shareCg->id, null);
+                        $this->repository->save($userCg);
+                    }
+
                 }
             }
 
@@ -84,8 +87,10 @@ class ApplicationsService
             $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::SPECIAL_RIGHT)->one();
             if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
             {
+                if(SettingEntrant::find()->isOpenZUK($shareCg)) {
                 $userCg = UserCg::create($shareCg->id, null);
                 $this->repository->save($userCg);
+                }
             }
         }
 
@@ -93,8 +98,10 @@ class ApplicationsService
                 $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::TARGET_PLACE)->one();
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
-                    $userCg = UserCg::create($shareCg->id, null);
-                    $this->repository->save($userCg);
+                    if(SettingEntrant::find()->isOpenZUK($shareCg)) {
+                        $userCg = UserCg::create($shareCg->id, null);
+                        $this->repository->save($userCg);
+                    }
                 }
             }
         });

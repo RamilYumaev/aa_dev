@@ -233,4 +233,9 @@ class SettingEntrant extends ActiveRecord
         }
         return $days;
     }
+
+     public function open() {
+        $date = date("Y-m-d H:i:s");
+        return $this->datetime_start  <  $date && $this->datetime_end  > $date;
+    }
 }

@@ -36,6 +36,11 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["status" => $status]);
     }
 
+    public function finance($finance)
+    {
+        return $this->andWhere(["finance" => $finance]);
+    }
+
     public function statusNoDraft($alias = "")
     {
         return $this->andWhere([">", $alias."status", StatementHelper::STATUS_DRAFT]);
@@ -56,29 +61,31 @@ class StatementQuery extends \yii\db\ActiveQuery
         return $this->andWhere(["edu_level" =>$eduLevel]);
     }
 
-    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory) {
+    public function defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory, $finance) {
         return $this->faculty($facultyId)
             ->speciality($specialityId)
             ->specialRight($specialRight)
             ->eduLevel($eduLevel)
             ->status($status)
-            ->formCategory($formCategory);
+            ->formCategory($formCategory)
+            ->finance($finance);
     }
 
-    public function defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory) {
+    public function defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory, $finance) {
         return $this->faculty($facultyId)
             ->speciality($specialityId)
             ->specialRight($specialRight)
             ->eduLevel($eduLevel)
-            ->formCategory($formCategory);
+            ->formCategory($formCategory)
+            ->finance($finance);
     }
 
-    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory) {
-        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory)->user($userId)->max('counter');
+    public function lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory, $finance) {
+        return $this->defaultWhereNoStatus($facultyId, $specialityId, $specialRight, $eduLevel, $formCategory, $finance)->user($userId)->max('counter');
     }
 
-    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId, $formCategory) {
-        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory)
+    public function statementUser($facultyId, $specialityId, $specialRight, $eduLevel, $status, $userId, $formCategory, $finance) {
+        return $this->defaultWhere($facultyId, $specialityId, $specialRight, $eduLevel, $status, $formCategory, $finance)
             ->user($userId)
             ->one();
     }

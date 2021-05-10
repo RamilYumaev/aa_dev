@@ -70,16 +70,17 @@ class StatementService
         $this->consentCgRepository = $consentCgRepository;
     }
 
-    public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory)
+    public function create($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory, $finance)
     {
-        $this->manager->wrap(function () use ($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory) {
+        $this->manager->wrap(function () use ($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory, $finance) {
                 $model = Statement::find();
-                $data = DictCompetitiveGroupHelper::idAllUser($userId, $facultyId, $specialityId, $specialRight, DictCompetitiveGroupHelper::categoryForm()[$formCategory]);
-                $max =  $model->lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory);
-                $modelOne = $model->statementUser($facultyId, $specialityId, $specialRight, $eduLevel, Statement::DRAFT, $userId, $formCategory);
+                $data = DictCompetitiveGroupHelper::idAllUser($userId, $facultyId, $specialityId, $specialRight, DictCompetitiveGroupHelper::categoryForm()[$formCategory], $finance);
+                $max =  $model->lastMaxCounter($facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory, $finance);
+                $modelOne = $model->statementUser($facultyId, $specialityId, $specialRight, $eduLevel, Statement::DRAFT, $userId,
+                    $formCategory, $finance);
                 if(!$modelOne) {
                     if ($this->isStatementCg($data, $userId)) {
-                        $statement = Statement::create($userId, $facultyId, $specialityId, $specialRight, $eduLevel, ++$max, $formCategory);
+                        $statement = Statement::create($userId, $facultyId, $specialityId, $specialRight, $eduLevel, ++$max, $formCategory, $finance);
                         $this->repository->save($statement);
                         $this->statementCg($data, $userId, $statement->id);
                     }
@@ -115,10 +116,6 @@ class StatementService
         $statement->setCountPages($count);
         $this->rejectionCgConsentRepository->save($statement);
     }
-
-
-
-
 
     public function remove($id, $userId){
         $statementCg = $this->cgRepository->getUser($id, $userId);

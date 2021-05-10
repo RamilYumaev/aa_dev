@@ -67,7 +67,7 @@ $cgFaculty = $cgFacultyBase->all();
         $result .= "</tr>";
 
         foreach ($cgFaculty as $currentCg) {
-            if(!SettingEntrant::find()->isOpenFormZUK($currentCg) || !in_array($currentCg->id, $filteredCg )) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg) || (!in_array($currentCg->id, $filteredCg ) && $anketa->onlyCse())) {
                 continue;
             }
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
