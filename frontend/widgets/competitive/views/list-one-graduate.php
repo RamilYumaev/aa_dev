@@ -27,11 +27,16 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             <?php if( $entrantSetting->isContract()) :?>
             стоимость обучения <?= $data['price_per_semester'] ?> <br/>
             <?php endif; ?>
-            контрольные цифры приема:
-            <?= $data['kcp']['sum'] ?>,
-            Квота <?= $data['kcp']['quota'] ?>,
-            Целевые <?= $data['kcp']['target'] ?>,
-            <?= $data['kcp']['transferred'] ?>,<br/>
+            <?php if ($entrantSetting->isBudget()) : ?>
+                контрольные цифры приема:
+                <?php if (is_null($entrantSetting->special_right)) : ?>
+                    <?= $data['kcp']['sum'] ?>,
+                    целевые - <?= $data['kcp']['target'] ?>
+                <?php elseif ($entrantSetting->isTarget()): ?>
+                    <?=  $data['kcp']['target']  ?>,
+                <?php endif; ?>
+                <?= $data['kcp']['transferred'] ?? '' ?>,<br/>
+            <?php endif; ?>
         </p>
     </div>
 </div>
@@ -47,31 +52,55 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
+                    <th>Сумма баллов за все предметы ВИ</th>
                     <th>Индивидуальные достижения</th>
+                    <th>Сумма баллов за все ИД</th>
+                    <th>Подача документа об образовании</th>
                     <th>Согласие на зачисление подано (+) / отсутствует (-)</th>
+                    <?php if($entrantSetting->isTarget()) : ?>
+                        <th>Наименование целевой организации</th>
+                    <?php endif; ?>
                     <th>Нуждается в общежитии</th>
+                    <?php if($entrantSetting->isContract()) : ?>
+                        <th>Оплатил ?</th>
+                    <?php endif; ?>
                     <th>Примечание</th>
                     <th>Дата приема заявлений</th>
                 </tr>
                 <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr>
                     <td><?=$i++?></td>
-                    <td><?=$entrant['snils']?></td>
+                    <td><?= key_exists('snils', $entrant) ? $entrant['snils'] : ""?></td>
                     <td><?= $entrant['specialization_name'] ?></td>
                     <td><?= $entrant['total_sum']?></td>
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
-                        <td><?= is_int($key) ? $subject['ball']. ($subject['subject_type'] == 1 ? ($subject['check_status'] == 1 ?', проверено':", не проверено"):"") :""?></td>
+                        <td>
+                            <?php if(is_int($key)):?>
+                                <?= (key_exists('ball', $subject) ? $subject['ball'].", " : '') ?>
+                                <?= 'ВИ' ?>
+                            <?php endif; ?>
+                        </td>
                     <?php endforeach; ?>
+                    <td><?= $entrant['subject_sum']?></td>
                     <td>
                     <?php if(key_exists('individual_achievements', $entrant)) :?>
                         <?php echo implode(', ', array_map(function($individual_achievement)
                         { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
                     <?php endif; ?>
                     </td>
-                    <td><?= $entrant['zos'] ? '+': '-'?></td>
-                    <td><?= $entrant['hostel_need_status'] ? 'Да': 'Нет'?></td>
+                    <td><?= $entrant['sum_of_individual']?></td>
+                    <td><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
+                    <td><?= $entrant['zos_status_id'] ? '+': '-'?></td>
+                    <?php if($entrantSetting->isTarget()) : ?>
+                        <td><?= $entrant['target_organization_name'] ?></td>
+                    <?php endif; ?>
+                    <td><?= $entrant['hostel_need_status_id'] ? 'Да': 'Нет'?></td>
+                    <?php if($entrantSetting->isContract()) : ?>
+                        <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
+                    <?php endif; ?>
+                    <td><?= key_exists('pp_status_id',$entrant) ? "ПП" : ''?></td>
                     <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                 <?php endforeach; ?>
                 </tr>

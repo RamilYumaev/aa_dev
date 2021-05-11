@@ -27,6 +27,8 @@ array_merge(
                 ['label' => 'Сотрудники ЦПК', 'url' => ['/dictionary-module/job-entrant']],
                 ['label' => 'Волонтеры', 'url' => ['/dictionary-module/volunteering']],
                 ['label' => 'Настройки приема', 'url' => ['/dictionary-module/setting-entrant']],
+                ['label' => 'Настройки КС', 'url' => ['/dictionary-module/setting-entrant/setting-competition-list-index']],
+                ['label' => 'Реестр КС', 'url' => ['/dictionary-module/setting-entrant/register-competition-list-index']],
             ])]] : []),
 
 //    (Yii::$app->user->can('manager') ?
