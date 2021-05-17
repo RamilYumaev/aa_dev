@@ -27,7 +27,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
         о зачислении в число студентов 1 курса по образовательной программе <?= $cg->edu_level== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "среднего профессионального образования" : "высшего образования"?> – программе <?= DictCompetitiveGroupHelper::eduLevelGenitive()[$cg->edu_level] ?> –
         на <?= DictCompetitiveGroupHelper::getEduFormsAccusative()[$cg->education_form_id] ?> форму обучения
         <?=$cg->financing_type_id == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET ? 'на место, финансируемое из федерального бюджета' : 'по договору об оказании платных образовательных услуг'?>,
-        <?= ($cg->edu_level== DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL || $cg->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) ? 'с 1 окт. 2020 г.' : 'с 1 сент. 2020 г.'?>
+        <?= ($cg->edu_level== DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL || $cg->education_form_id == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) ? 'с 1 окт. 2021 г.' : 'с 1 сент. 2021 г.'?>
         в
         <?php if($cg->edu_level== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ):?>
             <?= $cg->faculty->full_name ?> по направлению подготовки: <?= $cg->specialty->codeWithName?> в связи с желанием быть зачисленным в другую образовательную организацию.

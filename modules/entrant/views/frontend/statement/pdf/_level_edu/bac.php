@@ -49,21 +49,15 @@ $och = false;
             <th align="center">Вид финансирования</th>
         <?php else : ?>
             <th rowspan="2">Основание приема</th>
-            <th align="center" colspan="2">Вид финансирования</th>
+            <th rowspan="2">Вид финансирования</th>
+            <!-- <th align="center" colspan="2">Вид финансирования</th> -->
         <?php endif; ?>
     </tr>
     <tr>
         <th>Направление подготовки</th>
         <th>Образовательная программма</th>
         <th>Форма обучения</th>
-        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
-            <th>Платное обучение</th>
-        <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
-            <th>Федеральный бюджет</th>
-        <?php else : ?>
-            <th>Федеральный бюджет</th>
-            <th>Платное обучение</th>
-        <?php endif; ?>
+        
     </tr>
     <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
         $och = true;
@@ -74,13 +68,19 @@ $och = false;
             <td width="30%"><?= $value['specialization'] ?></td>
             <td width="10%"><?= $value['form'] ?></td>
             <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
-                <td class="text-center"><?= $value['contract'] ?? "" ?></td>
+                <td class="text-center">На места по договорам об оказании платных образовательных услуг</td>
             <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
-                <td class="text-center"><?= $value['budget'] ?? "" ?></td>
+                <td class="text-center">За счет бюджетных ассигнований федерального бюджета</td>
             <?php else : ?>
                 <td width="11%"><?= $value['special_right'] ?></td>
-                <td width="13%"><?= $value['budget'] ?? "" ?></td>
-                <td width="10%" class="text-center"><?= $value['contract'] ?? "" ?></td>
+                <?php if ($value['budget'] != "") : ?>
+                <td width="23%" class="text-center">За счет бюджетных ассигнований федерального бюджета
+                </td>
+                <?php else : ?>
+                    <td width="23%" class="text-center">На места по договорам об оказании платных образовательных услуг
+                </td>
+                <?php endif; ?>
+                
             <?php endif; ?>
         </tr>
     <?php endforeach; ?>
@@ -98,14 +98,7 @@ $och = false;
 
 <?php endif; ?>
 
-<?php if ($cseVi): ?>
-    <p>
-        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
-            "":
-            "Прошу засчитать в качестве балла по предметам ". $cseVi ." наивысший результат по всупительному испытанию или результату ЕГЭ"?>
-    </p>
-<?php else :?>
-<?php endif; ?>
+
 <?php if ($noCse): ?>
     <p>
         Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
@@ -120,13 +113,26 @@ $och = false;
         <?php endif; ?>
     </p>
 <?php endif; ?>
+<?php if ($cseVi): ?>
+    <p>
+        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
+            "":
+            "Прошу засчитать в качестве балла по предмету ". $cseVi ." наивысший результат по всупительному испытанию или результату ЕГЭ"?>
+    </p>
+<?php else :?>
+<?php endif; ?>
+<p>
+Способ возврата документа в случае непоступления (при предоставлении оригиналов документов): Передача лично или через доверенное лицо
+</p>
+<p></p>
+<p></p>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 
 <table width="100%">
     <tr>
-        <td width="80%"> <?php if ($anketaOne->isMoscow() && $och): ?>
+        <td width="80%">
+        
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
-            <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
             <?php if ($statement->statementBudgetCg()): ?>
                 Сведения о наличии особых прав для поступающих на программы
@@ -151,19 +157,25 @@ $och = false;
 <?php if ($prRight && $statement->statementBudgetCg()) : ?>
     <p class="underline-text"> на основании: <?= $prRight ?></p>
 <?php endif; ?>
+<p></p>
+<p></p>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
 <?php if ($statement->statementBudgetCg()): ?>
     <p align="justify">
         В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38
         Порядка
         приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
-        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
-        № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
-        и преимуществ в дополнение к заявлению на участие в конкурсе.
+        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 21.08.2020 № 1076, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав и преимуществ в дополнение к заявлению на участие в конкурсе.
     </p>
 <?php endif; ?>
 <?php
-$signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
+if ($statement->statementBudgetCg()) {
+    $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
+} else {
+    $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE_CONTRACT;
+}
+
+// $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE_CONTRACT;
 if (!$och) {
     unset($signaturePoint[9]);
 }
@@ -171,7 +183,9 @@ foreach ($signaturePoint as $signature) :?>
 
     <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
     <?php if ($signature == ItemsForSignatureApp::SPECIAL_CONDITIONS) : ?>
+        
         <table width="100%">
+        <tr></tr>
             <tr>
                 <td></td>
                 <td class="box-30-15 bordered-cell text-center"><?= $information['voz'] ? "X" : "" ?></td>
@@ -199,13 +213,15 @@ foreach ($signaturePoint as $signature) :?>
             <td class="bb w-20"></td>
             <td>»</td>
             <td class="bb w-40"></td>
-            <td>2020</td>
+            <td>202</td>
+            <td class="bb w-20"></td>
             <td>г.</td>
             <td class="w-470"></td>
             <td class="bb w-145"></td>
         </tr>
         <tr>
             <td colspan="6" class="text-right fs-7">(Дата заполнения)</td>
+            <td></td>
             <td></td>
             <td class="text-center fs-7">(Подпись поступающего)</td>
         </tr>
@@ -231,12 +247,13 @@ foreach ($signaturePoint as $signature) :?>
         </table>
         <table>
             <tr>
-                <td class="w-50"></td>
+                <td></td>
                 <td>«</td>
                 <td class="bb w-50"></td>
                 <td>»</td>
                 <td class="bb w-50"></td>
-                <td>2020 г.</td>
+                <td>202<td class="bb w-20"></td>
+                <td>г.</td>
             </tr>
         </table>
     </div>

@@ -134,19 +134,21 @@ foreach ($signaturePoint as $signature) :?>
     </table>
 <?php endforeach; ?>
 <div class="mt-50">
-    <table>
+<table>
         <tr>
             <td>«</td>
             <td class="bb w-20"></td>
             <td>»</td>
             <td class="bb w-40"></td>
-            <td>2020</td>
+            <td>202</td>
+            <td class="bb w-20"></td>
             <td>г.</td>
             <td class="w-470"></td>
             <td class="bb w-145"></td>
         </tr>
         <tr>
             <td colspan="6" class="text-right fs-7">(Дата заполнения)</td>
+            <td></td>
             <td></td>
             <td class="text-center fs-7">(Подпись поступающего)</td>
         </tr>
@@ -162,7 +164,7 @@ foreach ($signaturePoint as $signature) :?>
                 <td></td>
             </tr>
             <tr>
-                <td></td>1
+                <td></td>
                 <td class="text-center fs-7">(Подпись)</td>
                 <td></td>
                 <td class="text-center fs-7">(Фамилия И.О.)</td>
@@ -172,12 +174,13 @@ foreach ($signaturePoint as $signature) :?>
         </table>
         <table>
             <tr>
-                <td class="w-50"></td>
+                <td></td>
                 <td>«</td>
                 <td class="bb w-50"></td>
                 <td>»</td>
                 <td class="bb w-50"></td>
-                <td>2020 г.</td>
+                <td>202<td class="bb w-20"></td>
+                <td>г.</td>
             </tr>
         </table>
     </div>
