@@ -63,8 +63,8 @@ $header = ReceiptHelper::header($anketa->university_choice);
             <td class="fs-10 text-center" colspan="5">(наименование получателя платежа)</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center bb"><strong><i>ИНН <?= $inn ?> КПП <?= $kpp ?></i></strong></td>
-            <td class="text-center bb" colspan="2"><strong><i>р/с <?= $checkingAccount ?></i></strong></td>
+            <td colspan="3" class="text-center bb"><strong><i><?= $inn ?>/<?= $kpp ?></i></strong></td>
+            <td class="text-center bb" colspan="2"><strong><i>казначейский счет <?= $checkingAccount ?></i></strong></td>
         </tr>
         <tr>
             <td colspan="3" class="text-center fs-10">(ИНН/КПП получателя)</td>
@@ -139,8 +139,8 @@ $header = ReceiptHelper::header($anketa->university_choice);
             <td class="fs-10 text-center" colspan="5">(наименование получателя платежа)</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center bb"><strong><i>ИНН <?= $inn ?> КПП <?= $kpp ?></i></strong></td>
-            <td class="text-center bb" colspan="2"><strong><i>р/с <?= $checkingAccount ?></i></strong></td>
+            <td colspan="3" class="text-center bb"><strong><i><?= $inn ?>/<?= $kpp ?></i></strong></td>
+            <td class="text-center bb" colspan="2"><strong><i>казначейский счет <?= $checkingAccount ?></i></strong></td>
         </tr>
         <tr>
             <td colspan="3" class="text-center fs-10">(ИНН/КПП получателя)</td>
