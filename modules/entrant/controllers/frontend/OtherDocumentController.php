@@ -66,7 +66,8 @@ class OtherDocumentController extends Controller
     }
 
     public function actionExemption()
-    {   $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['exemption_id'=> null ]])->one() ?? null;
+    {
+        $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['exemption_id'=> null ]])->one() ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
             false,
@@ -80,7 +81,6 @@ class OtherDocumentController extends Controller
 
     public function actionWithout()
     {
-
         $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['without'=> null ]])->one() ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),

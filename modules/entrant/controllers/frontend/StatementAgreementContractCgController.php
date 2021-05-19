@@ -508,6 +508,4 @@ class StatementAgreementContractCgController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
     }
-
-
 }

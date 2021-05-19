@@ -87,6 +87,14 @@ class DictDefaultHelper
         ];
     }
 
+    public static function listReturnDoc() {
+        return [
+            1=> "Передача лично или через доверенное лицо" ,
+            2=> "Направление через операторов почтовой связи" ,
+            3=> "Направление в электронной форме" ,
+        ];
+    }
+
     public static function preemptiveRightList() {
         return [
             1=> "Дети-сироты и дети, оставшиеся без попечения родителей, а также лица из числа детей-сирот 
@@ -116,5 +124,11 @@ class DictDefaultHelper
     {
         return ArrayHelper::getValue(self::preemptiveRightList(), $key);
     }
+
+    public static function returnDocName($key) : ?string
+    {
+        return ArrayHelper::getValue(self::listReturnDoc(), $key);
+    }
+
 
 }

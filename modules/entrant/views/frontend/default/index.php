@@ -3,6 +3,8 @@
 /* @var $anketa \modules\entrant\models\Anketa */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\AgreementHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use yii\helpers\Html;
 
 $this->title = 'Персональная карточка поступающего';
@@ -54,7 +56,7 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if ($anketa->isAgreement()): ?>
+    <?php if (AgreementHelper::isExits($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => 'index']); ?>
         </div>
@@ -64,7 +66,7 @@ $userId = Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId]); ?>
         </div>
     <?php endif; ?>
-    <?php if ($anketa->isExemption()): ?>
+    <?php if (OtherDocumentHelper::isExitsExemption($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption']); ?>
         </div>

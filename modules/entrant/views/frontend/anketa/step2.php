@@ -49,10 +49,10 @@ $onlyCse = $anketa->onlyCse();
                                 ["class" => "btn btn-bd-primary"]);
                             $attentionText = "<p>Перейти к выбору образовательных программ можно только после ввода 
                             Ваших результатов ЕГЭ</p>";
-                            if($anketa->getUserDisciplineCseCt()->count() >= CseSubjectHelper::MIN_NEEDED_SUBJECT_CSE){
+                            if($anketa->getUserDisciplineCseCt()->count() >= CseSubjectHelper::MIN_NEEDED_SUBJECT_CSE) {
                                 echo "<div>".$cseButton. " ". AnketaHelper::determinateRequiredNumberOfButtons($level, $department)."</div>";
                             }else{
-                                echo $attentionText . " ". "<div>".$cseButton."</div>";
+                                echo $attentionText . " ". "<div>".$cseButton. ' '.AnketaHelper::determinateRequiredNumberOfButtons($level, $department, false)."</div>";
                             }
                         } else {
                             echo "<div>".AnketaHelper::determinateRequiredNumberOfButtons($level, $department)."</div>";

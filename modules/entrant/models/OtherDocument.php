@@ -17,7 +17,6 @@ use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\helpers\OtherDocumentHelper;
-use mysql_xdevapi\SqlStatementResult;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 

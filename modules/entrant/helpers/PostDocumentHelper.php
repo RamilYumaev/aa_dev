@@ -81,7 +81,6 @@ class PostDocumentHelper
         return true;
     }
 
-
     private static function agreement($user_id)
     {
         return AgreementHelper::isExits($user_id) && self::common($user_id);
@@ -107,7 +106,6 @@ class PostDocumentHelper
         return OtherDocumentHelper::isWithout($user_id) && self::common($user_id);
     }
 
-
     public static function medicine($user_id) {
 //        if(UserCgHelper::userMedicine($user_id)) {
 //            return OtherDocumentHelper::isExitsMedicine($user_id);
@@ -132,8 +130,6 @@ class PostDocumentHelper
     {
         if(self::userAnketa($userId)->isPatriot()) {
             return  self::compatriot($userId);
-        }elseif (self::userAnketa($userId)->isExemption()) {
-            return self::exemption($userId);
         }elseif (self::userAnketa($userId)->isWithOitCompetition()) {
             return self::without($userId);
         }

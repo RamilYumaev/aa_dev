@@ -22,6 +22,8 @@ use yii\db\ActiveRecord;
  * @property float $mark_spo
  * @property integer $chernobyl_status_id
  * @property integer $mpgu_training_status_id
+ * @property integer $return_doc
+ * @property integer $is_military_edu
  **/
 
 class AdditionalInformation extends YiiActiveRecordAndModeration
@@ -36,7 +38,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => [
-                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id', 'mark_spo']
+                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id', 'return_doc',' is_military_edu',  'mark_spo']
         ]];
     }
 
@@ -54,6 +56,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->hostel_id = $form->hostel_id;
         $this->chernobyl_status_id = $form->chernobyl_status_id;
         $this->mark_spo = $form->mark_spo;
+        $this->is_military_edu = $form->is_military_edu;
+        $this->return_doc = $form->return_doc;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
 
@@ -71,6 +75,10 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'mpguTraining' => 'Окончил(-а) подготовительные курсы в МПГУ',
             'voz' => "Нуждаюсь в создании специальных условий для лиц с ОВЗ и инвалидов при проведении вступительных испытаний?",
             'hostel' => 'Нуждаюсь в общежитии?',
+            'return_doc' => 'Способы возврата оригинала документов',
+            'returnDoc' => 'Способы возврата оригинала документов',
+            'is_military_edu'=> 'Отношусь к выпускникам общеобразовательных организаций, профессиональных образовательных организаций, находящихся в ведении федеральных государственных органов и реализующих дополнительные общеобразовательные программы, 
+            имеющие целью подготовку несовершеннолетних обучающихся к военной или иной государственной службе',
             'resource'=> 'Откуда узнали об МПГУ?',
             'exam_check' => "Экзамен"
         ];
@@ -84,6 +92,11 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
     public function getResource()
     {
         return DictDefaultHelper::infoName($this->resource_id);
+    }
+
+    public function getReturnDoc()
+    {
+        return DictDefaultHelper::returnDocName($this->return_doc);
     }
 
     public function getHostel()
@@ -120,7 +133,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return  [
             'voz' => $this->voz_id,
             'hostel' => $this->hostel_id,
-            'mark_spo'=> $this->mark_spo
+            'mark_spo'=> $this->mark_spo,
+            'return_doc' => $this->return_doc
         ];
     }
 
@@ -136,7 +150,9 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return [
             'voz_id' => DictDefaultHelper::name($value),
             'hostel_id' => DictDefaultHelper::name($value),
+            'is_military' => DictDefaultHelper::name($value),
             'resource_id'=> DictDefaultHelper::infoName($value),
+            'return_doc'=> DictDefaultHelper::returnDocName($value),
             'chernobyl_status_id' => DictDefaultHelper::infoName($value),
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
             'mark_spo' => $value

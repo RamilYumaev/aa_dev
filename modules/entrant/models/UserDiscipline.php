@@ -4,6 +4,7 @@
 namespace modules\entrant\models;
 
 use dictionary\models\DictDiscipline;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\UserDisciplineCseForm;
 use modules\entrant\models\queries\UserCgQuery;
@@ -139,5 +140,18 @@ class UserDiscipline extends  ActiveRecord
         return new UserDisciplineQuery(static::class);
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
 
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
+    public function behaviors()
+    {
+        return [
+            FileBehavior::class,
+        ];
+    }
 }
