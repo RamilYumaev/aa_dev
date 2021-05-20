@@ -78,7 +78,7 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " ".$profile[
 
     <table width="100%" class="mt-50 fs-15">
         <tr>
-            <td></td>
+            
             <td width="15%"><?=date("d.m.Y")?> г.</td>
             <td class="bb" width="35%"></td>
             <td width="30%"><?= $nameFull ?></td>

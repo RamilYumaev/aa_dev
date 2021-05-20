@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $time_end
  * @property string $time_start_week
  * @property string $time_end_week
+ * @property string $end_date_zuk
  * @property string $is_auto
  * @property array $date_ignore
  **/
@@ -43,6 +44,7 @@ class SettingCompetitionList extends ActiveRecord
         $this->time_start_week = $form->time_start_week;
         $this->time_end_week = $form->time_end_week;
         $this->interval = $form->interval;
+        $this->end_date_zuk = $form->end_date_zuk;
         $this->is_auto = $form->is_auto;
         $this->date_ignore = json_encode($form->date_ignore);
     }
@@ -64,6 +66,7 @@ class SettingCompetitionList extends ActiveRecord
             'time_end_week' => 'Время завершения в субботу/воскресенье',
             'date_ignore' => 'Игнор конкретных дат',
             'interval' => 'Интервал',
+            'end_date_zuk'=> "Дата начала со статусом 1",
             'is_auto' => "Автоматическое обновление?"
         ];
     }
@@ -72,6 +75,11 @@ class SettingCompetitionList extends ActiveRecord
     public function getRegisterCompetitionList()
     {
         return $this->hasMany(RegisterCompetitionList::class, ['se_id'=> 'se_id']);
+    }
+
+    public function isEndDateZuk()
+    {
+        return $this->end_date_zuk <= date('Y-m-d H:i:s');
     }
 
     public function getRegisterCompetitionListForDateAisType($date, $aisCgId, $typeUpdate)

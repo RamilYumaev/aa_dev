@@ -23,6 +23,7 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\StatementRejectionRecord;
+use modules\entrant\models\UserDiscipline;
 use modules\entrant\readRepositories\FileReadCozRepository;
 use Yii;
 
@@ -77,7 +78,8 @@ class FileHelper
             StatementRejectionRecord::class,
             StatementRejectionCgConsent::class,
             StatementAgreementContractCg::class,
-            ReceiptContract::class
+            ReceiptContract::class,
+            UserDiscipline::class
         ];
     }
 
@@ -110,6 +112,7 @@ class FileHelper
             PersonalEntity::class=>5,
             LegalEntity::class=>5,
             InsuranceCertificateUser::class => 1,
+            UserDiscipline::class =>1,
             StatementIndividualAchievements::class => 0,
             Statement::class => 0,
             StatementConsentPersonalData::class => 0,
@@ -143,6 +146,7 @@ class FileHelper
             StatementRejectionCg::class =>'st-rejection-cg',
             ReceiptContract::class => "receipt-contract",
             InsuranceCertificateUser::class => 'snils',
+            UserDiscipline::class =>'ct',
         ];
     }
 
@@ -166,6 +170,7 @@ class FileHelper
             StatementRejectionRecord::class =>'Отзыв зачисления',
             ReceiptContract::class => "Квитанция",
             InsuranceCertificateUser::class => 'СНИЛС',
+            UserDiscipline::class =>'Сертификаты ЦТ',
         ];
     }
 

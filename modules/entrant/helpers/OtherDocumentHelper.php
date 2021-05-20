@@ -27,7 +27,7 @@ class OtherDocumentHelper
         ];
     }
 
-    public static function isExitsExemption($user_id, $category): bool
+    public static function isExitsExemption($user_id, $category = [1,2,3]): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id, 'exemption_id'=> $category])->exists();
     }

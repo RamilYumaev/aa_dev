@@ -24,6 +24,7 @@ use yii\db\ActiveRecord;
  * @property integer $special_right
  * @property integer $status
  * @property integer $form_category
+ * @property integer $finance
  * @property string  $message
  * @property integer $created_at;
  * @property integer $updated_at;
@@ -47,7 +48,9 @@ class Statement extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static  function create($user_id, $faculty_id, $speciality_id, $special_right, $edu_level, $counter, $formCategory) {
+    public static  function create($user_id, $faculty_id, $speciality_id, $special_right, $edu_level,
+                                   $counter,
+                                   $formCategory, $finance = 0) {
         $statement =  new static();
         $statement->user_id = $user_id;
         $statement->faculty_id = $faculty_id;
@@ -57,6 +60,7 @@ class Statement extends ActiveRecord
         $statement->counter = $counter;
         $statement->form_category = $formCategory;
         $statement->status = self::DRAFT;
+        $statement->finance = $finance;
         return $statement;
     }
 
@@ -200,6 +204,7 @@ class Statement extends ActiveRecord
             ($this->speciality->short ?? $this->speciality_id)."-".
             DictCompetitiveGroupHelper::getSpecialRightShortOne($this->special_right)."-".
             $this->form_category."-".
+            $this->finance."-".
             $this->user_id."-".
             $this->counter;
     }

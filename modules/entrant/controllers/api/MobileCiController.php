@@ -81,7 +81,6 @@ class MobileCiController extends Controller
 
           //  $key++;
 
-
         }
         return $cgsArray;
     }

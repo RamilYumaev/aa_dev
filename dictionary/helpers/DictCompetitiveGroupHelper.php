@@ -19,7 +19,6 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\UserCg;
 use modules\entrant\models\UserDiscipline;
-use olympic\models\dictionary\Faculty;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
@@ -414,15 +413,19 @@ class DictCompetitiveGroupHelper
             ->count();
     }
 
-    public static function groupByFacultySpecialityAllUser($user_id, $eduLevel = null, $form = null)
+    public static function groupByFacultySpecialityAllUser($user_id)
     {
-        if ($form) {
-            $query = DictCompetitiveGroup::find()->userCg($user_id)->eduLevel($eduLevel)->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
-        } else {
-            $query = DictCompetitiveGroup::find()->userCg($user_id)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
-                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id']);
-        }
+        return DictCompetitiveGroup::find()->userCg($user_id)
+                ->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])
+                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id'])->all();
+    }
+
+    public static function groupByFacultySpecialityFormFinanceAllUser($user_id, $form, $finance)
+    {
+        $query = DictCompetitiveGroup::find()->userCg($user_id)
+                 ->finance($finance)
+                ->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id','financing_type_id'])
+                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id', 'financing_type_id']);
         return $query->all();
     }
 
@@ -850,13 +853,18 @@ class DictCompetitiveGroupHelper
     }
 
 
-    public static function idAllUser($user_id, $faculty_id, $speciality_id, $specRight, $form)
+    public static function idAllUser($user_id, $faculty_id, $speciality_id, $specRight, $form, $finance)
     {
-        return DictCompetitiveGroup::find()->userCg($user_id)
+        $query = DictCompetitiveGroup::find()->userCg($user_id)
             ->faculty($faculty_id)
             ->speciality($speciality_id)
+            ->currentAutoYear()
             ->specialRight($specRight)
-            ->formEdu($form)
+            ->formEdu($form);
+            if($finance) {
+                $query->finance($finance);
+            }
+            return $query
             ->select(['id'])
             ->column();
     }

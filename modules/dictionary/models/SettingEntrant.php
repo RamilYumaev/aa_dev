@@ -209,12 +209,25 @@ class SettingEntrant extends ActiveRecord
         return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
     }
 
-
     public function isContract()
     {
         return $this->finance_edu == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
     }
 
+    public function isBudget()
+    {
+        return $this->finance_edu == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET;
+    }
+
+    public function isBachelor()
+    {
+        return $this->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
+    }
+
+    public function isTarget()
+    {
+        return $this->special_right == DictCompetitiveGroupHelper::TARGET_PLACE;
+    }
 
     public function isSettingCompetitionList()
     {
@@ -232,5 +245,10 @@ class SettingEntrant extends ActiveRecord
             $days[$date] = $date;
         }
         return $days;
+    }
+
+     public function open() {
+        $date = date("Y-m-d H:i:s");
+        return $this->datetime_start  <  $date && $this->datetime_end  > $date;
     }
 }

@@ -11,17 +11,18 @@ class SubmittedDocumentGenerateStatementWidget extends Widget
 {
     public $userId;
     public $formCategory;
+    public $finance;
     public $eduLevel;
     private $view = "detail";
 
     public function run()
     {
         return $this->render($this->view, ['submitted' => $this->modelOne(),
-            'userId' =>  $this->getIdUser(), 'userCg' => $this->listCgUser(), 'formCategory' => $this->formCategory]);
+            'userId' =>  $this->getIdUser(), 'userCg' => $this->listCgUser(), 'formCategory' => $this->formCategory, 'finance' => $this->finance]);
     }
 
     private function listCgUser() {
-        return DictCompetitiveGroupHelper::groupByFacultySpecialityAllUser($this->getIdUser(), $this->eduLevel, DictCompetitiveGroupHelper::categoryForm()[$this->formCategory]);
+        return DictCompetitiveGroupHelper::groupByFacultySpecialityFormFinanceAllUser($this->getIdUser(), DictCompetitiveGroupHelper::categoryForm()[$this->formCategory],  $this->finance);
     }
 
     private function getIdUser() {

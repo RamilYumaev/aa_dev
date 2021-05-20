@@ -20,13 +20,13 @@ class RegisterCompetitiveListComponent
 
     public function handle() {
         /** @var SettingCompetitionList $item */
-        $date = '2021-04-29';
+        $date = date('Y-m-d');
         echo count(SettingCompetitionList::find()->getAllWork($date));
         foreach (SettingCompetitionList::find()->getAllWork($date) as $item) {
             /** @var SettingEntrant $settingEntrant */
             $settingEntrant = $item->settingEntrant;
             $array = $settingEntrant->isGraduate() ? $settingEntrant->getAllGraduateCgAisId() : $settingEntrant->getAllCgAisId();
-            $array =$settingEntrant->isGraduate() ?  [['ais_id'=> [571, 573], 'faculty_id' => 1, 'speciality_id' => 4]] : [['ais_id'=> 571, 'faculty_id' => 1, 'speciality_id' => 4]];
+            //$array =$settingEntrant->isGraduate() ?  [['ais_id'=> [571, 573], 'faculty_id' => 1, 'speciality_id' => 4]] : [['ais_id'=> 571, 'faculty_id' => 1, 'speciality_id' => 4]];
             $this->push($array, $item, $date);
         }
     }
@@ -48,7 +48,7 @@ class RegisterCompetitiveListComponent
             }
 
             $register = $this->getRegisterCompositeList($item, $number, $ais_id, $value['faculty_id'], $value['speciality_id']);
-            $compositeJob = new CompetitionListJob(['url' => '', 'register' => $register]);
+            $compositeJob = new CompetitionListJob(['register' => $register]);
             if($this->queue) {
                 Yii::$app->queue->push($compositeJob);
             }else {

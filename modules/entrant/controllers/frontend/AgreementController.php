@@ -54,9 +54,6 @@ class AgreementController extends Controller
         {
            return  $userId;
         };
-
         return $this->redirect("default/index");
-
-
     }
 }

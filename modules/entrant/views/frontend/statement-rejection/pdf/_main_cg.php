@@ -17,7 +17,8 @@ $name = DeclinationFioHelper::userDeclination($statementRejection->statementCg->
 ?>
 
 <table class="fs-15">
-    <tr>
+    <tr> 
+    <td width="10%"></td>
         <td width="62%"></td>
         <td>
             Председателю Приемной<br/>

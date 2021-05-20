@@ -3,6 +3,8 @@
 /* @var $anketa modules\entrant\models\Anketa */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\AgreementHelper;
+use modules\entrant\models\UserDiscipline;
 use yii\helpers\Html;
 
 \frontend\assets\modal\ModalAsset::register($this);
@@ -80,7 +82,12 @@ $userId =  Yii::$app->user->identity->getId();
                 <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
 
-            <?php if ($anketa->isAgreement()): ?>
+            <?php if ($anketa->isBelarus() && UserDiscipline::find()->user($userId)->ctOrVi()->exists()): ?>
+                <h4>Требования к сертификатам ЦТ:</h4>
+                <p align="justify"> необходимо загрузить подтверждающий скан (сертифиакт ЦТ).</p>
+                <?= \modules\entrant\widgets\discipline\CtWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+            <?php endif; ?>
+            <?php if (AgreementHelper::isExits($anketa->user_id)): ?>
                 <p class="label label-warning fs-15">Каждая страница договора о целевом обучении загружается отдельно</p>
                 <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
@@ -91,19 +98,14 @@ $userId =  Yii::$app->user->identity->getId();
 
             <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
                 загружается отдельно</p>
-            <p class="text-info">Прием документов в аспирантуру окончен!</p>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
-                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'eduLevel' =>
-                  [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
-                      DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
-                      DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                        DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO]]);  ?>
-
-            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId, 'eduLevel' =>
-                [DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR],
-                'formCategory' =>DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2]); ?>
-
+                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);  ?>
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
+                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);  ?>
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
+                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);  ?>
+            <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
+                'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);  ?>
             <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId' => $userId]); ?>

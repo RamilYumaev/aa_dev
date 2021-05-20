@@ -24,7 +24,7 @@ $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
 $och = false;
 ?>
 
-<table class="table table-bordered app-table">
+<!-- <table class="table table-bordered app-table">
     <tbody>
     <tr>
         <th rowspan="2">№</th>
@@ -52,6 +52,54 @@ $och = false;
         </tr>
     <?php endforeach; ?>
     </tbody>
+</table> -->
+
+<table class="table table-bordered app-table">
+    <tbody>
+    <tr>
+        <th rowspan="2">№</th>
+        <th colspan="3" align="center">Условия поступления</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
+            <th align="center">Вид финансирования</th>
+        <?php else : ?>
+            <th rowspan="2">Основание приема</th>
+            <th rowspan="2">Вид финансирования</th>
+            <!-- <th align="center" colspan="2">Вид финансирования</th> -->
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <th>Направление подготовки</th>
+        <th>Образовательная программма</th>
+        <th>Форма обучения</th>
+        
+    </tr>
+    <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
+        $och = true;
+    } ?>
+        <tr>
+            <td width="4%"><?= ++$key ?>.</td>
+            <td width="30%"><?= $value["speciality"] ?></td>
+            <td width="30%"><?= $value['specialization'] ?></td>
+            <td width="10%"><?= $value['form'] ?></td>
+            <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+                <td class="text-center">На места по договорам об оказании платных образовательных услуг</td>
+            <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+                <td class="text-center">За счет бюджетных ассигнований федерального бюджета</td>
+            <?php else : ?>
+                <td width="11%"><?= $value['special_right'] ?></td>
+                <?php if ($value['budget'] != "") : ?>
+                <td width="23%" class="text-center">За счет бюджетных ассигнований федерального бюджета
+                </td>
+                <?php else : ?>
+                    <td width="23%" class="text-center">На места по договорам об оказании платных образовательных услуг
+                </td>
+                <?php endif; ?>
+                
+            <?php endif; ?>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
 </table>
 <?php if($cse): ?>
     <p>
@@ -63,6 +111,9 @@ $och = false;
         Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?>.
     </p>
 <?php endif; ?>
+<p>
+Способ возврата документа в случае непоступления (при предоставлении оригиналов документов): Передача лично или через доверенное лицо
+</p>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 
 <table width="100%">
@@ -117,11 +168,12 @@ foreach ($signaturePoint as $signature) :?>
 <div class="mt-50">
     <table>
         <tr>
-            <td>«</td>
+        <td>«</td>
             <td class="bb w-20"></td>
             <td>»</td>
             <td class="bb w-40"></td>
-            <td>2020</td>
+            <td>202</td>
+            <td class="bb w-20"></td>
             <td>г.</td>
             <td class="w-470"></td>
             <td class="bb w-145"></td>
@@ -153,12 +205,13 @@ foreach ($signaturePoint as $signature) :?>
         </table>
         <table>
             <tr>
-                <td class="w-50"></td>
+            <td></td>
                 <td>«</td>
                 <td class="bb w-50"></td>
                 <td>»</td>
                 <td class="bb w-50"></td>
-                <td>2020 г.</td>
+                <td>202<td class="bb w-20"></td>
+                <td>г.</td>
             </tr>
         </table>
     </div>

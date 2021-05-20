@@ -71,7 +71,8 @@ class ReceiptHelper
     public static function checkingAccount()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => "40501810845252000079",
+            // AnketaHelper::HEAD_UNIVERSITY => "40501810845252000079",
+            AnketaHelper::HEAD_UNIVERSITY => "03214643000000017300/0321463000000017300",
             AnketaHelper::ANAPA_BRANCH => "40501810000002000002",
             AnketaHelper::POKROV_BRANCH => "40501810400082000001",
             AnketaHelper::STAVROPOL_BRANCH => "40501810700022000002",
@@ -122,7 +123,7 @@ class ReceiptHelper
         $v4 = "КПП ".self::kpp()[$key]."<br/>";
         $v5 = "".self::personalAccount()[$key]."<br/>";
         $v6 = "БИК ".self::bik()[$key]."<br/>";
-        $v7 = "р/с ".self::checkingAccount()[$key]."<br/>";
+        $v7 = "Казначейский счёт/Единый казначейский счет ".self::checkingAccount()[$key]."<br/>";
         $v8 = "ОКТМО ".self::oktmo()[$key]."<br/>";
         $v9 = "КБК 00000000000000000130 - за оказание платных услуг</p>";
         return $v1.$v2.$v3.$v4.$v5.$v6.$v7.$v8.$v9;

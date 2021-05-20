@@ -6,7 +6,9 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\SettingEntrant;
+use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\services\ApplicationsService;
 use yii\web\Controller;
 use Yii;
@@ -135,7 +137,9 @@ class ApplicationsController extends Controller
      * @throws \yii\base\ExitException
      */
     public function actionGetTargetBachelor($department)
-    {
+    {  if(!AgreementHelper::isExits($this->anketa->user_id)) {
+            return $this->redirect(["agreement/index"]);
+        }
         $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::TARGET_PLACE);
         return $this->render('get-target-bachelor', [
             'currentFaculty' => $currentFaculty,
@@ -149,6 +153,9 @@ class ApplicationsController extends Controller
      */
     public function actionGetSpecialRightBachelor($department)
     {
+        if(!OtherDocumentHelper::isExitsExemption($this->anketa->user_id)) {
+            return $this->redirect(["other-document/exemption"]);
+        }
         $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::SPECIAL_RIGHT);
         return $this->render('get-special-right-bachelor', [
             'currentFaculty' => $currentFaculty,
@@ -175,6 +182,9 @@ class ApplicationsController extends Controller
      */
     public function actionGetTargetMagistracy($department)
     {
+        if(!AgreementHelper::isExits($this->anketa->user_id)) {
+            return $this->redirect(["agreement/index"]);
+        }
         $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, DictCompetitiveGroupHelper::TARGET_PLACE);
         return $this->render('get-target-magistracy', [
             'currentFaculty' => $currentFaculty,
@@ -215,6 +225,9 @@ class ApplicationsController extends Controller
      */
     public function actionGetTargetGraduate($department)
     {
+        if(!AgreementHelper::isExits($this->anketa->user_id)) {
+            return $this->redirect(["agreement/index"]);
+        }
         $currentFaculty = $this->currentFaculty($department,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
             DictCompetitiveGroupHelper::TARGET_PLACE);

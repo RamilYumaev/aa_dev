@@ -152,31 +152,6 @@ class DictCompetitiveGroupController extends Controller
             $facultyId, $specialityId, $foreignerStatus, $financingTypeId)];
     }
 
-    /**
-     * @param $id
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException
-     */
-
-    public function actionSend($id)
-    {
-        $model = $this->findModel($id);
-        try {
-            if ((($settingEntrant = SettingEntrant::find()->oneDictCompetitiveGroup($model)) == null) || !$settingEntrant->settingCompetitionList) {
-                throw new \DomainException('Настройки на данный конкурсный список не существуют.');
-            }
-            /** @var RegisterCompetitionList $register */
-            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
-                ->push(array($model->ais_id), $settingEntrant->settingCompetitionList, date('Y-m-d'));
-            Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
-                'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
 
 //    public function actionGetAisCg($year)
 //    {

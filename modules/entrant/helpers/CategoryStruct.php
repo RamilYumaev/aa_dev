@@ -18,7 +18,7 @@ class CategoryStruct
     public static function labelLists()
     {
         return [
-            self::GENERAL_COMPETITION => "Поступающий на общих основаниях",
+            self::GENERAL_COMPETITION => "Поступающий в рамках общего конкурса, на целевое обучение, в рамках особой квоты",
             self::WITHOUT_COMPETITION => "Победители или призёры олимпиад/соревнований, имеющие особые права и преимущества (100 баллов/БВИ)",
             self::TARGET_COMPETITION => "Поступащий на целевое обучение",
             self::SPECIAL_RIGHT_COMPETITION => "Поступающий на особую квоту",
@@ -53,8 +53,6 @@ class CategoryStruct
         return [
             self::GENERAL_COMPETITION,
             self::WITHOUT_COMPETITION,
-            self::TARGET_COMPETITION,
-            self::SPECIAL_RIGHT_COMPETITION,
         ];
     }
 
@@ -65,15 +63,14 @@ class CategoryStruct
             return JsonAjaxField::data(self::foreignerGroup(), self::labelLists());
         } elseif ($educationLevel == AnketaHelper::SCHOOL_TYPE_SCHOOL_9
             || $educationLevel == AnketaHelper::SCHOOL_TYPE_PHD
-            || $educationLevel == AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES
-            || $universityChoice == AnketaHelper::SERGIEV_POSAD_BRANCH) {
+            || $educationLevel == AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES) {
             return JsonAjaxField::data([self::GENERAL_COMPETITION], self::labelLists());
         } elseif (in_array($educationLevel, AnketaHelper::educationLevelSpecialRight())) {
             return JsonAjaxField::data(self::CPKGroup(), self::labelLists());
-        } elseif ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
-            return JsonAjaxField::data([self::GENERAL_COMPETITION, self::TARGET_COMPETITION], self::labelLists());
+        } else {
+            $data = self::labelLists();
+            $data[self::GENERAL_COMPETITION] =  "Поступающий в рамках общего конкурса, на целевое обучение";
+            return JsonAjaxField::data([self::GENERAL_COMPETITION], $data);
         }
-        return JsonAjaxField::data([self::GENERAL_COMPETITION], self::labelLists());
-
     }
 }

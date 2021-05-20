@@ -10,9 +10,12 @@ use yii\helpers\ArrayHelper;
 
 class AdditionalInformationForm extends Model
 {
-    public $voz_id, $user_id, $resource_id, $hostel_id, $chernobyl_status_id, $mpgu_training_status_id, $mark_spo, $insuranceNumber;
+    public $voz_id, $user_id, $resource_id, $hostel_id, $chernobyl_status_id,
+        $mpgu_training_status_id, $mark_spo, $insuranceNumber;
 
     private $_additionalInformation;
+    public $return_doc;
+    public  $is_military_edu;
 
     public function __construct($user_id, AdditionalInformation $additionalInformation = null, $config = [])
     {
@@ -32,8 +35,8 @@ class AdditionalInformationForm extends Model
     public function rules()
     {
         return [
-            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo'] : ['resource_id'], 'required'],
-            [['voz_id', 'resource_id', 'hostel_id', 'chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
+            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',  'return_doc'] : ['resource_id', 'return_doc'], 'required'],
+            [['voz_id', 'resource_id', 'hostel_id', 'is_military_edu','chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
             [['insuranceNumber'], 'string', 'max'=>14],
             $this->_additionalInformation && $this->_additionalInformation->insuranceCertificate ?
                 [['insuranceNumber'], 'unique', 'targetClass' => InsuranceCertificateUser::class, 'targetAttribute' => 'number', 'filter' => ['<>', 'id', $this->_additionalInformation->insuranceCertificate->id]]

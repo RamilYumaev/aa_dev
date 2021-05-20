@@ -69,8 +69,6 @@ class Anketa extends ActiveRecord
         } else {
             $this->is_foreigner_edu_organization = $form->is_foreigner_edu_organization;
         }
-
-
     }
     public function isTpgu()
     {
@@ -250,28 +248,24 @@ class Anketa extends ActiveRecord
 
     public function isOrphan()
     {
-        return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>2])->exists();
+        return  $this->isExemptionDocument();
     }
+
+    public function isExemptionDocument($exemptionId  = 2)
+    {
+        return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>$exemptionId])->exists();
+    }
+
 
     public function onlyCse()
     {
-        $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-            && $this->citizenship_id == DictCountryHelper::RUSSIA
-            && $this->category_id !== CategoryStruct::SPECIAL_RIGHT_COMPETITION
-            && !($this->edu_finish_year == date("Y")
-                && $this->is_foreigner_edu_organization); // Если обычный Российкий выпускник школы
-        // и не квотник
-
-        $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
-                in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
-            && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-                && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
-        // который закончил школу не в текущем году
-
-        $condition3 = $this->isOrphan() && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL)
-            && !($this->edu_finish_year == date("Y")
-                && $this->is_foreigner_edu_organization);
-        return $condition1 || $condition2 || $condition3;
+        $condition = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+            && (($this->citizenship_id == DictCountryHelper::RUSSIA) ||
+                ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
+                in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)))
+            && !$this->is_foreigner_edu_organization
+            && !$this->isExemptionDocument(1);
+        return $condition;
 
 //        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
 //            (($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||

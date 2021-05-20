@@ -4,6 +4,7 @@
 namespace modules\entrant\controllers\frontend;
 use common\auth\forms\ResetPasswordForm;
 use dictionary\helpers\DictFacultyHelper;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\forms\LegalEntityForm;
 use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\forms\ReceiptContractForm;
@@ -75,7 +76,7 @@ class StatementAgreementContractCgController extends Controller
     public function actionCreate($id)
     {
         $cg = $this->findConsentCg($id);
-        if (!SettingContract::isJob($cg->cg)) {
+        if (!SettingEntrant::find()->existsOpen($cg->cg, SettingEntrant::ZUK)) {
                 Yii::$app->session->setFlash("error", "Уже нельзя заключать договоры");
                 return $this->redirect(Yii::$app->request->referrer);
         }
@@ -250,7 +251,7 @@ class StatementAgreementContractCgController extends Controller
     public function actionCreatePdf($id)
     {
         $agreement= $this->findModel($id);
-        if (!SettingContract::isJob($agreement->statementCg->cg)) {
+        if (!SettingEntrant::find()->existsOpen($agreement->statementCg->cg, SettingEntrant::ZUK)) {
             Yii::$app->session->setFlash("error", "Уже нельзя сформировать договор");
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -507,6 +508,4 @@ class StatementAgreementContractCgController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
     }
-
-
 }

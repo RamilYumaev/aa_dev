@@ -12,6 +12,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\queries\VolunteeringQuery;
 use modules\management\models\queries\ManagementUserQuery;
 use olympic\helpers\auth\ProfileHelper;use olympic\models\auth\Profiles;
+use testing\models\TestAttempt;
 use yii\db\ActiveRecord;
 
 /**
@@ -71,6 +72,12 @@ class Volunteering extends ActiveRecord
     public function getSettingEmail() {
         return $this->hasOne(SettingEmail::class, ['id' => 'email_id']);
     }
+
+    public function getIsAttempt() {
+       $is = TestAttempt::find()->user($this->entrantJob->user_id)->test(142)->one();
+       return $is->mark ? 'Прошел' : "Не прошел";
+    }
+
 
     public function getFaculty() {
         return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);

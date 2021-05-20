@@ -8,6 +8,9 @@ use dictionary\helpers\DictFacultyHelper;
 use dictionary\helpers\DictSpecialityHelper;
 use dictionary\helpers\DictSpecializationHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
+use modules\dictionary\models\SettingEntrant;
+use modules\entrant\helpers\AnketaHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -24,6 +27,7 @@ class DictCompetitiveGroupSearch extends Model
         $faculty_id, $year,
         $financing_type_id,
         $education_form_id;
+    private $settingEntrant;
 
     public function rules()
     {
@@ -41,13 +45,47 @@ class DictCompetitiveGroupSearch extends Model
         ];
     }
 
+
+    public function __construct(SettingEntrant $settingEntrant = null,
+                                $config = [])
+    {
+        $this->settingEntrant = $settingEntrant;
+        parent::__construct($config);
+    }
+
     /**
      * @param array $params
      * @return ActiveDataProvider
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = DictCompetitiveGroup::find();
+        if($this->settingEntrant) {
+            $query = DictCompetitiveGroup::find()
+                ->specialRight($this->settingEntrant->special_right)
+                ->finance($this->settingEntrant->finance_edu)
+                ->formEdu($this->settingEntrant->form_edu)
+                ->eduLevel($this->settingEntrant->edu_level)
+                ->foreignerStatus($this->settingEntrant->foreign_status)
+                ->currentAutoYear()
+                ->tpgu($this->settingEntrant->tpgu_status);
+            if($this->settingEntrant->faculty_id == AnketaHelper::HEAD_UNIVERSITY) {
+               $query->notInFaculty();
+            } else {
+                $query->faculty($this->settingEntrant->faculty_id);
+            }
+            if($this->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
+                $query->select(['speciality_id','faculty_id'])
+                    ->groupBy(['speciality_id','faculty_id',]);
+            }else {
+                $query->joinWith(['examinations'])
+                    ->innerJoin(DictDiscipline::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+                    ->andWhere(['or', 'dvi=' . $this->settingEntrant->is_vi, 'is_och=' . $this->settingEntrant->is_vi]);
+            }
+
+        } else {
+            $query = DictCompetitiveGroup::find();
+        }
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

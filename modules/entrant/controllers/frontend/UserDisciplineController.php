@@ -10,6 +10,7 @@ use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\forms\UserDisciplineCseForm;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\services\CseSubjectResultService;
@@ -216,7 +217,7 @@ class UserDisciplineController extends Controller
         return  $this->getIdentity()->getId();
     }
 
-    private function getAnketa()
+    private function getAnketa(): Anketa
     {
         return  $this->getIdentity()->anketa();
     }
