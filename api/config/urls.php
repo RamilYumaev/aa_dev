@@ -11,4 +11,6 @@ return [
     'dictionary' => 'communication/dictionary',
     'mobile-ci'=>'entrant-module/mobile-ci/index',
     'mobile-ci/get-cgs' => 'entrant-module/mobile-ci/get-cgs',
+    'mobile-ci/get-cg-details'=> 'entrant-module/mobile-ci/get-cg-details',
+    'mobile-ci/get-anketa'=>'entrant-module/mobile-ci/get-anketa',
 ];
