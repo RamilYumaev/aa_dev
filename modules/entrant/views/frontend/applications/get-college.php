@@ -56,6 +56,9 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Конкурс аттестатов</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                continue;
+            }
 
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg);
             $trColor = UserCgHelper::trColor($currentCg);
