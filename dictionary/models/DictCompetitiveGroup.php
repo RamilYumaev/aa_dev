@@ -25,6 +25,7 @@ use yii\helpers\StringHelper;
  * Class DictCompetitiveGroup
  * @package dictionary\models
  * @property  $special_right_id string
+ * @property  $success_speciality string
  */
 class DictCompetitiveGroup extends ActiveRecord
 {
@@ -64,7 +65,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->foreigner_status = $form->foreigner_status;
         $competitiveGroup->only_spo = $form->only_spo;
         $competitiveGroup->tpgu_status = $form->tpgu_status;
-        $competitiveGroup->additional_set_status = $form->tpgu_status;
+        $competitiveGroup->additional_set_status = $form->additional_set_status;
+        $competitiveGroup->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
         return $competitiveGroup;
     }
 
@@ -92,7 +94,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->foreigner_status = $form->foreigner_status;
         $this->only_spo = $form->only_spo;
         $this->tpgu_status = $form->tpgu_status;
-        $this->additional_set_status = $form->tpgu_status;
+        $this->additional_set_status = $form->additional_set_status;
+        $this->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
     }
 
     /**
@@ -125,7 +128,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'only_spo' => 'Только для абитуриентов из колледжа',
             'tpgu_status'=> 'для ТПГУ',
             'additional_set_status'=> 'Дополнительный набор',
-            'fullNameB'=> "Конкурсная группа"
+            'fullNameB'=> "Конкурсная группа",
+            'success_speciality' => 'Допущенные направления подготовки к участию в конкурсе'
         ];
     }
 

@@ -28,6 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'code',
                     'name',
                     'short',
+                    ['attribute'=>'edu_level',
+                      'filter' => \dictionary\helpers\DictCompetitiveGroupHelper::getEduLevelsAbbreviated(),
+                        'value'=> function($model) {
+                            return \dictionary\helpers\DictCompetitiveGroupHelper::getEduLevelsAbbreviated()[$model->edu_level];
+                        }],
                     ['class' => ActionColumn::class,
                         'template'=>'{update} {delete}'],
                 ]
