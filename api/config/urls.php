@@ -13,4 +13,5 @@ return [
     'mobile-ci/get-cgs' => 'entrant-module/mobile-ci/get-cgs',
     'mobile-ci/get-cg-details'=> 'entrant-module/mobile-ci/get-cg-details',
     'mobile-ci/get-anketa'=>'entrant-module/mobile-ci/get-anketa',
+    'mobile-ci/get-dict-cse'=>'entrant-module/mobile-ci/get-dict-cse',
 ];
