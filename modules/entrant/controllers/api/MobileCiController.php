@@ -8,6 +8,7 @@ use api\providers\User;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\dictionary\models\DictCseSubject;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\AnketaCi;
 use modules\entrant\models\AnketaCiCg;
@@ -40,7 +41,6 @@ class MobileCiController extends Controller
 
         ];
     }
-
 
     public function actionIndex()
     {
@@ -223,6 +223,22 @@ class MobileCiController extends Controller
 
 
     }
+
+    public function actionGetDictCse(){
+        $allCseSubject = DictCseSubject::find()->select(['id','name','min_mark'])->all();
+
+        $cseArray = [];
+        $allCseArray = [];
+        foreach ($allCseSubject as $cseSubject){
+            $cseArray['id'] = $cseSubject->id;
+            $cseArray['name'] = $cseSubject->name;
+            $cseArray['minBall'] = $cseSubject->min_mark;
+
+            $allCseArray[] = $cseArray;
+        }
+        return $allCseArray;
+    }
+
     private function validateArrayJson($key, $array){
         return array_key_exists($key, $array);
     }
