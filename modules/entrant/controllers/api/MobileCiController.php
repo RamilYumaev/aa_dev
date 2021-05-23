@@ -8,6 +8,7 @@ use api\providers\User;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use modules\dictionary\models\DictCseSubject;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\AnketaCi;
 use modules\entrant\models\AnketaCiCg;
@@ -41,7 +42,6 @@ class MobileCiController extends Controller
         ];
     }
 
-
     public function actionIndex()
     {
         return ['message' => "Okay"];
@@ -60,7 +60,7 @@ class MobileCiController extends Controller
             ->withoutBranch()
             ->all();
 
-       // $key = 1;
+        // $key = 1;
 
         foreach ($model as $cg) {
             if (!SettingEntrant::find()->isOpenFormZUK($cg)) {
@@ -79,8 +79,7 @@ class MobileCiController extends Controller
             }
             $cgsArray[] = $cgs;
 
-          //  $key++;
-
+            //  $key++;
 
         }
         return $cgsArray;
@@ -103,8 +102,8 @@ class MobileCiController extends Controller
 
         if($cg && SettingEntrant::find()->isOpenZUK($cg)){
 
-                $contractId =  $cg->id;
-                $contractName = $cg->fullNameCg;
+            $contractId =  $cg->id;
+            $contractName = $cg->fullNameCg;
         }
         /**
          * @var $budgetAnalog DictCompetitiveGroup
@@ -114,8 +113,8 @@ class MobileCiController extends Controller
             ->one();
         if($budgetAnalog && SettingEntrant::find()->isOpenZUK($budgetAnalog)){
 
-                $budgetId = $budgetAnalog->id;
-                $budgetName = $budgetAnalog->fullNameCg;
+            $budgetId = $budgetAnalog->id;
+            $budgetName = $budgetAnalog->fullNameCg;
 
         }
         /**
@@ -129,8 +128,8 @@ class MobileCiController extends Controller
 
         if($specialAnalog && SettingEntrant::find()->isOpenZUK($specialAnalog)){
 
-                $specialId = $specialAnalog->id;
-                $specialName = $specialAnalog->fullNameCg;
+            $specialId = $specialAnalog->id;
+            $specialName = $specialAnalog->fullNameCg;
         }
         /**
          * @var $targetAnalog DictCompetitiveGroup
@@ -141,8 +140,8 @@ class MobileCiController extends Controller
 
         if($targetAnalog && SettingEntrant::find()->isOpenZUK($targetAnalog)){
 
-                $targetId =  $targetAnalog->id;
-                $targetName = $targetAnalog->fullNameCg;
+            $targetId =  $targetAnalog->id;
+            $targetName = $targetAnalog->fullNameCg;
 
         }
         $examinations = [];
@@ -151,27 +150,27 @@ class MobileCiController extends Controller
             $examinations[] = $exam->discipline->name;
         }
         return [
-                'specialty_name'=> $cg->specialty->codeWithName,
-                'faculty_name'=> $cg->faculty->full_name,
-                'specialization_name'=>$cg->specialization->name,
-                'education_form_name'=>DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id],
-                'kcp'=> $budgetAnalog->kcp ?? 0 + $specialAnalog->kcp ?? 0 + $targetAnalog->kcp ?? 0,
-                'competition_count' => $budgetAnalog->competition_count ?? 0,
-                'passing_score'=> $budgetAnalog->passing_score?? 0,
-                'education_year_cost'=> $cg->education_year_cost,
-                'education_duration'=> $cg->education_duration,
-                'examinations'=> $examinations,
-                'is_new_program'=> $cg->is_new_program,
-                'contract_id'=> $contractId,
-                'contract_name'=> $contractName,
-                'budget_id'=>$budgetId,
-                'budget_name'=>$budgetName,
-                'special_id'=> $specialId,
-                'special_name'=>$specialName,
-                'target_id'=>$targetId,
-                'target_name'=>$targetName,
+            'specialty_name'=> $cg->specialty->codeWithName,
+            'faculty_name'=> $cg->faculty->full_name,
+            'specialization_name'=>$cg->specialization->name,
+            'education_form_name'=>DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id],
+            'kcp'=> $budgetAnalog->kcp ?? 0 + $specialAnalog->kcp ?? 0 + $targetAnalog->kcp ?? 0,
+            'competition_count' => $budgetAnalog->competition_count ?? 0,
+            'passing_score'=> $budgetAnalog->passing_score?? 0,
+            'education_year_cost'=> $cg->education_year_cost,
+            'education_duration'=> $cg->education_duration,
+            'examinations'=> $examinations,
+            'is_new_program'=> $cg->is_new_program,
+            'contract_id'=> $contractId,
+            'contract_name'=> $contractName,
+            'budget_id'=>$budgetId,
+            'budget_name'=>$budgetName,
+            'special_id'=> $specialId,
+            'special_name'=>$specialName,
+            'target_id'=>$targetId,
+            'target_name'=>$targetName,
 
-            ];
+        ];
 
     }
 
@@ -224,6 +223,22 @@ class MobileCiController extends Controller
 
 
     }
+
+    public function actionGetDictCse(){
+        $allCseSubject = DictCseSubject::find()->all();
+
+        $cseArray = [];
+        $allCseArray = [];
+        foreach ($allCseSubject as $cseSubject){
+            $cseArray['id'] = $cseSubject->id;
+            $cseArray['name'] = $cseSubject->name;
+            $cseArray['minBall'] = $cseSubject->min_mark;
+
+            $allCseArray[] = $cseArray;
+        }
+        return $allCseArray;
+    }
+
     private function validateArrayJson($key, $array){
         return array_key_exists($key, $array);
     }
