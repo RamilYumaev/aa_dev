@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property string $category_id
  * @property integer $university_choice
  * @property integer $is_foreigner_edu_organization
+ * @property integer $speciality_spo
  * @property string $province_of_china
  * @property string $personal_student_number
  */
@@ -61,6 +62,7 @@ class Anketa extends ActiveRecord
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
         $this->province_of_china = $form->province_of_china;
+        $this->speciality_spo = $form->speciality_spo;
         $this->personal_student_number = $form->personal_student_number;
         if ($this->userSchool && !$this->userSchool->school->isRussia()) {
             $this->is_foreigner_edu_organization = true;
@@ -159,6 +161,7 @@ class Anketa extends ActiveRecord
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
             'category' => 'Категория',
+            'speciality_spo'=> 'Направление подготовки',
             'university_choice' => 'Куда Вы собираетесь подавать документы?',
             'province_of_china' => 'Из какой Вы провинции?',
             'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',

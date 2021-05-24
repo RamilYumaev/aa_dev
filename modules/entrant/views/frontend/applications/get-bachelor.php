@@ -50,6 +50,8 @@ foreach ($currentFaculty as $faculty) {
             $cgFacultyBase = (clone $cgFacultyBase)->onlySpoProgramExcept();
         }
 
+        $cgFacultyBase->successSpeciality($anketa->current_edu_level == AnketaHelper::SCHOOL_TYPE_SPO, $anketa->speciality_spo);
+
 $cgFaculty = $cgFacultyBase->all();
     if ($cgFaculty) {
 

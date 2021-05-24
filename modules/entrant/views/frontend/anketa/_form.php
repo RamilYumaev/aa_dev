@@ -15,6 +15,7 @@ use \modules\entrant\helpers\ProvinceOfChinaHelper;
 use \common\helpers\EduYearHelper;
 use \common\auth\helpers\UserSchoolHelper;
 
+$model->speciality_spo = is_null($model->speciality_spo) ? '' : $model->speciality_spo;
 ?>
 
     <div class="container">
@@ -35,6 +36,8 @@ use \common\auth\helpers\UserSchoolHelper;
                     <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
                 <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>
+                <?= $form->field($model, 'speciality_spo')
+                    ->dropDownList(['' => 'Другое']+\dictionary\helpers\DictSpecialityHelper::specialityNameAndCodeEduLevelList(\dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)) ?>
                 <div class="m-20 text-center">
                     <?= Html::submitButton(Html::tag("span", "",
                             ["class" => "glyphicon glyphicon-floppy-disk"]) . " " . Html::tag("span", "",
@@ -51,13 +54,14 @@ use \common\auth\helpers\UserSchoolHelper;
 $categoryVal = $model->category_id ? $model->category_id : 0;
 $educationVal = $model->current_edu_level ? $model->current_edu_level : 0;
 $govLineCategoryId = \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION;
-
+$educationValSpo = AnketaHelper::SCHOOL_TYPE_SPO;
 $this->registerJS(<<<JS
 var category = $("#anketaform-category_id");
 var education = $("#anketaform-current_edu_level");
 var categoryVal = $categoryVal;
 var educationVal = $educationVal;
 var govLineCategoryId = $govLineCategoryId;
+var educationSPO = $educationValSpo;
 const rf = 46;
 const rk = 29;
 const rb = 49;
@@ -67,7 +71,9 @@ var loadedCat = [];
 var loadedEdu = [];
 
  var province = $("div.field-anketaform-province_of_china");
-  var personalNumber = $("div.field-anketaform-personal_student_number");
+ var specialitySpo = $("div.field-anketaform-speciality_spo");
+ var personalNumber = $("div.field-anketaform-personal_student_number");
+ specialitySpo.hide();
  province.hide();
  personalNumber.hide();
 var currentCountry = $("#anketaform-citizenship_id");
@@ -151,6 +157,10 @@ if(educationVal){
     education.val($model->current_edu_level);
 }
 
+if(educationVal == educationSPO){
+    specialitySpo.show();
+}
+
    
     var countryId = $("#anketaform-citizenship_id");
     var provinceText = $("#anketaform-province_of_china");
@@ -174,6 +184,19 @@ if(educationVal){
         }else{
         personalNumber.hide();
         }
+    
+    education.on("change init", function(){
+         if (this.value == "") {
+          specialitySpo.hide();
+         specialitySpo.val(null);
+        } else if (this.value == educationSPO) {
+         specialitySpo.show();
+        }
+        else {
+        specialitySpo.hide();
+         specialitySpo.val(null);
+        }
+    });
     
     category.on("change", function(){
          if (this.value == "") {

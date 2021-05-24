@@ -36,11 +36,14 @@ class DictSpecialityHelper
     }
 
 
-    public static function specialityNameAndCodeEduLevelList(): array
+    public static function specialityNameAndCodeEduLevelList($eduLevel = null): array
     {
-        $model = DictSpeciality::find()->indexBy('id')->all();
+        $model = DictSpeciality::find()->indexBy('id');
+        if(!is_null($eduLevel)){
+            $model->andWhere(['edu_level' => $eduLevel]);
+        }
         $array = [];
-        foreach ($model as $key => $value)
+        foreach ($model->all() as $key => $value)
         {
             $array[$key] = $value->code." ". $value->name. ' /'. DictCompetitiveGroupHelper::getEduLevelsAbbreviated()[$value->edu_level];
         }

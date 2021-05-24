@@ -308,6 +308,14 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
             return $this->andWhere(['not in', 'id', $onlySpoCgId]);
     }
 
+    public function successSpeciality($spo, $speciality = null)
+    {
+        $condition =  ['like', 'success_speciality', $speciality];
+        $model = clone $this;
+        $bool = $model->andWhere($condition)->exists();
+        return  $spo && !is_null($speciality)  && $bool ? $this->orWhere($condition) : $this->andWhere(['success_speciality' => null]);
+    }
+
     public function getAnketa()
     {
         return \Yii::$app->user->identity->anketa();
