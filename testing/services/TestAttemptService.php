@@ -186,7 +186,7 @@ class TestAttemptService
                 $rewardUser =  TestAttempt::find()->test($test->id)->isNotNullMark()->all();
             }
             else {
-                $rewardUser =TestAttempt::find()->test($test->id)->isNotNullRewards()->all();
+                $rewardUser =TestAttempt::find()->test($test->id)->isNotNullRewards()->andWhere(['<>', 'reward_status', TestAttemptHelper::MEMBER])->all();
             }
             if (!Diploma::find()->olympic($olympic->id)->exists()) {
                 foreach ($rewardUser as $eachUser) {

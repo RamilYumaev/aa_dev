@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [ 'attribute' => 'dict_department_id' ,
                         'filter' => \modules\management\models\DictDepartment::find()->allColumn(),
                         'value' =>  'dictDepartment.name'],
+                    'is_deleted:boolean',
                     [ 'format' => 'raw',
                         'value' => function($model) {
                             return Html::button('Скопировать ссылку', ['class'=>'btn btn-warning',  'data-clipboard-text'=> $model->link ? $model->link : $model->getUploadedFileUrl('file')]);

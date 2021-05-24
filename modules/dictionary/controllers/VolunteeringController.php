@@ -77,11 +77,15 @@ class VolunteeringController extends ControllerClass
             'columns' => [
                 'entrantJob.profileUser.fio',
                 'entrantJob.profileUser.user.email',
-                'isAttempt'
+                'isAttempt',
+                'attemptMark',
+                'desireWork'
             ], //without header working, because the header will be get label from attribute label.
             'headers' => ['entrantJob.profileUser.fio' => "ФИО",
                 'entrantJob.profileUser.user.email'=> "E-mail",
                 'isAttempt'=> "Прошел/Не прошел",
+                'attemptMark'=> 'Балл',
+                'desireWork'=> "Желаемое направление работы"
             ],
         ]);
     }

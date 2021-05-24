@@ -84,7 +84,7 @@ use yii\helpers\Html;
 <div class="box box-danger">
     <div class="box-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_LIGHT_BLUE_ACTIVE,
                     'icon'=> 'pencil-square-o',
@@ -93,7 +93,7 @@ use yii\helpers\Html;
                     'link' => 'management-director'])
                 ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_ORANGE,
                     'icon'=> 'clock-o',
@@ -102,12 +102,21 @@ use yii\helpers\Html;
                     'link' => 'management-director'])
                 ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_RED_ACTIVE,
                     'icon'=> 'minus-circle ',
                     'status' => Task::STATUS_NOT_EXECUTED,
                     'key' => 'director_user_id',
+                    'link' => 'management-director'])
+                ?>
+            </div>
+            <div class="col-md-3">
+                <?= InfoTaskWidget::widget([
+                    'colorBox' => AdminLTE::BG_BLUE,
+                    'icon'=> 'plus',
+                    'status' => Task::STATUS_RESUMED,
+                    'admin' => true,
                     'link' => 'management-director'])
                 ?>
             </div>

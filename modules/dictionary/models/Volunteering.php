@@ -73,9 +73,18 @@ class Volunteering extends ActiveRecord
         return $this->hasOne(SettingEmail::class, ['id' => 'email_id']);
     }
 
+    public function getAttempt() {
+        return TestAttempt::find()->user($this->entrantJob->user_id)->test(142)->one();
+    }
+
     public function getIsAttempt() {
-       $is = TestAttempt::find()->user($this->entrantJob->user_id)->test(142)->one();
+       $is = $this->getAttempt();
        return $is->mark ? 'Прошел' : "Не прошел";
+    }
+
+    public function getAttemptMark() {
+        $is = $this->getAttempt();
+        return $is ? $is->mark : '';
     }
 
 

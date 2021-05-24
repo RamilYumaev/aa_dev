@@ -1,6 +1,7 @@
 <?php
 return [
     '' => 'site/index',
+    'queue' => 'site/queue',
     'entrant' => 'entrant-module/default/index',
     'auth' => 'entrant-module/auth/index',
     'entrant-export' => 'entrant-module/default/data-export',
