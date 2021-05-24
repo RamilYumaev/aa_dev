@@ -84,10 +84,13 @@ $taskData = ['title', 'dictTask.name',['value' => $task->dictTask->description, 
                 ]) ?>
             </div>
             <div class="box-footer">
-                <?= ($task->isStatusNew() ? Html::a('Взять в работу', ['task/status', 'id' => $task->id, 'status' =>
+                <?= ($task->isStatusNew() || $task->isStatusResumed()  ? Html::a('Взять в работу', ['task/status', 'id' => $task->id, 'status' =>
                     Task::STATUS_WORK],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите взять в работу?"]) : "").
                 ($task->isStatusWork() || $task->isStatusRework() ? Html::a('Выполнено', ['task/status', 'id' => $task->id, 'status' =>
-                    Task::STATUS_DONE],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "")?>
+                    Task::STATUS_DONE],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").
+                ($task->isStatusAcceptedToTime() ? Html::a('Возобновить', ['task/status', 'id' => $task->id, 'status' =>
+                    Task::STATUS_RESUMED],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "")
+                ?>
             </div>
         </div>
     </div>

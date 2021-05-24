@@ -91,7 +91,10 @@ $taskData = ['title', 'dictTask.name', ['value' => $task->dictTask->description,
                     Html::a('Принято не в срок', ['task/status', 'id' => $task->id, 'status' =>
                         Task::STATUS_ACCEPTED_WITCH_OVERDUE],['class'=> "btn btn-warning btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]).
                     Html::a('Не принято', ['task/status', 'id' => $task->id, 'status' =>
-                        Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : ""); ?>
+                        Task::STATUS_NOT_EXECUTED],['class'=> "btn btn-danger btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "").
+                ($task->isStatusAcceptedToTime() ? Html::a('Возобновить', ['task/status', 'id' => $task->id, 'status' =>
+                    Task::STATUS_RESUMED],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите изменить статус?"]) : "")
+                ?>
             </div>
         </div>
     </div>

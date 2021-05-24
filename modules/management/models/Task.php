@@ -31,6 +31,7 @@ class Task extends ActiveRecord
     const STATUS_ACCEPTED_TO_TIME = 5;
     const STATUS_ACCEPTED_WITCH_OVERDUE = 6;
     const STATUS_NOT_EXECUTED = 7;
+    const STATUS_RESUMED = 8;
 
 
     public function behaviors()
@@ -141,6 +142,7 @@ class Task extends ActiveRecord
             self::STATUS_ACCEPTED_TO_TIME => ['name' => "Принято в срок", 'color'=> 'success'],
             self::STATUS_ACCEPTED_WITCH_OVERDUE => ['name' => "Принято не в срок", 'color'=> 'warning'],
             self::STATUS_NOT_EXECUTED => ['name' => "Не выполнено", 'color'=> 'danger'],
+            self::STATUS_RESUMED => ['name' => 'Возобновлено', 'color'=> 'primary'],
         ];
     }
 
@@ -157,9 +159,14 @@ class Task extends ActiveRecord
         return $this->status == self::STATUS_REWORK;
     }
 
+    public function isStatusResumed() {
+        return $this->status == self::STATUS_RESUMED;
+    }
+
     public function isStatusAcceptedToTime() {
         return $this->status == self::STATUS_ACCEPTED_TO_TIME;
     }
+
     public function isStatusAcceptedWitchOverdue() {
         return $this->status == self::STATUS_ACCEPTED_WITCH_OVERDUE;
     }
