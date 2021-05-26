@@ -94,7 +94,7 @@ use yii\helpers\Html; ?>
                     'link' => 'management-user'])
                 ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= InfoTaskWidget::widget([
                     'colorBox' => AdminLTE::BG_RED,
                     'icon'=> 'minus-circle ',

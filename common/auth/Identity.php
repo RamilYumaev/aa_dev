@@ -90,13 +90,19 @@ class Identity implements IdentityInterface
         return $passport->age() >= 18;
     }
 
-
+    /**
+     * @param $userId
+     * @throws \Exception
+     */
     public function switchUser($userId)
     {
         $initialId = $this->getId();
         \Yii::warning("initialId " . $initialId);
         if ($userId !== $initialId) {
             $userModel = User::findOne($userId);
+            if(!$userModel) {
+                throw new \Exception("Пользователь не найден!'");
+            }
             $user = new Identity($userModel);
             $duration = 0;
             \Yii::$app->user->switchIdentity($user, $duration);
