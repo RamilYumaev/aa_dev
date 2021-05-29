@@ -97,7 +97,7 @@ class TestingEntrant extends ActiveRecord
             'country' => 'Страны',
             'category' => 'Категории',
             'title' => 'Заголовок',
-            'fio' => 'ФИО  в произвельной форме',
+            'fio' => 'ФИО  в произвольной форме',
             'user_id'=> 'Волонтер',
             'note' => 'Примечание',
             'status' => 'Статус задачи'
