@@ -145,6 +145,15 @@ class ProfileHelper
             ->column();
     }
 
+    public static function getVolunteering()
+    {
+        return Profiles::find()
+            ->selectFullName()
+            ->joinWith('jobEntrant', false)
+            ->indexBy("user_id")
+            ->column();
+    }
+
     public static function findProfile($userId)
     {
         try {

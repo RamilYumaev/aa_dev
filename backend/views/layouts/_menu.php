@@ -119,6 +119,13 @@ array_merge(
             ['label' => 'Для отчета', 'url' => ['/dictionary-module/dict-schools-report']],
         ])]],
 
+    Yii::$app->user->can('dev') ?
+        [['label' => 'Тестирование', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Спр. подзадач', 'url' => ['/dictionary-module/dict-testing-entrant']],
+                ['label' => 'Задачи', 'url' => ['/dictionary-module/testing-entrant']],
+            ])]] :[],
+
     Yii::$app->user->can('dev_task') ?
     [['label' => 'УОПП', 'url' => '#',
         'items' => array_merge([
