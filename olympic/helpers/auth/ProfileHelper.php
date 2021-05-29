@@ -5,6 +5,7 @@ namespace olympic\helpers\auth;
 use common\auth\helpers\UserHelper;
 use common\auth\models\User;
 use http\Exception\RuntimeException;
+use modules\dictionary\models\JobEntrant;
 use olympic\models\auth\Profiles;
 use phpDocumentor\Reflection\Types\String_;
 use Yii;
@@ -147,9 +148,9 @@ class ProfileHelper
 
     public static function getVolunteering()
     {
-        return Profiles::find()
-            ->selectFullName()
-            ->joinWith('jobEntrant', false)
+        return jobEntrant::find()
+            ->joinWith('profileUser')
+            ->select(new Expression("concat_ws(' ', last_name, first_name, patronymic)"))
             ->indexBy("user_id")
             ->column();
     }
