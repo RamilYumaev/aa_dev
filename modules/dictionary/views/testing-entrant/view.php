@@ -68,20 +68,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
     </div>
     <div class="box-body">
+        <div class="table-responsive">
         <?= GridView::widget([
             'dataProvider' => new ActiveDataProvider(['query' => $testing->getTestingEntrantDict()]),
-            'afterRow' => function (TestingEntrantDict  $model, $index, $grid) {
-                    return '<tr><td colspan="4">'. (!$model->isStatusError() || !$model->isStatusFix() ? TestingEntrantDictHelper::link($model::STATUS_WORK, $model).
+            'afterRow' => function (TestingEntrantDict $model) {
+                    return '<tr><td colspan="3">'. (!$model->isStatusError() || !$model->isStatusFix() ? TestingEntrantDictHelper::link($model::STATUS_WORK, $model).
                             TestingEntrantDictHelper::link($model::STATUS_SUCCESS, $model):"").
-                            TestingEntrantDictHelper::link($model::STATUS_FIX, $model).
-                            TestingEntrantDictHelper::link($model::STATUS_FIX_SUCCESS, $model).'</td>
-                            <td class="2">'.
-                        Html::a("Ошибка", ["testing-entrant/message", 'id' => $model->id_testing_entrant,
+                        TestingEntrantDictHelper::link($model::STATUS_FIX, $model).
+                        TestingEntrantDictHelper::link($model::STATUS_FIX_SUCCESS, $model). Html::a("Ошибка", ["testing-entrant/message", 'id' => $model->id_testing_entrant,
                             'dict'=> $model->id_dict_testing_entrant],
                             ["class" => "btn btn-danger",
-                                'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => ''])
-                            .'</td>
-                            <tr/>'.($model->error_note ? '<tr class="danger"><td colspan="6">'.$model->error_note.'</td></tr>':'');
+                                'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']).'</td>
+                        <td colspan="1">'.Html::tag('span', $model->statusName, ['class' => 'label label-' . $model->statusColor]).'</td>
+                            <tr/>'.($model->error_note ? '<tr class="danger"><td colspan="5">'.$model->error_note.'</td></tr>':'');
                     },
 
             'columns' => [
@@ -89,15 +88,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dctTestingEntrant.name',
                 'dctTestingEntrant.description:raw',
                 'dctTestingEntrant.result:raw',
-                'dctTestingEntrant.priority',
-                 ['attribute' => 'status',
-                    'format' => 'raw',
-                    'value' => function(TestingEntrantDict $model) {
-                        return Html::tag('span', $model->statusName, ['class' => 'label label-' . $model->statusColor]);
-
-                        }
-                ],
             ]
         ]); ?>
+        </div>
     </div>
 </div>
