@@ -59,7 +59,7 @@ return [
             'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
             'roots' => [
                 [
-                    'baseUrl' => '@frontend',
+                    'baseUrl' => '@frontendInfo',
                     'basePath' => '@frontendRoot',
                     'path' => '/',
                     'name' => 'Global',
