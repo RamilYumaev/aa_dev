@@ -3,6 +3,7 @@
 
 namespace modules\dictionary\controllers;
 
+use common\auth\models\User;
 use modules\dictionary\forms\TestingEntrantForm;
 use modules\dictionary\models\TestingEntrant;
 use modules\dictionary\models\TestingEntrantDict;
@@ -13,10 +14,13 @@ use modules\dictionary\forms\TestingEntrantDictForm;
 use modules\usecase\ControllerClass;
 use Monolog\Handler\IFTTTHandler;
 use Yii;
+use yii\base\Exception;
 use yii\bootstrap\ActiveForm;
 use yii\filters\AccessControl;
+use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 class TestingEntrantController extends ControllerClass
 {
@@ -43,12 +47,12 @@ class TestingEntrantController extends ControllerClass
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'update','delete','status','add-task','message','status-task','view'],
+                        'actions' => ['create', 'index', 'update', 'image-delete','delete','status','add-task','message','status-task','view'],
                         'roles' => ['dev']
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['message', 'index','status-task','view'],
+                        'actions' => ['message', 'index','status-task','view', 'image-delete'],
                         'roles' => ['@']
                     ]
                 ],
@@ -89,12 +93,25 @@ class TestingEntrantController extends ControllerClass
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
+                $form->images = UploadedFile::getInstances($form, 'images');
                 $model->setErrorNote($form->message);
+                $alias = \Yii::getAlias('@entrant');
+                $path ='/web/uploads';
+                if(!FileHelper::createDirectory($alias . $path)) {
+                    throw  new \DomainException("Не удалось создать папку ". $alias . $path);
+                }
+                foreach ($form->images as $key => $file) {
+                    $number = $model->count_files + ($key+1);
+                    $file->saveAs($alias.$path.'/' . $model->getNameFile($number). '.' . $file->extension);
+                }
+                $count = $model->count_files+count($form->images);
+                $model->setCountFiles($count);
                 $model->setStatus(TestingEntrantDict::STATUS_ERROR);
                 $model->save(false);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
+            } catch (Exception $e) {
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -144,6 +161,35 @@ class TestingEntrantController extends ControllerClass
         }
         try {
             $model->setStatus($status);
+            $model->save(false);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionImageDelete($dict, $id, $key)
+    {
+        $model = TestingEntrantDict::findOne(['id_dict_testing_entrant' => $dict,
+            'id_testing_entrant' => $id]);
+        if(!$model) {
+            throw new NotFoundHttpException('Такой страницы не существует.');
+        }
+        try {
+            $alias = \Yii::getAlias('@entrant');
+            $path ='/web/uploads';
+            $path = $alias.$path.'/' . $model->getNameFile($key). '.' . 'jpg';
+            if(!is_file($path)) {
+                throw  new \DomainException('Такого файла не существует');
+            }
+            unlink($path);
+            $model->setCountFiles($model->count_files-1);
             $model->save(false);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

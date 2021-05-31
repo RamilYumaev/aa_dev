@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $error_note
  * @property integer $status
  * @property integer $status_programmer
+ * @property integer $count_files;
  * @property integer $id_dict_testing_entrant
  * @property integer $id_testing_entrant
  *
@@ -43,6 +44,14 @@ class TestingEntrantDict extends ActiveRecord
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+    public function setCountFiles($count) {
+        $this->count_files = $count;
+    }
+
+    public function getNameFile($number) {
+        return $this->id_dict_testing_entrant."_".$this->id_testing_entrant."_".$number;
     }
 
     public function setErrorNote($message) {

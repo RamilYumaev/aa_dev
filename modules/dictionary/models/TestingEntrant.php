@@ -76,7 +76,7 @@ class TestingEntrant extends ActiveRecord
 
     public function getSpecialRight() {
         return  implode(', ', array_map(function ($role) {
-            return DictCompetitiveGroupHelper::getSpecialRight()[$role];
+            return DictCompetitiveGroupHelper::getSpecialRightTesting()[$role];
         }, json_decode($this->special_right)));
     }
 
@@ -94,8 +94,8 @@ class TestingEntrant extends ActiveRecord
             'special_right' => 'Основание приема',
             'edu_level' => "Уровень образования",
             'edu_document' => 'Документ об образовании',
-            'country' => 'Страны',
-            'category' => 'Категории',
+            'country' => 'Гражданство',
+            'category' => 'Категория',
             'title' => 'Заголовок',
             'fio' => 'ФИО  в произвольной форме',
             'user_id'=> 'Волонтер',

@@ -12,11 +12,12 @@ use backend\widgets\adminlte\grid\GridView;
 
 $this->title = 'Задачи для тестирования';
 $this->params['breadcrumbs'][] = $this->title;
+$isDev = Yii::$app->user->can('dev');
 ?>
 <div class="box">
     <div class="box-body">
         <p>
-            <?= Html::a('Создать', ['testing-entrant/create'], ['class' => 'btn btn-success']) ?>
+            <?= $isDev ? Html::a('Создать', ['testing-entrant/create'], ['class' => 'btn btn-success']) : "" ?>
         </p>
     </div>
     <div class="table-responsive">
@@ -26,13 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => ActionColumn::class,
                     'controller' => "testing-entrant",
-                    'template' => '{view}',
+                    'template' => $isDev ? '{view} {update} {delete}' : '{view}',
                 ],
                 ['class' => \yii\grid\SerialColumn::class],
                 'title',
                 ['attribute'=>'user_id',
                     'filter' =>SelectDataHelper::dataSearchModel($searchModel, \olympic\helpers\auth\ProfileHelper::getVolunteering(),'user_id', 'profile.fio'),
-                    'value'=>'profile.fio'],
+                    'value'=> function ($model) {  return $model->profile->fio.' '.$model->profile->user->email;}],
                 ['attribute'=>'department',
                     'filter' => \dictionary\helpers\DictFacultyHelper::facultyListSetting(),
                     'value'=>'departmentString'],
@@ -46,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::tag('span', $model->statusName, ['class' => 'label label-'.$model->statusColor]);
                     }],
                 ['class' => ActionColumn::class,
-                    'controller' => "testing-entrant",
-                    'template' => '{update} {delete}',
+                    'controller' => "testing-entrant"
                 ],
             ]
         ]); ?>

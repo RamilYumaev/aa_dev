@@ -8,6 +8,7 @@ use yii\base\Model;
 class TestingEntrantDictForm extends Model
 {
     public $message;
+    public $images;
 
     public function __construct(TestingEntrantDict $testingEntrantDict, $config = [])
     {
@@ -18,11 +19,11 @@ class TestingEntrantDictForm extends Model
     /**
      * {@inheritdoc}
      */
-
     public function rules()
     {
         return [
             ['message', 'string'],
+            [['images'], 'image', 'extensions' => 'jpg', 'maxFiles' => 5],
             ['message', 'required'],
         ];
     }
@@ -33,6 +34,6 @@ class TestingEntrantDictForm extends Model
 
     public function attributeLabels()
     {
-       return [ 'message'=> 'Сообщение об ошибке'];
+       return [ 'message'=> 'Сообщение об ошибке', 'images' => 'Скриншоты'];
     }
 }

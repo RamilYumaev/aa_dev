@@ -18,10 +18,11 @@ $(document).ready(function() {
     var queue = $('#queue');
       queue.hide();
     setInterval(function(){
-      
         queue.show(1000);
-    $.get( "https://api.sdo.mpgu.org/queue", function(data) {
-        var tbody = $('table > tbody');
+        $.ajax({
+  url: 'https://api.sdo.mpgu.org/queue',
+  success: function(data){
+      var tbody = $('table > tbody');
          tbody.empty();
         for(var i = 0; i < data.length; ++i) {
          tbody.append('<tr>');
@@ -29,7 +30,8 @@ $(document).ready(function() {
          tbody.append($("<td></td>").text(data[i].number_of_table));
          tbody.append('</tr>');
          }
-        });
+  }
+});
     }, 1000);
 });
 JS;

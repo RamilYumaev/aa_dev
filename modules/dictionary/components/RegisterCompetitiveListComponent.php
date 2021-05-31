@@ -42,9 +42,9 @@ class RegisterCompetitiveListComponent
                 $time = strtotime(date('H:i:s'));
                 $last = strtotime($timeLast->time);
                 $result = $time - $last;
-//                if($result <= $item->getIntTimeWork($date)) {
-//                    continue;
-//                }
+                if($result <= $item->getIntTimeWork($date)) {
+                    continue;
+                }
             }
 
             $register = $this->getRegisterCompositeList($item, $number, $ais_id, $value['faculty_id'], $value['speciality_id']);

@@ -149,8 +149,8 @@ class ProfileHelper
     public static function getVolunteering()
     {
         return jobEntrant::find()
-            ->joinWith('profileUser')
-            ->select(new Expression("concat_ws(' ', last_name, first_name, patronymic)"))
+            ->joinWith(['profileUser','user'])
+            ->select(new Expression("concat_ws(' ', last_name, first_name, patronymic, user.email)"))
             ->indexBy("user_id")
             ->column();
     }

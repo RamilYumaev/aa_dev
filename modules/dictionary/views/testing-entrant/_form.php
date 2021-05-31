@@ -19,8 +19,10 @@ use yii\helpers\Html;
             'pluginOptions' => ['allowClear' => true],
             'data' => \dictionary\helpers\DictFacultyHelper::facultyListSetting()
         ]) ?>
-        <?= $form->field($model, 'special_right')
-            ->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getSpecialRight(), ['multiple'=>'multiple'
+        <?= $form->field($model, 'special_right')->widget(\kartik\select2\Select2::class, [
+            'options' => ['placeholder' => 'Выберите...', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => false],
+            'data' => \dictionary\helpers\DictCompetitiveGroupHelper::getSpecialRightTesting()
         ]) ?>
         <?= $form->field($model, 'edu_level')->widget(\kartik\select2\Select2::class, [
             'options' => ['placeholder' => 'Выберите...', 'multiple' => true],

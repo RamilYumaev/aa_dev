@@ -10,6 +10,7 @@ use entrant\assets\modal\ModalAsset;
 ModalAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $testing modules\dictionary\models\TestingEntrant */
+$isDev = Yii::$app->user->can('dev');
 $this->title = 'Просмотр задачи';
 $this->params['breadcrumbs'][] = ['label' => 'Задачи для тестирования', 'url' => ['testing-entrant/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
         <div class="box-header">
             <h4>Данные</h4>
-            <?php if(Yii::$app->user->can('dev')): ?>
+            <?php if($isDev): ?>
                 <?=   Html::a($testing->isStatusOpen() ? "Закрыть":"Открыть", ['testing-entrant/status', 'id' => $testing->id,
                     'status' => $testing->isStatusOpen() ? true: false], ['class' => 'btn btn-success'])?>
             <?php endif; ?>
@@ -63,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box">
     <div class="box-header">
         <h4>Подзадачи</h4>
-        <?php if(Yii::$app->user->can('dev')): ?>
+        <?php if($isDev): ?>
         <?= Html::a('Добавить подзаадчу', ['testing-entrant/add-task','id'=>$testing->id, ], ['class' => 'btn btn-success', 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']) ?>
         <?php endif; ?>
     </div>
@@ -71,18 +72,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="table-responsive">
         <?= GridView::widget([
             'dataProvider' => new ActiveDataProvider(['query' => $testing->getTestingEntrantDict()]),
-            'afterRow' => function (TestingEntrantDict $model) {
+            'afterRow' => function (TestingEntrantDict $model) use ($isDev) {
+
                     return '<tr><td colspan="3">'. (!$model->isStatusError() || !$model->isStatusFix() ? TestingEntrantDictHelper::link($model::STATUS_WORK, $model).
                             TestingEntrantDictHelper::link($model::STATUS_SUCCESS, $model):"").
-                        TestingEntrantDictHelper::link($model::STATUS_FIX, $model).
-                        TestingEntrantDictHelper::link($model::STATUS_FIX_SUCCESS, $model). Html::a("Ошибка", ["testing-entrant/message", 'id' => $model->id_testing_entrant,
+                        ($isDev && $model->isStatusError()  ? TestingEntrantDictHelper::link($model::STATUS_FIX, $model) :'').
+                        Html::a("Ошибка", ["testing-entrant/message", 'id' => $model->id_testing_entrant,
                             'dict'=> $model->id_dict_testing_entrant],
                             ["class" => "btn btn-danger",
                                 'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']).'</td>
                         <td colspan="1">'.Html::tag('span', $model->statusName, ['class' => 'label label-' . $model->statusColor]).'</td>
-                            <tr/>'.($model->error_note ? '<tr class="danger"><td colspan="5">'.$model->error_note.'</td></tr>':'');
+                            <tr/>'.($model->error_note ? '<tr class="danger"><td colspan="5">'.$model->error_note.'</td></tr>':'').
+                        ($model->count_files ? '<tr class="info"><td colspan="5">'.\modules\dictionary\helpers\TestingEntrantHelper::images($model).'</td></tr>':'');
                     },
-
             'columns' => [
             ['class' => \yii\grid\SerialColumn::class],
                 'dctTestingEntrant.name',

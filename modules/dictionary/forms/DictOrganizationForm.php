@@ -4,7 +4,6 @@
 namespace modules\dictionary\forms;
 
 
-use modules\dictionary\models\DictForeignLanguage;
 use modules\dictionary\models\DictOrganizations;
 use yii\base\Model;
 

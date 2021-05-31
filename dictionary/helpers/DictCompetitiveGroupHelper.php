@@ -178,6 +178,12 @@ class DictCompetitiveGroupHelper
             self::TARGET_PLACE => 'Прием на целевое обучение'];
     }
 
+    public static function getSpecialRightTesting(): array
+    {
+        return [0 => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
+            self::TARGET_PLACE => 'Прием на целевое обучение'];
+    }
+
     public static function forms(): array
     {
         return [
