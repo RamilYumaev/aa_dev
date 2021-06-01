@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['label' => $testing->getAttributeLabel('status'),
                         'value' => $testing->statusName
                     ],
-                    'note'
+                    'note:raw'
                 ],
             ]) ?>
         </div>
