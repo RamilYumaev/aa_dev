@@ -35,7 +35,7 @@ class DictTestingEntrantController extends ControllerClass
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dev']
+                        'roles' => ['dev','volunteering']
                     ]
                 ],
             ],

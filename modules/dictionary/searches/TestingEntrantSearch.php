@@ -44,7 +44,7 @@ class TestingEntrantSearch extends Model
             return $dataProvider;
         }
 
-        if(!\Yii::$app->user->can('dev')) {
+        if(!\Yii::$app->user->can('dev') || !\Yii::$app->user->can('volunteering')) {
             $query->andWhere(['user_id' => \Yii::$app->user->identity->getId()]);
         }
 

@@ -343,7 +343,7 @@ if(!Yii::$app->user->isGuest ) {
             ['label' => 'Профиль', 'url' => ['/profile/edit']],
             ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
             ['label' => 'Доп. информация', 'url' => ['/data-entrant/volunteering']],
-            ['label' => 'Тестирование', 'url' => ['/data-entrant/olympic-volunteering']],
+            ['label' => 'QA', 'url' => ['/data-entrant/olympic-volunteering']],
             ['label' => 'Информация ПК', 'url' => ['/profile/entrant-job']],
             \modules\dictionary\models\TestingEntrant::find()->andWhere(['user_id'=> Yii::$app->user->identity->getId()])->exists() ? ['label' => 'Задачи', 'url' => ['/dictionary-module/testing-entrant']]:[],
         ]

@@ -48,7 +48,7 @@ class TestingEntrantController extends ControllerClass
                     [
                         'allow' => true,
                         'actions' => ['create', 'index', 'update', 'image-delete','delete','status','add-task','message','status-task','view'],
-                        'roles' => ['dev']
+                        'roles' => ['dev','volunteering']
                     ],
                     [
                         'allow' => true,
@@ -68,7 +68,7 @@ class TestingEntrantController extends ControllerClass
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if(!\Yii::$app->user->can('dev') && $model->user_id != \Yii::$app->user->identity->getId()) {
+        if((!\Yii::$app->user->can('dev') || !\Yii::$app->user->can('volunteering')) && $model->user_id != \Yii::$app->user->identity->getId()) {
             throw new NotFoundHttpException('Такой страницы не существует.');
         }
         return $this->render('view',['testing' => $model]);

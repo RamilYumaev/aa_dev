@@ -10,7 +10,7 @@ use entrant\assets\modal\ModalAsset;
 ModalAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $testing modules\dictionary\models\TestingEntrant */
-$isDev = Yii::$app->user->can('dev');
+$isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
 $this->title = 'Просмотр задачи';
 $this->params['breadcrumbs'][] = ['label' => 'Задачи для тестирования', 'url' => ['testing-entrant/index']];
 $this->params['breadcrumbs'][] = $this->title;
