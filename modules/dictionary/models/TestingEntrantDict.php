@@ -65,11 +65,12 @@ class TestingEntrantDict extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_dict_testing_entrant' => 'ID DICT TESTING',
-            'id_testing_entrant' => 'ID TESTING',
+            'id_dict_testing_entrant' => 'Кейс',
+            'id_testing_entrant' => 'Задача',
             'status' => 'Статус',
             'error_note' => 'Информация об ошибке',
             'status_programmer' => 'Статус решения проблемы',
+            'count_files'=>  'Кол-во скриншотов'
         ];
     }
 

@@ -124,6 +124,7 @@ array_merge(
             'items' => array_merge([
                 ['label' => 'Спр. подзадач', 'url' => ['/dictionary-module/dict-testing-entrant']],
                 ['label' => 'Задачи', 'url' => ['/dictionary-module/testing-entrant']],
+                ['label' => 'Кейсы', 'url' => ['/dictionary-module/testing-entrant/list-case']],
             ])]] :[],
 
     Yii::$app->user->can('dev_task') ?

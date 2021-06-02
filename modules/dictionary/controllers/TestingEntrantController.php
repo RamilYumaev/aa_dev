@@ -7,6 +7,8 @@ use common\auth\models\User;
 use modules\dictionary\forms\TestingEntrantForm;
 use modules\dictionary\models\TestingEntrant;
 use modules\dictionary\models\TestingEntrantDict;
+use modules\dictionary\searches\DictIndividualAchievementSearch;
+use modules\dictionary\searches\TestingEntrantDictSearch;
 use modules\dictionary\searches\TestingEntrantSearch;
 use modules\dictionary\services\TestingEntrantService;
 use modules\entrant\forms\AgreementMessageForm;
@@ -47,7 +49,7 @@ class TestingEntrantController extends ControllerClass
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'index', 'update', 'image-delete','delete','status','add-task','message','status-task','view'],
+                        'actions' => ['create', 'index', 'update', 'list-case', 'image-delete','delete','status','add-task','message','status-task','view'],
                         'roles' => ['dev','volunteering']
                     ],
                     [
@@ -213,4 +215,19 @@ class TestingEntrantController extends ControllerClass
         }
         return $this->redirect(['view', 'id'=> $id]);
     }
+
+    /**
+     * @return mixed
+     */
+    public function actionListCase()
+    {
+        $searchModel = new TestingEntrantDictSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('list_case', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 }
