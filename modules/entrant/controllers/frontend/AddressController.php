@@ -40,11 +40,15 @@ class AddressController extends Controller
      */
     public function actionCreate()
     {
+        $referrer = Yii::$app->request->get("referrer");
         $form = new AddressForm($this->getUserId());
         $form->country_id = DictCountryHelper::RUSSIA;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
+                if($referrer) {
+                    return $this->redirect('/transfer/default/index');
+                }
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -63,11 +67,15 @@ class AddressController extends Controller
      */
     public function actionUpdate($id)
     {
+        $referrer = Yii::$app->request->get("referrer");
         $model = $this->findModel($id);
         $form = new AddressForm($model->user_id,$model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
+                if($referrer) {
+                    return $this->redirect('/transfer/default/index');
+                }
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -112,7 +120,7 @@ class AddressController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+       return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
@@ -130,6 +138,6 @@ class AddressController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+       return $this->redirect(Yii::$app->request->referrer);
     }
 }

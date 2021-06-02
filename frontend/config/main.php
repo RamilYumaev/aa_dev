@@ -32,6 +32,10 @@ return [
             'class' => \modules\exam\FrontendExam::class,
             'viewPath' => "@modules/exam/views/frontend",
         ],
+        'transfer' => [
+            'class' => \modules\transfer\FrontendTransfer::class,
+            'viewPath' => "@modules/transfer/views/frontend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],

@@ -6,6 +6,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles */
+/* @var $referrer */
 $column = [
     'last_name',
     'first_name',
@@ -26,7 +27,7 @@ $column = [
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($profile->isDataNoEmpty()) ?>">
         <div class="p-30 green-border">
         <h4>Профиль</h4>
-        <?= Html::a('Редактировать', ['/profile/edit', "redirect"=> "online-registration"], ['class' => 'btn btn-warning mb-10']) ?>
+        <?= Html::a('Редактировать', ['/profile/edit', "redirect"=> $referrer], ['class' => 'btn btn-warning mb-10']) ?>
         <?= DetailView::widget([
                 'options' => ['class' => 'table table-bordered detail-view'],
             'model' => $profile,
