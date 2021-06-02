@@ -57,7 +57,7 @@ class TestingEntrantForm extends Model
 
     public function attributeLabels()
     {
-        return (new TestingEntrant())->attributeLabels()+['dictTestingList'=>'Подзадачи'];
+        return (new TestingEntrant())->attributeLabels()+['dictTestingList'=>'Задачи'];
     }
 
 }

@@ -120,11 +120,11 @@ array_merge(
         ])]],
 
     Yii::$app->user->can('dev') ?
-        [['label' => 'Тестирование', 'url' => '#',
+        [['label' => 'QA', 'url' => '#',
             'items' => array_merge([
-                ['label' => 'Спр. подзадач', 'url' => ['/dictionary-module/dict-testing-entrant']],
-                ['label' => 'Задачи', 'url' => ['/dictionary-module/testing-entrant']],
-                ['label' => 'Кейсы', 'url' => ['/dictionary-module/testing-entrant/list-case']],
+                ['label' => 'Задачи', 'url' => ['/dictionary-module/dict-testing-entrant']],
+                ['label' => 'Кейсы', 'url' => ['/dictionary-module/testing-entrant']],
+                ['label' => 'Мониторинг', 'url' => ['/dictionary-module/testing-entrant/list-case']],
             ])]] :[],
 
     Yii::$app->user->can('dev_task') ?

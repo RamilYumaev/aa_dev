@@ -14,11 +14,12 @@ class TestingEntrantDictSearch extends Model
     public $id_dict_testing_entrant;
     public $count_files;
     public $status;
+    public $user_id;
 
     public function rules()
     {
         return [
-            [['count_files', 'id_dict_testing_entrant', 'id_testing_entrant', 'status'], 'integer'],
+            [['count_files', 'id_dict_testing_entrant', 'id_testing_entrant', 'status','user_id'], 'integer'],
         ];
     }
 
@@ -31,6 +32,10 @@ class TestingEntrantDictSearch extends Model
         ]);
 
         $this->load($params);
+
+        if($this->user_id) {
+            $query->joinWith('testingEntrant')->andWhere(['user_id' => $this->user_id]);
+        }
 
         if (!$this->validate()) {
             $query->where('0=1');

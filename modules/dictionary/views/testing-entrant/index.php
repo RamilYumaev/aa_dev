@@ -10,7 +10,7 @@ use backend\widgets\adminlte\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel modules\dictionary\searches\TestingEntrantSearch */
 
-$this->title = 'Задачи для тестирования';
+$this->title = 'QA';
 $this->params['breadcrumbs'][] = $this->title;
 $isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
 $columns = [

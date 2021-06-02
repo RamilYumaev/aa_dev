@@ -9,7 +9,7 @@ use dictionary\models\DictClass;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel modules\dictionary\searches\DictTestingEntrantSearch */
 
-$this->title = 'Справочник подзадач для тестирования';
+$this->title = 'Задачи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">

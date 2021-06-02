@@ -11,7 +11,7 @@ ModalAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $testing modules\dictionary\models\TestingEntrant */
 $isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
-$this->title = 'Просмотр задачи';
+$this->title = 'Просмотр QA';
 $this->params['breadcrumbs'][] = ['label' => 'Задачи для тестирования', 'url' => ['testing-entrant/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -63,9 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="box">
     <div class="box-header">
-        <h4>Подзадачи</h4>
+        <h4>Задачи</h4>
         <?php if($isDev): ?>
-        <?= Html::a('Добавить подзаадчу', ['testing-entrant/add-task','id'=>$testing->id, ], ['class' => 'btn btn-success', 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']) ?>
+        <?= Html::a('Добавить заадчу', ['testing-entrant/add-task','id'=>$testing->id, ], ['class' => 'btn btn-success', 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']) ?>
         <?php endif; ?>
     </div>
     <div class="box-body">

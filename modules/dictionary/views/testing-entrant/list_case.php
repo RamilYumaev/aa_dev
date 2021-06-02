@@ -12,7 +12,7 @@ use backend\widgets\adminlte\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel modules\dictionary\searches\TestingEntrantDictSearch*/
 
-$this->title = 'Кейсы';
+$this->title = 'Мониторинг';
 $this->params['breadcrumbs'][] = ['label' => 'Задачи для тестирования', 'url' => ['testing-entrant/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
@@ -25,7 +25,7 @@ $isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
             'dataProvider' => $dataProvider,
             'filterModel'=> $searchModel,
             'afterRow' => function (TestingEntrantDict $model) use ($isDev) {
-                return ($model->error_note ? '<tr class="danger"><td colspan="6">'.$model->error_note.'</td></tr>':'');
+                return ($model->error_note ? '<tr class="danger"><td colspan="6"><div class="col-md-12">'.$model->error_note.'</div></td></tr>':'');
             },
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
@@ -37,6 +37,10 @@ $isDev = Yii::$app->user->can('dev') || Yii::$app->user->can('volunteering');
                     ->indexBy('id')
                     ->orderBy(['title'=> SORT_ASC])
                     ->column(),'id_testing_entrant', 'testingEntrant.title'),'value'=>'testingEntrant.title'],
+                ['attribute'=>'user_id',
+                    'label' => 'Волонтер',
+                   'filter' =>SelectDataHelper::dataSearchModel($searchModel, \olympic\helpers\auth\ProfileHelper::getVolunteering(),'user_id', 'testingEntrant.profile.fio'),
+                  'value'=> function ($model) {  return $model->testingEntrant->profile->fio.' '.$model->testingEntrant->profile->user->email;}],
                 ['attribute' => 'status',
                     'format' => "raw",
                     'filter' => array_filter(array_combine(array_keys((new TestingEntrantDict())->getStatusList()),
