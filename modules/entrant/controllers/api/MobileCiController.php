@@ -225,7 +225,7 @@ class MobileCiController extends Controller
     }
 
     public function actionGetDictCse(){
-        $allCseSubject = DictCseSubject::find()->select(['id','name','min_mark'])->all();
+        $allCseSubject = DictCseSubject::find()->all();
 
         $cseArray = [];
         $allCseArray = [];

@@ -103,6 +103,7 @@ class SiteController extends Controller
 
     public function actionAisImport($year)
     {
+        ini_set('max_execution_time', 900);
         $allAisCg = AisCg::find()
             ->andWhere(['year' => $year])
             ->all();
@@ -156,6 +157,9 @@ class SiteController extends Controller
 
     public function actionAisDisciplineImport($year)
     {
+
+        ini_set('max_execution_time', 900);
+
         $allDiscipline = CgExamAis::find()->andWhere(["year" => $year])->all();
 
         foreach ($allDiscipline as $discipline) {
