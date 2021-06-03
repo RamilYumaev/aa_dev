@@ -4,6 +4,7 @@ namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\components\MaxDateValidate;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -14,10 +15,10 @@ class PassportDataForm extends Model
         $authority, $division_code;
 
     private $_passport;
-
+    public $anketa;
     private $requiredAttributes;
 
-    public function __construct($user_id, PassportData $passportData = null, $requiredAttributes = [], $config = [])
+    public function __construct($user_id, PassportData $passportData = null, Anketa $anketa = null, $requiredAttributes = [], $config = [])
     {
         if ($passportData) {
             $this->setAttributes($passportData->getAttributes(), false);
@@ -29,9 +30,10 @@ class PassportDataForm extends Model
         }
         $this->requiredAttributes = $requiredAttributes;
         if (!$requiredAttributes) {
-            $this->nationality = \Yii::$app->user->identity->anketa()->citizenship_id;
+            $this->nationality = $anketa ? $anketa->citizenship_id : '';
         }
 
+        $this->anketa = $anketa;
 
         parent::__construct($config);
     }

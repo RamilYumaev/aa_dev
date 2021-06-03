@@ -51,19 +51,22 @@ class DictIncomingDocumentTypeHelper
     public static function listPassport($country)
     {
         $anketa = \Yii::$app->user->identity->anketa();
-        if($anketa->isOrphan())
+        if($anketa && $anketa->isOrphan())
         {
             $query=  self::find()->type(self::TYPE_PASSPORT)->andWhere(['not in', 'id', [self::ID_BIRTH_DOCUMENT]])
                 ->select('name')->indexBy('id')->column();
         }else{
             $query=  self::find()->type(self::TYPE_PASSPORT)->select('name')->indexBy('id')->column();
         }
-        if($country == DictCountryHelper::RUSSIA) {
-            $delete_keys = [3, 16, 8, 7, 11, 14, 15];
-        }else {
-            $delete_keys = [1,4, 2,5,6, 10,12];
+        if ($anketa) {
+            if ($country == DictCountryHelper::RUSSIA) {
+                $delete_keys = [3, 16, 8, 7, 11, 14, 15];
+            } else {
+                $delete_keys = [1, 4, 2, 5, 6, 10, 12];
+            }
+            return array_diff_key($query, array_flip($delete_keys));
         }
-        return array_diff_key($query, array_flip($delete_keys));
+        return $query;
     }
 
     public static function listEducation($type)

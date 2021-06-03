@@ -23,6 +23,9 @@ use \dictionary\helpers\DictCountryHelper;
             <?php if ($neededCountry): ?>
                 <?= $form->field($model, 'nationality')->label('Страна выдачи')->dropDownList(DictCountryHelper::countryList()) ?>
             <?php else : ?>
+                <?php if (!$model->anketa): ?>
+                    <?= $form->field($model, 'nationality')->label('Гражданство')->dropDownList(DictCountryHelper::countryList()) ?>
+                <?php endif; ?>
                 <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listPassport($model->nationality)) ?>
             <?php endif; ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
