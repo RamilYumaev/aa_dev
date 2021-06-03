@@ -24,6 +24,7 @@ if ($cpk) {
 ?>
     <div class="bg-gray h-20"></div>
     <p align="center"><strong>СОГЛАСИЕ НА ОБРАБОТКУ И ПУБЛИКАЦИЮ ПЕРСОНАЛЬНЫХ ДАННЫХ</strong></p>
+
     <table width="100%">
         <tr>
             <td class="text-right">Я,</td>

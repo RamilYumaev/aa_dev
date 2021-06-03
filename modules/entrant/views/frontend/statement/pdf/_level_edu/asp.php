@@ -29,15 +29,18 @@ $och = false;
     <tr>
         <th rowspan="2">№</th>
         <th colspan="3" align="center">Условия поступления</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
+            <th align="center">Вид финансирования</th>
+        <?php else : ?>
         <th rowspan="2">Основание приема</th>
-        <th align="center" colspan="2">Вид финансирования</th>
+        <th rowspan="2">Вид финансирования</th>
+        <?php endif; ?>
     </tr>
     <tr>
         <th>Направление подготовки</th>
         <th>Образовательная программма</th>
         <th>Форма обучения</th>
-        <th>Федеральный бюджет</th>
-        <th>Платное обучение</th>
     </tr>
     <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
         <tr>
@@ -45,10 +48,23 @@ $och = false;
             <td width="30%"><?= $value["speciality"] ?></td>
             <td width="30%"><?= $value['specialization'] ?></td>
             <td width="10%"><?= $value['form'] ?></td>
-            <td width="11%"><?= $value['special_right'] ?></td>
-            <td width="13%">
-                <?= $value['budget'] ?? "" ?></td>
-            <td width="10%" class="text-center"><?= $value['contract'] ?? "" ?></td>
+            <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+                <td class="text-center">На места по договорам об оказании платных образовательных услуг</td>
+            <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+                <td class="text-center">За счет бюджетных ассигнований федерального бюджета</td>
+            <?php else : ?>
+                <td width="11%"><?= $value['special_right'] ?></td>
+                <?php if ($value['budget'] != "") : ?>
+                <td width="23%" class="text-center">За счет бюджетных ассигнований федерального бюджета
+                </td>
+                <?php else : ?>
+                    <td width="23%" class="text-center">На места по договорам об оказании платных образовательных услуг
+                </td>
+                <?php endif; ?>
+                
+            <?php endif; ?>
+
+            
         </tr>
     <?php endforeach; ?>
     </tbody>
