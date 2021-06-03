@@ -67,7 +67,7 @@ foreach ($currentFaculty as $faculty) {
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg->competitiveGroup)) {
                 continue;
             }
             $budgetAnalog = DictCompetitiveGroup::findBudgetAnalog($currentCg->competitiveGroup);

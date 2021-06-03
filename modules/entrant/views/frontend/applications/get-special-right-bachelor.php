@@ -30,14 +30,8 @@ $result = "";
 $lastYear = \date("Y")-1;
 $userId = \Yii::$app->user->identity->getId();
 $anketa = \Yii::$app->user->identity->anketa();
-$userArray = DictDiscipline::cseToDisciplineConverter(
-    CseSubjectHelper::userSubjects($userId));
-
-$finalUserArrayCse = DictDiscipline::finalUserSubjectArray($userArray);
-
-$filteredCg = \Yii::$app->user->identity->cseFilterCg($finalUserArrayCse);
-
-$filteredFaculty = \Yii::$app->user->identity->cseFilterFaculty($filteredCg);
+$filteredCg = \Yii::$app->user->identity->filtrationCgByCse();
+$filteredFaculty = \Yii::$app->user->identity->filtrationFacultyByCse();
 
 ?>
 <?php
