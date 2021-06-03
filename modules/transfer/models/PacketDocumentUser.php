@@ -17,35 +17,27 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $current_status
- * @property integer $type
- * @property string $number
+ * @property integer $packet_document_user
 **/
 
-class TransferMpgu extends ActiveRecord
+class PacketDocumentUser extends ActiveRecord
 {
-    const IN_MPGU = 1;
-    const INSIDE_MPGU = 2;
-    const FROM_EDU = 3;
+    const PACKET_DOCUMENT_EDU = 1;
+    const PACKET_DOCUMENT_BOOK = 2;
+    const PACKET_DOCUMENT_REMOVE = 3;
 
     public static function tableName()
     {
-        return '{{%transfer_mpgu}}';
+        return '{{%packet_document_user}}';
     }
 
-    public function rules()
-    {
-        return [
-            [['type', 'user_id'],'required'],
-            ['type','in','range'=> [self::FROM_EDU, self::IN_MPGU, self::INSIDE_MPGU]]
-        ];
-    }
 
     public function listType() {
         return [
-            self::IN_MPGU => 'Восстановление или восстановление с переводом внутри МПГУ',
-            self::INSIDE_MPGU => 'Перевод внутри МПГУ',
-            self::FROM_EDU => 'Перевод из другой образовательной организации',
+
+            self::PACKET_DOCUMENT_EDU => 'скан-копия справки об обучении',
+            self::PACKET_DOCUMENT_BOOK => 'Восстановление или восстановление с переводом внутри МПГУ',
+            self::PACKET_DOCUMENT_REMOVE => 'Перевод из другой образовательной организации',
         ];
     }
 
