@@ -16,11 +16,14 @@ use dictionary\models\Faculty;
 use frontend\components\redirect\actions\ErrorAction;
 use frontend\components\UserNoEmail;
 use modules\dictionary\models\CathedraCg;
+use modules\dictionary\models\DictIndividualAchievement;
 use modules\dictionary\models\DictIndividualAchievementCg;
+use modules\dictionary\models\DictIndividualAchievementDocument;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use common\auth\models\User;
+use dictionary\models\ais\iaDocAis;
 
 /**
  * Site controller
@@ -108,7 +111,7 @@ class SiteController extends Controller
             ->andWhere(['year' => $year])
             ->all();
 
-       // echo count($allAisCg);
+        // echo count($allAisCg);
 
         $key = 0;
 
@@ -184,9 +187,10 @@ class SiteController extends Controller
     public function actionCgCathedra($year)
     {
         $cgCathedra = cathedraCgAis::find()->andWhere(['year' => $year])->all();
+        $eduYear = DictCompetitiveGroup::aisToSdoYearConverter()[$year];
         if ($cgCathedra) {
             foreach ($cgCathedra as $cathedra) {
-                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->one();
+                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->andWhere(['year' => $eduYear])->one();
                 if (!$cg) {
                     return "Отсутствует конкурсная группа $cathedra->competitive_group_id";
                 }
@@ -205,26 +209,30 @@ class SiteController extends Controller
             }
 
         } else {
-            return "таблица cathedra-сg-фis пуста";
+            return "таблица cathedra-сg-ais пуста";
         }
 
         return "success";
     }
 
-    public function actionIaCg()
+    public function actionIaCg($year)
     {
+        ini_set('max_execution_time', 9000);
+        ini_set('memory_limit', 1024 * 1024 * 1024 * 2);
         $aisIaCg = iaCgAis::find()->all();
         if ($aisIaCg) {
             foreach ($aisIaCg as $iaAis) {
-                $sdoCg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $iaAis->competitive_group_id])->one();
+                $sdoCg = DictCompetitiveGroup::find()
+                    ->andWhere(['ais_id' => $iaAis->competitive_group_id])
+                    ->andWhere(['year' => DictCompetitiveGroup::aisToSdoYearConverter()[$year]])->one();
                 if (!$sdoCg) {
                     return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
                 }
-                if ($this->getIaCg($iaAis->individual_achievement_id, $sdoCg->id)) {
+                if ($this->getIaCg($this->getIA2021($iaAis->individual_achievement_id), $sdoCg->id)) {
                     continue;
                 } else {
                     $newIaCgSdo = new DictIndividualAchievementCg();
-                    $newIaCgSdo->individual_achievement_id = $iaAis->individual_achievement_id;
+                    $newIaCgSdo->individual_achievement_id = $this->getIA2021($iaAis->individual_achievement_id);
                     $newIaCgSdo->competitive_group_id = $sdoCg->id;
                     if (!$newIaCgSdo->save()) {
                         $error = Json::encode($newIaCgSdo->errors);
@@ -237,6 +245,65 @@ class SiteController extends Controller
         }
         return "success";
     }
+
+    public function actionDocIa($year)
+    {
+        $iaDoc = iaDocAis::find()->all();
+
+
+        foreach ($iaDoc as $doc) {
+            $ia = DictIndividualAchievement::find()->andWhere(['year' => $year])->andWhere(['ais_id' => $doc->individual_achievement_id])->one();
+
+            if (!$ia) {
+                return "Ошибка ИД не существует";
+            }
+
+            $iaCgFind = DictIndividualAchievementDocument::find()->andWhere(['individual_achievement_id' => $ia->id])->andWhere(['document_type_id' => $doc->document_type_id])->exists();
+
+            if ($iaCgFind) {
+                continue;
+            } else {
+                $iaDocument = DictIndividualAchievementDocument::create($ia->id, $doc->document_type_id);
+                if (!$iaDocument->save()) {
+                    return "Ошибка ia $ia->id, doc $doc->document_type_id";
+                };
+            }
+
+        }
+
+        return "Удача!";
+    }
+
+    private function getIA2021($id)
+    {
+        $model = DictIndividualAchievement::find()
+            ->andWhere(['year' => 2021])
+            ->andWhere(['ais_id' => $id])
+            ->one();
+
+        return $model->id;
+    }
+
+    public function actionTransferId()
+    {
+        $models = DictIndividualAchievement::find()->all();
+
+        foreach ($models as $model) {
+
+            if ($model->year == '2020') {
+                $model->ais_id = $model->id;
+            } else {
+                $model->ais_id = $model->id - 758;
+            }
+
+            if (!$model->save()) {
+                return "Не удалось перекинуть id  $model->id";
+            }
+        }
+
+        return "успешно";
+    }
+
 
     private function getIaCg($iaId, $cgId)
     {
