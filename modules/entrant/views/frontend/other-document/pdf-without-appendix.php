@@ -25,7 +25,7 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " ".$profile[
         <td>
             Начальнику Управления по организации приема<br/>
             поступающих в МПГУ,<br/>
-            Князевой О.Ю.
+            Горскину Б.Б.
         </td>
     </tr>
 </table>

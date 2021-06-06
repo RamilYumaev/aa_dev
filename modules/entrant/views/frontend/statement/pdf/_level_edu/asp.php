@@ -132,7 +132,8 @@ foreach ($signaturePoint as $signature) :?>
             <td class="bb w-20"></td>
             <td>»</td>
             <td class="bb w-40"></td>
-            <td>2020</td>
+            <td>202</td>
+            <td class="bb w-20"></td>
             <td>г.</td>
             <td class="w-470"></td>
             <td class="bb w-145"></td>
@@ -164,12 +165,15 @@ foreach ($signaturePoint as $signature) :?>
         </table>
         <table>
             <tr>
-                <td class="w-50"></td>
-                <td>«</td>
-                <td class="bb w-50"></td>
-                <td>»</td>
-                <td class="bb w-50"></td>
-                <td>2020 г.</td>
+            <td>«</td>
+            <td class="bb w-20"></td>
+            <td>»</td>
+            <td class="bb w-40"></td>
+            <td>202</td>
+            <td class="bb w-20"></td>
+            <td>г.</td>
+            <td class="w-470"></td>
+            <td class="bb w-145"></td>
             </tr>
         </table>
     </div>

@@ -31,20 +31,44 @@ $och = false;
     <tr>
         <th rowspan="2">№</th>
         <th colspan="3" align="center">Условия поступления</th>
-        <th rowspan="2">Основание приема</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
+            <th align="center">Вид финансирования</th>
+        <?php else : ?>
+            <th rowspan="2">Основание приема</th>
+            <th rowspan="2">Вид финансирования</th>
+            <!-- <th align="center" colspan="2">Вид финансирования</th> -->
+        <?php endif; ?>
     </tr>
     <tr>
         <th>Направление подготовки</th>
         <th>Образовательная программма</th>
         <th>Форма обучения</th>
+        
     </tr>
-    <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
+    <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
+        $och = true;
+    } ?>
         <tr>
             <td width="4%"><?= ++$key ?>.</td>
             <td width="30%"><?= $value["speciality"] ?></td>
-            <td width="36%"><?= $value['specialization'] ?></td>
+            <td width="30%"><?= $value['specialization'] ?></td>
             <td width="10%"><?= $value['form'] ?></td>
-            <td width="20%"><?= $value['special_right'] ?></td>
+            <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+                <td class="text-center">На места по договорам об оказании платных образовательных услуг</td>
+            <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+                <td class="text-center">За счет бюджетных ассигнований федерального бюджета</td>
+            <?php else : ?>
+                <td width="11%"><?= $value['special_right'] ?></td>
+                <?php if ($value['budget'] != "") : ?>
+                <td width="23%" class="text-center">За счет бюджетных ассигнований федерального бюджета
+                </td>
+                <?php else : ?>
+                    <td width="23%" class="text-center">На места по договорам об оказании платных образовательных услуг
+                </td>
+                <?php endif; ?>
+                
+            <?php endif; ?>
         </tr>
     <?php endforeach; ?>
     </tbody>
@@ -71,9 +95,8 @@ $och = false;
 
 <table width="100%">
     <tr>
-        <td width="80%"> <?php if ($och): ?>
+        <td width="80%">
                 В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
-            <?php endif; ?>
             Изучил(а) иностранные языки: <?= $language ?><br/>
             Сведения о наличии особых прав для поступающих на программы бакалавриата: <?= $anketa['withOitCompetition'] ? "Имею": "Не имею"?> <br/>
             Имею преимущественное право при зачислении:<br/>
