@@ -5,6 +5,7 @@
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use yii\helpers\Html;
 
+
 $this->title = 'Персональная карточка поступающего';
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
@@ -14,6 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 $anketa = Yii::$app->user->identity->anketa();
 $userId = Yii::$app->user->identity->getId();
 ?>
+
+
+<?php
+include 'navigation/index.html';
+?>
+
+
+
 <div class="container">
     <h1><?=$this->title?></h1>
 
@@ -23,20 +32,20 @@ $userId = Yii::$app->user->identity->getId();
                 "/abiturient/anketa/step2", ["class" => "btn btn-warning btn-lg"]) ?>
         </div>
     </div>
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="profile">
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if (!$anketa->isRussia()): ?>
-        <div class="mt-20 table-responsive">
+        <div class="mt-20 table-responsive" id="latin">
             <?= \modules\entrant\widgets\profile\FioLatinWidget::widget(['userId' => $userId]); ?>
         </div>
     <?php endif; ?>
     <?php if (!$anketa->isNoRequired()): ?>
-        <div class="mt-20 table-responsive">
+        <div class="mt-20 table-responsive" id="address">
             <?= \modules\entrant\widgets\address\AddressWidget::widget(['userId' => $userId]); ?>
         </div>
     <?php endif; ?>
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="passport">
         <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['userId' => $userId,'view' => "detail"]); ?>
     </div>
     <?php if($anketa->isOrphan()):?>
@@ -51,7 +60,7 @@ $userId = Yii::$app->user->identity->getId();
     </div>
     <?php endif; ?>
 
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="edu">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if ($anketa->isAgreement()): ?>
@@ -74,18 +83,18 @@ $userId = Yii::$app->user->identity->getId();
             <?= \modules\entrant\widgets\other\WithoutOtherWidget::widget(['userId' => $userId]); ?>
         </div>
     <?php endif; ?>
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="lang">
         <?= \modules\entrant\widgets\language\LanguageWidget::widget(['userId' => $userId]); ?>
     </div>
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="comp">
         <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
-        <div class="mt-20 table-responsive">
+        <div class="mt-20 table-responsive" id="vi">
             <?= \modules\entrant\widgets\discipline\UserDisciplineWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>
         </div>
     <?php endif; ?>
-    <div class="mt-20 table-responsive">
+    <div class="mt-20 table-responsive" id="additional">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>

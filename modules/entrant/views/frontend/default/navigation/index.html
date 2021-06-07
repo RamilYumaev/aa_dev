@@ -1,0 +1,383 @@
+<style>
+@media (max-width: 1800px) {
+    .navigation, .navigation__list{
+        display: none;
+    }
+}
+/* .navigation a {
+  text-decoration:none;
+} */
+.navigation {
+    position: fixed;
+    right: 10px;
+    top: 100px;
+    /* min-height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    color: #467ABC;
+}
+
+.navigation__list {
+    margin: 0;
+    padding: 30px;
+    width: 300px;
+    max-width: 500px;
+    background: #FFFFFF;
+    box-shadow: 4px 14px 43px 3px rgba(67, 67, 67, 0.25);
+    border-radius: 8px;
+    list-style: none;
+    overflow: hidden;
+}
+
+.list-item {
+    margin-bottom: 15px;
+    list-style-type: none;
+}
+
+.cbx {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    
+    display: flex;
+}
+
+.cbx span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+    margin: auto 0;
+}
+
+.cbx span:first-child {
+    position: relative;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #B9B8C3;
+    transition: all .2s ease;
+}
+
+.cbx span:first-child svg {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 6px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all .3s ease;
+    transition-delay: .1s;
+    transform: translate3d(0, 0, 0);
+}
+
+.cbx span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #27AE60;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+    transition-delay: .2s;
+}
+
+.cbx span:last-child {
+    margin-left: 8px;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.cbx span:last-child a {
+    display: block;
+    margin: auto 0;
+    line-height: 20px;
+    color: #467ABC;
+}
+
+.cbx span:last-child:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: #B9B8C3;
+    transform-origin: 0 0;
+    transform: scaleX(0);
+}
+
+/* .cbx:hover span:first-child {
+    border-color: #5DB85C;
+} */
+
+.inp-cbx:checked + .cbx {
+    margin-bottom: 10px;
+}
+
+.inp-cbx:checked + .cbx span:first-child {
+    border-color: #5DB85C;
+    background: #5DB85C;
+    animation: check .6s ease;
+}
+
+.inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+}
+
+.inp-cbx:checked + .cbx span:first-child:before {
+    transform: scale(2.2);
+    opacity: 0;
+    transition: all .6s ease;
+}
+
+.inp-cbx:checked + .cbx span:last-child a {
+    color: #B9B8C3;
+    transition: all .3s ease;
+}
+
+.inp-cbx:checked + .cbx span:last-child:after {
+    transform: scaleX(1);
+    transition: all .3s ease;
+}
+
+@keyframes check {
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.btns {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+
+.btn {
+    background: #5DB85C;
+    border: 1px solid #4DAE4C;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white;
+    padding: 15px 17px;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    background: #B9B8C3;
+    cursor: not-allowed;
+    border: none;
+}
+
+.title {
+    color: #333333;
+    font-weight: bold;
+    text-align: center;
+    margin: 25px 0;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background: #B9B8C3;
+    margin-top: 30px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #B9B8C3;
+}
+
+</style>
+
+
+<div class="navigation">
+<ul class="navigation__list">
+    <li class="list-item">
+      <input class="inp-cbx" id="cbx" type="checkbox" style="display: none" disabled></input>
+  <label for="cbx" class="cbx" onclick="klik1(); ">
+    <span>
+      <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+    </span>
+      <span><a href="#profile">Заполните профиль</a></span>
+  </label>
+    </li>
+
+<?php if (!$anketa->isRussia()): ?>
+    <li class="list-item">
+        <input class="inp-cbx" id="cbx7" type="checkbox" style="display: none" disabled></input>
+    <label for="cbx7" class="cbx" onclick="klik1();">
+      <span>
+        <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+      </span>
+        <span><a href="#latin">ФИО на латинском</a></span>
+    </label>
+      </li>
+<?php endif; ?>
+
+<?php if (!$anketa->isNoRequired()): ?>
+<li class="list-item">
+    <input class="inp-cbx" id="cbx1" type="checkbox" style="display: none" disabled></input>
+<label for="cbx1" class="cbx" onclick="klik1();">
+  <span>
+    <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+  </span>
+    <span><a href="#address">Заполните адрес</a></span>
+</label>
+  </li> 
+    <?php endif; ?>
+ 
+
+  
+  <li class="list-item">
+      <input class="inp-cbx" id="cbx2" type="checkbox" style="display: none" disabled></input>
+  <label for="cbx2" class="cbx" onclick="klik1();">
+    <span>
+      <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+    </span>
+      <span><a href="#passport">Документ, удостоверяющий личность</a></span>
+  </label>
+    </li>
+  <li class="list-item">
+      <input class="inp-cbx" id="cbx3" type="checkbox" style="display: none" disabled></input>
+  <label for="cbx3" class="cbx" onclick="klik1();">
+    <span>
+      <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+    </span>
+      <span><a href="#edu">Документ об образовании</a></span>
+  </label>
+    </li>
+  <li class="list-item">
+      <input class="inp-cbx" id="cbx4" type="checkbox" style="display: none" disabled></input>
+  <label for="cbx4" class="cbx" onclick="klik1();">
+    <span>
+      <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+    </span>
+      <span><a href="#lang">Иностранный язык</a></span>
+  </label>
+    </li>
+
+    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
+    <li class="list-item">
+        <input class="inp-cbx" id="cbx5" type="checkbox" style="display: none" disabled></input>
+    <label for="cbx5" class="cbx" onclick="klik1();">
+      <span>
+        <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+      </span>
+        <span><a href="#comp">Образовательная программа</a></span>
+    </label>
+      </li>
+    <?php endif; ?>
+
+    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
+    <li class="list-item">
+        <input class="inp-cbx" id="cbx9" type="checkbox" style="display: none" disabled></input>
+    <label for="cbx9" class="cbx" onclick="klik1();">
+      <span>
+        <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+      </span>
+        <span><a href="#vi">Вступительные испытания</a></span>
+    </label>
+      </li>
+    <?php endif; ?>
+
+    <li class="list-item">
+        <input class="inp-cbx" id="cbx6" type="checkbox" style="display: none" disabled></input>
+    <label for="cbx6" class="cbx" onclick="klik1();">
+      <span>
+        <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
+      </span>
+        <span><a href="#additional">Дополнительная информация</a></span>
+    </label>
+      </li>
+  
+  <div class="line"></div>
+  <h4 class="title">Подать документы</h4>
+  <div class="btns">
+  <button class="btn" id='dist'disabled>Дистанционно</button>
+  <button class="btn" id='post' disabled>По почте</button>
+  </div>
+  <div class='subtitle'>Кнопки будут доступны после заполнения всех разделов</div>
+  </ul>
+  </div>
+
+  <script>
+      let vse = document.getElementsByClassName('inp-cbx');
+        let dist = document.getElementById("dist");
+        let post = document.getElementById("post");
+        let cbx0 = document.getElementById("cbx0");
+        let cbx1 = document.getElementById("cbx1");
+        let cbx2 = document.getElementById("cbx2");
+        let cbx3 = document.getElementById("cbx3");
+        let cbx4 = document.getElementById("cbx4");
+        let cbx5 = document.getElementById("cbx5");
+        let cbx6 = document.getElementById("cbx6");
+        let cbx7 = document.getElementById("cbx7");
+        let cbx8 = document.getElementById("cbx8");
+        let cbx9 = document.getElementById("cbx9");
+        
+
+        window.onload = function(){
+            let code0 = "<?= olympic\models\auth\Profiles::isDataNoEmpty()->where(['user_id' => $this->userId])->one();?>";
+        let code9 = "<?= modules\entrant\helpers\UserDisciplineHelper::isCorrect($userId);?>";
+            let vse = document.getElementsByClassName('inp-cbx');
+        setTimeout(() => {
+            if (Array.from(vse).every(el => el.checked)) {
+            dist.removeAttribute("disabled");
+            post.removeAttribute("disabled");
+        } else { 
+            dist.setAttribute("disabled", "true");
+            post.setAttribute("disabled", "true");
+        }
+        }, 200)
+        
+        
+            if(code9){
+                console.log('123')
+                cbx9.setAttribute("checked", "true");
+            } else {
+                cbx9.setAttribute("checked", "false");
+            }
+            if(code0){
+                console.log('123')
+                cbx0.setAttribute("checked", "true");
+            } else {
+                cbx0.setAttribute("checked", "false");
+            }
+
+        };
+
+        function klik1() {
+            
+        
+        const anchors = document.querySelectorAll('.navigation span a[href*="#"]')
+        for (let anchor of anchors) {
+        anchor.addEventListener('click', function (e) {
+        e.preventDefault()
+        
+        const blockID = anchor.getAttribute('href').substr(1)
+        
+        document.getElementById(blockID).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+        })
+        })
+        }
+    }
+  </script>
+  
+  
+  

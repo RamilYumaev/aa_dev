@@ -14,6 +14,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($additional_information ? true : false) ?>">
         <div class="p-30 green-border">
             <h4>Дополнительная информация</h4>
+            <p> <span class="badge bg-red-light fs-15">Необходимо указать номер СНИЛС при наличии</span></p>
             <?php if ($additional_information) : ?>
                 <?php
                 $columns = [

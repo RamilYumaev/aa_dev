@@ -40,7 +40,7 @@ $onlyCse = $anketa->onlyCse();
             <?php foreach ($anketa->getPermittedEducationLevels() as $level):
                 if(SettingEntrant::find()->faculty($department)->eduLevelOpen($level)): ?>
             <div class="col-md-3 col-sm-6 col-xs-12 mt-10">
-                <div class="level_block">
+                <div class="level_block" style="min-height: 377px">
                     <h4><?= DictCompetitiveGroupHelper::eduLevelName($level) ?></h4>
                     <hr>
                         <?php
