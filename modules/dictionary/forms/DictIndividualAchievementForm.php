@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 
 class DictIndividualAchievementForm extends Model
 {
-    public $name, $year, $mark, $category_id, $name_short, $competitiveGroupsList, $documentTypesList;
+    public $name, $year, $mark, $category_id, $name_short, $competitiveGroupsList, $documentTypesList, $ais_id;
 
     private $_dictIndividualAchievement;
 
@@ -46,8 +46,8 @@ class DictIndividualAchievementForm extends Model
     public function defaultRules()
     {
         return [
-            [['year', 'name', 'name_short', 'category_id','mark', 'competitiveGroupsList','documentTypesList'], 'required'],
-            [['category_id','mark'], 'integer'],
+            [['year', 'name', 'name_short', 'category_id','mark', 'competitiveGroupsList','documentTypesList','ais_id'], 'required'],
+            [['category_id','mark', 'ais_id'], 'integer'],
             [['competitiveGroupsList','documentTypesList'], 'safe'],
             [['year', 'name', 'name_short'], 'string', 'max' => 255],
         ];

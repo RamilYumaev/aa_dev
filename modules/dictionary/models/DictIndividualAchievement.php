@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property integer $mark
  * @property integer $category_id
  * @property string $year
+ * @property  integer $ais_id
  *
  **/
 class DictIndividualAchievement extends ActiveRecord
@@ -40,6 +41,7 @@ class DictIndividualAchievement extends ActiveRecord
         $this->mark = $form->mark;
         $this->year = $form->year;
         $this->name_short = $form->name_short;
+        $this->ais_id = $form->ais_id;
     }
 
     public function getCategory()
