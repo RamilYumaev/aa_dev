@@ -61,7 +61,7 @@ class TransferMpgu extends ActiveRecord
     {
         return [
             'current_status' =>"Статус",
-            'type' => "Условия перевода/восстановления",
+            'type' => "Условие перевода/восстановления",
             'user_id' => 'Юзер',
             'number' => 'Уникальный номер',
         ];

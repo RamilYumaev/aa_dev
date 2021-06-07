@@ -17,7 +17,7 @@ class m191305_000006_packet_document_user extends Migration
         $this->createTable($this->table(), [
             'id' => $this->primaryKey(),
             'user_id' =>  $this->integer()->null(),
-            'packet_document' => $this->integer(1)->notNull(),
+            'packet_document' => $this->integer(2)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('{{%idx-packet_document_user-user}}', $this->table(), 'user_id');

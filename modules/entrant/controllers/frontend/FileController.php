@@ -16,6 +16,7 @@ use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\services\FileService;
+use modules\transfer\models\StatementTransfer;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
@@ -80,6 +81,7 @@ class FileController extends Controller
         if(($model == Statement::class && !$modelOne->count_pages) ||
             ($model == StatementIndividualAchievements::class && !$modelOne->count_pages) ||
             ($model == StatementConsentPersonalData::class && !$modelOne->count_pages) ||
+            ($model == StatementTransfer::class && !$modelOne->count_pages) ||
             ($model == StatementConsentCg::class && !$modelOne->count_pages) ||
             ($model == StatementRejection::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
@@ -109,7 +111,7 @@ class FileController extends Controller
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
-        return $this->renderAjax('download', [
+        return $this->renderAjax('@modules/entrant/views/frontend/file/download', [
             'model' => $form,
         ]);
     }

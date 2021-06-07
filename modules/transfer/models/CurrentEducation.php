@@ -5,7 +5,10 @@ namespace modules\transfer\models;
 
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\models\DictClass;
+use dictionary\models\DictSchools;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
@@ -17,9 +20,12 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $current_status
- * @property integer $type
- * @property string $number
+ * @property integer $form
+ * @property integer $finance
+ * @property integer $course
+ * @property integer $edu_count
+ * @property integer $current_analog
+ * @property string $speciality
 **/
 
 class CurrentEducation extends ActiveRecord
@@ -39,9 +45,26 @@ class CurrentEducation extends ActiveRecord
         ];
     }
 
-    public function eduName() {
-        return $this->listEdu()[$this->type];
+    public function getEduName() {
+        return $this->listEdu()[$this->edu_count];
     }
+
+    public function getSchool() {
+        return $this->hasOne(DictSchools::class,['id'=>'school_id']);
+    }
+
+    public function getDictCourse() {
+        return $this->hasOne(DictClass::class, ['id' => 'course']);
+    }
+
+    public function getFormEdu() {
+        return DictCompetitiveGroupHelper::getEduForms()[$this->form];
+    }
+
+    public function getFinanceEdu() {
+        return DictCompetitiveGroupHelper::listFinances()[$this->finance];
+    }
+
 
     public function rules()
     {
@@ -49,12 +72,11 @@ class CurrentEducation extends ActiveRecord
             [['user_id',
                 'school_id',
                 'finance',
-                'edu_count'.
+                'edu_count',
                 'speciality',
                 'form',
                 'course',], 'required'],
-            [[
-                'speciality',
+            [['speciality',
             ], 'string', 'max'=> 255],
             [['user_id',
                 'finance',
@@ -73,7 +95,7 @@ class CurrentEducation extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' =>  'ФИО',
+            'user_id'=> "Студент",
             'finance' => 'Вид финансирования',
             'school_id' => 'Учебная организация',
             'speciality' => 'Направление подготовки',

@@ -22,6 +22,7 @@ class m191305_000004_statement_transfer_ extends Migration
             'count_pages'=> $this->integer()->defaultValue(0)->comment("количество страниц"),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'message'=> $this->text(),
         ], $tableOptions);
 
         $this->createIndex('{{%idx-statement_transfer-user}}', $this->table(), 'user_id');

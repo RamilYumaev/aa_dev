@@ -21,7 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['userId' => $userId,'view' => "detail", 'referrer'=> 'transfer-registration']); ?>
         </div>
         <div class="mt-20 table-responsive">
-            <?= \modules\transfer\widgets\education\DocumentEducationWidget::widget(['userId' => $userId,'view' => "detail", 'referrer'=> 'transfer-registration']); ?>
+            <?= \modules\transfer\widgets\education\DocumentEducationWidget::widget(['userId' => $userId, 'referrer'=> 'transfer-registration']); ?>
+        </div>
+        <div class="mt-20 table-responsive">
+            <?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' => $userId,]); ?>
         </div>
     </div>
 </div>
