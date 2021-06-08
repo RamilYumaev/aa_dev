@@ -112,13 +112,14 @@ class DataExportHelper
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
-                'overall_diploma_mark_common'=> null
+                'overall_diploma_mark_common' => null
             ]
         ];
         return array_merge($result,
             self::dataLanguage($userId),
             self::dataDocumentAll($userId, $profile),
-            self::userDiscipline($userId)
+            self::userDiscipline($userId),
+            self::userDisciplineCt($userId)
         );
     }
 
@@ -279,7 +280,7 @@ class DataExportHelper
 
     public static function userDiscipline($userId)
     {
-        $cse = UserDiscipline::find()->typeCse()->user($userId);
+        $cse = UserDiscipline::find()->cseOrVi()->user($userId);
         $dataYears = clone $cse;
         if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
             $result['documentsCse'] = [];
@@ -287,12 +288,13 @@ class DataExportHelper
                 $result['documentsCse'][$key] =
                     [
                         'year' => $value,
-                        'type_id' => 1,
+                        'type_id' => UserDiscipline::CSE,
                     ];
                 /** @var UserDiscipline $discipline */
                 foreach ($cse->year($value)->all() as $discipline) {
                     $result['documentsCse'][$key]['subject'][] = [
                         'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
+                        'ct_subject_id' => null,
                         'mark' => $discipline->mark,
                     ];
                 }
@@ -303,6 +305,32 @@ class DataExportHelper
         return [];
     }
 
+    public static function userDisciplineCt($userId)
+    {
+        $cse = UserDiscipline::find()->ctOrVi()->user($userId);
+        $dataYears = clone $cse;
+        if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
+            $result['documentsCse'] = [];
+            foreach ($dataYears as $key => $value) {
+                $result['documentsCse'][$key] =
+                    [
+                        'year' => $value,
+                        'type_id' => 2,
+                    ];
+                /** @var UserDiscipline $discipline */
+                foreach ($cse->year($value)->all() as $discipline) {
+                    $result['documentsCse'][$key]['subject'][] = [
+                        'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
+                        'ct_subject_id' => $discipline->dictDisciplineSelect->ct->ais_id,
+                        'mark' => $discipline->mark,
+                    ];
+                }
+            }
+            return $result;
+
+        }
+        return [];
+    }
 
 
     public static function dataLanguage($userId)
@@ -327,7 +355,7 @@ class DataExportHelper
 
         foreach (PassportData::find()
                      ->andWhere(['user_id' => $userId])
-                     ->orderBy(['main_status'=> SORT_DESC])
+                     ->orderBy(['main_status' => SORT_DESC])
                      ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,
