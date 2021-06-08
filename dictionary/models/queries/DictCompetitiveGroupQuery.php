@@ -312,7 +312,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         $condition =  ['like', 'success_speciality', $speciality];
         $model = clone $this;
-        $bool = $model->andWhere($condition)->exists();
+        $bool = $model->andFilterWhere($condition)->exists();
         return  $spo && !is_null($speciality)  && $bool ? $this->orWhere($condition) : $this->andWhere(['success_speciality' => null]);
     }
 

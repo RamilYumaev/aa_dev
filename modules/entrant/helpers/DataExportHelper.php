@@ -111,6 +111,8 @@ class DataExportHelper
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
+                'priority_school_status' => $info->is_military_edu,
+                'overall_diploma_mark_common'=> null
             ]
         ];
         return array_merge($result,

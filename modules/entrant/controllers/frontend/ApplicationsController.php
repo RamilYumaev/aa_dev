@@ -48,7 +48,7 @@ class ApplicationsController extends Controller
                                     $eduLevel,
                                     $specialRight = DictCompetitiveGroupHelper::USUAL,
                                     $foreignStatus = false,
-                                    $tpguStatus = false)
+                                    $tpguStatus = false, $facultyGet = null)
     {
         $settingEntrant = SettingEntrant::find()
             ->type(SettingEntrant::ZUK)
@@ -70,7 +70,11 @@ class ApplicationsController extends Controller
         $query = DictCompetitiveGroup::find();
 
         if($faculty == AnketaHelper::HEAD_UNIVERSITY) {
-            $query->notInFaculty();
+            if($facultyGet) {
+                $query->faculty($faculty);
+            }else {
+                $query->notInFaculty();
+            }
         }else {
             $query->faculty($faculty);
         }
@@ -120,14 +124,18 @@ class ApplicationsController extends Controller
 
     /**
      * @param $department
+     * @param null $faculty
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetBachelor($department)
+    public function actionGetBachelor($department, $faculty = null)
     {
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
+        $currentFaculty = $this->currentFaculty($department,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, null, false, false, $faculty);
         return $this->render('get-bachelor', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -136,13 +144,16 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetTargetBachelor($department)
+    public function actionGetTargetBachelor($department, $faculty = null)
     {  if(!AgreementHelper::isExits($this->anketa->user_id)) {
             return $this->redirect(["agreement/index"]);
         }
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::TARGET_PLACE);
+        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+            DictCompetitiveGroupHelper::TARGET_PLACE, false, false, $faculty);
         return $this->render('get-target-bachelor', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -151,14 +162,18 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetSpecialRightBachelor($department)
+    public function actionGetSpecialRightBachelor($department, $faculty = null)
     {
         if(!OtherDocumentHelper::isExitsExemption($this->anketa->user_id)) {
             return $this->redirect(["other-document/exemption"]);
         }
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::SPECIAL_RIGHT);
+        $currentFaculty = $this->currentFaculty($department,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+            DictCompetitiveGroupHelper::SPECIAL_RIGHT, false, false, $faculty);
         return $this->render('get-special-right-bachelor', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -167,11 +182,14 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetMagistracy($department)
+    public function actionGetMagistracy($department, $faculty = null)
     {
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER);
+        $currentFaculty = $this->currentFaculty($department,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, null, false, false, $faculty);
         return $this->render('get-magistracy', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -180,14 +198,17 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetTargetMagistracy($department)
+    public function actionGetTargetMagistracy($department, $faculty = null)
     {
         if(!AgreementHelper::isExits($this->anketa->user_id)) {
             return $this->redirect(["agreement/index"]);
         }
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, DictCompetitiveGroupHelper::TARGET_PLACE);
+        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+            DictCompetitiveGroupHelper::TARGET_PLACE, false, false, $faculty);
         return $this->render('get-target-magistracy', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -196,11 +217,14 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetGraduate($department)
+    public function actionGetGraduate($department, $faculty = null)
     {
-        $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL);
+        $currentFaculty = $this->currentFaculty($department,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, null, false, false, $faculty);
         return $this->render('get-graduate', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -223,16 +247,18 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetTargetGraduate($department)
+    public function actionGetTargetGraduate($department, $faculty = null)
     {
         if(!AgreementHelper::isExits($this->anketa->user_id)) {
             return $this->redirect(["agreement/index"]);
         }
         $currentFaculty = $this->currentFaculty($department,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
-            DictCompetitiveGroupHelper::TARGET_PLACE);
+            DictCompetitiveGroupHelper::TARGET_PLACE, false, false, $faculty);
         return $this->render('get-target-graduate', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -241,13 +267,15 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetGovLineBachelor($department)
+    public function actionGetGovLineBachelor($department, $faculty = null)
     {
         $currentFaculty = $this->currentFaculty($department,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-            DictCompetitiveGroupHelper::USUAL, true);
+            DictCompetitiveGroupHelper::USUAL, true, false, $faculty);
         return $this->render('get-gov-line-bachelor', [
             'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -256,15 +284,17 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetGovLineMagistracy($department)
+    public function actionGetGovLineMagistracy($department, $faculty = null)
     {
         $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
         $currentFaculty = $this->currentFaculty($department,
-            $educationLevel, DictCompetitiveGroupHelper::USUAL, true);
+            $educationLevel, DictCompetitiveGroupHelper::USUAL, true, false, $faculty);
 
         return $this->render('get-gov-line-magistracy', [
             'currentFaculty' => $currentFaculty,
             'educationLevel' => $educationLevel,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -273,14 +303,17 @@ class ApplicationsController extends Controller
      * @return string
      * @throws \yii\base\ExitException
      */
-    public function actionGetGovLineGraduate($department)
+    public function actionGetGovLineGraduate($department, $faculty = null)
     {
         $educationLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
-        $currentFaculty = $this->currentFaculty($department,$educationLevel, DictCompetitiveGroupHelper::USUAL, true);
+        $currentFaculty = $this->currentFaculty($department,$educationLevel,
+            DictCompetitiveGroupHelper::USUAL, true, false, $faculty);
 
         return $this->render('get-gov-line-graduate', [
             'currentFaculty' => $currentFaculty,
             'educationLevel' => $educationLevel,
+            'department' => $department,
+            'faculty' => $faculty,
         ]);
     }
 
@@ -326,7 +359,8 @@ class ApplicationsController extends Controller
             $cg->edu_level,
             $cg->special_right_id,
             $cg->foreigner_status,
-            $cg->tpgu_status);
+            $cg->tpgu_status,
+            $cg->faculty_id);
         $url = DictCompetitiveGroupHelper::getUrl($cg);
         $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
         return $this->$method($url, [
