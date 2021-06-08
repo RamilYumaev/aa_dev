@@ -16,7 +16,6 @@ use yii\helpers\Html;
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg(UserDisciplineHelper::isCorrect($userId)) ?>">
         <div class="p-30 green-border">
             <h4>Вступительные испытания (ВИ) /EГЭ /ЦТ:</h4>
-            <?= Html::a('Добавить/Редактировать', ['user-discipline/create-select'], ['class' => 'btn btn-success mb-10']) ?>
             <table class="table">
                 <tr>
                     <th>#</th>
@@ -37,7 +36,7 @@ use yii\helpers\Html;
                     <td><?= $userDiscipline->nameShortType ?></td>
                     <td><?= $userDiscipline->year ?></td>
                     <td><?= $userDiscipline->mark ?></td>
-                    <td><?= $userDiscipline->status_cse ?></td>
+                    <td><?= $userDiscipline->statusName ?></td>
                     <td><?= Html::a('Уточнение',['user-discipline/correction', 'discipline' => $key]) ?></td>
                 </tr>
                 <?php else: ?>
