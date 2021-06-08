@@ -22,7 +22,7 @@ use \dictionary\models\DictDiscipline;
 use \modules\entrant\helpers\Settings;
 use \modules\entrant\helpers\AnketaHelper;
 
-$this->title = "Аспирантура. Факультеты (прием на целевое обучение)";
+$this->title = "Аспирантура. Институты/факультеты (прием на целевое обучение)";
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];

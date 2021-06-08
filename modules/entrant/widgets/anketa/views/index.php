@@ -18,8 +18,6 @@ use yii\widgets\DetailView;
 
     <?php
     $columns = [
-        ['label' => $anketa->getAttributeLabel('university_choice'),
-            'value' => $anketa->universityChoice,],
         ['label' => $anketa->getAttributeLabel('citizenship_id'),
             'value' => $anketa->citizenship,],
         ['label' => $anketa->getAttributeLabel('current_edu_level'),

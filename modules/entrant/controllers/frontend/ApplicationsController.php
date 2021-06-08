@@ -48,7 +48,8 @@ class ApplicationsController extends Controller
                                     $eduLevel,
                                     $specialRight = DictCompetitiveGroupHelper::USUAL,
                                     $foreignStatus = false,
-                                    $tpguStatus = false, $facultyGet = null)
+                                    $tpguStatus = false,
+                                    $facultyGet = null)
     {
         $settingEntrant = SettingEntrant::find()
             ->type(SettingEntrant::ZUK)
@@ -71,7 +72,7 @@ class ApplicationsController extends Controller
 
         if($faculty == AnketaHelper::HEAD_UNIVERSITY) {
             if($facultyGet) {
-                $query->faculty($faculty);
+                $query->faculty($facultyGet);
             }else {
                 $query->notInFaculty();
             }
@@ -362,9 +363,11 @@ class ApplicationsController extends Controller
             $cg->tpgu_status,
             $cg->faculty_id);
         $url = DictCompetitiveGroupHelper::getUrl($cg);
-        $method = \Yii::$app->request->isAjax ? 'renderAjax' : 'render';
+        $method = \Yii::$app->request->isAjax ? 'renderPartial' : 'render';
         return $this->$method($url, [
             'currentFaculty' => array_unique($currentFaculty),
+            'department' => $keyFaculty,
+            'faculty' => $cg->faculty_id,
         ]);
     }
 

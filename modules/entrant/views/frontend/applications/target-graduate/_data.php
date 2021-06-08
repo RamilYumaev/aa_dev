@@ -21,7 +21,7 @@ $this->title = "Выбор образовательных программ ас�
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 if($department == AnketaHelper::HEAD_UNIVERSITY) {
-    $this->params['breadcrumbs'][] = ['label' => 'Факультеты (прием на целевое обучение)', 'url' => ['get-target-graduate', 'department'=> $department ]];
+    $this->params['breadcrumbs'][] = ['label' => 'Институты/факультеты (прием на целевое обучение)', 'url' => ['get-target-graduate', 'department'=> $department ]];
 }
 $this->params['breadcrumbs'][] = $this->title;
 

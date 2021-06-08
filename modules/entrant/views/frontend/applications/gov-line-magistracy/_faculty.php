@@ -15,7 +15,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Pjax;
 
-$this->title = "Программы магистратуры для иностранных граждан поступающих по гослинии. Факультеты";
+$this->title = "Программы магистратуры для иностранных граждан поступающих по гослинии. Институты/факультеты";
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];

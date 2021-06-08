@@ -20,7 +20,7 @@ $this->title = "Программы аспирантуры для иностра�
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 if($department == AnketaHelper::HEAD_UNIVERSITY) {
-    $this->params['breadcrumbs'][] = ['label' => 'Факультеты', 'url' => ['get-gov-line-graduate', 'department'=> $department ]];
+    $this->params['breadcrumbs'][] = ['label' => 'Институты/факультеты', 'url' => ['get-gov-line-graduate', 'department'=> $department ]];
 }
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -58,7 +58,7 @@ if($currentFaculty) {
 <th</th>
 </tr>";
             foreach ($cgFaculty as $currentCg) {
-                if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+                if(!SettingEntrant::find()->isOpenFormZUK($currentCg->competitiveGroup)) {
                     continue;
                 }
 
