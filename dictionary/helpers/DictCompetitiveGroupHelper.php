@@ -627,7 +627,7 @@ class DictCompetitiveGroupHelper
         return UserDiscipline::find()->discipline($data)->user($user_id)->viFull()->exists();
     }
 
-    public static function groupByCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids, $cse)
+    public static function groupByCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
@@ -635,11 +635,16 @@ class DictCompetitiveGroupHelper
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
-                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' =>true]);
-        $data->one();
+                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' =>true])->one();
         if ($data) {
-            if($cse) {
-                foreach ($data->composite as $composite) {
+            $userDiscipline = UserDiscipline::find()
+                ->user($user_id)
+                ->orderBy(['mark' => SORT_DESC])
+                ->discipline($data->id)->one();
+            if ($userDiscipline) {
+                return [$userDiscipline->dictDisciplineSelect->ais_id];
+            } else {
+                foreach ($data->getComposite()->all() as $composite) {
                     $userDiscipline = UserDiscipline::find()->typeCse()
                         ->user($user_id)
                         ->orderBy(['mark' => SORT_DESC])
@@ -647,15 +652,6 @@ class DictCompetitiveGroupHelper
                     if ($userDiscipline) {
                         return [$composite->dictDisciplineSelect->ais_id];
                     }
-                    return [];
-                }
-            } else{
-                $userDiscipline = UserDiscipline::find()
-                    ->user($user_id)
-                    ->orderBy(['mark' => SORT_DESC])
-                    ->discipline($data->id)->one();
-                if ($userDiscipline) {
-                    return [$userDiscipline->dictDisciplineSelect->ais_id];
                 }
                 return [];
             }

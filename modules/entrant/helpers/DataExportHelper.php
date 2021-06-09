@@ -118,8 +118,7 @@ class DataExportHelper
         return array_merge($result,
             self::dataLanguage($userId),
             self::dataDocumentAll($userId, $profile),
-            self::userDiscipline($userId),
-            self::userDisciplineCt($userId)
+            self::mergeCse($userId)
         );
     }
 
@@ -152,11 +151,7 @@ class DataExportHelper
                 $statement->user_id,
                 $statement->faculty_id,
                 $statement->speciality_id,
-                $currentApplication->cg->id, true) ?? DictCompetitiveGroupHelper::groupByCompositeDiscipline(
-                $statement->user_id,
-                $statement->faculty_id,
-                $statement->speciality_id,
-                $currentApplication->cg->id, false);
+                $currentApplication->cg->id);
             $result['applications'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'competitive_group_id' => $currentApplication->cg->ais_id,
@@ -312,7 +307,6 @@ class DataExportHelper
                 }
             }
             return $result;
-
         }
         return [];
     }
@@ -342,6 +336,23 @@ class DataExportHelper
 
         }
         return [];
+    }
+
+    public static function mergeCse($userId) {
+        $var = [];
+        $cse = self::userDiscipline($userId);
+        $ct = self::userDisciplineCt($userId);
+        if(key_exists('documentsCse',$cse)) {
+            foreach ($cse['documentsCse'] as $value) {
+                $var ['documentsCse'][] = $value;
+            }
+        }
+        if(key_exists('documentsCse', $ct)) {
+            foreach ($ct['documentsCse'] as  $value) {
+                $var ['documentsCse'][] = $value;
+            }
+        }
+        return $var;
     }
 
 
