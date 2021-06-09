@@ -173,10 +173,10 @@ class AnketaHelper
         $arrayEduLevel = self::getPermittedEducationLevels($level);
 
         if ($level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO
-            && in_array($anketa->current_edu_level, $arrayEduLevel) && $anketa->category_id == CategoryStruct::GENERAL_COMPETITION) {
+            && in_array($anketa->current_edu_level, $arrayEduLevel) && ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)) {
             $buttonArray[] = DictCompetitiveGroupHelper::TARGET_PLACE;
         }
-        if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $anketa->category_id == CategoryStruct::GENERAL_COMPETITION) {
+        if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)) {
             $buttonArray[] = DictCompetitiveGroupHelper::SPECIAL_RIGHT;
         }
 
