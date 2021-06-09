@@ -139,22 +139,34 @@ class DataExportHelper
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT) {
                 $noCse = 1;
             } else {
-                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
-                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id, false) ??
+                    DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id, true);
             }
-            $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
+            $composite = DictCompetitiveGroupHelper::groupByCompositeDiscipline(
                 $statement->user_id,
                 $statement->faculty_id,
                 $statement->speciality_id,
-                $currentApplication->cg->id);
+                $currentApplication->cg->id, true) ?? DictCompetitiveGroupHelper::groupByCompositeDiscipline(
+                $statement->user_id,
+                $statement->faculty_id,
+                $statement->speciality_id,
+                $currentApplication->cg->id, false);
             $result['applications'][] = [
                 'incoming_id' => $incomingId->incoming_id,
                 'competitive_group_id' => $currentApplication->cg->ais_id,
                 'vi_status' => $noCse ? 1 : 0,
                 'composite_discipline_id' => $composite,
+                'composite_disciplines' =>  $composite,
                 'preemptive_right_status' => $prRight ? 1 : 0,
                 'preemptive_right_level' => $prRight ? $prRight : 0,
                 'benefit_BVI_status' => 0,
+                'benefit_BVI_reason'=> '',
                 'application_code' => $statement->numberStatement,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,

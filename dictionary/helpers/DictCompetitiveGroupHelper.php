@@ -608,6 +608,61 @@ class DictCompetitiveGroupHelper
 
     }
 
+    public static function groupByExamsNoCseCt($user_id, $faculty_id, $speciality_id, $ids, $ct)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id]);
+            if($ct) {
+                $data->andWhere(['not', ['ct_subject_id' => null]]);
+            } else {
+                $data->andWhere(['not', ['cse_subject_id' => null]]);
+            }
+            $data->select(['dict_discipline.id'])->column();
+
+        return UserDiscipline::find()->discipline($data)->user($user_id)->viFull()->exists();
+    }
+
+    public static function groupByCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids, $cse)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' =>true]);
+        $data->one();
+        if ($data) {
+            if($cse) {
+                foreach ($data->composite as $composite) {
+                    $userDiscipline = UserDiscipline::find()->typeCse()
+                        ->user($user_id)
+                        ->orderBy(['mark' => SORT_DESC])
+                        ->disciplineSelect($composite->discipline_select_id)->one();
+                    if ($userDiscipline) {
+                        return [$composite->dictDisciplineSelect->ais_id];
+                    }
+                    return [];
+                }
+            } else{
+                $userDiscipline = UserDiscipline::find()
+                    ->user($user_id)
+                    ->orderBy(['mark' => SORT_DESC])
+                    ->discipline($data->id)->one();
+                if ($userDiscipline) {
+                    return [$userDiscipline->dictDisciplineSelect->ais_id];
+                }
+                return [];
+            }
+        }
+        return [];
+    }
+
     public static function groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()
