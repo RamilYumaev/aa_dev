@@ -31,8 +31,8 @@ use yii\helpers\Html;
                     <th>Экзамен</th>
                     <th>Дисциплина по выбору</th>
                     <th>Тип</th>
-                    <th>Балл</th>
                     <th>Год сдачи</th>
+                    <th>Балл</th>
                     <th>Статус ЕГЭ/ЦТ</th>
                 </tr>
                     <?php $a = 0; foreach ($userDisciplines as $userDiscipline) : ?>
