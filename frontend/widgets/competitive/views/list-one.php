@@ -27,7 +27,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
             форма обучения <?= $cg->formEdu ?>,<br/>
             вид финансирования <?= $cg->finance ?>,<br/>
             <?php if($cg->isContractCg()) : ?>
-            стоимость обучения <?= $data['price_per_semester'] ?> <br/>
+            стоимость обучения  <?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
             <?php endif; ?>
             <?php if ($cg->isBudget()) : ?>
             контрольные цифры приема:
@@ -47,7 +47,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
 </div>
     <div class="row">
         <div class="col-md-12">
-            <?php if(key_exists($model->type, $data)):?>
+            <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
             <table class="table table">
                 <tr>
                     <th>№ п/п</th>
@@ -74,8 +74,8 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <th>Примечание</th>
                     <th>Дата приема заявлений</th>
                 </tr>
-                <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
-                <tr>
+                <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
+                <tr <?=!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
                     <td><?=$i++?></td>
                     <td><?= key_exists('snils', $entrant) ? $entrant['snils'] : ""?></td>
                     <td><?= $entrant['total_sum']?></td>
@@ -116,7 +116,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 </tr>
             </table>
             <?php else: ?>
-                <h4>в списке нет ни одного абитуриент</h4>
+                <h4>в списке нет ни одного абитуриента</h4>
             <?php endif; ?>
         </div>
     </div>

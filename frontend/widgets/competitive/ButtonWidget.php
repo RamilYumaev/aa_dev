@@ -12,7 +12,7 @@ class ButtonWidget extends Widget
 
     public function run()
     {
-        $cgs = DictCompetitiveGroup::find()->currentYear('2019-2020')->cgAllGroup($this->cgContract, $this->eduLevel);
+        $cgs = DictCompetitiveGroup::find()->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel);
         return $this->render('button', [
             'cgs' => $cgs,
             'eduLevel' => $this->eduLevel,

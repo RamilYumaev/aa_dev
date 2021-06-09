@@ -25,7 +25,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             форма обучения <?= $entrantSetting->formEdu ?>,<br/>
             вид финансирования <?= $entrantSetting->financeEdu ?>,<br/>
             <?php if( $entrantSetting->isContract()) :?>
-            стоимость обучения <?= $data['price_per_semester'] ?> <br/>
+            стоимость обучения <?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''  ?> <br/>
             <?php endif; ?>
             <?php if ($entrantSetting->isBudget()) : ?>
                 контрольные цифры приема:
@@ -42,7 +42,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
 </div>
     <div class="row">
         <div class="col-md-12">
-            <?php if(key_exists($model->type, $data)):?>
+            <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
             <table class="table table">
                 <tr>
                     <th>№ п/п</th>
@@ -106,7 +106,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                 </tr>
             </table>
             <?php else: ?>
-                <h4>в списке нет ни одного абитуриент</h4>
+                <h4>в списке нет ни одного абитуриента</h4>
             <?php endif; ?>
         </div>
     </div>
