@@ -33,6 +33,7 @@ use modules\entrant\models\UserIndividualAchievements;
 use morphos\S;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
+use yii\data\Sort;
 use function Matrix\identity;
 
 /* @var $profile Profiles */
@@ -297,13 +298,18 @@ class DataExportHelper
                         'year' => $value,
                         'type_id' => UserDiscipline::CSE,
                     ];
+                $disciplineKey = [];
                 /** @var UserDiscipline $discipline */
-                foreach ($cse->year($value)->all() as $discipline) {
+                foreach ($cse->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->cse->ais_id,$disciplineKey)) {
+                        continue;
+                    }
                     $result['documentsCse'][$key]['subject'][] = [
                         'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
                         'ct_subject_id' => null,
                         'mark' => $discipline->mark,
                     ];
+                    $disciplineKey[] = $discipline->dictDisciplineSelect->cse->ais_id;
                 }
             }
             return $result;
@@ -323,13 +329,18 @@ class DataExportHelper
                         'year' => $value,
                         'type_id' => 2,
                     ];
+                $disciplineKey = [];
                 /** @var UserDiscipline $discipline */
-                foreach ($cse->year($value)->all() as $discipline) {
+                foreach ($cse->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->ct->ais_id,$disciplineKey)) {
+                        continue;
+                    }
                     $result['documentsCse'][$key]['subject'][] = [
                         'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
                         'ct_subject_id' => $discipline->dictDisciplineSelect->ct->ais_id,
                         'mark' => $discipline->mark,
                     ];
+                    $disciplineKey[] = $discipline->dictDisciplineSelect->ct->ais_id;
                 }
             }
             return $result;
