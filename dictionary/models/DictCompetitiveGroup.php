@@ -10,6 +10,7 @@ use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use frontend\controllers\GratitudeController;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
@@ -403,7 +404,23 @@ class DictCompetitiveGroup extends ActiveRecord
             'type'=> $type])->one();
     }
 
-    public function getFinance() {
+    public function getRegisterCompetitionListGraduate()
+    {
+        return RegisterCompetitionList::find()
+            ->joinWith(['competitionList', 'settingEntrant'])
+            ->andWhere([
+                'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                'special_right' =>  $this->special_right_id,
+                'edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
+                'form_edu' => $this->education_form_id,
+                 RegisterCompetitionList::tableName().'.faculty_id' => $this->faculty_id,
+                'speciality_id' => $this->speciality_id,
+                'finance_edu' => $this->financing_type_id,
+                CompetitionList::tableName().'.type'=> 'list'
+            ])->one();
+    }
+
+        public function getFinance() {
         return DictCompetitiveGroupHelper::getFinancingTypes()[$this->financing_type_id];
     }
 

@@ -118,7 +118,7 @@ return [
 
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*',
+        'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*', 'competition-list/*',
             'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*',
             'queue/*', 'reset/*', 'auth/confirm/*'],
         'rules' => [

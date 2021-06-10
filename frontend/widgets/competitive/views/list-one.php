@@ -69,7 +69,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <?php endif; ?>
                     <th>Нуждается в общежитии</th>
                     <?php if($cg->isContractCg()) : ?>
-                    <th>Оплатил ?</th>
+                    <th>Оплатил да/нет</th>
                     <?php endif; ?>
                     <th>Примечание</th>
                     <th>Дата приема заявлений</th>
@@ -86,7 +86,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                         <td><?php if(is_int($key)):?>
                                 <?= (key_exists('ball', $subject) ? $subject['ball'].", " : '') ?>
                                 <?= $subjectType[$subject['subject_type_id']] ?>
-                                <?=  key_exists('check_status_id', $subject) ? ", ".$subjectStatus[$subject['check_status_id']]: ''?>
+                                <?=  key_exists('check_status_id', $subject) ? ", ".(key_exists($subject['check_status_id'], $subjectStatus) ? $subjectStatus[$subject['check_status_id']] :''): ''?>
                             <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
@@ -116,7 +116,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 </tr>
             </table>
             <?php else: ?>
-                <h4>в списке нет ни одного абитуриента</h4>
+                <h4 style="color: red">в списке нет ни одного абитуриента</h4>
             <?php endif; ?>
         </div>
     </div>
