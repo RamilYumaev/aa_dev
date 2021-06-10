@@ -659,6 +659,22 @@ class DictCompetitiveGroupHelper
         return [];
     }
 
+    public static function groupByDisciplineVi($user_id, $faculty_id, $speciality_id, $ids)
+    {
+       return DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserDiscipline::tableName(), 'discipline_user.discipline_id=dict_discipline.id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id,
+                'discipline_user.user_id'=> $user_id,
+                'discipline_user.type'=> [UserDiscipline::VI, UserDiscipline::CT_VI, UserDiscipline::CSE_VI],
+                'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])->select('dict_discipline.ais_id')
+            ->column() ?? [];
+    }
+
     public static function groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()

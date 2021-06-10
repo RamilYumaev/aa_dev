@@ -113,6 +113,7 @@ class DataExportHelper
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
+                'snils'=> $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
                 'overall_diploma_mark_common' => null
             ]
         ];
@@ -160,6 +161,10 @@ class DataExportHelper
                 'composite_discipline_id' => $composite,
                 'composite_disciplines' =>  $composite,
                 'preemptive_right_status' => $prRight ? 1 : 0,
+                'cse_ct_vi' => DictCompetitiveGroupHelper::groupByDisciplineVi($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id),
                 'preemptive_right_level' => $prRight ? $prRight : 0,
                 'benefit_BVI_status' => 0,
                 'benefit_BVI_reason'=> '',
