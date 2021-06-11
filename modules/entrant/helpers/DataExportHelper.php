@@ -293,9 +293,7 @@ class DataExportHelper
 
     public static function userDiscipline($userId)
     {
-        $cse = UserDiscipline::find()->cseOrVi()->user($userId);
-        $dataYears = clone $cse;
-        if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
+        if ($dataYears = UserDiscipline::find()->cseOrVi()->user($userId)->select('year')->groupBy('year')->column()) {
             $result['documentsCse'] = [];
             foreach ($dataYears as $key => $value) {
                 $result['documentsCse'][$key] =
@@ -303,10 +301,10 @@ class DataExportHelper
                         'year' => $value,
                         'type_id' => UserDiscipline::CSE,
                     ];
-                $disciplineKey = [];
+                $disciplineKey[$value] = [];
                 /** @var UserDiscipline $discipline */
-                foreach ($cse->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
-                    if(in_array($discipline->dictDisciplineSelect->cse->ais_id,$disciplineKey)) {
+                foreach (UserDiscipline::find()->cseOrVi()->user($userId)->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->cse->ais_id, $disciplineKey[$value])) {
                         continue;
                     }
                     $result['documentsCse'][$key]['subject'][] = [
@@ -314,7 +312,7 @@ class DataExportHelper
                         'ct_subject_id' => null,
                         'mark' => $discipline->mark,
                     ];
-                    $disciplineKey[] = $discipline->dictDisciplineSelect->cse->ais_id;
+                    $disciplineKey[$value][] = $discipline->dictDisciplineSelect->cse->ais_id;
                 }
             }
             return $result;
@@ -324,9 +322,7 @@ class DataExportHelper
 
     public static function userDisciplineCt($userId)
     {
-        $cse = UserDiscipline::find()->ctOrVi()->user($userId);
-        $dataYears = clone $cse;
-        if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
+        if ($dataYears = UserDiscipline::find()->ctOrVi()->user($userId)->select('year')->groupBy('year')->column()) {
             $result['documentsCse'] = [];
             foreach ($dataYears as $key => $value) {
                 $result['documentsCse'][$key] =
@@ -334,10 +330,10 @@ class DataExportHelper
                         'year' => $value,
                         'type_id' => 2,
                     ];
-                $disciplineKey = [];
+                $disciplineKey[$value] = [];
                 /** @var UserDiscipline $discipline */
-                foreach ($cse->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
-                    if(in_array($discipline->dictDisciplineSelect->ct->ais_id,$disciplineKey)) {
+                foreach (UserDiscipline::find()->ctOrVi()->user($userId)->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->ct->ais_id, $disciplineKey[$value])) {
                         continue;
                     }
                     $result['documentsCse'][$key]['subject'][] = [
@@ -345,11 +341,10 @@ class DataExportHelper
                         'ct_subject_id' => $discipline->dictDisciplineSelect->ct->ais_id,
                         'mark' => $discipline->mark,
                     ];
-                    $disciplineKey[] = $discipline->dictDisciplineSelect->ct->ais_id;
+                    $disciplineKey[$value][] = $discipline->dictDisciplineSelect->ct->ais_id;
                 }
             }
             return $result;
-
         }
         return [];
     }

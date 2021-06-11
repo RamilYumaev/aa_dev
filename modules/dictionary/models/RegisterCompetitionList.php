@@ -33,6 +33,7 @@ class RegisterCompetitionList extends ActiveRecord
     const STATUS_SEND = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_ERROR = 3;
+    const STATUS_NOT = 4;
 
     public function data($aisCgId,  $typeUpdate, $numberUpdate, $specialityId, $facultyId, $seId)
     {
@@ -64,6 +65,7 @@ class RegisterCompetitionList extends ActiveRecord
             self::STATUS_SEND => 'отправлено в АИС ВУЗ',
             self::STATUS_SUCCESS => 'успешно обновлен',
             self::STATUS_ERROR => 'ошибка',
+            self::STATUS_NOT => 'нет списка',
         ];
     }
 

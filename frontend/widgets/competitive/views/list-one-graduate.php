@@ -10,7 +10,7 @@ use modules\entrant\helpers\DateFormatHelper;
 $rcl = $model->registerCompetitionList;
 $entrantSetting = $rcl->settingEntrant;
 $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
- ?>
+?>
 <div class="row">
     <div class="col-md-12">
         <p>
@@ -46,7 +46,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             <table class="table table">
                 <tr>
                     <th>№ п/п</th>
-                    <th>СНИЛС</th>
+                    <th>Уникальный номер/СНИЛС</th>
                     <th>Направленность</th>
                     <th>Сумма баллов</th>
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
@@ -70,7 +70,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                 <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr <?= !Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?>">
                     <td><?=$i++?></td>
-                    <td><?= key_exists('snils', $entrant) ? $entrant['snils'] : ""?></td>
+                    <td><?= key_exists('snils', $entrant)  && $entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']?></td>
                     <td><?= $entrant['specialization_name'] ?></td>
                     <td><?= $entrant['total_sum']?></td>
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
@@ -78,17 +78,17 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                         $subject = $entrant['subjects'][$key]; ?>
                         <td>
                             <?php if(is_int($key)):?>
-                                <?= (key_exists('ball', $subject) ? $subject['ball'].", " : '') ?>
+                                <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
                                 <?= 'ВИ' ?>
                             <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
                     <td><?= $entrant['subject_sum']?></td>
                     <td>
-                    <?php if(key_exists('individual_achievements', $entrant)) :?>
-                        <?php echo implode(', ', array_map(function($individual_achievement)
-                        { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
-                    <?php endif; ?>
+                        <?php if(key_exists('individual_achievements', $entrant)) :?>
+                            <?php echo implode(', ', array_map(function($individual_achievement)
+                            { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
+                        <?php endif; ?>
                     </td>
                     <td><?= $entrant['sum_of_individual']?></td>
                     <td><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
@@ -100,13 +100,13 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php if($entrantSetting->isContract()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
-                    <td><?= key_exists('pp_status_id',$entrant) ? "ПП" : ''?></td>
+                    <td><?= key_exists('pp_status_id',$entrant) &&  $entrant['pp_status_id'] ? "ПП" : ''?></td>
                     <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                 <?php endforeach; ?>
                 </tr>
             </table>
-            <?php else: ?>
-                <h4 style="color: red">в списке нет ни одного абитуриента</h4>
-            <?php endif; ?>
-        </div>
+        <?php else: ?>
+            <h4>в списке нет ни одного абитуриент</h4>
+        <?php endif; ?>
     </div>
+</div>
