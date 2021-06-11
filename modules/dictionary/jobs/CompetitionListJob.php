@@ -42,9 +42,10 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
             $item = (new Client(Yii::$app->params['ais_competitive']))->getData($this->url, $array);
             $this->saveCompetitionList($item, 'list', 'list_bvi');
             if($this->register->settingEntrant->isBachelor()) {
-                $this->saveCompetitionList($item, 'list_bvi', 'list');
+                if (key_exists('list_bvi', $item) && count($item['list_bvi']) ) {
+                    $this->saveCompetitionList($item, 'list_bvi', 'list');
+                }
             }
-
         if (key_exists('error', $item)) {
             $this->saveRegister(RegisterCompetitionList::STATUS_ERROR, $item['error']['message']);
         }
