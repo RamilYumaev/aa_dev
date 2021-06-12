@@ -267,8 +267,9 @@ class AgreementHelper
         return ArrayHelper::map($query->all(), $column, $value);
     }
 
-    public static function payPerDate($educationLevel, $educationForm, $universityChoice)
+    public static function payPerDate($educationLevel, $educationForm, $faculty)
     {
+        $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         if ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
                 return '25 сентября';
