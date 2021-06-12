@@ -18,7 +18,7 @@ $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement
 $cg = $agreement->statementCg->cg;
 $collegeStatus = $cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
 \Yii::$app->session->setFlash($collegeStatus);
-$agreementData = AgreementHelper::data($anketa->university_choice,$collegeStatus);
+$agreementData = AgreementHelper::data($cg->faculty_id,$collegeStatus);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $duration = $collegeStatus ? ceil($cg->education_duration) : $cg->education_duration;
 $totalCost = $cg->education_year_cost * $duration;

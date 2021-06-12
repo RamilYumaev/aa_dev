@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
@@ -60,8 +61,9 @@ class AgreementHelper
         return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
     }
 
-    public static function data($universityChoice, $collegeStatus = false)
+    public static function data($faculty, $collegeStatus = false)
     {
+        $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         return [
             'accidence' => self::accidence()[$universityChoice],
             'positionsGenitive' => self::positionsGenitive($collegeStatus)[$universityChoice],
