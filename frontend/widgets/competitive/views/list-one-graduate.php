@@ -68,7 +68,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <th>Дата приема заявлений</th>
                 </tr>
                 <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
-                <tr <?= !Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?>">
+                    <tr <?= !Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?>">
                     <td><?=$i++?></td>
                     <td><?= key_exists('snils', $entrant)  && $entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']?></td>
                     <td><?= $entrant['specialization_name'] ?></td>

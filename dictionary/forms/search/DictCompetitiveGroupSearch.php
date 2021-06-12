@@ -79,7 +79,7 @@ class DictCompetitiveGroupSearch extends Model
             }else {
                 $query->joinWith(['examinations'])
                     ->innerJoin(DictDiscipline::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-                    ->andWhere(['or', 'dvi=' . $this->settingEntrant->is_vi, 'is_och=' . $this->settingEntrant->is_vi]);
+                    ->andWhere(['is_och'=> $this->settingEntrant->is_vi]);
             }
 
         } else {

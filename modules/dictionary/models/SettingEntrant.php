@@ -138,7 +138,7 @@ class SettingEntrant extends ActiveRecord
 
         $query->joinWith(['examinations'], false)
             ->innerJoin(DictDiscipline::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-            ->andWhere(['or', 'dvi=' . $this->is_vi, 'is_och=' . $this->is_vi]);
+            ->andWhere(['is_och' => $this->is_vi]);
         return $query->currentAutoYear()->select(['ais_id'=>'dict_competitive_group.ais_id','speciality_id','faculty_id'])->asArray()->all();
     }
 

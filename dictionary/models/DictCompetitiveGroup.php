@@ -161,7 +161,7 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function isExamDviOrOch() {
-        return $this->getExaminations()->joinWith('discipline')->andWhere(['dvi'=> true])
+        return $this->getExaminations()->joinWith('discipline')
             ->orWhere(['is_och' => true])->exists();
     }
 

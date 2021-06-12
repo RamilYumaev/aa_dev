@@ -83,12 +83,12 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
                         ?>
-                        <td><?= $key ?>
-                            <?php if(is_int($key)):?>
-                                <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
-                                <?= $subjectType[$subject['subject_type_id']] ?>
-                                <?=  key_exists('check_status_id', $subject) && $subject['check_status_id'] ? ", ".$subjectStatus[$subject['check_status_id']] : ''?>
-                            <?php endif; ?>
+                        <td>
+
+                            <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
+                            <?= $subjectType[$subject['subject_type_id']] ?>
+                            <?=  key_exists('check_status_id', $subject) && $subject['check_status_id'] ? ", ".$subjectStatus[$subject['check_status_id']] : ''?>
+
                         </td>
                     <?php endforeach; ?>
                     <td><?= $entrant['subject_sum']?></td>
