@@ -24,6 +24,7 @@ class AdditionalInformationForm extends Model
             $this->_additionalInformation= $additionalInformation;
             $this->insuranceNumber = $additionalInformation->insuranceCertificate ? $additionalInformation->insuranceCertificate->number : '';
         }
+        $this->return_doc = 3;
         $this->user_id = $user_id;
         parent::__construct($config);
     }
@@ -45,6 +46,38 @@ class AdditionalInformationForm extends Model
                 'message'=> 'Необходимо внести дробное число с точностью до 5 знаков после запятой'],
         ];
     }
+
+    public function validateInsuranceNumber($attribute, $params)
+    {
+        if ($this->hasErrors() || !$this->insuranceNumber) {
+            return;
+        }
+
+        if (!\preg_match('/\d{3}\-\d{3}\-\d{3} \d{2}/', $this->insuranceNumber)) {
+            $this->addError($attribute, 'Формат СНИЛС не соотвествует стандарту.');
+        }
+
+        $snils = \preg_replace('/\-| /', '', $this->insuranceNumber);
+        $sum = 0;
+        for ($i = 0; $i < 9; $i++) {
+            $sum += (int)$snils{$i} * (9 - $i);
+        }
+        $checkDigit = 0;
+        if ($sum < 100) {
+            $checkDigit = $sum;
+        } elseif ($sum > 101) {
+            $checkDigit = $sum % 101;
+            if ($checkDigit === 100) {
+                $checkDigit = 0;
+            }
+        }
+
+        if ($checkDigit != (int)\substr($snils, -2)) {
+            $this->addError($attribute, 'Проверьте правильность ввода СНИЛС.');
+        }
+    }
+
+
 
     /**
      * {@inheritdoc}

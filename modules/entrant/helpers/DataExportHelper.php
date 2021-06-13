@@ -46,7 +46,7 @@ class DataExportHelper
         $anketa = Anketa::findOne(['user_id' => $profile->user_id]);
         $fioLatin = FIOLatin::findOne(['user_id' => $profile->user_id]);
         $passport = PassportData::findOne(['user_id' => $profile->user_id, 'main_status' => true]);
-        $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => true]);
+        $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' =>[1,2,3]]);
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -293,7 +293,8 @@ class DataExportHelper
 
     public static function userDiscipline($userId)
     {
-        if ($dataYears = UserDiscipline::find()->cseOrVi()->user($userId)->select('year')->groupBy('year')->column()) {
+        $ids = UserDiscipline::find()->cseOrVi()->user($userId)->select('id')->orderBy(['mark'=> SORT_ASC])->indexBy('discipline_select_id')->column();
+        if ($dataYears = UserDiscipline::find()->cseOrVi()->user($userId)->select('year')->andWhere(['id'=>$ids])->groupBy('year')->orderBy(['year'=> SORT_DESC])->column()) {
             $result['documentsCse'] = [];
             foreach ($dataYears as $key => $value) {
                 $result['documentsCse'][$key] =
@@ -322,7 +323,8 @@ class DataExportHelper
 
     public static function userDisciplineCt($userId)
     {
-        if ($dataYears = UserDiscipline::find()->ctOrVi()->user($userId)->select('year')->groupBy('year')->column()) {
+        $ids = UserDiscipline::find()->ctOrVi()->user($userId)->select('id')->orderBy(['mark'=> SORT_ASC])->indexBy('discipline_select_id')->column();
+        if ($dataYears = UserDiscipline::find()->ctOrVi()->user($userId)->select('year')->andWhere(['id'=>$ids])->orderBy(['year'=> SORT_DESC])->groupBy('year')->column()) {
             $result['documentsCse'] = [];
             foreach ($dataYears as $key => $value) {
                 $result['documentsCse'][$key] =

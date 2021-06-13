@@ -62,7 +62,7 @@ class ApplicationsController extends Controller
 
         $this->permittedLevelChecked($eduLevel);
 
-        if($foreignStatus) {
+        if($foreignStatus && !$tpguStatus) {
             $this->isGovLineControl();
         }
 
@@ -237,7 +237,7 @@ class ApplicationsController extends Controller
     public function actionGetMpguTpgu($department)
     {
         $currentFaculty = $this->currentFaculty($department,DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-            DictCompetitiveGroupHelper::USUAL, false, true);
+            DictCompetitiveGroupHelper::USUAL, true, true);
         return $this->render('get-mpgu-tpgu', [
             'currentFaculty' => $currentFaculty,
         ]);
