@@ -167,12 +167,15 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 'edu_level' => $cgContract->edu_level,
                 'education_form_id' => $cgContract->education_form_id,
                 'spo_class' => $cgContract->spo_class,
+                'special_right_id'=>$specialRight,
 
             ]
         );
-        if($specialRight) {
-            $query->specialRight($specialRight);
-        }
+//        if($specialRight) {
+//            $query->specialRight($specialRight);
+//        }else{
+//            $query->andWhere(['is','special_right_id',null]);
+//        }
 
         return $query;
     }
