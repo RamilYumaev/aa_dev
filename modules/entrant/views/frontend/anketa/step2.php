@@ -2,7 +2,10 @@
 
 use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\models\SettingEntrant;
+use modules\entrant\helpers\AgreementHelper;
 use \modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\CategoryStruct;
+use modules\entrant\helpers\OtherDocumentHelper;
 use \yii\helpers\Html;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \modules\entrant\helpers\CseSubjectHelper;
@@ -29,6 +32,24 @@ $onlyCse = $anketa->onlyCse();
         <div class="col-md-12 mt-50">
             <h1><?= Html::encode($this->title) ?></h1>
         </div>
+    </div>
+    <div class="row">
+        <?php
+        if (!in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SCHOOL_9]) &&
+            ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+                || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && !AgreementHelper::isExits($anketa->user_id)): ?>
+        <div class="col-md-6">
+            <?= Html::a('Добавить данные договора о целевом обучении', ['agreement/index'],['class' => 'btn btn-primary']) ?>
+        </div>
+        <?php endif; if(($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+            || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && in_array($anketa->current_edu_level, AnketaHelper::educationLevelSpecialRight())
+            && !OtherDocumentHelper::isExitsExemption($anketa->user_id)): ?>
+        <div class="col-md-6">
+            <?= Html::a('Добавить данные документа, подтверждающий принадлежность к категориям особой квоты', ['other-document/exemption'],['class' => 'btn btn-warning']) ?>
+        </div>
+        <?php endif; ?>
     </div>
     <?php foreach (SettingEntrant::find()->groupData($anketa->getPermittedEducationLevels(), 'faculty_id') as $department) : ?>
         <div class="row">
@@ -62,6 +83,8 @@ $onlyCse = $anketa->onlyCse();
             </div>
         <?php endif; endforeach; ?>
         </div>
-    <?php endforeach; ?>
+    <?php
+    if ($anketa->isTpgu() && $department == AnketaHelper::HEAD_UNIVERSITY) break;
+    endforeach; ?>
 </div>
 

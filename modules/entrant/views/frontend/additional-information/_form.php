@@ -17,7 +17,7 @@ use yii\widgets\MaskedInput;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-additional-information']); ?>
             <?= $form->field($model, 'resource_id')->dropDownList(DictDefaultHelper::listInfo()); ?>
-            <?/*$form->field($model, 'return_doc')->dropDownList(DictDefaultHelper::listReturnDoc()); */?>
+            <?php /* $form->field($model, 'return_doc')->dropDownList(DictDefaultHelper::listReturnDoc()); */?>
             <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($model->user_id)): ?>
                 <?= $form->field($model, 'mark_spo')->textInput(['placeholder'=>'4.44444']); ?>
             <?php endif; ?>
