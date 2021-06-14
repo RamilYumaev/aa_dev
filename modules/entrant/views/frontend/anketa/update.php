@@ -4,7 +4,7 @@
 
 \common\user\assets\UpdateSchoolAsset::register($this);
 
-$this->title = "Определение условий подачи документов";
+$this->title = "Определение условий подачи документов. Шаг 1. Редактирование";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_form', ['model'=> $model] )?>
