@@ -207,8 +207,8 @@
 <div class="navigation">
 <ul class="navigation__list">
     <li class="list-item">
-      <input class="inp-cbx" id="cbx" type="checkbox" style="display: none" disabled></input>
-  <label for="cbx" class="cbx" onclick="klik1(); ">
+      <input class="inp-cbx" id="cbx0" type="checkbox" style="display: none" disabled></input>
+  <label for="cbx0" class="cbx" onclick="klik1(); ">
     <span>
       <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
     </span>
@@ -306,8 +306,15 @@
   <div class="line"></div>
   <h4 class="title">Подать документы</h4>
   <div class="btns">
-  <button class="btn" id='dist'disabled>Дистанционно</button>
-  <button class="btn" id='post' disabled>По почте</button>
+    <?php if (\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks($userId)) : ?>
+    <?= \modules\entrant\widgets\submitted\SubmittedDocumentWidget::widget(['userId' => $userId]) ?>
+    <?php endif; ?>
+      <!-- <form method="POST" action="modules\entrant\models\SubmittedDocuments::findOne(['user_id' => $this->userId]" id="form">
+        <button class="btn" id='dist' form="form" type="submit" disabled>Дистанционно</button>
+      </form> -->
+  
+  
+  <!-- <button class="btn" id='post' disabled>По почте</button> -->
   </div>
   <div class='subtitle'>Кнопки будут доступны после заполнения всех разделов</div>
   </ul>
@@ -330,11 +337,12 @@
 
         window.onload = function(){
           
-        
+        let code0 = "<?= olympic\helpers\auth\ProfileHelper::isDataNoEmpty($userId);?>";
         let code1 = "<?= modules\entrant\helpers\AddressHelper::isExits($userId) ;?>";
         let code2 = "<?= modules\entrant\helpers\PassportDataHelper::isExits($userId) ;?>";
         let code3 = "<?= modules\entrant\helpers\DocumentEducationHelper::isDataNoEmpty($userId);?>";
         let code4 = "<?= modules\entrant\helpers\LanguageHelper::isExits($userId);?>";
+        let code5 = "<?= modules\entrant\helpers\ UserCgHelper::findUser($userId); ?>";
         let code6 = "<?= modules\entrant\helpers\AdditionalInformationHelper::isExits($userId);?>";
         let code7 = "<?= modules\entrant\helpers\FioLatinHelper::isExits($userId);?>";
         let code8 = "<?= modules\entrant\helpers\UserDisciplineHelper::isCorrect($userId);?>";
@@ -343,73 +351,65 @@
             if (Array.from(vse).every(el => el.checked)) {
             dist.removeAttribute("disabled");
             post.removeAttribute("disabled");
+
+            
+            
         } else { 
             dist.setAttribute("disabled", "true");
             post.setAttribute("disabled", "true");
         }
         }, 200)
 
-        let code0 = "<?= olympic\models\auth\Profiles::findOne(['user_id'=> $userId]);?>";
+        
 
              if(code0){
-                console.log('Профиль есть');
                 cbx0.checked = true;
             } else {
                 cbx0.checked = false;
             }
-            
-            if(code1){
-                console.log('Адрес есть');
+
+            if(code1 && cbx1){
                 cbx1.checked = true;
-            } else {
-                cbx1.checked = false;
-            }
+            } 
+            // else {
+            //     cbx1.checked = false;
+            // }
 
             if(code2){
-                console.log('Паспорт есть');
                 cbx2.checked = true;
             } else {
                 cbx2.checked = false;
             }
              if(code3){
-                console.log('Документ об образовании есть');
                 cbx3.checked = true;
             } else {
                 cbx3.checked = false;
             }
             if(code4){
-                console.log('ин яз есть')
                 cbx4.checked = true;
             } else {
                 cbx4.checked = false;
             }
+            if(code5){
+                cbx5.checked = true;
+            } else {
+                cbx5.checked = false;
+            }
             if(code6){
-                console.log('Доп информация есть')
                 cbx6.checked = true;
             } else {
                 cbx6.checked = false;
             }
-            if(code7){
-                console.log('ФИО на латинском есть')
+            if(code7 && cbx7){
                 cbx7.checked = true;
-            } else {
-                cbx7.checked = false;
-            }
-            if(code8){
-                console.log('ви есть')
+            } 
+            if(code8 && cbx8){
                 cbx8.checked = true;
-            } else {
-                cbx8.checked = false;
-            }
-            // if(code0){
-            //     console.log('123')
-            //     cbx0.setAttribute("checked", "true");
-            // } else {
-            //     cbx0.setAttribute("checked", "false");
-            // }
+            } 
 
         };
 
+        
         function klik1() {
             
         
