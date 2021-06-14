@@ -90,7 +90,7 @@ $userId = Yii::$app->user->identity->getId();
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>
+    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu() && \modules\entrant\helpers\UserCgHelper::userIsBudgetBachMagGrad($userId)): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>

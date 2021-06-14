@@ -5,6 +5,7 @@ namespace modules\entrant\helpers;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\models\SettingEntrant;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use modules\entrant\models\UserCg;
@@ -58,7 +59,16 @@ class UserCgHelper
 
     public static function cgUserColumn($userId)
     {
-       return UserCg::find()->select("cg_id")->andWhere(['user_id' => $userId])->column();
+       $cgs = [];
+       foreach (UserCg::find()->andWhere(['user_id' => $userId])->all() as $userCg)  {
+           /** @var DictCompetitiveGroup $cg */
+           $cg = $userCg->cg;
+           if(!SettingEntrant::find()->isOpenZUK($cg)) {
+               continue;
+           }
+           $cgs[] =$userCg->cg_id;
+       }
+       return $cgs;
     }
 
     public static function userMedicine($user_id) {
@@ -82,6 +92,18 @@ class UserCgHelper
         }
         return $bool ?? false;
     }
+
+    public static function userIsBudgetBachMagGrad($user_id) {
+        foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
+        {   /* @var $cg UserCg */
+            if ($cg->isBudgetBachMagGrad()) {
+                $bool = true;
+                break;
+            }
+        }
+        return $bool ?? false;
+    }
+
 
 
     public static function trColor(DictCompetitiveGroup $cgContract): String

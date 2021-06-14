@@ -6,6 +6,7 @@ namespace modules\entrant\controllers\frontend;
 use modules\dictionary\helpers\DictIndividualAchievementHelper;
 use modules\dictionary\models\DictIndividualAchievement;
 use modules\entrant\forms\OtherDocumentForm;
+use modules\entrant\helpers\UserCgHelper;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\UserIndividualAchievements;
 use modules\entrant\services\IndividualAchievementService;
@@ -41,8 +42,10 @@ class IndividualAchievementsController extends Controller
 
     public function actionIndex()
     {
+        if(!UserCgHelper::userIsBudgetBachMagGrad($this->getUser())) {
+            return $this->redirect(['default/index']);
+        }
         $model = DictIndividualAchievementHelper::dictIndividualAchievementUser($this->getUser());
-
         return $this->render("index", ["model" => $model]);
     }
 
@@ -130,7 +133,4 @@ class IndividualAchievementsController extends Controller
     private function getUser() {
         return Yii::$app->user->identity->getId();
     }
-
-
-
 }
