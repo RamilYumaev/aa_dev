@@ -7,6 +7,13 @@ $this->title =  $isBelarus ? "Результаты ЕГЭ/ЦТ": "Результ
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
  ?>
+
+<div class="row min-scr">
+    <div class="button-left">
+        <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"])." Уровни",
+            ["/abiturient/anketa/step2"], ["class" => "btn btn-warning btn-lg"]) ?>
+    </div>
+</div>
 <div class="container">
     <h1><?=$this->title?></h1>
     <p>

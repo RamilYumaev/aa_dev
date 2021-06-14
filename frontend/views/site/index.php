@@ -175,7 +175,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <p align="center">С помощью Личного кабинета Вы можете подать документы в МПГУ.
         Для начала пользования сервисами поступающего необходимо создать Личный кабинет.</p>
 
-    <a class="btn btn-primary btn-lg mpgu-btn" href="/sign-up/request" role="button">создать Личный
+    <a class="btn btn-primary btn-lg mpgu-btn" href="/sign-up/request" role="button">Создать Личный
         кабинет</a>
 
     <?php endif ?>

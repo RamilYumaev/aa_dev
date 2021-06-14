@@ -212,7 +212,7 @@
     <span>
       <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
     </span>
-      <span><a href="#profile">Заполните профиль</a></span>
+      <span><a href="#profile">Профиль</a></span>
   </label>
     </li>
 
@@ -235,7 +235,7 @@
   <span>
     <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
   </span>
-    <span><a href="#address">Заполните адрес</a></span>
+    <span><a href="#address">Адрес</a></span>
 </label>
   </li> 
     <?php endif; ?>
@@ -270,22 +270,21 @@
   </label>
     </li>
 
-    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
+    
     <li class="list-item">
         <input class="inp-cbx" id="cbx5" type="checkbox" style="display: none" disabled></input>
     <label for="cbx5" class="cbx" onclick="klik1();">
       <span>
         <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
       </span>
-        <span><a href="#comp">Образовательная программа</a></span>
+        <span><a href="#comp">Направления подготовки</a></span>
     </label>
       </li>
-    <?php endif; ?>
 
     <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
     <li class="list-item">
-        <input class="inp-cbx" id="cbx9" type="checkbox" style="display: none" disabled></input>
-    <label for="cbx9" class="cbx" onclick="klik1();">
+        <input class="inp-cbx" id="cbx8" type="checkbox" style="display: none" disabled></input>
+    <label for="cbx8" class="cbx" onclick="klik1();">
       <span>
         <svg width="12px", height="9px", viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></svg>
       </span>
@@ -327,12 +326,17 @@
         let cbx6 = document.getElementById("cbx6");
         let cbx7 = document.getElementById("cbx7");
         let cbx8 = document.getElementById("cbx8");
-        let cbx9 = document.getElementById("cbx9");
         
 
         window.onload = function(){
-            let code0 = "<?= olympic\models\auth\Profiles::isDataNoEmpty()->where(['user_id' => $this->userId])->one();?>";
-        let code9 = "<?= modules\entrant\helpers\UserDisciplineHelper::isCorrect($userId);?>";
+          
+        let code1 = "<?= modules\entrant\helpers\AddressHelper::isExits($userId) ;?>";
+        let code2 = "<?= modules\entrant\helpers\PassportDataHelper::isExits($userId) ;?>";
+        let code3 = "<?= modules\entrant\helpers\DocumentEducationHelper::isDataNoEmpty($userId);?>";
+        let code4 = "<?= modules\entrant\helpers\LanguageHelper::isExits($userId);?>";
+        let code6 = "<?= modules\entrant\helpers\AdditionalInformationHelper::isExits($userId);?>";
+        let code7 = "<?= modules\entrant\helpers\FioLatinHelper::isExits($userId);?>";
+        let code8 = "<?= modules\entrant\helpers\UserDisciplineHelper::isCorrect($userId);?>";
             let vse = document.getElementsByClassName('inp-cbx');
         setTimeout(() => {
             if (Array.from(vse).every(el => el.checked)) {
@@ -343,20 +347,56 @@
             post.setAttribute("disabled", "true");
         }
         }, 200)
-        
-        
-            if(code9){
-                console.log('123')
-                cbx9.setAttribute("checked", "true");
+
+            if(code1){
+                console.log('Адрес есть');
+                cbx1.checked = true;
             } else {
-                cbx9.setAttribute("checked", "false");
+                cbx1.checked = false;
             }
-            if(code0){
-                console.log('123')
-                cbx0.setAttribute("checked", "true");
+
+            if(code2){
+                console.log('Паспорт есть');
+                cbx2.checked = true;
             } else {
-                cbx0.setAttribute("checked", "false");
+                cbx2.checked = false;
             }
+             if(code3){
+                console.log('Документ об образовании есть');
+                cbx3.checked = true;
+            } else {
+                cbx3.checked = false;
+            }
+            if(code4){
+                console.log('ин яз есть')
+                cbx4.checked = true;
+            } else {
+                cbx4.checked = false;
+            }
+            if(code6){
+                console.log('Доп информация есть')
+                cbx6.checked = true;
+            } else {
+                cbx6.checked = false;
+            }
+            if(code7){
+                console.log('ФИО на латинском есть')
+                cbx7.checked = true;
+            } else {
+                cbx7.checked = false;
+            }
+            if(code8){
+                console.log('ви есть')
+                cbx8.checked = true;
+            } else {
+                cbx8.checked = false;
+            }
+            // if(code0){
+            //     console.log('123')
+            //     cbx0.setAttribute("checked", "true");
+            // } else {
+            //     cbx0.setAttribute("checked", "false");
+            // }
 
         };
 
