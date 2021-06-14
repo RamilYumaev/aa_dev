@@ -21,7 +21,7 @@ class UserDisciplineHelper
             return true;
         }
 
-        if (\Yii::$app->user->identity->anketa()->onlyCse()) {
+        if (\Yii::$app->user->identity->anketa()->onlyCse() && DictCompetitiveGroupHelper::bachelorExistsUser($userId)) {
             return count(self::allCtCse($userId)) >= CseSubjectHelper::MIN_NEEDED_SUBJECT_CSE;
         }
 

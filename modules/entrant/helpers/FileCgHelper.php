@@ -64,11 +64,17 @@ class FileCgHelper
         elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && !$specialRightId) {
             return "(Бакалавриат) общий конкурс ЕГЭ"; // (Бакалавриат) общий конкурс ЕГЭ+ВИ
 
-        }elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $specialRightId==DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
+        }elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $specialRightId == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             return "(Бакалавриат) льгота";
         }
-        elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $specialRightId==DictCompetitiveGroupHelper::TARGET_PLACE) {
+        elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $specialRightId == DictCompetitiveGroupHelper::TARGET_PLACE) {
             return "(Бакалавриат) целевой";
+        }
+        elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER && $specialRightId == DictCompetitiveGroupHelper::TARGET_PLACE) {
+            return "(Магистратура) целевой";
+        }
+        elseif($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL && $specialRightId == DictCompetitiveGroupHelper::TARGET_PLACE) {
+            return "(Аспирантура) целевой";
         }
         return "Аспирантура";
     }
