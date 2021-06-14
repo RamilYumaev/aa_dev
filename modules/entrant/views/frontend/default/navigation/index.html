@@ -330,6 +330,7 @@
 
         window.onload = function(){
           
+        
         let code1 = "<?= modules\entrant\helpers\AddressHelper::isExits($userId) ;?>";
         let code2 = "<?= modules\entrant\helpers\PassportDataHelper::isExits($userId) ;?>";
         let code3 = "<?= modules\entrant\helpers\DocumentEducationHelper::isDataNoEmpty($userId);?>";
@@ -348,6 +349,15 @@
         }
         }, 200)
 
+        let code0 = "<?= olympic\models\auth\Profiles::findOne(['user_id'=> $userId]);?>";
+
+             if(code0){
+                console.log('Профиль есть');
+                cbx0.checked = true;
+            } else {
+                cbx0.checked = false;
+            }
+            
             if(code1){
                 console.log('Адрес есть');
                 cbx1.checked = true;
