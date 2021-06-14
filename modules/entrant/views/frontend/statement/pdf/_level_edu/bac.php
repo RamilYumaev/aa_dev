@@ -92,7 +92,7 @@ $och = false;
     <p>
        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
        "Прошу допустить меня к вступительным испытаниям по следующим предметам:":
-           "Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ:"?>  <?= $cse ?>
+           "Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ:"?>  <?= $cse?>
     </p>
 <?php else :?>
 
@@ -104,11 +104,11 @@ $och = false;
         Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
         <?php if ($noCseSuccess): ?>
             <?php if ($otherDocument): ?>
-                <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
+                <?= "otherDocument " . $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
             <?php elseif ($anketaOne->is_foreigner_edu_organization) ://@todo?>
-                <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
+                <?= "foreign " . $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
             <?php elseif ($anketaOne->spoNpo()): ?>
-                <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
+                <?= "spo " . $examBase ?> <?= $anketa['currentEduLevel'] ?>.
             <?php endif; ?>
         <?php endif; ?>
     </p>
@@ -117,7 +117,7 @@ $och = false;
     <p>
         <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
             "":
-            "Прошу засчитать в качестве балла по предмету ". $cseVi ." наивысший результат по всупительному испытанию или результату ЕГЭ"?>
+            "Прошу засчитать в качестве балла по предмету ". $cseVi ." наивысший результат по вступительному испытанию или результату ЕГЭ"?>
     </p>
 <?php else :?>
 <?php endif; ?>
