@@ -211,9 +211,9 @@ class FileController extends Controller
         }
     }
 
-    public function edit($id, FileForm $form)
+    public function edit($id, File $form)
     {
-        $model = $this->repository->get($id);
+        $model = $form;
         if($form->file_name) {
             $this->correctImageFile($form->file_name);
             $model->setFile($form->file_name);
@@ -226,29 +226,22 @@ class FileController extends Controller
                     $modelOne->save();
                 }
             }
-            $this->repository->save($model);
+            $model->save();
         }
     }
 
-    public function addMessage($id, FileMessageForm $form)
+    public function addMessage($id, File $form)
     {
-        $model = $this->repository->get($id);
-        $model->setMessage($form->message);
-        $model->setStatus(FileHelper::STATUS_NO_ACCEPTED);
-        $this->repository->save($model);
+        $form->setMessage($form->message);
+        $form->setStatus(FileHelper::STATUS_NO_ACCEPTED);
+        $form->save();
     }
 
     public function accepted($id)
     {
-        $model = $this->repository->get($id);
+        $model = File::findOne($id);
         $model->setStatus(FileHelper::STATUS_ACCEPTED);
         $model->setMessage(null);
-        $this->repository->save($model);
-    }
-
-    public function remove($id)
-    {
-        $model = $this->repository->get($id);
-        $this->repository->remove($model);
+        $model->save();
     }
 }
