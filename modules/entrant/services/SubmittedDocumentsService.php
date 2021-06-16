@@ -50,6 +50,8 @@ use modules\entrant\repositories\StatementRejectionRecordRepository;
 use modules\entrant\repositories\StatementRejectionRepository;
 use modules\entrant\repositories\StatementRepository;
 use modules\entrant\repositories\SubmittedDocumentsRepository;
+use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\StatementTransfer;
 use Prophecy\Doubler\ClassPatch\SplFileInfoPatch;
 
 class SubmittedDocumentsService
@@ -122,6 +124,16 @@ class SubmittedDocumentsService
             $this->statementConsentRejection($user_id);
             $this->statementAgreement($user_id);
             $this->receiptAgreement($user_id);
+            $this->files($user_id);
+        });
+    }
+
+    public function transferSend($user_id)
+    {
+        $this->manager->wrap(function () use ($user_id) {
+            $this->passport($user_id);
+            $this->statementTransfer($user_id);
+            $this->packetDocument($user_id);
             $this->files($user_id);
         });
     }
@@ -361,6 +373,25 @@ class SubmittedDocumentsService
             $model = SubmittedDocuments::create($type, $user_id);
         }
         $this->repository->save($model);
+    }
+
+    private function packetDocument($userId)
+    {
+        $others = PacketDocumentUser::find()->where(['user_id' => $userId])->all();
+        /* @var $other \modules\transfer\models\PacketDocumentUser */
+        foreach ($others as $other) {
+            if (!$other->files) {
+                throw new \DomainException(' Не загружен файл(-ы) ' . $other->typeName . '!');
+            }
+        }
+    }
+
+    private function statementTransfer($userId)
+    {
+        $statement = StatementTransfer::find()->where(['user_id' => $userId])->one();
+        if (!$statement->countFilesAndCountPagesTrue()) {
+            throw new \DomainException('Загружены не все файлы заявления!');
+        }
     }
 
 

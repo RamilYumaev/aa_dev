@@ -8,6 +8,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\models\PassportData */
 /* @var $isUserSchool bool */
+/* @var $referrer */
 ?>
 
 <div class="row">
@@ -15,8 +16,8 @@ use yii\widgets\DetailView;
         <div class="p-30 green-border">
             <h4>Документ, удостоверяющий личность</h4>
             <?php if ($model) : ?>
-                <?= Html::a('Редактировать', ['passport-data/update', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
-                <?= Html::a('Удалить', ['passport-data/delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить документ?"]]) ?>
+                <?= Html::a('Редактировать', ['/abiturient/passport-data/update', 'id' => $model->id, 'referrer' => $referrer,], ['class' => 'btn btn-warning']) ?>
+                <?= Html::a('Удалить', ['/abiturient/passport-data/delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить документ?"]]) ?>
                 <?= DetailView::widget([
                     'options' => ['class' => 'table table-bordered detail-view'],
                     'model' => $model,
@@ -33,7 +34,7 @@ use yii\widgets\DetailView;
                     ]
                 ]) ?>
             <?php else: ?>
-            <?= Html::a('Добавить', ['passport-data/create'], ['class' => 'btn btn-success mb-10']) ?>
+            <?= Html::a('Добавить', ['/abiturient/passport-data/create', 'referrer' => $referrer,], ['class' => 'btn btn-success mb-10']) ?>
             <?php endif; ?>
         </div>
     </div>

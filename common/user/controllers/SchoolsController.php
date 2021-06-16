@@ -76,6 +76,10 @@ class SchoolsController extends Controller
                         return $this->redirect(['/abiturient']);
                     }
 
+                    if ($redirect == "transfer-registration") {
+                        return $this->redirect(['/transfer']);
+                    }
+
                     return $this->redirect('index');
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);

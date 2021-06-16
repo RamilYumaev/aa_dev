@@ -36,6 +36,9 @@ class ProfileAction extends \yii\base\Action
                 if ($referrer == "online-registration") {
                     return $this->controller->redirect(['/abiturient']);
                 }
+                if ($referrer == "transfer-registration") {
+                    return $this->controller->redirect(['/transfer']);
+                }
                 return $this->controller->redirect(['edit']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

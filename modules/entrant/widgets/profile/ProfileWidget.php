@@ -8,11 +8,13 @@ class ProfileWidget extends Widget
 {
     public $userId;
     public $view = "index";
+    public $referrer = 'online-registration';
     public function run()
     {
         $model = Profiles::find()->where(['user_id' => $this->userId])->one();
         return $this->render($this->view, [
-            'profile'=> $model
+            'profile'=> $model,
+            'referrer' => $this->referrer,
         ]);
     }
 }
