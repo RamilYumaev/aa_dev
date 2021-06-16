@@ -12,6 +12,7 @@ use modules\dictionary\models\DictCseSubject;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\AnketaCi;
 use modules\entrant\models\AnketaCiCg;
+use modules\entrant\models\CseResultsCi;
 use yii\filters\AccessControl;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
@@ -184,6 +185,7 @@ class MobileCiController extends Controller
         $phone = $data['phone'];
         $email = $data['email'];
         $cgs = $data['competitive_groups'];
+        $cseList = $data['cse_list'];
 
         $transaction = \Yii::$app->db->beginTransaction();
         try{
@@ -209,6 +211,13 @@ class MobileCiController extends Controller
                     $error = Json::encode($anketaCg->errors);
                     return ['error_message'=>$error];
                 }
+            }
+            foreach ($cseList as $cse){
+                $cseCi = new CseResultsCi();
+                $cseCi->anketa_id = $anketa->id;
+                $cseCi->year = $cse['year'];
+                $cseCi->cse_id = $cse['cse_id'];
+                $cseCi->ball = $cse['ball'];
             }
 
 

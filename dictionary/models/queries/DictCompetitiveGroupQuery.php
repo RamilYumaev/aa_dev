@@ -300,6 +300,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('dictCathedra');
     }
 
+    public function departments($depart){
+        if($depart==AnketaHelper::HEAD_UNIVERSITY){
+            $depart = Faculty::find()->select('id')
+                ->andWhere(['filial'=>false])
+                ->andWhere(['<>','id', DictFacultyHelper::COLLAGE])
+                ->column();
+        }
+        return $this->andWhere(['in', 'faculty_id', $depart]);
+    }
+
     public function currentClass($class)
     {
         return $this->andWhere(['spo_class' => $class]);
