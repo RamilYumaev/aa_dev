@@ -32,9 +32,9 @@ $userId = $transfer->user_id;
                 Предоставляются копии 2, 3 и 5 страниц (либо иной страницы, содержащей актуальные сведения
                 о месте постоянной регистрации гражданина). Допускаются узкие поля по краям без присутствия
                 посторонних предметов (частей тела, элементов одежды, т.п.).</p>
-            <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+            <?= \modules\transfer\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
 
-             <?// \modules\entrant\widgets\address\AddressFileWidget::widget(['userId' => $userId]); ?>
+             <?php /* \modules\transfer\widgets\address\AddressFileWidget::widget(['userId' => $userId]); */ ?>
             <?= \modules\transfer\widgets\generate\GeneratePacketWidget::widget(['userId' => $userId, 'type' => $transfer->user_id]);  ?>
             <p class="label label-warning fs-15">Каждая страница заявления
                 загружается отдельно</p>

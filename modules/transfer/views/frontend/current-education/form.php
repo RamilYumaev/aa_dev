@@ -18,7 +18,6 @@ $this->title = "Действующее образование. Заполнен�
             <?= $form->field($model, 'course')->dropDownList(\dictionary\helpers\DictClassHelper::getList()) ?>
             <?= $form->field($model, 'form')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduForms()) ?>
             <?= $form->field($model, 'finance')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::listFinances())?>
-            <?= $form->field($model, 'current_analog')->checkbox() ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>

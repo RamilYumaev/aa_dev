@@ -292,6 +292,10 @@ class DictCompetitiveGroup extends ActiveRecord
         ];
     }
 
+    public function yearConverter() {
+        return explode('-', $this->year);
+    }
+
     public static function aisToSdoConverter($key, $year)
     {
         $model = self::find()->andWhere(['ais_id' => $key])->andWhere(["year" => $year])->one();
@@ -374,6 +378,19 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $budget
             . " / " . $specialRight;
     }
+
+    public function getFullNameTransfer()
+    {
+        $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+        $specialRight = DictCompetitiveGroupHelper::specialRightName($this->special_right_id);
+        return $this->specialty->codeWithName . ' ' . ($this->specialization->name ?? "") . " / " . $edu_level
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget
+            . " / " . $specialRight;
+    }
+
 
     public function getFullNameOlympic()
     {

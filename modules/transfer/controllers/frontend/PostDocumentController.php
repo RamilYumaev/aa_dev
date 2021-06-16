@@ -2,7 +2,8 @@
 
 
 namespace modules\transfer\controllers\frontend;
-use modules\entrant\services\SubmittedDocumentsService;
+use modules\transfer\services\SubmittedDocumentsService;
+use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\TransferMpgu;
 use yii\web\Controller;
 use Yii;
@@ -17,19 +18,16 @@ class PostDocumentController extends Controller
         $this->service = $service;
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class'=> TransferRedirectBehavior::class,
+                'ids'=>['index' ]
+            ]
+        ];
+    }
 
-//    public function beforeAction($action)
-//    {
-//        if(!PostDocumentHelper::isCorrectBlocks($this->getUserId())) {
-//            Yii::$app->session->setFlash("error", "Заполните, пожалуйста, блоки, отмеченные красным цветом");
-//            Yii::$app->getResponse()->redirect(['abiturient/default/index']);
-//            Yii::$app->end();
-//        }
-//        try {
-//            return parent::beforeAction($action);
-//        } catch (BadRequestHttpException $e) {
-//        }
-//    }
 
     public function actionIndex()
     {

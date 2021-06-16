@@ -3,13 +3,8 @@
 
 namespace modules\transfer\models;
 
-use common\moderation\behaviors\ModerationBehavior;
-use common\moderation\interfaces\YiiActiveRecordAndModeration;
-use dictionary\helpers\DictCountryHelper;
-use modules\entrant\behaviors\FileBehavior;
-use modules\entrant\forms\AddressForm;
-use modules\entrant\helpers\AddressHelper;
-use modules\entrant\models\File;
+use modules\transfer\behaviors\FileBehavior;
+use modules\transfer\models\File;
 use Mpdf\Tag\Tr;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;

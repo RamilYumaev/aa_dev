@@ -2,10 +2,9 @@
 namespace modules\transfer\models;
 
 
-use modules\entrant\behaviors\FileBehavior;
+use modules\transfer\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
-use modules\entrant\models\File;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

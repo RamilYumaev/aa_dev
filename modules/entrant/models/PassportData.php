@@ -193,4 +193,14 @@ class PassportData extends YiiActiveRecordAndModeration
         return $this->getFiles()->count();
     }
 
+    public function getFilesTransfer()
+    {
+        return $this->hasMany(\modules\transfer\models\File::class, ['record_id' => 'id'])->where(['model' => self::class]);
+    }
+
+    public function countTransfer()
+    {
+        return $this->getFilesTransfer()->count();
+    }
+
 }

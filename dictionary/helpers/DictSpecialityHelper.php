@@ -16,7 +16,7 @@ class DictSpecialityHelper
 
     public static function specialityCodeName($id): ?string
     {
-        return ArrayHelper::getValue(self::specialityCodeList(), $id);
+        return ArrayHelper::getValue(self::specialityNameAndCodeList(), $id);
     }
 
     public static function specialityNameList(): array

@@ -1,7 +1,7 @@
 <?php
 
 use backend\widgets\adminlte\Box;
-use modules\entrant\widgets\file\FileListWidget;
+use modules\transfer\widgets\file\FileListWidget;
 /* @var $model modules\entrant\models\DocumentEducation*/
 ?>
 <?php Box::begin(

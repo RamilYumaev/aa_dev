@@ -3,6 +3,7 @@
 namespace dictionary\helpers;
 
 use dictionary\models\DictClass;
+use dictionary\models\DictCompetitiveGroup;
 use yii\helpers\ArrayHelper;
 
 class DictClassHelper
@@ -25,6 +26,7 @@ class DictClassHelper
     const GRADUATED_MAGISTR = 50;
     const GRADUATED_ASPIRANTURA = 60;
     const GRADUATED_DOCTORANTURA = 70;
+    const GRADUATE = 55;
 
     public static function typeOfClass()
     {
@@ -33,6 +35,7 @@ class DictClassHelper
             self::COLLEDGE => 'курс колледжа/техникума',
             self::BACALAVR => 'курс бакалавриата',
             self::MAGISTR => 'курс магистратуры',
+            self::GRADUATE => 'курс аспирантуры',
             self::SCHOOL_LAST => 'выпускной класс школы',
             self::COLLEDGE_LAST => 'выпускной курс колледжа/техникума',
             self::BACALAVR_LAST=> 'выпускной курс бакалавриата',
@@ -176,9 +179,31 @@ class DictClassHelper
         foreach ($classes as $class) {
             $result[$class->id] = $class->getClassFullName();
         }
-
         return $result;
+    }
 
+    public static function getListTransfer($type)
+    {
+        switch ($type) {
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO:
+                $classType = self::COLLEDGE;
+                break;
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER:
+                $classType = self::MAGISTR;
+                break;
+            case DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL:
+                $classType = self::GRADUATE;
+                break;
+            default:
+                $classType = self::BACALAVR;
+                break;
+        }
+        $classes = \dictionary\models\DictClass::find()->andWhere(['type' =>$classType])->orderBy("id")->all();
+        $result = [];
+        foreach ($classes as $class) {
+            $result[$class->id] = $class->getClassFullName();
+        }
+        return $result;
     }
 
 }

@@ -27,6 +27,21 @@ class TransferMpgu extends ActiveRecord
     const IN_MPGU = 1;
     const INSIDE_MPGU = 2;
     const FROM_EDU = 3;
+    /* mphu */
+    const STATUS_ACTIVE = 1;
+    const STATUS_EXPELLED = 7;
+
+    const STATUS_ACADEMIC_LEAVE = 2;
+    const STATUS_REMOVE = 3;
+    const STATUS_EXTENDED_DEADLINE = 4;
+    const STATUS_SENT_WORD = 5;
+    const STATUS_END_EDU = 9;
+    const STATUS_VACATION = 10;
+    const STATUS_EXPELLED_NO_RIGHT = 11;
+    const STATUS_VACATION_WORK = 12;
+    const STATUS_TRANSFER_EXAM = 13;
+
+    const ACTIVE = [self::STATUS_ACTIVE, self::STATUS_EXPELLED];
 
     public static function tableName()
     {
@@ -37,6 +52,10 @@ class TransferMpgu extends ActiveRecord
     {
         return [
             [['type', 'user_id'],'required'],
+            [['number'],'string',  'min'=> 4,'max' => 10],
+            [['number'], 'required', 'when'=> function($model) {
+                return $model->type != self::FROM_EDU;
+            }, 'enableClientValidation' => false],
             ['type','in','range'=> [self::FROM_EDU, self::IN_MPGU, self::INSIDE_MPGU]]
         ];
     }
@@ -47,6 +66,24 @@ class TransferMpgu extends ActiveRecord
             self::INSIDE_MPGU => 'Перевод внутри МПГУ',
             self::FROM_EDU => 'Перевод из другой образовательной организации',
         ];
+    }
+
+    public function listMessage() {
+        return [
+            self::STATUS_ACADEMIC_LEAVE => 'Вам недоступна процедура перевода/восстановления. Необходимо обратиться в дирекцию факультета/института',
+            self::STATUS_VACATION => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_EXTENDED_DEADLINE => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_SENT_WORD => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_EXPELLED_NO_RIGHT => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_END_EDU => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_REMOVE => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_VACATION_WORK => 'Вам недоступна процедура перевода/восстановления.',
+            self::STATUS_TRANSFER_EXAM => 'Вам недоступна процедура перевода/восстановления.',
+        ];
+    }
+
+    public function isMpgu()  {
+        return $this->type == TransferMpgu::IN_MPGU || $this->type == TransferMpgu::INSIDE_MPGU;
     }
 
     public function typeName() {
@@ -63,7 +100,7 @@ class TransferMpgu extends ActiveRecord
             'current_status' =>"Статус",
             'type' => "Условие перевода/восстановления",
             'user_id' => 'Юзер',
-            'number' => 'Уникальный номер',
+            'number' => '№ студенческой зачетки',
         ];
     }
 }

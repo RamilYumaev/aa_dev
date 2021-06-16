@@ -3,12 +3,24 @@
 namespace modules\transfer\controllers\frontend;
 
 use api\client\Client;
+use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\CurrentEducation;
 use modules\transfer\models\TransferMpgu;
 use yii\web\Controller;
 
 class CurrentEducationController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class'=> TransferRedirectBehavior::class,
+                'ids'=>['index' ]
+            ]
+        ];
+    }
+
+
     public function actionIndex() {
         $model = $this->findModel() ?? new CurrentEducation(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
