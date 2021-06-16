@@ -86,7 +86,8 @@ class MobileCiController extends Controller
         return $cgsArray;
     }
 
-    public function actionGetCgDetails($competitiveGroupId){
+    public function actionGetCgDetails($competitiveGroupId)
+    {
 
         $contractName = null;
         $contractId = null;
@@ -99,11 +100,11 @@ class MobileCiController extends Controller
         /**
          * @var $cg DictCompetitiveGroup
          */
-        $cg = DictCompetitiveGroup::findOne(['id'=>$competitiveGroupId]);
+        $cg = DictCompetitiveGroup::findOne(['id' => $competitiveGroupId]);
 
-        if($cg && SettingEntrant::find()->isOpenZUK($cg)){
+        if ($cg && SettingEntrant::find()->isOpenZUK($cg)) {
 
-            $contractId =  $cg->id;
+            $contractId = $cg->id;
             $contractName = $cg->fullNameCg;
         }
         /**
@@ -112,7 +113,7 @@ class MobileCiController extends Controller
         $budgetAnalog = DictCompetitiveGroup::find()
             ->findBudgetAnalog($cg)
             ->one();
-        if($budgetAnalog && SettingEntrant::find()->isOpenZUK($budgetAnalog)){
+        if ($budgetAnalog && SettingEntrant::find()->isOpenZUK($budgetAnalog)) {
 
             $budgetId = $budgetAnalog->id;
             $budgetName = $budgetAnalog->fullNameCg;
@@ -127,7 +128,7 @@ class MobileCiController extends Controller
             ->one();
 
 
-        if($specialAnalog && SettingEntrant::find()->isOpenZUK($specialAnalog)){
+        if ($specialAnalog && SettingEntrant::find()->isOpenZUK($specialAnalog)) {
 
             $specialId = $specialAnalog->id;
             $specialName = $specialAnalog->fullNameCg;
@@ -139,43 +140,44 @@ class MobileCiController extends Controller
             ->findBudgetAnalog($cg, DictCompetitiveGroupHelper::TARGET_PLACE)
             ->one();
 
-        if($targetAnalog && SettingEntrant::find()->isOpenZUK($targetAnalog)){
+        if ($targetAnalog && SettingEntrant::find()->isOpenZUK($targetAnalog)) {
 
-            $targetId =  $targetAnalog->id;
+            $targetId = $targetAnalog->id;
             $targetName = $targetAnalog->fullNameCg;
 
         }
         $examinations = [];
 
-        foreach ($cg->examinations as $exam){
+        foreach ($cg->examinations as $exam) {
             $examinations[] = $exam->discipline->name;
         }
         return [
-            'specialty_name'=> $cg->specialty->codeWithName,
-            'faculty_name'=> $cg->faculty->full_name,
-            'specialization_name'=>$cg->specialization->name,
-            'education_form_name'=>DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id],
-            'kcp'=> $budgetAnalog->kcp ?? 0 + $specialAnalog->kcp ?? 0 + $targetAnalog->kcp ?? 0,
+            'specialty_name' => $cg->specialty->codeWithName,
+            'faculty_name' => $cg->faculty->full_name,
+            'specialization_name' => $cg->specialization->name,
+            'education_form_name' => DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id],
+            'kcp' => $budgetAnalog->kcp ?? 0 + $specialAnalog->kcp ?? 0 + $targetAnalog->kcp ?? 0,
             'competition_count' => $budgetAnalog->competition_count ?? 0,
-            'passing_score'=> $budgetAnalog->passing_score?? 0,
-            'education_year_cost'=> $cg->education_year_cost,
-            'education_duration'=> $cg->education_duration,
-            'examinations'=> $examinations,
-            'is_new_program'=> $cg->is_new_program,
-            'contract_id'=> $contractId,
-            'contract_name'=> $contractName,
-            'budget_id'=>$budgetId,
-            'budget_name'=>$budgetName,
-            'special_id'=> $specialId,
-            'special_name'=>$specialName,
-            'target_id'=>$targetId,
-            'target_name'=>$targetName,
+            'passing_score' => $budgetAnalog->passing_score ?? 0,
+            'education_year_cost' => $cg->education_year_cost,
+            'education_duration' => $cg->education_duration,
+            'examinations' => $examinations,
+            'is_new_program' => $cg->is_new_program,
+            'contract_id' => $contractId,
+            'contract_name' => $contractName,
+            'budget_id' => $budgetId,
+            'budget_name' => $budgetName,
+            'special_id' => $specialId,
+            'special_name' => $specialName,
+            'target_id' => $targetId,
+            'target_name' => $targetName,
 
         ];
 
     }
 
-    public function actionGetAnketa(){
+    public function actionGetAnketa()
+    {
         $json = $this->getJson();
         $data = Json::decode($json);
         $talon = $data['talon'];
@@ -188,7 +190,7 @@ class MobileCiController extends Controller
         $cseList = $data['cse_list'];
 
         $transaction = \Yii::$app->db->beginTransaction();
-        try{
+        try {
             $anketa = new AnketaCi();
             $anketa->talon = $talon;
             $anketa->lastName = $lastName;
@@ -198,50 +200,52 @@ class MobileCiController extends Controller
             $anketa->operator_id = \Yii::$app->user->id;
             $anketa->email = $email;
 
-            if(!$anketa->save()){
+            if (!$anketa->save()) {
                 $error = Json::encode($anketa->errors);
-                return ['error_message'=>$error];
+                return ['error_message' => $error];
             }
 
-            foreach ($cgs as $cg){
+            foreach ($cgs as $cg) {
                 $anketaCg = new AnketaCiCg();
                 $anketaCg->id_anketa = $anketa->id;
                 $anketaCg->competitive_group_id = $cg;
-                if(!$anketaCg->save()){
+                if (!$anketaCg->save()) {
                     $error = Json::encode($anketaCg->errors);
-                    return ['error_message'=>$error];
+                    return ['error_message' => $error];
                 }
             }
-            if($cseList){
-                foreach ($cseList as $cse){
+            if ($cseList) {
+                foreach ($cseList as $cse) {
                     $cseCi = new CseResultsCi();
                     $cseCi->anketa_id = $anketa->id;
                     $cseCi->year = $cse['year'];
-                    $cseCi->cse_id = $cse['cse_id'];
+                    $cseCi->cse_id = $cse['id'];
                     $cseCi->ball = $cse['ball'];
+                    if (!$cseCi->save()) {
+                        $error = Json::encode($cseCi->errors);
+                        return ['error_message' => $error];
+                    }
                 }
             }
 
 
-
-
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;
         }
         $transaction->commit();
-        return ['success_message'=>'Успешно отправлено!'];
-
+        return ['success_message' => 'Успешно отправлено!'];
 
 
     }
 
-    public function actionGetDictCse(){
+    public function actionGetDictCse()
+    {
         $allCseSubject = DictCseSubject::find()->all();
 
         $cseArray = [];
         $allCseArray = [];
-        foreach ($allCseSubject as $cseSubject){
+        foreach ($allCseSubject as $cseSubject) {
             $cseArray['id'] = $cseSubject->id;
             $cseArray['name'] = $cseSubject->name;
             $cseArray['minBall'] = $cseSubject->min_mark;
@@ -251,16 +255,18 @@ class MobileCiController extends Controller
         return $allCseArray;
     }
 
-    private function validateArrayJson($key, $array){
+    private function validateArrayJson($key, $array)
+    {
         return array_key_exists($key, $array);
     }
 
-    private function getJson(){
-        try{
+    private function getJson()
+    {
+        try {
             $json = file_get_contents('php://input');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             \Yii::error($e->getMessage());
-            return ['message'=>$e->getMessage()];
+            return ['message' => $e->getMessage()];
         }
         return $json;
     }
