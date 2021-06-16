@@ -77,7 +77,7 @@ class ApplicationsService
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
                     if(SettingEntrant::find()->isOpenZUK($shareCg)) {
-                        $userCg = UserCg::create($shareCg->id, null);
+                        $userCg = UserCg::create($shareCg->id, $cathedra_id);
                         $this->repository->save($userCg);
                     }
 
@@ -101,7 +101,7 @@ class ApplicationsService
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
                     if(SettingEntrant::find()->isOpenZUK($shareCg)) {
-                        $userCg = UserCg::create($shareCg->id, null);
+                        $userCg = UserCg::create($shareCg->id, $cathedra_id);
                         $this->repository->save($userCg);
                     }
                 }

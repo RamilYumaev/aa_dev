@@ -1,6 +1,7 @@
 <?php
 
 
+use dictionary\helpers\DictRegionHelper;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
@@ -25,6 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
+                    'kpp',
+                    'ogrn',
+                    ['attribute'=> 'region_id',
+                        'filter'=> DictRegionHelper::regionList(),
+                        'value' => 'region.name'
+                    ],
                     ['class' => ActionColumn::class,
                         'controller' => "dict-organizations",
                         'template' => '{update} {delete}',

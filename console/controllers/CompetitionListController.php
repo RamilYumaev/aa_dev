@@ -12,6 +12,8 @@ class CompetitionListController extends Controller
     {
        $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
        $handler->handle();
+       exec('php yii queue/run');
+       echo "окей";
     }
 
     public function actionSendMail()

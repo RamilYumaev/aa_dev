@@ -9,6 +9,7 @@
 
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\models\CathedraCg;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AnketaHelper;
 use yii\helpers\Html;
@@ -26,16 +27,23 @@ if($department == AnketaHelper::HEAD_UNIVERSITY) {
 $this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
+$currentYear = Date("Y");
+$lastYear = $currentYear - 1;
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
-    $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
-        ->withoutForeignerCg()
-        ->onlyTarget()
-        ->currentAutoYear()
-        ->faculty($faculty)
-        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
+
+    $cgFaculty = CathedraCg::find()
+        ->innerJoinWith('cathedra')
+        ->innerJoinWith('competitiveGroup')
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`faculty_id`' => $faculty])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`financing_type_id`' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`special_right_id`' => DictCompetitiveGroupHelper::TARGET_PLACE])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`foreigner_status`' => 0])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`edu_level`' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`year`' => "$lastYear-$currentYear"])
+        ->orderBy([DictCompetitiveGroup::tableName() .'.`education_form_id`' => SORT_ASC,
+            DictCompetitiveGroup::tableName() .'.`speciality_id`' => SORT_ASC])
         ->all();
 
     if ($cgFaculty) {
@@ -44,66 +52,68 @@ foreach ($currentFaculty as $faculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
-<th width=\"342\">Код, Направление подготовки, профиль</th>
-<th width=\"180\">Форма и срок обучения</th>
-<th width=\"150\">Уровень образования</th>
+<th width=\"250\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
+<th width=\"200\">Кафедра</th>
+<th width=\"120\">Форма и срок обучения</th>
+<th width=\"100\">Уровень образования</th>
 <th colspan=\"2\">Вступительные испытания</th>
 </tr>";
         foreach ($cgFaculty as $currentCg) {
-
-            if(!SettingEntrant::find()->isOpenFormZUK($currentCg)) {
+            if(!SettingEntrant::find()->isOpenFormZUK($currentCg->competitiveGroup)) {
                 continue;
             }
-
-            $trColor = UserCgHelper::specialColor($currentCg->id);
+            $trColor = UserCgHelper::specialColor($currentCg->competitiveGroup->id);
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
-            $result .= $currentCg->specialty->getCodeWithName();
-            $result .= $currentCg->specialization ? ", профиль(-и) <strong>" . $currentCg->specialization->name
+            $result .= $currentCg->competitiveGroup->specialty->getCodeWithName();
+            $result .= $currentCg->competitiveGroup->specialization ? ", профиль(-и) <strong>" . $currentCg->competitiveGroup->specialization->name
                 . "</strong>" : "";
             $result .= "</td>";
             $result .= "<td>";
-            $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->education_form_id] . ", ";
-            $result .= $currentCg->education_duration != 5 ? $currentCg->education_duration . " года"
-                : $currentCg->education_duration . " лет";
+            $result .= $currentCg->cathedra->name;
             $result .= "</td>";
             $result .= "<td>";
-            $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->edu_level);
+            $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->competitiveGroup->education_form_id] . ", ";
+            $result .= $currentCg->competitiveGroup->education_duration != 5 ? $currentCg->competitiveGroup->education_duration . " года"
+                : $currentCg->competitiveGroup->education_duration . " лет";
+            $result .= "</td>";
+            $result .= "<td>";
+            $result .= DictCompetitiveGroupHelper::eduLevelName($currentCg->competitiveGroup->edu_level);
             $result .= "</td>";
             $result .= "<td>";
             $result .= "<ol>";
-            foreach ($currentCg->examinations as $examination) {
+            foreach ($currentCg->competitiveGroup->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a($examination->discipline->name, $examination->discipline->links,
-                    ['target'=> '_blank']);
+                $result .= Html::a($examination->discipline->name,
+                    $examination->discipline->links,
+                    ['target' => '_blank']);
                 $result .= "</li>";
             }
             $result .= "</ol>";
             $result .= "</td>";
             $result .= "<td width=\"56px\">";
             $result .= "<a class=\"btn btn-default\" data-toggle=\"collapse\" href=\"#info-"
-                . $currentCg->id .
+                . $currentCg->competitiveGroup->id .
                 "\" aria-expanded=\"false\" 
-aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
+aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span></a>";
 
-            $result .= UserCgHelper::link(
-                $currentCg->id,
-                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET);
+            $result .=  UserCgHelper::link($currentCg->competitiveGroup->id,
+                    DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, $currentCg->cathedra_id);
             $result .= "</td>";
             $result .= "</tr>";
-            $result .= "<tr id=\"info-" . $currentCg->id . "\" class=\"collapse\">";
+            $result .= "<tr id=\"info-" . $currentCg->competitiveGroup->id . "\" class=\"collapse\">";
             $result .= "<td>Количество бюджетных мест:<br><strong>" .
-                $currentCg->kcp;
+                $currentCg->competitiveGroup->kcp;
             $result .= "</strong></td>";
             $result .= "<td>";
-            $result .= "Конкурс: " . $currentCg->competition_count;
+            $result .= "Конкурс: " . $currentCg->competitiveGroup->competition_count;
             $result .= "</td>";
             $result .= "<td>";
-            $result .= "Проходной балл: " . $currentCg->passing_score;
+            $result .= "Проходной балл: " . $currentCg->competitiveGroup->passing_score;
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
+            $result .= $currentCg->competitiveGroup->link ? Html::a("Описание образовательной программы", $currentCg->competitiveGroup->link,
                 ['target=> "_blank"']) : "";
             $result .= "</td>";
             $result .= "</tr>";

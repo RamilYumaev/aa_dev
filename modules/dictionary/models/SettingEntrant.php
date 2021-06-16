@@ -136,10 +136,11 @@ class SettingEntrant extends ActiveRecord
             $query->faculty($this->faculty_id);
         }
 
-        $query->joinWith(['examinations'], false)
-            ->innerJoin(DictDiscipline::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-            ->andWhere(['is_och' => $this->is_vi]);
-        return $query->currentAutoYear()->select(['ais_id'=>'dict_competitive_group.ais_id','speciality_id','faculty_id'])->asArray()->all();
+        return $query->currentAutoYear()->select(['ais_id'=>'dict_competitive_group.ais_id','speciality_id','faculty_id',
+             'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 
+                    INNER JOIN dict_discipline ON dict_discipline.id = discipline_competitive_group.discipline_id WHERE 
+                   discipline_competitive_group.competitive_group_id = dict_competitive_group.id AND dict_discipline.is_och = 1)"
+                ])->having([$this->is_vi ? '>' : '=' ,'countOch', 0])->asArray()->all();
     }
 
     public function getAllGraduateCgAisId() {

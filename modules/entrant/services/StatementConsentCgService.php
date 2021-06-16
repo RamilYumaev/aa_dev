@@ -4,6 +4,7 @@
 namespace modules\entrant\services;
 
 
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
 use modules\entrant\models\StatementConsentPersonalData;
@@ -30,7 +31,7 @@ class StatementConsentCgService
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
 
-        if($cg->cg->isBudget()) {
+        if(!SettingEntrant::find()->existsFormEduOpen($cg->cg, SettingEntrant::ZOS)) {
             throw new \DomainException('Прием заявлений о согласии на зачисление завершен');
         }
 

@@ -90,7 +90,7 @@ class SettingEntrantQuery extends ActiveQuery
             ->foreign($dictCompetitiveGroup->foreigner_status)
             ->tpgu($dictCompetitiveGroup->tpgu_status)
             ->specialRight($dictCompetitiveGroup->special_right_id)
-            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->isVi($dictCompetitiveGroup->isExamOch())
             ->dateStart()
             ->dateEnd()
             ->exists();
@@ -107,7 +107,7 @@ class SettingEntrantQuery extends ActiveQuery
             ->specialRight($dictCompetitiveGroup->special_right_id)
             ->foreign($dictCompetitiveGroup->foreigner_status)
             ->tpgu($dictCompetitiveGroup->tpgu_status)
-            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->isVi($dictCompetitiveGroup->isExamOch())
             ->one();
     }
 

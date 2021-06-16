@@ -160,9 +160,9 @@ class DictCompetitiveGroup extends ActiveRecord
         ->column();
     }
 
-    public function isExamDviOrOch() {
+    public function isExamOch() {
         return $this->getExaminations()->joinWith('discipline')
-            ->orWhere(['is_och' => true])->exists();
+            ->andWhere(['is_och' => true])->exists();
     }
 
     public function getUserCg()

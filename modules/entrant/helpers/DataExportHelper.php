@@ -199,7 +199,7 @@ class DataExportHelper
         $result['individual_achievements'] = [];
         $result['individual_achievements'][] = [
             'incoming_id' => $incomingId->incoming_id,
-            'individual_achievement_id' => $currentIa->individual_id,
+            'individual_achievement_id' => $currentIa->dictIndividualAchievement->ais_id,
             'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
             'model_type' => 2,
             'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,

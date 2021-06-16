@@ -8,19 +8,10 @@
  * @var $anketa modules\entrant\models\Anketa
  */
 
-use dictionary\models\Faculty;
 use \dictionary\helpers\DictCompetitiveGroupHelper;
 use \dictionary\models\DictCompetitiveGroup;
-use dictionary\helpers\DictDisciplineHelper;
-use modules\dictionary\models\SettingEntrant;
-use modules\entrant\helpers\CseSubjectHelper;
+use modules\dictionary\models\CathedraCg;
 use yii\helpers\Html;
-use modules\entrant\helpers\UserCgHelper;
-use yii\widgets\Pjax;
-use yii\web\View;
-use \dictionary\models\DictDiscipline;
-use \modules\entrant\helpers\Settings;
-use \modules\entrant\helpers\AnketaHelper;
 
 $this->title = "Аспирантура. Институты/факультеты (прием на целевое обучение)";
 
@@ -29,16 +20,22 @@ $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образ
 $this->params['breadcrumbs'][] = $this->title;
 
 $result = "";
+$currentYear = Date("Y");
+$lastYear = $currentYear - 1;
 ?>
 <?php
 foreach ($currentFaculty as $faculty) {
-    $cgFaculty = DictCompetitiveGroup::find()
-        ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
-        ->withoutForeignerCg()
-        ->onlyTarget()
-        ->currentAutoYear()
-        ->faculty($faculty)
-        ->orderBy(['education_form_id' => SORT_ASC, 'speciality_id' => SORT_ASC])
+    $cgFaculty = CathedraCg::find()
+        ->innerJoinWith('cathedra')
+        ->innerJoinWith('competitiveGroup')
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`faculty_id`' => $faculty])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`financing_type_id`' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`special_right_id`' => DictCompetitiveGroupHelper::TARGET_PLACE])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`foreigner_status`' => 0])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`edu_level`' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+        ->andWhere([DictCompetitiveGroup::tableName() . '.`year`' => "$lastYear-$currentYear"])
+        ->orderBy([DictCompetitiveGroup::tableName() .'.`education_form_id`' => SORT_ASC,
+            DictCompetitiveGroup::tableName() .'.`speciality_id`' => SORT_ASC])
         ->all();
 
     if ($cgFaculty) {
