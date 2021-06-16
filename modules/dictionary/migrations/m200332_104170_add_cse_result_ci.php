@@ -4,6 +4,7 @@ namespace modules\dictionary\migrations;
 
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
+use modules\dictionary\models\DictCseSubject;
 use modules\entrant\models\AnketaCi;
 use yii\db\Migration;
 
@@ -31,7 +32,7 @@ class m200332_104170_add_cse_result_ci extends Migration
             'ball' => $this->integer()->notNull()], $tableOptions);
 
         $this->addForeignKey('{{%fk-anketa_ci}}', $this->table(), 'anketa_id', AnketaCi::tableName(), 'id', 'CASCADE', 'RESTRICT');
-        $this->addForeignKey('{{%fk-dict-discipline}}', $this->table(), 'cse_id', DictDiscipline::tableName(), 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('{{%fk-dict-discipline}}', $this->table(), 'cse_id', DictCseSubject::tableName(), 'id', 'CASCADE', 'RESTRICT');
     }
 
     public function down()
