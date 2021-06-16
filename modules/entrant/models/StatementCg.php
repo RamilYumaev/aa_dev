@@ -87,7 +87,7 @@ class StatementCg extends ActiveRecord
     }
 
     public function countBudgetConsent() {
-        return $this->cg->isBudget() && $this->getStatementConsent()->count() > 1;
+        return $this->cg->isBudget() && $this->getStatementConsent()->count() > 2;
     }
 
     public function getStatementConsentFiles() {

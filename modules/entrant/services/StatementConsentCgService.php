@@ -52,7 +52,7 @@ class StatementConsentCgService
         }
 
         if($cg->countBudgetConsent()) {
-            throw new \DomainException('Вы не можете сформироавть заявление о согласии на зачисление, так как достигнут лимит (не более 2-х раз в Университет) ');
+            throw new \DomainException('Вы не можете сформироавть заявление о согласии на зачисление, так как достигнут лимит (не более 3-х раз) ');
         }
 
 

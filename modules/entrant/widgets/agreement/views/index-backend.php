@@ -18,7 +18,8 @@ use yii\widgets\DetailView;
                 'options' => ['class' => 'table table-bordered detail-view'],
                 'model' => $model,
                 'attributes' => [
-                    'organization.name',
+                    ['label'=> 'Наниматель', 'value'=> $model->getOrganization() ? $model->getFullOrganization() : ''],
+                    ['label'=> 'Работодатель', 'value'=> $model->getOrganizationWork() ? $model->getFullOrganizationWork() : ''],
                     'number',
                     'date:date',
                 ]

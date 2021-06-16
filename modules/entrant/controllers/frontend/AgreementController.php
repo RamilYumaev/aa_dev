@@ -33,7 +33,7 @@ class AgreementController extends Controller
     public function actionIndex()
     {
         $model = $this->findModel();
-        if(!$model)  {
+        if(!$model  || !$model->organization || !$model->organizationWork)  {
             Yii::$app->session->setFlash('info', 'Вам необходимо найти, или добаивть организацию нанимателя/работодателя');
             return $this->redirect(['select-organization']);
         }
