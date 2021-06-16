@@ -93,6 +93,4 @@ class FileService
         $model = $this->repository->get($id);
         $this->repository->remove($model);
     }
-
-
 }
