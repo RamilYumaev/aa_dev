@@ -10,7 +10,7 @@ class CseResultsCi extends ActiveRecord
 {
     public static function tableName()
     {
-        return '{{%cse-results-ci}}';
+        return '{{%cse_results_ci}}';
     }
 
     public function rules()

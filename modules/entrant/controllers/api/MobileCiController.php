@@ -212,13 +212,16 @@ class MobileCiController extends Controller
                     return ['error_message'=>$error];
                 }
             }
-            foreach ($cseList as $cse){
-                $cseCi = new CseResultsCi();
-                $cseCi->anketa_id = $anketa->id;
-                $cseCi->year = $cse['year'];
-                $cseCi->cse_id = $cse['cse_id'];
-                $cseCi->ball = $cse['ball'];
+            if($cseList){
+                foreach ($cseList as $cse){
+                    $cseCi = new CseResultsCi();
+                    $cseCi->anketa_id = $anketa->id;
+                    $cseCi->year = $cse['year'];
+                    $cseCi->cse_id = $cse['cse_id'];
+                    $cseCi->ball = $cse['ball'];
+                }
             }
+
 
 
 
