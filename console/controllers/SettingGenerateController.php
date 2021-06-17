@@ -126,12 +126,12 @@ class SettingGenerateController extends Controller
 
     public function actionSetList() {
         /** @var SettingEntrant $st */
-        foreach (SettingEntrant::find()->type(SettingEntrant::ZOS)->foreign(false)->all() as $st)  {
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZOS)->isCseAsVi(false)->foreign(false)->all() as $st)  {
             $model = new $this->competitionListForm;
             $model->date_start = $st->getDateStart();
             $model->date_end = $st->getDateEnd();
             $model->time_start = "10:00:00";
-            $model->time_end = "18:00:00";
+            $model->time_end = "20:00:00";
             $model->se_id =  $st->id;
             $model->time_start_week = "10:00:00";
             $model->time_end_week = "15:00:00";
@@ -139,7 +139,6 @@ class SettingGenerateController extends Controller
             $model->date_ignore =[];
             $model->is_auto = 1;
             $model->end_date_zuk = null;
-
             $this->competitionListService->create($model);
         }
     }

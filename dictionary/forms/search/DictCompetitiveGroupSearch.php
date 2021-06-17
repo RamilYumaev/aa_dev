@@ -75,8 +75,11 @@ class DictCompetitiveGroupSearch extends Model
                 $query->faculty($this->settingEntrant->faculty_id);
             }
             if($this->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
-                $query->select(['speciality_id','faculty_id'])
-                    ->groupBy(['speciality_id','faculty_id',]);
+                $query->select(['speciality_id','faculty_id', 'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 
+                    INNER JOIN dict_discipline ON dict_discipline.id = discipline_competitive_group.discipline_id WHERE 
+                   discipline_competitive_group.competitive_group_id = dict_competitive_group.id AND dict_discipline.is_och = 1)"
+                ])->having([$this->settingEntrant->is_vi ? '>' : '=' ,'countOch', 0])
+                    ->groupBy(['speciality_id','faculty_id','countOch']);
             }else {
                 $query->select(["*",
                     'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 

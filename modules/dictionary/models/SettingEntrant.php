@@ -153,8 +153,11 @@ class SettingEntrant extends ActiveRecord
             ->tpgu($this->tpgu_status)
             ->currentAutoYear()
             ->notInFaculty()
-            ->select(['speciality_id','faculty_id'])
-            ->groupBy(['speciality_id','faculty_id'])
+            ->select(['speciality_id','faculty_id', 'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 
+                    INNER JOIN dict_discipline ON dict_discipline.id = discipline_competitive_group.discipline_id WHERE 
+                   discipline_competitive_group.competitive_group_id = dict_competitive_group.id AND dict_discipline.is_och = 1)"
+        ])->having([$this->is_vi ? '>' : '=' ,'countOch', 0])
+            ->groupBy(['speciality_id','faculty_id','countOch'])
             ->all();
         $array = [];
         foreach ($query as $item) {
