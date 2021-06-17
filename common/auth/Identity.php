@@ -15,6 +15,7 @@ use modules\entrant\helpers\Settings;
 use modules\entrant\helpers\UserDisciplineHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
+use modules\entrant\models\UserAis;
 use olympic\readRepositories\UserOlympicReadRepository;
 use olympic\readRepositories\UserReadRepository;
 use yii\web\IdentityInterface;
@@ -68,6 +69,12 @@ class Identity implements IdentityInterface
         return JobEntrant::findOne(['user_id' => $this->getId()]);
     }
 
+    public function incomingId()
+    {
+        $model = UserAis::findOne(['user_id' => $this->getId()]);
+        return $model ? $model->incoming_id : null;
+    }
+
     public function eighteenYearsOld(): bool
     {
         $passport = PassportData::find()
@@ -83,13 +90,19 @@ class Identity implements IdentityInterface
         return $passport->age() >= 18;
     }
 
-
+    /**
+     * @param $userId
+     * @throws \Exception
+     */
     public function switchUser($userId)
     {
         $initialId = $this->getId();
         \Yii::warning("initialId " . $initialId);
         if ($userId !== $initialId) {
             $userModel = User::findOne($userId);
+            if(!$userModel) {
+                throw new \Exception("Пользователь не найден!'");
+            }
             $user = new Identity($userModel);
             $duration = 0;
             \Yii::$app->user->switchIdentity($user, $duration);

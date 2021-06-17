@@ -11,6 +11,7 @@ class AnketaForm extends Model
     public $user_id, $citizenship_id, $edu_finish_year, $current_edu_level, $category_id,
         $province_of_china, $personal_student_number, $is_foreigner_edu_organization;
     private $_anketaForm;
+    public $speciality_spo;
 
     public function __construct(Anketa $anketa = null, $config = [])
     {
@@ -23,6 +24,7 @@ class AnketaForm extends Model
             $this->province_of_china = $anketa->province_of_china;
             $this->personal_student_number = $anketa->personal_student_number;
             $this->is_foreigner_edu_organization = $anketa->is_foreigner_edu_organization;
+            $this->speciality_spo = $anketa->speciality_spo;
 
         }else{
             $this->user_id = \Yii::$app->user->identity->getId();
@@ -38,6 +40,7 @@ class AnketaForm extends Model
             [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id'],
                 'required'],
             [['personal_student_number', 'province_of_china'], 'string'],
+            [['speciality_spo'], 'safe'],
             [['edu_finish_year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['province_of_china', 'required', 'when' => function ($model) {
                 return $model->citizenship_id == 13;

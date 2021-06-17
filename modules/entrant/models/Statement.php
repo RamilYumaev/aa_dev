@@ -248,7 +248,4 @@ class Statement extends ActiveRecord
             'created_at' => "Дата создания"
         ];
     }
-
-
-
 }

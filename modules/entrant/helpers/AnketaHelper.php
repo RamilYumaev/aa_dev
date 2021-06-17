@@ -6,6 +6,7 @@ namespace modules\entrant\helpers;
 use common\components\JsonAjaxField;
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\OtherDocument;
@@ -149,16 +150,9 @@ class AnketaHelper
         return Anketa::findOne(['user_id' => $userId])->dataArray();
     }
 
-    public static function getButton($level, $department, $specialRight = null)
+    public static function getButton($level, $department, $specialRight = null, $govLineStatus = false, $tpguStatus = false)
     {
-        $govLineStatus = false;
-        $tpguStatus = false;
-        if ((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
-            $govLineStatus = true;
-        }
-        if((\Yii::$app->user->identity->anketa())->category_id == CategoryStruct::TPGU_PROJECT){
-            $tpguStatus =true;
-        }
+
         if ($specialRight == DictCompetitiveGroupHelper::TARGET_PLACE) {
             $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
@@ -172,43 +166,52 @@ class AnketaHelper
             ["class" => "btn btn-lg btn-bd-primary"]);
     }
 
-    public static function determinateRequiredNumberOfButtons($level, $department)
+    public static function determinateRequiredNumberOfButtons($level, $department, $showUsual = true)
     {
         $buttonArray = [];
         $anketa = \Yii::$app->user->identity->anketa();
-        $userId = \Yii::$app->user->identity->getId();
-        $agreement = Agreement::findOne(['user_id' => $userId,
-            'year' => EduYearHelper::eduYear()]);
-        $specialRightDocument = OtherDocument::find()
-            ->andWhere(["user_id" => $userId])
-            ->andWhere(["in", "type", [33, 44, 48]])
-            ->exists(); //@TODO
 
-        $arrayEduLevel = self::getPermittedEducationLevels($level);
-
-        if ($anketa->category_id == CategoryStruct::TARGET_COMPETITION
-            && $agreement
-            && $level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO
-            && in_array($anketa->current_edu_level, $arrayEduLevel)) {
+        if ($level !== DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO
+            && in_array($anketa->current_edu_level, self::getPermittedEducationLevels($level)) &&
+            ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+                || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && AgreementHelper::isExits($anketa->user_id)
+        ) {
             $buttonArray[] = DictCompetitiveGroupHelper::TARGET_PLACE;
         }
-        if ($anketa->category_id == CategoryStruct::SPECIAL_RIGHT_COMPETITION && $specialRightDocument
-            && $level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) {
+        if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR &&
+            ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+                || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && in_array($anketa->current_edu_level, self::educationLevelSpecialRight())
+             && OtherDocumentHelper::isExitsExemption($anketa->user_id)
+        ) {
             $buttonArray[] = DictCompetitiveGroupHelper::SPECIAL_RIGHT;
+        }
+
+        $govLineStatus = false;
+        $tpguStatus = false;
+        if ($anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
+            $govLineStatus = true;
+        }
+
+        if($anketa->category_id == CategoryStruct::TPGU_PROJECT){
+            $tpguStatus = true;
         }
 
         $result = "";
         if (count($buttonArray)) {
             foreach ($buttonArray as $button) {
-                $result .= self::getButton($level, $department, $button) . "<br/>";
+                if(!SettingEntrant::find()->isOpenZukApplication($department, $level,  $button, $tpguStatus,  $govLineStatus))  {
+                    continue;
+                }
+                $result .= self::getButton($level, $department, $button, $tpguStatus,  $govLineStatus) . "<br/>";
             }
         }
-
-        $result .= self::getButton($level, $department);
+        if ($showUsual) {
+            $result .= self::getButton($level, $department, null, $govLineStatus,  $tpguStatus);
+        }
 
         return $result;
-
-
     }
 
     public static function getPermittedEducationLevels($level): array

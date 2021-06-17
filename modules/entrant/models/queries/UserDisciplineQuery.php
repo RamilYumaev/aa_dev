@@ -58,8 +58,20 @@ class UserDisciplineQuery extends ActiveQuery
         return $this->type([UserDiscipline::CSE_VI, UserDiscipline::CT_VI]);
     }
 
+    public function cseOrVi() {
+        return $this->type([UserDiscipline::CSE, UserDiscipline::CSE_VI]);
+    }
+
+    public function ctOrVi() {
+        return $this->type([UserDiscipline::CT, UserDiscipline::CT_VI]);
+    }
+
     public function vi() {
         return $this->type([UserDiscipline::VI]);
+    }
+
+    public function viFull() {
+        return $this->type([UserDiscipline::CSE_VI, UserDiscipline::VI, UserDiscipline::CT_VI]);
     }
 
 

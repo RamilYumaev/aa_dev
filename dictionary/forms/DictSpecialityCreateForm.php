@@ -7,7 +7,7 @@ use yii\base\Model;
 
 class DictSpecialityCreateForm extends Model
 {
-    public $code, $name, $short;
+    public $code, $name, $short, $edu_level;
 
     public function __construct($config = [])
     {
@@ -20,10 +20,11 @@ class DictSpecialityCreateForm extends Model
     public function rules()
     {
         return [
-            [['code', 'name','short'], 'required'],
+            [['code', 'name','short', 'edu_level'], 'required'],
             [['name'], 'string'],
             [['code'], 'string', 'max' => 8],
             [['short'], 'string', 'max' => 10],
+            [['edu_level'], 'integer'],
             [['short'], 'match', 'pattern' => '/^[a-zA-Z0-9]+$/u'],
             ['code', 'unique', 'targetClass' => DictSpeciality::class, 'message' => 'Такое направление подготовки уже есть'],
             ['short', 'unique', 'targetClass' => DictSpeciality::class, 'message' => 'Такое краткое наименовние уже есть'],

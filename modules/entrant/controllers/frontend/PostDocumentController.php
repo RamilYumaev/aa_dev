@@ -162,7 +162,6 @@ class PostDocumentController extends Controller
      * @param integer $type
      * @return mixed
      */
-
     private function serviceSave($type) {
 
         try {

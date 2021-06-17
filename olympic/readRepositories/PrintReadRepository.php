@@ -45,6 +45,9 @@ class PrintReadRepository
                 case OlympicHelper::ZAOCHNAYA_FORMA :
                     $model = TestAttempt::find()->olympicAttempt($olympic);
                     break;
+                case OlympicHelper::ZAOCHNO_ZAOCHNAYA :
+                    $model = TestAttempt::find()->olympicAttempt($olympic);
+                    break;
                 case OlympicHelper::OCHNO_ZAOCHNAYA_FORMA :
                     if ($numTour == OlympicHelper::ZAOCH_FINISH && $olympic->current_status) {
                         $model = TestAttempt::find()->olympicAttempt($olympic);

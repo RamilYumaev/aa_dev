@@ -45,7 +45,7 @@ class PassportData extends YiiActiveRecordAndModeration
                 'place_of_birth', 'date_of_issue', 'authority',
                 'division_code', 'main_status'],
             'attributesNoEncode' => ['series', 'number'],
-        ], FileBehavior::class];
+        ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
     }
 
     public static function create(PassportDataForm $form, $status)
@@ -191,6 +191,16 @@ class PassportData extends YiiActiveRecordAndModeration
     public function countFiles()
     {
         return $this->getFiles()->count();
+    }
+
+    public function getFilesTransfer()
+    {
+        return $this->hasMany(\modules\transfer\models\File::class, ['record_id' => 'id'])->where(['model' => self::class]);
+    }
+
+    public function countTransfer()
+    {
+        return $this->getFilesTransfer()->count();
     }
 
 }

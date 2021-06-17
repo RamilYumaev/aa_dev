@@ -8,6 +8,8 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
+use modules\dictionary\models\JobEntrant;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\Anketa;
@@ -143,6 +145,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function getStatement()
     {
         return $this->hasMany(Statement::class, ['user_id' => 'user_id']);
+    }
+
+    public function getJobEntrant()
+    {
+        return $this->hasOne(JobEntrant::class, ['user_id' => 'user_id']);
     }
 
     public function getFio()

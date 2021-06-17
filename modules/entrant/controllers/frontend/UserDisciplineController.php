@@ -10,6 +10,7 @@ use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\forms\UserDisciplineCseForm;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\services\CseSubjectResultService;
@@ -95,28 +96,28 @@ class UserDisciplineController extends Controller
         ]);
     }
 
-    public function actionCreateSelect() {
-        $config = ['user_id' => $this->getUserId()];
-        $exams = DictCompetitiveGroupHelper::groupByExams($this->getUserId());
-        $models = [];
-        foreach($exams as $key => $exam) {
-            $models[] = new UserDisciplineCseForm($this->modelDiscipline($key), $config);
-        }
-        if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
-            try {
-                $this->service->createMore($models);
-                return $this->redirect('/abiturient/default');
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('cse-vi-ct', [
-            'models' => $models,
-            'exams' => $exams,
-            'isBelarus' => $this->getAnketa()->isBelarus(),
-        ]);
-    }
+//    public function actionCreateSelect() {
+//        $config = ['user_id' => $this->getUserId()];
+//        $exams = DictCompetitiveGroupHelper::groupByExams($this->getUserId());
+//        $models = [];
+//        foreach($exams as $key => $exam) {
+//            $models[] = new UserDisciplineCseForm($this->modelDiscipline($key), $config);
+//        }
+//        if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
+//            try {
+//                $this->service->createMore($models);
+//                return $this->redirect('/abiturient/default');
+//            } catch (\DomainException $e) {
+//                Yii::$app->errorHandler->logException($e);
+//                Yii::$app->session->setFlash('error', $e->getMessage());
+//            }
+//        }
+//        return $this->render('cse-vi-ct', [
+//            'models' => $models,
+//            'exams' => $exams,
+//            'isBelarus' => $this->getAnketa()->isBelarus(),
+//        ]);
+//    }
 
     public function actionCorrection($discipline) {
         $config = ['user_id' => $this->getUserId()];
@@ -157,6 +158,7 @@ class UserDisciplineController extends Controller
         $form = new UserDisciplineCseForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
+                $form->discipline_select_id = $form->discipline_id;
                 $this->service->edit($model->id, $form);
                 return $this->redirect(['index']);
             } catch (\DomainException $e) {
@@ -216,7 +218,7 @@ class UserDisciplineController extends Controller
         return  $this->getIdentity()->getId();
     }
 
-    private function getAnketa()
+    private function getAnketa(): Anketa
     {
         return  $this->getIdentity()->anketa();
     }

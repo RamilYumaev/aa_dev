@@ -6,6 +6,7 @@ namespace modules\dictionary\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
 use modules\dictionary\forms\SettingEntrantForm;
 use modules\dictionary\forms\VolunteeringForm;
 use modules\dictionary\models\queries\SettingEntrantQuery;
@@ -134,7 +135,12 @@ class SettingEntrant extends ActiveRecord
         }else {
             $query->faculty($this->faculty_id);
         }
-        return $query->currentAutoYear()->select(['ais_id','speciality_id','faculty_id'])->asArray()->all();
+
+        return $query->currentAutoYear()->select(['ais_id'=>'dict_competitive_group.ais_id','speciality_id','faculty_id',
+             'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 
+                    INNER JOIN dict_discipline ON dict_discipline.id = discipline_competitive_group.discipline_id WHERE 
+                   discipline_competitive_group.competitive_group_id = dict_competitive_group.id AND dict_discipline.is_och = 1)"
+                ])->having([$this->is_vi ? '>' : '=' ,'countOch', 0])->asArray()->all();
     }
 
     public function getAllGraduateCgAisId() {

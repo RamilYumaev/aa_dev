@@ -9,6 +9,7 @@ class AddressWidget extends Widget
 {
     public $userId;
     public $view = "index";
+    public $referrer = '';
 
     public function run()
     {
@@ -16,6 +17,7 @@ class AddressWidget extends Widget
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'userId' => $this->userId,
+            'referrer' => $this->referrer,
             'dataProvider' => $dataProvider,
         ]);
     }

@@ -178,6 +178,12 @@ class DictCompetitiveGroupHelper
             self::TARGET_PLACE => 'Прием на целевое обучение'];
     }
 
+    public static function getSpecialRightTesting(): array
+    {
+        return [0 => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
+            self::TARGET_PLACE => 'Прием на целевое обучение'];
+    }
+
     public static function forms(): array
     {
         return [
@@ -600,6 +606,73 @@ class DictCompetitiveGroupHelper
 
         return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
 
+    }
+
+    public static function groupByExamsNoCseCt($user_id, $faculty_id, $speciality_id, $ids, $ct)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id]);
+            if($ct) {
+                $data->andWhere(['not', ['ct_subject_id' => null]]);
+            } else {
+                $data->andWhere(['not', ['cse_subject_id' => null]]);
+            }
+            $data->select(['dict_discipline.id'])->column();
+
+        return UserDiscipline::find()->discipline($data)->user($user_id)->viFull()->exists();
+    }
+
+    public static function groupByCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' =>true])->one();
+        if ($data) {
+            $userDiscipline = UserDiscipline::find()
+                ->user($user_id)
+                ->orderBy(['mark' => SORT_DESC])
+                ->discipline($data->id)->one();
+            if ($userDiscipline) {
+                return [$userDiscipline->dictDisciplineSelect->ais_id];
+            } else {
+                foreach ($data->getComposite()->all() as $composite) {
+                    $userDiscipline = UserDiscipline::find()->typeCse()
+                        ->user($user_id)
+                        ->orderBy(['mark' => SORT_DESC])
+                        ->disciplineSelect($composite->discipline_select_id)->one();
+                    if ($userDiscipline) {
+                        return [$composite->dictDisciplineSelect->ais_id];
+                    }
+                }
+                return [];
+            }
+        }
+        return [];
+    }
+
+    public static function groupByDisciplineVi($user_id, $faculty_id, $speciality_id, $ids)
+    {
+       return DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserDiscipline::tableName(), 'discipline_user.discipline_id=dict_discipline.id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id,
+                'discipline_user.user_id'=> $user_id,
+                'discipline_user.type'=> [UserDiscipline::VI, UserDiscipline::CT_VI, UserDiscipline::CSE_VI],
+                'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])->select('dict_discipline.ais_id')
+            ->column() ?? [];
     }
 
     public static function groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)

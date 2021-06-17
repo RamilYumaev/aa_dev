@@ -4,6 +4,7 @@
 namespace modules\entrant\services;
 
 
+use common\helpers\EduYearHelper;
 use common\transactions\TransactionManager;
 use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\repositories\DictOrganizationsRepository;
@@ -13,6 +14,7 @@ use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementRepository;
+use Mpdf\Tag\A;
 use Mpdf\Tag\Tr;
 
 class AgreementService
@@ -34,37 +36,14 @@ class AgreementService
         $this->statementRepository = $statementRepository;
     }
 
-    public function createOrUpdate(AgreementForm $form, Agreement $model = null)
+    public function createOrUpdate(AgreementForm $form, Agreement $model)
     {
-        $this->transactionManager->wrap(function () use($form, $model) {
-            $organization_id = $this->addOrUpdateOrganization($form);
-            if($model) {
-                $agreement = $this->repository->get($model->id);
-                $agreement->data($form, $organization_id);
-                if(!$this->statementRepository->getStatementStatusNoDraft($agreement->user_id) ) {
-                    $agreement->detachBehavior("moderation");
-                }
-            }else {
-                $agreement = Agreement::create($form,$organization_id);
-            }
-            $this->repository->save($agreement);
-        });
-    }
-
-    private function addOrUpdateOrganization(AgreementForm $form) {
-        if($form->check_new && $form->name) {
-            $organization = DictOrganizations::createNameUser($form->name);
-            $this->organizationsRepository->save($organization);
+        $agreement = $this->repository->get($model->id);
+        $agreement->data($form);
+        if(!$this->statementRepository->getStatementStatusNoDraft($agreement->user_id) ) {
+            $agreement->detachBehavior("moderation");
         }
-        else if($form->check_rename  && $form->name) {
-            $organization = $this->organizationsRepository->get($form->organization_id);
-            $organization->setName($form->name);
-            $this->organizationsRepository->save($organization);
-        }else {
-            $organization = $this->organizationsRepository->get($form->organization_id);
-        }
-        return $organization->id;
-
+        $this->repository->save($agreement);
     }
 
     public function remove($id)
@@ -88,6 +67,34 @@ class AgreementService
         $model->detachBehavior('moderation');
         $model->setStatus(AgreementHelper::STATUS_VIEW);
         $this->repository->save($model);
+    }
+
+    public function addOrganization($id, $status, $userId, Agreement $agreement = null)
+    {
+        $organization = $this->organizationsRepository->get($id);
+        if($status == 0) {
+            $org = $organization->id;
+            $work = $agreement ? $agreement->work_organization_id : null;
+        }elseif ($status == 1) {
+            $org = $agreement ? $agreement->organization_id : null;
+            $work = $organization->id;
+        }else {
+            $org = $organization->id;
+            $work = $organization->id;
+        }
+        if($agreement) {
+            $agreement->addOrganization($org, $work);
+        } else {
+            $agreement  = new Agreement();
+            $agreement->addOrganization($org, $work);
+            $agreement->user_id = $userId;
+            $agreement->year  = EduYearHelper::eduYear();
+        }
+        if(!$this->statementRepository->getStatementStatusNoDraft($agreement->user_id) ) {
+            $agreement->detachBehavior("moderation");
+        }
+
+        $this->repository->save($agreement);
     }
 
 

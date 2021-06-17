@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 ?>
 <?php if ($model) : ?>
 <div class="row">
-    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($model ?? false) ?>">
+    <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($model && $model->date ?? false) ?>">
         <div class="p-30 green-border">
             <h4>Договор о целовом обучении</h4>
             <?= Html::a('Редактировать', ['agreement/index'], ['class' => 'btn btn-primary']) ?>
@@ -17,7 +17,8 @@ use yii\widgets\DetailView;
                 'options' => ['class' => 'table table-bordered detail-view'],
                 'model' => $model,
                 'attributes' => [
-                        'organization.name',
+                        ['label'=> 'Наниматель', 'value'=> $model->getOrganization() ? $model->getFullOrganization() : ''],
+                    ['label'=> 'Работодатель', 'value'=> $model->getOrganizationWork() ? $model->getFullOrganizationWork() : ''],
                     'number',
                     'date:date',
                 ]

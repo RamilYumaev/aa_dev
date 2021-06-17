@@ -22,7 +22,7 @@ $anketa = \Yii::$app->user->identity->anketa();
         <div class="panel-heading fs-20">Заявления об участии в конкурсе
             <?=Html::a("Добавить", "/abiturient/anketa/step2")?>
             <?= $isAccepted ? Html::a("Отозвать","/abiturient/post-document/statement-rejection") : ""?>
-                <?= ($isContract && $isNotTpgu) ? Html::a("Заключить договор","/abiturient/post-document/agreement-contract",
+                <?= ($isContract && $isNotTpgu) ? Html::a("Договор на платное обучение","/abiturient/post-document/agreement-contract",
                     ['class'=>'pull-right btn btn-info']) : "" ?>
         </div>
         <div class="panel-body">
@@ -42,11 +42,12 @@ $anketa = \Yii::$app->user->identity->anketa();
                 }
                 $resultData .= "</table>";
                 $result[] =
-                    ['label' => $statement->faculty->full_name . ", " . $statement->speciality->getCodeWithName() . ",<br/>Заявление № "
+                    ['label' => $statement->faculty->full_name . ", <b>" . $statement->speciality->getCodeWithName() . "</b>,<br/>Заявление № "
                         . $statement->numberStatement . " <span class=\"label label-"
                         . StatementHelper::colorName($statement->status) . "\">" . $statement->statusName . "</span> ". ($statement->statementRejection ?
                         "(". "Заявление об отзыве <span class=\"label label-" . StatementHelper::colorName($statement->statementRejection ->status_id) . "\">" . $statement->statementRejection->statusName . "</span>".")" : "").
                          ($statement->message ? "<br/> Причина отклонения: ".  $statement->message :""),
+                        ($statement->message ? "<br/> Причина отклонения: ".  $statement->message :""),
 
                         'content' => $resultData,
                         'contentOptions' => ['class' => 'out']];

@@ -9,10 +9,13 @@ use modules\dictionary\searches\JobEntrantSearch;
 use modules\dictionary\searches\VolunteeringSearch;
 use modules\dictionary\services\JobEntrantService;
 use modules\dictionary\services\VolunteeringService;
+use modules\entrant\helpers\StatementHelper;
+use modules\entrant\readRepositories\StatementReadConsentRepository;
 use modules\usecase\ControllerClass;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 class VolunteeringController extends ControllerClass
 {
@@ -61,5 +64,29 @@ class VolunteeringController extends ControllerClass
                 ],
             ],
         ];
+    }
+
+    public function actionExport()
+    {
+        $model = Volunteering::find();
+        \moonland\phpexcel\Excel::widget([
+            'asAttachment'=>true,
+            'fileName' => date('d-m-Y H-i-s')."- ВОЛОНТЕРЫ",
+            'models' => $model->all(),
+            'mode' => 'export', //default value as 'export'
+            'columns' => [
+                'entrantJob.profileUser.fio',
+                'entrantJob.profileUser.user.email',
+                'isAttempt',
+                'attemptMark',
+                'desireWork'
+            ], //without header working, because the header will be get label from attribute label.
+            'headers' => ['entrantJob.profileUser.fio' => "ФИО",
+                'entrantJob.profileUser.user.email'=> "E-mail",
+                'isAttempt'=> "Прошел/Не прошел",
+                'attemptMark'=> 'Балл',
+                'desireWork'=> "Желаемое направление работы"
+            ],
+        ]);
     }
 }

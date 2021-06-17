@@ -23,7 +23,10 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\StatementRejectionRecord;
+use modules\entrant\models\UserDiscipline;
 use modules\entrant\readRepositories\FileReadCozRepository;
+use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\StatementTransfer;
 use Yii;
 
 class FileHelper
@@ -77,7 +80,10 @@ class FileHelper
             StatementRejectionRecord::class,
             StatementRejectionCgConsent::class,
             StatementAgreementContractCg::class,
-            ReceiptContract::class
+            StatementTransfer::class,
+            PacketDocumentUser::class,
+            ReceiptContract::class,
+            UserDiscipline::class
         ];
     }
 
@@ -110,6 +116,7 @@ class FileHelper
             PersonalEntity::class=>5,
             LegalEntity::class=>5,
             InsuranceCertificateUser::class => 1,
+            UserDiscipline::class =>1,
             StatementIndividualAchievements::class => 0,
             Statement::class => 0,
             StatementConsentPersonalData::class => 0,
@@ -119,6 +126,8 @@ class FileHelper
             StatementAgreementContractCg::class=>0,
             StatementRejectionRecord::class=>0,
             StatementRejectionCg::class =>0,
+            StatementTransfer::class => 0,
+            PacketDocumentUser::class => 20,
             ReceiptContract::class => 0,
         ];
     }
@@ -143,6 +152,9 @@ class FileHelper
             StatementRejectionCg::class =>'st-rejection-cg',
             ReceiptContract::class => "receipt-contract",
             InsuranceCertificateUser::class => 'snils',
+            StatementTransfer::class => 'st-transfer',
+            PacketDocumentUser::class => 'packet',
+            UserDiscipline::class =>'ct',
         ];
     }
 
@@ -166,6 +178,9 @@ class FileHelper
             StatementRejectionRecord::class =>'Отзыв зачисления',
             ReceiptContract::class => "Квитанция",
             InsuranceCertificateUser::class => 'СНИЛС',
+            UserDiscipline::class =>'Сертификаты ЦТ',
+            StatementTransfer::class => 'Заявление перевода/восстановления',
+            PacketDocumentUser::class => 'СКАНЫ',
         ];
     }
 
@@ -177,6 +192,5 @@ class FileHelper
         return (new FileReadCozRepository(self::entrantJob()))
             ->readData()->joinWith('profileUser')->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)','files.user_id'])->indexBy('files.user_id')->column();
     }
-
 
 }

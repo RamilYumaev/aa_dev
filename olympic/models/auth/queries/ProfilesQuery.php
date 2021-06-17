@@ -42,6 +42,11 @@ class ProfilesQuery extends ActiveQuery
         return $this->select(new Expression("concat_ws(' ', last_name, first_name, patronymic, email)"));
     }
 
+    public function selectFullName()
+    {
+        return $this->select(new Expression("concat_ws(' ', last_name, first_name, patronymic)"));
+    }
+
     public function selectForSwitcher()
     {
         return $this->select(new Expression("`user_id` as 'id',

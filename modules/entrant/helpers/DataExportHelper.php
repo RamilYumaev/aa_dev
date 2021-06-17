@@ -3,17 +3,14 @@
 namespace modules\entrant\helpers;
 
 
-use common\auth\forms\DeclinationFioForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\dictionary\models\DictCseSubject;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
-use modules\entrant\models\CseViSelect;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
@@ -26,14 +23,11 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementIa;
-use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\models\UserIndividualAchievements;
-use morphos\S;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
-use function Matrix\identity;
 
 /* @var $profile Profiles */
 class DataExportHelper
@@ -45,7 +39,7 @@ class DataExportHelper
         $anketa = Anketa::findOne(['user_id' => $profile->user_id]);
         $fioLatin = FIOLatin::findOne(['user_id' => $profile->user_id]);
         $passport = PassportData::findOne(['user_id' => $profile->user_id, 'main_status' => true]);
-        $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => true]);
+        $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' =>[1,2,3]]);
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -111,12 +105,15 @@ class DataExportHelper
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
                 'special_conditions_status' => $info->voz_id,
+                'priority_school_status' => $info->is_military_edu,
+                'snils'=> $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
+                'overall_diploma_mark_common' => null
             ]
         ];
         return array_merge($result,
             self::dataLanguage($userId),
             self::dataDocumentAll($userId, $profile),
-            self::userDiscipline($userId)
+            self::mergeCse($userId)
         );
     }
 
@@ -136,10 +133,16 @@ class DataExportHelper
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT) {
                 $noCse = 1;
             } else {
-                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
-                    $statement->faculty_id, $statement->speciality_id, $currentApplication->cg->id, false);
+                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id, false) ??
+                    DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id, true);
             }
-            $composite = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationCompositeDiscipline(
+            $composite = DictCompetitiveGroupHelper::groupByCompositeDiscipline(
                 $statement->user_id,
                 $statement->faculty_id,
                 $statement->speciality_id,
@@ -149,9 +152,15 @@ class DataExportHelper
                 'competitive_group_id' => $currentApplication->cg->ais_id,
                 'vi_status' => $noCse ? 1 : 0,
                 'composite_discipline_id' => $composite,
+                'composite_disciplines' =>  $composite,
                 'preemptive_right_status' => $prRight ? 1 : 0,
+                'cse_ct_vi' => DictCompetitiveGroupHelper::groupByDisciplineVi($statement->user_id,
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id),
                 'preemptive_right_level' => $prRight ? $prRight : 0,
                 'benefit_BVI_status' => 0,
+                'benefit_BVI_reason'=> '',
                 'application_code' => $statement->numberStatement,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,
@@ -183,7 +192,7 @@ class DataExportHelper
         $result['individual_achievements'] = [];
         $result['individual_achievements'][] = [
             'incoming_id' => $incomingId->incoming_id,
-            'individual_achievement_id' => $currentIa->individual_id,
+            'individual_achievement_id' => $currentIa->dictIndividualAchievement->ais_id,
             'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
             'model_type' => 2,
             'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
@@ -277,30 +286,80 @@ class DataExportHelper
 
     public static function userDiscipline($userId)
     {
-        $cse = UserDiscipline::find()->typeCse()->user($userId);
-        $dataYears = clone $cse;
-        if ($dataYears = $dataYears->select('year')->groupBy('year')->column()) {
+        $ids = UserDiscipline::find()->cseOrVi()->user($userId)->select('id')->orderBy(['mark'=> SORT_ASC])->indexBy('discipline_select_id')->column();
+        if ($dataYears = UserDiscipline::find()->cseOrVi()->user($userId)->select('year')->andWhere(['id'=>$ids])->groupBy('year')->orderBy(['year'=> SORT_DESC])->column()) {
             $result['documentsCse'] = [];
             foreach ($dataYears as $key => $value) {
                 $result['documentsCse'][$key] =
                     [
                         'year' => $value,
-                        'type_id' => 1,
+                        'type_id' => UserDiscipline::CSE,
                     ];
+                $disciplineKey[$value] = [];
                 /** @var UserDiscipline $discipline */
-                foreach ($cse->year($value)->all() as $discipline) {
+                foreach (UserDiscipline::find()->cseOrVi()->user($userId)->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->cse->ais_id, $disciplineKey[$value])) {
+                        continue;
+                    }
                     $result['documentsCse'][$key]['subject'][] = [
                         'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
+                        'ct_subject_id' => null,
                         'mark' => $discipline->mark,
                     ];
+                    $disciplineKey[$value][] = $discipline->dictDisciplineSelect->cse->ais_id;
                 }
             }
             return $result;
-
         }
         return [];
     }
 
+    public static function userDisciplineCt($userId)
+    {
+        $ids = UserDiscipline::find()->ctOrVi()->user($userId)->select('id')->orderBy(['mark'=> SORT_ASC])->indexBy('discipline_select_id')->column();
+        if ($dataYears = UserDiscipline::find()->ctOrVi()->user($userId)->select('year')->andWhere(['id'=>$ids])->orderBy(['year'=> SORT_DESC])->groupBy('year')->column()) {
+            $result['documentsCse'] = [];
+            foreach ($dataYears as $key => $value) {
+                $result['documentsCse'][$key] =
+                    [
+                        'year' => $value,
+                        'type_id' => 2,
+                    ];
+                $disciplineKey[$value] = [];
+                /** @var UserDiscipline $discipline */
+                foreach (UserDiscipline::find()->ctOrVi()->user($userId)->year($value)->orderBy(['mark'=> SORT_DESC])->all() as $discipline) {
+                    if(in_array($discipline->dictDisciplineSelect->ct->ais_id, $disciplineKey[$value])) {
+                        continue;
+                    }
+                    $result['documentsCse'][$key]['subject'][] = [
+                        'cse_subject_id' => $discipline->dictDisciplineSelect->cse->ais_id,
+                        'ct_subject_id' => $discipline->dictDisciplineSelect->ct->ais_id,
+                        'mark' => $discipline->mark,
+                    ];
+                    $disciplineKey[$value][] = $discipline->dictDisciplineSelect->ct->ais_id;
+                }
+            }
+            return $result;
+        }
+        return [];
+    }
+
+    public static function mergeCse($userId) {
+        $var = [];
+        $cse = self::userDiscipline($userId);
+        $ct = self::userDisciplineCt($userId);
+        if(key_exists('documentsCse',$cse)) {
+            foreach ($cse['documentsCse'] as $value) {
+                $var ['documentsCse'][] = $value;
+            }
+        }
+        if(key_exists('documentsCse', $ct)) {
+            foreach ($ct['documentsCse'] as  $value) {
+                $var ['documentsCse'][] = $value;
+            }
+        }
+        return $var;
+    }
 
 
     public static function dataLanguage($userId)
@@ -325,7 +384,7 @@ class DataExportHelper
 
         foreach (PassportData::find()
                      ->andWhere(['user_id' => $userId])
-                     ->orderBy(['main_status'=> SORT_DESC])
+                     ->orderBy(['main_status' => SORT_DESC])
                      ->all() as $currentDocument) {
             $result['documents'][] = [
                 'sdo_id' => $currentDocument->id,

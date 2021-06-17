@@ -32,7 +32,7 @@ use yii\helpers\Html;
                     <td><?= $userDiscipline->nameShortType ?></td>
                     <td><?= $userDiscipline->year ?></td>
                     <td><?= $userDiscipline->mark ?></td>
-                    <td><?= $userDiscipline->status_cse ?></td>
+                    <td><?= $userDiscipline->statusName ?></td>
                 </tr>
                 <?php endforeach; ?>
             </table>

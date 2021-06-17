@@ -7,11 +7,11 @@ use yii\db\ActiveQuery;
 class SettingCompetitionListQuery extends ActiveQuery
 {
     public function dateStart() {
-        return $this->andWhere(['<', 'date_start',  date("Y-m-d")]);
+        return $this->andWhere(['<=', 'date_start',  date("Y-m-d")]);
     }
 
     public function dateEnd() {
-        return $this->andWhere(['>', 'date_end',  date("Y-m-d")]);
+        return $this->andWhere(['>=', 'date_end',  date("Y-m-d")]);
     }
 
     public function timeStart() {

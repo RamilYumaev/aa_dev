@@ -56,14 +56,10 @@ class AnketaController extends Controller
                 } else {
                     $model =  $this->service->create($form);
                 }
-                if ($model->category_id == CategoryStruct::SPECIAL_RIGHT_COMPETITION) {
-                    return $this->redirect(["other-document/exemption"]);
-                } elseif($model->category_id == CategoryStruct::COMPATRIOT_COMPETITION) {
+                if($model->category_id == CategoryStruct::COMPATRIOT_COMPETITION) {
                     return $this->redirect(["other-document/patriot"]);
                 } elseif($model->category_id == CategoryStruct::WITHOUT_COMPETITION) {
                     return $this->redirect(["other-document/without"]);
-                } elseif($model->category_id == CategoryStruct::TARGET_COMPETITION) {
-                    return $this->redirect(["agreement/index"]);
                 } else {
                     return $this->redirect(["step2"]);
                 }

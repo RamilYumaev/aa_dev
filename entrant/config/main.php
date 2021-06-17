@@ -57,17 +57,6 @@ return [
             'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#...
             'roots' => [
                 [
-                    'baseUrl' => '@frontendInfo',
-                    'basePath' => '@frontendRoot',
-                    'path' => '/',
-                    'name' => 'Global',
-                    'options' => [
-                        'uploadDeny' => ['all'], // All Mimetypes не разрешено загружать
-                        'uploadAllow' => ['image', 'text / plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'], // Mimetype `image` и` text / plain` разрешено загружать
-                        'uploadOrder' => ['deny', 'allow'], // разрешен только Mimetype `image` и` text / plain`
-                    ],
-                ],
-                [
                     'baseUrl' => '@entrantInfo',
                     'basePath' => '@entrantRoot',
                     'path' => '/work/',

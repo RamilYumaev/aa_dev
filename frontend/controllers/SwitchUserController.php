@@ -54,7 +54,7 @@ class SwitchUserController extends Controller
             \Yii::$app->user->identity->switchUser($id);
             return $this->goHome();
         } catch (\Exception $e) {
-            \Yii::$app->session->setFlash('error', 'Пользователь не найден!');
+            \Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->goHome();
     }

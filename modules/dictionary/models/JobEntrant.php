@@ -4,6 +4,7 @@
 namespace modules\dictionary\models;
 
 use common\auth\models\SettingEmail;
+use common\auth\models\User;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\Faculty;
 use modules\dictionary\forms\JobEntrantForm;
@@ -58,6 +59,10 @@ class JobEntrant extends ActiveRecord
 
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getUser() {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     public function getSettingEmail() {

@@ -33,6 +33,7 @@ class RegisterCompetitionList extends ActiveRecord
     const STATUS_SEND = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_ERROR = 3;
+    const STATUS_NOT = 4;
 
     public function data($aisCgId,  $typeUpdate, $numberUpdate, $specialityId, $facultyId, $seId)
     {
@@ -64,6 +65,7 @@ class RegisterCompetitionList extends ActiveRecord
             self::STATUS_SEND => 'отправлено в АИС ВУЗ',
             self::STATUS_SUCCESS => 'успешно обновлен',
             self::STATUS_ERROR => 'ошибка',
+            self::STATUS_NOT => 'нет списка',
         ];
     }
 
@@ -102,12 +104,12 @@ class RegisterCompetitionList extends ActiveRecord
 
     public function getCg()
     {
-        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id' => 'ais_cg_id']);
+        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id' => 'ais_cg_id'])->currentAutoYear();
     }
 
     public function getCgFacultyAndSpeciality()
     {
-        return $this->hasOne(DictCompetitiveGroup::class, ['speciality_id' => 'speciality_id', 'faculty_id' => 'faculty_id'])->andWhere(['financing_type_id'=>2]);
+        return $this->hasOne(DictCompetitiveGroup::class, ['speciality_id' => 'speciality_id', 'faculty_id' => 'faculty_id'])->andWhere(['financing_type_id'=>2])->currentAutoYear();
     }
 
     public function getFaculty()

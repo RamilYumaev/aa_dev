@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <div class="box">
         <div class="box-header">
+            <?= Html::a("Данные Excel",['export'], ['class'=> 'btn btn-success']) ?>
         </div>
         <div class="table-responsive">
             <?= GridView::widget([

@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => \yii\grid\SerialColumn::class],
                     [
                         'attribute' => 'user_id',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, JobEntrantHelper::columnJobEntrant('user_id',  'profileUser.fio'), 'user_id', 'profileUser.fio'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, \olympic\helpers\auth\ProfileHelper::getVolunteering(), 'user_id', 'profileUser.fio'),
                         'value'=> 'profileUser.fio'
                     ],
                     [

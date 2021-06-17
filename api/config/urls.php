@@ -1,6 +1,7 @@
 <?php
 return [
     '' => 'site/index',
+    'queue' => 'site/queue',
     'entrant' => 'entrant-module/default/index',
     'auth' => 'entrant-module/auth/index',
     'entrant-export' => 'entrant-module/default/data-export',
@@ -11,4 +12,8 @@ return [
     'dictionary' => 'communication/dictionary',
     'mobile-ci'=>'entrant-module/mobile-ci/index',
     'mobile-ci/get-cgs' => 'entrant-module/mobile-ci/get-cgs',
+    'mobile-ci/get-cg-details'=> 'entrant-module/mobile-ci/get-cg-details',
+    'mobile-ci/get-anketa'=>'entrant-module/mobile-ci/get-anketa',
+    'mobile-ci/get-dict-cse'=>'entrant-module/mobile-ci/get-dict-cse',
+    'queue/index'=>'entrant-module/queue/index',
 ];

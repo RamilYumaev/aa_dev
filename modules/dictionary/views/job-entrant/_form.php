@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="box-body">
         <?php $form = ActiveForm::begin(['id'=> 'form-job-entrant']); ?>
         <?= $form->field($model, 'user_id')->widget(Select2::class, [
-                'data'=>\olympic\helpers\auth\ProfileHelper::getStaffIncoming(),
+                'data'=>\olympic\helpers\auth\ProfileHelper::getVolunteering(),
                 'options'=> ['placeholder'=>'Выберите пользователя'],
                 'pluginOptions' => ['allowClear' => true],
         ]) ?>

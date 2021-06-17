@@ -3,7 +3,11 @@
 
 namespace modules\entrant\models;
 
+use common\moderation\behaviors\ModerationBehavior;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use dictionary\helpers\DictDisciplineHelper;
 use dictionary\models\DictDiscipline;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\UserDisciplineCseForm;
 use modules\entrant\models\queries\UserCgQuery;
@@ -24,8 +28,16 @@ use yii\db\ActiveRecord;
  *
  **/
 
-class UserDiscipline extends  ActiveRecord
+class UserDiscipline extends YiiActiveRecordAndModeration
 {
+    public function behaviors()
+    {
+        return ['moderation' => [
+            'class'=> ModerationBehavior::class,
+            'attributes'=>['mark','type', 'discipline_id', 'discipline_select_id', 'date', 'year'],
+        ], FileBehavior::class];
+    }
+
     const CSE = 1;
     const VI = 2;
     const CT = 3;
@@ -131,7 +143,8 @@ class UserDiscipline extends  ActiveRecord
             'year' => 'Год сдачи',
             'type' => 'Тип',
             'status_cse' => 'Статус',
-            'discipline_id' => 'Предмет'];
+            'discipline_id' => 'Предмет',
+            'discipline_select_id' => 'Предмет по выбору'];
     }
 
     public static function find(): UserDisciplineQuery
@@ -139,5 +152,27 @@ class UserDiscipline extends  ActiveRecord
         return new UserDisciplineQuery(static::class);
     }
 
+    public function getFiles() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
 
+    public function countFiles() {
+        return $this->getFiles()->count();
+    }
+
+    public function titleModeration(): string
+    {
+        return "ЕГЭ, ЦТ, ВИ";
+    }
+
+    public function moderationAttributes($value): array
+    {
+        return [
+            'mark' => $value,
+            'year' => $value,
+            'type' => $this->getTypeList()[$value]['name_short'],
+            'discipline_id' => DictDisciplineHelper::disciplineName($value),
+            'discipline_select_id' => DictDisciplineHelper::disciplineName($value)
+        ];
+    }
 }

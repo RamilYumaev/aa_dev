@@ -128,6 +128,6 @@ class UserDisciplineCseForm extends Model
     }
 
     private function minYear() {
-        return date("Y") - ($this->type == UserDiscipline::CSE || $this->type == UserDiscipline::CSE_VI ? 4 :  2);
+        return date("Y") - ($this->type == UserDiscipline::CSE || $this->type == UserDiscipline::CSE_VI ? 4 :  1);
     }
 }

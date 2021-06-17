@@ -3,6 +3,8 @@
 /* @var $anketa \modules\entrant\models\Anketa */
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\AgreementHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use yii\helpers\Html;
 
 
@@ -63,7 +65,7 @@ include 'navigation/index.html';
     <div class="mt-20 table-responsive" id="edu">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if ($anketa->isAgreement()): ?>
+    <?php if (AgreementHelper::isExits($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => 'index']); ?>
         </div>
@@ -73,7 +75,7 @@ include 'navigation/index.html';
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId]); ?>
         </div>
     <?php endif; ?>
-    <?php if ($anketa->isExemption()): ?>
+    <?php if (OtherDocumentHelper::isExitsExemption($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption']); ?>
         </div>
@@ -97,7 +99,7 @@ include 'navigation/index.html';
     <div class="mt-20 table-responsive" id="additional">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>
+    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu() && \modules\entrant\helpers\UserCgHelper::userIsBudgetBachMagGrad($userId)): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>

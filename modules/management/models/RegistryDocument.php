@@ -20,6 +20,7 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property $user_id integer
  * @property $dict_department_id integer
  * @property $file string
+ * @property $is_deleted boolean
  */
 class RegistryDocument extends ActiveRecord
 {
@@ -64,6 +65,10 @@ class RegistryDocument extends ActiveRecord
         return $this->getAccessList()[$this->access];
     }
 
+    public function setIsDeleted ($bool) {
+        $this->is_deleted = $bool;
+    }
+
     public function attributeLabels()
     {
         return [
@@ -75,7 +80,7 @@ class RegistryDocument extends ActiveRecord
             'dict_department_id' => "Отдел",
             'access' => "Уровень доступа",
             'user_id' => "Владелец",
-
+            'is_deleted' => 'Запрос на удаление'
          ];
     }
 

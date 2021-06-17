@@ -9,6 +9,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\repositories\DictCompetitiveGroupRepository;
 use modules\dictionary\models\SettingEntrant;
+use modules\entrant\helpers\AgreementHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\UserCg;
 use modules\entrant\repositories\CathedraCgRepository;
@@ -75,7 +77,7 @@ class ApplicationsService
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
                     if(SettingEntrant::find()->isOpenZUK($shareCg)) {
-                        $userCg = UserCg::create($shareCg->id, null);
+                        $userCg = UserCg::create($shareCg->id, $cathedra_id);
                         $this->repository->save($userCg);
                     }
 
@@ -83,7 +85,7 @@ class ApplicationsService
             }
 
             /* @var $anketa \modules\entrant\models\Anketa */
-        if($anketa->isExemption() && !$cg->isKvota() && $cg->isBudget()) {
+        if(OtherDocumentHelper::isExitsExemption($anketa->user_id) && !$cg->isKvota() && $cg->isBudget()) {
             $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::SPECIAL_RIGHT)->one();
             if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
             {
@@ -94,12 +96,12 @@ class ApplicationsService
             }
         }
 
-        if($anketa->isAgreement() && !$cg->isTarget() && $cg->isBudget()) {
+        if(AgreementHelper::isExits($anketa->user_id) && !$cg->isTarget() && $cg->isBudget()) {
                 $shareCg = DictCompetitiveGroup::find()->findBudgetAnalog($cg, DictCompetitiveGroupHelper::TARGET_PLACE)->one();
                 if($shareCg && !$this->repository->haveARecordSpecialRight($shareCg->id))
                 {
                     if(SettingEntrant::find()->isOpenZUK($shareCg)) {
-                        $userCg = UserCg::create($shareCg->id, null);
+                        $userCg = UserCg::create($shareCg->id, $cathedra_id);
                         $this->repository->save($userCg);
                     }
                 }

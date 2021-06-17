@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => "Tecт",
     'url' => ['/testing/test/view', 'id' => $test->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php if ($olympic->isFormOfPassageDistant()): ?>
+<?php if ($olympic->isFormOfPassageDistant() || $olympic->isFormOfPassageDistantDistant()): ?>
     <?php if ($olympic->isDistanceFinish()): ?>
         <?php if ($olympic->year == \common\helpers\EduYearHelper::eduYear()) : ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,

@@ -41,6 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::button('Скопировать ссылку', ['class'=>'btn btn-warning',  'data-clipboard-text'=> $model->link ? $model->link : $model->getUploadedFileUrl('file')]);
                         }],
 
+                    ['class' => ActionColumn::class,
+                        'controller' => "registry-document",
+                        'template' => '{update} {delete}',
+                    ],
+
+
                 ]
             ]); ?>
         </div>

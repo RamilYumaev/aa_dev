@@ -22,6 +22,7 @@ class DictSpeciality extends ActiveRecord
         $speciality->name = $form->name;
         $speciality->code = $form->code;
         $speciality->short = $form->short;
+        $speciality->edu_level = $form->edu_level;
         return $speciality;
     }
 
@@ -30,6 +31,7 @@ class DictSpeciality extends ActiveRecord
         $this->name = $form->name;
         $this->code = $form->code;
         $this->short = $form->short;
+        $this->edu_level = $form->edu_level;
     }
 
     /**
@@ -40,7 +42,8 @@ class DictSpeciality extends ActiveRecord
         return [
             'code' => 'Код',
             'name' => 'Название',
-            'short' => "Краткое наименоване на латинском"
+            'short' => "Краткое наименоване на латинском",
+            'edu_level' => "Уровень образования"
         ];
     }
 

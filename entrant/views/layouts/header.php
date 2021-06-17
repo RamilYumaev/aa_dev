@@ -21,6 +21,12 @@ use yii\helpers\Html;
                     <li>
                         <?= Html::a('<span class="fa fa-users"></span>', ['/dictionary-module/volunteering/']) ?>
                     </li>
+                    <li>
+                        <?= Html::a('<span class="fa fa-pencil-square-o"></span>', ['/dictionary-module/dict-testing-entrant/']) ?>
+                    </li>
+                    <li>
+                        <?= Html::a('<span class="fa fa-list-alt"></span>', ['/dictionary-module/testing-entrant/']) ?>
+                    </li>
                 <?php endif; ?>
                 <?php if(Yii::$app->user->can('work')):?>
                 <li>

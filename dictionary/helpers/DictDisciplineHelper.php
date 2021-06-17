@@ -14,7 +14,7 @@ class DictDisciplineHelper
         return ArrayHelper::map(DictDiscipline::find()->all(), "id", 'name');
     }
 
-    public static function disciplineName($key): string
+    public static function disciplineName($key): ?string
     {
         return ArrayHelper::getValue(self::disciplineList(), $key);
     }

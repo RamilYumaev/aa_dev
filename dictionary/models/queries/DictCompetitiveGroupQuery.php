@@ -167,12 +167,15 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
                 'edu_level' => $cgContract->edu_level,
                 'education_form_id' => $cgContract->education_form_id,
                 'spo_class' => $cgContract->spo_class,
+                'special_right_id'=>$specialRight,
 
             ]
         );
-        if($specialRight) {
-            $query->specialRight($specialRight);
-        }
+//        if($specialRight) {
+//            $query->specialRight($specialRight);
+//        }else{
+//            $query->andWhere(['is','special_right_id',null]);
+//        }
 
         return $query;
     }
@@ -297,6 +300,16 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->joinWith('dictCathedra');
     }
 
+    public function departments($depart){
+        if($depart==AnketaHelper::HEAD_UNIVERSITY){
+            $depart = Faculty::find()->select('id')
+                ->andWhere(['filial'=>false])
+                ->andWhere(['<>','id', DictFacultyHelper::COLLAGE])
+                ->column();
+        }
+        return $this->andWhere(['in', 'faculty_id', $depart]);
+    }
+
     public function currentClass($class)
     {
         return $this->andWhere(['spo_class' => $class]);
@@ -306,6 +319,14 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
     {
         $onlySpoCgId = DictCompetitiveGroup::find()->andWhere(['only_spo' => true])->select('id')->column();
             return $this->andWhere(['not in', 'id', $onlySpoCgId]);
+    }
+
+    public function successSpeciality($spo, $speciality = null)
+    {
+        $condition =  ['like', 'success_speciality', $speciality];
+        $model = clone $this;
+        $bool = $model->andFilterWhere($condition)->exists();
+        return  $spo && !is_null($speciality)  && $bool ? $this->orWhere($condition) : $this->andWhere(['success_speciality' => null]);
     }
 
     public function getAnketa()

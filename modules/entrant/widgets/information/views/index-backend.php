@@ -24,6 +24,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         'insuranceCertificate.number',
         'voz',
         'chernobyl',
+        'is_military_edu:boolean',
         'mpguTraining'
 
     ];

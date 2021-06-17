@@ -43,10 +43,14 @@ class PassportDataController extends Controller
      */
     public function actionCreate()
     {
-        $form = new PassportDataForm($this->getUserId());
+        $referrer = Yii::$app->request->get("referrer");
+        $form = new PassportDataForm($this->getUserId(), null, $this->getAnketa());
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
+                if($referrer) {
+                    return $this->redirect('/transfer/default/index');
+                }
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -65,7 +69,7 @@ class PassportDataController extends Controller
 
     public function actionCreateBirthDocument()
     {
-        $form = new PassportDataForm($this->getUserId(), null, ['nationality', 'number', 'date_of_issue', 'authority','date_of_birth']);
+        $form = new PassportDataForm($this->getUserId(), null, $this->getAnketa(), ['nationality', 'number', 'date_of_issue', 'authority','date_of_birth']);
         $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
         $form->date_of_birth = \date("d.m.Y",strtotime($this->findPassportDateBirth())) ?? null;
         $form->nationality = DictCountryHelper::RUSSIA;
@@ -93,10 +97,14 @@ class PassportDataController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $form = new PassportDataForm($model->user_id, $model);
+        $referrer = Yii::$app->request->get("referrer");
+        $form = new PassportDataForm($model->user_id, $model, $this->getAnketa());
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
+                if($referrer) {
+                    return $this->redirect('/transfer/default/index');
+                }
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -118,7 +126,7 @@ class PassportDataController extends Controller
     public function actionUpdateBirthDocument($id)
     {
         $model = $this->findModel($id);
-        $form = new PassportDataForm($model->user_id, $model, ['nationality', 'number', 'date_of_issue', 'authority']);
+        $form = new PassportDataForm($model->user_id, $model, $this->getAnketa(),['nationality', 'number', 'date_of_issue', 'authority']);
       //  $form->date_of_birth = null;
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -160,7 +168,7 @@ class PassportDataController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(['default/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     private function getUserId()
@@ -170,9 +178,14 @@ class PassportDataController extends Controller
         }
         return Yii::$app->user->identity->getId();
     }
+
     private function findPassportDateBirth()
     {
        $passport = PassportData::find()->andWhere(['user_id'=>$this->getUserId()])->andWhere(['main_status'=>true])->one();
        return $passport->date_of_birth;
+    }
+
+    private function getAnketa() {
+        return Yii::$app->user->identity->anketa();
     }
 }

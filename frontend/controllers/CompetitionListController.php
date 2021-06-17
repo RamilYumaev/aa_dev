@@ -32,6 +32,7 @@ class CompetitionListController extends Controller
             ->eduLevel($eduLevel)
             ->select(['faculty_id','full_name'])
             ->foreignerStatus(false)
+            ->currentAutoYear()
             ->tpgu(false)
             ->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC]);
         if($department) {
@@ -73,7 +74,7 @@ class CompetitionListController extends Controller
             'type'=> $type
         ]);
 
-        $cgModel = DictCompetitiveGroup::find()->aisId($cg)->one();
+        $cgModel = DictCompetitiveGroup::find()->currentAutoYear()->aisId($cg)->one();
 
         return $this->renderCompetitionOneList($query, $type, $date, $id,
             $cgModel->faculty_id,

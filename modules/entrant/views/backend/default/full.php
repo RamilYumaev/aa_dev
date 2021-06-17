@@ -81,14 +81,9 @@ $userId = $profile->user_id;
     <?= \modules\entrant\widgets\cg\CgWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>
 
-<?= \modules\entrant\widgets\cse\CseSubjectMaxResultWidget::widget(['userId' => $userId, 'view' => "max-backend"]); ?>
-
-<?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId)
-    && !\modules\entrant\helpers\CseSubjectHelper::cseSubjectExists($userId)): ?>
-    <div class="mt-20">
-        <?= \modules\entrant\widgets\examinations\ExaminationsIndexWidget::widget(['userId' => $userId, 'view' => "index-data-backend"]); ?>
-    </div>
-<?php endif; ?>
+<div class="mt-20 table-responsive">
+    <?= \modules\entrant\widgets\discipline\UserDisciplineBackendWidget::widget(['userId' => $userId,]); ?>
+</div>
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>

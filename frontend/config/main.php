@@ -32,6 +32,10 @@ return [
             'class' => \modules\exam\FrontendExam::class,
             'viewPath' => "@modules/exam/views/frontend",
         ],
+        'transfer' => [
+            'class' => \modules\transfer\FrontendTransfer::class,
+            'viewPath' => "@modules/transfer/views/frontend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
@@ -118,8 +122,9 @@ return [
 
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*',
-            'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*', 'reset/*', 'auth/confirm/*'],
+        'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*', 'competition-list/*',
+            'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*',
+            'queue/*', 'reset/*', 'auth/confirm/*'],
         'rules' => [
             [
                 'allow' => true,

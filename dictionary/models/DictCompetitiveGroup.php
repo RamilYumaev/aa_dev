@@ -10,6 +10,7 @@ use dictionary\forms\DictCompetitiveGroupEditForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
+use frontend\controllers\GratitudeController;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
@@ -25,6 +26,7 @@ use yii\helpers\StringHelper;
  * Class DictCompetitiveGroup
  * @package dictionary\models
  * @property  $special_right_id string
+ * @property  $success_speciality string
  */
 class DictCompetitiveGroup extends ActiveRecord
 {
@@ -64,7 +66,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->foreigner_status = $form->foreigner_status;
         $competitiveGroup->only_spo = $form->only_spo;
         $competitiveGroup->tpgu_status = $form->tpgu_status;
-        $competitiveGroup->additional_set_status = $form->tpgu_status;
+        $competitiveGroup->additional_set_status = $form->additional_set_status;
+        $competitiveGroup->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
         return $competitiveGroup;
     }
 
@@ -92,7 +95,8 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->foreigner_status = $form->foreigner_status;
         $this->only_spo = $form->only_spo;
         $this->tpgu_status = $form->tpgu_status;
-        $this->additional_set_status = $form->tpgu_status;
+        $this->additional_set_status = $form->additional_set_status;
+        $this->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
     }
 
     /**
@@ -125,7 +129,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'only_spo' => 'Только для абитуриентов из колледжа',
             'tpgu_status'=> 'для ТПГУ',
             'additional_set_status'=> 'Дополнительный набор',
-            'fullNameB'=> "Конкурсная группа"
+            'fullNameB'=> "Конкурсная группа",
+            'success_speciality' => 'Допущенные направления подготовки к участию в конкурсе'
         ];
     }
 
@@ -155,9 +160,9 @@ class DictCompetitiveGroup extends ActiveRecord
         ->column();
     }
 
-    public function isExamDviOrOch() {
-        return $this->getExaminations()->joinWith('discipline')->andWhere(['dvi'=> true])
-            ->orWhere(['is_och' => true])->exists();
+    public function isExamOch() {
+        return $this->getExaminations()->joinWith('discipline')
+            ->andWhere(['is_och' => true])->exists();
     }
 
     public function getUserCg()
@@ -287,6 +292,10 @@ class DictCompetitiveGroup extends ActiveRecord
         ];
     }
 
+    public function yearConverter() {
+        return explode('-', $this->year);
+    }
+
     public static function aisToSdoConverter($key, $year)
     {
         $model = self::find()->andWhere(['ais_id' => $key])->andWhere(["year" => $year])->one();
@@ -370,6 +379,19 @@ class DictCompetitiveGroup extends ActiveRecord
             . " / " . $specialRight;
     }
 
+    public function getFullNameTransfer()
+    {
+        $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
+        $form_edu = DictCompetitiveGroupHelper::formName($this->education_form_id);
+        $budget = DictCompetitiveGroupHelper::financingTypeName($this->financing_type_id);
+        $specialRight = DictCompetitiveGroupHelper::specialRightName($this->special_right_id);
+        return $this->specialty->codeWithName . ' ' . ($this->specialization->name ?? "") . " / " . $edu_level
+            . " / " . StringHelper::mb_ucfirst($form_edu)
+            . " / " . $budget
+            . " / " . $specialRight;
+    }
+
+
     public function getFullNameOlympic()
     {
         $edu_level = DictCompetitiveGroupHelper::eduLevelAbbreviatedName($this->edu_level);
@@ -399,7 +421,23 @@ class DictCompetitiveGroup extends ActiveRecord
             'type'=> $type])->one();
     }
 
-    public function getFinance() {
+    public function getRegisterCompetitionListGraduate()
+    {
+        return RegisterCompetitionList::find()
+            ->joinWith(['competitionList', 'settingEntrant'])
+            ->andWhere([
+                'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                'special_right' =>  $this->special_right_id,
+                'edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
+                'form_edu' => $this->education_form_id,
+                 RegisterCompetitionList::tableName().'.faculty_id' => $this->faculty_id,
+                'speciality_id' => $this->speciality_id,
+                'finance_edu' => $this->financing_type_id,
+                CompetitionList::tableName().'.type'=> 'list'
+            ])->one();
+    }
+
+        public function getFinance() {
         return DictCompetitiveGroupHelper::getFinancingTypes()[$this->financing_type_id];
     }
 

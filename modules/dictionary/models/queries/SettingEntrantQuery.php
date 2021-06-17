@@ -62,6 +62,18 @@ class SettingEntrantQuery extends ActiveQuery
         return $this->eduLevel($eduLevel)->dateStart()->dateEnd()->exists();
     }
 
+    public function isOpenZukApplication($faculty, $eduLevel, $specialRight, $tpgu, $foreign) {
+        return $this->faculty($faculty)
+            ->type(SettingEntrant::ZUK)
+            ->eduLevel($eduLevel)
+            ->specialRight($specialRight)
+            ->tpgu($tpgu)
+            ->foreign($foreign)
+            ->dateStart()
+            ->dateEnd()
+            ->exists();
+    }
+
     public function groupData($eduLevel, $select): array
     {
         return $this->select($select)->eduLevel($eduLevel)->dateStart()->dateEnd()->groupBy($select)->column();
@@ -78,7 +90,7 @@ class SettingEntrantQuery extends ActiveQuery
             ->foreign($dictCompetitiveGroup->foreigner_status)
             ->tpgu($dictCompetitiveGroup->tpgu_status)
             ->specialRight($dictCompetitiveGroup->special_right_id)
-            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->isVi($dictCompetitiveGroup->isExamOch())
             ->dateStart()
             ->dateEnd()
             ->exists();
@@ -95,7 +107,7 @@ class SettingEntrantQuery extends ActiveQuery
             ->specialRight($dictCompetitiveGroup->special_right_id)
             ->foreign($dictCompetitiveGroup->foreigner_status)
             ->tpgu($dictCompetitiveGroup->tpgu_status)
-            ->isVi($dictCompetitiveGroup->isExamDviOrOch())
+            ->isVi($dictCompetitiveGroup->isExamOch())
             ->one();
     }
 

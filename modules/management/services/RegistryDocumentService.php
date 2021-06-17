@@ -70,4 +70,14 @@ class RegistryDocumentService extends ServicesClass
         }
     }
 
+    public function removeStatus($id)
+    {
+       $model = $this->repository->get($id);
+        if ($model->is_deleted) {
+            throw new \DomainException('Ожидайте, администратор скоро примет заявку на удаление');
+        }
+       $model->setIsDeleted(true);
+       $model->save();
+    }
+
 }

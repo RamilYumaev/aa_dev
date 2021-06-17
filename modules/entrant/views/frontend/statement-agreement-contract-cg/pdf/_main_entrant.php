@@ -18,7 +18,7 @@ $name = DeclinationFioHelper::userDeclination($agreement->statementCg->statement
 $cg = $agreement->statementCg->cg;
 $collegeStatus = $cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
 \Yii::$app->session->setFlash($collegeStatus);
-$agreementData = AgreementHelper::data($anketa->university_choice,$collegeStatus);
+$agreementData = AgreementHelper::data($cg->faculty_id,$collegeStatus);
 $reg = AddressHelper::registrationResidence($agreement->statementCg->statement->user_id);
 $duration = $collegeStatus ? ceil($cg->education_duration) : $cg->education_duration;
 $totalCost = $cg->education_year_cost * $duration;
@@ -233,7 +233,7 @@ if ($eduDurationMonth >= 1 / 12) {
     <p align="justify">
         3.2. Оплата образовательных услуг производится по семестрам в следующем порядке:<br/>
         1) за 1-ый год обучения:<br/>
-        - первый семестр - не позднее <?=AgreementHelper::payPerDate($cg->edu_level, $cg->education_form_id, $anketa->university_choice)?> текущего года;<br/>
+        - первый семестр - не позднее <?=AgreementHelper::payPerDate($cg->edu_level, $cg->education_form_id, $cg->faculty_id)?> текущего года;<br/>
         - второй семестр - не позднее 01 февраля текущего учебного года;<br/>
         2) за 2-ой и последующие годы обучения:<br/>
         - нечетный семестр - не позднее 01 сентября текущего учебного года;<br/>

@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property string $category_id
  * @property integer $university_choice
  * @property integer $is_foreigner_edu_organization
+ * @property integer $speciality_spo
  * @property string $province_of_china
  * @property string $personal_student_number
  */
@@ -61,6 +62,7 @@ class Anketa extends ActiveRecord
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
         $this->province_of_china = $form->province_of_china;
+        $this->speciality_spo = $form->speciality_spo;
         $this->personal_student_number = $form->personal_student_number;
         if ($this->userSchool && !$this->userSchool->school->isRussia()) {
             $this->is_foreigner_edu_organization = true;
@@ -69,8 +71,6 @@ class Anketa extends ActiveRecord
         } else {
             $this->is_foreigner_edu_organization = $form->is_foreigner_edu_organization;
         }
-
-
     }
     public function isTpgu()
     {
@@ -161,6 +161,7 @@ class Anketa extends ActiveRecord
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
             'category' => 'Категория',
+            'speciality_spo'=> 'Направление подготовки текущего уровня образования',
             'university_choice' => 'Куда Вы собираетесь подавать документы?',
             'province_of_china' => 'Из какой Вы провинции?',
             'personal_student_number' => 'Укажите персональный номер, полученный на сайте future-in-russia.com',
@@ -250,28 +251,24 @@ class Anketa extends ActiveRecord
 
     public function isOrphan()
     {
-        return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>2])->exists();
+        return  $this->isExemptionDocument();
     }
+
+    public function isExemptionDocument($exemptionId  = 2)
+    {
+        return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>$exemptionId])->exists();
+    }
+
 
     public function onlyCse()
     {
-        $condition1 = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-            && $this->citizenship_id == DictCountryHelper::RUSSIA
-            && $this->category_id !== CategoryStruct::SPECIAL_RIGHT_COMPETITION
-            && !($this->edu_finish_year == date("Y")
-                && $this->is_foreigner_edu_organization); // Если обычный Российкий выпускник школы
-        // и не квотник
-
-        $condition2 = ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
-                in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT))
-            && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
-                && $this->edu_finish_year < date("Y")); //Если из ташкентского договора или соотечественник,
-        // который закончил школу не в текущем году
-
-        $condition3 = $this->isOrphan() && ($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL)
-            && !($this->edu_finish_year == date("Y")
-                && $this->is_foreigner_edu_organization);
-        return $condition1 || $condition2 || $condition3;
+        $condition = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL
+            && (($this->citizenship_id == DictCountryHelper::RUSSIA) ||
+                ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
+                in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)))
+            && !$this->is_foreigner_edu_organization
+            && !$this->isExemptionDocument(1);
+        return $condition;
 
 //        return (($this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL && $this->citizenship_id == 46) ||
 //            (($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||

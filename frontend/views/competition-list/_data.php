@@ -16,7 +16,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
     <h1><?= $this->title ?></h1>
     <?php foreach ($faculty as $item):
         $cgs = $item->faculty->getCg()->contractOnly()->edulevel($eduLevel)->foreignerStatus(false)
-        ->tpgu(false);
+        ->tpgu(false)->currentAutoYear();
         if($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
             $cgs->select(['speciality_id','faculty_id','education_form_id'])
                 ->groupBy(['speciality_id','faculty_id','education_form_id']);
@@ -30,7 +30,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
             </tr>
             <?php foreach ($cgs->all() as $cg): ?>
             <tr>
-                <th><?=$cg->specialty->codeWithName?> <?=$cg->getSpecialisationName()?></th>
+                <th><?=$cg->specialty->codeWithName?> <?=$cg->getSpecialisationName() .($eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "(для " . $cg->spo_class . " классов)": '') ?> </th>
                 <th><?= $cg->formEdu ?></th>
                 <th><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract'=> $cg, 'eduLevel'=> $eduLevel]) ?></th>
             </tr>

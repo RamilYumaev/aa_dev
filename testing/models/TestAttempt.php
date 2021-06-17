@@ -107,7 +107,7 @@ class TestAttempt extends ActiveRecord
     }
 
     public function  isRewardNoGold() {
-        return $this->isRewardBronze()|| $this->isRewardSilver();
+        return $this->isRewardBronze() || $this->isRewardSilver();
     }
 
     public function  isRewardBronze() {

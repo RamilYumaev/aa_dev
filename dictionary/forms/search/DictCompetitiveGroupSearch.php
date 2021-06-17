@@ -11,6 +11,7 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AnketaHelper;
+use testing\models\TestQuestion;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -77,9 +78,11 @@ class DictCompetitiveGroupSearch extends Model
                 $query->select(['speciality_id','faculty_id'])
                     ->groupBy(['speciality_id','faculty_id',]);
             }else {
-                $query->joinWith(['examinations'])
-                    ->innerJoin(DictDiscipline::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
-                    ->andWhere(['or', 'dvi=' . $this->settingEntrant->is_vi, 'is_och=' . $this->settingEntrant->is_vi]);
+                $query->select(["*",
+                    'countOch' =>"(SELECT COUNT(*) FROM discipline_competitive_group 
+                    INNER JOIN dict_discipline ON dict_discipline.id = discipline_competitive_group.discipline_id WHERE 
+                   discipline_competitive_group.competitive_group_id = dict_competitive_group.id AND dict_discipline.is_och = 1)"
+                ])->having([$this->settingEntrant->is_vi ? '>' : '=' ,'countOch', 0]);
             }
 
         } else {

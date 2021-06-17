@@ -19,6 +19,7 @@ use olympic\models\auth\Profiles;
  * @property integer $id
  * @property integer $user_id
  * @property integer $organization_id
+ * @property integer $work_organization_id
  * @property string  $date
  * @property string  $message
  * @property string  $status_id
@@ -39,24 +40,27 @@ class Agreement extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['organization_id', 'number', 'date', 'year'],
-
+            'attributes'=>['organization_id', 'work_organization_id', 'number', 'date', 'year'],
         ],FileBehavior::class];
     }
 
-    public static  function create(AgreementForm $form, $organization_id) {
+    public static  function create(AgreementForm $form) {
         $address =  new static();
-        $address->data($form, $organization_id);
+        $address->data($form);
         return $address;
     }
 
-    public function data(AgreementForm $form, $organization_id)
+    public function data(AgreementForm $form)
     {
         $this->date = DateFormatHelper::formatRecord($form->date);
         $this->year = $form->year;
         $this->number = $form->number;
         $this->user_id = $form->user_id;
-        $this->organization_id = $organization_id;
+    }
+
+    public function addOrganization($organization, $work) {
+        $this->organization_id = $organization;
+        $this->work_organization_id = $work;
     }
     public function attributeLabels()
     {
@@ -99,7 +103,7 @@ class Agreement extends YiiActiveRecordAndModeration
 
     public function getDocumentFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'id', 'organization_id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'id', 'work_organization_id', 'organization_id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
@@ -111,8 +115,22 @@ class Agreement extends YiiActiveRecordAndModeration
         return $this->hasOne(DictOrganizations::class, ['id' =>'organization_id']);
     }
 
+    public function getOrganizationWork() {
+        return $this->hasOne(DictOrganizations::class, ['id' =>'work_organization_id']);
+    }
+
     public function getStatusName() {
         return  AgreementHelper::statusName($this->status_id);
+    }
+
+    public function getFullOrganization()
+    {
+        return  $this->organization->stringFull.' Регион: '.$this->organization->region->name;
+    }
+
+    public function getFullOrganizationWork()
+    {
+        return  $this->organizationWork->stringFull.' Регион: '.$this->organizationWork->region->name;
     }
 
 
@@ -127,6 +145,7 @@ class Agreement extends YiiActiveRecordAndModeration
     public function moderationAttributes($value): array
     {
         return [
+            'work_organization_id' =>  DictOrganizationsHelper::organizationName($value),
             'organization_id' => DictOrganizationsHelper::organizationName($value),
             'date' => DateFormatHelper::formatView($value),
             'number'=> $value,

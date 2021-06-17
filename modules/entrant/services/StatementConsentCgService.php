@@ -4,9 +4,9 @@
 namespace modules\entrant\services;
 
 
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
-use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;
@@ -30,7 +30,7 @@ class StatementConsentCgService
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
 
-        if($cg->cg->isBudget()) {
+        if(!SettingEntrant::find()->existsFormEduOpen($cg->cg, SettingEntrant::ZOS)) {
             throw new \DomainException('Прием заявлений о согласии на зачисление завершен');
         }
 
@@ -51,7 +51,7 @@ class StatementConsentCgService
         }
 
         if($cg->countBudgetConsent()) {
-            throw new \DomainException('Вы не можете сформироавть заявление о согласии на зачисление, так как достигнут лимит (не более 2-х раз в Университет) ');
+            throw new \DomainException('Вы не можете сформироавть заявление о согласии на зачисление, так как достигнут лимит (не более 3-х раз) ');
         }
 
 

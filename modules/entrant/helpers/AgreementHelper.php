@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
@@ -60,8 +61,9 @@ class AgreementHelper
         return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
     }
 
-    public static function data($universityChoice, $collegeStatus = false)
+    public static function data($faculty, $collegeStatus = false)
     {
+        $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         return [
             'accidence' => self::accidence()[$universityChoice],
             'positionsGenitive' => self::positionsGenitive($collegeStatus)[$universityChoice],
@@ -265,8 +267,9 @@ class AgreementHelper
         return ArrayHelper::map($query->all(), $column, $value);
     }
 
-    public static function payPerDate($educationLevel, $educationForm, $universityChoice)
+    public static function payPerDate($educationLevel, $educationForm, $faculty)
     {
+        $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         if ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
                 return '25 сентября';

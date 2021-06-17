@@ -32,6 +32,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
             'pluginOptions' => ['allowClear' => true],
             'data' => DictIncomingDocumentTypeHelper::listType(DictIncomingDocumentTypeHelper::TYPE_DIPLOMA)
         ]) ?>
+        <?= $form->field($model, 'ais_id')->textInput(['maxlength' => true]) ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>

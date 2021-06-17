@@ -10,8 +10,7 @@ use yii\helpers\ArrayHelper;
 
 class AgreementForm extends Model
 {
-    public $number, $date, $user_id, $year, $organization_id;
-    public $name, $check_new, $check_rename;
+    public $number, $date, $user_id, $year;
     private $_agreement;
     
 
@@ -19,7 +18,7 @@ class AgreementForm extends Model
     {
         if($agreement) {
             $this->setAttributes($agreement->getAttributes(), false);
-            $this->date = $agreement->getValue("date");
+            $this->date =  $agreement->date ? $agreement->getValue("date") : null;
             $this->_agreement = $agreement;
         }
         $this->user_id =$user_id;
@@ -36,17 +35,7 @@ class AgreementForm extends Model
         return [
             [['date'], 'required'],
             [['date'], MaxDateValidate::class],
-            [['organization_id'], 'integer'],
-            ['organization_id', 'required', 'when' => function ($model) {
-                return !$model->check_new;
-            }, 'whenClient' => 'function (attribute, value) { return !$("#agreementform-check_new").prop("checked") }'],
             [['number',],'string', 'max' => 255],
-            [['check_new', 'check_rename'],'boolean'],
-            ['name', 'required', 'when' => function ($model) {
-                return $model->check_new || $model->check_rename;
-            }, 'whenClient' => 'function (attribute, value) { return $("#agreementform-check_new").prop("checked")  ||   
-            $("#agreementform-check_rename").prop("checked")  }'],
-            [['name'], 'string'],
         ];
     }
 
@@ -77,21 +66,6 @@ class AgreementForm extends Model
      */
     public function attributeLabels()
     {
-        return array_merge((new Agreement())->attributeLabels(), $this->attributeLabelsStatic());
+        return (new Agreement())->attributeLabels();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabelsStatic()
-    {
-        return [
-            'check_new' => 'В списке нет Вашей организации?',
-            'name' => 'Название организации',
-            'check_rename' => "Выбранная организация называется по-другому?",
-        ];
-    }
-
-
-
 }

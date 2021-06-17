@@ -18,5 +18,4 @@ class DictOrganizationService extends ServicesClass
         $this->repository = $repository;
         $this->model = $model;
     }
-
 }

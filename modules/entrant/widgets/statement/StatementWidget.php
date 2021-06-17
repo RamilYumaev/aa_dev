@@ -43,7 +43,7 @@ class StatementWidget extends Widget
     public function run()
     {
         if(!$settingEntrant = $this->isOpenZuk()) {
-            return "Данные хреновые";
+            return "";
         }
         if(!$settingEntrant->open()) {
             return $settingEntrant->note;
