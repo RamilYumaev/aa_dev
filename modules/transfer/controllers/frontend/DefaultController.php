@@ -3,11 +3,11 @@
 namespace modules\transfer\controllers\frontend;
 
 use api\client\Client;
-use modules\entrant\behaviors\AnketaRedirectBehavior;
+use modules\transfer\behaviors\RedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\TransferMpgu;
-use Mpdf\Tag\P;
+use Yii;
 use yii\web\Controller;
 
 class DefaultController extends Controller
@@ -18,7 +18,12 @@ class DefaultController extends Controller
             [
                 'class'=> TransferRedirectBehavior::class,
                 'ids'=>['index' ]
-            ]
+            ],
+            [
+                'class'=> RedirectBehavior::class,
+                'ids'=>['fix' ]
+            ],
+
         ];
     }
 
@@ -36,7 +41,7 @@ class DefaultController extends Controller
                     $model->current_status = $data['current_status_id'];
                 }
                 else {
-                    \Yii::$app->session->setFlash('warning',  'По данному № номеру студенческой зачетки ничего не найдено');
+                    \Yii::$app->session->setFlash('warning',  $data['error']);
                     return $this->redirect(['fix']);
                 }
             }else {
@@ -61,18 +66,11 @@ class DefaultController extends Controller
     }
 
     public function getJson ($number) {
-        $url =  '';
-        //$result =  (new Client())->getData($url, ['student_record_id' => $number]);
-        return json_decode('{
-        "current_status_id":1,
-    "faculty_id":5,
-    "specialty_id":23,
-    "specialization_id":13,
-    "course":4,
-    "education_form_id":1,
-    "financing_type_id":2}',true);
-
-        //return $result;
+        $url =  'external/incoming-abiturient/get-student-info';
+        $array['student_record_id'] = $number;
+        $array['token'] = \md5($number . \date('Y.m.d').Yii::$app->params['keyAisCompetitiveList']);
+        $result =  (new Client(Yii::$app->params['ais_competitive']))->getData($url, $array);
+        return $result;
     }
 
     protected function findModel() {

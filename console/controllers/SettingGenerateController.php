@@ -6,9 +6,11 @@ namespace console\controllers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\forms\SettingCompetitionListForm;
 use modules\dictionary\forms\SettingEntrantForm;
 use modules\dictionary\models\SettingEntrant;
 use modules\dictionary\searches\SettingEntrantSearch;
+use modules\dictionary\services\SettingCompetitionListService;
 use modules\dictionary\services\SettingEntrantService;
 use modules\entrant\helpers\AnketaHelper;
 use yii\console\Controller;
@@ -20,9 +22,12 @@ class SettingGenerateController extends Controller
     public $model;
     public $formModel;
     public $searchModel;
-
+    public $competitionListService;
+    public $competitionListForm;
     public function __construct($id, $module,
                                 SettingEntrantService $service,
+                                SettingCompetitionListService $competitionListService,
+                                SettingCompetitionListForm $competitionListForm,
                                 SettingEntrant $model,
                                 SettingEntrantForm $formModel,
                                 SettingEntrantSearch $searchModel,
@@ -33,6 +38,8 @@ class SettingGenerateController extends Controller
         $this->model = $model;
         $this->formModel = $formModel;
         $this->searchModel = $searchModel;
+        $this->competitionListForm = $competitionListForm;
+        $this->competitionListService =$competitionListService;
     }
 
     public function actionSetSetting()
@@ -85,8 +92,8 @@ class SettingGenerateController extends Controller
                                             $model->note = "Настройка № $key";
                                             $model->faculty_id = $depart;
                                             $model->form_edu = $form;
-                                            $model->datetime_start = '2021-06-14 00:00:00';
-                                            $model->datetime_end = '2021-06-15 00:00:00';
+                                            $model->datetime_start = '2021-06-17 00:00:00';
+                                            $model->datetime_end = '2021-06-19 00:00:00';
                                             $model->cse_as_vi = $cVi;
                                             $model->is_vi = $dopVi;
                                             $model->type = $typeApp;
@@ -115,6 +122,26 @@ class SettingGenerateController extends Controller
 
         return 'Выполнено $key итераций';
 
+    }
+
+    public function actionSetList() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZOS)->foreign(false)->all() as $st)  {
+            $model = new $this->competitionListForm;
+            $model->date_start = $st->getDateStart();
+            $model->date_end = $st->getDateEnd();
+            $model->time_start = "10:00:00";
+            $model->time_end = "18:00:00";
+            $model->se_id =  $st->id;
+            $model->time_start_week = "10:00:00";
+            $model->time_end_week = "15:00:00";
+            $model->interval = 7;
+            $model->date_ignore =[];
+            $model->is_auto = 1;
+            $model->end_date_zuk = null;
+
+            $this->competitionListService->create($model);
+        }
     }
 
 

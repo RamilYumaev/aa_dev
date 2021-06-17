@@ -7,7 +7,6 @@ namespace modules\entrant\services;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\StatementConsentCg;
-use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\repositories\StatementCgRepository;
 use modules\entrant\repositories\StatementConsentCgRepository;

@@ -3,17 +3,14 @@
 namespace modules\entrant\helpers;
 
 
-use common\auth\forms\DeclinationFioForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\dictionary\models\DictCseSubject;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
-use modules\entrant\models\CseViSelect;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
 use modules\entrant\models\Language;
@@ -26,15 +23,11 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementIa;
-use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\models\UserIndividualAchievements;
-use morphos\S;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
-use yii\data\Sort;
-use function Matrix\identity;
 
 /* @var $profile Profiles */
 class DataExportHelper
