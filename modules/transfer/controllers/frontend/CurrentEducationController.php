@@ -2,10 +2,8 @@
 
 namespace modules\transfer\controllers\frontend;
 
-use api\client\Client;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\CurrentEducation;
-use modules\transfer\models\TransferMpgu;
 use yii\web\Controller;
 
 class CurrentEducationController extends Controller
@@ -26,10 +24,7 @@ class CurrentEducationController extends Controller
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if($model->save()) {
                 \Yii::$app->session->setFlash('success', 'Успешно обнолено');
-                if(!$model->current_analog) {
-                    return $this->redirect(['current-education/index']);
-                }
-                return $this->redirect(['default/index']);
+                    return $this->redirect(['current-education-info/index']);
             }
         }
         return  $this->render('form',['model' => $model ]);

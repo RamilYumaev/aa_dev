@@ -28,7 +28,6 @@ use yii\widgets\DetailView;
                         'value' => $model->getFinanceEdu(),],
                     ['label' => $model->getAttributeLabel('course'),
                         'value' => $model->dictCourse->classFullName,],
-                    'current_analog:boolean'
                     //['label' => $document_education->getAttributeLabel('original'),
                     // 'value' => $document_education->getOriginal(),],
                 ];

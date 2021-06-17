@@ -4,6 +4,7 @@ namespace modules\transfer\widgets\transfer;
 use common\auth\models\UserSchool;
 use modules\entrant\models\DocumentEducation;
 use modules\transfer\models\CurrentEducationInfo;
+use modules\transfer\models\StatementTransfer;
 use yii\base\Widget;
 
 class TransferWidget extends Widget
@@ -13,7 +14,7 @@ class TransferWidget extends Widget
 
     public function run()
     {
-        $model = CurrentEducationInfo::findOne(['user_id'=> $this->userId]);
+        $model = StatementTransfer::findOne(['user_id'=> $this->userId]);
         return $this->render($this->view, [
             'model' => $model
         ]);

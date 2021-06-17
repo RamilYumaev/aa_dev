@@ -45,7 +45,7 @@ class PassportData extends YiiActiveRecordAndModeration
                 'place_of_birth', 'date_of_issue', 'authority',
                 'division_code', 'main_status'],
             'attributesNoEncode' => ['series', 'number'],
-        ], FileBehavior::class];
+        ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
     }
 
     public static function create(PassportDataForm $form, $status)

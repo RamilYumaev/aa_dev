@@ -35,10 +35,10 @@ $userId = $transfer->user_id;
             <?= \modules\transfer\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
 
              <?php /* \modules\transfer\widgets\address\AddressFileWidget::widget(['userId' => $userId]); */ ?>
-            <?= \modules\transfer\widgets\generate\GeneratePacketWidget::widget(['userId' => $userId, 'type' => $transfer->user_id]);  ?>
+            <?= \modules\transfer\widgets\generate\GeneratePacketWidget::widget(['userId' => $userId, 'type' => $transfer->type]);  ?>
             <p class="label label-warning fs-15">Каждая страница заявления
                 загружается отдельно</p>
-            <?= \modules\transfer\widgets\generate\GenerateStatementWidget::widget(['userId' => $userId, 'type' => $transfer->user_id]);  ?>
+            <?= \modules\transfer\widgets\generate\GenerateStatementWidget::widget(['userId' => $userId]);  ?>
 
         </div>
     </div>

@@ -2,6 +2,8 @@
 namespace modules\transfer\models;
 
 
+use dictionary\models\DictClass;
+use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -20,6 +22,10 @@ use yii\db\ActiveRecord;
  * @property integer $created_at;
  * @property integer $updated_at;
  * @property integer $count_pages
+ * @property integer $course
+ * @property integer $edu_count
+ * @property integer $cg_id
+ *
  *
  **/
 
@@ -37,10 +43,13 @@ class StatementTransfer extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static  function create($user_id, $type) {
+    public static  function create($user_id, $type, $cgId, $course, $eduCount) {
         $statement =  new static();
         $statement->user_id = $user_id;
         $statement->type = $type;
+        $statement->course = $course;
+        $statement->edu_count = $eduCount;
+        $statement->cg_id = $cgId;
         $statement->status = self::DRAFT;
         return $statement;
     }
@@ -70,10 +79,18 @@ class StatementTransfer extends ActiveRecord
         return StatementHelper::statusJobName($this->status);
     }
 
-
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
     }
+
+    public function getCg() {
+        return $this->hasOne(DictCompetitiveGroup::class, ['id' => 'cg_id']);
+    }
+
+    public function getDictClass() {
+        return $this->hasOne(DictClass::class, ['id' => 'course']);
+    }
+
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);

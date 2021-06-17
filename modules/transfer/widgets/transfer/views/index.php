@@ -5,7 +5,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model \modules\transfer\models\CurrentEducationInfo */
+/* @var $model \modules\transfer\models\StatementTransfer
+ */
 /* @var $isUserSchool bool */
 ?>
 <div class="row">
@@ -15,26 +16,20 @@ use yii\widgets\DetailView;
                 <?php if ($model) : ?>
                     <?php
                     $columns = [
-                            'year',
-                            'faculty',
-                        'speciality',
-                        'specialization',
-                        ['label' => $model->getAttributeLabel('form'),
-                            'value' => $model->getFormEdu(),],
-                        ['label' => $model->getAttributeLabel('finance'),
-                            'value' => $model->getFinanceEdu(),],
-                        ['label' => $model->getAttributeLabel('course'),
-                            'value' => $model->dictCourse->classFullName,],
+                        ['label' => '',
+                            'value' => $model->cg->yearConverter()[1]."".$model->cg->getFullNameCg(),],
+                        ['label' =>'',
+                            'value' => $model->dictClass->classFullName,],
                     ];
                     ?>
-                    <?= Html::a('Редактировать', ['/transfer/current-education-info'], ['class' => 'btn btn-warning']) ?>
+                    <?= Html::a('Изменить', ['/transfer/current-education-info'], ['class' => 'btn btn-warning']) ?>
                     <?= DetailView::widget([
                         'options' => ['class' => 'table table-bordered detail-view'],
                         'model' => $model,
                         'attributes' => $columns
                     ]) ?>
                 <?php else: ?>
-                    <?= Html::a('Добавить', ['/transfer/current-education-info'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Найти', ['/transfer/current-education-info'], ['class' => 'btn btn-success']) ?>
                 <?php endif; ?>
         </div>
     </div>

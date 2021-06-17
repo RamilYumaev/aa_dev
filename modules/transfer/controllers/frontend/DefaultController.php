@@ -5,7 +5,9 @@ namespace modules\transfer\controllers\frontend;
 use api\client\Client;
 use modules\entrant\behaviors\AnketaRedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
+use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\TransferMpgu;
+use Mpdf\Tag\P;
 use yii\web\Controller;
 
 class DefaultController extends Controller
@@ -22,7 +24,7 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index',['userId' => $this->getUser()]);
+        return $this->render('index',['transfer' => $this->findModel()]);
     }
 
     public function actionFix() {
@@ -47,6 +49,10 @@ class DefaultController extends Controller
                             $model->listMessage()[$model->current_status] : 'Попробуйте в другой раз');
                     return $this->redirect(['fix']);
                 }
+                if(PacketDocumentUser::findOne(['user_id' => $this->getUser()])) {
+                PacketDocumentUser::deleteAll(['user_id' => $this->getUser()]);
+                }
+
                 \Yii::$app->session->setFlash('success', 'Успешно обнолено');
                 return $this->redirect(['index']);
             }
@@ -58,7 +64,7 @@ class DefaultController extends Controller
         $url =  '';
         //$result =  (new Client())->getData($url, ['student_record_id' => $number]);
         return json_decode('{
-        "current_status_id":4,
+        "current_status_id":1,
     "faculty_id":5,
     "specialty_id":23,
     "specialization_id":13,

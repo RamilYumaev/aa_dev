@@ -2,6 +2,8 @@
 
 
 namespace modules\transfer\controllers\frontend;
+use modules\transfer\models\CurrentEducation;
+use modules\transfer\models\StatementTransfer;
 use modules\transfer\services\SubmittedDocumentsService;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\TransferMpgu;
@@ -32,9 +34,21 @@ class PostDocumentController extends Controller
     public function actionIndex()
     {
         $model =  TransferMpgu::findOne(['user_id'=> $this->getUserId()]);
+        $edu = CurrentEducation::findOne(['user_id'=> $this->getUserId()]);
+        $statement =  StatementTransfer::findOne(['user_id'=> $this->getUserId()]);
         if(!$model) {
             return $this->redirect('default/index');
         }
+
+        if(!$model->isMpgu() && !$edu) {
+            return $this->redirect('current-education/index');
+        }
+
+        if(!$statement) {
+        return $this->redirect('current-education-info/index');
+    }
+
+
 
         return $this->render('index',['transfer' => $model]);
     }

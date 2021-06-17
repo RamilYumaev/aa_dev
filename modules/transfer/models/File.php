@@ -124,7 +124,8 @@ class File extends ActiveRecord
             'user_id'=>'Абитуриент',
             'model'=>'Модель',
             'updated_at' => "Дата обновления",
-            'status' => "Статус"
+            'status' => "Статус",
+            'file_name' => 'Файл'
         ];
     }
 

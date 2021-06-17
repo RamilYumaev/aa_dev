@@ -17,7 +17,7 @@ use modules\transfer\widgets\file\FileListWidget;
                 <th>Тип</th>
                 <th><?= FileWidget::widget(['record_id' => $model->id, 'model' =>$model::className() ]) ?></th>
             </tr>
-            <tr class="<?= BlockRedGreenHelper::colorTableBg($model->countFiles(), FileHelper::listCountModels()[$model::className()]) ?>">
+            <tr class="<?= BlockRedGreenHelper::colorTableBg($model->countTransfer(), FileHelper::listCountModels()[$model::className()]) ?>">
                 <td>
                     <?= $model->passportFull ?>
                 </td>

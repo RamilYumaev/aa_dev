@@ -1,17 +1,13 @@
 <?php
 namespace modules\transfer\controllers\frontend;
 
-use modules\entrant\forms\FileForm;
-use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\transfer\models\File;
-use modules\entrant\services\FileService;
 use modules\transfer\models\StatementTransfer;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
 use yii\filters\VerbFilter;
 use yii\helpers\FileHelper as IfFile;
-use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -20,13 +16,6 @@ use yii\web\UploadedFile;
 
 class FileController extends Controller
 {
-    private $service;
-
-    public function __construct($id, $module, FileService $service, $config = [])
-    {
-        parent::__construct($id, $module, $config);
-        $this->service = $service;
-    }
 
     public function behaviors(): array
     {
@@ -113,7 +102,7 @@ class FileController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($form->id, $form);
+                $this->edit($form);
                 $link = $form ? $form->hashId : "";
                 return $this->redirect(Yii::$app->request->referrer . $link);
             } catch (\DomainException $e) {
@@ -167,6 +156,8 @@ class FileController extends Controller
      * @param $hash
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id, $hash)
     {
@@ -174,7 +165,7 @@ class FileController extends Controller
         $model = $this->findModel($id, $modelName);
         $hashId = $model->hashId;
         try {
-            $this->service->remove($model->id);
+             $model->delete();
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -192,12 +183,13 @@ class FileController extends Controller
             } else {
                 $arrayCount = $model->count_pages;
             }
-            $true = $arrayCount == $this->repository->getFileCount($form->user_id, $model::className(), $model->id);
+            $true = $arrayCount ==  File::find()->andWhere(['user_id' => $this->getUser(), 'model' => $model::className()
+                    , 'record_id' => $model->id])->count();
             if($true) {
                 throw new \DomainException('Вы загрузили достаточное количество файлов!');
             }
-            $modelFile  = \modules\entrant\models\File::create($form->file_name, $form->user_id, $model::className(), $model->id);
-            $this->repository->save($modelFile);
+            $modelFile  = File::create($form->file_name, $this->getUser(), $model::className(), $model->id);
+            $modelFile->save();
 
             return $modelFile;
         }
@@ -207,11 +199,11 @@ class FileController extends Controller
         $array = ["image/png", 'image/jpeg'];
         $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
-            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg');
+            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg или png');
         }
     }
 
-    public function edit($id, File $form)
+    public function edit(File $form)
     {
         $model = $form;
         if($form->file_name) {
@@ -228,20 +220,5 @@ class FileController extends Controller
             }
             $model->save();
         }
-    }
-
-    public function addMessage($id, File $form)
-    {
-        $form->setMessage($form->message);
-        $form->setStatus(FileHelper::STATUS_NO_ACCEPTED);
-        $form->save();
-    }
-
-    public function accepted($id)
-    {
-        $model = File::findOne($id);
-        $model->setStatus(FileHelper::STATUS_ACCEPTED);
-        $model->setMessage(null);
-        $model->save();
     }
 }

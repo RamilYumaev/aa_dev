@@ -10,15 +10,6 @@ class GenerateStatementWidget extends Widget{
     public $type;
     public $userId;
 
-
-    public function init()
-    {
-        if(!$this->statement()) {
-            StatementTransfer::create($this->userId, $this->type)->save();
-        }
-
-    }
-
     public function run()
     {
         return $this->render('statement', ['statement'=> $this->statement()]);

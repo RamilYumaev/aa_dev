@@ -6,6 +6,8 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 \frontend\assets\modal\ModalAsset::register($this);
 $this->title = "Куда осуществляется перевод/восстановление?";
+$this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки', 'url' => ['/transfer/default/index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <div class="row">
