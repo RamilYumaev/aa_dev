@@ -23,21 +23,23 @@ if ($cpk) {
 }
 ?>
     <div class="bg-gray h-20"></div>
-    <p align="center"><strong>СОГЛАСИЕ НА ОБРАБОТКУ И ПУБЛИКАЦИЮ ПЕРСОНАЛЬНЫХ ДАННЫХ</strong></p>
+    <p align="center"><strong>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</strong></p>
+    <p>В соответствии со ст. 9 Федерального закона от 27.07.2006 № 152-ФЗ "О персональных данных",</p>
     <table width="100%">
         <tr>
-            <td class="text-right">Я,</td>
-            <td colspan="2" width="99%"
+            <td><strong>Субъект персональных данных</strong> (абитуриент/обучающийся):</td>
+            <td width="50%"
                 class="bb text-center"><?= $profile['last_name'] ?> <?= $profile['first_name'] ?> <?= $profile['patronymic'] ? " "
                     . $profile['patronymic'] : "" ?></td>
-            <td class="text-right" colspan="2">(далее – Субъект)</td>
         </tr>
         <tr>
             <td></td>
-            <td colspan="3" class="v-align-top text-center fs-7"><i>(фамилия, имя, отчество, дата рождения
+            <td colspan="1" class="v-align-top text-center fs-7"><i>(фамилия, имя, отчество, дата рождения
                     поступающего)</i></td>
             <td></td>
         </tr>
+    </table>
+    <table width="100%">
         <tr>
             <td class="bb"><?= $passport['date_of_birth'] ?></td>
             <td class="text-center"> года рождения, паспорт/иной документ удостоверяющий личность серия</td>
@@ -55,15 +57,30 @@ if ($cpk) {
 <?php if ($cpk) : ?>
     <table width="100%">
         <tr>
-            <td width="32%">зарегистрированный(ая) по адресу:</td>
+            <td width="32%">проживающий(ая) по адресу:</td>
             <td width="68%" colspan="4" class="bb text-center"><?= $reg['full'] ?></td>
         </tr>
     </table>
 
 <?php endif; ?>
+    <table width="100%">
+        <tr>
+            <td width="20%">телефон:</td>
+            <td width="30%" colspan="4" class="bb text-center"><?= $profile['phone'] ?></td>
+            <td width="5%"></td>
+            <td width="15%">e-mail:</td>
+            <td width="30%" colspan="4" class="bb text-center"><?= $profile['email']?></td>
+        </tr>
+    </table>
+    <!-- <table width="50%">
+        <tr>
+            
+        </tr>
+    </table> -->
+
 
 <?php if ($passport['age'] < 18): ?>
-    <table class="mt-30" width="100%">
+    <!-- <table class="mt-30" width="100%">
         <tr>
             <td width="10px">Я,</td>
             <td class="bb"></td>
@@ -152,6 +169,26 @@ if ($cpk) {
             <td></td>
             <td class="fs-7 text-center"><i>(документ, подтверждающий, что Субъект является законным представителем
                     поступающего)</i>
+            </td>
+        </tr>
+    </table> -->
+    <p>
+    ФИО законного представителя субъекта персональных данных (заполняется при получении согласия от представителя субъекта персональных данных)
+    </p>
+    <br>
+
+    <table width="100%">
+        <tr>
+            <td class="bb h-20"></td>
+        </tr>
+        <tr>
+            <td class="bb h-30"></td>
+        </tr>
+        <tr>
+            <td class="bb h-30"></td>
+        </tr>
+        <tr>
+            <td class="fs-7 text-center"><i>(номер основного документа, удостоверяющего его личность, сведения о дате выдачи указанного документа и выдавшем его органе, реквизиты доверенности или иного документа, подтверждающего полномочия этого представителя)</i>
             </td>
         </tr>
     </table>
