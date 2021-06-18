@@ -23,7 +23,6 @@ class PacketDocumentUser extends ActiveRecord
     const PACKET_DOCUMENT_PERIOD = 4;
     const PACKET_DOCUMENT_BOOK_FROM_EDU  = 5;
     const PACKET_DOCUMENT_STATUS  = 6;
-    const PACKET_DOCUMENT_SNILS  = 7;
 
     public static function tableName()
     {
@@ -47,7 +46,6 @@ class PacketDocumentUser extends ActiveRecord
             self::PACKET_DOCUMENT_EDU => 'скан-копия справки об обучении',
             self::PACKET_DOCUMENT_BOOK => 'скан-копия зачетной книжки',
             self::PACKET_DOCUMENT_REMOVE => 'скан-копия приказа об отчислении',
-            self::PACKET_DOCUMENT_SNILS => 'скан-копия СНИЛС',
             self::PACKET_DOCUMENT_PERIOD => 'скан-копия справки о периоде обучения ( с указанием количества зачетных единиц и часов по всем дисциплинам)',
             self::PACKET_DOCUMENT_BOOK_FROM_EDU =>'скан-копия зачетной книжки (с подписью руководителя структурного подразделения за каждый семестр и печатями за каждый курс) либо иной документ, содержащий информацию о количестве сданных полностью без задолженностей сессии',
             self::PACKET_DOCUMENT_STATUS => 'скан-копия справки, подтверждающей статус обучающегося (действительна 2 недели с момента выдачи)'
@@ -55,12 +53,13 @@ class PacketDocumentUser extends ActiveRecord
     }
 
     public static function generatePacketDocument($type) {
-        if ($type == TransferMpgu::IN_MPGU) {
-            return [self::PACKET_DOCUMENT_EDU, self::PACKET_DOCUMENT_BOOK, self::PACKET_DOCUMENT_REMOVE,  self::PACKET_DOCUMENT_SNILS];
+        if ($type == TransferMpgu::IN_MPGU || $type == TransferMpgu::IN_INSIDE_MPGU) {
+            return [self::PACKET_DOCUMENT_EDU, self::PACKET_DOCUMENT_BOOK, self::PACKET_DOCUMENT_REMOVE];
         }elseif ($type == TransferMpgu::FROM_EDU) {
-            return [self::PACKET_DOCUMENT_PERIOD, self::PACKET_DOCUMENT_BOOK_FROM_EDU, self::PACKET_DOCUMENT_STATUS, self::PACKET_DOCUMENT_SNILS];
+            return [self::PACKET_DOCUMENT_PERIOD, self::PACKET_DOCUMENT_BOOK_FROM_EDU,
+                self::PACKET_DOCUMENT_STATUS];
         }else {
-            return [self::PACKET_DOCUMENT_BOOK, self::PACKET_DOCUMENT_SNILS];
+            return [self::PACKET_DOCUMENT_BOOK];
         }
     }
 

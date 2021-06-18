@@ -34,7 +34,12 @@ $userId = $transfer->user_id;
                 посторонних предметов (частей тела, элементов одежды, т.п.).</p>
             <?= \modules\transfer\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
 
-             <?php /* \modules\transfer\widgets\address\AddressFileWidget::widget(['userId' => $userId]); */ ?>
+            <?= \modules\transfer\widgets\address\AddressFileWidget::widget(['userId' => $userId]); ?>
+
+            <h4>Требования к документу СНИЛС:</h4>
+            <p align="justify"> необходимо загрузить подтверждающий скан (скан карточки или скриншот из личного кабинета)</p>
+            <?= \modules\transfer\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+
             <?= \modules\transfer\widgets\generate\GeneratePacketWidget::widget(['userId' => $userId, 'type' => $transfer->type]);  ?>
             <p class="label label-warning fs-15">Каждая страница заявления
                 загружается отдельно</p>

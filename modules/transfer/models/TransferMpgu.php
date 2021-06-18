@@ -11,6 +11,7 @@ use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
 use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "{{%transfer_mpgu}}".
@@ -18,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property integer $current_status
+ * @property string $data_mpgsu
  * @property integer $type
  * @property string $number
 **/
@@ -25,8 +27,9 @@ use yii\db\ActiveRecord;
 class TransferMpgu extends ActiveRecord
 {
     const IN_MPGU = 1;
-    const INSIDE_MPGU = 2;
-    const FROM_EDU = 3;
+    const IN_INSIDE_MPGU = 2;
+    const INSIDE_MPGU = 3;
+    const FROM_EDU = 4;
     /* mphu */
     const STATUS_ACTIVE = 1;
     const STATUS_EXPELLED = 7;
@@ -56,13 +59,14 @@ class TransferMpgu extends ActiveRecord
             [['number'], 'required', 'when'=> function($model) {
                 return $model->type != self::FROM_EDU;
             }, 'enableClientValidation' => false],
-            ['type','in','range'=> [self::FROM_EDU, self::IN_MPGU, self::INSIDE_MPGU]]
+            ['type','in','range'=> [self::FROM_EDU, self::IN_INSIDE_MPGU, self::IN_MPGU, self::INSIDE_MPGU]]
         ];
     }
 
     public function listType() {
         return [
-            self::IN_MPGU => 'Восстановление или восстановление с переводом внутри МПГУ',
+            self::IN_MPGU => 'Восстановление внутри МПГУ',
+            self::IN_INSIDE_MPGU => 'Восстановление с переводом внутри МПГУ',
             self::INSIDE_MPGU => 'Перевод внутри МПГУ',
             self::FROM_EDU => 'Перевод из другой образовательной организации',
         ];
@@ -83,7 +87,13 @@ class TransferMpgu extends ActiveRecord
     }
 
     public function isMpgu()  {
-        return $this->type == TransferMpgu::IN_MPGU || $this->type == TransferMpgu::INSIDE_MPGU;
+        return $this->type == TransferMpgu::IN_MPGU ||
+            $this->type == TransferMpgu::IN_INSIDE_MPGU  ||
+            $this->type == TransferMpgu::INSIDE_MPGU;
+    }
+
+    public function inMpgu()  {
+        return $this->type == TransferMpgu::IN_MPGU;
     }
 
     public function typeName() {
@@ -92,6 +102,20 @@ class TransferMpgu extends ActiveRecord
 
     public function getProfile() {
         return $this->hasOne(Profiles::class,['user_id'=> 'user_id']);
+    }
+
+    public function isStatusMpsuCorrectType() {
+        if($this->current_status  == self::STATUS_ACTIVE) {
+            if(!in_array($this->type,[self::INSIDE_MPGU])){
+                throw new Exception('Вы можете выбрать только "Перевод внутри МПГУ"');
+            }
+        }elseif($this->current_status  == self::STATUS_EXPELLED) {
+            if(!in_array($this->type,[self::IN_INSIDE_MPGU, self::IN_MPGU])){
+                throw new Exception('Вы можете выбрать только "Восстановление внутри МПГУ" или 
+                "Восстановление с переводом внутри МПГУ');
+            }
+        }
+
     }
 
     public function attributeLabels()

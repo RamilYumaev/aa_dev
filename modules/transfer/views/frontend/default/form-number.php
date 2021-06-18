@@ -5,15 +5,18 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-$this->title = "Заполнение формы";
+use yii\widgets\MaskedInput;
+
+$this->title = "СНИЛС. Заполнение формы";
 ?>
 <div class="container">
     <h1><?=$this->title?></h1>
     <div class="row min-scr">
         <div class="mt-20 table-responsive">
             <?php $form = ActiveForm::begin(['id'=> 'form-transfer']); ?>
-            <?= $form->field($model, 'type')->dropDownList($model->listType());?>
-            <?= $form->field($model, 'number')->textInput();?>
+            <?= $form->field($model, 'number')->widget(MaskedInput::class, [
+                'mask' => '999-999-999 99',
+            ]) ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
@@ -21,16 +24,3 @@ $this->title = "Заполнение формы";
         </div>
     </div>
 </div>
-<?php
-$this->registerJS(<<<JS
-var typeSelect = $("#transfermpgu-type");
-var number = $("#transfermpgu-number");
-$(typeSelect).on("change init", function() {
-     if(this.value == 4){
-         number.attr('disabled', true).val('');
-     }else {
-         number.attr('disabled', false);
-     }
-}).trigger("init");
-JS
-);

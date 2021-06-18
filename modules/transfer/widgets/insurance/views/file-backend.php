@@ -1,10 +1,9 @@
 <?php
 
 use backend\widgets\adminlte\Box;
-use yii\helpers\Html;
 
 ?>
-<?php if($model) { Box::begin(
+<?php Box::begin(
     [
         "header" => "СНИЛС",
         "type" => Box::TYPE_INFO,
@@ -20,8 +19,9 @@ use yii\helpers\Html;
     </tr>
 </table>
 
-<?= \modules\entrant\widgets\file\FileListBackendWidget::Widget([ 'view'=>'list-backend',
+<?= \modules\transfer\widgets\file\FileListBackendWidget::Widget([ 'view'=>'list-backend',
     'record_id' => $model->id,
     'model' => $model::className(),
     'userId' => $model->user_id]) ?>
-<?php Box::end(); } ?>
+<?php Box::end(); ?>
+

@@ -24,9 +24,8 @@ class InsuranceCertificateUser extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['number'],
-        ], FileBehavior::class];
+        ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
     }
-
 
     public function data($number, $userId) {
         $this->number = $number;
@@ -62,6 +61,14 @@ class InsuranceCertificateUser extends YiiActiveRecordAndModeration
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function getTransferFiles() {
+        return $this->hasMany(\modules\transfer\models\File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countTransferFiles() {
+        return $this->getTransferFiles()->count();
     }
 
 }

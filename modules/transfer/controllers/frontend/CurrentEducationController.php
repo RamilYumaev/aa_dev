@@ -4,6 +4,7 @@ namespace modules\transfer\controllers\frontend;
 
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\CurrentEducation;
+use modules\transfer\models\TransferMpgu;
 use yii\web\Controller;
 
 class CurrentEducationController extends Controller
@@ -20,6 +21,10 @@ class CurrentEducationController extends Controller
 
 
     public function actionIndex() {
+        if($this->findTransfer()->isMpgu()) {
+            \Yii::$app->session->setFlash('warning', 'Страница недоступна');
+            return $this->redirect(['default/index']);
+        }
         $model = $this->findModel() ?? new CurrentEducation(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if($model->save()) {
@@ -34,7 +39,13 @@ class CurrentEducationController extends Controller
         return CurrentEducation::findOne(['user_id'=> $this->getUser()]);
     }
 
+    protected function findTransfer() {
+        return TransferMpgu::findOne(['user_id'=> $this->getUser()]);
+    }
+
     protected function getUser() {
         return  \Yii::$app->user->identity->getId();
     }
+
+
 }

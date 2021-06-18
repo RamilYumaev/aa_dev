@@ -27,7 +27,8 @@ class TransferRedirectBehavior  extends Behavior
     public function beforeAction($event)
     {
         $model = $this->transfer();
-        if((!$model || ($model && !in_array($model->current_status, $model::ACTIVE))) && in_array($this->owner->action->id, $this->ids)) {
+        if((!$model || ($model && !in_array($model->current_status, $model::ACTIVE)))
+            && in_array($this->owner->action->id, $this->ids)) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['transfer/default/fix']);
             try {

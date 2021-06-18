@@ -6,6 +6,7 @@ use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\CurrentEducationInfo;
 use modules\transfer\models\StatementTransfer;
+use modules\transfer\models\TransferMpgu;
 use modules\transfer\search\CompetitiveGroupSearch;
 use Yii;
 use yii\web\Controller;
@@ -24,6 +25,10 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function actionIndex() {
+        if($this->findTransfer()->inMpgu()) {
+            \Yii::$app->session->setFlash('warning', 'Страница недоступна');
+            return $this->redirect(['default/index']);
+        }
         $searchModel = new CompetitiveGroupSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -31,6 +36,10 @@ class CurrentEducationInfoController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider
         ]);
+    }
+
+    protected function findTransfer() {
+        return TransferMpgu::findOne(['user_id'=> $this->getUser()]);
     }
 
     /**

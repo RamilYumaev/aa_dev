@@ -26,8 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <?php endif; ?>
         <div class="mt-20 table-responsive">
-            <?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' => $userId,]); ?>
+            <?= \modules\transfer\widgets\insurance\InsuranceWidget::widget(['userId' => $userId, 'view'=>'index']); ?>
         </div>
+        <?php if(!$transfer->inMpgu()): ?>
+            <div class="mt-20 table-responsive">
+                <?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' => $userId]); ?>
+            </div>
+        <?php  endif; ?>
         <div class="mt-20">
             <div class="col-md-offset-4 col-md-4">
                 <?= Html::a("Загрузка сканов", ['post-document/index'], ["class" => "btn btn-warning btn-lg", 'data'=> ['method' => 'post']]) ?>

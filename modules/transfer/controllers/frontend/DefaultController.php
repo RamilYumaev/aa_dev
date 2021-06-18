@@ -5,9 +5,11 @@ namespace modules\transfer\controllers\frontend;
 use api\client\Client;
 use modules\transfer\behaviors\RedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
+use modules\transfer\models\InsuranceCertificateUser;
 use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\TransferMpgu;
 use Yii;
+use yii\db\Exception;
 use yii\web\Controller;
 
 class DefaultController extends Controller
@@ -39,13 +41,22 @@ class DefaultController extends Controller
                $data = $this->getJson($model->number);
                 if(key_exists('current_status_id', $data)) {
                     $model->current_status = $data['current_status_id'];
+                    try {
+                        $model->isStatusMpsuCorrectType();
+                    } catch (Exception $e) {
+                        \Yii::$app->session->setFlash('error',  $e->getMessage());
+                        return $this->redirect(['fix']);
+                    }
+                    $model->data_mpgsu = json_encode($data);
                 }
                 else {
                     \Yii::$app->session->setFlash('warning',  $data['error']);
                     return $this->redirect(['fix']);
                 }
             }else {
+                $model->number = '';
                 $model->current_status = $model::STATUS_ACTIVE;
+                $model->data_mpgsu =null;
             }
             if($model->save()) {
                 if(!in_array($model->current_status, $model::ACTIVE)) {
@@ -65,6 +76,16 @@ class DefaultController extends Controller
         return  $this->render('form',['model' => $model ]);
     }
 
+    public function actionInsuranceCertificate() {
+        $model = $this->findModelNumber() ?? new InsuranceCertificateUser(['user_id' => $this->getUser()]);
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+            if($model->save()) {
+                    return $this->redirect(['fix']);
+                }
+        }
+        return  $this->render('form-number',['model' => $model ]);
+    }
+
     public function getJson ($number) {
         $url =  'external/incoming-abiturient/get-student-info';
         $array['student_record_id'] = $number;
@@ -75,6 +96,10 @@ class DefaultController extends Controller
 
     protected function findModel() {
         return TransferMpgu::findOne(['user_id'=> $this->getUser()]);
+    }
+
+    protected function findModelNumber() {
+        return InsuranceCertificateUser::findOne(['user_id'=> $this->getUser()]);
     }
 
     protected function getUser() {
