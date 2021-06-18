@@ -14,7 +14,6 @@ class AdditionalInformationForm extends Model
         $mpgu_training_status_id, $mark_spo, $insuranceNumber;
 
     private $_additionalInformation;
-    public $return_doc;
     public  $is_military_edu;
 
     public function __construct($user_id, AdditionalInformation $additionalInformation = null, $config = [])
@@ -24,7 +23,6 @@ class AdditionalInformationForm extends Model
             $this->_additionalInformation= $additionalInformation;
             $this->insuranceNumber = $additionalInformation->insuranceCertificate ? $additionalInformation->insuranceCertificate->number : '';
         }
-        $this->return_doc = 3;
         $this->user_id = $user_id;
         parent::__construct($config);
     }
@@ -36,7 +34,7 @@ class AdditionalInformationForm extends Model
     public function rules()
     {
         return [
-            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',  'return_doc'] : ['resource_id', 'return_doc'], 'required'],
+            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'is_military_edu','chernobyl_status_id', 'mpgu_training_status_id'], 'integer'],
             [['insuranceNumber'], 'string', 'max'=>14],
             [['insuranceNumber'], 'validateInsuranceNumber'],

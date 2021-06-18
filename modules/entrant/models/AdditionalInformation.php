@@ -38,7 +38,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => [
-                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id', 'return_doc',' is_military_edu',  'mark_spo']
+                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id',' is_military_edu',  'mark_spo']
         ]];
     }
 
@@ -57,7 +57,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->chernobyl_status_id = $form->chernobyl_status_id;
         $this->mark_spo = $form->mark_spo;
         $this->is_military_edu = $form->is_military_edu;
-        $this->return_doc = $form->return_doc;
+        $this->return_doc = 3;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
 
@@ -134,7 +134,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'voz' => $this->voz_id,
             'hostel' => $this->hostel_id,
             'mark_spo'=> $this->mark_spo,
-            'return_doc' => $this->return_doc
         ];
     }
 
@@ -152,7 +151,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'hostel_id' => DictDefaultHelper::name($value),
             'is_military' => DictDefaultHelper::name($value),
             'resource_id'=> DictDefaultHelper::infoName($value),
-            'return_doc'=> DictDefaultHelper::returnDocName($value),
             'chernobyl_status_id' => DictDefaultHelper::infoName($value),
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
             'mark_spo' => $value
