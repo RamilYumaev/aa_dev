@@ -35,6 +35,7 @@ $otherDocument = OtherDocument::find()
 $och = false;
 ?>
 
+<?php if ($value['special_right']=="") : ?>
 <table class="table table-bordered app-table">
     <tbody>
     <tr>
@@ -82,6 +83,47 @@ $och = false;
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php else :?>
+<table class="table table-bordered app-table">
+    <tbody>
+    <tr>
+        <th rowspan="2">№</th>
+        <th colspan="3" align="center">Условия поступления</th>
+        <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+            $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
+            <th align="center">Вид финансирования</th>
+        <?php else : ?>
+            <th rowspan="2">Основание приема</th>
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <th>Направление подготовки</th>
+        <th>Образовательная программма</th>
+        <th>Форма обучения</th>
+        
+    </tr>
+    <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
+        $och = true;
+    } ?>
+        <tr>
+            <td width="4%"><?= ++$key ?>.</td>
+            <td width="30%"><?= $value["speciality"] ?></td>
+            <td width="30%"><?= $value['specialization'] ?></td>
+            <td width="10%"><?= $value['form'] ?></td>
+            <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+                <td class="text-center">На места по договорам об оказании платных образовательных услуг</td>
+            <?php elseif ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION) : ?>
+                <td class="text-center">За счет бюджетных ассигнований федерального бюджета</td>
+            <?php else : ?>
+                <td width="11%"><?= $value['special_right'] ?></td>
+                
+            <?php endif; ?>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>
+
 <?php if($cse): ?>
     <p>
         Прошу в качестве вступительных испытаний засчитать следующие результаты ЕГЭ: <?= $cse ?>
@@ -122,11 +164,10 @@ $och = false;
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
 
 <p align="justify">
-    В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38 Порядка
-    приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
-    специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
-    № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
-    и преимуществ в дополнение к заявлению на участие в конкурсе.
+   В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38
+        Порядка
+        приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
+        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 21.08.2020 № 1076, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав и преимуществ в дополнение к заявлению на участие в конкурсе.
 </p>
 
 <?php

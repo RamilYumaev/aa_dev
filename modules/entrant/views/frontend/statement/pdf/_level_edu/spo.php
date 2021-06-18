@@ -150,6 +150,7 @@ foreach ($signaturePoint as $signature) :?>
             <td class="bb"></td>
         </tr>
         <tr>
+            <td></td>
             <td class="v-align-top text-center fs-7">(Подпись поступающего)
             </td>
         </tr>
