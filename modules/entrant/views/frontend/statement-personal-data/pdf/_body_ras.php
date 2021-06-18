@@ -114,12 +114,6 @@
         <td></td>
         <td></td>
     </tr>
-    <tr>
-        <td height="25px"></td>
-        <td height="25px"></td>
-        <td height="25px"></td>
-        <td height="25px"></td>
-    </tr>
 </table>
 
 <p><strong>Категории и перечень персональных данных, для обработки которых устанавливаются условия и запреты*:</strong></p>
