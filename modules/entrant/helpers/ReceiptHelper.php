@@ -40,7 +40,7 @@ class ReceiptHelper
             AnketaHelper::POKROV_BRANCH => "УФК по Владимирской области (Покровский филиал МПГУ л/с 20286В01340)",
             AnketaHelper::STAVROPOL_BRANCH => "УФК по Ставропольскому краю (2133 Ставропольский филиал МПГУ л/с 20216Э35050)",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "УФК по Московской области (СПФ МПГУ л/с 20486Э39110)",
-            AnketaHelper::DERBENT_BRANCH => "УФК по Республике Дагестан отдел №2 (Дербентский филиал МПГУ л/с 20036Э36740)",
+            AnketaHelper::DERBENT_BRANCH => "УФК по Республике Дагестан отдел (Дербентский филиал МПГУ л/с 20036Э36740)",
         ];
     }
 
@@ -73,11 +73,11 @@ class ReceiptHelper
         return [
             // AnketaHelper::HEAD_UNIVERSITY => "40501810845252000079",
             AnketaHelper::HEAD_UNIVERSITY => "03214643000000017300/0321463000000017300",
-            AnketaHelper::ANAPA_BRANCH => "40501810000002000002",
-            AnketaHelper::POKROV_BRANCH => "40501810400082000001",
-            AnketaHelper::STAVROPOL_BRANCH => "40501810700022000002",
+            AnketaHelper::ANAPA_BRANCH => "03214643000000011800/40102810945370000010",
+            AnketaHelper::POKROV_BRANCH => "03214643000000012800/40102810945370000020",
+            AnketaHelper::STAVROPOL_BRANCH => "03214643000000012100/40102810345370000013",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "40501810545252000104",
-            AnketaHelper::DERBENT_BRANCH => "40501810800002000002",
+            AnketaHelper::DERBENT_BRANCH => "03214643000000010300/40102810945370000069",
         ];
     }
 
@@ -86,10 +86,10 @@ class ReceiptHelper
         return [
             AnketaHelper::HEAD_UNIVERSITY => "ГУ Банка России по ЦФО",
             AnketaHelper::ANAPA_BRANCH => "ЮЖНОЕ ГУ Банка России по Краснодарскому краю",
-            AnketaHelper::POKROV_BRANCH => "Отделение Владимир  г. Владимир",
-            AnketaHelper::STAVROPOL_BRANCH => "Отделение Ставрополь г. Ставрополь",
+            AnketaHelper::POKROV_BRANCH => "ОТДЕЛЕНИЕ ВЛАДИМИР БАНКА РОССИИ",
+            AnketaHelper::STAVROPOL_BRANCH => "ОТДЕЛЕНИЕ СТАВРОПОЛЬ БАНКА РОССИИ",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "ГУ Банка России по ЦФО г.Москва 35",
-            AnketaHelper::DERBENT_BRANCH => "ОТДЕЛЕНИЕ-НБ РЕСПУБЛИКА ДАГЕСТАН Г. МАХАЧКАЛА",
+            AnketaHelper::DERBENT_BRANCH => "ОТДЕЛЕНИЕ-НБ РЕСПУБЛИКА ДАГЕСТАН БАНКА РОССИИ",
         ];
     }
 
@@ -97,11 +97,11 @@ class ReceiptHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => "044525000",
-            AnketaHelper::ANAPA_BRANCH => "040349001",
-            AnketaHelper::POKROV_BRANCH => "041708001",
-            AnketaHelper::STAVROPOL_BRANCH => "040702001",
+            AnketaHelper::ANAPA_BRANCH => "010349101",
+            AnketaHelper::POKROV_BRANCH => "011708377",
+            AnketaHelper::STAVROPOL_BRANCH => "010702101",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "044525000",
-            AnketaHelper::DERBENT_BRANCH => "048209001",
+            AnketaHelper::DERBENT_BRANCH => "018209001",
         ];
     }
 
@@ -110,7 +110,7 @@ class ReceiptHelper
             AnketaHelper::HEAD_UNIVERSITY => "45383000",
             AnketaHelper::ANAPA_BRANCH => "03703000",
             AnketaHelper::POKROV_BRANCH => "17646120",
-            AnketaHelper::STAVROPOL_BRANCH => "07701000001",
+            AnketaHelper::STAVROPOL_BRANCH => "07701000",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "46728000",
             AnketaHelper::DERBENT_BRANCH => "82710000",
         ];
