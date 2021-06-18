@@ -31,7 +31,7 @@ $och = false;
         <th colspan="3" align="center">Условия поступления</th>
         <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
             $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
-            <th align="center">Вид финансирования</th>
+            <th align="center" rowspan="2">Вид финансирования</th>
         <?php else : ?>
         <th rowspan="2">Основание приема</th>
         <th rowspan="2">Вид финансирования</th>
@@ -70,7 +70,7 @@ $och = false;
     </tbody>
 </table>
     <p>
-        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?>.
+        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?>
     </p>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 

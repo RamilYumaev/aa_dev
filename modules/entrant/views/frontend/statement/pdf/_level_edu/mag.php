@@ -24,35 +24,7 @@ $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
 $och = false;
 ?>
 
-<!-- <table class="table table-bordered app-table">
-    <tbody>
-    <tr>
-        <th rowspan="2">№</th>
-        <th colspan="3" align="center">Условия поступления</th>
-        <th rowspan="2">Основание приема</th>
-        <th align="center" colspan="2">Вид финансирования</th>
-    </tr>
-    <tr>
-        <th>Направление подготовки</th>
-        <th>Образовательная программма</th>
-        <th>Форма обучения</th>
-        <th>Федеральный бюджет</th>
-        <th>Платное обучение</th>
-    </tr>
-    <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
-        <tr>
-            <td width="4%"><?= ++$key ?>.</td>
-            <td width="30%"><?= $value["speciality"] ?></td>
-            <td width="30%"><?= $value['specialization'] ?></td>
-            <td width="10%"><?= $value['form'] ?></td>
-            <td width="11%"><?= $value['special_right'] ?></td>
-            <td width="13%">
-                <?= $value['budget'] ?? "" ?></td>
-            <td width="10%" class="text-center"><?= $value['contract'] ?? "" ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table> -->
+
 
 <table class="table table-bordered app-table">
     <tbody>
@@ -61,7 +33,7 @@ $och = false;
         <th colspan="3" align="center">Условия поступления</th>
         <?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
             $anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION): ?>
-            <th align="center">Вид финансирования</th>
+            <th align="center" rowspan="2">Вид финансирования</th>
         <?php else : ?>
             <th rowspan="2">Основание приема</th>
             <th rowspan="2">Вид финансирования</th>
@@ -108,12 +80,12 @@ $och = false;
 <?php endif; ?>
 <?php if($noCse): ?>
     <p>
-        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?>.
+        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?>
     </p>
 <?php endif; ?>
-<p>
+<!-- <p>
 Способ возврата документа в случае непоступления (при предоставлении оригиналов документов): Передача лично или через доверенное лицо
-</p>
+</p> -->
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
 
 <table width="100%">
