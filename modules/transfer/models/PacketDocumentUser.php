@@ -13,6 +13,11 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property integer $packet_document
+ * @property string $number
+ * @property string $authority
+ * @property string $date
+ * @property integer $type
+ * @property string $note
 **/
 
 class PacketDocumentUser extends ActiveRecord
@@ -52,6 +57,17 @@ class PacketDocumentUser extends ActiveRecord
         ];
     }
 
+    public function listTypeName() {
+        return [
+            self::PACKET_DOCUMENT_EDU => 'Справка об обучении',
+            self::PACKET_DOCUMENT_BOOK => 'Зачетная книжка',
+            self::PACKET_DOCUMENT_REMOVE => 'Приказ об отчислении',
+            self::PACKET_DOCUMENT_PERIOD => 'Справка о периоде обучения ( с указанием количества зачетных единиц и часов по всем дисциплинам)',
+            self::PACKET_DOCUMENT_BOOK_FROM_EDU =>'Зачетная книжка (с подписью руководителя структурного подразделения за каждый семестр и печатями за каждый курс) либо иной документ, содержащий информацию о количестве сданных полностью без задолженностей сессии',
+            self::PACKET_DOCUMENT_STATUS => 'Справка, подтверждающая статус обучающегося (действительна 2 недели с момента выдачи)'
+        ];
+    }
+
     public static function generatePacketDocument($type) {
         if ($type == TransferMpgu::IN_MPGU || $type == TransferMpgu::IN_INSIDE_MPGU) {
             return [self::PACKET_DOCUMENT_EDU, self::PACKET_DOCUMENT_BOOK, self::PACKET_DOCUMENT_REMOVE];
@@ -67,8 +83,16 @@ class PacketDocumentUser extends ActiveRecord
         return $this->listType()[$this->packet_document];
     }
 
+    public function getTypeNameR() {
+        return $this->listTypeName()[$this->packet_document];
+    }
+
     public function getProfile() {
         return $this->hasOne(Profiles::class,['user_id'=> 'user_id']);
+    }
+
+    public function getIsNullData() {
+        return !$this->date && !$this->number && $this->authority;
     }
 
     public function getFiles() {
@@ -84,6 +108,11 @@ class PacketDocumentUser extends ActiveRecord
         return [
             'user_id' => 'Юзер',
             'packet_document' => 'Наименование',
+            'number' =>'Номер документа',
+            'authority'=> 'Кем выдан?',
+            'date'=> 'Дата выдачи',
+            'note' => "Примечание",
+            'type' => 'Тип документа'
         ];
     }
 }

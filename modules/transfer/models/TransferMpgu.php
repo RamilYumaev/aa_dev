@@ -21,6 +21,7 @@ use yii\db\Exception;
  * @property integer $current_status
  * @property string $data_mpgsu
  * @property integer $type
+ * @property integer $year
  * @property string $number
 **/
 
@@ -56,7 +57,8 @@ class TransferMpgu extends ActiveRecord
         return [
             [['type', 'user_id'],'required'],
             [['number'],'string',  'min'=> 4,'max' => 10],
-            [['number'], 'required', 'when'=> function($model) {
+            [['year'],'integer',  'min'=>  date('Y')-5,'max' => date('Y')-1],
+            [['number','year'], 'required', 'when'=> function($model) {
                 return $model->type != self::FROM_EDU;
             }, 'enableClientValidation' => false],
             ['type','in','range'=> [self::FROM_EDU, self::IN_INSIDE_MPGU, self::IN_MPGU, self::INSIDE_MPGU]]
@@ -129,6 +131,7 @@ class TransferMpgu extends ActiveRecord
             'type' => "Условие перевода/восстановления",
             'user_id' => 'Юзер',
             'number' => '№ студенческой зачетки',
+            'year' => 'Год выдачи студенческой зачетки',
         ];
     }
 }

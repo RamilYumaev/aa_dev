@@ -35,10 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php  endif; ?>
         <div class="mt-20">
             <div class="col-md-offset-4 col-md-4">
-                <?= $transfer->inMpgu() && !$transfer->statement  ? Html::a('Загрузка сканов',
+                <?= $transfer->inMpgu() ? Html::a('Загрузка сканов',
                     ['info'], ['data-pjax' => 'w0', 'data-toggle' => 'modal', "class" => "btn btn-warning btn-lg",
                         'data-target' => '#modal', 'data-modalTitle' => 'Данные']) :
-                Html::a("Загрузка сканов", ['post-document/index'], ["class" => "btn btn-warning btn-lg", 'data'=> ['method' => 'post']]) ?>
+                Html::a("Загрузка сканов", ['post-document/index'], ["class" => "btn btn-warning btn-lg",
+                    'data'=> ['method' => 'post']]) ?>
             </div>
         </div>
     </div>

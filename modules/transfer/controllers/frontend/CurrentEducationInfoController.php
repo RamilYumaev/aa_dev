@@ -63,20 +63,27 @@ class CurrentEducationInfoController extends Controller
             throw new NotFoundHttpException("Не найдена конкурсная группа");
         }
         if ($data = Yii::$app->request->post()) {
+            if($data['semester'] &&  $data['edu_count']  && $data['semester']) {
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), 5, $model->id, $data['course'],  $data['edu_count'])->save();
+                StatementTransfer::create($this->getUser(), $data['edu_count'], $model->id,
+                    $data['semester'],
+                    $data['course'] )->save();
             }else {
                 if($statement->countFiles()) {
                     \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');
                     return $this->redirect(['post-document/index']);
                 }
                 $statement->course = $data['course'];
+                $statement->semester = $data['semester'];
                 $statement->edu_count = $data['edu_count'];
                 $statement->cg_id = $model->id;
                 $statement->save();
-            }
-
+                }
             return $this->redirect(['post-document/index']);
+            }else {
+                \Yii::$app->session->setFlash('warning',  'Не введены все данные');
+                return $this->redirect(['index']);
+            }
         }
         return $this->renderAjax('course', ['cg'=> $model]);
     }

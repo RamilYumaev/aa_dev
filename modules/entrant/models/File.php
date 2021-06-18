@@ -130,7 +130,7 @@ class File extends ActiveRecord
 //                    }],
 //                ],
 //              'thumbPath' => '@frontend/file/[[attribute_user_id]]/[[profile]]_[[attribute_file_name_base]]_[[pk]].[[extension]]',
-                'filePath' => '@frontend/file/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
+                'filePath' => '@frontend/file_2021/[[attribute_user_id]]/[[attribute_file_name_base]].[[extension]]',
             ],
         ];
     }

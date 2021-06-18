@@ -13,7 +13,9 @@ $this->title = "Действующее образование. Заполнен�
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
             <?= $form->field($model, 'school_id')->dropDownList(UserSchoolHelper::userSchoolAll($model->user_id)) ?>
+            <?= $form->field($model, 'school_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'speciality')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'specialization')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'edu_count')->dropDownList($model->listEdu()) ?>
             <?= $form->field($model, 'course')->dropDownList(\dictionary\helpers\DictClassHelper::getList()) ?>
             <?= $form->field($model, 'form')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduForms()) ?>

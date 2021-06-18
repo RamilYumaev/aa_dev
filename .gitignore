@@ -47,4 +47,5 @@ phpunit.phar
 frontend/web/result/
 /frontend/file/
 /frontend/file_transfer/
+/frontend/file_2021/
 /phpmyadmin

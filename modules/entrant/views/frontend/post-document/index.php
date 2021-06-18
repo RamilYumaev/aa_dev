@@ -84,7 +84,7 @@ $userId =  Yii::$app->user->identity->getId();
 
             <?php if ($anketa->isBelarus() && UserDiscipline::find()->user($userId)->ctOrVi()->exists()): ?>
                 <h4>Требования к сертификатам ЦТ:</h4>
-                <p align="justify"> необходимо загрузить подтверждающий скан (сертифиакт ЦТ).</p>
+                <p align="justify"> необходимо загрузить подтверждающий скан (сертификат ЦТ).</p>
                 <?= \modules\entrant\widgets\discipline\CtWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
             <?php if (AgreementHelper::isExits($anketa->user_id)): ?>

@@ -7,6 +7,7 @@ use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
+use Mpdf\Tag\Tr;
 use olympic\models\auth\Profiles;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -17,9 +18,9 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property integer $status
- * @property integer $type
  * @property string  $message
  * @property integer $created_at;
+ * @property integer $semester;
  * @property integer $updated_at;
  * @property integer $count_pages
  * @property integer $course
@@ -43,12 +44,12 @@ class StatementTransfer extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static  function create($user_id, $type, $cgId, $course, $eduCount) {
+    public static  function create($user_id,  $eduCount, $cgId = null, $semester = null, $course=null) {
         $statement =  new static();
         $statement->user_id = $user_id;
-        $statement->type = $type;
         $statement->course = $course;
         $statement->edu_count = $eduCount;
+        $statement->semester = $semester;
         $statement->cg_id = $cgId;
         $statement->status = self::DRAFT;
         return $statement;
@@ -91,6 +92,9 @@ class StatementTransfer extends ActiveRecord
         return $this->hasOne(DictClass::class, ['id' => 'course']);
     }
 
+    public function getTransferMpgu() {
+        return $this->hasOne(TransferMpgu::class, ['user_id' => 'user_id']);
+    }
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
@@ -146,7 +150,7 @@ class StatementTransfer extends ActiveRecord
 
     public function getNumberStatement()
     {
-        return $this->user_id.'-'.$this->type.'-'.date("Y");
+        return $this->user_id.'-'.$this->transferMpgu->type.'-'.date("Y");
     }
 
     public function attributeLabels()

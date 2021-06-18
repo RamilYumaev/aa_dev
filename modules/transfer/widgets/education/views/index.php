@@ -19,7 +19,9 @@ use yii\widgets\DetailView;
                 $columns = [
                     ['label' => $model->getAttributeLabel('school_id'),
                         'value' => $model->school->name,],
+                    'school_name',
                     'speciality',
+                    'specialization',
                     ['label' => $model->getAttributeLabel('form'),
                         'value' => $model->getFormEdu(),],
                     ['label' => $model->getAttributeLabel('edu_count'),

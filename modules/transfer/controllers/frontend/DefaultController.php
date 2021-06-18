@@ -40,7 +40,7 @@ class DefaultController extends Controller
     public function actionFix() {
         $model = $this->findModel() ?? new TransferMpgu(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
-            if($model->isMpgu() && $model->number) {
+            if($model->isMpgu() && $model->number && $model->year) {
                $data = $this->getJson($model->number);
                 if(key_exists('current_status_id', $data)) {
                     $model->current_status = $data['current_status_id'];
@@ -58,6 +58,7 @@ class DefaultController extends Controller
                 }
             }else {
                 $model->number = '';
+                $model->year = null;
                 $model->current_status = $model::STATUS_ACTIVE;
                 $model->data_mpgsu =null;
             }
@@ -102,7 +103,7 @@ class DefaultController extends Controller
         $statement = $this->statement();
         if ($data = Yii::$app->request->post()) {
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), 5, null, null,  $data['edu_count'])->save();
+                StatementTransfer::create($this->getUser(), $data['edu_count'])->save();
             }else {
                 if($statement->countFiles()) {
                     \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');

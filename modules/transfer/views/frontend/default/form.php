@@ -14,6 +14,7 @@ $this->title = "Заполнение формы";
             <?php $form = ActiveForm::begin(['id'=> 'form-transfer']); ?>
             <?= $form->field($model, 'type')->dropDownList($model->listType());?>
             <?= $form->field($model, 'number')->textInput();?>
+            <?= $form->field($model, 'year')->textInput();?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
@@ -25,11 +26,14 @@ $this->title = "Заполнение формы";
 $this->registerJS(<<<JS
 var typeSelect = $("#transfermpgu-type");
 var number = $("#transfermpgu-number");
+var year = $("#transfermpgu-year");
 $(typeSelect).on("change init", function() {
      if(this.value == 4){
          number.attr('disabled', true).val('');
+         year.attr('disabled', true).val('');
      }else {
          number.attr('disabled', false);
+         year.attr('disabled', false);
      }
 }).trigger("init");
 JS

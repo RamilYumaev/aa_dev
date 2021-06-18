@@ -25,6 +25,8 @@ use yii\db\ActiveRecord;
  * @property integer $course
  * @property integer $edu_count
  * @property integer $current_analog
+ * @property integer $school_name
+ * @property string $specialization
  * @property string $speciality
 **/
 
@@ -71,12 +73,13 @@ class CurrentEducation extends ActiveRecord
         return [
             [['user_id',
                 'school_id',
+                'school_name',
                 'finance',
                 'edu_count',
                 'speciality',
                 'form',
                 'course',], 'required'],
-            [['speciality',
+            [['speciality', 'specialization'
             ], 'string', 'max'=> 255],
             [['user_id',
                 'finance',
@@ -98,6 +101,7 @@ class CurrentEducation extends ActiveRecord
             'user_id'=> "Студент",
             'finance' => 'Вид финансирования',
             'school_id' => 'Учебная организация',
+            'school_name' => 'Наименование учебной организации в родительном падеже',
             'speciality' => 'Направление подготовки',
             'specialization' => 'Наименование образовательной программы',
             'form' => 'Форма обучения',

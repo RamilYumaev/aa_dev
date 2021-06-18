@@ -23,9 +23,10 @@ $arraySliceClass =array_slice($classFlip, 0, $result+1);
 $data = array_slice_keys( $class, $arraySliceClass ); ?>
 <div>
     <h4><?= $cg->yearConverter()[1]."".$cg->getFullNameCg()?></h4>
-
     <label>Курс</label>
     <?= Html::dropDownList('course', '', $data,['class'=> 'form-control']) ?><br/>
+    <label>Семестр</label>
+    <?= Html::dropDownList('semester', '', [1=>1,2=>2],['class'=> 'form-control']) ?><br/>
     <label>Образование</label>
     <?= Html::dropDownList('edu_count', '', (new \modules\transfer\models\CurrentEducation())->listEdu(),['class'=> 'form-control']) ?>
 </div>

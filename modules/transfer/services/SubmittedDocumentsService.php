@@ -63,8 +63,6 @@ class SubmittedDocumentsService
         }
     }
 
-
-
     private function passport($userId)
     {
         $other = PassportData::find()->where(['user_id' => $userId, 'main_status' => true])->one();
