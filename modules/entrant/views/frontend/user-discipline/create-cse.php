@@ -5,7 +5,8 @@
 $this->title = "Результаты ЕГЭ. Добавление.";
 
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
-$this->params['breadcrumbs'][] = ['label' => 'ЕГЭ', 'url' => ['default/cse']];
+$this->params['breadcrumbs'][] = ['label' => 'Уровни образования', 'url' => ['/abiturient/anketa/step2']];
+$this->params['breadcrumbs'][] = ['label' => 'ЕГЭ', 'url' => ['user-discipline/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

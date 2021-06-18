@@ -5,6 +5,7 @@
 use yii\helpers\Html;
 $this->title =  $isBelarus ? "Результаты ЕГЭ/ЦТ": "Результаты ЕГЭ";
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Уровни образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = $this->title;
  ?>
 

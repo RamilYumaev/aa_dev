@@ -149,10 +149,10 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
             }
             $result .= "</strong></td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["competition_count"] && !$contractOnly ? ("Конкурс 2019: " . $budgetAnalog["competition_count"]) : "";
+            $result .= $budgetAnalog["competition_count"] && !$contractOnly ? ("Конкурс ".(date('Y')-1).": " . $budgetAnalog["competition_count"]) : "";
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $budgetAnalog["passing_score"] && !$contractOnly ? ("Проходной балл 2019 : " . $budgetAnalog["passing_score"]) : "";
+            $result .= $budgetAnalog["passing_score"] && !$contractOnly ? ("Проходной балл ".(date('Y')-1)." : " . $budgetAnalog["passing_score"]) : "";
             $result .= "</td>";
             $result .= "<td>";
             $result .= $currentCg->link ? Html::a("Описание образовательной программы", $currentCg->link,
