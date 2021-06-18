@@ -38,10 +38,4 @@ class StatementPersonalDataService
             $this->repository->save($statement);
         }
     }
-
-
-
-
-
-
 }

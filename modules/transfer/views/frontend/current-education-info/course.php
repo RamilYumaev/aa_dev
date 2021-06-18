@@ -26,7 +26,7 @@ $data = array_slice_keys( $class, $arraySliceClass ); ?>
 
     <label>Курс</label>
     <?= Html::dropDownList('course', '', $data,['class'=> 'form-control']) ?><br/>
-    <label>Обраование</label>
+    <label>Образование</label>
     <?= Html::dropDownList('edu_count', '', (new \modules\transfer\models\CurrentEducation())->listEdu(),['class'=> 'form-control']) ?>
 </div>
 <br/>

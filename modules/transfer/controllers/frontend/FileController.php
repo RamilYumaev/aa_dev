@@ -3,6 +3,7 @@ namespace modules\transfer\controllers\frontend;
 
 use modules\entrant\helpers\FileHelper;
 use modules\transfer\models\File;
+use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 use yii\bootstrap\ActiveForm;
 use yii\db\BaseActiveRecord;
@@ -59,7 +60,7 @@ class FileController extends Controller
     {
         $model = FileHelper::validateModel($hash);
         $modelOne = $this->model($model, $id);
-        if ($model == StatementTransfer::class && !$modelOne->count_pages) {
+        if (($model == StatementTransfer::class && !$modelOne->count_pages) || ($model == StatementConsentPersonalData::class && !$modelOne->count_pages)) {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
             return $this->redirect(Yii::$app->request->referrer);
         }

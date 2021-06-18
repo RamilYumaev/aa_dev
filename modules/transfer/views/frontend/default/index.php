@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 /* @var  $transfer  modules\transfer\models\TransferMpgu */
 use yii\helpers\Html;
-
+\frontend\assets\modal\ModalAsset::register($this);
 $this->title = 'Персональная карточка';
 $userId = $transfer->user_id;
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий', 'url' => ['/transfer/default/fix']];
@@ -35,7 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php  endif; ?>
         <div class="mt-20">
             <div class="col-md-offset-4 col-md-4">
-                <?= Html::a("Загрузка сканов", ['post-document/index'], ["class" => "btn btn-warning btn-lg", 'data'=> ['method' => 'post']]) ?>
+                <?= $transfer->inMpgu() && !$transfer->statement  ? Html::a('Загрузка сканов',
+                    ['info'], ['data-pjax' => 'w0', 'data-toggle' => 'modal', "class" => "btn btn-warning btn-lg",
+                        'data-target' => '#modal', 'data-modalTitle' => 'Данные']) :
+                Html::a("Загрузка сканов", ['post-document/index'], ["class" => "btn btn-warning btn-lg", 'data'=> ['method' => 'post']]) ?>
             </div>
         </div>
     </div>

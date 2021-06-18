@@ -1,8 +1,6 @@
 <?php
 namespace modules\transfer\widgets\insurance;
 
-use common\helpers\EduYearHelper;
-use modules\entrant\models\Agreement;
 use modules\entrant\models\InsuranceCertificateUser;
 use yii\base\Widget;
 

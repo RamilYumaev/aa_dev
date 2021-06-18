@@ -104,6 +104,10 @@ class TransferMpgu extends ActiveRecord
         return $this->hasOne(Profiles::class,['user_id'=> 'user_id']);
     }
 
+    public function getStatement() {
+        return $this->hasOne(StatementTransfer::class,['user_id'=> 'user_id']);
+    }
+
     public function isStatusMpsuCorrectType() {
         if($this->current_status  == self::STATUS_ACTIVE) {
             if(!in_array($this->type,[self::INSIDE_MPGU])){

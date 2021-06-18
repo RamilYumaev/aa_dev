@@ -4,10 +4,13 @@
 namespace modules\transfer\services;
 
 use common\transactions\TransactionManager;
+use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\FileHelper;
+use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
 use modules\transfer\models\File;
 use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 
 class SubmittedDocumentsService
@@ -29,7 +32,9 @@ class SubmittedDocumentsService
     public function transferSend($user_id)
     {
         $this->manager->wrap(function () use ($user_id) {
+            $this->statementPd($user_id);
             $this->passport($user_id);
+            $this->address($user_id);
             $this->statementTransfer($user_id);
             $this->packetDocument($user_id);
             $this->files($user_id);
@@ -46,6 +51,18 @@ class SubmittedDocumentsService
             $file->save($file);
         }
     }
+
+    private function address($userId)
+    {
+        $others = Address::find()->where(['user_id' => $userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
+        /* @var $other \modules\entrant\models\Address */
+        foreach ($others as $other) {
+            if (!$other->files) {
+                throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу ' . $other->typeName . '!');
+            }
+        }
+    }
+
 
 
     private function passport($userId)
@@ -74,6 +91,15 @@ class SubmittedDocumentsService
             throw new \DomainException('Загружены не все файлы заявления!');
         }
     }
+
+    private function statementPd($userId)
+    {
+        $statement = StatementConsentPersonalData::find()->where(['user_id' => $userId])->one();
+        if (!$statement->countFilesAndCountPagesTrue()) {
+            throw new \DomainException('Загружены не все файлы заявления!');
+        }
+    }
+
 
 
 }

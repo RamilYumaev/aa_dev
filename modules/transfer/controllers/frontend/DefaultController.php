@@ -3,14 +3,17 @@
 namespace modules\transfer\controllers\frontend;
 
 use api\client\Client;
+use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\RedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\InsuranceCertificateUser;
 use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\StatementTransfer;
 use modules\transfer\models\TransferMpgu;
 use Yii;
 use yii\db\Exception;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
@@ -93,6 +96,31 @@ class DefaultController extends Controller
         $result =  (new Client(Yii::$app->params['ais_competitive']))->getData($url, $array);
         return $result;
     }
+
+    public function actionInfo()
+    {
+        $statement = $this->statement();
+        if ($data = Yii::$app->request->post()) {
+            if(!$statement) {
+                StatementTransfer::create($this->getUser(), 5, null, null,  $data['edu_count'])->save();
+            }else {
+                if($statement->countFiles()) {
+                    \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');
+                    return $this->redirect(['post-document/index']);
+                }
+                $statement->edu_count = $data['edu_count'];
+                $statement->save();
+            }
+
+            return $this->redirect(['post-document/index']);
+        }
+        return $this->renderAjax('info');
+    }
+
+    protected function statement() {
+        return StatementTransfer::findOne(['user_id' => $this->getUser()]);
+    }
+
 
     protected function findModel() {
         return TransferMpgu::findOne(['user_id'=> $this->getUser()]);

@@ -21,7 +21,7 @@ use modules\transfer\widgets\file\FileListWidget;
                 <th></th>
             </tr>
             <?php foreach($addresses as $address) :?>
-            <tr class="<?= BlockRedGreenHelper::colorTableBg($address->countFiles(), FileHelper::listCountModels()[$address::className()]) ?>">
+            <tr class="<?= BlockRedGreenHelper::colorTableBg($address->countTransferFiles(), FileHelper::listCountModels()[$address::className()]) ?>">
                 <td><?= $address->addersFull ?></td>
                 <td><?= $address->typeName ?></td>
                 <td><?= FileWidget::widget(['record_id' => $address->id, 'model' => $address::className()]) ?></td>

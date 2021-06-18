@@ -37,7 +37,7 @@ class Address extends YiiActiveRecordAndModeration
             'class'=> ModerationBehavior::class,
             'attributes'=>['country_id', 'type', 'postcode', 'region', 'district',
                 'city', 'village', 'street', 'house', 'housing', 'building', 'flat'],
-        ], FileBehavior::class];
+        ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
     }
 
     public static  function create(AddressForm $form) {
@@ -158,6 +158,14 @@ class Address extends YiiActiveRecordAndModeration
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function getTransferFiles() {
+        return $this->hasMany(\modules\transfer\models\File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countTransferFiles() {
+        return $this->getTransferFiles()->count();
     }
 
 }
