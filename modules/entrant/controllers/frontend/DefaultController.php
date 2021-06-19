@@ -2,6 +2,7 @@
 
 namespace modules\entrant\controllers\frontend;
 
+use modules\entrant\models\Anketa;
 use yii\web\Controller;
 use Yii;
 
@@ -15,7 +16,7 @@ class DefaultController extends Controller
         return $this->render('index');
     }
 
-    private function getAnketa()
+    protected function getAnketa()
     {
         return  Yii::$app->user->identity->anketa();
     }
