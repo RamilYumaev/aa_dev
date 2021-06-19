@@ -123,9 +123,6 @@ class AnketaController extends Controller
 
     protected function findModelByUser()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['default/index']);
-        }
         return Anketa::findOne(['user_id' => $this->getUserId()]);
     }
 
