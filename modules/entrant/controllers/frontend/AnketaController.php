@@ -20,13 +20,11 @@ class AnketaController extends Controller
 {
 
     private $service;
-    private $anketa;
 
 
     public function __construct($id, $module, AnketaService $service, $config = [])
     {
         $this->service = $service;
-        $this->anketa = $this->findModelByUser();
         parent::__construct($id, $module, $config);
     }
 
@@ -90,7 +88,7 @@ class AnketaController extends Controller
 
     public function actionChoiceEducationLevel()
     {
-        $anketa = $this->findModelByUser();
+        $anketa = $this->anketa;
         if (!$anketa) {
             $this->redirect(['default/index']);
         }
@@ -121,7 +119,7 @@ class AnketaController extends Controller
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
-    protected function findModelByUser()
+    protected function getAnketa()
     {
         return Anketa::findOne(['user_id' => $this->getUserId()]);
     }
