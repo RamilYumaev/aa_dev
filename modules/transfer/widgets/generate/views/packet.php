@@ -20,7 +20,16 @@ use yii\helpers\Html;
             <?php foreach($documents as $other) :?>
                 <tr class="<?= BlockRedGreenHelper::colorTableBg($other->countFiles(), FileHelper::listCountModels()[$other::className()], true) ?>">
                     <td><?= $other->typeName ?></td>
-                    <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?></td>
+                    <?php if (!$other->isBook() && $other->isNullData()) :?>
+                        <td><?= Html::a('Добавить данные',
+                                ['add', 'id' => $other->id], ['class'=> 'btn btn-info','data-pjax' => 'w0'.$other->id, 'data-toggle' => 'modal',
+                                    'data-target' => '#modal', 'data-modalTitle' => $other->typeNameR ]); ?></td>
+                    <?php else :?>
+                        <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?><br />
+                            <?= Html::a('Редактировать данные',
+                                ['add', 'id' => $other->id], ['class'=> 'btn btn-warning','data-pjax' => 'w0'.$other->id, 'data-toggle' => 'modal',
+                                    'data-target' => '#modal', 'data-modalTitle' => $other->typeNameR ]); ?></td>
+                    <?php endif; ?>
                 </tr>
                 <tr>
                     <td colspan="<?=2 ?>"> <?= FileListWidget::widget(['record_id' => $other->id, 'model' =>  $other::className(), 'userId' => $other->user_id ]) ?>

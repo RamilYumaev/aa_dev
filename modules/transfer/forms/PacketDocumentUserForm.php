@@ -22,7 +22,7 @@ class PacketDocumentUserForm extends PacketDocumentUser
     public function rules()
     {
         return [
-            [['number', 'number', 'authority', 'date'], 'required', 'when' => function($model) {
+            [['number', 'authority', 'date'], 'required', 'when' => function($model) {
                 return $model->packet_document !=  self::PACKET_DOCUMENT_BOOK; },],
             [['note'], 'required', 'when' =>
                 function($model) {

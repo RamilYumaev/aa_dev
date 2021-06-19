@@ -91,8 +91,16 @@ class PacketDocumentUser extends ActiveRecord
         return $this->hasOne(Profiles::class,['user_id'=> 'user_id']);
     }
 
-    public function getIsNullData() {
-        return !$this->date && !$this->number && $this->authority;
+    public function isNullData() {
+        return !$this->date && !$this->number && !$this->authority;
+    }
+
+    public function isBook() {
+        return $this->type == self::PACKET_DOCUMENT_BOOK;
+    }
+
+    public function isRemove() {
+        return $this->type == self::PACKET_DOCUMENT_REMOVE;
     }
 
     public function getFiles() {

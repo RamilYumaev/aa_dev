@@ -98,6 +98,10 @@ class TransferMpgu extends ActiveRecord
         return $this->type == TransferMpgu::IN_MPGU;
     }
 
+    public function insideMpgu()  {
+        return $this->type == TransferMpgu::INSIDE_MPGU;
+    }
+
     public function typeName() {
         return $this->listType()[$this->type];
     }

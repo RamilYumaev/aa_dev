@@ -2,6 +2,8 @@
 
 
 namespace modules\transfer\controllers\frontend;
+use dictionary\models\DictCompetitiveGroup;
+use modules\transfer\forms\PacketDocumentUserForm;
 use modules\transfer\models\CurrentEducation;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\services\SubmittedDocumentsService;
@@ -9,6 +11,7 @@ use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\TransferMpgu;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class PostDocumentController extends Controller
 {
@@ -67,10 +70,30 @@ class PostDocumentController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+
+    public function actionAdd($id)
+    {
+        $model = PacketDocumentUserForm::findOne(['id'=>$id, 'user_id' => $this->getUserId()]);
+        if(!$model) {
+            throw new NotFoundHttpException('Не найдена страница');
+        }
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+            if($model->save()) {
+                \Yii::$app->session->setFlash('success', 'Успешно обнолено');
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->renderAjax('add', ['model'=> $model]);
+    }
+
+
     private function getUserId()
     {
         return  Yii::$app->user->identity->getId();
     }
-
-
 }

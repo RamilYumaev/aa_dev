@@ -10,7 +10,9 @@ use modules\entrant\models\StatementConsentPersonalData;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\services\StatementIndividualAchievementsService;
 use modules\entrant\services\StatementPersonalDataService;
+use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\StatementTransfer;
+use modules\transfer\models\TransferMpgu;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -31,6 +33,9 @@ class StatementTransferController extends Controller
     public function actionPdf($id)
     {
         $statement= $this->findModel($id);
+        if(!$statement->transferMpgu->insideMpgu()) {
+            $this->isPacketDocument();
+        }
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
         $content = $this->renderPartial('pdf/_main', ["statement" => $statement]);
@@ -47,6 +52,15 @@ class StatementTransferController extends Controller
         return $render;
     }
 
+    protected function isPacketDocument() {
+        /** @var PacketDocumentUser $pack */
+        foreach (PacketDocumentUser::find()->andWhere(['user_id' =>  Yii::$app->user->identity->getId()])->all() as $pack) {
+            if ($pack->isNullData()) {
+                Yii::$app->session->setFlash('warning', 'Отсутствуют данные "'.$pack->getTypeNameR().'"');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
     /**
      * @param integer $id
      * @return mixed
