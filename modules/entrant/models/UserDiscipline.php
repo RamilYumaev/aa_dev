@@ -167,10 +167,11 @@ class UserDiscipline extends YiiActiveRecordAndModeration
 
     public function moderationAttributes($value): array
     {
+
         return [
             'mark' => $value,
             'year' => $value,
-            'type' => $this->getTypeList()[$value]['name_short'],
+            'type' => key_exists($value, $this->getTypeList()) ? $this->getTypeList()[$value]['name_short'] : $value,
             'discipline_id' => DictDisciplineHelper::disciplineName($value),
             'discipline_select_id' => DictDisciplineHelper::disciplineName($value)
         ];
