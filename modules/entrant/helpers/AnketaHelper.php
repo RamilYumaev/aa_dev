@@ -117,8 +117,8 @@ class AnketaHelper
             self::SCHOOL_TYPE_SPECIALIST => 'Высшее образование (Диплом специалиста)*',
             self::SCHOOL_TYPE_MAGISTER => 'Высшее образование (Диплом магистра)',
             self::SCHOOL_TYPE_DIPLOMA_SPECIALIST => 'Высшее образование (Дипломированный специалист)',
-            self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
-            self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)',
+            /* self::SCHOOL_TYPE_PHD => 'Высшее образование (Диплом кандидата наук или аспиранта)',
+            self::SCHOOL_TYPE_DOCTOR_SCIENCES => 'Высшее образование (Диплом доктора наук)', */
         ];
     }
 
