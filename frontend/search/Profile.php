@@ -16,7 +16,9 @@ class Profile extends Model
     public function rules()
     {
         return [
-            [['lastName', 'firstName', 'patronymic' , 'phone', 'email'], 'string'],
+            [['last_name', 'first_name', 'patronymic' , 'phone', 'email'], 'trim'],
+            [['last_name', 'first_name', 'patronymic' , 'phone', 'email'], 'string'],
+            [['email'], 'email'],
         ];
     }
 
