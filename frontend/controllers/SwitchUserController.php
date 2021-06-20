@@ -3,16 +3,17 @@
 namespace frontend\controllers;
 
 use common\auth\models\SwitchUser;
+use common\auth\models\User;
 use common\components\JsonAjaxField;
 use frontend\search\Profile;
 use olympic\helpers\auth\ProfileHelper;
+use olympic\models\auth\Profiles;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 
 class SwitchUserController extends Controller
 {
-
     public function behaviors()
     {
         return [
@@ -37,9 +38,33 @@ class SwitchUserController extends Controller
     public function actionIndex()
     {
         $model = new Profile();
+        $params = \Yii::$app->request->queryParams;
+        $isParams= $params ? true  : false;
+        $model->load($params);
+        return $this->render('index', ['model' => $model,
+            'isParams' => $isParams,
+            'user' => $this->findUser($model->email),
+            'phone' => $this->findProfilePhone($model->phone),
+            'listProfiles' => $this->findProfileFIO($model->last_name, $model->first_name, $model->patronymic)
+        ]);
+    }
 
-        $model->load(\Yii::$app->request->queryParams);
-        return $this->render('index', ['model' => $model]);
+    protected function findUser($email)
+    {
+        return User::findOne(['email' => $email]);
+    }
+
+    protected function findProfilePhone($phone)
+    {
+        return Profiles::findOne(['phone' => $phone]);
+    }
+
+    protected function findProfileFIO($lastName, $firstName, $patronymic)
+    {
+        return Profiles::find()
+            ->andFilterWhere(['like', 'last_name', $lastName])
+            ->andFilterWhere(['like', 'first_name', $firstName])
+            ->andFilterWhere(['like', 'patronymic', $patronymic])->all();
     }
 
     public function actionByUserId($id)
