@@ -8,7 +8,7 @@ $script = <<<JS
 $(document).ready(function() {
     setInterval(function(){
         location.reload();
-    }, 1000000);
+    }, 3000);
 });
 JS;
 $this->registerJs($script);
@@ -18,6 +18,7 @@ $this->registerJs($script);
 #queue{
     font-family: 'Lato', 'Roboto', sans-serif;
 }
+
 .tablo__talon{
     margin: 0 auto;
     display: block;
