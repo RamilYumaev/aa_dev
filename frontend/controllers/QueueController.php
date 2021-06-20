@@ -18,7 +18,9 @@ class QueueController extends Controller
     public function actionTablo()
     {
         $queues = [
-            ['talon'=>'M10', 'number_of_table'=>'13', 'status'=>0],
+            ['talon'=>'Пушкин А.С.', 'number_of_table'=>'13', 'status'=>0],
+            ['talon'=>'Лермонтов М.Ю', 'number_of_table'=>'1', 'status'=>0],
+            ['talon'=>'Салтыков-Щедрин М.Е.', 'number_of_table'=>'13', 'status'=>0],
             ['talon'=>'M11', 'number_of_table'=>'1', 'status'=>0],
             ['talon'=>'M10', 'number_of_table'=>'13', 'status'=>0],
         ];
