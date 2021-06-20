@@ -23,9 +23,9 @@ $this->registerJs($script);
     margin: 0 auto;
     display: block;
     text-align: center;
-    font-size: 145px;
+    font-size: 120px;
     font-weight: 600;
-    margin-top: 40px;
+    margin-top: 30px;
     color: #262626;
 }
 </style>
