@@ -34,10 +34,20 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('phone', ['model'=> $model, 'phone' =>$phone]) ?>
         </div>
     </div>
+    <br />
     <?php if(!$phone && !$user && ($model->last_name && $model->first_name)) :?>
     <div class="row">
         <div class="col-md-12">
             <?= $this->render('list_profiles', ['model'=> $model, 'listProfiles'=> $listProfiles]) ?>
+        </div>
+    </div>
+    <?php endif;?>
+    <br />
+    <?php if(!$user && $model->last_name && $model->first_name && $model->phone && $model->email) :?>
+    <div class="row">
+        <div class="col-md-12">
+            <?= Html::a("Создать ЛК", \yii\helpers\Url::to(), ["class" => "btn btn-warning btn-lg pull-right",
+                'data'=> ['method' => 'post', 'confirm'=> "Вы уверены, что хотите создать ЛК?"]])?>
         </div>
     </div>
     <?php endif;?>
