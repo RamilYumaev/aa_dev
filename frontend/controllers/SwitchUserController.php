@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\auth\models\SwitchUser;
 use common\components\JsonAjaxField;
+use frontend\search\Profile;
 use olympic\helpers\auth\ProfileHelper;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -35,15 +36,9 @@ class SwitchUserController extends Controller
 
     public function actionIndex()
     {
-        $model = new SwitchUser();
-        if ($model->load(\Yii::$app->request->post())) {
-            try {
-                \Yii::$app->user->identity->switchUser($model->userId);
-                return $this->goHome();
-            } catch (\Exception $e) {
-                \Yii::$app->session->setFlash('error', $model->errors);
-            }
-        }
+        $model = new Profile();
+
+        $model->load(\Yii::$app->request->queryParams);
         return $this->render('index', ['model' => $model]);
     }
 
