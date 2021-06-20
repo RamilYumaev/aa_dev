@@ -8,6 +8,7 @@ use frontend\search\Profile;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
 use olympic\services\auth\UserService;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -42,12 +43,25 @@ class SwitchUserController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     */
     public function actionIndex()
     {
         $model = new Profile();
         $params = \Yii::$app->request->queryParams;
         $isParams= $params ? true  : false;
         $model->load($params);
+        if(\Yii::$app->request->post()) {
+          try {
+              $user = $this->service->createByOperator($model);
+              \Yii::$app->user->identity->switchUser($user->id);
+              return $this->goHome();
+          } catch (Exception $e) {
+              \Yii::$app->session->setFlash('danger', $e->getMessage());
+          }
+        }
         return $this->render('index', ['model' => $model,
             'isParams' => $isParams,
             'user' => $this->findUser($model->email),

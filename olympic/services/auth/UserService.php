@@ -1,28 +1,32 @@
 <?php
-
-
 namespace olympic\services\auth;
 
-
-use common\auth\helpers\UserHelper;
+use common\sending\traits\SelectionCommitteeMailTrait;
 use frontend\search\Profile;
 use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
+use olympic\models\auth\Profiles;
+use olympic\repositories\auth\ProfileRepository;
 use yii\db\Exception;
 
 class UserService
 {
     private $repository;
     private $transaction;
+    private $profileRepository;
+
+    use SelectionCommitteeMailTrait;
 
     public function __construct(
         UserRepository $repository,
-        TransactionManager $transaction
+        TransactionManager $transaction,
+        ProfileRepository $profileRepository
     )
     {
+        $this->profileRepository = $profileRepository;
         $this->repository = $repository;
         $this->transaction = $transaction;
     }
@@ -68,6 +72,22 @@ class UserService
         }
         $string = \Yii::$app->security->generateRandomString(8);
         $user = User::createByOperator($form, $string);
+        $this->transaction->wrap(function () use ($user,$form) {
+            $this->repository->save($user);
+            $profile = new Profiles();
+            $profile->last_name = $form->last_name;
+            $profile->first_name = $form->first_name;
+            $profile->patronymic = $form->patronymic;
+            $profile->phone = "+".$form->phone;
+            $profile->country_id = null;
+            $profile->region_id = null;
+            $profile->user_id = $user->id;
+            $profile->save(false);
+        });
+
+        $configTemplate =  ['html' => 'newPassEntrant-html', 'text' => 'newPassEntrant-text'];
+        $configData = ['user' => $user, 'string' => $string];
+        $this->sendEmail($user, $configTemplate, $configData, "Создание личного кабинета!");
         return $user;
     }
 
