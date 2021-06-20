@@ -181,7 +181,7 @@ class MobileCiController extends Controller
     {
         $json = $this->getJson();
         $data = Json::decode($json);
-        $talon = $data['talon'];
+        $talonString = $data['talon'];
         $lastName = $data['last_name'];
         $firstName = $data['first_name'];
         $patronymic = $data['patronymic'];
@@ -206,7 +206,7 @@ class MobileCiController extends Controller
             }
 
             $talon = new Talons();
-            $talon->name = $talon;
+            $talon->name = $talonString;
             $talon->date = date('Y-m-d');
             $talon->anketa_id = $anketa->id;
             $talon->status = Talons::STATUS_NEW;

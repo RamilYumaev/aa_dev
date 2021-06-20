@@ -18,6 +18,7 @@ class Talons extends ActiveRecord
 
     public function rules(){
         return [
+            ['name', 'string'],
             [['name', 'date'], 'unique', 'targetAttribute'=> ['name', 'date']],
             ['anketa_id', 'exist', 'targetClass'=>AnketaCi::class, 'targetAttribute'=>['anketa_id'=>'id']],
             [['status', 'num_of_table'], 'integer']
