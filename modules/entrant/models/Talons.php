@@ -20,7 +20,7 @@ class Talons extends ActiveRecord
         return [
             [['name', 'date'], 'unique', 'targetAttribute'=> ['name', 'date']],
             ['anketa_id', 'exist', 'targetClass'=>AnketaCi::class, 'targetAttribute'=>['anketa_id'=>'id']],
-            ['status', 'integer']
+            [['status', 'num_of_table'], 'integer']
         ];
     }
 
