@@ -9,27 +9,21 @@ use \common\auth\models\SwitchUser;
 use \dictionary\helpers\DictCountryHelper;
 use dictionary\helpers\DictRegionHelper;
 
-$this->title = "Форма переключения на другого пользователя";
+$this->title = "Переключение на другого пользователя";
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-
     <div class="container mt-50">
         <h1><?= $this->title ?></h1>
         <div class="row">
             <div class="col-md-12">
-                <?php $form = ActiveForm::begin(['id' => 'form-switch-user', 'options' => ['autocomplete' => 'off']]); ?>
-                <?= $form->field($model, 'submittedStatus')->dropDownList(SwitchUser::submittedStatus(), [
-                    'prompt' => 'Выберите вариант']) ?>
-                <?= $form->field($model, 'countryId')->dropDownList(DictCountryHelper::countryList(), [
-                    'prompt' => 'Выберите страну']) ?>
-                <?= $form->field($model, 'regionId')->dropDownList(DictRegionHelper::regionList(), [
-                    'prompt' => 'Выберите регион']) ?>
-                <?= $form->field($model, 'userId')->widget(Select2::class, [
-                    'pluginOptions' => ['allowClear' => true],
-                ]); ?>
-                <?= Html::submitButton("Переключиться", ['class' => 'btn btn-success']) ?>
-
+                <?php $form = ActiveForm::begin(['id' => 'form-switch-user', 'action' => ['index'], 'method' => 'get']); ?>
+                <?= $form->field($model, 'phone')->textInput() ?>
+                <?= $form->field($model, 'email')->textInput() ?>
+                <?= $form->field($model, 'last_name')->textInput() ?>
+                <?= $form->field($model, 'first_name')->textInput() ?>
+                <?= $form->field($model, 'patronymic')->textInput() ?>
+                <?= Html::submitButton("Найти", ['class' => 'btn btn-success']) ?>
                 <?php ActiveForm::end() ?>
             </div>
         </div>
