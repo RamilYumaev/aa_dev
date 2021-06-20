@@ -3,6 +3,7 @@
 
 namespace modules\transfer\controllers\frontend;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\DateFormatHelper;
 use modules\transfer\forms\PacketDocumentUserForm;
 use modules\transfer\models\CurrentEducation;
 use modules\transfer\models\StatementTransfer;
@@ -87,6 +88,8 @@ class PostDocumentController extends Controller
                 \Yii::$app->session->setFlash('success', 'Успешно обнолено');
                 return $this->redirect(['index']);
             }
+        }else {
+            $model->date =  $model->date ? $model->dateRu : "";
         }
         return $this->renderAjax('add', ['model'=> $model]);
     }

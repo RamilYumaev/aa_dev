@@ -3,7 +3,9 @@
 
 namespace modules\transfer\forms;
 use modules\entrant\components\MaxDateValidate;
+use modules\entrant\helpers\DateFormatHelper;
 use modules\transfer\models\PacketDocumentUser;
+use Yii;
 
 /**
  *
@@ -31,5 +33,12 @@ class PacketDocumentUserForm extends PacketDocumentUser
             [['date'], MaxDateValidate::class],
             [['date'], 'date', 'format' => 'd.m.Y'],
             ];
+    }
+
+    public function beforeSave($insert) {
+        if($this->date){
+            $this->date = DateFormatHelper::formatRecord($this->date);
+        }
+        return parent::beforeSave($insert);
     }
 }

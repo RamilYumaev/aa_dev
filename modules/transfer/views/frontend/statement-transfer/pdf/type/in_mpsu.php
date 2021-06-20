@@ -1,0 +1,51 @@
+<?php
+/**
+ * @var $statement modules\transfer\models\StatementTransfer
+ * @var $transfer modules\transfer\models\TransferMpgu
+ *  * @var $docRemove modules\transfer\models\PacketDocumentUser
+ */
+$transfer = $statement->transferMpgu;
+$data = $transfer->getJsonData();
+$docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
+?>
+Прошу восстановить меня в <?= $data['faculty'] ?>
+образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
+форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?>, семестр ____
+Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
+<?= $docRemove->note ?> (причина отчисления)
+
+<table width="100%" class="mt-50">
+    <tr>
+        <td width="5px">«</td>
+        <td width="25px" class="bb"></td>
+        <td width="5px">»</td>
+        <td class="bb"></td>
+        <td width="15px">202</td>
+        <td width="15px" class="bb"></td>
+        <td>год</td>
+        <td></td>
+        <td width="150px" class="bb"></td>
+        <td></td>
+        <td width="150px" class="bb"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td width="5px"></td>
+        <td width="25px"></td>
+        <td width="5px"></td>
+        <td></td>
+        <td width="15px"></td>
+        <td width="15px"></td>
+        <td></td>
+        <td></td>
+        <td width="150px" class="fs-7 text-center"><i>(подпись)</i></td>
+        <td></td>
+        <td width="150px" class="fs-7 text-center"><i>(ФИО)</i></td>
+        <td></td>
+    </tr>
+</table>
+<?= $this->render('_block') ?>
+В Приемную комиссию представлены документы:
+Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
+Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->number?> г.
+

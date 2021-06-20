@@ -55,7 +55,7 @@ class StatementTransferController extends Controller
     protected function isPacketDocument() {
         /** @var PacketDocumentUser $pack */
         foreach (PacketDocumentUser::find()->andWhere(['user_id' =>  Yii::$app->user->identity->getId()])->all() as $pack) {
-            if ($pack->isNullData()) {
+            if (!$pack->isBook() && $pack->isNullData()) {
                 Yii::$app->session->setFlash('warning', 'Отсутствуют данные "'.$pack->getTypeNameR().'"');
                 return $this->redirect(Yii::$app->request->referrer);
             }
@@ -73,6 +73,4 @@ class StatementTransferController extends Controller
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
-
-
 }

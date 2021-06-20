@@ -26,9 +26,9 @@ use yii\helpers\Html;
                                     'data-target' => '#modal', 'data-modalTitle' => $other->typeNameR ]); ?></td>
                     <?php else :?>
                         <td><?= FileWidget::widget(['record_id' => $other->id, 'model' => $other::className() ]) ?><br />
-                            <?= Html::a('Редактировать данные',
+                            <?= !$other->isBook() ? Html::a('Редактировать данные',
                                 ['add', 'id' => $other->id], ['class'=> 'btn btn-warning','data-pjax' => 'w0'.$other->id, 'data-toggle' => 'modal',
-                                    'data-target' => '#modal', 'data-modalTitle' => $other->typeNameR ]); ?></td>
+                                    'data-target' => '#modal', 'data-modalTitle' => $other->typeNameR ]) :""; ?></td>
                     <?php endif; ?>
                 </tr>
                 <tr>

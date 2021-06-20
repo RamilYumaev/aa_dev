@@ -13,4 +13,9 @@ class FacultyQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['id' => $id]);
     }
+
+    public function facultyAis($id)
+    {
+        return $this->andWhere(['ais_id' => $id]);
+    }
 }

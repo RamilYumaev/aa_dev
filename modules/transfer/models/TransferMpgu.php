@@ -5,7 +5,11 @@ namespace modules\transfer\models;
 
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\models\DictSpeciality;
+use dictionary\models\DictSpecialization;
+use dictionary\models\Faculty;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
@@ -104,6 +108,31 @@ class TransferMpgu extends ActiveRecord
 
     public function typeName() {
         return $this->listType()[$this->type];
+    }
+
+    public function getJsonData() {
+        $array = [];
+        if($this->isMpgu()) {
+            $data =$this->data_mpgsu ? json_decode($this->data_mpgsu,true) : null;
+            if($data) {
+                if($fac = Faculty::find()->facultyAis($data['faculty_id'])->one()) {
+                    $array['faculty'] =  $fac->full_name;
+                    $array['faculty_genitive'] = $fac->genitive_name;
+                }
+                if($speciality = DictSpeciality::find()->andWhere(['ais_id'=> $data['specialty_id']])->one()) {
+                    $array['speciality'] = $speciality->codeWithName;
+                }
+                if($specialization = DictSpecialization::find()->andWhere(['ais_id'=> $data['specialization_id']])->one()) {
+                    $array['specialization'] =  $specialization->name;
+                }else {
+                    $array['specialization'] =   '';
+                }
+                    $array['form'] = DictCompetitiveGroupHelper::getEduForms()[$data['education_form_id']];
+                    $array['course'] =$data['course'];
+                    $array['finance'] = $data['financing_type_id'];
+            }
+        }
+        return $array;
     }
 
     public function getProfile() {

@@ -3,6 +3,7 @@
 
 namespace modules\transfer\models;
 
+use modules\entrant\helpers\DateFormatHelper;
 use modules\transfer\behaviors\FileBehavior;
 use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
@@ -96,11 +97,15 @@ class PacketDocumentUser extends ActiveRecord
     }
 
     public function isBook() {
-        return $this->type == self::PACKET_DOCUMENT_BOOK;
+        return $this->packet_document == self::PACKET_DOCUMENT_BOOK;
+    }
+
+    public function getDateRu() {
+        return DateFormatHelper::formatView($this->date);
     }
 
     public function isRemove() {
-        return $this->type == self::PACKET_DOCUMENT_REMOVE;
+        return $this->packet_document == self::PACKET_DOCUMENT_REMOVE;
     }
 
     public function getFiles() {

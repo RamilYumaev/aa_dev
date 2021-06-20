@@ -16,4 +16,5 @@ $passport = \modules\entrant\helpers\PassportDataHelper::dataArray($user);
 
 <?= $this->render("_header", ['profile' => $profile, 'user_id' => $user, 'name' => $name]) ?>
 <?= $this->render("_body", ['statement' => $statement, 'name' => $name, 'passport' => $passport, 'profile' => $profile]) ?>
+<?= $this->render("_footer", ['statement' => $statement]) ?>
 

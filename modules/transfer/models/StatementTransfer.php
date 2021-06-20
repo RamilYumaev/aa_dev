@@ -92,6 +92,14 @@ class StatementTransfer extends ActiveRecord
         return $this->hasOne(DictClass::class, ['id' => 'course']);
     }
 
+    public function getCurrentEducation() {
+        return $this->hasOne(CurrentEducation::class, ['user_id' => 'user_id']);
+    }
+
+    public function getDocumentPacket($type){
+        return PacketDocumentUser::findOne(['user_id' => $this->user_id,'packet_document'=>$type]);
+    }
+
     public function getTransferMpgu() {
         return $this->hasOne(TransferMpgu::class, ['user_id' => 'user_id']);
     }

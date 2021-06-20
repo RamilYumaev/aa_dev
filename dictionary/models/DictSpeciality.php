@@ -62,9 +62,6 @@ class DictSpeciality extends ActiveRecord
     public static function aisToSdoConverter($key)
     {
         $model = self::find()->andWhere(['ais_id'=> $key])->one();
-
-
-
         if($model !== null)
         {
             return $model->id;
