@@ -2,18 +2,20 @@
 
 namespace frontend\controllers;
 
-use common\auth\models\SwitchUser;
 use common\auth\models\User;
 use common\components\JsonAjaxField;
 use frontend\search\Profile;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
+use olympic\services\auth\UserService;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 
 class SwitchUserController extends Controller
 {
+    private $service;
+
     public function behaviors()
     {
         return [
@@ -33,6 +35,11 @@ class SwitchUserController extends Controller
                 ],
             ],
         ];
+    }
+    public function __construct($id, $module, UserService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
     }
 
     public function actionIndex()
@@ -56,8 +63,10 @@ class SwitchUserController extends Controller
 
     protected function findProfilePhone($phone)
     {
-        return Profiles::findOne(['phone' => $phone]);
+        return Profiles::findOne(['phone' => "+".$phone]);
     }
+
+
 
     protected function findProfileFIO($lastName, $firstName, $patronymic)
     {

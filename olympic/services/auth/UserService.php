@@ -4,11 +4,14 @@
 namespace olympic\services\auth;
 
 
+use common\auth\helpers\UserHelper;
+use frontend\search\Profile;
 use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
+use yii\db\Exception;
 
 class UserService
 {
@@ -51,6 +54,22 @@ class UserService
         $this->repository->save($user);
     }
 
+    /**
+     * @param Profile $form
+     * @return User
+     * @throws Exception
+     * @throws \yii\base\Exception
+     */
+    public function createByOperator(Profile $form): User
+    {
+        $is = $this->repository->getEmail($form->email);
+        if($is){
+            throw new Exception('Такая электорнная почта существует в базе данных');
+        }
+        $string = \Yii::$app->security->generateRandomString(8);
+        $user = User::createByOperator($form, $string);
+        return $user;
+    }
 
     public function remove($id): void
     {

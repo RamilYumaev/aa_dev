@@ -6,6 +6,7 @@ use common\auth\forms\SignupForm;
 use common\auth\forms\UserEmailForm;
 
 use common\auth\forms\UserEditForm as UserDefault;
+use frontend\search\Profile;
 use olympic\forms\auth\UserEditForm;
 use olympic\forms\auth\UserCreateForm;
 use common\auth\helpers\UserHelper;
@@ -73,6 +74,27 @@ class User extends ActiveRecord
         $user->auth_key = Yii::$app->security->generateRandomString();
         return $user;
     }
+
+    /**
+     * @param Profile $form
+     * @param $string
+     * @return static
+     * @throws \yii\base\Exception
+     */
+
+    public static function createByOperator(Profile $form, $string): self
+    {
+        $user = new static();
+        $user->username = $form->email;
+        $user->email = $form->email;
+        $user->github = null;
+        $user->setPassword($string);
+        $user->created_at = time();
+        $user->status = UserHelper::STATUS_ACTIVE;
+        $user->auth_key = Yii::$app->security->generateRandomString();
+        return $user;
+    }
+
 
     public function edit(UserEditForm $form): void
     {
