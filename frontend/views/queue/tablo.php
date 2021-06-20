@@ -33,6 +33,7 @@ $this->registerJs($script);
     
 
 <div class="tablo__talons">
+
 <?php foreach ($queues as $key => $queue)  : ?>
     <div class='tablo__talon' >
         <?= $queue['talon'] ?>
