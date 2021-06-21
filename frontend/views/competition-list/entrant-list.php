@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $countRCls = count($rCls);?>
 <?php Pjax::begin(['id' => 'competition-list']); ?>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2" style=" margin-top: 40px; margin-left: 60px">
         <?= DatePicker::widget([
             'name' => 'dp_addon_1',
             'language' => 'ru',

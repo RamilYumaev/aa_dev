@@ -12,25 +12,25 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
 ?>
 <div class="row">
     <div class="col-md-12">
-        <p>
-            Федеральное государственное бюджетное образовательное учреждение высшего образования
+        <p style="font-size: 15px; margin-top: 40px">
+            ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
-            учебный год 2021\2022,<br/>
-            дата публикации списка и время обновления <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
-            категория поступающих <?= $model->getTypeName($cg->special_right_id) ?>,<br/>
-            Структурное подразделение: <?= $cg->faculty->full_name ?>,<br/>
-            направление подготовки <?= $cg->specialty->codeWithName ?>,<br/>
-            уровень образования <?= $cg->eduLevelFull ?>,<br/>
+            Учебный год 2021\2022<br/><br/>
+            <span style="font-weight: bold"> Дата публикации списка и время обновления </span><?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
+            <span style="font-weight: bold">Категория поступающих </span><?= $model->getTypeName($cg->special_right_id) ?>,<br/>
+            <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?>,<br/>
+            <span style="font-weight: bold">Направление подготовки </span><?= $cg->specialty->codeWithName ?>,<br/>
+            <span style="font-weight: bold">Уровень образования </span><?= $cg->eduLevelFull ?>,<br/>
             <?php if($cg->specialisationName): ?>
-                профиль(и) <?= $cg->specialisationName ?>,<br/>
+                <span style="font-weight: bold">Профиль(и) </span><?= $cg->specialisationName ?>,<br/>
             <?php endif; ?>
-            форма обучения <?= $cg->formEdu ?>,<br/>
-            вид финансирования <?= $cg->finance ?>,<br/>
+            <span style="font-weight: bold">Форма обучения </span><?= $cg->formEdu ?>,<br/>
+            <span style="font-weight: bold">Вид финансирования </span><?= $cg->finance ?>,<br/>
             <?php if($cg->isContractCg()) : ?>
-                стоимость обучения  <?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
+                <span style="font-weight: bold">Стоимость обучения  </span><?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
             <?php endif; ?>
             <?php if ($cg->isBudget()) : ?>
-                контрольные цифры приема:
+                <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($cg->special_right_id)) : ?>
                     <?= $data['kcp']['sum'] ?>,
                     квота - <?= $data['kcp']['quota'] ?>,
@@ -46,44 +46,44 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-20">
         <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
             <table class="table table">
                 <tr>
-                    <th>№ п/п</th>
-                    <th>Уникальный номер/СНИЛС</th>
-                    <th>Сумма баллов</th>
+                    <th style="font-size: 12px; text-align: center">№ п/п</th>
+                    <th style="font-size: 12px; text-align: center">Уникальный номер/СНИЛС</th>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов</th>
                     <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
-                        <th><?= $value ?></th>
+                        <th style="font-size: 12px; text-align: center"><?= $value ?></th>
                     <?php endforeach; ?>
-                    <th>Сумма баллов за все предметы ВИ</th>
-                    <th>Индивидуальные достижения</th>
-                    <th>Сумма баллов за все ИД</th>
-                    <th>Подача документа об образовании</th>
-                    <th>Согласие на зачисление подано (+) / отсутствует (-)</th>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
+                    <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
+                    <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
+                    <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($cg->isTarget()) : ?>
-                        <th>Наименование целевой организации</th>
+                        <th style="font-size: 12px; text-align: center">Наименование целевой организации</th>
                     <?php endif; ?>
                     <?php if($model->isBvi()):?>
-                        <th>Основание приема без ВИ</th>
+                        <th style="font-size: 12px; text-align: center">Основание приема без ВИ</th>
                     <?php endif; ?>
-                    <th>Нуждается в общежитии</th>
+                    <th style="font-size: 12px; text-align: center">Нуждается в общежитии</th>
                     <?php if($cg->isContractCg()) : ?>
-                        <th>Оплатил да/нет</th>
+                        <th style="font-size: 12px; text-align: center">Оплатил да/нет</th>
                     <?php endif; ?>
-                    <th>Примечание</th>
-                    <th>Дата приема заявлений</th>
+                    <th style="font-size: 12px; text-align: center">Примечание</th>
+                    <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
                 </tr>
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr <?=!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
-                    <td><?=$i++?></td>
-                    <td><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
-                    <td><?= $entrant['total_sum']?></td>
+                    <td style="font-size: 12px; text-align: center"><?=$i++?></td>
+                    <td style="font-size: 12px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['total_sum']?></td>
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
                         ?>
-                        <td>
+                        <td style="font-size: 12px; text-align: center">
 
                             <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
                             <?= $subjectType[$subject['subject_type_id']] ?>
@@ -91,28 +91,28 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
 
                         </td>
                     <?php endforeach; ?>
-                    <td><?= $entrant['subject_sum']?></td>
-                    <td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['subject_sum']?></td>
+                    <td style="font-size: 12px; text-align: center">
                         <?php if(key_exists('individual_achievements', $entrant)) :?>
                             <?php echo implode(', ', array_map(function($individual_achievement)
                             { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
                         <?php endif; ?>
                     </td>
-                    <td><?= $entrant['sum_of_individual']?></td>
-                    <td><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
-                    <td><?= $entrant['zos_status_id'] ? '+': '-'?></td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['sum_of_individual']?></td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
                     <?php if($cg->isTarget()) : ?>
-                        <td><?= $entrant['target_organization_name'] ?></td>
+                        <td style="font-size: 12px; text-align: center"><?= $entrant['target_organization_name'] ?></td >
                     <?php endif; ?>
                     <?php if($model->isBvi()):?>
-                        <td><?= $entrant['bvi_right'] ?></td>
+                        <td style="font-size: 12px; text-align: center"><?= $entrant['bvi_right'] ?></td>
                     <?php endif; ?>
-                    <td><?= $entrant['hostel_need_status_id'] ? 'Да': 'Нет'?></td>
+                    <td style="font-size: 12px; text-align: center"><?= $entrant['hostel_need_status_id'] ? 'Да': 'Нет'?></td>
                     <?php if($cg->isContractCg()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
-                    <td><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
-                    <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
+                    <td style="font-size: 12px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
+                    <td style="font-size: 12px; text-align: center"><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                     <?php endforeach; ?>
                 </tr>
             </table>

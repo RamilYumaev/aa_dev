@@ -106,7 +106,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                 </tr>
             </table>
         <?php else: ?>
-            <h4>в списке нет ни одного абитуриент</h4>
+            <h4>в списке нет ни одного абитуриента</h4>
         <?php endif; ?>
     </div>
 </div>
