@@ -32,8 +32,8 @@ class StatementIAReadRepository
         $query->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=user_cg.cg_id');
         $query->innerJoin(Faculty::tableName(), 'dict_faculty.id=dict_competitive_group.faculty_id');
         if($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['statement_individual_achievements.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+            $query->andWhere(['statement_individual_achievements.edu_level' =>
+                [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
             ->andWhere(['dict_faculty.filial'=>false]);
         }
 
@@ -47,6 +47,6 @@ class StatementIAReadRepository
             $query->andWhere(['dict_faculty.id'=> $this->jobEntrant->category_id]);
         }
 
-        return $query;
+        return $query->distinct();
     }
 }
