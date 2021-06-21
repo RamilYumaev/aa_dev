@@ -25,6 +25,7 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function actionIndex() {
+        ini_set('max_execution_time', 300);
         if($this->findTransfer()->inMpgu()) {
             \Yii::$app->session->setFlash('warning', 'Страница недоступна');
             return $this->redirect(['default/index']);

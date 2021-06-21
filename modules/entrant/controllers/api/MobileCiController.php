@@ -13,6 +13,7 @@ use modules\dictionary\models\SettingEntrant;
 use modules\entrant\models\AnketaCi;
 use modules\entrant\models\AnketaCiCg;
 use modules\entrant\models\CseResultsCi;
+use modules\entrant\models\Talons;
 use yii\filters\AccessControl;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
@@ -180,7 +181,7 @@ class MobileCiController extends Controller
     {
         $json = $this->getJson();
         $data = Json::decode($json);
-        $talon = $data['talon'];
+        $talonString = $data['talon'];
         $lastName = $data['last_name'];
         $firstName = $data['first_name'];
         $patronymic = $data['patronymic'];
@@ -192,7 +193,6 @@ class MobileCiController extends Controller
         $transaction = \Yii::$app->db->beginTransaction();
         try {
             $anketa = new AnketaCi();
-            $anketa->talon = $talon;
             $anketa->lastName = $lastName;
             $anketa->firstName = $firstName;
             $anketa->patronymic = $patronymic;
@@ -202,6 +202,16 @@ class MobileCiController extends Controller
 
             if (!$anketa->save()) {
                 $error = Json::encode($anketa->errors);
+                return ['error_message' => $error];
+            }
+
+            $talon = new Talons();
+            $talon->name = $talonString;
+            $talon->date = date('Y-m-d');
+            $talon->anketa_id = $anketa->id;
+            $talon->status = Talons::STATUS_NEW;
+            if (!$talon->save()) {
+                $error = Json::encode($talon->errors);
                 return ['error_message' => $error];
             }
 

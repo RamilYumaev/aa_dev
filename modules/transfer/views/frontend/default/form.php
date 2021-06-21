@@ -5,7 +5,8 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-$this->title = "Заполнение формы";
+$this->title = "Перевод и восстановление. Заполнение формы";
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
     <h1><?=$this->title?></h1>

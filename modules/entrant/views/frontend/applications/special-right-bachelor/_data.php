@@ -189,6 +189,9 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     <p class="label label-info fs-15">Система автоматически добавляет аналогичное заявление на общий конкурс.<br/>
         Это ни к чему не обязывает Вас, а наоборот увеличивает Ваши шансы поступления в МПГУ!</p>
     <div class="table-responsive">
+        <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+            <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => Yii::$app->user->identity->getId(), 'view' => 'index-cg'])?>
+        <?php endif;?>
         <?= $result ?>
     </div>
 </div>

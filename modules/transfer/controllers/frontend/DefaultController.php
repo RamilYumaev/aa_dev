@@ -84,7 +84,7 @@ class DefaultController extends Controller
         $model = $this->findModelNumber() ?? new InsuranceCertificateUser(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if($model->save()) {
-                    return $this->redirect(['fix']);
+                    return $this->redirect(['index']);
                 }
         }
         return  $this->render('form-number',['model' => $model ]);

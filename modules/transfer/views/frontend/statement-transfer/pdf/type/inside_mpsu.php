@@ -10,14 +10,17 @@ $data = $transfer->getJsonData();
 $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
 $cg = $statement->cg;
 ?>
+<div class="fs-15">
+<p align="justify">
 Прошу перевести меня из <?= $data['faculty_genitive'] ?>
 образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
 форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> , семестр _____
 обучаюсь на <?= $data['finance'] == 1 ? 'бюджетной': 'финасовой' ?> основе
 в <?=$cg->faculty->full_name ?>
 образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>
-форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>
-<table width="100%" class="mt-50">
+форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>.
+</p>
+    <table width="100%" class="mt-10">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>
@@ -48,5 +51,6 @@ $cg = $statement->cg;
     </tr>
 </table>
 <?= $this->render('_block') ?>
-В Приемную комиссию представлены документы:
-Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->number?> г.
+<p class="mt-10">В Приемную комиссию представлены документы:
+    Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>
+</div>

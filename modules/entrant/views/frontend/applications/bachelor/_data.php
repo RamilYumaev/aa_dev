@@ -195,6 +195,9 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
             - кнопка отмены выбора образовательной программы на договорной основе.
         </div>
     </div>
+    <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+        <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => Yii::$app->user->identity->getId(), 'view' => 'index-cg'])?>
+    <?php endif;?>
     <div class="table-responsive">
         <?= $result ?>
     </div>

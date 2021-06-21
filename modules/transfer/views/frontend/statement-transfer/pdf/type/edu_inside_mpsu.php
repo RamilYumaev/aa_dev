@@ -9,14 +9,15 @@ $edu = $statement->currentEducation;
 $docPeriod = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_PERIOD);
 $cg = $statement->cg;
 ?>
-Прошу перевести меня из <?= $edu->school_name ?>
+<div class="fs-15">
+<p align="justify">Прошу перевести меня из <?= $edu->school_name ?>
 образовательная программа <?= $edu->speciality ?> <?= $edu->specialization ? ', '.$edu->specialization:''?>
 форма обучения <?= mb_strtolower($edu->formEdu)  ?>, курс<?= $edu->dictCourse->name ?>
-обучаюсь на <?= $edu->finance == 1 ? 'бюджетной': 'финасовой' ?> основе
-в <?=$cg->faculty->full_name ?>
+обучаюсь на <?= $edu->finance == 1 ? 'бюджетной': 'финасовой' ?> основе в <?=$cg->faculty->full_name ?>
 образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>
-форма обучения <?= mb_strtolower($cg->formEdu) ?>, курс<?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>
-<table width="100%" class="mt-50">
+форма обучения <?= mb_strtolower($cg->formEdu) ?>, курс<?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>.
+</p>
+<table width="100%" class="mt-10 fs-15">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>
@@ -50,3 +51,5 @@ $cg = $statement->cg;
 
 В Приемную комиссию представлена справка о периоде обучения № <?= $docPeriod->number ?>
 <?= $edu->school_name ?>
+
+</div>
