@@ -13,7 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 use dictionary\helpers\DictCompetitiveGroupHelper; ?>
 <div>
-    <h1><?= $this->title ?></h1>
+    <h1 style="text-align: center; margin-top: 40px;"><?= $this->title ?></h1>
+    <div style="width: 1140px; margin: 0 auto; margin-top: 35px;">
     <?php foreach ($faculty as $item):
         $cgs = $item->faculty->getCg()->contractOnly()->edulevel($eduLevel)->foreignerStatus(false)
         ->tpgu(false)->currentAutoYear();
@@ -21,20 +22,21 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
             $cgs->select(['speciality_id','faculty_id','education_form_id'])
                 ->groupBy(['speciality_id','faculty_id','education_form_id']);
         }?>
-        <h3><?= $item->faculty->full_name?></h3>
+        <h3 style="margin-top: 40px"><?= $item->faculty->full_name?></h3>
         <table class="table">
             <tr>
-                <th>Код и наименование направления подготовки</th>
+                <th style="width: 760px">Код и наименование направления подготовки</th>
                 <th>Форма обучения</th>
                 <th>Конкурсные списки</th>
             </tr>
             <?php foreach ($cgs->all() as $cg): ?>
             <tr>
-                <th><?=$cg->specialty->codeWithName?> <?=$cg->getSpecialisationName() .($eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "(для " . $cg->spo_class . " классов)": '') ?> </th>
-                <th><?= $cg->formEdu ?></th>
-                <th><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract'=> $cg, 'eduLevel'=> $eduLevel]) ?></th>
+                <th style="font-weight: 100"><?=$cg->specialty->codeWithName?> <?=$cg->getSpecialisationName() .($eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "(для " . $cg->spo_class . " классов)": '') ?> </th>
+                <th style="font-weight: 100"><?= $cg->formEdu ?></th>
+                <th style="font-weight: 100"><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract'=> $cg, 'eduLevel'=> $eduLevel]) ?></th>
             </tr>
             <?php endforeach; ?>
         </table>
     <?php endforeach; ?>
+    </div>
 </div>
