@@ -152,12 +152,23 @@ class MobileCiController extends Controller
         foreach ($cg->examinations as $exam) {
             $examinations[] = $exam->discipline->name;
         }
+
+        if($budgetAnalog){
+            $shareKsp = $budgetAnalog->kcp;
+            $specialKsp = $specialAnalog->kcp;
+            $targetKsp = $targetAnalog->kcp;
+        }else{
+            $shareKsp = 0;
+            $specialKsp = 0;
+            $targetKsp = 0;
+        }
+
         return [
             'specialty_name' => $cg->specialty->codeWithName,
             'faculty_name' => $cg->faculty->full_name,
             'specialization_name' => $cg->specialization->name,
             'education_form_name' => DictCompetitiveGroupHelper::getEduForms()[$cg->education_form_id],
-            'kcp' => $budgetAnalog->kcp ?? 0 + $specialAnalog->kcp ?? 0 + $targetAnalog->kcp ?? 0,
+            'kcp' => $shareKsp + $specialKsp + $targetKsp,
             'competition_count' => $budgetAnalog->competition_count ?? 0,
             'passing_score' => $budgetAnalog->passing_score ?? 0,
             'education_year_cost' => $cg->education_year_cost,
