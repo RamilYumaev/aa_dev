@@ -47,12 +47,12 @@ class ProfileStatementReadRepository
                 => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
             } else if ($this->isID == JobEntrantHelper::MPGU_SR) {
-                $query->andWhere(["in", "anketa.category_id",
-                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);
+//                $query->andWhere(["in", "anketa.category_id",
+//                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);
 
-//                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
-//                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
-//                    ["anketa.category_id"=>CategoryStruct::WITHOUT_COMPETITION]]);
+                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
+                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
+                    ["anketa.category_id"=>CategoryStruct::WITHOUT_COMPETITION]]);
             } else if ($this->isID == JobEntrantHelper::MPGU_PP) {
                 $query->innerJoin(OtherDocument::tableName(), "other_document.user_id = anketa.user_id")
                     ->innerJoin(PreemptiveRight::tableName(), "preemptive_right.other_id= other_document.id");
