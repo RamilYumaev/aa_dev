@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('list_profiles', ['model'=> $model, 'listProfiles'=> $listProfiles]) ?>
         </div>
     </div>
-    <?php endif;?>g
+    <?php endif;?>
     <br />
     <?php if(!$user && $model->last_name && $model->first_name && $model->phone && $model->email) :?>
     <div class="row">
