@@ -3,9 +3,13 @@
 
 namespace modules\transfer\controllers\frontend;
 use dictionary\models\DictCompetitiveGroup;
+use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
+use modules\entrant\helpers\PassportDataHelper;
+use modules\entrant\models\PassportData;
 use modules\transfer\forms\PacketDocumentUserForm;
 use modules\transfer\models\CurrentEducation;
+use modules\transfer\models\InsuranceCertificateUser;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\services\SubmittedDocumentsService;
 use modules\transfer\behaviors\TransferRedirectBehavior;
@@ -40,7 +44,14 @@ class PostDocumentController extends Controller
         $model =  TransferMpgu::findOne(['user_id'=> $this->getUserId()]);
         $edu = CurrentEducation::findOne(['user_id'=> $this->getUserId()]);
         $statement = StatementTransfer::findOne(['user_id'=> $this->getUserId()]);
+        $passport = PassportDataHelper::isExits($this->getUserId());
+        $address = AddressHelper::isExits($this->getUserId());
+        $snils = InsuranceCertificateUser::findOne(['user_id'=> $this->getUserId()]);
         if(!$model) {
+            return $this->redirect(['default/index']);
+        }
+        if(!$passport || !$address || !$snils) {
+            Yii::$app->session->setFlash("error", "Заполните, пожалуйста, блоки, отмеченные красным цветом");
             return $this->redirect(['default/index']);
         }
 

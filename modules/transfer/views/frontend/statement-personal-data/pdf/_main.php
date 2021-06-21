@@ -8,7 +8,7 @@ use modules\entrant\helpers\PassportDataHelper;
 /* @var $statementPd modules\transfer\models\StatementConsentPersonalData */
 $profile = ProfileHelper::dataArray($statementPd->user_id);
 $passport = PassportDataHelper::dataArray($statementPd->user_id);
-AddressHelper::registrationResidence($statementPd->user_id);
+$reg = AddressHelper::registrationResidence($statementPd->user_id);
 ?>
 
 <h2 align="center"><u>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</u></h2>
