@@ -34,6 +34,9 @@ include 'navigation/index.html';
                 "/abiturient/anketa/step2", ["class" => "btn btn-warning btn-lg"]) ?>
         </div>
     </div>
+    <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+        <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => $userId])?>
+    <?php endif;?>
     <div class="mt-20 table-responsive" id="profile">
         <?= \modules\entrant\widgets\profile\ProfileWidget::widget(['userId' => $userId]); ?>
     </div>

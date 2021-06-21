@@ -22,4 +22,12 @@ class AnketaCi extends ActiveRecord
         ];
     }
 
+    public function getFio() {
+        return $this->lastName." ".$this->firstName.' '.$this->patronymic;
+    }
+
+    public function getAnketaCg() {
+        return $this->hasMany(AnketaCiCg::class,['id_anketa' => 'id']);
+    }
+
 }

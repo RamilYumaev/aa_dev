@@ -57,6 +57,9 @@ foreach ($currentFaculty as $faculty) {
 </div>
 <div class="container">
     <h2 class="text-center"><?= $this->title ?></h2>
+    <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+        <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => Yii::$app->user->identity->getId(), 'view' => 'index-cg'])?>
+    <?php endif;?>
     <div class="table-responsive">
         <?= $result ?>
     </div>

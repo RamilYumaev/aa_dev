@@ -344,7 +344,7 @@ if(!Yii::$app->user->isGuest ) {
             ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
             ['label' => 'Доп. информация', 'url' => ['/data-entrant/volunteering']],
             ['label' => 'Прохождение теста', 'url' => ['/data-entrant/olympic-volunteering']],
-            \Yii::$app->user->can('call-center') ? ['label'=>'Очный прием','url'=>['/']] : [],
+            \Yii::$app->user->can('call-center') ? ['label'=>'Очный прием','url'=>['/data-entrant/queue']] : [],
             ['label' => 'Информация ПК', 'url' => ['/profile/entrant-job']],
             \modules\dictionary\models\TestingEntrant::find()->andWhere(['user_id'=> Yii::$app->user->identity->getId()])->exists() ? ['label' => 'QA', 'url' => ['/dictionary-module/testing-entrant']]:[],
         ]

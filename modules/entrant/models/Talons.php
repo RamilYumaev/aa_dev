@@ -9,7 +9,7 @@ class Talons extends ActiveRecord
 {
     const STATUS_NEW = 0;
     const STATUS_WAITING = 1;
-    const STATUS_ACCEPTED = 2;
+    const STATUS_WORK = 2;
     const STATUS_FINISHED = 3;
     public static function tableName()
     {
@@ -25,4 +25,19 @@ class Talons extends ActiveRecord
         ];
     }
 
+    public function getAnketaCi() {
+        return $this->hasOne(AnketaCi::class,['id' => 'anketa_id']);
+    }
+
+    public function isNew() {
+        return $this->status == self::STATUS_NEW;
+    }
+
+    public function isWatting() {
+        return $this->status == self::STATUS_WAITING;
+    }
+
+    public function isWork() {
+        return $this->status == self::STATUS_WORK;
+    }
 }
