@@ -12,6 +12,7 @@ use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use function GuzzleHttp\normalize_header_keys;
 
 class SwitchUserController extends Controller
 {
@@ -72,22 +73,31 @@ class SwitchUserController extends Controller
 
     protected function findUser($email)
     {
-        return User::findOne(['email' => $email]);
+        if($email) {
+            return User::findOne(['email' => $email]);
+        }
+        return null;
+
     }
 
     protected function findProfilePhone($phone)
-    {
-        return Profiles::findOne(['phone' => "+".$phone]);
+    {   if($phone) {
+            return Profiles::findOne(['phone' => "+".$phone]);
+        }
+        return null;
     }
 
 
 
     protected function findProfileFIO($lastName, $firstName, $patronymic)
     {
-        return Profiles::find()
+        if($lastName && $firstName && $patronymic) {
+            return Profiles::find()
             ->andFilterWhere(['like', 'last_name', $lastName])
             ->andFilterWhere(['like', 'first_name', $firstName])
             ->andFilterWhere(['like', 'patronymic', $patronymic])->all();
+        }
+        return null;
     }
 
     public function actionByUserId($id)
