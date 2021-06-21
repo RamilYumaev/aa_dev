@@ -43,12 +43,10 @@ class FileReadCozRepository
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=files.user_id');
         $query->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT]);
         $query->andWhere('files.user_id NOT IN (SELECT user_id FROM user_ais)');
-        $query->andWhere(['not in', 'anketa.category_id', [
+        $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::TARGET_COMPETITION,
             CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
-            CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
+            CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::SPECIAL_RIGHT_COMPETITION,
             CategoryStruct::WITHOUT_COMPETITION]]);
-        $query->andWhere(['not in', 'statement.special_right', [DictCompetitiveGroupHelper::SPECIAL_RIGHT,
-            DictCompetitiveGroupHelper::TARGET_PLACE]]);
         $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
         $query->andWhere(['not in', 'anketa.user_id', PreemptiveRight::find()
             ->joinWith('otherDocument')->select("other_document.user_id")

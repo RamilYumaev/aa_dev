@@ -27,9 +27,7 @@ class StatementCgReadRepository
         if($this->jobEntrant->isCategoryFOK()) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-                ->andWhere(['not in',
-                    'statement.status', StatementHelper::STATUS_WALT_SPECIAL]);
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
         }
 
         if($this->jobEntrant->isCategoryTarget()) {

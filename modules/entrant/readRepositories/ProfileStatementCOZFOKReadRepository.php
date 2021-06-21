@@ -49,9 +49,7 @@ class ProfileStatementCOZFOKReadRepository
                      ->indexBy("other_document.user_id")->column()]);
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
-                    $query->andWhere(['not in', 'statement.special_right', [DictCompetitiveGroupHelper::SPECIAL_RIGHT,
-                        DictCompetitiveGroupHelper::TARGET_PLACE]])
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
