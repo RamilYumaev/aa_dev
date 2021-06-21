@@ -61,7 +61,7 @@ class TransferMpgu extends ActiveRecord
         return [
             [['type', 'user_id'],'required'],
             [['number'],'string',  'min'=> 4,'max' => 10],
-            [['year'],'integer',  'min'=>  date('Y')-5,'max' => date('Y')-1],
+            [['year'],'integer',  'min'=> 2005,'max' => date('Y')-1],
             [['number','year'], 'required', 'when'=> function($model) {
                 return $model->type != self::FROM_EDU;
             }, 'enableClientValidation' => false],

@@ -11,14 +11,10 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p align="justify" class="fs-15">
-Прошу восстановить меня в <?= $data['faculty'] ?>
-образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
-форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр _____
-и перевести в <?=$cg->faculty->full_name ?>
-образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?> форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?></p>
+Прошу восстановить меня в <?= $data['faculty'] ?> образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?> форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр _____  и перевести в <?=$cg->faculty->full_name ?> образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?> форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?></p>
 <p class="fs-15">Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.</p>
 <p class="fs-15"><?= $docRemove->note ?> (причина отчисления)</p>
-<table width="100%" class="mt-10 fs-15">
+<table width="100%" class="mt-10 fs-11">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>
