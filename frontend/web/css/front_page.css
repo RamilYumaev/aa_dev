@@ -873,6 +873,10 @@ select {
     border-radius: 20px;
 }
 
+td .transfer {
+    padding: 10px;
+}
+
 @media screen and (min-width: 375px) and (max-width: 578px) {
     .breadcrumb {
         display: none;

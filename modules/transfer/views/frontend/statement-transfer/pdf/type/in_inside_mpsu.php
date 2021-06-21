@@ -10,15 +10,16 @@ $data = $transfer->getJsonData();
 $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
 $cg = $statement->cg;
 ?>
+<p align="justify" class="fs-15">
 Прошу восстановить меня в <?= $data['faculty'] ?>
 образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
 форма обучения <?= mb_strtolower($data['form']) ?> , <?= $data['course'] ?> , семестр _____
 и перевести в <?=$cg->faculty->full_name ?>
-образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>
-форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>
-Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
-<?= $docRemove->note ?> (причина отчисления)
-<table width="100%" class="mt-50">
+образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?> форма обучения
+    <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?>, семестр <?= $statement->semester ?></p>
+<p class="fs-15">Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.</p>
+<p class="fs-15"><?= $docRemove->note ?> (причина отчисления)</p>
+<table width="100%" class="mt-30 fs-15">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>
@@ -49,6 +50,7 @@ $cg = $statement->cg;
     </tr>
 </table>
 <?= $this->render('_block') ?>
-В Приемную комиссию представлены документы:
+<p>В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
-Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->number?> г.
+Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.
+</p>

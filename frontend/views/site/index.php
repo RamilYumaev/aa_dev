@@ -33,18 +33,26 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
         <!--        </div>-->
 
-        <!--        <div class="col-md-2" align="center">-->
-        <!--            --><?php //if (!Yii::$app->user->isGuest) {
-        //                echo Html::a(Html::img('@web/img/cabinet/dod.png')
-        //                    . '<br/>Записаться на Дни открытых дверей', '/dod');
-        //            } ?>
-        <!---->
-        <!--        </div>-->
+                <div class="col-md-2" align="center">
+                    <?php if (!Yii::$app->user->isGuest) {
+                        echo Html::a(Html::img('@web/img/cabinet/dod.png')
+                            . '<br/>Записаться на Дни открытых дверей', '/dod');
+                    } ?>
+
+                </div>
 
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/online.png')
                     . '<br/>Подача документов', '/abiturient/anketa/step1');
+            } ?>
+
+        </div>
+
+        <div class="col-md-2" align="center">
+            <?php if (!Yii::$app->user->isGuest) {
+                echo Html::a(Html::img('@web/img/cabinet/university.png')
+                    . '<br/>Перевод и восстановление', '/transfer/default/fix');
             } ?>
 
         </div>
@@ -102,7 +110,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <?php else :?>
 
     <div class="row mt-30">
-        <div class="col-md-2 col-md-offset-3" align="center">
+        <div class="col-md-2 col-md-offset-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/profile/edit');
             } ?>
@@ -139,6 +147,14 @@ $this->title = 'Личный кабинет поступающего в МПГУ
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/online.png')
                     . '<br/>Подача документов', '/abiturient/anketa/step1');
+            } ?>
+
+        </div>
+
+        <div class="col-md-2" align="center">
+            <?php if (!Yii::$app->user->isGuest) {
+                echo Html::a(Html::img('@web/img/cabinet/university.png')
+                    . '<br/>Перевод и восстановление', '/transfer/default/fix');
             } ?>
 
         </div>

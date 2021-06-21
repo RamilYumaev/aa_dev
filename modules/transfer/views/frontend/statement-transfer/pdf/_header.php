@@ -18,7 +18,7 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
 <table class="fs-15">
     <tr>
     <td width="10%"></td>
-        <td width="62%"></td>
+        <td width="50%"></td>
         <td>
             Ректору МПГУ<br />
             члену-корреспонденту РАО,<br />
