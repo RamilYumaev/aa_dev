@@ -11,11 +11,11 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 <p class="fs-15" align="justify">
 Прошу восстановить меня в <?= $data['faculty'] ?>
 образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
-форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?>, семестр ____
+форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____
     Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.</p>
 <p class="fs-15" align="justify"><?= $docRemove->note ?> (причина отчисления)</p>
 
-<table width="100%" class="mt-50 fs-15">
+<table width="100%" class="mt-10 fs-15">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>

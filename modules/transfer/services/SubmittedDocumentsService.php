@@ -57,7 +57,7 @@ class SubmittedDocumentsService
         $others = Address::find()->where(['user_id' => $userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
         /* @var $other \modules\entrant\models\Address */
         foreach ($others as $other) {
-            if (!$other->files) {
+            if (!$other->transferFiles) {
                 throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу ' . $other->typeName . '!');
             }
         }

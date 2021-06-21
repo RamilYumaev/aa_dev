@@ -14,11 +14,11 @@ $cg = $statement->cg;
 <p align="justify">
 Прошу перевести меня из <?= $data['faculty_genitive'] ?>
 образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>
-форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> , семестр _____
+форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр _____
 обучаюсь на <?= $data['finance'] == 1 ? 'бюджетной': 'финасовой' ?> основе
 в <?=$cg->faculty->full_name ?>
 образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>
-форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>.
+форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>.
 </p>
     <table width="100%" class="mt-10">
     <tr>

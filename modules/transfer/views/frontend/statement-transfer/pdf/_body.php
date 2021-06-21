@@ -11,7 +11,7 @@ use modules\transfer\models\TransferMpgu;
 $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
  ?>
 <div class="mt-25">
-    <p align="center" class="fs-15"><strong>ЗАЯВЛЕНИЕ №</strong><?= $statement->numberStatement ?></p>
+    <p align="center" class="fs-15"><strong>ЗАЯВЛЕНИЕ</p>
     <div class="row ">
         <?php if($statement->transferMpgu->type == TransferMpgu::IN_MPGU): ?>
             <?= $this->render('type/in_mpsu',['statement' => $statement]) ?>

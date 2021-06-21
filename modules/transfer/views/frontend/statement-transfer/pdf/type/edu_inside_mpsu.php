@@ -12,10 +12,9 @@ $cg = $statement->cg;
 <div class="fs-15">
 <p align="justify">Прошу перевести меня из <?= $edu->school_name ?>
 образовательная программа <?= $edu->speciality ?> <?= $edu->specialization ? ', '.$edu->specialization:''?>
-форма обучения <?= mb_strtolower($edu->formEdu)  ?>, курс<?= $edu->dictCourse->name ?>
-обучаюсь на <?= $edu->finance == 1 ? 'бюджетной': 'финасовой' ?> основе в <?=$cg->faculty->full_name ?>
+форма обучения <?= mb_strtolower($edu->formEdu)  ?>, <?= $edu->dictCourse->name ?> курс, обучаюсь на <?= $edu->finance == 1 ? 'бюджетной': 'финасовой' ?> основе в <?=$cg->faculty->full_name ?>
 образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>
-форма обучения <?= mb_strtolower($cg->formEdu) ?>, курс<?= $statement->dictClass->name?>, семестр <?= $statement->semester ?>.
+форма обучения <?= mb_strtolower($cg->formEdu) ?>, курс<?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>.
 </p>
 <table width="100%" class="mt-10 fs-15">
     <tr>
