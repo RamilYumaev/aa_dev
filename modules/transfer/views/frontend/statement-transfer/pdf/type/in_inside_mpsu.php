@@ -11,9 +11,14 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p align="justify" class="fs-15">
-Прошу восстановить меня в <?= $data['faculty'] ?> образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?> форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр _____  и перевести в <?=$cg->faculty->full_name ?> образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?> форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?></p>
-<p class="fs-15">Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.</p>
-<p class="fs-15"><?= $docRemove->note ?> (причина отчисления)</p>
+Прошу восстановить меня в <?= $data['faculty'] ?>,
+    образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
+    форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____
+    и перевести в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
+    форма обучения <?= mb_strtolower($cg->formEdu) ?>,
+    <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>. <br/>
+Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
+    <?= $docRemove->note ?> (причина отчисления)</p>
 <table width="100%" class="mt-10 fs-11">
     <tr>
         <td width="5px">«</td>
@@ -45,7 +50,8 @@ $cg = $statement->cg;
     </tr>
 </table>
 <?= $this->render('_block') ?>
-<p>В Приемную комиссию представлены документы:<br/>
-Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
+<pagebreak />
+<p align="justify" class="fs-15">В Приемную комиссию представлены документы:<br/>
+Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
 Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.
 </p>

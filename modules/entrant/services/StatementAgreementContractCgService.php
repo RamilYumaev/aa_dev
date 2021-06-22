@@ -5,6 +5,7 @@ namespace modules\entrant\services;
 
 
 use common\transactions\TransactionManager;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\behaviors\ContractBehavior;
 use modules\entrant\forms\ContractMessageForm;
 use modules\entrant\forms\FilePdfForm;
@@ -57,6 +58,12 @@ class StatementAgreementContractCgService
     public function create($id, $userId)
     {
         $cg = $this->cgRepository->getUserStatementCg($id, $userId);
+
+        if(!SettingEntrant::find()->existsFormEduOpen($cg->cg, SettingEntrant::ZOS)) {
+            throw new \DomainException('Вы не можете сформироавать договор об оказании платных 
+            образовательных услуг, так как прием заявлений о согласии на зачисление завершен');
+        }
+
         if($this->repository->exits($userId, $cg->id)) {
         throw new \DomainException('Вы уже сформировали договор об оказании платных образовательных услуг');
         }
