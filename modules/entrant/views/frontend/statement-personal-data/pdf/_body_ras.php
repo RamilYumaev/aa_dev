@@ -32,85 +32,85 @@
     </tr>
     <tr>
         <td>1</td>
-        <td>Фамилия, имя, отчество</td>
+        <td style="padding-left: 20px" align="left">Фамилия, имя, отчество</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>2</td>
-        <td>Дата и место рождения</td>
+        <td style="padding-left: 20px" align="left">Дата и место рождения</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>3</td>
-        <td>Семейное положение</td>
+        <td style="padding-left: 20px" align="left">Семейное положение</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>4</td>
-        <td>Гражданство</td>
+        <td style="padding-left: 20px" align="left">Гражданство</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>5</td>
-        <td>Место проживания</td>
+        <td style="padding-left: 20px" align="left">Место проживания</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>6</td>
-        <td>Сведения об образовании</td>
+        <td style="padding-left: 20px" align="left">Сведения об образовании</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>7</td>
-        <td>Данные об индивидуальных достижениях, предоставленные при приёме</td>
+        <td style="padding-left: 20px" align="left">Данные об индивидуальных достижениях, предоставленные при приёме</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>8</td>
-        <td>Форма обучения</td>
+        <td style="padding-left: 20px" align="left">Форма обучения</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>9</td>
-        <td>Учебная группа</td>
+        <td style="padding-left: 20px" align="left">Учебная группа</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>10</td>
-        <td>Направление подготовки/специальность</td>
+        <td style="padding-left: 20px" align="left">Направление подготовки/специальность</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>11</td>
-        <td>Профиль/специализация</td>
+        <td style="padding-left: 20px" align="left">Профиль/специализация</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>12</td>
-        <td>Корпоративная электронная почта</td>
-        <td></td>
+        <td style="padding-left: 20px" align="left">Корпоративная электронная почта</td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>13</td>
-        <td>Рабочий телефон</td>
+        <td style="padding-left: 20px" align="left">Рабочий телефон</td>
         <td></td>
         <td></td>
     </tr>
     <tr>
         <td>14</td>
-        <td>Фото и видеоизображение, получаемые при нахождении на объектах Университета и при взаимодействии с телекоммуникационными сервисами Университета</td>
+        <td style="padding-left: 20px" align="left">Фото и видеоизображение, получаемые при нахождении на объектах Университета и при взаимодействии с телекоммуникационными сервисами Университета</td>
         <td></td>
         <td></td>
     </tr>
