@@ -103,7 +103,6 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                             { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
                         <?php endif; ?>
                     </td>
-<<<<<<< HEAD
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
