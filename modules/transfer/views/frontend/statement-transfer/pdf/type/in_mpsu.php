@@ -9,13 +9,11 @@ $data = $transfer->getJsonData();
 $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
 ?>
 <p class="fs-15" align="justify">
-Прошу восстановить меня в <?= $data['faculty'] ?>
-образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
+Прошу восстановить меня в <?= $data['faculty'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
 форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____ .
-    <br />Приказ об отчислении  №<?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
+    <br />Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
 <?= $docRemove->note ?> (причина отчисления)</p>
-
-<table width="100%" class="mt-10 fs-12">
+<table width="100%" class="mt-10 fs-11">
     <tr>
         <td width="5px">«</td>
         <td width="25px" class="bb"></td>
@@ -46,8 +44,8 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
     </tr>
 </table>
 <?= $this->render('_block') ?>
+<pagebreak />
 <p class="fs-15">
     В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.<br/>
     Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>
-
