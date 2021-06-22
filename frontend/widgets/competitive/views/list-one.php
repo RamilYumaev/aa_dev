@@ -16,21 +16,21 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
         <span style="display: block; text-align: center">
             ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
-            Учебный год 2021\2022<br/><br/><br/>
+            Учебный год 2021/2022<br/><br/><br/>
             </span>
 
-            <span style="font-weight: bold"> Дата публикации списка и время обновления </span><?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
-            <span style="font-weight: bold">Категория поступающих </span><?= $model->getTypeName($cg->special_right_id) ?>,<br/>
-            <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?>,<br/>
-            <span style="font-weight: bold">Направление подготовки </span><?= $cg->specialty->codeWithName ?>,<br/>
-            <span style="font-weight: bold">Уровень образования </span><?= $cg->eduLevelFull ?>,<br/>
+            <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
+            <span style="font-weight: bold">Категория поступающих: </span><?= $model->getTypeName($cg->special_right_id) ?><br/>
+            <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?><br/>
+            <span style="font-weight: bold">Направление подготовки: </span><?= $cg->specialty->codeWithName ?><br/>
+            <span style="font-weight: bold">Уровень образования: </span><?= $cg->eduLevelFull ?><br/>
             <?php if($cg->specialisationName): ?>
-                <span style="font-weight: bold">Профиль(и) </span><?= $cg->specialisationName ?>,<br/>
+                <span style="font-weight: bold">Профиль(и): </span><?= $cg->specialisationName ?><br/>
             <?php endif; ?>
-            <span style="font-weight: bold">Форма обучения </span><?= $cg->formEdu ?>,<br/>
-            <span style="font-weight: bold">Вид финансирования </span><?= $cg->finance ?>,<br/>
+            <span style="font-weight: bold">Форма обучения: </span><?= $cg->formEdu ?><br/>
+            <span style="font-weight: bold">Вид финансирования: </span><?= $cg->finance ?><br/>
             <?php if($cg->isContractCg()) : ?>
-                <span style="font-weight: bold">Стоимость обучения  </span><?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
+                <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
             <?php endif; ?>
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
@@ -43,7 +43,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 <?php elseif ($cg->isTarget()): ?>
                     <?=  $data['kcp']['target']  ?>,
                 <?php endif; ?>
-                <?= $data['kcp']['transferred'] ?? '' ?>,<br/>
+                <?= $data['kcp']['transferred'] ?? '' ?><br/>
             <?php endif; ?>
         </p>
     </div>
