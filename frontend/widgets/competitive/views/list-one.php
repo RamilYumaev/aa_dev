@@ -18,6 +18,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
             "Московский педагогический государственный университет" <br/>
             Учебный год 2021\2022<br/><br/><br/>
             </span>
+
             <span style="font-weight: bold"> Дата публикации списка и время обновления </span><?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
             <span style="font-weight: bold">Категория поступающих </span><?= $model->getTypeName($cg->special_right_id) ?>,<br/>
             <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?>,<br/>
@@ -49,6 +50,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
 </div>
 <div style="margin-top: 80px">
     <div style="width: 100%; padding: 0 30px">
+
         <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
             <table class="table" >
                 <tr>
@@ -81,12 +83,12 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
+
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
                         ?>
                         <td style="font-size: 14px; text-align: center">
-
                             <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
                             <?= $subjectType[$subject['subject_type_id']] ?>
                             <?=  key_exists('check_status_id', $subject) && $subject['check_status_id'] ? ", ".$subjectStatus[$subject['check_status_id']] : ''?>
@@ -95,11 +97,13 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <?php endforeach; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['subject_sum']?></td>
                     <td style="font-size: 14px; text-align: center">
+
                         <?php if(key_exists('individual_achievements', $entrant)) :?>
                             <?php echo implode(', ', array_map(function($individual_achievement)
                             { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
                         <?php endif; ?>
                     </td>
+<<<<<<< HEAD
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
