@@ -9,10 +9,10 @@ use yii\helpers\Html;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 
 $array =
-    [DictCompetitiveGroupHelper::USUAL => ['name'=>'Бюджетные', 'color'=> 'btn btn-success',],
-    DictCompetitiveGroupHelper::SPECIAL_RIGHT => ['name'=>'Льготные', 'color'=> 'btn btn-info'],
-    DictCompetitiveGroupHelper::TARGET_PLACE => ['name'=>'Целевые', 'color'=> 'btn btn-primary'],
-        'list_bvi' => ['name'=>'Без Вст. Исп.', 'color'=> 'btn btn-warning']];
+    [DictCompetitiveGroupHelper::USUAL => ['name'=>'<img src="/img/cabinet/b.png">',],
+    DictCompetitiveGroupHelper::SPECIAL_RIGHT => ['name'=>'<img src="/img/cabinet/lg.png">',],
+    DictCompetitiveGroupHelper::TARGET_PLACE => ['name'=>'<img src="/img/cabinet/c.png">',],
+        'list_bvi' => ['name'=>'<img src="/img/cabinet/bvi.png">',]];
 
     $urlGraduate = ['entrant-graduate-list', 'faculty' => $cgContract->faculty_id, 'speciality' => $cgContract->speciality_id,
         'form' => $cgContract->education_form_id]
@@ -29,7 +29,7 @@ $array =
                 <?= Html::a($array[$cg->special_right_id]['name'],
                     $url ,['class'=>$array[$cg->special_right_id]['color']]) ?>
             <?php else: ?>
-                <?= Html::a('Платные',$url,['class'=>'btn btn-danger']) ?>
+                <?= Html::a('<img src="/img/cabinet/dg.png">',$url,['class'=>'']) ?>
             <?php endif; ?>
         <?php endif; ?>
     <?php else: ?>
@@ -38,7 +38,7 @@ $array =
                 <?= Html::a($array[$cg->special_right_id]['name'],
                     $url ,['class'=>$array[$cg->special_right_id]['color']]) ?>
             <?php else: ?>
-                <?= Html::a('Платные',$url,['class'=>'btn btn-danger']) ?>
+                <?= Html::a('<img src="/img/cabinet/dg.png">',$url,['class'=>'']) ?>
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>

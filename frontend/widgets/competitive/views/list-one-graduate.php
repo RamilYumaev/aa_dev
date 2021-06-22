@@ -14,8 +14,10 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
 <div class="row">
     <div class="col-md-12">
         <p>
+        <span style="text-align: center">
             Федеральное государственное бюджетное образовательное учреждение высшего образования
             "Московский педагогический государственный университет" <br/>
+            </span>
             учебный год <?= $data['year']?>,<br/>
             дата публикации списка и время обновления <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
             категория поступающих <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>
