@@ -9,10 +9,10 @@ use yii\helpers\Html;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 
 $array =
-    [DictCompetitiveGroupHelper::USUAL => ['name'=>'<img src="/img/cabinet/b.png">',],
-    DictCompetitiveGroupHelper::SPECIAL_RIGHT => ['name'=>'<img src="/img/cabinet/lg.png">',],
-    DictCompetitiveGroupHelper::TARGET_PLACE => ['name'=>'<img src="/img/cabinet/c.png">',],
-        'list_bvi' => ['name'=>'<img src="/img/cabinet/bvi.png">',]];
+    [DictCompetitiveGroupHelper::USUAL => ['name'=>'<img src="/img/cabinet/b.png">', 'color' => '',],
+    DictCompetitiveGroupHelper::SPECIAL_RIGHT => ['name'=>'<img src="/img/cabinet/lg.png">', 'color' => '',],
+    DictCompetitiveGroupHelper::TARGET_PLACE => ['name'=>'<img src="/img/cabinet/c.png">', 'color' => '',],
+        'list_bvi' => ['name'=>'<img src="/img/cabinet/bvi.png">', 'color' => '',]];
 
     $urlGraduate = ['entrant-graduate-list', 'faculty' => $cgContract->faculty_id, 'speciality' => $cgContract->speciality_id,
         'form' => $cgContract->education_form_id]
