@@ -4,6 +4,7 @@ namespace modules\entrant\readRepositories;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
@@ -39,6 +40,7 @@ class ProfileStatementReadRepository
     {
         $query = $this->profileDefaultQuery();
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
+
         if ($this->jobEntrant->isCategoryMPGU()) {
             if ($this->isID == JobEntrantHelper::MPGU_ID) {
                 $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
@@ -47,8 +49,11 @@ class ProfileStatementReadRepository
                 => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
             } else if ($this->isID == JobEntrantHelper::MPGU_SR) {
-                $query->andWhere(["in", "anketa.category_id",
-                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);
+                /*$query->andWhere(["in", "anketa.category_id",
+                    [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);*/
+
+                $query->andWhere(['or',['special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT],
+                    ['anketa.category_id'=>CategoryStruct::WITHOUT_COMPETITION] ]);
 
 //                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
 //                    ['statement.special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT]],
@@ -57,18 +62,20 @@ class ProfileStatementReadRepository
                 $query->innerJoin(OtherDocument::tableName(), "other_document.user_id = anketa.user_id")
                     ->innerJoin(PreemptiveRight::tableName(), "preemptive_right.other_id= other_document.id");
             }
+            $query->andWhere(['not in','faculty_id', DictFacultyHelper::FACULTY_FILIAL]);
 
         } elseif ($this->jobEntrant->isCategoryFOK()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+                ->andWhere(['is','special_right', null])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
         } elseif ($this->jobEntrant->isCategoryTarget()) {
             if ($this->isID == JobEntrantHelper::TARGET_BB) {
-                $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
-                    CategoryStruct::COMPATRIOT_COMPETITION]]);
+                $query->andWhere(['or',['anketa.category_id' =>
+                    CategoryStruct::COMPATRIOT_COMPETITION], ['special_right'=>DictCompetitiveGroupHelper::TARGET_PLACE]]);
             } else if ($this->isID == JobEntrantHelper::TASHKENT_BB) {
                 $query->andWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT]);
             } else {
@@ -119,7 +126,8 @@ class ProfileStatementReadRepository
 
     public function profileDefaultQuery()
     {
-        return Profiles::find()->alias('profiles')
+       // return Profiles::find()->alias('profiles')
+        return Profiles::find()
             ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
             ->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT])
             ->orderBy(['statement.user_id' => SORT_DESC])

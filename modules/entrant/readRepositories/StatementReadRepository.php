@@ -3,11 +3,13 @@
 namespace modules\entrant\readRepositories;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
+use modules\entrant\models\StatementCg;
 use modules\entrant\models\UserAis;
 use modules\dictionary\models\JobEntrant;
 
@@ -30,7 +32,8 @@ class StatementReadRepository
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]])
+                ->andWhere(['or',['is','special_right', null], ['special_right'=>DictCompetitiveGroupHelper::TARGET_PLACE]]);
         }
 
         if ($this->jobEntrant->isTPGU()) {
@@ -48,10 +51,9 @@ class StatementReadRepository
         }
 
         if ($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['anketa.category_id' =>[CategoryStruct::WITHOUT_COMPETITION]])
-                ->orWhere(['and',
-                    ['anketa.category_id' =>CategoryStruct::GENERAL_COMPETITION],
-                    ['statement.special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
+            $query->andWhere(['or',
+                    ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION],
+                    ['special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
                 ])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
