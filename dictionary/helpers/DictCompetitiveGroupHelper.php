@@ -600,11 +600,10 @@ class DictCompetitiveGroupHelper
                 'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id])
             ->andWhere(['not', ['cse_subject_id' => null]])
-            ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
-            ->asArray()
-            ->all();
+            ->select(['dict_discipline.id'])
+            ->column();
 
-        return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
+        return UserDiscipline::find()->user($user_id)->viFull()->discipline($data)->exists();
 
     }
 

@@ -10,9 +10,10 @@ class CompetitionListController extends Controller
 {
     public function actionIndex()
     {
-       $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
+        \set_time_limit(1800); // 30 мин.
+        $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
        $handler->handle();
-       exec('/usr/local/bin/php -q /www/yii queue/run');
+       exec('/usr/local/bin/php /usr/home/sdotest/www/yii queue/run');
        echo "окей";
     }
 
