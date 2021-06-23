@@ -53,10 +53,14 @@ foreach ($currentFaculty as $faculty) {
     </div>
 </div>
 <div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
     <h2 class="text-center"><?= $this->title ?></h2>
     <div class="table-responsive">
         <?= $result ?>
     </div>
+    </div>
+        </div>
 </div>
 
 

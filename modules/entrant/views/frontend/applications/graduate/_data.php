@@ -168,7 +168,7 @@ aria-controls=\"info-" . $currentCg->competitiveGroup->id . "\"><span class=\"gl
         <?= Html::a("Карточка " . Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-right"]), ["/abiturient"], ["class" => "btn btn-lg btn-success position-fixed"]); ?>
     </div>
 </div>
-<div class="container">
+<div class="container" style="margin-top: 30px">
     <h2 class="text-center"><?= $this->title ?></h2>
     <div class="row">
         <div class="col-md-6">

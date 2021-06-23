@@ -12,9 +12,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Конкурсные списки'
 $this->params['breadcrumbs'][] = $this->title;
 
 use dictionary\helpers\DictCompetitiveGroupHelper; ?>
-<div>
+<div class="container">
+<div class="row">
     <h1 style="text-align: center; margin-top: 40px;"><?= $this->title ?></h1>
-    <div style="width: 1140px; margin: 0 auto; margin-top: 35px;">
+    <div style="margin-top: 35px;">
     <?php foreach ($faculty as $item):
         $cgs = $item->faculty->getCg()->contractOnly()->edulevel($eduLevel)->foreignerStatus(false)
         ->tpgu(false)->currentAutoYear();
@@ -38,5 +39,6 @@ use dictionary\helpers\DictCompetitiveGroupHelper; ?>
             <?php endforeach; ?>
         </table>
     <?php endforeach; ?>
+    </div>
     </div>
 </div>

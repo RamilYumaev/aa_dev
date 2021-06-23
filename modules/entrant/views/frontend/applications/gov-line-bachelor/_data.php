@@ -100,7 +100,7 @@ foreach ($currentFaculty as $faculty) {
         </div>
     </div>
     <h2 class="text-center mt-50"><?= $this->title ?></h2>
-    <div class="container">
+    <div class="container" style="margin-top: 30px">
         <div class="row">
             <div class="col-md-6">
                 <?= Html::img("/img/cabinet/btn-budget-plus.png", ["width"=>"23px", "height"=> "20px"]) ?>

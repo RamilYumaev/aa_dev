@@ -178,7 +178,7 @@ aria-controls=\"info-" . $currentCg->id . "\"><span class=\"glyphicon glyphicon-
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="margin-top: 30px">
     <h2 class="text-center"><?= $this->title ?></h2>
     <div class="row">
         <div class="col-md-6">

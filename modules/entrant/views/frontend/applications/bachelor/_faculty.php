@@ -53,7 +53,7 @@ foreach ($currentFaculty as $faculty) {
         $cgFacultyBase->successSpeciality($anketa->current_edu_level == AnketaHelper::SCHOOL_TYPE_SPO, $anketa->speciality_spo);
 $cgFaculty = $cgFacultyBase->all();
     if ($cgFaculty) {
-        $result .= "<h3>" .Html::a(\dictionary\helpers\DictFacultyHelper::facultyList()[$faculty],['get-bachelor', 'department'=> $department, 'faculty'=> $faculty]) . "</h3>";
+        $result .= "<div style='font-weight: 100; font-size: 24px'>" .Html::a(\dictionary\helpers\DictFacultyHelper::facultyList()[$faculty],['get-bachelor', 'department'=> $department, 'faculty'=> $faculty]) . "</div>";
     }
 }
 ?>
@@ -67,12 +67,16 @@ $cgFaculty = $cgFacultyBase->all();
     </div>
 </div>
 <div class="container">
-    <h2 class="text-center"><?= $this->title ?></h2>
-    <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
-    <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => Yii::$app->user->identity->getId(), 'view' => 'index-cg'])?>
-    <?php endif;?>
-    <div class="table-responsive">
-        <?= $result ?>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <h2 class="text-center "><?= $this->title ?></h2>
+            <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+            <?= \modules\entrant\widgets\anketa\AnketaCiWidget::widget(['userId' => Yii::$app->user->identity->getId(), 'view' => 'index-cg'])?>
+            <?php endif;?>
+            <div class="table-responsive" style="margin-top: 25px">
+                <?= $result ?>
+            </div>
+        </div>
     </div>
 </div>
 
