@@ -130,8 +130,8 @@ class AgreementHelper
                                                 e-mail: f_pokrov@mpgu.su<br/>
                                                 ОГРН 1027700215344<br/>
                                                 ИНН 7704077771<br/>
-                                                КПП 332143001<br/><br/>
-                                                Банковские реквизиты: <br/><br/>
+                                                КПП 332143001<br/>
+                                                Банковские реквизиты:<br/>
                                                 ИНН – 7704077771<br/>
                                                 ОГРН – 1027700215344<br/>
                                                 КБК – 00000000000000000130 - за оказание платных услуг<br/>
@@ -154,7 +154,7 @@ class AgreementHelper
                                             ОГРН 1027700215344<br/>
                                             ИНН 7704077771<br/>
                                             КПП 263543001<br/><br/>
-                                            Банковские реквизиты: <br/><br/>
+                                            Банковские реквизиты: <br/>
                                             ИНН 7704077771<br/>
                                             ОГРН 1027700215344<br/>
                                             КБК 00000000000000000130 – за оказание платных услуг<br/>
@@ -298,15 +298,15 @@ class AgreementHelper
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
                     return '28 сентября';
                 } else {
-                    return '31 августа';
+                    return '30 августа';
                 }
             }
         } else {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
-                    return '30 октября';
+                    return '29 октября';
                 } else {
-                    return '31 августа';
+                    return '30 августа';
                 }
             } else {
                 return self::cameOnAugust31() ? '25 ноября' : '31 августа';
@@ -316,7 +316,7 @@ class AgreementHelper
 
     private static function cameOnAugust31()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2020-08-31 18:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2021-08-31 18:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
