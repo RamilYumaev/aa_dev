@@ -27,7 +27,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             форма обучения <?= $entrantSetting->formEdu ?>,<br/>
             вид финансирования <?= $entrantSetting->financeEdu ?>,<br/>
             <?php if( $entrantSetting->isContract()) :?>
-            стоимость обучения <?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''  ?> <br/>
+            стоимость обучения <?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'] . ' руб. за семестр' : '' ?> <br/>
             <?php endif; ?>
             <?php if ($entrantSetting->isBudget()) : ?>
                 контрольные цифры приема:
@@ -37,7 +37,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                 <?php elseif ($entrantSetting->isTarget()): ?>
                     <?=  $data['kcp']['target']  ?>,
                 <?php endif; ?>
-                <?= $data['kcp']['transferred'] ?? '' ?>,<br/>
+                <?php /* $data['kcp']['transferred'] ?? '' */ ?><br/>
             <?php endif; ?>
         </p>
     </div>
@@ -49,6 +49,9 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                 <tr>
                     <th>№ п/п</th>
                     <th>Уникальный номер/СНИЛС</th>
+                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                        <th>Фамилия Имя Отчество</th>
+                    <?php endif; ?>
                     <th>Направленность</th>
                     <th>Сумма баллов</th>
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
@@ -57,7 +60,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <th>Сумма баллов за все предметы ВИ</th>
                     <th>Индивидуальные достижения</th>
                     <th>Сумма баллов за все ИД</th>
-                    <th>Подача документа об образовании</th>
+                  <!--  <th>Подача документа об образовании</th> -->
                     <th>Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($entrantSetting->isTarget()) : ?>
                         <th>Наименование целевой организации</th>
@@ -73,6 +76,9 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <tr <?= !Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?>">
                     <td><?=$i++?></td>
                     <td><?= key_exists('snils', $entrant)  && $entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']?></td>
+                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                        <td> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
+                    <?php endif; ?>
                     <td><?= $entrant['specialization_name'] ?></td>
                     <td><?= $entrant['total_sum']?></td>
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
@@ -93,7 +99,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                         <?php endif; ?>
                     </td>
                     <td><?= $entrant['sum_of_individual']?></td>
-                    <td><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
+                    <!--<td><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
                     <td><?= $entrant['zos_status_id'] ? '+': '-'?></td>
                     <?php if($entrantSetting->isTarget()) : ?>
                         <td><?= $entrant['target_organization_name'] ?></td>

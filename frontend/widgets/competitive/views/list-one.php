@@ -30,7 +30,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
             <span style="font-weight: bold">Форма обучения: </span><?= $cg->formEdu ?><br/>
             <span style="font-weight: bold">Вид финансирования: </span><?= $cg->finance ?><br/>
             <?php if($cg->isContractCg()) : ?>
-                <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data) ? $data['price_per_semester'] : ''?> <br/>
+                <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'].' руб. за семестр' : ''?> <br/>
             <?php endif; ?>
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
@@ -43,7 +43,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 <?php elseif ($cg->isTarget()): ?>
                     <?=  $data['kcp']['target']  ?>,
                 <?php endif; ?>
-                <?= $data['kcp']['transferred'] ?? '' ?><br/>
+                <?php /* $data['kcp']['transferred'] ?? '' */ ?><br/>
             <?php endif; ?>
         </p>
     </div>
@@ -56,6 +56,9 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 <tr>
                     <th style="font-size: 12px; text-align: center">№ п/п</th>
                     <th style="font-size: 12px; text-align: center">Уникальный номер/СНИЛС</th>
+                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                    <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
+                    <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов</th>
                     <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
@@ -63,7 +66,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
-                    <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
+                  <!--  <th style="font-size: 12px; text-align: center">Подача документа об образовании</th> -->
                     <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($cg->isTarget()) : ?>
                         <th style="font-size: 12px; text-align: center">Наименование целевой организации</th>
@@ -82,8 +85,10 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                 <tr <?=!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
+                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                    <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
+                    <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
-
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
@@ -104,7 +109,7 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                         <?php endif; ?>
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
-                    <td style="font-size: 14px; text-align: center"><?= $entrant['original_status_id'] ? 'оригинал': 'копия'?></td>
+                 <!--   <td style="font-size: 14px; text-align: center"><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
                     <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
                     <?php if($cg->isTarget()) : ?>
                         <td style="font-size: 14px; text-align: center"><?= $entrant['target_organization_name'] ?></td >

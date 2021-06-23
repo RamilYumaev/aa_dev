@@ -12,7 +12,7 @@ class CompetitionListController extends Controller
     {
        $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
        $handler->handle();
-       exec('php yii queue/run');
+       exec('/usr/local/bin/php -q /www/yii queue/run');
        echo "окей";
     }
 
