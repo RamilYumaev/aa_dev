@@ -106,11 +106,11 @@ $och = false;
         Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
         <?php if ($noCseSuccess): ?>
             <?php if ($otherDocument): ?>
-                <?= "otherDocument " . $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
+                <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
             <?php elseif ($anketaOne->is_foreigner_edu_organization) ://@todo?>
-                <?= "foreign " . $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
+                <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
             <?php elseif ($anketaOne->spoNpo()): ?>
-                <?= "spo " . $examBase ?> <?= $anketa['currentEduLevel'] ?>.
+                <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
             <?php endif; ?>
         <?php endif; ?>
     </p>
