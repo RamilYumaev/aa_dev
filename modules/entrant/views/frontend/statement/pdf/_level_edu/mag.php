@@ -152,6 +152,7 @@ foreach ($signaturePoint as $signature) :?>
         <tr>
             <td colspan="6" class="text-right fs-7">(Дата заполнения)</td>
             <td></td>
+            <td></td>
             <td class="text-center fs-7">(Подпись поступающего)</td>
         </tr>
     </table>

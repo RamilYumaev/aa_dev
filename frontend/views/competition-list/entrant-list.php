@@ -41,8 +41,10 @@ $this->params['breadcrumbs'][] = ['label' => $array['name'], 'url' => ['competit
 $this->params['breadcrumbs'][] = $this->title;
 $countRCls = count($rCls);?>
 <?php Pjax::begin(['id' => 'competition-list']); ?>
-<div style="position: relative">
-    <div style="position: absolute; width: 210px; top: 0; left: 45px">
+<div class="container" style="position: relative">
+    <div class="row">
+    <div class="col-md-3 mt-30">
+    <div style="text-align: center">
         <?= DatePicker::widget([
             'name' => 'dp_addon_1',
             'language' => 'ru',
@@ -103,8 +105,8 @@ $countRCls = count($rCls);?>
             <?php endforeach;?>
         <?php endforeach;?>
     </div>
-    <div>
-        <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['view' => $isGraduate ? 'list-one-graduate' : 'list-one','id'=>$id ?? $idLast]);?>
     </div>
+        <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['view' => $isGraduate ? 'list-one-graduate' : 'list-one','id'=>$id ?? $idLast]);?>
+</div>
 </div>
 <?php Pjax::end(); ?>

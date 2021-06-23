@@ -10,8 +10,8 @@ $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
 ?>
-<div>
-    <div style="padding-left: 300px">
+
+    <div class=" col-offset-md-3 col-md-9" >
         <p style="font-size: 15px; margin-top: 30px">
         <span style="display: block; text-align: center">
             ФГБОУ ВО
@@ -49,9 +49,8 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
     </div>
 </div>
 <div style="margin-top: 80px">
-    <div style="width: 100%; padding: 0 30px">
-
         <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
+            <div class="table-responsive">
             <table class="table" >
                 <tr>
                     <th style="font-size: 12px; text-align: center">№ п/п</th>
@@ -126,8 +125,8 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                     <?php endforeach; ?>
                 </tr>
             </table>
+            </div>
         <?php else: ?>
             <h4 style="color: red">в списке нет ни одного абитуриента</h4>
         <?php endif; ?>
-    </div>
-</div>
+ </div>
