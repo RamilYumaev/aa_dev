@@ -9,6 +9,15 @@ $cg = $model->registerCompetitionList->cg;
 $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
+
+function converterExam(array $array) {
+    foreach ($array as $key => $subject) {
+       if($subject['subject_type_id'] == 1){
+
+       }
+    }
+}
+
 ?>
 
     <div class=" col-offset-md-3 col-md-9" >
@@ -96,12 +105,10 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
                             <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
                             <?= $subjectType[$subject['subject_type_id']] ?>
                             <?=  key_exists('check_status_id', $subject) && $subject['check_status_id'] ? ", ".$subjectStatus[$subject['check_status_id']] : ''?>
-
                         </td>
                     <?php endforeach; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['subject_sum']?></td>
                     <td style="font-size: 14px; text-align: center">
-
                         <?php if(key_exists('individual_achievements', $entrant)) :?>
                             <?php echo implode(', ', array_map(function($individual_achievement)
                             { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>

@@ -421,7 +421,7 @@ class DictCompetitiveGroup extends ActiveRecord
             'type'=> $type])->one();
     }
 
-    public function getRegisterCompetitionListGraduate()
+    public function getRegisterCompetitionListGraduate($faculty, $speciality, $form)
     {
         return RegisterCompetitionList::find()
             ->joinWith(['competitionList', 'settingEntrant'])
@@ -429,9 +429,9 @@ class DictCompetitiveGroup extends ActiveRecord
                 'status'=> RegisterCompetitionList::STATUS_SUCCESS,
                 'special_right' =>  $this->special_right_id,
                 'edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
-                'form_edu' => $this->education_form_id,
-                 RegisterCompetitionList::tableName().'.faculty_id' => $this->faculty_id,
-                'speciality_id' => $this->speciality_id,
+                'form_edu' => $form,
+                 RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
+                'speciality_id' => $speciality,
                 'finance_edu' => $this->financing_type_id,
                 CompetitionList::tableName().'.type'=> 'list'
             ])->one();

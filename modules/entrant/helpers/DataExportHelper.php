@@ -128,7 +128,7 @@ class DataExportHelper
         $prRight = PreemptiveRightHelper::preemptiveRightMin($userId);
         $organization = Agreement::findOne(['user_id' => $userId]);
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
-        && $organization->organization->ais_id ? $organization->organization->ais_id : null;
+        && $organization->ais_id ? $organization->ais_id : null;
         foreach ($statement->statementCg as $currentApplication) {
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT) {
                 $noCse = 1;
@@ -479,6 +479,12 @@ class DataExportHelper
             [
                 'name' => $agreement->organization->name,
                 'code' => 'sdo' . $agreement->organization->id,
+                'ogrn' => $agreement->organization->ogrn,
+                'kpp' => $agreement->organization->kpp,
+                'employer_name' => $agreement->organizationWork->name,
+                'employer_ogrn' => $agreement->organizationWork->ogrn,
+                'employer_kpp' => $agreement->organizationWork->kpp,
+                'employer_region' => $agreement->organizationWork->region->name,
             ];
         foreach ($agreement->statement as $statement) {
             foreach ($statement->statementCg as $currentApplication) {

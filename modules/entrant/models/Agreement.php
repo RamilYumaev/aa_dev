@@ -19,6 +19,7 @@ use olympic\models\auth\Profiles;
  * @property integer $id
  * @property integer $user_id
  * @property integer $organization_id
+ * @property integer $ais_id
  * @property integer $work_organization_id
  * @property string  $date
  * @property string  $message
@@ -85,6 +86,10 @@ class Agreement extends YiiActiveRecordAndModeration
         $this->message = $message;
     }
 
+    public function setAisId($aisId)
+    {
+        $this->ais_id = $aisId;
+    }
 
     public function setStatus($status) {
         $this->status_id = $status;

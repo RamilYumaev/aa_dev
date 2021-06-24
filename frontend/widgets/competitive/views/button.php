@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $cgs */
-/* @var $cg dictionary\models\DictCompetitiveGroup */
+/* @var $cg \dictionary\models\DictCompetitiveGroup */
 /* @var $cgContract dictionary\models\DictCompetitiveGroup */
 /* @var $eduLevel*/
 
@@ -24,7 +24,7 @@ $array =
         ['entrant-list', 'cg'=> $cg->ais_id, 'type'=> 'list'];
     ?>
     <?php if($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL): ?>
-        <?php if($cg->getRegisterCompetitionListGraduate()): ?>
+        <?php if($cg->getRegisterCompetitionListGraduate($cgContract->faculty_id, $cgContract->speciality_id, $cgContract->education_form_id)): ?>
             <?php if($cg->isBudget()): ?>
                 <?= Html::a($array[$cg->special_right_id]['name'],
                     $url ,['class'=>$array[$cg->special_right_id]['color']]) ?>

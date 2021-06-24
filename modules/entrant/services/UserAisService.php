@@ -107,17 +107,13 @@ class UserAisService
     {
         $this->transactionManager->wrap(function () use ($id, $aisId) {
             $agreement = $this->agreementRepository->get($id);
-            $org = $this->organizationsRepository->get($agreement->organization_id);
-            $org->setAisId($aisId);
-
-            $this->organizationsRepository->save($org);
+            $agreement->setAisId($aisId);
             foreach ($agreement->statement as $statement) {
                 $statementId = $this->statementRepository->get($statement->id);
                 $statementId->setStatus(StatementHelper::STATUS_WALT);
                 $this->statementRepository->save($statementId);
             }
             $agreement->detachBehavior('moderation');
-
             $agreement->setStatus(AgreementHelper::STATUS_ACCEPTED);
             $this->agreementRepository->save($agreement);
         });
