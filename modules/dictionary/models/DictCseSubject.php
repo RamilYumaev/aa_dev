@@ -2,6 +2,7 @@
 
 
 namespace modules\dictionary\models;
+use dictionary\models\DictDiscipline;
 use modules\dictionary\forms\DictCseSubjectForm;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
@@ -50,6 +51,10 @@ class DictCseSubject extends ActiveRecord
 
     public function getCompositeDisciplineStatus() {
         return DictDefaultHelper::name($this->composite_discipline_status);
+    }
+
+    public function getDiscipline() {
+        return $this->hasOne(DictDiscipline::class,['cse_subject_id'=> 'id']);
     }
 
     public function attributeLabels()

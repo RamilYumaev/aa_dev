@@ -2,6 +2,7 @@
 
 
 namespace modules\dictionary\models;
+use dictionary\models\DictDiscipline;
 use modules\dictionary\forms\DictCseSubjectForm;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
@@ -36,5 +37,9 @@ class DictCtSubject extends DictCseSubject
             'cse_status'=>'Предмет ЦТ',
             'ais_id'=>'Id АИС ВУЗ',
         ];
+    }
+
+    public function getDiscipline() {
+        return $this->hasOne(DictDiscipline::class,['ct_subject_id'=> 'id']);
     }
 }

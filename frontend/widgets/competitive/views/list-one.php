@@ -58,7 +58,19 @@ function converterExam(array $array) {
     </div>
 </div>
 <div style="margin-top: 80px">
-        <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
+        <?php if(key_exists($model->type, $data) && count($data[$model->type])):
+            foreach ($data[$model->type] as $list => $value) {
+                foreach ($value['subjects'] as $key => $subject) {
+                    if($subject['subject_type_id'] == 1) {
+                        $aisCseId = \modules\dictionary\models\DictCseSubject::findOne(['ais_id' =>$subject['subject_id']]);
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId->discipline->ais_id;
+                    }elseif($subject['subject_type_id'] == 2)  {
+                        $aisCtId = \modules\dictionary\models\DictCtSubject::findOne(['ais_id' =>$subject['subject_id']]);
+                        $data['list'][$list]['subjects']['subject_type_id'] =  $aisCtId->discipline->ais_id;
+                    }
+                }
+            }
+            ?>
             <div class="table-responsive">
             <table class="table" >
                 <tr>
