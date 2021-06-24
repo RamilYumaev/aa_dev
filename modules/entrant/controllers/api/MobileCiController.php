@@ -153,15 +153,12 @@ class MobileCiController extends Controller
             $examinations[] = $exam->discipline->name;
         }
 
-        if($budgetAnalog){
-            $shareKsp = $budgetAnalog->kcp;
-            $specialKsp = $specialAnalog->kcp;
-            $targetKsp = $targetAnalog->kcp;
-        }else{
-            $shareKsp = 0;
-            $specialKsp = 0;
-            $targetKsp = 0;
-        }
+
+            $shareKsp = $budgetAnalog->kcp ?? 0;
+            $specialKsp = $specialAnalog->kcp ?? 0;
+            $targetKsp = $targetAnalog->kcp ?? 0;
+
+
 
         return [
             'specialty_name' => $cg->specialty->codeWithName,

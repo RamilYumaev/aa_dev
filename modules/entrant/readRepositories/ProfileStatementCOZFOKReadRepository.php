@@ -39,7 +39,10 @@ class ProfileStatementCOZFOKReadRepository
         $query = $this->profileDefaultQuery();
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
          if ($this->jobEntrant->isCategoryFOK()) {
-            ;$query->andWhere(['not in', 'anketa.category_id', [
+             $specialUserArray = Statement::find()->select('user_id')
+                 ->andWhere(['in','special_right',[
+                     DictCompetitiveGroupHelper::SPECIAL_RIGHT]])->column();
+            $query->andWhere(['not in', 'anketa.category_id', [
                  CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
                  CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
                  CategoryStruct::WITHOUT_COMPETITION]])
@@ -52,6 +55,7 @@ class ProfileStatementCOZFOKReadRepository
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
+             $query->andWhere(['not in', 'anketa.user_id', $specialUserArray]);
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere([
                 'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);

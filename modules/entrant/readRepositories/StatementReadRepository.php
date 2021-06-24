@@ -28,6 +28,7 @@ class StatementReadRepository
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
         if ($this->jobEntrant->isCategoryFOK()) {
+
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
