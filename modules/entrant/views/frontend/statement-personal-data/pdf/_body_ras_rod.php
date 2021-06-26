@@ -34,25 +34,25 @@
     <tr>
         <td>1</td>
         <td style="padding-left: 20px" align="left">Фамилия, имя, отчество</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>2</td>
         <td style="padding-left: 20px" align="left">Дата рождения</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>3</td>
         <td style="padding-left: 20px" align="left">Гражданство</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>4</td>
         <td style="padding-left: 20px" align="left">Данные, идентифицирующие субъекта, в чьих интересах выступает представитель</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
 </table>
