@@ -18,7 +18,6 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             "Московский педагогический государственный университет" <br/>
             Учебный год 2021/2022<br/><br/><br/>
             </span>
-            <span style="font-weight: bold">Учебный год:</span> <?= $data['year']?>,<br/>
             <span style="font-weight: bold"> Дата публикации списка и время обновления: </span> <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
             <span style="font-weight: bold">Категория поступающих: </span> <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>
             <span style="font-weight: bold">Структурное подразделение: </span> <?= $rcl->faculty->full_name ?>,<br/>
@@ -43,7 +42,15 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
     </div>
 </div>
     <div style="margin-top: 80px">
-            <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
+            <?php if(key_exists($model->type, $data) && count($data[$model->type])):
+                foreach ($data[$model->type] as $list => $value) {
+                    foreach ($value['subjects'] as $key => $subject) {
+                        $isSpec = \dictionary\models\DictDiscipline::find()->andWhere(['ais_id' =>$subject['subject_id']])
+                            ->andWhere(['like','name','Специальная дисциплина'])->exists();
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $isSpec ? 0 : $subject['subject_id'];
+                    }
+                }
+                ?>
             <div class="table-responsive">
             <table class="table">
                 <tr>
@@ -54,7 +61,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Направленность</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов</th>
-                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() as $value) : ?>
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
@@ -81,7 +88,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['specialization_name'] ?></td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
-                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
                         <td style="font-size: 14px; text-align: center">

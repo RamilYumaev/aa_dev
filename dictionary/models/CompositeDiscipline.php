@@ -31,7 +31,7 @@ class CompositeDiscipline extends \yii\db\ActiveRecord
 
     public function getDictDiscipline()
     {
-        return $this->hasOne(DictDiscipline::class,['id' => 'discipline_select_id']);
+        return $this->hasOne(DictDiscipline::class,['id' => 'discipline_id']);
     }
 
     public function getDictDisciplineSelect()
