@@ -17,9 +17,9 @@ use yii\widgets\DetailView;
                     <?php
                     $columns = [
                         ['label' => '',
-                            'value' => $model->cg->yearConverter()[1]."".$model->cg->getFullNameCg(),],
+                            'value' => $model->cg ? $model->cg->yearConverter()[1]."".$model->cg->getFullNameCg() : "",],
                         ['label' =>'',
-                            'value' => $model->dictClass->classFullName,],
+                            'value' =>  $model->dictClass ? $model->dictClass->classFullName :"",],
                     ];
                     ?>
                     <?= Html::a('Изменить', ['/transfer/current-education-info'], ['class' => 'btn btn-warning']) ?>

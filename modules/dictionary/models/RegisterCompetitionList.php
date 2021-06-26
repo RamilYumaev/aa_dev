@@ -78,6 +78,10 @@ class RegisterCompetitionList extends ActiveRecord
         return $this->status == self::STATUS_ERROR;
     }
 
+    public function isStatusSend() {
+        return $this->status == self::STATUS_SEND;
+    }
+
     public function setErrorMessage($message) {
         $this->error_message = $message;
     }

@@ -52,6 +52,7 @@ if(!Yii::$app->user->isGuest ) {
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'ПиВ', 'url' => ['/transfer/default/index']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 ['label' => 'Колледж', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::COLLAGE]],

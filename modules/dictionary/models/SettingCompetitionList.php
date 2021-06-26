@@ -79,7 +79,7 @@ class SettingCompetitionList extends ActiveRecord
 
     public function isEndDateZuk()
     {
-        return $this->end_date_zuk <= date('Y-m-d H:i:s');
+        return $this->end_date_zuk && $this->end_date_zuk <= date('Y-m-d H:i:s');
     }
 
     public function getRegisterCompetitionListForDateAisType($date, $aisCgId, $typeUpdate)

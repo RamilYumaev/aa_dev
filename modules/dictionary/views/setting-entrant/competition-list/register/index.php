@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     ['value' => function(\modules\dictionary\models\RegisterCompetitionList $model) {
-                        return  $model->isStatusError() ? Html::a('Снова отправить', ['setting-entrant/send', 'id' => $model->id],['class'=>'btn btn-warning']) :"";
+                        return  $model->isStatusError() || $model->isStatusSend() ? Html::a('Снова отправить', ['setting-entrant/send', 'id' => $model->id],['class'=>'btn btn-warning']) :"";
                     }, 'format' => 'raw'],
                     'se_id',
                     'ais_cg_id',

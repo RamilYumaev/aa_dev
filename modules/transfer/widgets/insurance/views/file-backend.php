@@ -8,6 +8,7 @@ use backend\widgets\adminlte\Box;
         "header" => "СНИЛС",
         "type" => Box::TYPE_INFO,
         "filled" => true,]) ?>
+<?php if($model) :?>
 <table class="table table-bordered">
     <tr>
         <th>Данные</th>
@@ -23,5 +24,6 @@ use backend\widgets\adminlte\Box;
     'record_id' => $model->id,
     'model' => $model::className(),
     'userId' => $model->user_id]) ?>
+<?php  endif;?>
 <?php Box::end(); ?>
 
