@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Перевод и восстано
 $this->params['breadcrumbs'][] = ['label' => 'Заявления', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= Html::a("Документы", ['file/user', 'user' => $statement->user_id], ['class' => 'btn btn-danger']) ?>
+<?= Html::a("Документы", ['profiles/files', 'id' => $statement->transferMpgu->id], ['class' => 'btn btn-danger']) ?>
 <?= Html::a("Сообщить об ошибке", ['profiles/send-error', 'user' =>  $statement->transferMpgu->user_id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
