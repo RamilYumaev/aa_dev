@@ -160,6 +160,15 @@ class DictCompetitiveGroup extends ActiveRecord
         ->column();
     }
 
+    public function getCompositeDisciplineId()
+    {
+        return $this->getExaminations()
+            ->joinWith('discipline')
+            ->andWhere(['composite_discipline' => true])
+            ->select(['discipline.id'])
+            ->column();
+    }
+
     public function isExamOch() {
         return $this->getExaminations()->joinWith('discipline')
             ->andWhere(['is_och' => true])->exists();
