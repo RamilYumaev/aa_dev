@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /** @var $data array */
 /** @var $this \yii\web\View*/
@@ -146,6 +146,6 @@ function converterExam(array $array) {
             </table>
             </div>
         <?php else: ?>
-            <h4 style="color: red">в списке нет ни одного абитуриента</h4>
+            <h4 style="color: red">В списке нет ни одного абитуриента</h4>
         <?php endif; ?>
  </div>
