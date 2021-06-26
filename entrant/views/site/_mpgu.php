@@ -101,7 +101,7 @@ use \modules\dictionary\helpers\JobEntrantHelper;
                 <h4>Заявления об участии в конкурсе (Квота)</h4>
             </div>
             <div class="box-body">
-                <?= StatementWidget::widget(['entrant' => $jobEntrant, 'category' => \dictionary\helpers\DictCompetitiveGroupHelper::SPECIAL_RIGHT,
+                <?= StatementWidget::widget(['entrant' => $jobEntrant,
                     'status' => [StatementHelper::STATUS_WALT_SPECIAL, StatementHelper::STATUS_VIEW]]) ?>
             </div>
         </div>

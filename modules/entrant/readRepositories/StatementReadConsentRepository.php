@@ -6,6 +6,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\StatementConsentCg;
@@ -35,6 +36,10 @@ class StatementReadConsentRepository
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::SPECIAL_RIGHT_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
+            $query->andWhere(['not in','anketa.user_id',
+                Statement::find()->select('user_id')
+                    ->andWhere(['special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])
+                    ->column()]);
         }
 
         if ($this->jobEntrant->isTPGU()) {
@@ -47,11 +52,8 @@ class StatementReadConsentRepository
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
-            $query->andWhere(['anketa.category_id'=> CategoryStruct::WITHOUT_COMPETITION])
-                ->orWhere(['and',
-                    ['anketa.category_id' =>CategoryStruct::GENERAL_COMPETITION],
-                    ['statement.special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
-                ])
+                       $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
+            $query->andWhere(['or', ['is not', 'exemption_id', null], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
