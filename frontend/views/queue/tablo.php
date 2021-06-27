@@ -28,20 +28,31 @@ $this->registerJs($script);
     margin-top: 30px;
     color: #262626;
 }
+img{
+    display: block;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
 </style>
 <div id="queue">
-    
 
 <div class="tablo__talons">
 
-<?php foreach ($queues as $key => $queue)  : ?>
-    <div class='tablo__talon' >
-        <?= $queue['talon'] ?>
-        – 
-        <?= $queue['number_of_table'] ?>
-    </div>
-            
-        <?php endforeach; ?></tbody>
+<?php if (count($queues)!==0): ?> 
+    <?php foreach ($queues as $key => $queue)  : ?>
+        <div class='tablo__talon' >
+            <?= $queue['talon'] ?>
+            – 
+            <?= $queue['number_of_table'] ?>
+        </div>
+    <?php endforeach; ?></tbody>
+<?php else: ?>
+    <img src="../img/cabinet/logo_aa.png">
+<?php endif ?>
     
 </div>
 <?php Pjax::end(); ?>
