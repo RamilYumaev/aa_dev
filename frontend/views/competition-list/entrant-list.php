@@ -38,6 +38,9 @@ $url = \yii\helpers\Url::to($isGraduate ?
 $array = CompetitionList::listTitle($isFilial)[$eduLevel];
 $this->params['breadcrumbs'][] = ['label' => 'Конкурсные списки', 'url' => ['competition-list/index']];
 $this->params['breadcrumbs'][] = ['label' => $array['name'], 'url' => ['competition-list/'.$array['url']]];
+if(!$eduLevel ==   DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO && !$isFilial) {
+    $this->params['breadcrumbs'][] = ['label' => \dictionary\helpers\DictFacultyHelper::facultyList()[$faculty], 'url' => ['competition-list/'.$array['url'], 'faculty' => $faculty]];
+}
 $this->params['breadcrumbs'][] = $this->title;
 $countRCls = count($rCls);?>
 <?php Pjax::begin(['id' => 'competition-list']); ?>
