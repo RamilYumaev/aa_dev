@@ -72,7 +72,6 @@ class ProfileStatementReadRepository
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-               // ->andWhere(['is', 'special_right', null])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             $query->andWhere(['not in', 'anketa.user_id', $specialUserArray]);

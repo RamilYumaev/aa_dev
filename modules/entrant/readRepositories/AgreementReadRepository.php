@@ -14,7 +14,7 @@ use modules\dictionary\models\JobEntrant;
 class AgreementReadRepository
 {
     public function readData() {
-        $query = Agreement::find()->alias('agreement')
+        $query = Agreement::find()->alias('agreement')->distinct()
             ->innerJoin(Statement::tableName(), 'statement.user_id =
         agreement.user_id')->andWhere(['>', 'status', StatementHelper::STATUS_DRAFT]);
         return $query;

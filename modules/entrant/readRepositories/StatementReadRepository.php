@@ -25,7 +25,7 @@ class StatementReadRepository
 
     public function readData()
     {
-        $query = Statement::find()->statusNoDraft('statement.');
+        $query = Statement::find()->distinct()->statusNoDraft('statement.');
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
         if ($this->jobEntrant->isCategoryFOK()) {
@@ -37,7 +37,7 @@ class StatementReadRepository
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             $query->andWhere(['not in','anketa.user_id',
                 Statement::find()->select('user_id')
-                    ->andWhere(['special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])
+                    ->andWhere(['special_right'=>[DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
                     ->column()]);
 
         }
@@ -47,8 +47,10 @@ class StatementReadRepository
         }
 
         if ($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+            $query->andWhere(['in','anketa.user_id',
+                Statement::find()->select('user_id')
+                    ->andWhere(['special_right'=>[DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
+                    ->column()]);
         }
 
         if ($this->jobEntrant->isCategoryUMS()) {
