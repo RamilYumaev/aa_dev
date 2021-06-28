@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use common\auth\helpers\DeclinationFioHelper;
+use dictionary\helpers\DictFacultyHelper;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\PassportDataHelper;
 use modules\entrant\helpers\ReceiptHelper;
@@ -37,15 +38,16 @@ if ($discount) {
     $totalCost = $cost;
 }
 
+$universityChoice = DictFacultyHelper::getKeyFacultySetting($receipt->contractCg->statementCg->cg->faculty_id);
 $receiptCost = ReceiptHelper::costDefault($totalCost, ReceiptHelper::listSep()[$receipt->period]);
-$personalAccount = ReceiptHelper::personalAccount()[$anketa->university_choice];
-$inn = ReceiptHelper::inn()[$anketa->university_choice];
-$kpp = ReceiptHelper::kpp()[$anketa->university_choice];
-$checkingAccount = ReceiptHelper::checkingAccount()[$anketa->university_choice];
-$bank = ReceiptHelper::bank()[$anketa->university_choice];
-$bik = ReceiptHelper::bik()[$anketa->university_choice];
-$oktmo = ReceiptHelper::oktmo()[$anketa->university_choice];
-$header = ReceiptHelper::header($anketa->university_choice);
+$personalAccount = ReceiptHelper::personalAccount()[$universityChoice];
+$inn = ReceiptHelper::inn()[$universityChoice];
+$kpp = ReceiptHelper::kpp()[$universityChoice];
+$checkingAccount = ReceiptHelper::checkingAccount()[$universityChoice];
+$bank = ReceiptHelper::bank()[$universityChoice];
+$bik = ReceiptHelper::bik()[$universityChoice];
+$oktmo = ReceiptHelper::oktmo()[$universityChoice];
+$header = ReceiptHelper::header($universityChoice);
 
 ?>
 <div class="fs-13">

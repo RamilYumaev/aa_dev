@@ -47,6 +47,5 @@ $cg = $statement->cg;
     </tr>
 </table>
 <?= $this->render('_block') ?>
-<pagebreak />
 <p class="mt-30 fs-15">В Приемную комиссию представлены документы: <br />
     Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>

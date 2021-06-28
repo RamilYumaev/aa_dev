@@ -26,6 +26,14 @@ class FileService
         $model->save();
     }
 
+    public function returnFile($id)
+    {
+        $model = $this->get($id);
+        $model->setStatus(FileHelper::STATUS_DRAFT);
+        $model->save();
+    }
+
+
     public function get($id): File
     {
         if (!$model = File::findOne($id)) {

@@ -29,6 +29,8 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
         <td><?= Html::a("Скачать", ["/transfer/file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
         <td><?= Html::a("Принять", ["/transfer/file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
                 'data-method' => 'post']) ?></td>
+        <td><?=  Html::a("Возврат", ["/transfer/file/return",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-warning",
+                'data-method' => 'post']) ?></td>
         <td><?= Html::a("Отклонить", ["/transfer/file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения']) ?></td>
         <td><span class="label label-<?= FileHelper::colorName($file->status)?>"><?=$file->statusName?></span></td>

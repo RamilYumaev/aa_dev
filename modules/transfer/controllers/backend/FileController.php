@@ -99,10 +99,28 @@ class FileController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
             return $this->redirect(Yii::$app->request->referrer);
         }
-
     }
 
-
+    /**
+     * @param integer $id
+     * @param $hash
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionReturn($id, $hash)
+    {
+        $modelName = FileHelper::validateModel($hash);
+        $model = $this->findModel($id, $modelName);
+        try {
+            $this->service->returnFile($model->id);
+            $link = $model ? $model->hashId : "";
+            return $this->redirect(Yii::$app->request->referrer.$link);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
 
     /**
      * @param integer $id

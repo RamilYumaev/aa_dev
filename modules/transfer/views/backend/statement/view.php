@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Заявления', 'url' => ['in
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= Html::a("Документы", ['profiles/files', 'id' => $statement->transferMpgu->id], ['class' => 'btn btn-danger']) ?>
-<?= Html::a("Сообщить об ошибке", ['profiles/send-error', 'user' =>  $statement->transferMpgu->user_id], [
+<?= Html::a("Сообщить об ошибке", ['profiles/send-error', 'user' =>  $statement->transferMpgu->id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
 <?php if(!$statement->transferMpgu->isMpgu()): ?>

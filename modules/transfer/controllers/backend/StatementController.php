@@ -109,6 +109,7 @@ class StatementController extends Controller
         }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             try {
+                 $model->setStatus(StatementHelper::STATUS_NO_ACCEPTED);
                  $model->save();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

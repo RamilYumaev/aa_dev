@@ -39,7 +39,7 @@ use yii\helpers\Html; ?>
                 <?php endif ?>
             <?php else : ?>
                 <h3 style="margin-top: 40px"><?= $item->faculty->full_name?></h3>
-                <?= $this->render('_table', ['item'=> $item,'eduLevel' => $eduLevel])?>
+                <?= $this->render('_table', ['item'=> $item,'eduLevel' => $eduLevel, 'isFaculty'=>$isFaculty])?>
             <?php endif; ?>
         <?php endforeach; ?>
         </div>
