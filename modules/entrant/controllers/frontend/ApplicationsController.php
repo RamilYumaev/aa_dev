@@ -8,6 +8,7 @@ use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\services\ApplicationsService;
 use yii\web\Controller;
@@ -62,7 +63,8 @@ class ApplicationsController extends Controller
 
         $this->permittedLevelChecked($eduLevel);
 
-        if($foreignStatus && !$tpguStatus) {
+        $anketa = $this->getAnketa();
+        if($anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION && $foreignStatus) {
             $this->isGovLineControl();
         }
 
