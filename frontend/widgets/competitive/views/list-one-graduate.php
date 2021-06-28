@@ -63,7 +63,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php endif; ?>
                     <th>Направленность</th>
                     
-                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() as $value) : ?>
 
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
@@ -93,7 +93,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php endif; ?>
                     <td><?= $entrant['specialization_name'] ?></td>
                     
-                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
+                    <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() as $aisKey => $value) :
 
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
