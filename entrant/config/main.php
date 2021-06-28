@@ -27,6 +27,10 @@ return [
             'class' => \modules\management\Management::class,
             'viewPath' => "@modules/management/views/user",
         ],
+        'transfer' => [
+            'class' => \modules\transfer\BackendTransfer::class,
+            'viewPath' => "@modules/transfer/views/backend",
+        ],
         'management-director' => [
             'class' => \modules\management\DirectorManagement::class,
             'viewPath' => "@modules/management/views/director",

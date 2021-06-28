@@ -6,6 +6,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\UserAis;
@@ -42,12 +43,9 @@ class StatementCgReadRepository
         }
 
         if($this->jobEntrant->isCategoryMPGU()) {
-         //   $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
-             $query->andWhere(['anketa.category_id'=> CategoryStruct::WITHOUT_COMPETITION])
-                 ->orWhere(['and',
-                     ['anketa.category_id' =>CategoryStruct::GENERAL_COMPETITION],
-                     ['statement.special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
-                 ])->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
+            $query->andWhere(['or', ['is not', 'exemption_id', null], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

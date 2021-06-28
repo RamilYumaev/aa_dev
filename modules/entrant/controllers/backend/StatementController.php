@@ -195,7 +195,7 @@ class StatementController extends Controller
      */
     protected function findModel($id): Statement
     {
-        $query = (new StatementReadRepository($this->jobEntrant))->readData()-> andwhere(['statement.id'=>$id]);
+        $query = (new StatementReadRepository($this->jobEntrant))->readData()->andwhere(['statement.id'=>$id]);
 
         if (($model = $query->one())  !== null) {
             return $model;

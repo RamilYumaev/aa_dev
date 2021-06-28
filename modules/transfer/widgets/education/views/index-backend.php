@@ -1,44 +1,43 @@
 <?php
 
 use backend\widgets\adminlte\Box;
-use modules\entrant\helpers\BlockRedGreenHelper;
-use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $document_education modules\entrant\models\DocumentEducation */
+/* @var $model \modules\transfer\models\CurrentEducation */
 /* @var $isUserSchool bool */
 ?>
-<?php if ($document_education) : ?>
+<?php if ($model) : ?>
     <?php Box::begin(
         [
-            "header" => "Документ об образовании",
+            "header" => "Действующее образование",
             "type" => Box::TYPE_SUCCESS,
             "icon" => 'passport',
             "filled" => true,]) ?>
-
     <?php
     $columns = [
-        ['label' => $document_education->getAttributeLabel('school_id'),
-            'value' => $document_education->schoolName,],
-        ['label' => $document_education->getAttributeLabel('type'),
-            'value' => $document_education->typeName,],
-        'series',
-        'number',
-        'date:date',
-        'year',
-        //['label' => $document_education->getAttributeLabel('original'),
-        // 'value' => $document_education->getOriginal(),],
+        ['label' => $model->getAttributeLabel('school_id'),
+            'value' => $model->school->name,],
+        'school_name',
+        'speciality',
+        'specialization',
+        ['label' => $model->getAttributeLabel('form'),
+            'value' => $model->getFormEdu(),],
+        ['label' => $model->getAttributeLabel('edu_count'),
+            'value' => $model->getEduName(),],
+        ['label' => $model->getAttributeLabel('finance'),
+            'value' => $model->getFinanceEdu(),],
+        ['label' => $model->getAttributeLabel('course'),
+            'value' => $model->dictCourse->classFullName,],
     ];
     ?>
-    <?php if ($document_education->surname && $document_education->name): ?>
-        <?php array_push($columns, 'surname', 'name', 'patronymic') ?>
-    <?php endif; ?>
+
     <?= DetailView::widget([
         'options' => ['class' => 'table table-bordered detail-view'],
-        'model' => $document_education,
+        'model' => $model,
         'attributes' => $columns
     ]) ?>
+
     <?php Box::end() ?>
 <?php endif; ?>
 

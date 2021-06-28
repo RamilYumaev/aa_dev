@@ -16,17 +16,11 @@ class GeneratePacketWidget extends Widget
         if(!PacketDocumentUser::findOne(['user_id'=> $this->userId, 'packet_document' => $type])) {
             PacketDocumentUser::create($type, $this->userId)->save();
         }
-    }
+      }
     }
 
     public function run()
     {
         return $this->render('packet', ['documents'=> PacketDocumentUser::find()->andWhere(['user_id' => $this->userId])->all() ]);
     }
-
-    protected function generate() {
-
-
-    }
-
 }

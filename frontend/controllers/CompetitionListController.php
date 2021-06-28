@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\Faculty;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use yii\db\ActiveQuery;
@@ -19,15 +20,17 @@ class CompetitionListController extends Controller
         return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, true);
     }
 
-    protected function renderCompetitionList($eduLevel, $department) {
+    protected function renderCompetitionList($eduLevel, $department, $faculty = null) {
+        $modelFaculty = $this->faculty($faculty);
         return $this->render('_data',['faculty' =>
-            $this->getFaculty($eduLevel, $department),
+            $this->getFaculty($eduLevel, $department, $faculty),
             'title' => CompetitionList::listTitle($department)[$eduLevel]['name'],
             'eduLevel' => $eduLevel,
+            'isFaculty' => $modelFaculty,
         ]);
     }
 
-    protected function getFaculty($eduLevel, $department = true) {
+    protected function getFaculty($eduLevel, $department, $faculty) {
         $query = DictCompetitiveGroup::find()->joinWith('faculty')
             ->eduLevel($eduLevel)
             ->select(['faculty_id','full_name'])
@@ -40,6 +43,9 @@ class CompetitionListController extends Controller
         }else{
             $query->notInFaculty();
         }
+        if($faculty) {
+            $query->faculty($faculty);
+        }
         return $query->all();
     }
 
@@ -48,20 +54,23 @@ class CompetitionListController extends Controller
         return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, true);
     }
 
-    public function actionBachelor()
+    public function actionBachelor($faculty = null)
     {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, false);
+        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, false, $faculty);
     }
 
-    public function actionMagistracy()
+    public function actionMagistracy($faculty = null)
     {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, false);
+        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, false, $faculty);
     }
 
-    public function actionGraduate()
+    public function actionGraduate($faculty = null)
     {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, false);
+        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, false, $faculty);
+    }
 
+    protected function faculty($faculty) {
+        return Faculty::findOne($faculty);
     }
 
     public function actionEntrantList($cg, $type, $date = null, $id = null)

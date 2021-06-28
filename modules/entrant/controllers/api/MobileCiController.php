@@ -153,15 +153,12 @@ class MobileCiController extends Controller
             $examinations[] = $exam->discipline->name;
         }
 
-        if($budgetAnalog){
-            $shareKsp = $budgetAnalog->kcp;
-            $specialKsp = $specialAnalog->kcp;
-            $targetKsp = $targetAnalog->kcp;
-        }else{
-            $shareKsp = 0;
-            $specialKsp = 0;
-            $targetKsp = 0;
-        }
+
+            $shareKsp = $budgetAnalog->kcp ?? 0;
+            $specialKsp = $specialAnalog->kcp ?? 0;
+            $targetKsp = $targetAnalog->kcp ?? 0;
+
+
 
         return [
             'specialty_name' => $cg->specialty->codeWithName,
@@ -193,11 +190,11 @@ class MobileCiController extends Controller
         $json = $this->getJson();
         $data = Json::decode($json);
         $talonString = $data['talon'];
-        $lastName = $data['last_name'];
-        $firstName = $data['first_name'];
-        $patronymic = $data['patronymic'];
-        $phone = $data['phone'];
-        $email = $data['email'];
+        $lastName = trim($data['last_name']);
+        $firstName = trim($data['first_name']);
+        $patronymic = trim($data['patronymic']);
+        $phone = trim($data['phone']);
+        $email = trim($data['email']);
         $cgs = $data['competitive_groups'];
         $cseList = $data['cse_list'];
 

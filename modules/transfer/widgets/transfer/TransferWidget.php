@@ -1,9 +1,6 @@
 <?php
 namespace modules\transfer\widgets\transfer;
 
-use common\auth\models\UserSchool;
-use modules\entrant\models\DocumentEducation;
-use modules\transfer\models\CurrentEducationInfo;
 use modules\transfer\models\StatementTransfer;
 use yii\base\Widget;
 

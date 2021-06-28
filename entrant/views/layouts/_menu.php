@@ -52,6 +52,7 @@ if(!Yii::$app->user->isGuest ) {
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'ПиВ', 'url' => ['/transfer/default/index']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 ['label' => 'Колледж', 'url' => ['/data-entrant/agreement-contract/index', 'faculty'=> DictFacultyHelper::COLLAGE]],
@@ -255,6 +256,7 @@ if(!Yii::$app->user->isGuest ) {
                         ],
                     ]],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
+                \Yii::$app->user->can('call-center') ? ['label'=>'Очный прием','url'=>['/data-entrant/queue']] : [],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
                 ]

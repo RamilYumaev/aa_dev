@@ -3,6 +3,8 @@
 use modules\entrant\helpers\BlockRedGreenHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use xj\qrcode\QRcode;
+use xj\qrcode\widgets\Text;
 
 /* @var $this yii\web\View */
 /* @var $phone \olympic\models\auth\Profiles */
@@ -23,6 +25,15 @@ use yii\widgets\DetailView;
             'user:boolean'
         ]
     ]) ?>
+
+        <?= Text::widget([
+            'outputDir' => '@webroot/qr',
+            'outputDirWeb' => '@web/qr',
+            'ecLevel' => QRcode::QR_ECLEVEL_L,
+            'text' => 'https://sdo.mpgu.org/switch-user/by-user-id?id=' . $phone->user_id,
+            'size' => 8,
+        ]);
+        ?>
     <?php else: ?>
         <p>Ничего не найдено</p>
     <?php endif; ?>

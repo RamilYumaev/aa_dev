@@ -96,6 +96,17 @@ class PacketDocumentUser extends ActiveRecord
         return !$this->date && !$this->number && !$this->authority;
     }
 
+    public function getData() {
+        if(!$this->isBook()) {
+            if($this->isRemove()){
+                return 'Дата приказа: '.$this->dateRu. ' Номер приказа: '.$this->number .' Кем выдан: '. $this->authority
+                    .' Причина '.$this->note;
+            }
+            return 'Дата выдачи: '.$this->dateRu . ' Номер документа '.$this->number .' Кем выдан: '. $this->authority;
+        }
+        return  '';
+    }
+
     public function isBook() {
         return $this->packet_document == self::PACKET_DOCUMENT_BOOK;
     }

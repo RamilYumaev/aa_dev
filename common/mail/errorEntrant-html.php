@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles */
 
-$url =   Url::to('@frontendInfo/abiturient/post-document/index', true); ?>
+$url =  Yii::$app->controller->id == "profiles" ? Url::to('@frontendInfo/transfer/post-document/index', true) : Url::to('@frontendInfo/abiturient/post-document/index', true); ?>
 <div class="password-reset">
     <p><?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!</p>
 

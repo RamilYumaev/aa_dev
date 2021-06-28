@@ -20,7 +20,7 @@ $name = DeclinationFioHelper::userDeclination($statementRejection->statement->us
         <td>
             Председателю Приемной<br/>
             комиссии МПГУ,<br/>
-            ректору МПГУ,<br/>
+            ректору МПГУ<br/>
             А.В. Лубкову<br/>
             От: <?= $name->genitive ?? $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'] ?>
             <br/>

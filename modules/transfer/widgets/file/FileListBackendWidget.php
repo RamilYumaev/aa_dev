@@ -1,7 +1,7 @@
 <?php
 
 namespace modules\transfer\widgets\file;
-use modules\entrant\models\File;
+use modules\transfer\models\File;
 use yii\base\Widget;
 
 class FileListBackendWidget extends Widget
@@ -21,6 +21,4 @@ class FileListBackendWidget extends Widget
                 $this->record_id)->all()
             ]);
     }
-
-
 }

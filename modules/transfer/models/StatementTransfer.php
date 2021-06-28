@@ -33,11 +33,19 @@ use yii\db\ActiveRecord;
 class StatementTransfer extends ActiveRecord
 {
     const DRAFT = 0;
-
+    const MESSAGE = 2;
     public static function tableName()
     {
         return '{{%statement_transfer}}';
     }
+
+    public function rules()
+    {
+        return [
+            ['message','required', 'on'=> self::MESSAGE]
+        ];
+    }
+
 
     public function behaviors()
     {
@@ -104,6 +112,10 @@ class StatementTransfer extends ActiveRecord
         return $this->hasOne(TransferMpgu::class, ['user_id' => 'user_id']);
     }
 
+    public function getEduCount() {
+        return (new CurrentEducation())->listEdu()[$this->edu_count];
+    }
+
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
     }
@@ -164,7 +176,10 @@ class StatementTransfer extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            "Условие перевода/восстановления",
+            'edu_count' => "Образование",
+            'course' => 'Курс',
+            'semester' => 'Семестр',
+            'cg_id' => 'Конкурсная группа',
             'user_id'=> "Студент",
             'created_at' => "Дата создания"
         ];

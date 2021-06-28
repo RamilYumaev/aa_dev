@@ -49,7 +49,7 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block') ?> <pagebreak />
+<?= $this->render('_block') ?>
     <p class="fs-15" align="justify">
 В Приемную комиссию представлена справка о периоде обучения № <?= $docPeriod->number ?> <?= $edu->school_name ?>
     </p>

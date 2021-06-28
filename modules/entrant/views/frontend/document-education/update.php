@@ -5,7 +5,7 @@
 \common\user\assets\UpdateSchoolAsset::register($this);
 
 $this->title = "Документ об образовании. Редактирование.";
-$this->params['breadcrumbs'][] = ['label' => 'Онлайн-регистрация', 'url' => ['default/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_form', ['model'=> $model] )?>

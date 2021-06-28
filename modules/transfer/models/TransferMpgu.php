@@ -78,6 +78,16 @@ class TransferMpgu extends ActiveRecord
         ];
     }
 
+    public function listTypeShort() {
+        return [
+            self::IN_MPGU => 'Восстановление',
+            self::IN_INSIDE_MPGU => 'В. с переводом',
+            self::INSIDE_MPGU => 'Перевод',
+            self::FROM_EDU => 'Из другой',
+        ];
+    }
+
+
     public function listMessage() {
         return [
             self::STATUS_ACADEMIC_LEAVE => 'Вам недоступна процедура перевода/восстановления. Необходимо обратиться в дирекцию факультета/института',
@@ -118,18 +128,22 @@ class TransferMpgu extends ActiveRecord
                 if($fac = Faculty::find()->facultyAis($data['faculty_id'])->one()) {
                     $array['faculty'] =  $fac->full_name;
                     $array['faculty_genitive'] = $fac->genitive_name;
+                }else {
+                    $array['faculty'] = '';
                 }
                 if($speciality = DictSpeciality::find()->andWhere(['ais_id'=> $data['specialty_id']])->one()) {
                     $array['speciality'] = $speciality->codeWithName;
+                }else {
+                    $array['speciality'] = '';
                 }
                 if($specialization = DictSpecialization::find()->andWhere(['ais_id'=> $data['specialization_id']])->one()) {
                     $array['specialization'] =  $specialization->name;
                 }else {
                     $array['specialization'] =   '';
                 }
-                    $array['form'] = DictCompetitiveGroupHelper::getEduForms()[$data['education_form_id']];
-                    $array['course'] =$data['course'];
-                    $array['finance'] = $data['financing_type_id'];
+                    $array['form'] =  $data['education_form_id'] ? DictCompetitiveGroupHelper::getEduForms()[$data['education_form_id']] : '';
+                    $array['course'] =$data['course'] ?? '';
+                    $array['finance'] = $data['financing_type_id'] ?? '';
             }
         }
         return $array;
@@ -162,7 +176,7 @@ class TransferMpgu extends ActiveRecord
         return [
             'current_status' =>"Статус",
             'type' => "Условие перевода/восстановления",
-            'user_id' => 'Юзер',
+            'user_id' => 'Студент',
             'number' => '№ студенческой зачетки',
             'year' => 'Год выдачи студенческой зачетки',
         ];

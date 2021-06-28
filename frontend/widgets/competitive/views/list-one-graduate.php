@@ -11,26 +11,25 @@ $rcl = $model->registerCompetitionList;
 $entrantSetting = $rcl->settingEntrant;
 $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <p>
-        <span style="text-align: center">
-            Федеральное государственное бюджетное образовательное учреждение высшего образования
+<div class=" col-offset-md-3 col-md-9" >
+        <p style="font-size: 15px; margin-top: 30px">
+        <span style="display: block; text-align: center">
+             ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
+            Учебный год 2021/2022<br/><br/><br/>
             </span>
-            учебный год <?= $data['year']?>,<br/>
-            дата публикации списка и время обновления <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
-            категория поступающих <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>
-            Структурное подразделение: <?= $rcl->faculty->full_name ?>,<br/>
-            направление подготовки <?= $rcl->speciality->codeWithName ?>,<br/>
-            уровень образования <?= $entrantSetting->eduLevelFull ?>,<br/>
-            форма обучения <?= $entrantSetting->formEdu ?>,<br/>
-            вид финансирования <?= $entrantSetting->financeEdu ?>,<br/>
+            <span style="font-weight: bold"> Дата публикации списка и время обновления: </span> <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
+            <span style="font-weight: bold">Категория поступающих: </span> <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>
+            <span style="font-weight: bold">Структурное подразделение: </span> <?= $rcl->faculty->full_name ?>,<br/>
+            <span style="font-weight: bold">Направление подготовки: </span> <?= $rcl->speciality->codeWithName ?>,<br/>
+            <span style="font-weight: bold">Уровень образования: </span> <?= $entrantSetting->eduLevelFull ?>,<br/>
+            <span style="font-weight: bold">Форма обучения: </span> <?= $entrantSetting->formEdu ?>,<br/>
+            <span style="font-weight: bold">Вид финансирования: </span> <?= $entrantSetting->financeEdu ?>,<br/>
             <?php if( $entrantSetting->isContract()) :?>
-            стоимость обучения <?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'] . ' руб. за семестр' : '' ?> <br/>
+            <span style="font-weight: bold">Стоимость обучения:  </span> <?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'] . ' руб. за семестр' : '' ?> <br/>
             <?php endif; ?>
             <?php if ($entrantSetting->isBudget()) : ?>
-                контрольные цифры приема:
+                <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($entrantSetting->special_right)) : ?>
                 
                     <?= $data['kcp']['sum'] ?>,
@@ -44,81 +43,93 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
         </p>
     </div>
 </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?php if(key_exists($model->type, $data) && count($data[$model->type])):?>
-            <table class="table table">
+    <div style="margin-top: 80px">
+            <?php if(key_exists($model->type, $data) && count($data[$model->type])):
+                foreach ($data[$model->type] as $list => $value) {
+                    foreach ($value['subjects'] as $key => $subject) {
+                        $isSpec = \dictionary\models\DictDiscipline::find()->andWhere(['ais_id' =>$subject['subject_id']])
+                            ->andWhere(['like','name','Специальная дисциплина'])->exists();
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $isSpec ? 0 : $subject['subject_id'];
+                    }
+                }
+                ?>
+            <div class="table-responsive">
+            <table class="table">
                 <tr>
-                    <th>№ п/п</th>
-                    <th>Уникальный номер/СНИЛС</th>
+                    <th style="font-size: 12px; text-align: center">№ п/п</th>
+                    <th style="font-size: 12px; text-align: center">Уникальный номер/СНИЛС</th>
                     <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
-                        <th>Фамилия Имя Отчество</th>
+                        <th style="font-size: 12px; text-align: center">Фамилия Имя Отчество</th>
                     <?php endif; ?>
                     <th>Направленность</th>
                     
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
+
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
-                    <th>Сумма баллов за все предметы ВИ</th>
-                    <th>Индивидуальные достижения</th>
-                    <th>Сумма баллов за все ИД</th>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
+                    <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
                   <!--  <th>Подача документа об образовании</th> -->
-                    <th>Согласие на зачисление подано (+) / отсутствует (-)</th>
+                    <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($entrantSetting->isTarget()) : ?>
-                        <th>Наименование целевой организации</th>
+                        <th style="font-size: 12px; text-align: center">Наименование целевой организации</th>
                     <?php endif; ?>
-                    <th>Нуждается в общежитии</th>
+                    <th style="font-size: 12px; text-align: center">Нуждается в общежитии</th>
                     <?php if($entrantSetting->isContract()) : ?>
-                        <th>Оплатил ?</th>
+                        <th style="font-size: 12px; text-align: center">Оплатил ?</th>
                     <?php endif; ?>
                     <th>Сумма баллов</th>
                     <th>Примечание</th>
                     <th>Дата приема заявлений</th>
+
                 </tr>
                 <?php $i=1; foreach ($data[$model->type] as $entrant): ?>
                     <tr <?= !Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?>">
-                    <td><?=$i++?></td>
-                    <td><?= key_exists('snils', $entrant)  && $entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']?></td>
+                    <td style="font-size: 14px; text-align: center"><?=$i++?></td>
+                    <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant)  && $entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']?></td>
                     <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
-                        <td> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
+                        <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                     <?php endif; ?>
                     <td><?= $entrant['specialization_name'] ?></td>
                     
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
+
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
-                        <td>
+                        <td style="font-size: 14px; text-align: center">
                             <?php if(is_int($key)):?>
                                 <?= (key_exists('ball', $subject) && $subject['ball'] ? $subject['ball'].", " : '') ?>
                                 <?= 'ВИ' ?>
                             <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
-                    <td><?= $entrant['subject_sum']?></td>
-                    <td>
+                    <td style="font-size: 14px; text-align: center"><?= $entrant['subject_sum']?></td>
+                    <td style="font-size: 14px; text-align: center">
                         <?php if(key_exists('individual_achievements', $entrant)) :?>
                             <?php echo implode(', ', array_map(function($individual_achievement)
                             { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
                         <?php endif; ?>
                     </td>
-                    <td><?= $entrant['sum_of_individual']?></td>
+                    <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <!--<td><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
-                    <td><?= $entrant['zos_status_id'] ? '+': '-'?></td>
+                    <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
                     <?php if($entrantSetting->isTarget()) : ?>
                         <td><?= $entrant['target_organization_name'] ?></td>
                     <?php endif; ?>
-                    <td><?= $entrant['hostel_need_status_id'] ? 'Да': 'Нет'?></td>
+                    <td style="font-size: 14px; text-align: center"><?= $entrant['hostel_need_status_id'] ? 'Да': 'Нет'?></td>
                     <?php if($entrantSetting->isContract()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
                     <td><?= $entrant['total_sum']?></td>
                     <td><?= key_exists('pp_status_id',$entrant) &&  $entrant['pp_status_id'] ? "ПП" : ''?></td>
+
                     <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                 <?php endforeach; ?>
                 </tr>
             </table>
+            </div>
         <?php else: ?>
-            <h4>в списке нет ни одного абитуриента</h4>
+            <h4 style="color: red">В списке нет ни одного абитуриента</h4>
         <?php endif; ?>
     </div>
-</div>

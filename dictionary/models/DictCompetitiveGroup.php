@@ -160,6 +160,27 @@ class DictCompetitiveGroup extends ActiveRecord
         ->column();
     }
 
+    public function getExaminationsGraduateAisId()
+    {
+        $column = $this->getExaminations()
+            ->joinWith('discipline')
+            ->select(['name', 'ais_id'])
+            ->andWhere(['not', ['ais_id'=> null]])
+            ->andWhere(['not like','name','Специальная дисциплина'])
+            ->indexBy('ais_id')
+            ->column();
+        return [0=>'Специальная дисциплина']+ $column;
+    }
+
+    public function getCompositeDisciplineId()
+    {
+        return $this->getExaminations()
+            ->joinWith('discipline')
+            ->andWhere(['composite_discipline' => true])
+            ->select(['dict_discipline.id'])
+            ->column();
+    }
+
     public function isExamOch() {
         return $this->getExaminations()->joinWith('discipline')
             ->andWhere(['is_och' => true])->exists();

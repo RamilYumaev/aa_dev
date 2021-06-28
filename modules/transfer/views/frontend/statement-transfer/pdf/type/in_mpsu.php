@@ -44,7 +44,6 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
     </tr>
 </table>
 <?= $this->render('_block') ?>
-<pagebreak />
 <p class="fs-15">
     В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.<br/>

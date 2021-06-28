@@ -29,9 +29,18 @@ class CompositeDiscipline extends \yii\db\ActiveRecord
         return $composite;
     }
 
+    public function getDictDiscipline()
+    {
+        return $this->hasOne(DictDiscipline::class,['id' => 'discipline_id']);
+    }
+
     public function getDictDisciplineSelect()
     {
         return $this->hasOne(DictDiscipline::class,['id' => 'discipline_select_id']);
+    }
+
+    public static function getOne($disciplineId, $disciplineSelectId) {
+        return self::find()->andWhere(['discipline_id' => $disciplineId, 'discipline_select_id' => $disciplineSelectId])->one();
     }
 
 }

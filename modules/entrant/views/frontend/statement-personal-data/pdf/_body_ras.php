@@ -33,67 +33,67 @@
     <tr>
         <td>1</td>
         <td style="padding-left: 20px" align="left">Фамилия, имя, отчество</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>2</td>
         <td style="padding-left: 20px" align="left">Дата и место рождения</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>3</td>
         <td style="padding-left: 20px" align="left">Семейное положение</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>4</td>
         <td style="padding-left: 20px" align="left">Гражданство</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>5</td>
         <td style="padding-left: 20px" align="left">Место проживания</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>6</td>
         <td style="padding-left: 20px" align="left">Сведения об образовании</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>7</td>
         <td style="padding-left: 20px" align="left">Данные об индивидуальных достижениях, предоставленные при приёме</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>8</td>
         <td style="padding-left: 20px" align="left">Форма обучения</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>9</td>
         <td style="padding-left: 20px" align="left">Учебная группа</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>10</td>
         <td style="padding-left: 20px" align="left">Направление подготовки/специальность</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>11</td>
         <td style="padding-left: 20px" align="left">Профиль/специализация</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
@@ -105,13 +105,13 @@
     <tr>
         <td>13</td>
         <td style="padding-left: 20px" align="left">Рабочий телефон</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
     <tr>
         <td>14</td>
         <td style="padding-left: 20px" align="left">Фото и видеоизображение, получаемые при нахождении на объектах Университета и при взаимодействии с телекоммуникационными сервисами Университета</td>
-        <td></td>
+        <td>ДА</td>
         <td></td>
     </tr>
 </table>

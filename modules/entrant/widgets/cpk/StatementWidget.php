@@ -19,7 +19,7 @@ class StatementWidget extends Widget
         $query = (new  StatementReadRepository($this->entrant))->readData();
         $query->status($this->status)->orderByCreatedAtDesc();
         if($this->category) {
-             $query->andWhere(['special_right'=> $this->category]);
+             $query->andWhere(['anketa.category_id'=> $this->category]);
         }
         $dataProvider = new ActiveDataProvider(['query'=> $query, 'pagination' => [
             'pageSize' =>  4,

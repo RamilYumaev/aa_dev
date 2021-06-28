@@ -46,9 +46,9 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
                     $this->saveCompetitionList($item, 'list_bvi', 'list');
                 }
             }
-        if (key_exists('error', $item)) {
-            $this->saveRegister(RegisterCompetitionList::STATUS_ERROR, $item['error']['message']);
-        }
+            if (key_exists('error', $item)) {
+                $this->saveRegister(RegisterCompetitionList::STATUS_ERROR, $item['error']['message']);
+            }
         }catch (ClientException $exception)  {
             $this->saveRegister(RegisterCompetitionList::STATUS_ERROR, $exception->getMessage());
         }
