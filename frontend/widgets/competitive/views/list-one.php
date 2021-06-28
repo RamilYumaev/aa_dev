@@ -44,9 +44,11 @@ function converterExam(array $array) {
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($cg->special_right_id)) : ?>
+                
                     <?= $data['kcp']['sum'] ?>,
-                    квота - <?= $data['kcp']['quota'] ?>,
-                    целевые - <?= $data['kcp']['target'] ?>
+                    из них: 
+                    особая квота - <?= $data['kcp']['quota'] ?>,
+                    целевая квота - <?= $data['kcp']['target'] ?>
                 <?php elseif ($cg->isKvota()): ?>
                     <?= $data['kcp']['quota'] ?>,
                 <?php elseif ($cg->isTarget()): ?>
@@ -79,13 +81,14 @@ function converterExam(array $array) {
                     <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
                     <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
                     <?php endif; ?>
-                    <th style="font-size: 12px; text-align: center">Сумма баллов</th>
                     <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
                     <?php endforeach; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
+                    
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
+                    
                   <!--  <th style="font-size: 12px; text-align: center">Подача документа об образовании</th> -->
                     <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($cg->isTarget()) : ?>
@@ -98,6 +101,7 @@ function converterExam(array $array) {
                     <?php if($cg->isContractCg()) : ?>
                         <th style="font-size: 12px; text-align: center">Оплатил да/нет</th>
                     <?php endif; ?>
+                    <th style="font-size: 12px; text-align: center">Сумма баллов</th>
                     <th style="font-size: 12px; text-align: center">Примечание</th>
                     <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
                 </tr>
@@ -108,7 +112,6 @@ function converterExam(array $array) {
                     <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
                     <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                     <?php endif; ?>
-                    <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
@@ -139,6 +142,7 @@ function converterExam(array $array) {
                     <?php if($cg->isContractCg()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
+                    <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
                     <td style="font-size: 14px; text-align: center"><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                     <?php endforeach; ?>

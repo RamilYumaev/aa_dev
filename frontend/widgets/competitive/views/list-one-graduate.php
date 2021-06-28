@@ -32,8 +32,10 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             <?php if ($entrantSetting->isBudget()) : ?>
                 контрольные цифры приема:
                 <?php if (is_null($entrantSetting->special_right)) : ?>
+                
                     <?= $data['kcp']['sum'] ?>,
-                    целевые - <?= $data['kcp']['target'] ?>
+                    из них: 
+                    целевая квота - <?= $data['kcp']['target'] ?>
                 <?php elseif ($entrantSetting->isTarget()): ?>
                     <?=  $data['kcp']['target']  ?>,
                 <?php endif; ?>
@@ -53,7 +55,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                         <th>Фамилия Имя Отчество</th>
                     <?php endif; ?>
                     <th>Направленность</th>
-                    <th>Сумма баллов</th>
+                    
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $value) : ?>
                         <th><?= $value ?></th>
                     <?php endforeach; ?>
@@ -69,6 +71,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php if($entrantSetting->isContract()) : ?>
                         <th>Оплатил ?</th>
                     <?php endif; ?>
+                    <th>Сумма баллов</th>
                     <th>Примечание</th>
                     <th>Дата приема заявлений</th>
                 </tr>
@@ -80,7 +83,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                         <td> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                     <?php endif; ?>
                     <td><?= $entrant['specialization_name'] ?></td>
-                    <td><?= $entrant['total_sum']?></td>
+                    
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
@@ -108,6 +111,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <?php if($entrantSetting->isContract()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
+                    <td><?= $entrant['total_sum']?></td>
                     <td><?= key_exists('pp_status_id',$entrant) &&  $entrant['pp_status_id'] ? "ПП" : ''?></td>
                     <td><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                 <?php endforeach; ?>
