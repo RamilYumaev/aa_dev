@@ -105,7 +105,7 @@ $header = ReceiptHelper::header($universityChoice);
             <td colspan="5" class="text-center fs-10">(адрес плательщика)</td>
         </tr>
         <tr>
-            <td colspan="2" class="bb text-center v-align-bottom"><strong><i><?= $fio_entrant?></i></strong></td>
+            <td colspan="2" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant?></i></strong></td>
             <td class="bb text-center" colspan="2"><strong><i><?= $faculty ?></i></strong></td>
             <td class="bb text-center v-align-bottom"><strong><i>1 1</i></strong></td>
         </tr>
@@ -181,7 +181,7 @@ $header = ReceiptHelper::header($universityChoice);
             <td colspan="5" class="text-center fs-10">(адрес плательщика)</td>
         </tr>
         <tr>
-            <td colspan="2" class="bb text-center v-align-bottom"><strong><i><?= $fio_entrant ?></i></strong></td>
+            <td colspan="2" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant ?></i></strong></td>
             <td class="bb text-center" colspan="2"><strong><i><?= $faculty ?></i></strong></td>
             <td class="bb text-center v-align-bottom"><strong><i>1 1</i></strong></td>
         </tr>
