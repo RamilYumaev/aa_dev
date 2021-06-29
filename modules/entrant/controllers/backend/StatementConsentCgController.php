@@ -2,6 +2,7 @@
 
 namespace modules\entrant\controllers\backend;
 
+use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
@@ -187,7 +188,7 @@ class StatementConsentCgController extends Controller
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('receipt/pdf/_main', ["statementConsent" => $statementConsent ]);
-        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent( ".pdf"));
+        $pdf = PdfHelper::generate($content, "Расписка. ПK МПГУ" . date("Y") ." ". date("Y-m-d H:i:s") . ".pdf");
         $render = $pdf->render();
         return $render;
     }
