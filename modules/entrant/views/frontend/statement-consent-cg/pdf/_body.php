@@ -17,7 +17,7 @@
 $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profile['patronymic'];
 
 ?>
-<div class="fs-15" style="margin-top: 100px">
+<div class="fs-15" style="margin-top: 80px">
     <p align="center"><strong>Заявление</strong></p>
 
 
