@@ -294,7 +294,7 @@ class AgreementHelper
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
                 return '25 сентября';
             } elseif ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
-                return self::cameOnAugust31() ? '25 ноября' : '25 ноября';
+                return self::cameOnAugust31() ? '25 ноября' : '30 августа';
             } else {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
                     return '28 сентября';
@@ -310,7 +310,7 @@ class AgreementHelper
                     return '30 августа';
                 }
             } else {
-                return self::cameOnAugust31() ? '25 ноября' : '31 августа';
+                return self::cameOnAugust31() ? '25 ноября' : '30 августа';
             }
         }
     }
@@ -324,41 +324,41 @@ class AgreementHelper
     {
         if ($collegeStatus) {
             switch ($type) {
-//                case self::FIO_NOMINATIVE :
-//                    return "Владимирова Татьяна Николаевна";
-//                    break;
-//                case self::FIO_GENITIVE :
-//                    return "Владимировой Татьяны Николаевны";
-//                    break;
-//                case self::POSITION_NOMINATIVE :
-//                    return "Проректор по связям с общественностью";
-//                    break;
-//                case self::POSITION_GENITIVE :
-//                    return "проректора по связям с общественностью";
-//                    break;
-//                case self::FIO_SHORT :
-//                    return "Т.Н. Владимирова";
-//                    break;
-//                case self::PROCURATION :
-//                    return "№ 19 от 24 марта 2020 г.";
+               case self::FIO_NOMINATIVE :
+                   return "Владимирова Татьяна Николаевна";
+                   break;
+               case self::FIO_GENITIVE :
+                   return "Владимировой Татьяны Николаевны";
+                   break;
+               case self::POSITION_NOMINATIVE :
+                   return "Проректор по связям с общественностью";
+                   break;
+               case self::POSITION_GENITIVE :
+                   return "проректора по связям с общественностью";
+                   break;
+               case self::FIO_SHORT :
+                   return "Т.Н. Владимирова";
+                   break;
+               case self::PROCURATION :
+                   return "№ 09 от 1 февр. 2021 г.";
 
-                case self::FIO_NOMINATIVE :
-                    return "Страхов Василий Вячеславович";
-                    break;
-                case self::FIO_GENITIVE :
-                    return "Страхова Василия Вячеславовича";
-                    break;
-                case self::POSITION_NOMINATIVE :
-                    return "Проректор по развитию";
-                    break;
-                case self::POSITION_GENITIVE :
-                    return "проректора по развитию";
-                    break;
-                case self::FIO_SHORT :
-                    return "В.В. Страхов";
-                    break;
-                case self::PROCURATION :
-                    return "№ 54 от 01 сен. 2020 г.";
+                // case self::FIO_NOMINATIVE :
+                //     return "Страхов Василий Вячеславович";
+                //     break;
+                // case self::FIO_GENITIVE :
+                //     return "Страхова Василия Вячеславовича";
+                //     break;
+                // case self::POSITION_NOMINATIVE :
+                //     return "Проректор по развитию";
+                //     break;
+                // case self::POSITION_GENITIVE :
+                //     return "проректора по развитию";
+                //     break;
+                // case self::FIO_SHORT :
+                //     return "В.В. Страхов";
+                //     break;
+                // case self::PROCURATION :
+                //     return "№ 54 от 01 сен. 2020 г.";
             }
         } else {
             switch ($type) {
@@ -378,7 +378,7 @@ class AgreementHelper
                     return "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return "№ 54 от 01 сен. 2020 г.";
+                    return "№ 04 от 01 февр. 2021 г.";
             }
 
         }
