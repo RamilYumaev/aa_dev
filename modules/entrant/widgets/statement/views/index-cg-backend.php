@@ -21,13 +21,14 @@ use modules\entrant\widgets\file\FileListWidget;
         "header" =>"Заявление о согласии на зачисление",
         "type" => Box::TYPE_PRIMARY,
         "filled" => true,]) ?>
-
 <?php foreach ($statementConsents as $consent): ?>
     <table class="table">
         <tr>
             <th><?=$consent->statementCg->cg->fullName?></th>
             <td><?= Html::a('Скачать заявление', ['statement-consent-cg/pdf', 'id' =>  $consent->id],
                     ['class' => 'btn btn-large btn-warning'])?>
+                <?= $consent->statusAccepted() ? Html::a('Скачать расписку', ['statement-consent-cg/receipt', 'id' =>  $consent->id],
+                    ['class' => 'btn btn-large btn-warning']) : ""?>
             </td>
             <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                         <?=$consent->statusNameJob?></span></td>

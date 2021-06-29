@@ -49,6 +49,11 @@ class TransferMpgu extends ActiveRecord
     const STATUS_VACATION_WORK = 12;
     const STATUS_TRANSFER_EXAM = 13;
 
+    const EDUCATION_FORM_FULL_TIME = 1;
+    const EDUCATION_FORM_ABSENTIA = 2;
+    const EDUCATION_FORM_PART_TIME = 3;
+    const EDUCATION_FORM_EXTERNAL = 4;
+
     const ACTIVE = [self::STATUS_ACTIVE, self::STATUS_EXPELLED];
 
     public static function tableName()
@@ -87,6 +92,14 @@ class TransferMpgu extends ActiveRecord
         ];
     }
 
+    public function listEduForm() {
+        return [
+            self::EDUCATION_FORM_FULL_TIME => 'Очно',
+            self::EDUCATION_FORM_ABSENTIA => 'Заочно',
+            self::EDUCATION_FORM_PART_TIME => 'Очно-заочно',
+            self::EDUCATION_FORM_EXTERNAL => 'Экстернат'
+        ];
+    }
 
     public function listMessage() {
         return [
@@ -141,7 +154,7 @@ class TransferMpgu extends ActiveRecord
                 }else {
                     $array['specialization'] =   '';
                 }
-                    $array['form'] =  $data['education_form_id'] ? DictCompetitiveGroupHelper::getEduForms()[$data['education_form_id']] : '';
+                    $array['form'] =  $data['education_form_id'] ? self::listEduForm()[$data['education_form_id']] : '';
                     $array['course'] =$data['course'] ?? '';
                     $array['finance'] = $data['financing_type_id'] ?? '';
             }

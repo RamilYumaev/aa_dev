@@ -173,6 +173,27 @@ class StatementConsentCgController extends Controller
     }
 
     /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+
+    public function actionReceipt($id)
+    {
+        $statementConsent= $this->findModel($id);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('receipt/pdf/_main', ["statementConsent" => $statementConsent ]);
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameConsent( ".pdf"));
+        $render = $pdf->render();
+        return $render;
+    }
+
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
