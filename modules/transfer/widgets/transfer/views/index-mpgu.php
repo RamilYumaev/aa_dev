@@ -42,6 +42,10 @@ use yii\widgets\DetailView;
            <th>Статус</th>
            <td><?= $model->current_status  == 7 ? "Отчислен" : "Активный" ?></td>
        </tr>
+       <tr>
+           <th>№ студенческой зачетки</th>
+           <td><?= $model->number ?>, год выдачи - <?= $model->year ?></td>
+       </tr>
    </table>
     <?php Box::end() ?>
 <?php endif; ?>

@@ -64,6 +64,7 @@ class AgreementHelper
     public static function data($faculty, $collegeStatus = false)
     {
         $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
+        $universityChoice = $universityChoice == DictFacultyHelper::COLLAGE ? AnketaHelper::HEAD_UNIVERSITY : $universityChoice;
         return [
             'accidence' => self::accidence()[$universityChoice],
             'positionsGenitive' => self::positionsGenitive($collegeStatus)[$universityChoice],

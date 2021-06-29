@@ -67,8 +67,9 @@ class DictCompetitiveGroupEditForm extends Model
             [['competition_count'], 'number'],
             [['education_duration', 'discount', 'education_year_cost'], 'double'],
             [['link'], 'string', 'max' => 255],
-            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
-                'unique', 'targetClass' => DictCompetitiveGroup::class,  'filter' => ['<>', 'id', $this->_competitiveGroup->id],  'targetAttribute' => ['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
+            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'year', 'special_right_id'],
+                'unique', 'targetClass' => DictCompetitiveGroup::class,  'filter' => ['<>', 'id', $this->_competitiveGroup->id],  'targetAttribute' => [
+                    'speciality_id', 'year','specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'special_right_id'],
                 'message' => 'Такое сочетание уже есть'],
             ['special_right_id', 'in', 'range' => DictCompetitiveGroupHelper::specialRight(), 'allowArray' => true],
             ['financing_type_id', 'in', 'range' => DictCompetitiveGroupHelper::financingTypes(), 'allowArray' => true],

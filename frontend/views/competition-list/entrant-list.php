@@ -47,52 +47,54 @@ $countRCls = count($rCls);?>
 <div class="container" style="position: relative">
     <div class="row">
     <div class="col-md-3 mt-30">
-    <div style="text-align: center">
-        <?= DatePicker::widget([
-            'name' => 'dp_addon_1',
-            'language' => 'ru',
-            'value' => $date ??  '',
-            'type' => DatePicker::TYPE_INLINE,
-            'options' => ['placeholder' => 'Выберите дату', 'id'=>'date'],
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' =>  'yyyy-mm-dd',
-                'beforeShowDay'=> new \yii\web\JsExpression('function(d) {
-                                 var availableDates =  Object.values('.$jsonDates.');
-                                    var ymd = d.getFullYear();
-                                     ymd+= "-"; 
-                                     var m = (d.getMonth()+1); 
-                                    if(d.getMonth()<9) { ymd+="0"+m;}  else {
-                                     ymd+=""+m;
-                                    }
-                                     ymd+= "-"; 
-                                     var date = d.getDate();
-                                    if(d.getDate()<10) {ymd+="0"+date;}  else {ymd+=""+date;}
-                                    if ($.inArray(ymd, availableDates) != -1) {
-                                        return true; 
-                                    } else{
-                                         return false; 
-                                    }
-                                }'),
-            ],'pluginEvents' => [
-                "changeDate" => "function(e) {
-          var d = e.date;
-          var ymd = d.getFullYear();
-                                     ymd+= \"-\"; 
-                                     var m = (d.getMonth()+1); 
-                                    if(d.getMonth()<9) { ymd+=\"0\"+m;}  else {
-                                     ymd+=\"\"+m;
-                                    }
-                                     ymd+= \"-\"; 
-                                     var date = d.getDate();
-                                    if(d.getDate()<10) {ymd+=\"0\"+date;}  else {ymd+=\"\"+date;}
-                                    console.log(ymd);
-                                     $.pjax.reload('#competition-list',{
-                  'url': '".$url."&date='+ymd,
-                 
-            })
-                }",
-            ]]) ?>
+        <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+        <div style="text-align: center">
+            <?= DatePicker::widget([
+                'name' => 'dp_addon_1',
+                'language' => 'ru',
+                'value' => $date ??  '',
+                'type' => DatePicker::TYPE_INLINE,
+                'options' => ['placeholder' => 'Выберите дату', 'id'=>'date'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' =>  'yyyy-mm-dd',
+                    'beforeShowDay'=> new \yii\web\JsExpression('function(d) {
+                                     var availableDates =  Object.values('.$jsonDates.');
+                                        var ymd = d.getFullYear();
+                                         ymd+= "-"; 
+                                         var m = (d.getMonth()+1); 
+                                        if(d.getMonth()<9) { ymd+="0"+m;}  else {
+                                         ymd+=""+m;
+                                        }
+                                         ymd+= "-"; 
+                                         var date = d.getDate();
+                                        if(d.getDate()<10) {ymd+="0"+date;}  else {ymd+=""+date;}
+                                        if ($.inArray(ymd, availableDates) != -1) {
+                                            return true; 
+                                        } else{
+                                             return false; 
+                                        }
+                                    }'),
+                ],'pluginEvents' => [
+                    "changeDate" => "function(e) {
+              var d = e.date;
+              var ymd = d.getFullYear();
+                                         ymd+= \"-\"; 
+                                         var m = (d.getMonth()+1); 
+                                        if(d.getMonth()<9) { ymd+=\"0\"+m;}  else {
+                                         ymd+=\"\"+m;
+                                        }
+                                         ymd+= \"-\"; 
+                                         var date = d.getDate();
+                                        if(d.getDate()<10) {ymd+=\"0\"+date;}  else {ymd+=\"\"+date;}
+                                        console.log(ymd);
+                                         $.pjax.reload('#competition-list',{
+                      'url': '".$url."&date='+ymd,
+                     
+                })
+                    }",
+                ]]) ?>
+        <?php endif; ?>
         <?php foreach ($rCls as $index => $rcl) : $cls = $rcl->getCompetitionList()->andWhere(['type'=> $type])->all(); ?>
             <?php foreach ($cls as $cl): $idLast = $cl->id ?>
                 <?= Html::a(++$index, $isGraduate ? ['entrant-graduate-list',
@@ -107,7 +109,7 @@ $countRCls = count($rCls);?>
                     ['class'=> $idLast == $id || (!$id && $countRCls == $index) ? 'btn btn-warning' :'btn btn-info']) ?>
             <?php endforeach;?>
         <?php endforeach;?>
-    </div>
+        </div>
     </div>
         <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['view' => $isGraduate ? 'list-one-graduate' : 'list-one','id'=>$id ?? $idLast]);?>
 </div>

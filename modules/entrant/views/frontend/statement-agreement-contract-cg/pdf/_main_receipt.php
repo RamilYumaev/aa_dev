@@ -4,6 +4,7 @@
 use common\auth\helpers\DeclinationFioHelper;
 use dictionary\helpers\DictFacultyHelper;
 use modules\entrant\helpers\AddressHelper;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\PassportDataHelper;
 use modules\entrant\helpers\ReceiptHelper;
 use olympic\helpers\auth\ProfileHelper;
@@ -39,6 +40,7 @@ if ($discount) {
 }
 
 $universityChoice = DictFacultyHelper::getKeyFacultySetting($receipt->contractCg->statementCg->cg->faculty_id);
+$universityChoice = $universityChoice == DictFacultyHelper::COLLAGE ? AnketaHelper::HEAD_UNIVERSITY : $universityChoice;
 $receiptCost = ReceiptHelper::costDefault($totalCost, ReceiptHelper::listSep()[$receipt->period]);
 $personalAccount = ReceiptHelper::personalAccount()[$universityChoice];
 $inn = ReceiptHelper::inn()[$universityChoice];

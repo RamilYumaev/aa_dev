@@ -94,7 +94,7 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error'],
                     'except' => [
                         'yii\web\HttpException:403',
                         'yii\web\HttpException:404',
