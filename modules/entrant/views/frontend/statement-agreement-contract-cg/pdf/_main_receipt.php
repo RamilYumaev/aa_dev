@@ -68,7 +68,7 @@ $header = ReceiptHelper::header($universityChoice);
         </tr>
         <tr>
             <td colspan="3" class="text-center bb"><strong><i><?= $inn ?>/<?= $kpp ?></i></strong></td>
-            <td class="text-center bb" colspan="2"><strong><i>казначейский счет <?= $checkingAccount ?></i></strong></td>
+            <td class="text-center bb" colspan="2"><strong><i>казначейский счет/ЕКС <?= $checkingAccount ?></i></strong></td>
         </tr>
         <tr>
             <td colspan="3" class="text-center fs-10">(ИНН/КПП получателя)</td>

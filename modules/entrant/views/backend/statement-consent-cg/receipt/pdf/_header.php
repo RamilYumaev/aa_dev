@@ -16,19 +16,15 @@ $passport = PassportDataHelper::dataArray($user_id);
 $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
 
 ?>
-<table class="fs-15">
+<table width="100%">
     <tr>
-    <td width="10%"></td>
-        <td width="62%"></td>
-        <td>
-            Председателю Приемной<br/>
-            комиссии МПГУ,<br/>
-            ректору МПГУ<br/>
-            А.В. Лубкову<br/>
-            От: <?= $nameFull?>
-            <br/>
-            тел.: <?= $profile['phone'] ?>
-        </td>
+        <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
+        <td class="v-align-center text-center fs-10"><p>
+                    ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ
+                   ВЫСШЕГО ОБРАЗОВАНИЯ </br> 
+                   <strong> «МОСКОВСКИЙ ПЕДАГОГИЧЕСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ»</strong>
+
+                </p></td>
     </tr>
 </table>
 

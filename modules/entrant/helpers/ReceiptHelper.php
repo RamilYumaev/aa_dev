@@ -71,8 +71,8 @@ class ReceiptHelper
     public static function checkingAccount()
     {
         return [
-            // AnketaHelper::HEAD_UNIVERSITY => "40501810845252000079",
-            AnketaHelper::HEAD_UNIVERSITY => "03214643000000017300/0321463000000017300",
+            // AnketaHelper::HEAD_UNIVERSITY => "40501810845252000079 0321463000000017300",
+            AnketaHelper::HEAD_UNIVERSITY => "03214643000000017300/40102810545370000003",
             AnketaHelper::ANAPA_BRANCH => "03214643000000011800/40102810945370000010",
             AnketaHelper::POKROV_BRANCH => "03214643000000012800/40102810945370000020",
             AnketaHelper::STAVROPOL_BRANCH => "03214643000000012100/40102810345370000013",
@@ -84,7 +84,7 @@ class ReceiptHelper
     public static function bank()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => "ГУ Банка России по ЦФО",
+            AnketaHelper::HEAD_UNIVERSITY => "ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва",
             AnketaHelper::ANAPA_BRANCH => "ЮЖНОЕ ГУ Банка России по Краснодарскому краю",
             AnketaHelper::POKROV_BRANCH => "ОТДЕЛЕНИЕ ВЛАДИМИР БАНКА РОССИИ",
             AnketaHelper::STAVROPOL_BRANCH => "ОТДЕЛЕНИЕ СТАВРОПОЛЬ БАНКА РОССИИ",
@@ -96,7 +96,7 @@ class ReceiptHelper
     public static function bik()
     {
         return [
-            AnketaHelper::HEAD_UNIVERSITY => "044525000",
+            AnketaHelper::HEAD_UNIVERSITY => "004525988",
             AnketaHelper::ANAPA_BRANCH => "010349101",
             AnketaHelper::POKROV_BRANCH => "011708377",
             AnketaHelper::STAVROPOL_BRANCH => "010702101",
