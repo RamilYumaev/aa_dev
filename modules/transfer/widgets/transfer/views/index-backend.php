@@ -48,9 +48,7 @@ $job = Yii::$app->user->identity->jobEntrant();
                         'model' => $model,
                         'attributes' => $columns
                     ]) ?>
-    <?php if($job && $job->isTransferFok()) : ?>
     <?= $this->render('index-exam-backend',['model'=> $model])?>
-    <?php endif; ?>
     <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' =>  $model::className(), 'userId' => $model->user_id]) ?>
     <?php Box::end() ?>
 <?php endif; ?>

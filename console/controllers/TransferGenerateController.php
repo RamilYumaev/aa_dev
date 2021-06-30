@@ -4,6 +4,7 @@ namespace console\controllers;
 
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
+use modules\transfer\helpers\ConverterFaculty;
 use modules\transfer\models\StatementTransfer;
 use yii\console\Controller;
 
@@ -17,11 +18,11 @@ class TransferGenerateController extends Controller
          */
         foreach (StatementTransfer::find()->all() as $statement) {
              if($statement->cg) {
-                 $statement->faculty_id = $statement->cg->faculty_id;
+                 $statement->faculty_id = ConverterFaculty::searchFaculty($statement->cg->faculty_id);
              }
              if($statement->transferMpgu->inMpgu()) {
                  $faculty = Faculty::findOne(['ais_id' => $statement->transferMpgu->getDataMpsu()['faculty_id']]);
-                 $statement->faculty_id = $faculty->id;
+                 $statement->faculty_id = ConverterFaculty::searchFaculty($faculty->id);
              }
              $statement->save();
         }

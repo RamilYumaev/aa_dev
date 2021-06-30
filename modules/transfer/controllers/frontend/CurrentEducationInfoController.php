@@ -4,6 +4,7 @@ namespace modules\transfer\controllers\frontend;
 
 use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\TransferRedirectBehavior;
+use modules\transfer\helpers\ConverterFaculty;
 use modules\transfer\models\CurrentEducationInfo;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\models\TransferMpgu;
@@ -65,10 +66,11 @@ class CurrentEducationInfoController extends Controller
         }
         if ($data = Yii::$app->request->post()) {
             if($data['semester'] &&  $data['edu_count']  && $data['semester']) {
+                $faculty = ConverterFaculty::searchFaculty($model->faculty_id);
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), $data['edu_count'], $model->faculty_id, $model->id,
+                StatementTransfer::create($this->getUser(), $data['edu_count'], $faculty, $model->id,
                     $data['semester'],
-                    $data['course'] )->save();
+                    $data['course'])->save();
             }else {
                 if($statement->countFiles()) {
                     \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');
@@ -78,7 +80,7 @@ class CurrentEducationInfoController extends Controller
                 $statement->semester = $data['semester'];
                 $statement->edu_count = $data['edu_count'];
                 $statement->cg_id = $model->id;
-                $statement->faculty_id = $model->faculty_id;
+                $statement->faculty_id = $faculty;
                 $statement->save();
                 }
             return $this->redirect(['post-document/index']);
