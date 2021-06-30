@@ -133,10 +133,14 @@ class TransferMpgu extends ActiveRecord
         return $this->listType()[$this->type];
     }
 
+    public function getDataMpsu() {
+        return $this->data_mpgsu ? json_decode($this->data_mpgsu,true) : null;
+    }
+
     public function getJsonData() {
         $array = [];
         if($this->isMpgu()) {
-            $data =$this->data_mpgsu ? json_decode($this->data_mpgsu,true) : null;
+            $data = $this->dataMpsu;
             if($data) {
                 if($fac = Faculty::find()->facultyAis($data['faculty_id'])->one()) {
                     $array['faculty'] =  $fac->full_name;

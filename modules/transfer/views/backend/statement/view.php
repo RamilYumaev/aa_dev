@@ -27,4 +27,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php endif; ?>
 <?= \modules\entrant\widgets\profile\ProfileWidget::widget([ 'view' =>'index-backend', 'userId' => $statement->user_id]) ?>
 <?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' => $statement->user_id, 'view' =>'index-backend', ]) ?>
+<?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' => $statement->user_id, 'view' =>'index-backend', ]) ?>
 <?= \modules\transfer\widgets\generate\BackendPacketWidget::widget(['userId' => $statement->user_id]) ?>

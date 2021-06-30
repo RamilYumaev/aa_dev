@@ -10,6 +10,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementReadRepository;
 use modules\transfer\models\StatementTransfer;
+use modules\transfer\readRepositories\StatementTransferReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -37,9 +38,10 @@ class StatementSearch extends  Model
      * @param  integer $limit
      * @return ActiveDataProvider
      */
+
     public function search(array $params, $limit = null): ActiveDataProvider
     {
-        $query = StatementTransfer::find()->orderBy(['created_at' => SORT_DESC]);
+        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readData()->orderBy(['created_at' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,5 +73,8 @@ class StatementSearch extends  Model
         return $dataProvider;
     }
 
-
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return \Yii::$app->user->identity->jobEntrant();
+    }
 }

@@ -82,6 +82,19 @@ if(!Yii::$app->user->isGuest ) {
         );
     }
 
+    elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isTransferFok()) {
+        return array_merge(
+            [
+                ['label' => 'Профиль', 'url' => ['/profile/edit']],
+                ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+                ['label' => 'Студенты', 'url' => ['/transfer/profiles']],
+                ['label' => 'Заявления', 'url' => ['/transfer/statement']],
+                ['label' => 'Аттестация', 'url' => ['/transfer/pass-exam']]
+            ]
+
+        );
+    }
+
     elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isCategoryExam()) {
         return array_merge(
             [

@@ -4,6 +4,7 @@ namespace modules\transfer\controllers\frontend;
 
 use api\client\Client;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\Faculty;
 use modules\transfer\behaviors\RedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\InsuranceCertificateUser;
@@ -102,13 +103,16 @@ class DefaultController extends Controller
     {
         $statement = $this->statement();
         if ($data = Yii::$app->request->post()) {
+            $transfer=  $this->findModel();
+            $faculty = Faculty::findOne(['ais_id' => $transfer->getDataMpsu()['faculty_id']]);
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), $data['edu_count'])->save();
+                StatementTransfer::create($this->getUser(), $data['edu_count'], $faculty->id)->save();
             }else {
                 if($statement->countFiles()) {
                     \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');
                     return $this->redirect(['post-document/index']);
                 }
+                $statement->faculty_id = $faculty->id;
                 $statement->edu_count = $data['edu_count'];
                 $statement->save();
             }

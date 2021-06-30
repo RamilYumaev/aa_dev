@@ -30,8 +30,8 @@ class JobEntrantForm extends Model
             [['category_id'], 'required'],
             [['category_id', 'faculty_id', 'email_id', 'examiner_id', 'user_id', 'right_full', 'post'], 'integer'],
             ['faculty_id', 'required', 'when' => function ($model) {
-                return $model->category_id == JobEntrantHelper::FOK;
-            }, 'whenClient' => 'function (attribute, value) { return $("#jobentrantform-category_id").val() == 3}'],
+                return $model->category_id == JobEntrantHelper::FOK || $model->category_id == JobEntrantHelper::TRANSFER;
+            }, 'whenClient' => 'function (attribute, value) { return $("#jobentrantform-category_id").val() == 3 || $("#jobentrantform-category_id").val() == 15}'],
             ['examiner_id', 'required', 'when' => function ($model) {
                 return $model->category_id == JobEntrantHelper::EXAM;
             }, 'whenClient' => 'function (attribute, value) { return $("#jobentrantform-category_id").val() == 9}'],

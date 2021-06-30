@@ -4,6 +4,7 @@ namespace modules\transfer\models;
 
 use dictionary\models\DictClass;
 use dictionary\models\DictCompetitiveGroup;
+use modules\exam\models\Exam;
 use modules\transfer\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
@@ -26,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property integer $course
  * @property integer $edu_count
  * @property integer $cg_id
+ * @property integer $faculty_id
  *
  *
  **/
@@ -52,13 +54,14 @@ class StatementTransfer extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static  function create($user_id,  $eduCount, $cgId = null, $semester = null, $course=null) {
+    public static  function create($user_id,  $eduCount, $facultyId, $cgId = null, $semester = null, $course=null) {
         $statement =  new static();
         $statement->user_id = $user_id;
         $statement->course = $course;
         $statement->edu_count = $eduCount;
         $statement->semester = $semester;
         $statement->cg_id = $cgId;
+        $statement->faculty_id = $facultyId;
         $statement->status = self::DRAFT;
         return $statement;
     }
@@ -163,9 +166,12 @@ class StatementTransfer extends ActiveRecord
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }
 
-
     public function getStatusName() {
         return  StatementHelper::statusName($this->status);
+    }
+
+    public function getPassExam() {
+        return $this->hasOne(PassExam::class, ['statement_id' => 'id']);
     }
 
     public function getNumberStatement()

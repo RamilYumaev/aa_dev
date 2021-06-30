@@ -41,7 +41,9 @@ class JobEntrant extends ActiveRecord
     {
         $this->user_id = $form->user_id;
         $this->category_id = $form->category_id;
-        $this->faculty_id = $this->category_id == JobEntrantHelper::FOK ? $form->faculty_id : null;
+        $this->faculty_id = $this->category_id == JobEntrantHelper::FOK ||
+            $this->category_id == JobEntrantHelper::TRANSFER ?
+            $form->faculty_id : null;
         $this->examiner_id = $this->category_id == JobEntrantHelper::EXAM ? $form->examiner_id : null;
         $this->email_id = $form->email_id ?? null;
         $this->right_full = $form->right_full;
@@ -97,6 +99,10 @@ class JobEntrant extends ActiveRecord
         return $this->category_id == JobEntrantHelper::AGREEMENT;
     }
 
+    public function isTransferFok() {
+        return $this->category_id == JobEntrantHelper::TRANSFER;
+    }
+
     public function isCategoryUMS() {
         return $this->category_id == JobEntrantHelper::UMS;
     }
@@ -138,7 +144,7 @@ class JobEntrant extends ActiveRecord
     }
 
     public function getFullNameJobEntrant() {
-         if($this->isCategoryFOK()) {
+         if($this->isCategoryFOK() || $this->isTransferFok()) {
              return $this->category.". ".$this->faculty->full_name;
          }elseif ($this->isCategoryExam()) {
              return $this->category.". ".$this->examiner->fio;

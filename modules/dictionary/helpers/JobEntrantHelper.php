@@ -30,6 +30,7 @@ class JobEntrantHelper
     const REGISTRATION  = 12;
     const PROCTORING =13;
     const MAIL = 14;
+    const TRANSFER =15;
 
     const MPGU_ID = 1;
     const MPGU_SR = 2;
@@ -61,8 +62,8 @@ class JobEntrantHelper
             DictFacultyHelper::COLLAGE => "Колледж МПГУ",
             self::TPGU => "Совместный проект МПГУ - ТПГУ",
             self::EXAM => "Экзаменационная комиссия",
+            self::TRANSFER => 'Переводы и восстановления. Подразделение'
         ];
-
         return $array;
     }
 
@@ -168,6 +169,15 @@ class JobEntrantHelper
         $array = [
             self::COZ,
             self::EXAM
+        ];
+        return $array;
+    }
+
+    public static function isTransfer()
+    {
+        $array = [
+            self::AGREEMENT,
+            self::TRANSFER
         ];
         return $array;
     }

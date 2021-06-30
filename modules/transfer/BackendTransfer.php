@@ -30,7 +30,8 @@ class BackendTransfer extends Module
 
     public function beforeAction($action)
     {
-        if(!$this->getJobEntrant() || $this->getJobEntrant()->isStatusDraft() || !$this->getJobEntrant()->isAgreement()) {
+        if(!$this->getJobEntrant() || $this->getJobEntrant()->isStatusDraft() || !in_array($this->getJobEntrant()->category_id,
+                JobEntrantHelper::isTransfer())) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {

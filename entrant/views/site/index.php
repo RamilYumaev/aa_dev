@@ -38,6 +38,9 @@ $this->title= "Главная. ".$text;
     <?php if($jobEntrant->isCategoryMPGU()): ?>
         <?= $this->render('_mpgu',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
+    <?php if($jobEntrant->isTransferFok()): ?>
+        <?= $this->render('@modules/transfer/views/backend/default/index',['jobEntrant' => $jobEntrant])?>
+    <?php endif; ?>
     <?php if($jobEntrant->isCategoryUMS()): ?>
         <?= $this->render('_coz',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>

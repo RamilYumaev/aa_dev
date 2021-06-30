@@ -7,7 +7,7 @@ use modules\transfer\readRepositories\StatementTransferReadRepository;
 use Yii;
 use yii\base\Widget;
 
-class StatusStatementCountWidget extends Widget
+class ExamPassCountWidget extends Widget
 {
     public $view = "index";
     public $status;
@@ -18,7 +18,7 @@ class StatusStatementCountWidget extends Widget
 
     public function run()
     {
-        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readData()->andWhere(['status'=> $this->status]);
+        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status);
         $count = $query->count();
         return $this->render($this->view, ['count'=> $count, 'icon'=>$this->icon, 'str' => $this->str, 'colorBox' => $this->colorBox, 'link' => $this->link,
             'status'=> $this->status]);

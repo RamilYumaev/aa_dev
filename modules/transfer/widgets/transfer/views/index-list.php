@@ -27,6 +27,6 @@ use yii\helpers\Html;
             'attribute' => 'created_at',
             'format' => 'datetime',
         ],
-        ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
+        ['class' => ActionColumn::class, 'controller' => '/transfer/statement', 'template' => '{view}']
     ],
 ]); ?>

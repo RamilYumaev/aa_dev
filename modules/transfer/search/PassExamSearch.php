@@ -1,8 +1,6 @@
 <?php
 namespace modules\transfer\search;
 
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
@@ -10,38 +8,38 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementReadRepository;
 use modules\transfer\models\StatementTransfer;
-use modules\transfer\models\TransferMpgu;
-use modules\transfer\readRepositories\TransferReadRepository;
-use Mpdf\Tag\Tr;
+use modules\transfer\readRepositories\StatementTransferReadRepository;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class TransferSearch  extends  Model
+class PassExamSearch extends  Model
 {
-    public $user_id, $type, $number, $year;
+    public $user_id, $date_from, $edu_count, $date_to, $is_pass;
+    protected $status;
 
-    public function __construct($type = null, $config = [])
+    public function __construct($status, $config = [])
     {
-        $this->type = $type;
+        $this->status = $status;
         parent::__construct($config);
     }
+
 
     public function rules()
     {
         return [
-            [['type', 'user_id'], 'integer'],
-            [['year', 'number'], 'safe'],
+            [['edu_count', 'user_id', 'is_pass'], 'integer'],
+            [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
-
     /**
      * @param array $params
      * @param  integer $limit
      * @return ActiveDataProvider
      */
+
     public function search(array $params, $limit = null): ActiveDataProvider
     {
-        $query = (new TransferReadRepository($this->type, $this->getJobEntrant()))->readData();
+        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status)->orderBy(['created_at' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,16 +55,20 @@ class TransferSearch  extends  Model
             return $dataProvider;
         }
 
+
         $query->andFilterWhere([
+            'edu_count' => $this->edu_count,
+            'is_pass' => $this->is_pass,
             'user_id' => $this->user_id,
         ]);
 
         $query
-            ->andFilterWhere(['like', 'year',$this->year])
-            ->andFilterWhere(['like', 'number',$this->number]);
+            ->andFilterWhere(['>=', 'created_at', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])
+            ->andFilterWhere(['<=', 'created_at', $this->date_to ? strtotime($this->date_to . ' 23:59:59') : null]);
 
         return $dataProvider;
     }
+
     /* @return  JobEntrant*/
     protected function getJobEntrant() {
         return \Yii::$app->user->identity->jobEntrant();

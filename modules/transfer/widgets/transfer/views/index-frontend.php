@@ -20,6 +20,18 @@ use modules\entrant\helpers\StatementHelper;
         <td colspan="2"> Причина отклонения: <?=  $model->message ?></td>
     </tr>
     <?php endif; ?>
+    <?php if($model->statusAccepted()): ?>
+        <tr>
+            <td colspan="2">Данные по аттестации:
+                <?php if($model->passExam): ?>
+                    <?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?>
+                    <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?></p>
+                <?php else: ?>
+                 нет данных
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endif; ?>
 </table>
 <?php endif; ?>
 

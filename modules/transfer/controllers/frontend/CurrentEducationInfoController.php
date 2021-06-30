@@ -66,7 +66,7 @@ class CurrentEducationInfoController extends Controller
         if ($data = Yii::$app->request->post()) {
             if($data['semester'] &&  $data['edu_count']  && $data['semester']) {
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), $data['edu_count'], $model->id,
+                StatementTransfer::create($this->getUser(), $data['edu_count'], $model->faculty_id, $model->id,
                     $data['semester'],
                     $data['course'] )->save();
             }else {
@@ -78,6 +78,7 @@ class CurrentEducationInfoController extends Controller
                 $statement->semester = $data['semester'];
                 $statement->edu_count = $data['edu_count'];
                 $statement->cg_id = $model->id;
+                $statement->faculty_id = $model->faculty_id;
                 $statement->save();
                 }
             return $this->redirect(['post-document/index']);

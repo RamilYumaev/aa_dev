@@ -10,6 +10,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model modules\transfer\models\StatementTransfer */
 /* @var $transferMpgu \modules\transfer\models\TransferMpgu */
+/* @var $job \modules\dictionary\models\JobEntrant */
+$job = Yii::$app->user->identity->jobEntrant();
 ?>
 <?php if ($model) :
     $transferMpgu = $model->transferMpgu;
@@ -46,6 +48,9 @@ use yii\widgets\DetailView;
                         'model' => $model,
                         'attributes' => $columns
                     ]) ?>
+    <?php if($job && $job->isTransferFok()) : ?>
+    <?= $this->render('index-exam-backend',['model'=> $model])?>
+    <?php endif; ?>
     <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' =>  $model::className(), 'userId' => $model->user_id]) ?>
     <?php Box::end() ?>
 <?php endif; ?>

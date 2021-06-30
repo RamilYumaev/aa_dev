@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
             <?= $form->field($model->jobEntrant, 'category_id')->dropDownList(\modules\dictionary\helpers\JobEntrantHelper::listCategories()) ?>
             <?= $form->field($model->jobEntrant, 'post')->dropDownList(\modules\dictionary\helpers\JobEntrantHelper::postList()) ?>
-            <?= $form->field($model->jobEntrant, 'faculty_id')->dropDownList(\dictionary\helpers\DictFacultyHelper::facultyIncomingList()) ?>
+            <?= $form->field($model->jobEntrant, 'faculty_id')->dropDownList(\dictionary\helpers\DictFacultyHelper::facultyList()) ?>
             <?= $form->field($model->jobEntrant, 'examiner_id')->dropDownList(\modules\dictionary\helpers\DisciplineExaminerHelper::listExaminer()) ?>
         </div>
         <div class="row">

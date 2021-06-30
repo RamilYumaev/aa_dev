@@ -1,8 +1,10 @@
 <?php
 namespace modules\transfer\widgets\info;
 
-use modules\management\models\Task;
-use modules\transfer\models\TransferMpgu;
+
+use modules\dictionary\models\JobEntrant;
+use modules\transfer\readRepositories\TransferReadRepository;
+use Yii;
 use yii\base\Widget;
 
 class InfoUserFullWidget extends Widget
@@ -13,18 +15,21 @@ class InfoUserFullWidget extends Widget
     public $icon;
     public $str;
     public $link;
+
     public function run()
     {
-        $query = TransferMpgu::find();
-        if($this->type) {
-            $query->andWhere(['type' => $this->type]);
-        }
+        $query = (new TransferReadRepository($this->type, $this->getJobEntrant()))->readData();
         return $this->render($this->view, ['count'=> $query->count(),
             'colorBox' => $this->colorBox,
             'icon'=> $this->icon,
             'link'=> $this->link,
             'str' => $this->str,
             ]);
+    }
+
+    /* @return  JobEntrant*/
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
     }
 
 }
