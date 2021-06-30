@@ -116,7 +116,7 @@ class FileCgHelper
 
     public static function fileNameWithoutAppendix($extension = '.docx')
     {
-        return "Заявление о подачи без приложения (обложки)" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
+        return "Заявление о подаче без приложения (обложки)" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
     public static function fileNameStatementOther($extension = '.docx')
