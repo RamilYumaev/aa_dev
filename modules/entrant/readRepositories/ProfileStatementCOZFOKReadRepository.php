@@ -41,7 +41,7 @@ class ProfileStatementCOZFOKReadRepository
          if ($this->jobEntrant->isCategoryFOK()) {
              $specialUserArray = Statement::find()->select('user_id')
                  ->andWhere(['in','special_right',[
-                     DictCompetitiveGroupHelper::SPECIAL_RIGHT]])->column();
+                     DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
             $query->andWhere(['not in', 'anketa.category_id', [
                  CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
                  CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,

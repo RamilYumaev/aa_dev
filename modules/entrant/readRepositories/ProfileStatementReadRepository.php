@@ -67,7 +67,7 @@ class ProfileStatementReadRepository
         } elseif ($this->jobEntrant->isCategoryFOK()) {
             $specialUserArray = Statement::find()->select('user_id')
                 ->andWhere(['in','special_right',[
-                    DictCompetitiveGroupHelper::SPECIAL_RIGHT]])->column();
+                    DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
