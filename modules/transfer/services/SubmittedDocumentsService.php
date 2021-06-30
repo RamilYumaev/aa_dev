@@ -8,8 +8,10 @@ use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
+use modules\exam\models\Exam;
 use modules\transfer\models\File;
 use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\PassExam;
 use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 
@@ -39,6 +41,16 @@ class SubmittedDocumentsService
             $this->packetDocument($user_id);
             $this->files($user_id);
         });
+    }
+
+    public function examSend($userId)
+    {
+            $files = File::find()->model(PassExam::class)->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
+            /* @var $statement \modules\entrant\models\File */
+            foreach ($files as $file) {
+                $file->setStatus(FileHelper::STATUS_SEND);
+                $file->save($file);
+            }
     }
 
 

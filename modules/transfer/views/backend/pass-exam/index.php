@@ -40,10 +40,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [   'attribute' => 'is_pass',
                         'label' => 'Статус',
-                            'format' => 'raw',
+                        'format' => 'raw',
                         'filter' => [PassExam::SUCCESS => 'Допущен', PassExam::DANGER => 'Недопущен'],
+                        'value' => function (PassExam $model) {
+                            return ' <span class="label label-' .($model->isPassYes() ? 'success' : 'danger').'">'.($model->isPassYes() ? 'Допущен' : 'Недопущен').'</span>';
+                        }],
+                    [   'attribute' => 'agree',
+                        'label' => 'Результат',
+                            'format' => 'raw',
+                        'filter' => [1 => 'Согласен', 2 => 'Не согласен'],
                             'value' => function (PassExam $model) {
-                     return ' <span class="label label-' .($model->isPassYes() ? 'success' : 'danger').'">'.($model->isPassYes() ? 'Допущен' : 'Недопущен').'</span>';
+                     return  is_null($model->agree) ? "": ' <span class="label label-' .($model->agree == 1? 'success' : 'danger').'">'.($model->agree == 1 ? 'Согласен' : 'Не согласен').'</span>';
                                          }],
                     [ 'format' => 'raw',
                             'value'  => function ($model) {

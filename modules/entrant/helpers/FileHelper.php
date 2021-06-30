@@ -26,6 +26,7 @@ use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\readRepositories\FileReadCozRepository;
 use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\PassExam;
 use modules\transfer\models\StatementTransfer;
 use Yii;
 
@@ -36,12 +37,14 @@ class FileHelper
     const STATUS_WALT  = 1;
     const STATUS_ACCEPTED = 2;
     const STATUS_NO_ACCEPTED = 3;
+    const STATUS_SEND = 4;
 
     public static function statusList() {
         return[
             self::STATUS_DRAFT =>"Готов к отправлению",
             self::STATUS_WALT=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Принято",
+            self::STATUS_SEND =>"Отправлено",
             self::STATUS_NO_ACCEPTED =>"Не принято",];
     }
 
@@ -55,6 +58,7 @@ class FileHelper
             self::STATUS_WALT=> "warning",
             self::STATUS_ACCEPTED =>"success",
             self::STATUS_NO_ACCEPTED =>"danger",
+            self::STATUS_SEND =>"info",
             ];
     }
 
@@ -84,7 +88,8 @@ class FileHelper
             StatementTransfer::class,
             PacketDocumentUser::class,
             ReceiptContract::class,
-            UserDiscipline::class
+            UserDiscipline::class,
+            PassExam::class,
         ];
     }
 
@@ -131,6 +136,7 @@ class FileHelper
             StatementTransfer::class => 0,
             PacketDocumentUser::class => 20,
             ReceiptContract::class => 0,
+            PassExam::class=>8,
         ];
     }
 
@@ -158,6 +164,7 @@ class FileHelper
             StatementTransfer::class => 'st-transfer',
             PacketDocumentUser::class => 'packet',
             UserDiscipline::class =>'ct',
+            PassExam::class => 'exam-pass',
         ];
     }
 
@@ -185,6 +192,7 @@ class FileHelper
             UserDiscipline::class =>'Сертификаты ЦТ',
             StatementTransfer::class => 'Заявление перевода/восстановления',
             PacketDocumentUser::class => 'СКАНЫ',
+            PassExam::class => 'Файлы',
         ];
     }
 

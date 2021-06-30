@@ -100,6 +100,14 @@ class File extends ActiveRecord
         return  $this->status == FileHelper::STATUS_ACCEPTED;
     }
 
+    public function isSend() {
+        return  $this->status == FileHelper::STATUS_SEND;
+    }
+
+    public function isAcceptedSend() {
+        return $this->isAcceptedStatus() || $this->isSend();
+    }
+
     public function isNoAcceptedStatus() {
         return  $this->status == FileHelper::STATUS_NO_ACCEPTED;
     }

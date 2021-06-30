@@ -14,7 +14,7 @@ use yii\data\ActiveDataProvider;
 
 class PassExamSearch extends  Model
 {
-    public $user_id, $date_from, $edu_count, $date_to, $is_pass;
+    public $user_id, $date_from, $edu_count, $date_to, $is_pass, $agree;
     protected $status;
 
     public function __construct($status, $config = [])
@@ -27,7 +27,7 @@ class PassExamSearch extends  Model
     public function rules()
     {
         return [
-            [['edu_count', 'user_id', 'is_pass'], 'integer'],
+            [['edu_count', 'user_id', 'is_pass', 'agree'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -59,6 +59,7 @@ class PassExamSearch extends  Model
         $query->andFilterWhere([
             'edu_count' => $this->edu_count,
             'is_pass' => $this->is_pass,
+            'agree' => $this->agree,
             'user_id' => $this->user_id,
         ]);
 

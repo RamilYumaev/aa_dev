@@ -9,6 +9,7 @@ use modules\transfer\behaviors\RedirectBehavior;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\models\InsuranceCertificateUser;
 use modules\transfer\models\PacketDocumentUser;
+use modules\transfer\models\PassExam;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\models\TransferMpgu;
 use Yii;
@@ -120,6 +121,30 @@ class DefaultController extends Controller
             return $this->redirect(['post-document/index']);
         }
         return $this->renderAjax('info');
+    }
+
+    public function actionNo()
+    {
+        $statement = $this->statement();
+        /** @var PassExam $pass */
+        $pass = $statement->passExam;
+        if($pass && $pass->countFilesSend()&& !$pass->agree) {
+            $pass->agree = 2;
+            $pass->save();
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionYes()
+    {
+        $statement = $this->statement();
+        /** @var PassExam $pass */
+        $pass = $statement->passExam;
+        if($pass && $pass->countFilesSend()&& !$pass->agree) {
+            $pass->agree = 1;
+            $pass->save();
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     protected function statement() {

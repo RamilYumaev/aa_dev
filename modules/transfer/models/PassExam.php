@@ -2,6 +2,7 @@
 namespace modules\transfer\models;
 
 
+use modules\entrant\helpers\FileHelper;
 use modules\transfer\behaviors\FileBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -62,5 +63,9 @@ class PassExam extends ActiveRecord
 
     public function countFiles() {
         return $this->getFiles()->count();
+    }
+
+    public function countFilesSend() {
+        return $this->getFiles()->andWhere(['status' => FileHelper::STATUS_SEND])->count();
     }
 }
