@@ -128,7 +128,7 @@ if ($eduDurationMonth >= 1 / 12) {
     </p>
     <p align="justify" style="margin: 0">
         1.2. Срок освоения образовательной программы (продолжительность обучения) на момент
-        подписания Договора составляет <strong><?= $educationDuration ?></strong> год(а) (лет)
+        подписания Договора составляет <strong><?= $educationDuration ?></strong> год(а) 
         <strong><?= $educationMonth ?></strong>
         (<strong><?= round($cg->education_duration * 2) ?></strong> учебных семестров).
     </p>
