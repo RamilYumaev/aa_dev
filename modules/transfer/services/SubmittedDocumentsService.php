@@ -100,7 +100,7 @@ class SubmittedDocumentsService
         if (!$statement->countFilesAndCountPagesTrue()) {
             throw new \DomainException('Загружены не все файлы заявления!');
         }
-        if(!$statement->status) {
+        if(!$statement->status || $statement->statusNoAccepted()) {
             $statement->setStatus(FileHelper::STATUS_WALT);
             $statement->save();
         }
