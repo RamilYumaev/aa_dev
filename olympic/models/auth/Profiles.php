@@ -14,6 +14,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\File;
+use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
 use modules\entrant\models\UserAis;
 use olympic\forms\auth\ProfileCreateForm;
@@ -135,6 +136,11 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function getAis()
     {
         return $this->hasOne(UserAis::class, ['user_id' => 'user_id']);
+    }
+
+    public function getPassportData()
+    {
+        return $this->hasOne(PassportData::class, ['user_id' => 'user_id'])->where(['main_status' => true]);
     }
 
     public function getFile()

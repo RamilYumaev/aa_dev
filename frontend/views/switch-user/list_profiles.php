@@ -16,7 +16,9 @@ use xj\qrcode\widgets\Text;
             <th>ФИО</th>
             <th>Телефон</th>
             <th>Email</th>
+            <th>Пасспортные данные</th>
             <th>Статус</th>
+            <th></th>
             <th></th>
         </tr>
         <?php $a = 0; foreach ($listProfiles as $profile) : ?>
@@ -25,6 +27,7 @@ use xj\qrcode\widgets\Text;
                 <td><?= $profile->last_name ?> <?= $profile->first_name ?> <?= $profile->patronymic ?></td>
                 <td><?= $profile->phone ?></td>
                 <td><?= $profile->user->email ?></td>
+                <td><?= $profile->passportData->series ?> <?= $profile->passportData->number ?></td>
                 <td><?= !$profile->user->status ? 'Неактивный' : 'Активный' ?></td>
                 <td>
                     <?= Text::widget([

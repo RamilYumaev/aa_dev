@@ -74,14 +74,7 @@ class UserService
         $user = User::createByOperator($form, $string);
         $this->transaction->wrap(function () use ($user,$form) {
             $this->repository->save($user);
-            $profile = new Profiles();
-            $profile->last_name = $form->last_name;
-            $profile->first_name = $form->first_name;
-            $profile->patronymic = $form->patronymic;
-            $profile->phone = "+".$form->phone;
-            $profile->country_id = null;
-            $profile->region_id = null;
-            $profile->user_id = $user->id;
+            $profile = Profiles::createDefault($user->id);
             $profile->save(false);
         });
 

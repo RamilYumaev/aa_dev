@@ -21,6 +21,8 @@ use xj\qrcode\widgets\Text;
         'attributes' => [
             'email',
             'profiles.last_name', 'profiles.first_name', 'profiles.patronymic' , 'profiles.phone',
+            'profiles.passportData.series',
+            'profiles.passportData.number',
             'status:boolean'
         ]
     ]) ?>
