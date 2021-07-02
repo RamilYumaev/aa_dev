@@ -34,7 +34,7 @@ class AgreementController extends Controller
     {
         $model = $this->findModel();
         if(!$model  || !$model->organization || !$model->organizationWork)  {
-            Yii::$app->session->setFlash('info', 'Вам необходимо найти, или добавить организацию нанимателя/работодателя');
+            Yii::$app->session->setFlash('info', 'Вам необходимо найти, или добавить организацию Заказчика/работодателя');
             return $this->redirect(['select-organization']);
         }
         $form = new AgreementForm($this->getUserId(), $model);

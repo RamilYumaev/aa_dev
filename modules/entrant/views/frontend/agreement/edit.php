@@ -11,7 +11,7 @@ use dictionary\models\DictClass;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel \modules\dictionary\searches\DictOrganizationsSearch*/
 
-$this->title = "Редактирование организаци нанимателя/работодателя.";
+$this->title = "Редактирование организаци Заказчика/работодателя.";
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
 $this->params['breadcrumbs'][] = ['label' => 'Выбор уровня образования', 'url' => ['/abiturient/anketa/step2']];
 $this->params['breadcrumbs'][] = ['label' => 'Договор о целевом обучении', 'url' => ['/abiturient/agreement']];

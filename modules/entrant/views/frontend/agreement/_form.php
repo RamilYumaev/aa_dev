@@ -14,7 +14,7 @@ use yii\helpers\Html;
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <p><?= $agreement ? "Наниматель: ".($agreement->organization ? $agreement->fullOrganization : 'нет данных') :"" ?></p>
+            <p><?= $agreement ? "Заказчик: ".($agreement->organization ? $agreement->fullOrganization : 'нет данных') :"" ?></p>
             <p><?= $agreement ? "Работодатель: ".($agreement->organizationWork ? $agreement->fullOrganizationWork : 'нет данных') :"" ?></p>
             <?php $form = ActiveForm::begin(['id'=> 'form-agreement']); ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>

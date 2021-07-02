@@ -144,7 +144,8 @@ class Agreement extends YiiActiveRecordAndModeration
     }
 
     public function getStatement() {
-        return $this->hasMany(Statement::class, ['user_id' =>'user_id'])->where(['special_right'=> DictCompetitiveGroupHelper::TARGET_PLACE]);
+        return $this->hasMany(Statement::class, ['user_id' =>'user_id'])->where(['special_right'=> [DictCompetitiveGroupHelper::USUAL,
+            DictCompetitiveGroupHelper::TARGET_PLACE]]);
     }
 
     public function moderationAttributes($value): array

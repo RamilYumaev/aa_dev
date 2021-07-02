@@ -15,7 +15,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <tr class="<?= BlockRedGreenHelper::colorTableBg($model->countFiles(), FileHelper::listCountModels()[$model::className()], true) ?>">
         <td>
-            <p><?=  "Наниматель: ".($model &&  $model->organization ? $model->fullOrganization : 'нет данных') ?></p>
+            <p><?=  "Заказчик: ".($model &&  $model->organization ? $model->fullOrganization : 'нет данных') ?></p>
             <p><?=  "Работодатель: ".($model && $model->organizationWork ? $model->fullOrganizationWork : 'нет данных')  ?></p>
             <?= $model->documentFull ?>, <?= $model->organization->name ?>
         </td>

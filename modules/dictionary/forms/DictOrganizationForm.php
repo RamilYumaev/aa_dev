@@ -51,7 +51,7 @@ class DictOrganizationForm extends Model
     }
 
     public function typeList() {
-        return ['Наниматель', 'Работодатель', 'Наниматель и работодатель'];
+        return ['Заказчик', 'Работодатель', 'Заказчик и работодатель'];
     }
 
     public function attributeLabels()

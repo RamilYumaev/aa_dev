@@ -15,7 +15,7 @@ use yii\helpers\Html;
     </tr>
     <tr>
         <td>
-            <p><?=  "Наниматель: ".($model &&  $model->organization ? $model->fullOrganization : 'нет данных') ?></p>
+            <p><?=  "Заказчик: ".($model &&  $model->organization ? $model->fullOrganization : 'нет данных') ?></p>
             <p><?=  "Работодатель: ".($model && $model->organizationWork ? $model->fullOrganizationWork : 'нет данных')  ?></p>
             <?= $model->documentFull ?>
         </td>
