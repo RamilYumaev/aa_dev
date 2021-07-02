@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title; ?>
                     ['value' => function($model) {
                         return Html::a('Заказчик', ['select', 'id'=> $model->id, 'status' => 0], ['class' => 'btn btn-info']).'<br />'.
                             Html::a('Работодатель', ['select', 'id'=> $model->id, 'status' => 1], ['class' => 'btn btn-success']).
-                            Html::a('Нанинатель и Работодатель', ['select', 'id'=> $model->id, 'status' => 2], ['class' => 'btn btn-warning']);
+                            Html::a('Заказчик и Работодатель', ['select', 'id'=> $model->id, 'status' => 2], ['class' => 'btn btn-warning']);
                     }, 'format'=> 'raw'],
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
