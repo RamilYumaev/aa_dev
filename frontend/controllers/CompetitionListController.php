@@ -133,7 +133,7 @@ class CompetitionListController extends Controller
             return $this->redirect('index');
         }
 
-        $rCls = $query1->andWhere(['date' => $date ?? $dates[0]])->orderBy(['number_update'=> SORT_ASC])->all();
+        $rCls = $query1->andWhere(['date' => $date ?? $dates[0]])->orderBy(['date'=> SORT_DESC])->all();
         $array = [
             'dates'=> $dates,
             'type' => $type,
