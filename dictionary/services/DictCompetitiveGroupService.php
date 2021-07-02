@@ -67,9 +67,9 @@ class DictCompetitiveGroupService
     {
         $faculty = $this->facultyRepository->get($form->faculty_id);
         $speciality = $this->specialityRepository->get($form->speciality_id);
-        $specialization = $this->specializationRepository->get($form->specialization_id);
+        $specialization = $form->specialization_id ? $this->specializationRepository->get($form->specialization_id) : null;
         $model = $this->repository->get($id);
-        $model->edit($form, $faculty->id, $speciality->id, $specialization->id);
+        $model->edit($form, $faculty->id, $speciality->id, $specialization ? $specialization->id : null);
         $this->transaction->wrap(function () use ($model, $form) {
             $this->deleteRelation($model->id);
             if ($form->cathedraList) {

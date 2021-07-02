@@ -31,12 +31,15 @@ class DictCompetitiveGroupCreateForm extends Model
     public function rules()
     {
         return [
-            [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
+            [['speciality_id', 'education_form_id', 'financing_type_id', 'faculty_id',
                 'kcp', 'year', 'education_duration', 'edu_level'], 'required'],
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
                 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'ais_id', 'spo_class',
                 'enquiry_086_u_status', 'foreigner_status', 'edu_level', 'only_spo', 'tpgu_status',
                 'additional_set_status'], 'integer'],
+            [['specialization_id'], 'required', 'when' => function($model) {
+                return $model->edu_level;
+            }, 'enableClientValidation' => false],
             [['competition_count'], 'number'],
             [['education_duration', 'discount', 'education_year_cost'], 'double'],
             [['link'], 'string', 'max' => 255],
