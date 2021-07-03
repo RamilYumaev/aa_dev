@@ -23,6 +23,10 @@ class DictSpeciality extends ActiveRecord
         $speciality->code = $form->code;
         $speciality->short = $form->short;
         $speciality->edu_level = $form->edu_level;
+        $speciality->series =  $form->series;
+        $speciality->number =  $form->number;
+        $speciality->date_end =  $form->date_end;
+        $speciality->date_begin =  $form->date_begin;
         return $speciality;
     }
 
@@ -32,6 +36,10 @@ class DictSpeciality extends ActiveRecord
         $this->code = $form->code;
         $this->short = $form->short;
         $this->edu_level = $form->edu_level;
+        $this->series =  $form->series;
+        $this->number =  $form->number;
+        $this->date_end =  $form->date_end;
+        $this->date_begin =  $form->date_begin;
     }
 
     /**
@@ -43,7 +51,11 @@ class DictSpeciality extends ActiveRecord
             'code' => 'Код',
             'name' => 'Название',
             'short' => "Краткое наименоване на латинском",
-            'edu_level' => "Уровень образования"
+            'edu_level' => "Уровень образования",
+            'series' => 'Серия',
+            'number' => 'Номер',
+            'date_begin' => "Дата выдачи",
+            'date_end' => "Срок действия"
         ];
     }
 

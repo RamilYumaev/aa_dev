@@ -10,12 +10,12 @@ use yii\data\ActiveDataProvider;
 
 class DictSpecialitySearch extends Model
 {
-    public $name, $code, $short, $edu_level;
+    public $name, $code, $short, $edu_level, $series, $number;
 
     public function rules(): array
     {
         return [
-            [['name','code','short'], 'safe'],
+            [['name','code','short', 'series', 'number'], 'safe'],
             [['edu_level'], 'integer'],
         ];
     }
@@ -44,6 +44,8 @@ class DictSpecialitySearch extends Model
 
         $query
             ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'series', $this->series])
+            ->andFilterWhere(['like', 'number', $this->number])
             ->andFilterWhere(['like', 'short', $this->short])
             ->andFilterWhere(['like', 'code', $this->code]);
 

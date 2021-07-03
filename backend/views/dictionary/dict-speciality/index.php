@@ -33,6 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value'=> function($model) {
                             return \dictionary\helpers\DictCompetitiveGroupHelper::getEduLevelsAbbreviated()[$model->edu_level];
                         }],
+                    'series',
+                    'number',
+                    'date_begin:date',
+                    'date_end:date',
                     ['class' => ActionColumn::class,
                         'template'=>'{update} {delete}'],
                 ]

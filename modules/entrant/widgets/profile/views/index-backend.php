@@ -12,7 +12,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
     <div class="widget-user-header bg-gray">
         <div class="widget-user-image">
         </div>
-        <h3 class="widget-user-username"><?= $profile->fio; ?></h3>
+        <h3 class="widget-user-username"><?= $profile->last_name . " " . $profile->first_name . " " . $profile->patronymic; ?></h3>
         <h5 class="widget-user-desc"><?= $profile->phone; ?></h5>
         <h5 class="widget-user-desc"><?= $profile->user->email; ?></h5>
     </div>

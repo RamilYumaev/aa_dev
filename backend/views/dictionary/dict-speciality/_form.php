@@ -1,4 +1,7 @@
 <?php
+
+use kartik\date\DatePicker;
+use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,6 +17,24 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'short')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'edu_level')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduLevelsAbbreviated()) ?>
+            <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'date_begin')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Введите дату'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]);
+            ?>
+            <?= $form->field($model, 'date_end')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Введите дату'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]);
+            ?>
         </div>
     </div>
 

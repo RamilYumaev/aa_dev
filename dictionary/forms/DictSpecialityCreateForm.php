@@ -7,21 +7,16 @@ use yii\base\Model;
 
 class DictSpecialityCreateForm extends Model
 {
-    public $code, $name, $short, $edu_level;
-
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-    }
-
+    public $code, $name, $short, $edu_level, $series, $number, $date_begin, $date_end;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['code', 'name','short', 'edu_level'], 'required'],
-            [['name'], 'string'],
+            [['code', 'name','short', 'edu_level','series','number', 'date_begin', 'date_end'], 'required'],
+            [['date_begin', 'date_end'], 'date', 'format' => "Y-m-d"],
+            [['name','series','number'], 'string'],
             [['code'], 'string', 'max' => 8],
             [['short'], 'string', 'max' => 10],
             [['edu_level'], 'integer'],
