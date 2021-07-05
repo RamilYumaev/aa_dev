@@ -22,10 +22,9 @@ class StatementTransferReadRepository
     public function readData()
     {
         $query = StatementTransfer::find();
+        $query->joinWith('passExam')->andWhere(['is', 'pass_exam.id', null]);
         if ($this->jobEntrant->isTransferFok()) {
-            $query->joinWith('passExam')->
-            andWhere(['status' => StatementHelper::STATUS_ACCEPTED, 'faculty_id' => $this->jobEntrant->faculty_id])->andWhere(['is',
-                'pass_exam.id', null]);
+            $query->andWhere(['status' => StatementHelper::STATUS_ACCEPTED, 'faculty_id' => $this->jobEntrant->faculty_id]);
             return $query;
         }
         return  $query;
@@ -37,7 +36,10 @@ class StatementTransferReadRepository
         if($type) {
             $query->andWhere(['is_pass'=> $type]);
         }
-            $query->andWhere(['status' => StatementHelper::STATUS_ACCEPTED, 'faculty_id' => $this->jobEntrant->faculty_id]);
-            return $query;
+        $query->andWhere(['status' => StatementHelper::STATUS_ACCEPTED]);
+        if ($this->jobEntrant->isTransferFok()) {
+            $query->andWhere(['faculty_id' => $this->jobEntrant->faculty_id]);
+        }
+        return $query;
     }
 }

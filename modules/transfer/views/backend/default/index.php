@@ -104,22 +104,6 @@ $types = (new TransferMpgu())->listTypeShort();
                 'str' => "Новые", 'link'=> ['/transfer/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <?= ExamPassCountWidget::widget([
-                'colorBox' => AdminLTE::BG_GREEN,
-                'icon'=> 'plus-circle',
-                'status' => PassExam::SUCCESS,
-                'str' => "Допущенные", 'link'=> ['/transfer/pass-exam/index', 'status'=>  PassExam::SUCCESS]])?>
-        </div>
-        <div class="col-md-6">
-            <?= ExamPassCountWidget::widget([
-                'colorBox' => AdminLTE::BG_RED,
-                'icon'=> 'minus-circle',
-                'status' => PassExam::DANGER,
-                'str' => "Недопущенные", 'link'=> ['/transfer/pass-exam/index', 'status'=>  PassExam::DANGER]])?>
-        </div>
-    </div>
 <?php else: ?>
 <div class="row">
     <div class="col-md-6">
@@ -161,5 +145,21 @@ $types = (new TransferMpgu())->listTypeShort();
     </div>
 </div>
 <?php endif; ?>
+<div class="row">
+    <div class="col-md-6">
+        <?= ExamPassCountWidget::widget([
+            'colorBox' => AdminLTE::BG_GREEN,
+            'icon'=> 'plus-circle',
+            'status' => PassExam::SUCCESS,
+            'str' => "Допущенные", 'link'=> ['/transfer/pass-exam/index', 'status'=>  PassExam::SUCCESS]])?>
+    </div>
+    <div class="col-md-6">
+        <?= ExamPassCountWidget::widget([
+            'colorBox' => AdminLTE::BG_RED,
+            'icon'=> 'minus-circle',
+            'status' => PassExam::DANGER,
+            'str' => "Недопущенные", 'link'=> ['/transfer/pass-exam/index', 'status'=>  PassExam::DANGER]])?>
+    </div>
+</div>
 <?php Box::end() ?>
 
