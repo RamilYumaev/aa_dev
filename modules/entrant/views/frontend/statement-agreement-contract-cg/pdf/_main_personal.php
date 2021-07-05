@@ -37,6 +37,7 @@ $costPerYearExplode = explode(".", $cg->education_year_cost);
 $costRublePerYear = $costPerYearExplode[0];
 $costMonetPerYear = $costPerYearExplode[1] ?? "00";
 $educationMonth = "";
+$speciality = $cg->specialty;
 $number = $agreement->number;
 $educationDuration = floor($cg->education_duration);
 $eduDurationMonth = $cg->education_duration - $educationDuration;
@@ -63,8 +64,8 @@ if ($eduDurationMonth >= 1 / 12) {
         «Московский педагогический государственный университет» (сокращенное наименование - МПГУ),
         на основании лицензии на осуществление образовательной деятельности от 11 декабря 2015 г. № 1818,
         выданной Федеральной службой по надзору в сфере образования и науки на срок – бессрочно, и
-        свидетельства о государственной аккредитации от 15 апреля 2016 г. № 1857, выданного Федеральной
-        службой по надзору в сфере образования и науки на срок до 17 февраля 2022 г., именуемое в дальнейшем
+        свидетельства о государственной аккредитации от <?= Yii::$app->formatter->asDate($speciality->date_begin,  'long') ?> № <?= $speciality->series ?>, выданного Федеральной
+        службой по надзору в сфере образования и науки на срок до <?= Yii::$app->formatter->asDate($speciality->date_end,  'long') ?>, именуемое в дальнейшем
         «Исполнитель», а также «Университет», в лице <?= $agreementData['positionsGenitive'] ?>
         <?= $agreementData['directorNameGenitiveFull'] ?>,
         действующего на основании доверенности <?= $agreementData['procuration'] ?>,<br/><br/>
