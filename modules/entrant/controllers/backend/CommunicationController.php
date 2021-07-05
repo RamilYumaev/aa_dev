@@ -301,6 +301,11 @@ class CommunicationController extends Controller
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
+            if(!$model->organization_id || !$model->work_organization_id){
+                Yii::$app->session->setFlash("error", "Целевая организация заполнена не верно. Проверьте, пожалуйста, данные Работодателя и/или Заказчика");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             $incoming = UserAis::findOne(['user_id' => $model->user_id]);
             if (!$incoming) {
                 Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
