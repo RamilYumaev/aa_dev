@@ -107,7 +107,7 @@ class DataExportHelper
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
-                'overall_diploma_mark_common' =>  $info->mark_spo ?? null
+                'overall_diploma_mark_common' => $info->mark_spo ?? null
             ]
         ];
         return array_merge($result,
@@ -488,9 +488,11 @@ class DataExportHelper
                 'employer_region' => $agreement->organizationWork->region->name,
             ];
         foreach ($agreement->statement as $statement) {
-            foreach ($statement->statementCg as $currentApplication) {
-                $result['incoming']['competitive_groups'][] =
-                    $currentApplication->cg->ais_id;
+            if ($statement->isSpecialRightTarget()) {
+                foreach ($statement->statementCg as $currentApplication) {
+                    $result['incoming']['competitive_groups'][] =
+                        $currentApplication->cg->ais_id;
+                }
             }
         }
         return $result;
