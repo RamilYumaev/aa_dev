@@ -26,6 +26,10 @@ use yii\widgets\MaskedInput;
             ]) ?>
             <?= $form->field($model, 'chernobyl_status_id')->checkbox(); ?>
             <?= $form->field($model, 'mpgu_training_status_id')->checkbox(); ?>
+            <?php if(\Yii::$app->session->get('user.idbeforeswitch')) : ?>
+                <?= $form->field($model, 'is_epgu')->checkbox(); ?>
+                <?= $form->field($model, 'uid_epgu')->textInput(); ?>
+            <?php endif; ?>
             <?= $form->field($model, 'is_military_edu')->checkbox(); ?>
             <?= $form->field($model, 'voz_id')->checkbox(); ?>
             <?php if (DictCompetitiveGroupHelper::formOchExistsUser($model->user_id)): ?>

@@ -4,6 +4,7 @@
 namespace modules\entrant\models;
 
 
+use backend\widgets\adminlte\InfoBox;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use modules\dictionary\helpers\DictDefaultHelper;
@@ -23,6 +24,8 @@ use yii\db\ActiveRecord;
  * @property integer $chernobyl_status_id
  * @property integer $mpgu_training_status_id
  * @property integer $return_doc
+ * @property integer $is_epgu
+ * @property string $uid_epgu
  * @property integer $is_military_edu
  **/
 
@@ -38,7 +41,14 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class' => ModerationBehavior::class,
             'attributes' => [
-                'resource_id', 'voz_id', 'hostel_id','chernobyl_status_id', 'mpgu_training_status_id',' is_military_edu',  'mark_spo']
+                'resource_id', 'voz_id',
+                'hostel_id',
+                'chernobyl_status_id',
+                'mpgu_training_status_id',
+                'is_military_edu',
+                'is_epgu',
+                'uid_epgu',
+                'mark_spo']
         ]];
     }
 
@@ -57,6 +67,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->chernobyl_status_id = $form->chernobyl_status_id;
         $this->mark_spo = $form->mark_spo;
         $this->is_military_edu = $form->is_military_edu;
+        $this->is_epgu = $form->is_epgu;
+        $this->uid_epgu = $form->uid_epgu;
         $this->return_doc = 3;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
@@ -80,6 +92,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'is_military_edu'=> 'Отношусь к выпускникам общеобразовательных организаций, профессиональных образовательных организаций, находящихся в ведении федеральных государственных органов и реализующих дополнительные общеобразовательные программы, 
             имеющие целью подготовку несовершеннолетних обучающихся к военной или иной государственной службе',
             'resource'=> 'Откуда узнали об МПГУ?',
+            'is_epgu' => 'Поступающий через ЕПГУ',
+            'uid_epgu'=> 'UID в сервисе приёма через ЕПГУ',
             'exam_check' => "Экзамен"
         ];
     }
@@ -153,6 +167,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'resource_id'=> DictDefaultHelper::infoName($value),
             'chernobyl_status_id' => DictDefaultHelper::infoName($value),
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
+            'is_epgu' =>  DictDefaultHelper::infoName($value),
+            'uid_epgu'=>  $value,
             'mark_spo' => $value
         ];
     }
