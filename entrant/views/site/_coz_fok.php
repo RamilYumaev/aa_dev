@@ -41,7 +41,7 @@ use modules\entrant\widgets\file\FileWidget;
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
-            'str' => "Абитуриенты (Не обработанные)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::AIS_NO]]) ?>
+            'str' => "Абитуриенты (Необработанные)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::AIS_NO]]) ?>
     </div>
 </div>
 

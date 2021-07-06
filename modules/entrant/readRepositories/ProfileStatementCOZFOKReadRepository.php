@@ -70,7 +70,7 @@ class ProfileStatementCOZFOKReadRepository
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             return $query;
         } elseif ($type == AisReturnDataHelper::AIS_NO) {
-            $query->innerJoin(EntrantInWork::tableName(), EntrantInWork::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`')->andWhere(['is', EntrantInWork::tableName().'.`id`', null]);
+            $query->joinWith('workUser')->andWhere(['is', EntrantInWork::tableName().'.`id`', null]);
             $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM user_ais)');
             return $query;
         } elseif ($type == AisReturnDataHelper::IN_WORK) {
