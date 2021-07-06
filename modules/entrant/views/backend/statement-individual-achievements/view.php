@@ -18,6 +18,8 @@ ModalAsset::register($this);
 <?= Html::a("Сообщить об ошибке", ['default/send-error', 'user' =>  $statement->user_id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены, что хотите отправить письмо?"]]) ?>
+<?= Html::a("Редактировать данные", \Yii::$app->params['staticHostInfo'] . '/switch-user/by-user-id?id=' . $statement->user_id,
+    ['class' => 'btn btn-info', 'target' => '_blank']); ?>
 <?= \modules\entrant\widgets\profile\ProfileWidget::widget([ 'view' =>'index-backend', 'userId' => $statement->user_id]) ?>
 <?= \modules\entrant\widgets\anketa\AnketaWidget::widget(['userId' => $statement->user_id]) ?>
 <?= \modules\entrant\widgets\statement\StatementIaBackendWidget::widget(['statement' => $statement]) ?>

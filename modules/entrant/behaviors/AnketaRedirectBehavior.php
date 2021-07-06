@@ -48,7 +48,7 @@ class AnketaRedirectBehavior  extends Behavior
         if($this->fileExits() && in_array($this->owner->action->id, $this->ids)) {
             Yii::$app->session->setFlash("warning", 'Редактирование, удаление  
             невозможно, так как на странице "Загрузка документов" есть загруженная скан-копия документа');
-            Yii::$app->getResponse()->redirect(['abiturient/post-document/index']);
+            Yii::$app->getResponse()->redirect(['abiturient/default/index']);
             try {
                 Yii::$app->end();
             } catch (ExitException $e) {
