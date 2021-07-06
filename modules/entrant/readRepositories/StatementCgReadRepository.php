@@ -57,6 +57,6 @@ class StatementCgReadRepository
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
         }
 
-        return $query;
+        return $query->distinct();
     }
 }
