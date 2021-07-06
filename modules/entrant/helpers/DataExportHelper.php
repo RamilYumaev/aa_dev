@@ -482,10 +482,10 @@ class DataExportHelper
                 'code' => 'sdo' . $agreement->organization->id . "_2021",
                 'ogrn' => $agreement->organization->ogrn,
                 'kpp' => $agreement->organization->kpp,
-                'employer_name' => $agreement->organizationWork->name,
-                'employer_ogrn' => $agreement->organizationWork->ogrn,
-                'employer_kpp' => $agreement->organizationWork->kpp,
-                'employer_region' => $agreement->organizationWork->region->name,
+                'employer_name' => $agreement->organizationWork ? $agreement->organizationWork->name : "",
+                'employer_ogrn' => $agreement->organizationWork ? $agreement->organizationWork->ogrn : "",
+                'employer_kpp' => $agreement->organizationWork ? $agreement->organizationWork->kpp : "",
+                'employer_region' => $agreement->organizationWork ? $agreement->organizationWork->region->name : "",
             ];
         foreach ($agreement->statement as $statement) {
             if ($statement->isSpecialRightTarget()) {

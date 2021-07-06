@@ -7,6 +7,7 @@ use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictDisciplineHelper;
 use dictionary\models\DictDiscipline;
+use modules\entrant\behaviors\CgDeleteBehavior;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\forms\UserDisciplineCseForm;
@@ -35,7 +36,9 @@ class UserDiscipline extends YiiActiveRecordAndModeration
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['mark','type', 'discipline_id', 'discipline_select_id', 'date', 'year'],
-        ], FileBehavior::class];
+        ], FileBehavior::class,
+            CgDeleteBehavior::class
+        ];
     }
 
     const CSE = 1;
