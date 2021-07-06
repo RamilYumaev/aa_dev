@@ -35,7 +35,7 @@ $examBase = "Основание для допуска к сдаче вступи
 $anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
 
 $otherDocument = OtherDocument::find()
-    ->where(['user_id' => $statement->user_id])->andWhere(['not', ['exemption_id' => false]])->one();
+    ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id' => 1])->one();
 $och = false;
 ?>
 

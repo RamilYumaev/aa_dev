@@ -30,7 +30,7 @@ $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $s
 
 $examBase = "Основание для допуска к сдаче вступительных испытаний:";
 $otherDocument = OtherDocument::find()
-    ->where(['user_id' => $statement->user_id])->andWhere(['not', ['exemption_id'=> false]])->one();
+    ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 1])->one();
 
 $och = false;
 ?>
