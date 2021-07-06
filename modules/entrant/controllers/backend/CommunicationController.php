@@ -55,14 +55,15 @@ class CommunicationController extends Controller
                 'actions' => [
                     'export-data' => ['POST'],
                     'export-statement' => ['POST'],
-                    'export-statement-ia'=> ['POST']
+                    'export-statement-ia' => ['POST']
                 ],
             ],
         ];
     }
 
-    /* @return  JobEntrant*/
-    protected function getJobEntrant() {
+    /* @return  JobEntrant */
+    protected function getJobEntrant()
+    {
         return Yii::$app->user->identity->jobEntrant();
     }
 
@@ -89,13 +90,20 @@ class CommunicationController extends Controller
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
+            if ($model->workUser && $model->workUser->jobEntrant->id != $this->jobEntrant->id) {
+                Yii::$app->session->setFlash("info", "Экспорт не возможен так как абитуриент взят в работу. ФИО
+                            сотрудника: " . $model->workUser->jobEntrant->profileUser->fio . " ,
+                            подразделение: " . $model->workUser->jobEntrant->fullNameJobEntrant);
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             if (UserAis::findOne(['user_id' => $model->user_id])) {
                 Yii::$app->session->setFlash("error", "Вы не можете второй раз отправить! ");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-entrant-with-doc?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-entrant-with-doc?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -163,7 +171,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingStatementIa($model->user_id, $idIa));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-individual-application?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-individual-application?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -234,7 +242,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingStatement($model->user_id, $statement));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-usu-spec-application-cse-vi?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-usu-spec-application-cse-vi?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -275,15 +283,15 @@ class CommunicationController extends Controller
             Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
-        }else {
+        } else {
             $aisClient = new AisClient();
-           // $incoming = DataExportHelper::cseIncomingId();
-            $incoming  = [1720, 3709, 1196, 6255, 16499];
+            // $incoming = DataExportHelper::cseIncomingId();
+            $incoming = [1720, 3709, 1196, 6255, 16499];
             var_dump($aisClient->postData('sdo/get-cse-result?access-token=' . $token, $incoming));
         }
     }
 
-        /**
+    /**
      * @param $agreementId
      * @return mixed
      * @throws NotFoundHttpException
@@ -301,7 +309,7 @@ class CommunicationController extends Controller
             if (!$model) {
                 throw new NotFoundHttpException('Такой страницы не существует.');
             }
-            if(!$model->organization_id){
+            if (!$model->organization_id) {
                 Yii::$app->session->setFlash("error", "Целевая организация заполнена неверно. Проверьте, пожалуйста, данные Заказчика");
                 return $this->redirect(Yii::$app->request->referrer);
             }
@@ -313,7 +321,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncomingAgreement($model));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/import-target-organization?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-target-organization?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -329,13 +337,13 @@ class CommunicationController extends Controller
             $result = Json::decode($result);
             if (array_key_exists('target_organization_id', $result)) {
 
-                    try {
-                        $this->aisService->agreement($agreementId, $result['target_organization_id']);
-                        Yii::$app->session->setFlash('success', "Успешно принято.");
-                    } catch (\DomainException $e) {
-                        Yii::$app->errorHandler->logException($e);
-                        Yii::$app->session->setFlash('error', $e->getMessage());
-                    }
+                try {
+                    $this->aisService->agreement($agreementId, $result['target_organization_id']);
+                    Yii::$app->session->setFlash('success', "Успешно принято.");
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
             if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
@@ -371,7 +379,7 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataRemoveStatement($model->statement->user_id, $model->statement->id));
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/remove-zuk?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -429,9 +437,9 @@ class CommunicationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $ch = curl_init();
-            $data = Json::encode(['remove'=>[['incoming_id'=>$incoming->incoming_id,
-                'competitive_group_id'=>$model->statementCg->cg->ais_id]]]);
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zuk?access-token=' . $token);
+            $data = Json::encode(['remove' => [['incoming_id' => $incoming->incoming_id,
+                'competitive_group_id' => $model->statementCg->cg->ais_id]]]);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/remove-zuk?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -511,7 +519,7 @@ class CommunicationController extends Controller
             $ch = curl_init();
             $data = Json::encode(['incoming_id' => $incoming->incoming_id,
                 'competitive_group_id' => $model->statementCg->cg->ais_id]);
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/add-zos?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/add-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -585,7 +593,7 @@ class CommunicationController extends Controller
             $ch = curl_init();
             $data = Json::encode(['incoming_id' => $incoming->incoming_id,
                 'competitive_group_id' => $consent->statementConsentCg->statementCg->cg->ais_id]);
-            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'].'/remove-zos?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/remove-zos?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -616,6 +624,7 @@ class CommunicationController extends Controller
             return $this->redirect(\Yii::$app->request->referrer);
         }
     }
+
     public function actionForm()
     {
         $user = Yii::$app->request->post('username');
@@ -627,11 +636,11 @@ class CommunicationController extends Controller
                 ->setUrl('get-access-token')
                 ->addHeaders(['Authorization' => 'Basic ' . base64_encode("$user:$pass")])
                 ->setOptions([
-              //      'proxy' => 'proxy.server:8000',
+                    //      'proxy' => 'proxy.server:8000',
                     'timeout' => 30,
                 ])->send();
             if (!$response->isOk) {
-                Yii::$app->session->setFlash("error", "Ошибка! ".$response->statusCode);
+                Yii::$app->session->setFlash("error", "Ошибка! " . $response->statusCode);
                 return $this->redirect(Yii::$app->request->referrer);
             }
             $result = $response->data;
@@ -681,7 +690,7 @@ class CommunicationController extends Controller
 
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataContractStatus($model, $status));
-            curl_setopt($ch, CURLOPT_URL,  \Yii::$app->params['ais_agreement'].'/change-status?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'] . '/change-status?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -742,7 +751,7 @@ class CommunicationController extends Controller
 
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataReceipt($model));
-            curl_setopt($ch, CURLOPT_URL,  \Yii::$app->params['ais_agreement'].'/add-receipt?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_agreement'] . '/add-receipt?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

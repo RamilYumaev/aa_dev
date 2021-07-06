@@ -6,6 +6,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\DataExportHelper;
+use modules\entrant\models\EntrantInWork;
 use modules\entrant\readRepositories\ProfileStatementReadRepository;
 use modules\entrant\searches\ProfilesFileSearch;
 use modules\entrant\searches\ProfilesStatementCOZFOKSearch;
@@ -22,6 +23,7 @@ use yii\web\Response;
 class DefaultController extends Controller
 {
     private $service;
+
     public function __construct($id, $module, EmailDeliverService $service, $config = [])
     {
         $this->service = $service;
@@ -42,7 +44,7 @@ class DefaultController extends Controller
 
     public function beforeAction($event)
     {
-        if(!$this->jobEntrant->right_full  ||  $this->jobEntrant->isStatusDraft()) {
+        if (!$this->jobEntrant->right_full || $this->jobEntrant->isStatusDraft()) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {
@@ -54,9 +56,25 @@ class DefaultController extends Controller
     }
 
 
-    /* @return  JobEntrant*/
-    protected function getJobEntrant() {
+    /* @return  JobEntrant */
+    protected function getJobEntrant()
+    {
         return Yii::$app->user->identity->jobEntrant();
+    }
+
+    public function actionInWork($userId)
+    {
+
+        if (EntrantInWork::inWorkExists($userId)) {
+            Yii::$app->session->setFlash('danger', 'Абитуриент уже взят в работу!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $model = EntrantInWork::create($userId, $this->jobEntrant->id);
+        if (!$model->save()) {
+            Yii::$app->session->setFlash('danger', 'Ошибка при сохранениий статуса!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
@@ -125,6 +143,7 @@ class DefaultController extends Controller
 
         return $this->render('page');
     }
+
     /**
      * @param integer $user
      * @return mixed
@@ -156,12 +175,12 @@ class DefaultController extends Controller
     public function actionExcel()
     {
         \moonland\phpexcel\Excel::widget([
-            'asAttachment'=>true,
-            'fileName' => date('d-m-Y H-i-s').' file',
+            'asAttachment' => true,
+            'fileName' => date('d-m-Y H-i-s') . ' file',
             'models' => (new ProfileStatementReadRepository($this->jobEntrant))->readData(AisReturnDataHelper::AIS_NO)->all(),
             'mode' => 'export', //default value as 'export'
             'columns' => ['user_id'], //without header working, because the header will be get label from attribute label.
-            'headers' => ['user_id'=> "Юзер ID"],
+            'headers' => ['user_id' => "Юзер ID"],
         ]);
     }
 
@@ -171,7 +190,8 @@ class DefaultController extends Controller
      * @throws NotFoundHttpException
      */
 
-    public function actionDataJson($user) {
+    public function actionDataJson($user)
+    {
         $profile = $this->findModel($user);
         $result = DataExportHelper::dataIncoming($profile->user_id);
         Yii::$app->response->format = Response::FORMAT_JSON;

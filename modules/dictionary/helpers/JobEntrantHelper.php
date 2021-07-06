@@ -136,6 +136,7 @@ class JobEntrantHelper
             self::UMS,
             self::FOK,
             self::TPGU,
+            self::TARGET
         ];
         return $array;
     }

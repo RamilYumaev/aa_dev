@@ -14,6 +14,7 @@ class AisReturnDataHelper
 {
     const AIS_YES = 1;
     const AIS_NO = 2;
+    const IN_WORK = 3;
 
     public static  function typesModel() {
         return [
@@ -33,6 +34,7 @@ class AisReturnDataHelper
         return[
             self::AIS_YES =>"Принятые",
             self::AIS_NO =>"Необработанные",
+            self::IN_WORK => "Взяты в работу",
             ];
     }
 

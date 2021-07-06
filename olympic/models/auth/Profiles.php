@@ -13,6 +13,7 @@ use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\interfaces\models\DataModel;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\EntrantInWork;
 use modules\entrant\models\File;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\Statement;
@@ -202,6 +203,10 @@ class Profiles extends YiiActiveRecordAndModeration implements DataModel
     public function isNoRussia()
     {
         return $this->country_id !== DictCountryHelper::RUSSIA;
+    }
+
+    public function getWorkUser(){
+        return $this->hasOne(EntrantInWork::class, ['user_id'=>'user_id']);
     }
 
     public function titleModeration(): string

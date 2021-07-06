@@ -9,6 +9,7 @@ use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\EntrantInWork;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PreemptiveRight;
 use modules\entrant\models\Statement;
@@ -38,24 +39,24 @@ class ProfileStatementCOZFOKReadRepository
     {
         $query = $this->profileDefaultQuery();
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
-         if ($this->jobEntrant->isCategoryFOK()) {
-             $specialUserArray = Statement::find()->select('user_id')
-                 ->andWhere(['in','special_right',[
-                     DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
+        if ($this->jobEntrant->isCategoryFOK()) {
+            $specialUserArray = Statement::find()->select('user_id')
+                ->andWhere(['in', 'special_right', [
+                    DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
             $query->andWhere(['not in', 'anketa.category_id', [
-                 CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
-                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
-                 CategoryStruct::WITHOUT_COMPETITION]])
-                 ->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA])
-                 ->andWhere(['not in', 'anketa.user_id', PreemptiveRight::find()
-                     ->joinWith('otherDocument')->select("other_document.user_id")
-                     ->indexBy("other_document.user_id")->column()]);
+                CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
+                CategoryStruct::WITHOUT_COMPETITION]])
+                ->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA])
+                ->andWhere(['not in', 'anketa.user_id', PreemptiveRight::find()
+                    ->joinWith('otherDocument')->select("other_document.user_id")
+                    ->indexBy("other_document.user_id")->column()]);
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
-             $query->andWhere(['not in', 'anketa.user_id', $specialUserArray]);
+            $query->andWhere(['not in', 'anketa.user_id', $specialUserArray]);
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere([
                 'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
@@ -64,12 +65,17 @@ class ProfileStatementCOZFOKReadRepository
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         } elseif (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id]);
-         }
+        }
         if ($type == AisReturnDataHelper::AIS_YES) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             return $query;
         } elseif ($type == AisReturnDataHelper::AIS_NO) {
-            $query->andWhere(['not in', 'profiles.user_id', UserAis::find()->select('user_id')->column()]);
+            $query->innerJoin(EntrantInWork::tableName(), EntrantInWork::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`')->andWhere(['is', EntrantInWork::tableName().'.`id`', null]);
+            $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM user_ais)');
+            return $query;
+        } elseif ($type == AisReturnDataHelper::IN_WORK) {
+            $query->innerJoin(EntrantInWork::tableName(), EntrantInWork::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
+            $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM user_ais)');
             return $query;
         } else {
             return $query;
