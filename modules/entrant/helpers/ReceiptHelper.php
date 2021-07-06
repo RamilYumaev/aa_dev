@@ -36,11 +36,11 @@ class ReceiptHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => "УФК по г. Москве (МПГУ л/с 20736У53790)",
-            AnketaHelper::ANAPA_BRANCH => "УФК по  Краснодарскому краю (Анапский филиал МПГУ л/с 20186В01260)",
+            AnketaHelper::ANAPA_BRANCH => "УФК по  Краснодарскому краю (АФ МПГУ л/с 20186В01260)",
             AnketaHelper::POKROV_BRANCH => "УФК по Владимирской области (Покровский филиал МПГУ л/с 20286В01340)",
             AnketaHelper::STAVROPOL_BRANCH => "УФК по Ставропольскому краю (2133 Ставропольский филиал МПГУ л/с 20216Э35050)",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "УФК по Московской области (СПФ МПГУ л/с 20486Э39110)",
-            AnketaHelper::DERBENT_BRANCH => "УФК по Республике Дагестан отдел (Дербентский филиал МПГУ л/с 20036Э36740)",
+            AnketaHelper::DERBENT_BRANCH => "УФК по Республике Дагестан (Дербентский филиал МПГУ л/с 20036Э36740)",
         ];
     }
 
@@ -85,11 +85,11 @@ class ReceiptHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => "ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва",
-            AnketaHelper::ANAPA_BRANCH => "ЮЖНОЕ ГУ Банка России по Краснодарскому краю",
-            AnketaHelper::POKROV_BRANCH => "ОТДЕЛЕНИЕ ВЛАДИМИР БАНКА РОССИИ",
-            AnketaHelper::STAVROPOL_BRANCH => "ОТДЕЛЕНИЕ СТАВРОПОЛЬ БАНКА РОССИИ",
+            AnketaHelper::ANAPA_BRANCH => "ЮЖНОЕ ГУ БАНКА РОССИИ //УФК  по Краснодарскому краю г. Краснодар",
+            AnketaHelper::POKROV_BRANCH => "ОТДЕЛЕНИЕ ВЛАДИМИР БАНКА РОССИИ//УФК по Владимирской области г. Владимир",
+            AnketaHelper::STAVROPOL_BRANCH => "ОТДЕЛЕНИЕ СТАВРОПОЛЬ БАНКА РОССИИ//УФК по Ставропольскому краю г. Ставрополь",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "ГУ Банка России по ЦФО г.Москва 35",
-            AnketaHelper::DERBENT_BRANCH => "ОТДЕЛЕНИЕ-НБ РЕСПУБЛИКА ДАГЕСТАН БАНКА РОССИИ",
+            AnketaHelper::DERBENT_BRANCH => "ОТДЕЛЕНИЕ-НБ РЕСПУБЛИКА ДАГЕСТАН БАНКА РОССИИ//УФК по Республике Дагестан г Махачкала",
         ];
     }
 
@@ -117,8 +117,8 @@ class ReceiptHelper
     }
 
     public static function header($key){
-        $v1 = "<p><strong>БАНКОВСКИЕ РЕКВИЗИТЫ:</strong></p>";
-        $v2 = "<p>ОГРН 1027700215344<br/>";
+        $v1 = "<p style='margin:0'><strong>БАНКОВСКИЕ РЕКВИЗИТЫ:</strong></p>";
+        $v2 = "<p style='margin:0'>ОГРН 1027700215344<br/>";
         $v3 = "ИНН ".self::inn()[$key]."<br/>";
         $v4 = "КПП ".self::kpp()[$key]."<br/>";
         $v5 = "".self::personalAccount()[$key]."<br/>";

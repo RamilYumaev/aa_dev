@@ -54,33 +54,33 @@ $header = ReceiptHelper::header($universityChoice);
 ?>
 <div class="fs-13">
     <?= $header ?>
-    <p align="justify" style="color:#ce0834"><strong>ВНИМАНИЕ! После оплаты скан-копию чека необходимо загрузить в Личный кабинет поступающего.
+    <p align="justify" style="color:#ce0834 margin:0"><strong>ВНИМАНИЕ! После оплаты скан-копию чека необходимо загрузить в Личный кабинет поступающего.
         Зачисление происходит после предоставленного подтверждения оплаты.</strong></p>
 </div>
-<div class="fs-10">
-    <table width="100%" class="fs-13" cellspacing="0">
+<div class="" style="font-size: 8px">
+    <table width="100%" class="fs-12" cellspacing="0">
         <tr>
-            <td rowspan="8" class="text-center br-3" width="23%"><strong>Извещение</strong></td>
+            <td rowspan="8" class="text-center br-3" width="15%"><strong>Извещение</strong></td>
             <td colspan="5" class="text-center bb"><strong><i><?= $personalAccount ?></i></strong></td>
         </tr>
         <tr>
-            <td class="fs-10 text-center" colspan="5">(наименование получателя платежа)</td>
+            <td class=" text-center" colspan="5">(наименование получателя платежа)</td>
         </tr>
         <tr>
             <td colspan="3" class="text-center bb"><strong><i><?= $inn ?>/<?= $kpp ?></i></strong></td>
             <td class="text-center bb" colspan="2"><strong><i>казначейский счет/ЕКС <?= $checkingAccount ?></i></strong></td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center fs-10">(ИНН/КПП получателя)</td>
-            <td colspan="2" class="text-center fs-10">(№ счета получателя платежа)</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ИНН/КПП получателя)</td>
+            <td colspan="2" class="text-center " style="font-size: 8px">(№ счета получателя платежа)</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center bb"><strong><i><?= $bank ?></td>
+            <td colspan="3" class="text-center bb" style="font-size: 11px"><strong><i><?= $bank ?></td>
             <td class="text-center bb"><strong><i>БИК <?= $bik ?></i></strong></td>
             <td class="text-center bb"><strong><i>ОКТМО <?= $oktmo ?></i></strong></td>
         </tr>
         <tr>
-            <td class="text-center fs-10" colspan="5">(наименование банка получателя платежа)</td>
+            <td class="text-center " style="font-size: 8px" colspan="5">(наименование банка получателя платежа)</td>
         </tr>
         <tr>
             <td class="text-center bb" colspan="5"><strong><i>КБК 00000000000000000130 - за оказание платных
@@ -97,35 +97,35 @@ $header = ReceiptHelper::header($universityChoice);
         </tr>
         <tr>
             <td rowspan="7" class="text-center br-3">Кассир</td>
-            <td colspan="3" class="text-center fs-10">(ФИО плательщика)</td>
-            <td colspan="2" class="text-center fs-10">(по договору)</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ФИО плательщика)</td>
+            <td colspan="2" class="text-center " style="font-size: 8px">(по договору)</td>
         </tr>
         <tr>
             <td colspan="5" class="bb h-30"></td>
         </tr>
         <tr>
-            <td colspan="5" class="text-center fs-10">(адрес плательщика)</td>
+            <td colspan="5" class="text-center " style="font-size: 8px">(адрес плательщика)</td>
         </tr>
         <tr>
-            <td colspan="2" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant?></i></strong></td>
-            <td class="bb text-center" colspan="2"><strong><i><?= $faculty ?></i></strong></td>
+            <td colspan="3" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant?></i></strong></td>
+            <td class="bb text-center" colspan="1"><strong><i><?= $faculty ?></i></strong></td>
             <td class="bb text-center v-align-bottom"><strong><i>1 1</i></strong></td>
         </tr>
         <tr>
-            <td colspan="2" class="text-center fs-10">(ФИО студента)</td>
-            <td colspan="2" class="text-center fs-10">факультет</td>
-            <td class="text-center fs-10">курс семестр</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ФИО студента)</td>
+            <td colspan="1" class="text-center " style="font-size: 8px">факультет</td>
+            <td class="text-center " style="font-size: 8px">курс семестр</td>
         </tr>
         <tr>
-            <td colspan="2" class="text-right h-30 fs-10 v-align-bottom">Сумма платежа</td>
+            <td colspan="3" class="text-right h-30  v-align-bottom">Сумма платежа</td>
             <td class="bb text-center v-align-bottom" width="20%"><?= $receiptCost ?></td>
-            <td colspan="2" class="text-left v-align-bottom">руб.</td>
+            <td colspan="1" class="text-left v-align-bottom">руб.</td>
         </tr>
         <tr>
-            <td class="text-right fs-10 h-30 v-align-bottom">Дата</td>
+            <td class="text-right  h-30 v-align-bottom">Дата</td>
             <td class="bb"></td>
-            <td></td>
-            <td class="text-right fs-10  v-align-bottom">Подпись плательщика</td>
+            <td class="bb"></td>
+            <td class="text-right   v-align-bottom">Подпись плательщика</td>
             <td class="bb"></td>
             <td></td>
         </tr>
@@ -136,27 +136,27 @@ $header = ReceiptHelper::header($universityChoice);
 
 
         <tr>
-            <td rowspan="8" class="text-center br-3 v-align-bottom" width="23%"><strong>Квитанция</strong></td>
+            <td rowspan="8" class="text-center br-3 v-align-bottom" width="15%"><strong>Квитанция</strong></td>
             <td colspan="5" class="text-center bb"><strong><i><?= $personalAccount ?></i></strong></td>
         </tr>
         <tr>
-            <td class="fs-10 text-center" colspan="5">(наименование получателя платежа)</td>
+            <td class=" text-center" colspan="5">(наименование получателя платежа)</td>
         </tr>
         <tr>
             <td colspan="3" class="text-center bb"><strong><i><?= $inn ?>/<?= $kpp ?></i></strong></td>
             <td class="text-center bb" colspan="2"><strong><i>казначейский счет <?= $checkingAccount ?></i></strong></td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center fs-10">(ИНН/КПП получателя)</td>
-            <td colspan="2" class="text-center fs-10">(№ счета получателя платежа)</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ИНН/КПП получателя)</td>
+            <td colspan="2" class="text-center " style="font-size: 8px">(№ счета получателя платежа)</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center bb"><strong><i><?= $bank ?></td>
+            <td colspan="3" class="text-center bb" style="font-size: 11px"><strong><i><?= $bank ?></td>
             <td class="text-center bb"><strong><i>БИК <?= $bik ?></i></strong></td>
             <td class="text-center bb"><strong><i>ОКТМО <?= $oktmo ?></i></strong></td>
         </tr>
         <tr>
-            <td class="text-center fs-10" colspan="5">(наименование банка получателя платежа)</td>
+            <td class="text-center " style="font-size: 8px" colspan="5">(наименование банка получателя платежа)</td>
         </tr>
         <tr>
             <td class="text-center bb" colspan="5"><strong><i>КБК 00000000000000000130 - за оказание платных
@@ -173,35 +173,35 @@ $header = ReceiptHelper::header($universityChoice);
         </tr>
         <tr>
             <td rowspan="7" class="text-center br-3">Кассир</td>
-            <td colspan="3" class="text-center fs-10">(ФИО плательщика)</td>
-            <td colspan="2" class="text-center fs-10">(по договору)</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ФИО плательщика)</td>
+            <td colspan="2" class="text-center " style="font-size: 8px">(по договору)</td>
         </tr>
         <tr>
             <td colspan="5" class="bb h-30"></td>
         </tr>
         <tr>
-            <td colspan="5" class="text-center fs-10">(адрес плательщика)</td>
+            <td colspan="5" class="text-center " style="font-size: 8px">(адрес плательщика)</td>
         </tr>
         <tr>
-            <td colspan="2" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant ?></i></strong></td>
-            <td class="bb text-center" colspan="2"><strong><i><?= $faculty ?></i></strong></td>
+            <td colspan="3" class="bb text-center v-align-bottom fs-12"><strong><i><?= $fio_entrant ?></i></strong></td>
+            <td class="bb text-center" colspan="1"><strong><i><?= $faculty ?></i></strong></td>
             <td class="bb text-center v-align-bottom"><strong><i>1 1</i></strong></td>
         </tr>
         <tr>
-            <td colspan="2" class="text-center fs-10">(ФИО студента)</td>
-            <td colspan="2" class="text-center fs-10">факультет</td>
-            <td class="text-center fs-10">курс семестр</td>
+            <td colspan="3" class="text-center " style="font-size: 8px">(ФИО студента)</td>
+            <td colspan="1" class="text-center " style="font-size: 8px">факультет</td>
+            <td class="text-center " style="font-size: 8px">курс семестр</td>
         </tr>
         <tr>
-            <td colspan="2" class="text-right h-30 fs-10 v-align-bottom">Сумма платежа</td>
+            <td colspan="3" class="text-right h-30 fs-12 v-align-bottom">Сумма платежа</td>
             <td class="bb text-center v-align-bottom" width="20%"><?= $receiptCost ?></td>
-            <td colspan="2" class="text-left v-align-bottom">руб.</td>
+            <td colspan="1" class="text-left v-align-bottom">руб.</td>
         </tr>
         <tr>
-            <td class="text-right fs-10 h-30 v-align-bottom">Дата</td>
+            <td class="text-right  h-30 v-align-bottom">Дата</td>
             <td class="bb"></td>
-            <td></td>
-            <td class="text-right fs-10  v-align-bottom">Подпись плательщика</td>
+            <td class="bb"></td>
+            <td class="text-right   v-align-bottom">Подпись плательщика</td>
             <td class="bb"></td>
             <td></td>
         </tr>
