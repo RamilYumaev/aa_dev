@@ -17,7 +17,7 @@ use \modules\dictionary\helpers\JobEntrantHelper;
 
 ?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= CountUserCozWidget::widget([
             'type' => 2,
             'colorBox' => AdminLTE::BG_BLUE,
@@ -34,7 +34,7 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'str' => "Абитуриенты с ПП (новые)", 'link' => ['data-entrant/default/index', 'type' => 2, 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= CountUserCozWidget::widget([
             'type' => 1,
             'colorBox' => AdminLTE::BG_OLIVE,
@@ -50,8 +50,24 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'isID' => JobEntrantHelper::MPGU_PP,
             'str' => "Абитуриенты с ПП (принятые)", 'link' => ['data-entrant/default/index', 'type' => 1, 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
     </div>
+    <div class="col-md-3">
+        <?= CountUserCozWidget::widget([
+            'type' => 3,
+            'colorBox' => AdminLTE::BG_BLACK_ACTIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::MPGU_SR,
+            'str' => "Абитуриенты Квотники и БВИ (Взяты в работу)", 'link' => ['data-entrant/default/index', 'type' => 3, 'is_id' => JobEntrantHelper::MPGU_SR]]) ?>
+        <?= CountUserCozWidget::widget([
+            'type' => 3,
+            'colorBox' => AdminLTE::BG_BLACK_ACTIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::MPGU_PP,
+            'str' => "Абитуриенты с ПП (Взяты в работу)", 'link' => ['data-entrant/default/index', 'type' => 3, 'is_id' => JobEntrantHelper::MPGU_PP]]) ?>
+    </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <?= CountUserCozWidget::widget([
             'colorBox' => AdminLTE::BG_ORANGE_ACTIVE,
             'entrant' => $jobEntrant,

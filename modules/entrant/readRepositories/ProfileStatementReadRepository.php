@@ -10,6 +10,7 @@ use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\EntrantInWork;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PreemptiveRight;
 use modules\entrant\models\Statement;
@@ -66,7 +67,7 @@ class ProfileStatementReadRepository
 
         } elseif ($this->jobEntrant->isCategoryFOK()) {
             $specialUserArray = Statement::find()->select('user_id')
-                ->andWhere(['in','special_right',[
+                ->andWhere(['in', 'special_right', [
                     DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
@@ -110,7 +111,12 @@ class ProfileStatementReadRepository
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             return $query;
         } elseif ($type == AisReturnDataHelper::AIS_NO) {
-            $query->andWhere(['not in', 'profiles.user_id', UserAis::find()->select('user_id')->column()]);
+            $query->joinWith('workUser')->andWhere(['is', EntrantInWork::tableName().'.`id`', null]);
+            $query->andWhere('statement.user_id NOT IN (SELECT user_id FROM user_ais)');
+            return $query;
+        } elseif ($type == AisReturnDataHelper::IN_WORK) {
+            $query->innerJoin(EntrantInWork::tableName(), EntrantInWork::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
+            $query->andWhere('statement.user_id NOT IN (SELECT user_id FROM user_ais)');
             return $query;
         } else {
             return $query;
