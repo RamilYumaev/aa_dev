@@ -9,6 +9,10 @@ $cg = $model->registerCompetitionList->cg;
 $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
+$aisCseIdCg = $cg->getExaminationsCseAisId();
+$aisCtIdCg = $cg->getExaminationsCtAisId();
+$compositeId = $cg->getCompositeDisciplineId();
+$selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
 ?>
 
     <div class=" col-offset-md-3 col-md-9" >
@@ -55,22 +59,18 @@ $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 =
             foreach ($data[$model->type] as $list => $value) {
                 foreach ($value['subjects'] as $key => $subject) {
                     if($subject['subject_type_id'] == 1) {
-                        $aisCseId = \modules\dictionary\models\DictCseSubject::findOne(['ais_id' =>$subject['subject_id']]);
-                        $compositeId = $cg->getCompositeDisciplineId();
-                        $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId, $aisCseId->discipline->id);
-                        if($selectDiscipline) {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline->dictDiscipline->ais_id;
+                        $aisCseId = $aisCseIdCg[$subject['subject_id']];
+                        if(key_exists($aisCseId,$selectDiscipline)) {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
                         } else {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId->discipline->ais_id;
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
                         }
                     }elseif($subject['subject_type_id'] == 2)  {
-                        $aisCtId = \modules\dictionary\models\DictCtSubject::findOne(['ais_id' =>$subject['subject_id']]);
-                        $compositeId = $cg->getCompositeDisciplineId();
-                        $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId, $aisCtId->discipline->id);
-                        if($selectDiscipline) {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline->dictDiscipline->ais_id;
+                        $aisCtId = $aisCtIdCg[$subject['subject_id']];
+                        if(key_exists($aisCtId,$selectDiscipline)) {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
                         } else {
-                            $data['list'][$list]['subjects']['subject_type_id'] =  $aisCtId->discipline->ais_id;
+                            $data['list'][$list]['subjects']['subject_type_id'] =  $aisCtId;
                         }
                     }
                 }

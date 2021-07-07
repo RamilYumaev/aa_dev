@@ -12,6 +12,8 @@ use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\queries\DictCompetitiveGroupQuery;
 use frontend\controllers\GratitudeController;
 use modules\dictionary\models\CompetitionList;
+use modules\dictionary\models\DictCseSubject;
+use modules\dictionary\models\DictCtSubject;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
@@ -158,6 +160,26 @@ class DictCompetitiveGroup extends ActiveRecord
             ->andWhere(['not', ['ais_id'=> null]])
             ->indexBy('ais_id')
         ->column();
+    }
+
+    public function getExaminationsCseAisId()
+    {
+        return $this->getExaminations()
+            ->joinWith('discipline')
+            ->innerJoinWith(DictCseSubject::tableName(),DictCseSubject::tableName().'.id=cse_subject_id')
+            ->select([DictDiscipline::tableName().'.ais_id'])
+            ->indexBy(DictCseSubject::tableName().'ais_id')
+            ->column();
+    }
+
+    public function getExaminationsCtAisId()
+    {
+        return $this->getExaminations()
+            ->joinWith('discipline')
+            ->innerJoinWith(DictCtSubject::tableName(),DictCtSubject::tableName().'.id=ct_subject_id')
+            ->select([DictDiscipline::tableName().'.ais_id'])
+            ->indexBy(DictCtSubject::tableName().'ais_id')
+            ->column();
     }
 
     public function getExaminationsGraduateAisId()
