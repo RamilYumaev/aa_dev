@@ -165,8 +165,8 @@ class ExamStatementService
         }
     }
 
-    public function addAllStatement($eduLevel, $formCategory, $off) {
-        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory, $off);
+    public function addAllStatement($eduLevel, $formCategory) {
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
         foreach ($users as $user) {
             $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory);
             if(!$disciplines) {
@@ -193,9 +193,7 @@ class ExamStatementService
 
                 $this->repository->save($examSt);
             }
-
         }
-
     }
 
     public function updateProctor($id, ExamStatementProctorForm $form)

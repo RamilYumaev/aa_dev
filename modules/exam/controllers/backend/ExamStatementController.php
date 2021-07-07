@@ -14,6 +14,7 @@ use modules\exam\forms\ExamForm;
 use modules\exam\forms\ExamSrcBBBForm;
 use modules\exam\forms\ExamStatementMessageForm;
 use modules\exam\forms\ExamStatementProctorForm;
+use modules\exam\jobs\StatementExamJob;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamStatement;
 use modules\exam\searches\ExamSearch;
@@ -180,14 +181,11 @@ class ExamStatementController extends Controller
      * @param $off
      * @return mixed
      */
-    public function actionAllStatementCreate($eduLevel, $formCategory, $off)
+    public function actionAllStatementCreate($eduLevel, $formCategory)
     {
-        try {
-            $this->service->addAllStatement($eduLevel, $formCategory, $off);
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
+        Yii::$app->queue->push(new StatementExamJob($this->service, ['eduLevel'=> $eduLevel, 'formCategory' => $formCategory]));
+        $message = 'Задание отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
         return $this->redirect(Yii::$app->request->referrer);
     }
 

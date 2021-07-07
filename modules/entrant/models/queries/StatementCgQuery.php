@@ -56,14 +56,14 @@ class StatementCgQuery extends \yii\db\ActiveQuery
             select(['cg_id'])->column();
     }
 
-    public function statementUserLevelCg($eduLevel, $formCategory, $offset = 0){
+    public function statementUserLevelCg($eduLevel, $formCategory){
         return $this
             ->joinWith('statement')
             ->andWhere(['status_id' => null,
                 'statement.edu_level'=> $eduLevel,
                 'statement.form_category'=> $formCategory,
                 'statement.status' => StatementHelper::STATUS_ACCEPTED])
-            ->select('user_id')->distinct()->orderBy(['user_id'=> SORT_ASC])->limit(300)->offset($offset)->column();
+            ->select('user_id')->distinct()->orderBy(['user_id'=> SORT_ASC])->column();
     }
 
     public function statementUserCgIdsColumn($user_id, $cgIds) {
