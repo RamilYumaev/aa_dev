@@ -1,37 +1,32 @@
 <?php
-
-
 namespace modules\exam\helpers;
-
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
 use dictionary\models\DisciplineCompetitiveGroup;
-use modules\entrant\helpers\CseViSelectHelper;
 use modules\entrant\models\StatementCg;
+use modules\entrant\models\UserDiscipline;
 use modules\exam\models\Exam;
 
 class ExamCgUserHelper
 {
     private static function discipline($userId, $vi)
     {
-        $viExam = CseViSelectHelper::viUser($userId);
-        $viKeyExam = CseViSelectHelper::viKeyUser($userId);
+        $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
+                ->groupBy('discipline_select_id')
+                ->column();
         $ids =StatementCg::find()->statementUserCgIdActualColumn($userId, self::formCategory());
-        if ($vi && !is_array($viExam)) {
+        if ($vi && !$viExam) {
             return false;
         }
         $query = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
-            ->select(['dict_discipline.id',])
+            ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
-        if ($vi && is_array($viExam)) {
-            $query->andWhere(['dict_discipline.id'=> $viExam ]);
-            if(is_array($viKeyExam) && key_exists(21, $viKeyExam)) {
-                $query->orWhere(['cse_subject_id' => $viKeyExam[21]]);
-            }
+        if ($vi && $viExam) {
+            $query->andWhere(['dict_discipline.id' => $viExam]);
         }
         else {
             $query->andWhere(['cse_subject_id' => null]);
@@ -41,20 +36,18 @@ class ExamCgUserHelper
 
     public static function disciplineLevel($userId, $eduLevel, $formCategory)
     {
-        $viKeyExam = CseViSelectHelper::viKeyUser($userId);
-        $viExam = CseViSelectHelper::viUser($userId);
+        $viExam = $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
+            ->groupBy('discipline_select_id')
+            ->column();
         $ids = StatementCg::find()->statementUserCgIdActualLevelColumn($userId, $eduLevel, $formCategory);
         $query = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
-        if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && is_array($viExam)) {
+        if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);
             $query->orWhere(['cse_subject_id' => null, 'dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
-            if(is_array($viKeyExam) && key_exists(21, $viKeyExam)) {
-                $query->orWhere(['cse_subject_id' => $viKeyExam[21]]);
-            }
         }
         else {
             $query->andWhere(['cse_subject_id' => null]);

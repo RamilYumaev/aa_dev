@@ -17,13 +17,13 @@ class DisciplineExaminerHelper
 
     public static function listDisciplineAll() {
         return DictDiscipline::find()->select(['name','id'])
-            ->andWhere(['is_och' => 0])
+            ->andWhere(['is_och' => 0, 'composite_discipline' =>false])
             ->indexBy('id')->column();
     }
 
     public static function listDisciplineReserve($ids) {
         return DictDiscipline::find()->select(['name','id'])
-            ->andWhere(['id'=> $ids, 'is_och' => 0])
+            ->andWhere(['id'=> $ids, 'is_och' => 0, 'composite_discipline' =>false])
             ->indexBy('id')->column();
     }
 
@@ -36,6 +36,4 @@ class DisciplineExaminerHelper
         return DictExaminer::find()->select(['fio','id'])
             ->indexBy('id')->column();
     }
-
-
 }
