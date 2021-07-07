@@ -77,7 +77,103 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Абитуриенты ЦиС', 'url' => ['/data-entrant/default/index', 'is_id' => JobEntrantHelper::TARGET_BB]],
                 ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
                 ['label' => 'Заявки на экзамен РД', 'url' => ['/data-exam/exam-statement/violation']],
+                ['label' => 'Заявления (ЗУК)',
+                    "items" => [
+                        [
+                            "label" => 'Просмотр',
+                            "url" => ['/data-entrant/statement/index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => "Новые ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_WALT],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Принятые ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Непринятые ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Взято в работу",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Отозванные ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
+                            "icon" => "list-ol",
+                        ]
+                    ]],
+                ['label' => 'Заявления (ЗОС)',
+                    "items" => [
+                        [
+                            "label" => 'Просмотр',
+                            "url" => ['/data-entrant/statement-consent-cg/index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => "Новые ЗОС",
+                            "url" => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_WALT],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Принятые ЗОС",
+                            "url" => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Непринятые ЗОС",
+                            "url" => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Взято в работу",
+                            "url" => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_VIEW],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Отозванные ЗОС",
+                            "url" => ['/data-entrant/statement-consent-cg/index', 'status'=> StatementHelper::STATUS_RECALL],
+                            "icon" => "list-ol",
+                        ]
+                    ]],
+                ['label' => 'Экспресс (Новые ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/new']],
+                ['label' => 'Отзыв (ЗОС)',
+                    "items" => [
+                        [
+                            "label" => 'Просмотр',
+                            "url" => ['/data-entrant/statement-rejection/consent-index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => "Новые",
+                            "url" => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_WALT],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Принятые",
+                            "url" => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_ACCEPTED],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Непринятые",
+                            "url" => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Взято в работу",
+                            "url" => ['/data-entrant/statement-rejection/consent-index', 'status'=> StatementHelper::STATUS_VIEW],
+                            "icon" => "list-ul",
+                        ],
+                    ]],
             ]
+
 
         );
     }

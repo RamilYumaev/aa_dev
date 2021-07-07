@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
@@ -38,7 +39,7 @@ class StatementReadConsentRepository
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
             $query->andWhere(['not in','anketa.user_id',
                 Statement::find()->select('user_id')
-                    ->andWhere(['special_right'=>DictCompetitiveGroupHelper::SPECIAL_RIGHT])
+                    ->andWhere(['in','special_right',[DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
                     ->column()]);
         }
 
@@ -55,6 +56,11 @@ class StatementReadConsentRepository
                        $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
             $query->andWhere(['or', ['is not', 'exemption_id', null], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+        }
+
+        if($this->jobEntrant->isCategoryTarget()) {
+            $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
+            $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

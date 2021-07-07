@@ -12,9 +12,7 @@ class PassportDataWidget extends Widget
     public $view = "index";
     public function run()
     {
-        $query = PassportData::find()->where(['user_id' => $this->userId, 'main_status'=> false])
-            ->andWhere(['not in','type', [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
-                DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT]]);
+        $query = PassportData::find()->where(['user_id' => $this->userId, 'main_status'=> false]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,

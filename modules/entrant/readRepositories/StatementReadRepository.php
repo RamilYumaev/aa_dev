@@ -7,6 +7,7 @@ use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\Statement;
@@ -47,10 +48,8 @@ class StatementReadRepository
         }
 
         if ($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere(['in','anketa.user_id',
-                Statement::find()->select('user_id')
-                    ->andWhere(['special_right'=>[DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
-                    ->column()]);
+            $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
+            $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if ($this->jobEntrant->isCategoryUMS()) {

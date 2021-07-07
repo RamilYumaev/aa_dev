@@ -22,7 +22,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
                 'dataProvider' => $dataProvider,
                 'columns' => [
                     ['attribute' => 'type', 'value' => 'typeName',],
-                    ['attribute' => 'nationality', 'value' => 'nationalityName'],
+             /*       ['attribute' => 'nationality', 'value' => 'nationalityName'],*/
                     ['value' => 'passportFull', 'header' => "Документ, удостоверяющий личность"],
                     ['class' => \yii\grid\ActionColumn::class, 'controller' => 'passport-data', 'template' => '{update} {delete}']
                 ],
