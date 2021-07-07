@@ -43,11 +43,11 @@ class CompositeDiscipline extends \yii\db\ActiveRecord
         return $this->hasOne(DictDiscipline::class,['id' => 'discipline_select_id']);
     }
 
-    public static function getOne($disciplineId) {
+    public static function getOne($disciplineId)
+    {
         return self::find()->joinWith(['dictDisciplineSelect', 'dictDisciplineAlias'])
             ->andWhere(['discipline_id' => $disciplineId])
-            ->select('dict.ais_id')
+            ->select(['f' => 'dict.ais_id'])
             ->indexBy('dict_discipline.ais_id')->column();
     }
-
 }

@@ -21,6 +21,7 @@ use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\AisOrderTransfer;
 use modules\entrant\models\Infoda;
 use modules\entrant\models\UserCg;
+use Mpdf\Tag\Dt;
 use yii\db\ActiveRecord;
 use yii\helpers\StringHelper;
 
@@ -164,21 +165,17 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public function getExaminationsCseAisId()
     {
-        return $this->getExaminations()
-            ->joinWith('discipline')
-            ->innerJoinWith(DictCseSubject::tableName(),DictCseSubject::tableName().'.id=cse_subject_id')
-            ->select([DictDiscipline::tableName().'.ais_id'])
-            ->indexBy(DictCseSubject::tableName().'ais_id')
+        return DictDiscipline::find()->joinWith('cse')
+            ->select(['f' => DictDiscipline::tableName().'.ais_id'])
+            ->indexBy('dict_cse_subject.ais_id')
             ->column();
     }
 
     public function getExaminationsCtAisId()
     {
-        return $this->getExaminations()
-            ->joinWith('discipline')
-            ->innerJoinWith(DictCtSubject::tableName(),DictCtSubject::tableName().'.id=ct_subject_id')
-            ->select([DictDiscipline::tableName().'.ais_id'])
-            ->indexBy(DictCtSubject::tableName().'ais_id')
+        return DictDiscipline::find()->joinWith('ct')
+            ->select(['f' => DictDiscipline::tableName().'.ais_id' ])
+            ->indexBy('dict_ct_subject.ais_id')
             ->column();
     }
 
