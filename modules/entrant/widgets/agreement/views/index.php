@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 <div class="row">
     <div class="col-md-12 <?= BlockRedGreenHelper::colorBg($model && $model->date ?? false) ?>">
         <div class="p-30 green-border">
-            <h4>Договор о целовом обучении</h4>
+            <h4>Договор о целевом обучении</h4>
             <?= Html::a('Редактировать', ['agreement/index'], ['class' => 'btn btn-primary']) ?>
             <?= DetailView::widget([
                 'options' => ['class' => 'table table-bordered detail-view'],
