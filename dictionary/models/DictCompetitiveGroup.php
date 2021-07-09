@@ -453,12 +453,13 @@ class DictCompetitiveGroup extends ActiveRecord
         return DictCompetitiveGroupHelper::getEduLevels()[$this->edu_level];
     }
 
+    public function getRegisterCompetition() {
+        return $this->hasOne(RegisterCompetitionList::class,['ais_cg_id' => 'ais_id'])->joinWith('competitionList')
+            ->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS]);
+    }
 
     public function getRegisterCompetitionList($type) {
-        return  RegisterCompetitionList::find()->joinWith('competitionList')
-            ->andWhere(['ais_cg_id' => $this->ais_id])
-            ->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS,
-            'type'=> $type])->one();
+        return $this->getRegisterCompetition()->andWhere(['type'=> $type])->exists();
     }
 
     public function getRegisterCompetitionListGraduate($faculty, $speciality, $form)
@@ -490,7 +491,7 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function getSpecialisationName() {
-       return $this->specialization->name ?? "";
+       return $this->specialization  ? $this->specialization->name : "";
     }
 
     public function isGovLineCg(): bool

@@ -13,6 +13,9 @@ $aisCseIdCg = $cg->getExaminationsCseAisId();
 $aisCtIdCg = $cg->getExaminationsCtAisId();
 $compositeId = $cg->getCompositeDisciplineId();
 $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
+$noGuest =!Yii::$app->user->getIsGuest();
+$incomingId = $noGuest ? Yii::$app->user->identity->incomingId() : '';
+$isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
 ?>
 
     <div class=" col-offset-md-3 col-md-9" >
@@ -81,7 +84,7 @@ $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
                 <tr>
                     <th style="font-size: 12px; text-align: center">№ п/п</th>
                     <th style="font-size: 12px; text-align: center">Уникальный номер/СНИЛС</th>
-                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                    <?php if($isEntrant): ?>
                     <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
                     <?php endif; ?>
                     <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
@@ -109,10 +112,10 @@ $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
                     <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
                 </tr>
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
-                <tr <?=!Yii::$app->user->getIsGuest() && Yii::$app->user->identity->incomingId() == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
+                <tr <?=  $incomingId == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
-                    <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
+                    <?php if($isEntrant): ?>
                     <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                     <?php endif; ?>
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :

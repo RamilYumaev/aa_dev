@@ -36,8 +36,7 @@ class CompetitionListController extends Controller
             ->select(['faculty_id','full_name'])
             ->foreignerStatus(false)
             ->currentAutoYear()
-            ->tpgu(false)
-            ->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC]);
+            ->tpgu(false);
         if($department) {
             $query->filialAndCollege();
         }else{
@@ -46,7 +45,7 @@ class CompetitionListController extends Controller
         if($faculty) {
             $query->faculty($faculty);
         }
-        return $query->all();
+        return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
     }
 
     public function actionDepartment()

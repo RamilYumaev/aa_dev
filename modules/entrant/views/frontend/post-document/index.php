@@ -6,7 +6,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\AgreementHelper;
 use modules\entrant\models\UserDiscipline;
 use yii\helpers\Html;
-
+use xj\qrcode\QRcode;
+use xj\qrcode\widgets\Text;
 \frontend\assets\modal\ModalAsset::register($this);
 
 $this->title = 'Загрузка документов';
@@ -29,6 +30,16 @@ $userId =  Yii::$app->user->identity->getId();
     </div>
     <h1 align="center"><?= $this->title ?></h1>
     <div class="row">
+        <?php if($adminUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+        <p align="center"><?= Text::widget([
+            'outputDir' => '@webroot/qr',
+            'outputDirWeb' => '@web/qr',
+            'ecLevel' => QRcode::QR_ECLEVEL_L,
+            'text' => 'https://sdo.mpgu.org/switch-user/by-user-id?id=' . $userId,
+            'size' => 8,
+        ]);
+        ?></p>
+        <?php endif;?>
         <h4>Общие требования к файлам</h4>
         <p align="justify">
             <ol>

@@ -72,7 +72,7 @@ class RedirectDataFileCsv  implements  IRedirectNewUrl
         if (!empty($this->getUrlTo())) {
             $data = array_filter($this->getData(), function ($value) {
                 $conditions = [true];
-                if($value[2]) {
+                if(key_exists(2, $value)) {
                     $conditions[] = strpos($value[0], $this->getPathInfo()) !== false;
                 } else {
                     $conditions[] = strpos($value[0], $this->url) !== false;

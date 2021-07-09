@@ -19,13 +19,12 @@ use yii\db\ActiveRecord;
  * @property integer $resource_id
  * @property integer $voz_id
  * @property integer $exam_check
- * @property  integer $hostel_id
+ * @property integer $hostel_id
  * @property float $mark_spo
  * @property integer $chernobyl_status_id
  * @property integer $mpgu_training_status_id
  * @property integer $return_doc
  * @property integer $is_epgu
- * @property string $uid_epgu
  * @property integer $is_military_edu
  **/
 
@@ -47,7 +46,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
                 'mpgu_training_status_id',
                 'is_military_edu',
                 'is_epgu',
-                'uid_epgu',
                 'mark_spo']
         ]];
     }
@@ -68,7 +66,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->mark_spo = $form->mark_spo;
         $this->is_military_edu = $form->is_military_edu;
         $this->is_epgu = $form->is_epgu;
-        $this->uid_epgu = $form->uid_epgu;
         $this->return_doc = 3;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }
@@ -93,7 +90,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             имеющие целью подготовку несовершеннолетних обучающихся к военной или иной государственной службе',
             'resource'=> 'Откуда узнали об МПГУ?',
             'is_epgu' => 'Поступающий через ЕПГУ',
-            'uid_epgu'=> 'UID в сервисе приёма через ЕПГУ',
             'exam_check' => "Экзамен"
         ];
     }
@@ -168,7 +164,6 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'chernobyl_status_id' => DictDefaultHelper::infoName($value),
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
             'is_epgu' =>  DictDefaultHelper::infoName($value),
-            'uid_epgu'=>  $value,
             'mark_spo' => $value
         ];
     }

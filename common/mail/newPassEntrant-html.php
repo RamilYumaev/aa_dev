@@ -8,7 +8,7 @@
 /* @var $string string */
 $profile = $user->profiles;
 ?>
-<?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
+Уважаемый абитуриент!
 <div>
     <p>Создан Личный кабинет</p>
     <p>Логин: <?= $user->email ?></p>

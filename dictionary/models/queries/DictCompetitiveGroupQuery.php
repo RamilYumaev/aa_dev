@@ -199,7 +199,7 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
            return $this->andWhere($array1)->select(['financing_type_id', 'special_right_id'])->groupBy(['financing_type_id', 'special_right_id'])->all();
         }
 
-        return $this->andWhere(array_merge($array1, $array2))->all();
+        return $this->andWhere($array1)->andWhere($array2)->all();
     }
 
     public function foreignerStatus($foreignerStatus)
