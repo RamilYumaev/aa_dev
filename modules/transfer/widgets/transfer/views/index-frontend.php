@@ -23,6 +23,13 @@ use yii\helpers\Html;
     </tr>
     <?php endif; ?>
     <?php if($model->statusAccepted()): ?>
+    <tr>
+        <td colspan="2">Ваши документы проверены и переданы в учебное структурное подразделение.
+            Вам необходимо посетить консультацию и аттестационное испытание согласно графику,
+            опубликованному на сайте МПГУ: <a href="http://mpgu.su/postuplenie/perevodivosstanovlenie/">
+                http://mpgu.su/postuplenie/perevodivosstanovlenie/</a>
+        </td>
+    </tr>
         <tr>
             <td colspan="2">Данные по аттестации:
                 <?php if($model->passExam): ?>

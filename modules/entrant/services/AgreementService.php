@@ -49,6 +49,9 @@ class AgreementService
     public function remove($id)
     {
         $model = $this->repository->get($id);
+        if($model->getStatementTarget()->exists()) {
+            throw new \DomainException('Нельзя удалить договор, так как есть ЗУКи на целевое обучение');
+        }
         $this->repository->remove($model);
     }
 

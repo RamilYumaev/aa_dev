@@ -10,10 +10,12 @@ use modules\dictionary\models\DictOrganizations;
 use modules\dictionary\searches\DictOrganizationsSearch;
 use modules\dictionary\services\DictOrganizationService;
 use modules\entrant\forms\AgreementForm;
+use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\Agreement;
 use modules\entrant\services\AgreementService;
 use yii\web\Controller;
 use Yii;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 class AgreementController extends Controller
@@ -152,4 +154,26 @@ class AgreementController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
+
+    /**
+     * @param integer $id
+     * @param $hash
+     * @return mixed
+     * @throws ForbiddenHttpException
+     */
+    public function actionDelete()
+    {
+        if(!$swichUserId = \Yii::$app->session->get('user.idbeforeswitch')){
+            throw new ForbiddenHttpException('У Вас нет соответствующих прав!');
+        }
+
+        $model = $this->findModel();
+        try {
+            $this->service->remove($model->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 }

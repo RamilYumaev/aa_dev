@@ -13,6 +13,11 @@ use yii\widgets\DetailView;
         <div class="p-30 green-border">
             <h4>Договор о целевом обучении</h4>
             <?= Html::a('Редактировать', ['agreement/index'], ['class' => 'btn btn-primary']) ?>
+            <?php if ($swichUserId = \Yii::$app->session->get('user.idbeforeswitch')) : ?>
+            <?php if (Yii::$app->authManager->getAssignment('dev', $swichUserId)): ?>
+            <?= Html::a('Удалить', ['agreement/delete'], ['class' => 'btn btn-danger', 'data-confirm' => 'Вы уверены, что хотите удалить договор?']) ?>
+            <?php endif; ?>
+            <?php endif; ?>
             <?= DetailView::widget([
                 'options' => ['class' => 'table table-bordered detail-view'],
                 'model' => $model,

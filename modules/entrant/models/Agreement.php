@@ -148,6 +148,10 @@ class Agreement extends YiiActiveRecordAndModeration
             DictCompetitiveGroupHelper::TARGET_PLACE]]);
     }
 
+    public function getStatementTarget() {
+        return $this->hasMany(Statement::class, ['user_id' =>'user_id'])->where(['special_right'=> DictCompetitiveGroupHelper::TARGET_PLACE]);
+    }
+
     public function moderationAttributes($value): array
     {
         return [
