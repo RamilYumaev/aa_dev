@@ -93,4 +93,14 @@ class FileService
         $model = $this->repository->get($id);
         $this->repository->remove($model);
     }
+
+    public function returned($id, $status)
+    {
+        if(!in_array($status, [FileHelper::STATUS_DRAFT, FileHelper::STATUS_WALT])){
+           throw  new \DomainException('Не верный статус файла');
+        }
+        $model = $this->repository->get($id);
+        $model->setStatus($status);
+        $this->repository->save($model);
+    }
 }

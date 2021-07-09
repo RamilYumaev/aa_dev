@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\entrant\controllers\frontend;
 
 use modules\entrant\forms\FileForm;
@@ -23,6 +24,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use Yii;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -78,7 +80,7 @@ class FileController extends Controller
     {
         $model = FileHelper::validateModel($hash);
         $modelOne = $this->model($model, $id);
-        if(($model == Statement::class && !$modelOne->count_pages) ||
+        if (($model == Statement::class && !$modelOne->count_pages) ||
             ($model == StatementIndividualAchievements::class && !$modelOne->count_pages) ||
             ($model == StatementConsentPersonalData::class && !$modelOne->count_pages) ||
             ($model == StatementTransfer::class && !$modelOne->count_pages) ||
@@ -86,11 +88,10 @@ class FileController extends Controller
             ($model == StatementRejection::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCgConsent::class && !$modelOne->count_pages) ||
             ($model == StatementRejectionCg::class && !$modelOne->count_pages) ||
-            ($model == StatementAgreementContractCg::class &&  !$modelOne->count_pages)  ||
-            ($model == StatementRejectionRecord::class &&  !$modelOne->count_pages)  ||
-            ($model == ReceiptContract::class &&  !$modelOne->count_pages)
-        )
-        {
+            ($model == StatementAgreementContractCg::class && !$modelOne->count_pages) ||
+            ($model == StatementRejectionRecord::class && !$modelOne->count_pages) ||
+            ($model == ReceiptContract::class && !$modelOne->count_pages)
+        ) {
             Yii::$app->session->setFlash("danger", "Вы не скачали файл pdf.");
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -102,9 +103,9 @@ class FileController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-               $model = $this->service->create($form, $modelOne);
+                $model = $this->service->create($form, $modelOne);
                 $link = $model ? $model->hashId : "";
-                return $this->redirect(Yii::$app->request->referrer.$link);
+                return $this->redirect(Yii::$app->request->referrer . $link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -127,7 +128,7 @@ class FileController extends Controller
     {
         $model = FileHelper::validateModel($hash);
         $file = $this->findModel($id, $model);
-        $form = new FileForm($file->user_id,$file);
+        $form = new FileForm($file->user_id, $file);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($form);
@@ -136,7 +137,7 @@ class FileController extends Controller
             try {
                 $this->service->edit($file->id, $form);
                 $link = $file ? $file->hashId : "";
-                return $this->redirect(Yii::$app->request->referrer.$link);
+                return $this->redirect(Yii::$app->request->referrer . $link);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -157,7 +158,7 @@ class FileController extends Controller
      */
     protected function findModel($id, $model): File
     {
-        if (($model = File::findOne(['id'=>$id, 'model'=> $model, 'user_id' => $this->getUser()])) !== null) {
+        if (($model = File::findOne(['id' => $id, 'model' => $model, 'user_id' => $this->getUser()])) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
@@ -166,9 +167,9 @@ class FileController extends Controller
     /**
      * @param integer $id
      * @param integer $modelOne
-     * @var $model BaseActiveRecord;
      * @return mixed
      * @throws NotFoundHttpException
+     * @var $model BaseActiveRecord;
      */
     protected function model($modelOne, $id): BaseActiveRecord
     {
@@ -190,13 +191,14 @@ class FileController extends Controller
         if ($modelOne == ReceiptContract::class && (($model = $modelOne::find()->receiptOne($id, $this->getUser())) !== null)) {
             return $model;
         }
-        if ($modelOne && (($model = $modelOne::findOne(['id'=>$id, 'user_id' => $this->getUser() ])) !== null)) {
+        if ($modelOne && (($model = $modelOne::findOne(['id' => $id, 'user_id' => $this->getUser()])) !== null)) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
     }
 
-    private function getUser()  {
+    private function getUser()
+    {
         return Yii::$app->user->identity->getId();
     }
 
@@ -210,13 +212,41 @@ class FileController extends Controller
     {
         $modelName = FileHelper::validateModel($hash);
         $model = $this->findModel($id, $modelName);
-        $hashId= $model->hashId;
+        $hashId = $model->hashId;
         try {
             $this->service->remove($model->id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
-        return $this->redirect(Yii::$app->request->referrer.$hashId);
+        return $this->redirect(Yii::$app->request->referrer . $hashId);
+    }
+
+    /**
+     * @param $id
+     * @param $status
+     * @param $hash
+     * @return Response
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     */
+
+    public function actionReturn($id, $status, $hash)
+    {
+
+        if(!$swichUserId = \Yii::$app->session->get('user.idbeforeswitch')){
+            throw new ForbiddenHttpException('У Вас нет соответствующих прав!');
+        }
+
+        $modelName = FileHelper::validateModel($hash);
+        $model = $this->findModel($id, $modelName);
+        $hashId = $model->hashId;
+        try {
+            $this->service->returned($model->id, $status);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer . $hashId);
     }
 }
