@@ -31,11 +31,11 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
         <td><?= Html::a("Скачать", ["file/get",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info"]) ?></td>
         <?php Pjax::begin(['id' => 'get-bachelor', 'timeout' => false, 'enablePushState' => false]); ?>
         <?php if(!$jobEntrant->isCategoryCOZ()): ?>
-        <td><?= !$isCorrect ? Html::a("Принять", ["file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
-                'data-method' => 'post']): "" ?></td>
+        <td><?=  Html::a("Принять", ["file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
+                'data-method' => 'post']) ?></td>
        <?php endif; ?>
-        <td><?= !$isCorrect ? Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
-            'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения']) : "" ?></td>
+        <td><?=Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
+            'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения'])?></td>
         <td><span class="label label-<?= FileHelper::colorName($file->status)?>"><?=$file->statusName?></span></td>
         <?php \yii\widgets\Pjax::end()?>
     </tr>

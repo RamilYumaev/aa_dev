@@ -134,7 +134,10 @@ class File extends ActiveRecord
             ],
         ];
     }
-
+    public function getAisUser()
+    {
+        return $this->hasOne(UserAis::class, ['user_id' => 'user_id']);
+    }
 
     public static function find(): FileQuery
     {

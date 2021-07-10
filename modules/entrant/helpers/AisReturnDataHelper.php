@@ -15,7 +15,8 @@ class AisReturnDataHelper
     const AIS_YES = 1;
     const AIS_NO = 2;
     const IN_WORK = 3;
-
+    const IN_EPGU = 4;
+    const IN_TIME = 5;
     public static  function typesModel() {
         return [
           1 => PassportData::class,
@@ -35,6 +36,8 @@ class AisReturnDataHelper
             self::AIS_YES =>"Принятые",
             self::AIS_NO =>"Необработанные",
             self::IN_WORK => "Взяты в работу",
+            self::IN_EPGU => "ЕПГУ",
+            self::IN_TIME => "Очный прием"
             ];
     }
 

@@ -191,14 +191,14 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return $this->getFiles()->count();
     }
 
+    public function getTypeList() {
+        return DictIncomingDocumentType::find()->select('name')->indexBy('id')->column();
+    }
+
     public function moderationAttributes($value): array
     {
         return [
-            'type' => DictIncomingDocumentTypeHelper::typeName([DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO,
-                DictIncomingDocumentTypeHelper::TYPE_EDUCATION_VUZ,
-                DictIncomingDocumentTypeHelper::TYPE_DIPLOMA,
-                DictIncomingDocumentTypeHelper::TYPE_MEDICINE,
-                DictIncomingDocumentTypeHelper::TYPE_OTHER], $value),
+            'type' => is_int($value) && key_exists($value, $this->getTypeList()) ? $this->getTypeList()[$value]: $value,
             'series' => $value,
             'number'=> $value,
             'date'=> DateFormatHelper::formatView($value),

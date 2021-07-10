@@ -9,6 +9,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\helpers\AisReturnDataHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\EntrantInWork;
 use modules\entrant\models\OtherDocument;
@@ -117,6 +118,14 @@ class ProfileStatementReadRepository
         } elseif ($type == AisReturnDataHelper::IN_WORK) {
             $query->innerJoin(EntrantInWork::tableName(), EntrantInWork::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
             $query->andWhere('statement.user_id NOT IN (SELECT user_id FROM user_ais)');
+            return $query;
+        } elseif ($type == AisReturnDataHelper::IN_EPGU) {
+            $query->innerJoin(AdditionalInformation::tableName(),AdditionalInformation::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
+            $query->andWhere(['is_epgu'=> true]);
+            return $query;
+        } elseif ($type == AisReturnDataHelper::IN_TIME) {
+            $query->innerJoin(AdditionalInformation::tableName(),AdditionalInformation::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
+            $query->andWhere(['is_epgu'=> true]);
             return $query;
         } else {
             return $query;

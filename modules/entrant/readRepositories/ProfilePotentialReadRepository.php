@@ -69,7 +69,8 @@ class ProfilePotentialReadRepository
             $query->andWhere(['anketa.category_id' => [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
             if ($this->isID == JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT) {
-                $query->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')->andWhere(['statement.status' => StatementHelper::STATUS_DRAFT]);;
+                $query->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
+                    ->andWhere(['statement.status' => StatementHelper::STATUS_DRAFT]);
             } else if ($this->isID == JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT) {
                 $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM statement)');
                 $query->innerJoin(UserCg::tableName(), 'user_cg.user_id=profiles.user_id');

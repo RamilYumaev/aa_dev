@@ -21,7 +21,7 @@ use modules\entrant\widgets\file\FileWidget;
     </div>
     <div class="col-md-3">
         <?= CountUserCozFokWidget::widget([
-            'type' => 1,
+            'type' => AisReturnDataHelper::AIS_YES,
             'colorBox' => AdminLTE::BG_GREEN_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user-plus',
@@ -29,19 +29,38 @@ use modules\entrant\widgets\file\FileWidget;
     </div>
     <div class="col-md-3">
         <?= CountUserCozFokWidget::widget([
-            'type' => 3,
+            'type' => AisReturnDataHelper::IN_WORK,
             'colorBox' => AdminLTE::BG_AQUA,
             'entrant' => $jobEntrant,
             'icon' => 'user',
-            'str' => "Абитуриенты (Взяты в работу)", 'link' => ['data-entrant/default/index', 'type' => 3]]) ?>
+            'str' => "Абитуриенты (Взяты в работу)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::IN_WORK]]) ?>
     </div>
     <div class="col-md-3">
         <?= CountUserCozFokWidget::widget([
-            'type' => 2,
+            'type' => AisReturnDataHelper::AIS_NO,
             'colorBox' => AdminLTE::BG_AQUA_ACTIVE,
             'entrant' => $jobEntrant,
             'icon' => 'user',
             'str' => "Абитуриенты (Необработанные)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::AIS_NO]]) ?>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <?= CountUserCozFokWidget::widget([
+            'colorBox' => AdminLTE::BG_ORANGE,
+            'type' => AisReturnDataHelper::IN_EPGU,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'str' => "Абитуриенты (ЕПГУ)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::IN_EPGU]]) ?>
+    </div>
+    <div class="col-md-6">
+        <?= CountUserCozFokWidget::widget([
+            'type' => AisReturnDataHelper::IN_TIME,
+            'colorBox' => AdminLTE::BG_MAROON,
+            'entrant' => $jobEntrant,
+            'icon' => 'user-plus',
+            'str' => "Абитуриенты  (Очные)", 'link' => ['data-entrant/default/index', 'type' =>  AisReturnDataHelper::IN_TIME]]) ?>
+    </div>
+</div>
+
 

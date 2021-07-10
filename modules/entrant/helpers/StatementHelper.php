@@ -16,6 +16,7 @@ use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementCgReadRepository;
+use modules\entrant\readRepositories\StatementExamReadRepository;
 use modules\entrant\readRepositories\StatementIAReadRepository;
 use modules\entrant\readRepositories\StatementReadRepository;
 use modules\entrant\searches\StatementAgreementContractSearch;
@@ -114,6 +115,11 @@ class StatementHelper
         return  $query->column();
     }
 
+    public static function columnExamStatement($column, $joinW, $value, $exam) {
+        $query = (new StatementExamReadRepository(self::entrantJob(), $exam))->readData()->joinWith($joinW)
+            ->select([$value,'statement.'.$column])->indexBy('statement.'.$column);
+        return  $query->column();
+    }
 
     public static function columnStatementIa($column, $joinW, $value) {
         $query =  (new StatementIAReadRepository(self::entrantJob()))

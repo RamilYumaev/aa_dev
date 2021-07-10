@@ -61,6 +61,24 @@ use modules\entrant\widgets\file\FileWidget;
 
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <?= CountUserCozFokWidget::widget([
+            'colorBox' => AdminLTE::BG_ORANGE,
+            'type' => AisReturnDataHelper::IN_EPGU,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'str' => "Абитуриенты (ЕПГУ)", 'link' => ['data-entrant/default/index', 'type' => AisReturnDataHelper::IN_EPGU]]) ?>
+    </div>
+    <div class="col-md-6">
+        <?= CountUserCozFokWidget::widget([
+            'type' => AisReturnDataHelper::IN_TIME,
+            'colorBox' => AdminLTE::BG_MAROON,
+            'entrant' => $jobEntrant,
+            'icon' => 'user-plus',
+            'str' => "Абитуриенты  (Очные)", 'link' => ['data-entrant/default/index', 'type' =>  AisReturnDataHelper::IN_TIME]]) ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">

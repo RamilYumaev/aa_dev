@@ -104,15 +104,15 @@ class FileHelper
     }
 
     public static function listModelsFok() {
-        return self::listModelsCOZ() + [
+        return array_merge(self::listModelsCOZ(), [
             Statement::class,
-        ];
+        ]);
     }
 
     public static function listModelsTarget() {
-        return self::listModelsFok() + [
+        return array_merge(self::listModelsFok(), [
                 Agreement::class,
-            ];
+            ]);
     }
 
     public static function validateModel($hash){

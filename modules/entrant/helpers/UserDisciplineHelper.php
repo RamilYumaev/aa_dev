@@ -6,7 +6,8 @@ use modules\entrant\models\UserDiscipline;
 
 class UserDisciplineHelper
 {
-    public static function allCtCse($userId): array
+    public static function
+    allCtCse($userId): array
     {
         return UserDiscipline::find()->user($userId)->cseOrCt()
           ->select('discipline_select_id')
