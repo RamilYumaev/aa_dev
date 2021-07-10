@@ -4,6 +4,7 @@
 use backend\widgets\adminlte\Box;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\entrant\widgets\cpk\CountPotentialUserCozWidget;
+use modules\entrant\widgets\cpk\FileCozWidget;
 use modules\entrant\widgets\cpk\InfoFokRemoveZosWidget;
 use modules\entrant\widgets\cpk\InfoFokZosWidget;
 use modules\entrant\widgets\cpk\InfoFokZukCgRemoveWidget;
@@ -34,6 +35,18 @@ $new =  StatementHelper::STATUS_WALT;
             'icon'=> 'circle',
             'status' => StatementHelper::STATUS_VIEW,
             'str' => "Взято в работу", 'link' => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW]])?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h4> Загруженные(обновленные) файлы</h4>
+            </div>
+            <div class="box-body">
+                <?= FileCozWidget::widget(['entrant'=> $jobEntrant])?>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

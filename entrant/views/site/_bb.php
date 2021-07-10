@@ -3,6 +3,7 @@
 
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\widgets\cpk\CountUserCozWidget;
+use modules\entrant\widgets\cpk\FileCozWidget;
 use modules\entrant\widgets\cpk\InfoUserCozWidget;
 use modules\entrant\widgets\cpk\InfoZidWidget;
 use modules\entrant\widgets\cpk\StatementWidget;
@@ -61,5 +62,6 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'str' => "Абитуриенты Целевики и Соотечественники (всего)", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::TARGET_BB]]) ?>
     </div>
 </div>
+
 
 

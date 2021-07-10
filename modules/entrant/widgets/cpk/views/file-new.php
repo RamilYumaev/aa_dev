@@ -27,9 +27,14 @@ use yii\helpers\Html;
             'attribute' => 'updated_at',
             'format' => 'datetime',
         ],
-
-        ['value' => function ($model) {
-            return Html::a("Просмотр", ['data-entrant/default/files', 'user' => $model->user_id], ['class' => 'btn btn-info']);
+        ['value' => function (\modules\entrant\models\File $model) {
+            if($model->model == \modules\entrant\models\Statement::class) {
+                return Html::a("Просмотр", ['data-entrant/statement/view', 'id' => $model->record_id], ['class' => 'btn btn-info']);
+            }elseif($model->model == \modules\entrant\models\Agreement::class) {
+                return Html::a("Просмотр", ['data-entrant/agreement/view', 'id' => $model->record_id], ['class' => 'btn btn-info']);
+            }else {
+                return Html::a("Просмотр", ['data-entrant/default/files', 'user' => $model->user_id], ['class' => 'btn btn-info']);
+            }
         },
             'format' => "raw",
         ]

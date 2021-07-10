@@ -103,6 +103,18 @@ class FileHelper
         ];
     }
 
+    public static function listModelsFok() {
+        return self::listModelsCOZ() + [
+            Statement::class,
+        ];
+    }
+
+    public static function listModelsTarget() {
+        return self::listModelsFok() + [
+                Agreement::class,
+            ];
+    }
+
     public static function validateModel($hash){
         foreach(self::listModels() as  $model) {
           if(Yii::$app->getSecurity()->decryptByKey($hash, $model)) {
