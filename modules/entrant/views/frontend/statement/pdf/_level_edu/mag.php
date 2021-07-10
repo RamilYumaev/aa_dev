@@ -104,7 +104,12 @@ $och = false;
 <?php endif;?>
 
 <?php
-$signaturePoint = ItemsForSignatureApp::GENERAL_MAGISTRACY_SIGNATURE;
+if ($statement->statementBudgetCg()) {
+    $signaturePoint = ItemsForSignatureApp::GENERAL_MAGISTRACY_SIGNATURE;
+} else {
+    $signaturePoint = ItemsForSignatureApp::GENERAL_MAGISTRACY_SIGNATURE_CONTRACT;
+}
+// $signaturePoint = ItemsForSignatureApp::GENERAL_MAGISTRACY_SIGNATURE;
 if(!$och) {
     unset($signaturePoint[9]);
 }
@@ -184,4 +189,3 @@ foreach ($signaturePoint as $signature) :?>
             </tr>
         </table>
     </div>
-</div>
