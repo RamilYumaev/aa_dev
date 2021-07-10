@@ -50,7 +50,6 @@ class FileReadCozRepository
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             $query->andWhere('files.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2))');
             $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
-            $query->innerJoin(Statement::tableName(), 'statement.user_id=files.user_id');
             $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
         } elseif($this->jobEntrant->isCategoryTarget()){
             $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');

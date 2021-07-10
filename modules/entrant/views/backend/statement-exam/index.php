@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /* @var $exam string */
 $status = $exam == 'vi' ? "ВИ" : "ЕГЭ-ВИ";
 
-$this->title = "Заявления об участии в конкурсе". $status;
+$this->title = "Заявления об участии в конкурсе ". $status;
 
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                        'user_id',
                     [
                             'attribute' => 'user_id',
                             'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnExamStatement('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)', $exam), 'user_id', 'profileUser.fio'),
@@ -39,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'speciality_id',
-                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnExamStatement('speciality_id', 'speciality', 'CONCAT(code, \' \', name)', $exam), 'speciality_id',  'speciality.codeWithName'),
+                        'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnExamStatement('speciality_id', 'speciality', 'CONCAT(dict_speciality.code, \' \', dict_speciality.name)', $exam), 'speciality_id',  'speciality.codeWithName'),
                          'value' => 'speciality.codeWithName'
                     ],
                     [
@@ -60,14 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => \modules\entrant\searches\grid\StatementColumn::class,
                     ],
-//                    ['value' => function ($model) {
-//                           return $model->status == StatementHelper::STATUS_WALT ?
-//                               Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-ok']),
-//                                   ['communication/export-statement',
-//                                   'user' => $model->user_id, 'statement' => $model->id],
-//                                   ['data-method' => 'post', 'class' => 'btn btn-success']) : '';
-//                    }, 'format'=> 'raw' ],
-                    ['class' => ActionColumn::class, 'controller' => 'statement', 'template' => '{view}']
+                    ['value' => function (\modules\entrant\models\Statement $model) {
+                           return  $model->profileUser->aisUser ?
+                               Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-eye']),
+                                   ['statement/view',
+                                    'id' => $model->id],
+                                   ['class' => 'btn btn-success']) :
+                        Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-eye']),
+                            ['default/files',
+                                'user' => $model->user_id],
+                            ['data-method' => 'post', 'class' => 'btn btn-danger']);
+                    }, 'format'=> 'raw' ],
                 ],
             ]); ?>
         </div>

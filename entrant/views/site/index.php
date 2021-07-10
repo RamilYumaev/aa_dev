@@ -29,14 +29,17 @@ $this->title= "Главная. ".$text;
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryFOK()):?>
         <?= $this->render('_coz_fok',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_fok_exam',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryTarget()): ?>
         <?= $this->render('_bb',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_agreement',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_fok_exam',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isCategoryMPGU()): ?>
+        <?= $this->render('_fok_exam',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_mpgu',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>
     <?php if($jobEntrant->isTransferFok()): ?>
@@ -58,6 +61,7 @@ $this->title= "Главная. ".$text;
     <?php endif; ?>
     <?php if(in_array($jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())): ?>
         <?= $this->render('_coz_fok',['jobEntrant' => $jobEntrant])?>
+        <?= $this->render('_fok_exam',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
