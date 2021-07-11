@@ -38,11 +38,16 @@ class DictScheduleController extends ControllerClass
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['dev']
-                    ]
+                'rules' => [[
+                    'actions' => ['select-index', 'select-schedule'],
+                    'allow' => true,
+                    'roles' => ['call-center'],
+                ],
+                [
+                    'actions' => ['index', 'delete', 'update', 'select-index', 'select-schedule'],
+                    'allow' => true,
+                    'roles' => ['volunteering-admin'],
+                ],
                 ],
             ],
         ];

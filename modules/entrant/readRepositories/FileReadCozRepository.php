@@ -38,7 +38,7 @@ class FileReadCozRepository
     }
     public function readData()
     {
-        $query = File::find()->alias('files');
+        $query = File::find();
         $pre =  '(SELECT `other_document`.`user_id`, `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
         if($this->zuk) {
             $query->innerJoin(Statement::tableName(), 'statement.user_id=files.user_id AND statement.id=files.record_id');
@@ -84,7 +84,8 @@ class FileReadCozRepository
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::SPECIAL_RIGHT_COMPETITION,
                 CategoryStruct::WITHOUT_COMPETITION]]);
             $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
-            $query->andWhere('anketa.user_id NOT IN'.$pre);
+            $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
+            $query->andWhere(['not in', 'anketa.user_id', $pre]);
         }
         $query->distinct();
         return $query;

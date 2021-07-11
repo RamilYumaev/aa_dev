@@ -97,7 +97,7 @@ class ReworkingVolunteering extends ActiveRecord
         return [
             'job_entrant_admin_id' => "Админ центра",
             'schedule_volunteering_id' => 'Данные волонтера',
-            'text' => "Текст в свободной форме",
+            'text' => "Наименование работ",
             'count_hours' => 'Количество часов',
             'status' => 'Статус',
             'recall_text' => 'Причина отказа',

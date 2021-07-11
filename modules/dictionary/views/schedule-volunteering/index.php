@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ['class' => 'btn btn-warning','data-pjax' => 'w4'.$model->id, 'data-toggle' => 'modal',
                         'data-target' => '#modal', 'data-modalTitle' => $model->dictSchedule->date.' '.$model->dictSchedule->categoryName]). " <br />" : "").
                                 ($model->reworkingVolunteering ? 'Ваш статус: '.$model->reworkingVolunteering->statusName ." <br />" : '').
-                                ($model->reworkingVolunteering || $model->reworkingVolunteering->isStatusReccall() ?Html::a('Причина отказа', ['#'],
+                                ($model->reworkingVolunteering && $model->reworkingVolunteering->isStatusRecall() ?Html::a('Причина отказа', ['#'],
                                     ['class' => 'btn btn-danger', 'data-confirm' => $model->dictSchedule->date.' '.$model->dictSchedule->categoryName.PHP_EOL.
                                         'Ваш статус: '.$model->reworkingVolunteering->statusName.PHP_EOL.
                                         'Причина отказа: '.$model->reworkingVolunteering->recall_text

@@ -25,6 +25,7 @@ array_merge(
                 ['label' => 'Справочник ИД', 'url' => ['/dictionary-module/dict-individual-achievement']],
                 ['label' => 'Справочник ПЭК', 'url' => ['/dictionary-module/dict-examiner']],
                 ['label' => 'Сотрудники ЦПК', 'url' => ['/dictionary-module/job-entrant']],
+                ['label' => 'Админы Ц', 'url' => ['/dictionary-module/admin-center']],
                 ['label' => 'Волонтеры', 'url' => ['/dictionary-module/volunteering']],
                 ['label' => 'Настройки приема', 'url' => ['/dictionary-module/setting-entrant']],
                 ['label' => 'Настройки КС', 'url' => ['/dictionary-module/setting-entrant/setting-competition-list-index']],

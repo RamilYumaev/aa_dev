@@ -165,4 +165,11 @@ class JobEntrant extends ActiveRecord
             'post' => "Должность",
         ];
     }
+
+    public function allColumn(): array
+    {
+        return self::find()->joinWith('profileUser')
+            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)'])
+            ->indexBy('job_entrant.id')->column();
+    }
 }
