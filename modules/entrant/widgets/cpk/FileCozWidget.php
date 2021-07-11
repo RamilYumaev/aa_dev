@@ -13,11 +13,12 @@ use yii\data\ActiveDataProvider;
 class FileCozWidget extends Widget
 {
     public $view = "file-new";
+    public $zuk = false;
     public $entrant;
 
     public function run()
     {
-        $query = (new FileReadCozRepository($this->entrant))->readData()->andWhere(['files.status'=> FileHelper::STATUS_WALT]);
+        $query = (new FileReadCozRepository($this->entrant, $this->zuk))->readData();
         $dataProvider = new ActiveDataProvider(['query'=> $query, 'pagination' => [
             'pageSize' =>  15,
         ],]);

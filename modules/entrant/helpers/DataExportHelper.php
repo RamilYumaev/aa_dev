@@ -44,6 +44,15 @@ class DataExportHelper
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
         $receptionMethodId = in_array($anketa->category_id, array_merge(CategoryStruct::UMSGroup(), [CategoryStruct::TPGU_PROJECT])) ? 2 : 1;
+        if($info->is_epgu && $info->is_time) {
+            $type = 4;
+        }elseif ($info->is_epgu && !$info->is_time) {
+            $type = 4;
+        }elseif (!$info->is_epgu && $info->is_time) {
+            $type = 5;
+        }else {
+            $type = 3;
+        }
         $result = [
             'incoming' => [
                 'surname' => $profile->last_name,
@@ -107,7 +116,8 @@ class DataExportHelper
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
-                'overall_diploma_mark_common' => $info->mark_spo ?? null
+                'overall_diploma_mark_common' => $info->mark_spo ?? null,
+                'incoming_type_id' => $type
             ]
         ];
         return array_merge($result,

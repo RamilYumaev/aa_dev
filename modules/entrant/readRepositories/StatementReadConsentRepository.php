@@ -37,10 +37,7 @@ class StatementReadConsentRepository
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::SPECIAL_RIGHT_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
-            $query->andWhere(['not in','anketa.user_id',
-                Statement::find()->select('user_id')
-                    ->andWhere(['in','special_right',[DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
-                    ->column()]);
+            $query->andWhere(['not in','anketa.user_id','(SELECT user_id FROM statement WHERE special_right IN (1,2))']);
         }
 
         if ($this->jobEntrant->isTPGU()) {

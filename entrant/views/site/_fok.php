@@ -38,7 +38,17 @@ $new =  StatementHelper::STATUS_WALT;
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header">
+                <h4> Загруженные(обновленные) файлы (ЗУК)</h4>
+            </div>
+            <div class="box-body">
+                <?= FileCozWidget::widget(['entrant'=> $jobEntrant, 'zuk' =>true])?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="box">
             <div class="box-header">
                 <h4> Загруженные(обновленные) файлы</h4>

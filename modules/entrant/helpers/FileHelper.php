@@ -104,9 +104,12 @@ class FileHelper
     }
 
     public static function listModelsFok() {
-        return array_merge(self::listModelsCOZ(), [
-            Statement::class,
-        ]);
+        return [
+            DocumentEducation::class,
+            PassportData::class,
+            Address::class,
+            StatementConsentPersonalData::class
+        ];
     }
 
     public static function listModelsTarget() {

@@ -125,7 +125,7 @@ class ProfileStatementReadRepository
             return $query;
         } elseif ($type == AisReturnDataHelper::IN_TIME) {
             $query->innerJoin(AdditionalInformation::tableName(),AdditionalInformation::tableName() . '.`user_id`=' . Profiles::tableName() . '.`user_id`');
-            $query->andWhere(['is_epgu'=> true]);
+            $query->andWhere(['is_time'=> true]);
             return $query;
         } else {
             return $query;
