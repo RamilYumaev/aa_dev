@@ -8,7 +8,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
 <?php if (!Yii::$app->user->isGuest && ExamCgUserHelper::examExists(Yii::$app->user->identity->getId())) : ?>
     <div class="row mt-30">
-        <div class="col-md-2 col-md-offset-2" align="center">
+        <div class="col-md-2 col-md-offset-1" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/profile/edit');
             } ?>
@@ -33,13 +33,13 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
         <!--        </div>-->
 
-                <div class="col-md-2" align="center">
-                    <?php if (!Yii::$app->user->isGuest) {
-                        echo Html::a(Html::img('@web/img/cabinet/dod.png')
-                            . '<br/>Записаться на Дни открытых дверей', '/dod');
-                    } ?>
-
-                </div>
+        <!--                <div class="col-md-2" align="center">-->
+        <!--                    --><?php //if (!Yii::$app->user->isGuest) {
+        //                        echo Html::a(Html::img('@web/img/cabinet/dod.png')
+        //                            . '<br/>Записаться на Дни открытых дверей', '/dod');
+        //                    } ?>
+        <!---->
+        <!--                </div>-->
 
         <div class="col-md-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
@@ -50,17 +50,17 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         </div>
 
         <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest) {
-                echo Html::a(Html::img('@web/img/cabinet/university.png')
-                    . '<br/>Перевод и восстановление', '/transfer/default/fix');
+            <?php if (!Yii::$app->user->isGuest && ExamCgUserHelper::examExists(Yii::$app->user->identity->getId())) {
+                echo Html::a(Html::img('@web/img/cabinet/exam.png')
+                    . '<br/>Экзамены', '/exam');
             } ?>
 
         </div>
 
         <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest && ExamCgUserHelper::examExists(Yii::$app->user->identity->getId())) {
-                echo Html::a(Html::img('@web/img/cabinet/exam.png')
-                    . '<br/>Экзамены', '/exam');
+            <?php if (!Yii::$app->user->isGuest) {
+                echo Html::a(Html::img('@web/img/cabinet/university.png')
+                    . '<br/>Перевод и восстановление', '/transfer/default/fix');
             } ?>
 
         </div>
@@ -107,7 +107,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <!--    </div>-->
     <!--</div>-->
 
-<?php else :?>
+<?php else : ?>
 
     <div class="row mt-30">
         <div class="col-md-2 col-md-offset-2" align="center">
@@ -152,7 +152,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         </div>
 
         <div class="col-md-2" align="center">
-            <?php  if (!Yii::$app->user->isGuest) {
+            <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/university.png')
                     . '<br/>Перевод и восстановление', '/transfer/default/fix');
             } ?>
