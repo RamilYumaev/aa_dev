@@ -146,20 +146,14 @@ class SettingGenerateController extends Controller
 
     public function actionUpdate() {
         /** @var SettingEntrant $st */
-        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)->isCseAsVi(true)
-                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
-                      ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
-                          DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])
-                     ->foreign(false)->all() as $st)  {
-            $st->datetime_end = '2021-07-12 18:00:00';
-            $st->save();
-        }
-        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)->isVi(true)
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
+                     ->isVi(true)
+                     ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT)
                      ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
                      ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
                          DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])
                      ->foreign(false)->all() as $st)  {
-            $st->datetime_end = '2021-07-12 18:00:00';
+            $st->datetime_end = '2021-07-29 18:00:00';
             $st->save();
         }
     }

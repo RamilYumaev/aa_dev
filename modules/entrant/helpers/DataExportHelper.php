@@ -619,4 +619,23 @@ class DataExportHelper
         return UserDiscipline::find()->joinWith('userAis')->statusNoFound()->typeCse()->select(['user_ais.incoming_id'])
             ->indexBy('user_ais.incoming_id')->column();
     }
+
+    public static function cseVi($user)
+    {
+        /** @var UserDiscipline $discipline */
+        $result = [];
+        foreach (UserDiscipline::find()->user($user)->all() as $discipline) {
+            if($discipline->isVI()) {
+                $result ['vi'][] =  $discipline->dictDisciplineSelect->ais_id;
+            }
+            if($discipline->isCseVi()) {
+                $result ['vi'][] =  $discipline->dictDisciplineSelect->ais_id;
+                $result ['cse'][] = [ 'subject_id'  => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark ];
+            }
+            if($discipline->isCse()) {
+                $result ['cse'][] = [ 'subject_id'  => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark ];
+            }
+        }
+        return $result;
+    }
 }

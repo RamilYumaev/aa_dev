@@ -117,6 +117,18 @@ class UserDiscipline extends YiiActiveRecordAndModeration
         ];
     }
 
+    public function isVI() {
+        return  $this->type == self::VI;
+    }
+
+    public function isCse() {
+        return  $this->type == self::CSE;
+    }
+
+    public function isCseVi() {
+        return  $this->type == self::CSE_VI;
+    }
+
     public function getStatusName()
     {
         return $this->type == self::VI ? '' : $this->getStatusList()[$this->status_cse];

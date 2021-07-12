@@ -85,7 +85,8 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <th style="font-size: 12px; text-align: center">№ п/п</th>
                     <th style="font-size: 12px; text-align: center">Уникальный номер/СНИЛС</th>
                     <?php if($isEntrant): ?>
-                    <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
+                        <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
+                        <th style="font-size: 12px; text-align:center">Телефон</th>
                     <?php endif; ?>
                     <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
@@ -116,7 +117,8 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
                     <?php if($isEntrant): ?>
-                    <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
+                        <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
+                        <td style="font-size: 14px; text-align: center"> <?= key_exists('phone',$entrant) ? $entrant['phone'] : '-' ?></td>
                     <?php endif; ?>
                     <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));

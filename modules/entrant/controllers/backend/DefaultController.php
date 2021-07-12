@@ -199,6 +199,21 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param integer $user
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionDataVi($user)
+    {
+        $profile = $this->findModel($user);
+        $result = DataExportHelper::cseVi($profile->user_id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
+    }
+
+
+    /**
      * @param integer $user_id
      * @return mixed
      * @throws NotFoundHttpException

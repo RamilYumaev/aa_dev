@@ -276,7 +276,7 @@ class CommunicationController extends Controller
 
     }
 
-    public function actionExportCseIncoming()
+    public function actionCseVi($user)
     {
         $token = Yii::$app->user->identity->getAisToken();
         if (!$token) {
@@ -284,10 +284,40 @@ class CommunicationController extends Controller
             Чтобы получить, необходимо в вести логин и пароль АИС");
             return $this->redirect(['form']);
         } else {
-            $aisClient = new AisClient();
-            // $incoming = DataExportHelper::cseIncomingId();
-            $incoming = [1720, 3709, 1196, 6255, 16499];
-            var_dump($aisClient->postData('sdo/get-cse-result?access-token=' . $token, $incoming));
+            $model = Profiles::find()
+                ->alias('profiles')
+                ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
+                ->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT])
+                ->andWhere(['profiles.user_id' => $user])->one();
+            if (!$model) {
+                throw new NotFoundHttpException('Такой страницы не существует.');
+            }
+            $incoming = UserAis::findOne(['user_id' => $model->user_id]);
+            if (!$incoming) {
+                Yii::$app->session->setFlash("error", "Нарушена последовательность загрузки данных.");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $ch = curl_init();
+            $data = Json::encode(DataExportHelper::cseVi($model->user_id));
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/vi-synchronization?incomingId='.$incoming->incoming_id.'&access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+
+            $result = Json::decode($result);
+            if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+
+            return $this->redirect(\Yii::$app->request->referrer);
         }
     }
 
