@@ -34,7 +34,7 @@ class ScheduleVolunteeringController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dev']
+                        'roles' => ['call-center'],
                     ]
                 ],
             ],

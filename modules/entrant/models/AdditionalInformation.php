@@ -68,6 +68,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->mark_spo = $form->mark_spo;
         $this->is_military_edu = $form->is_military_edu;
         $this->is_epgu = $form->is_epgu;
+        $this->is_time = $form->is_time;
         $this->return_doc = 3;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
     }

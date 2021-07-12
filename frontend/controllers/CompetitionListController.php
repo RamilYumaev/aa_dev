@@ -132,6 +132,18 @@ class CompetitionListController extends Controller
             return $this->redirect('index');
         }
 
+
+        if ($date && !preg_match('/[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/', $date))
+        {
+            return $this->redirect('index');
+        }
+
+        if(\Yii::$app->user->getIsGuest() ||  !\Yii::$app->user->can('entrant')) {
+            if($date && ($dates[0] !== $date)){
+                return $this->redirect('index');
+            }
+        }
+
         $rCls = $query1->andWhere(['date' => $date ?? $dates[0]])->orderBy(['date'=> SORT_DESC])->all();
         $array = [
             'dates'=> $dates,

@@ -60,6 +60,7 @@ class SchoolsController extends Controller
 
     public function actionCreate()
     {
+        ini_set("memory_limit", "45M");
         if (Yii::$app->user->getIsGuest()) {
             return $this->goHome();
         }
@@ -97,6 +98,7 @@ class SchoolsController extends Controller
 
     public function actionUpdate($id)
     {
+        ini_set("memory_limit", "45M");
         if (Yii::$app->user->getIsGuest()) {
             return $this->goHome();
         }

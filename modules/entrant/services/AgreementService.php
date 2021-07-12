@@ -11,7 +11,9 @@ use modules\dictionary\repositories\DictOrganizationsRepository;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\AgreementMessageForm;
 use modules\entrant\helpers\AgreementHelper;
+use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\AgreementRepository;
 use modules\entrant\repositories\StatementRepository;
 use Mpdf\Tag\A;
@@ -46,11 +48,20 @@ class AgreementService
         $this->repository->save($agreement);
     }
 
+    /**
+     * @param $id
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function remove($id)
     {
         $model = $this->repository->get($id);
         if($model->getStatementTarget()->exists()) {
             throw new \DomainException('Нельзя удалить договор, так как есть ЗУКи на целевое обучение');
+        }
+        $other = OtherDocument::findOne(['user_id'=> $model->user_id, 'type_note' => OtherDocumentHelper::STATEMENT_TARGET]);
+        if($other) {
+            $other->delete();
         }
         $this->repository->remove($model);
     }

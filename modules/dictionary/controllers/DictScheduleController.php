@@ -44,10 +44,15 @@ class DictScheduleController extends ControllerClass
                     'roles' => ['call-center'],
                 ],
                 [
-                    'actions' => ['index', 'delete', 'update', 'select-index', 'select-schedule'],
+                    'actions' => ['index', 'create', 'select-index', 'select-schedule'],
                     'allow' => true,
                     'roles' => ['volunteering-admin'],
                 ],
+                    [
+                        'actions' => ['delete',  'update', ],
+                        'allow' => true,
+                        'roles' => ['dev'],
+                    ],
                 ],
             ],
         ];
