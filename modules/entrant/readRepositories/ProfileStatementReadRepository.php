@@ -67,16 +67,13 @@ class ProfileStatementReadRepository
             $query->andWhere(['not in', 'faculty_id', DictFacultyHelper::FACULTY_FILIAL]);
 
         } elseif ($this->jobEntrant->isCategoryFOK()) {
-            $specialUserArray = Statement::find()->select('user_id')
-                ->andWhere(['in', 'special_right', [
-                    DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])->column();
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
-            $query->andWhere(['not in', 'anketa.user_id', $specialUserArray]);
+            $query->andWhere('anketa.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2))');
         } elseif ($this->jobEntrant->isCategoryTarget()) {
             if ($this->isID == JobEntrantHelper::TARGET_BB) {
                 $query->andWhere(['or', ['anketa.category_id' =>
@@ -92,7 +89,9 @@ class ProfileStatementReadRepository
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');
             $query->andWhere([
-                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
+                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+                ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
         } elseif ($this->jobEntrant->isCategoryUMS()) {
             $query->andWhere(['anketa.category_id' => [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);

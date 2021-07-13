@@ -110,7 +110,13 @@ class UserDisciplineService
 
     private function isOpenCseVi($userId, $disciplineId) {
         $eduForms = DictCompetitiveGroupHelper::getFormsFromUserAndDiscipline($userId, $disciplineId);
-        return SettingEntrant::find()->type(SettingEntrant::ZUK)->isCseAsVi(true)->eduForm($eduForms)->dateStart()->dateEnd()->exists();
+        return SettingEntrant::find()->type(SettingEntrant::ZUK)
+            ->isCseAsVi(true)
+            ->eduForm($eduForms)
+            ->foreign(false)
+            ->tpgu(false)
+            ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+            ->dateStart()->dateEnd()->exists();
     }
 
     /**

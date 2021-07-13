@@ -63,7 +63,7 @@ class UserCgHelper
        foreach (UserCg::find()->andWhere(['user_id' => $userId])->all() as $userCg)  {
            /** @var DictCompetitiveGroup $cg */
            $cg = $userCg->cg;
-           if(!SettingEntrant::find()->isOpenZUK($cg)) {
+           if(!SettingEntrant::find()->isOpenZID($cg)) {
                continue;
            }
            $cgs[] =$userCg->cg_id;

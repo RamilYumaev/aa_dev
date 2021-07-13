@@ -159,6 +159,34 @@ class SettingGenerateController extends Controller
     }
 
 
+    public function actionUpdateZid() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
+                     ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+            ->eduLevel(
+                [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])->foreign(false)->all() as $st)  {
+            $model = new $this->formModel;
+            $model->foreign_status = $st->foreign_status;
+            $model->edu_level = $st->edu_level;
+            $model->note = "Настройка № ZID " . $st->id;
+            $model->faculty_id = $st->faculty_id;
+            $model->form_edu = $st->form_edu;
+            $model->datetime_start = '2021-06-19 10:00:00';
+            $model->datetime_end = '2021-08-30 18:00:00';
+            $model->cse_as_vi = $st->cse_as_vi;
+            $model->is_vi = $st->is_vi;
+            $model->type = SettingEntrant::ZID;
+            $model->finance_edu = $st->finance_edu;
+            $model->special_right = $st->special_right;
+            $model->tpgu_status = 0;
+
+            $this->service->create($model);
+        }
+    }
+
+
     private function getEducationLevel($depart, $foreignerStatus)
     {
         return DictCompetitiveGroup::find()

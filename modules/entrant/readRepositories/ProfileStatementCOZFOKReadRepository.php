@@ -41,22 +41,24 @@ class ProfileStatementCOZFOKReadRepository
         $query = $this->profileDefaultQuery();
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id');
         if ($this->jobEntrant->isCategoryFOK()) {
-            $specialUserArray =  '(SELECT `other_document`.`user_id`, `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
+            $specialUserArray =  '(SELECT  `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
             $query->andWhere(['not in', 'anketa.category_id', [
                 CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
                 CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA])
-                ->andWhere(['not in', 'anketa.user_id',$specialUserArray]);
+                ->andWhere('anketa.user_id NOT IN '. $specialUserArray);
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-                ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
-                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]]);
             $query->andWhere('anketa.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2))');
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere([
                 'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
+            $query->andWhere(['not in', 'anketa.category_id', [
+                CategoryStruct::COMPATRIOT_COMPETITION, CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION,
+                CategoryStruct::WITHOUT_COMPETITION]]);
         } elseif ($this->jobEntrant->isCategoryUMS()) {
             $query->andWhere(['anketa.category_id' => [CategoryStruct::GOV_LINE_COMPETITION,
                 CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);

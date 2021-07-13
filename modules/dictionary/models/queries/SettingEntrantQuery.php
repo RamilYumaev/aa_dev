@@ -136,4 +136,9 @@ class SettingEntrantQuery extends ActiveQuery
     {
         return $this->existsOpen($dictCompetitiveGroup, SettingEntrant::ZUK);
     }
+
+    public function isOpenZID(DictCompetitiveGroup $dictCompetitiveGroup)
+    {
+        return $this->existsOpen($dictCompetitiveGroup, SettingEntrant::ZID);
+    }
 }

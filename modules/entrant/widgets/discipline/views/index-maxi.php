@@ -25,7 +25,7 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class="p-30 green-border">
             <h4>Вступительные испытания (ВИ) /EГЭ /ЦТ:</h4>
-            <?= Html::a('Синхрониза́ция АИС ВУЗ', ['communication/сse-vi', 'user' => $userId], [ 'data-confirm'=>'Вы уверены, что хотите сделать?', 'class' => 'btn btn-primary'])?>
+            <?= Html::a('Синхрониза́ция АИС ВУЗ', ['communication/cse-vi', 'user' => $userId], [ 'data-confirm'=>'Вы уверены, что хотите сделать?', 'class' => 'btn btn-primary'])?>
             <table class="table">
                 <tr>
                     <th>#</th>
