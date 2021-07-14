@@ -2,14 +2,17 @@
 
 namespace common\user\controllers;
 
+use common\user\form\SchoolAndClassForm;
 use common\user\readRepositories\UserSchoolReadRepository;
 use common\user\readRepositories\UserTeacherReadRepository;
+use common\user\search\SchoolSearch;
+use dictionary\models\DictSchools;
 use dictionary\readRepositories\DictSchoolsReadRepository;
 use frontend\components\UserNoEmail;
 use olympic\forms\auth\SchooLUserCreateForm;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\services\UserSchoolService;
-use yii\filters\AccessControl;
+use yii\bootstrap\ActiveForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -53,26 +56,31 @@ class SchoolsController extends Controller
 
     public function actionIndex()
     {
+        $searchModel = new SchoolSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', ['role' => $this->role]);
-
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'role' => $this->role
+        ]);
     }
 
     public function actionCreate()
     {
-        ini_set("memory_limit", "45M");
         if (Yii::$app->user->getIsGuest()) {
             return $this->goHome();
         }
-            $form = new SchooLUserCreateForm($this->role);
-            $redirect = Yii::$app->request->get("redirect");
-            if (is_null($form->country_id)) {
-                Yii::$app->session->setFlash('warning', 'Чтобы добавить Вашу учебную организацию, необходимо заполнить профиль.');
-                return $this->redirect(['/profile/edit']);
-            }
-            if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+        $redirect = Yii::$app->request->get("redirect");
+        $form = new SchoolAndClassForm();
+        $form->setScenario(SchoolAndClassForm::UPDATE_CREATE);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                 try {
-                    $this->service->signup($form, $this->role);
+                    $this->service->addNewSchool($form, Yii::$app->user->id);
                     if ($redirect == "online-registration") {
                         return $this->redirect(['/abiturient']);
                     }
@@ -80,42 +88,123 @@ class SchoolsController extends Controller
                     if ($redirect == "transfer-registration") {
                         return $this->redirect(['/transfer']);
                     }
-
-                    return $this->redirect('index');
                 } catch (\DomainException $e) {
                     Yii::$app->errorHandler->logException($e);
                     Yii::$app->session->setFlash('error', $e->getMessage());
+
                 }
+                return $this->redirect('index');
             }
-            return $this->render('create', ['model' => $form]);
+            return $this->renderAjax('_form_s', ['model' => $form]);
     }
 
-    /*
-      * @param $id
-      * @return mixed
-      * @throws NotFoundHttpException
-    */
+    /**
+     * @param $id
+     * @return string|Response
+     * @throws NotFoundHttpException
+     */
 
     public function actionUpdate($id)
     {
-        ini_set("memory_limit", "45M");
         if (Yii::$app->user->getIsGuest()) {
             return $this->goHome();
         }
-        $model = $this->find($id);
-        $form = new SchooLUserCreateForm($this->role, $model);
+        $model = $this->findSchool($id);
+        $form = new SchoolAndClassForm($model);
+        $form->setScenario(SchoolAndClassForm::UPDATE_CREATE);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->update($model->id, $form, $this->role);
-                return $this->redirect('index');
+                $this->service->renameSchool($form, Yii::$app->user->id);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect('index');
         }
-        return $this->render('update',
-            ['model' => $form]);
+        return $this->renderAjax('_form_s', ['model' => $form]);
+    }
+
+    /**
+ * @param $id
+ * @return string|Response
+ * @throws NotFoundHttpException
+ */
+
+    public function actionSelect($id)
+    {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
+        $model = $this->findSchool($id);
+        $form = new SchoolAndClassForm($model);
+        $form->setScenario(SchoolAndClassForm::SELECT_REPLACE);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->selectSchool($form, Yii::$app->user->id);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect('index');
+        }
+        return $this->renderAjax('_form_s', ['model' => $form]);
+    }
+
+    /**
+     * @param $id
+     * @return string|Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionChangeClass($id)
+    {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
+        $model = $this->find($id);
+        $form = new SchoolAndClassForm($model->school);
+        $form->class_id = $model->class_id;
+        $form->setScenario(SchoolAndClassForm::SELECT_REPLACE);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->changeClass($model->id, $form, Yii::$app->user->id);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect('index');
+        }
+        return $this->renderAjax('_form_s', ['model' => $form]);
+    }
+
+    /**
+     * @param $id
+     * @return string|Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionChange($id)
+    {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
+        $model = $this->findSchool($id);
+        $form = new SchoolAndClassForm($model);
+        $form->setScenario(SchoolAndClassForm::SELECT_REPLACE);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->changeSchool($form, Yii::$app->user->id);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect('index');
+        }
+        return $this->renderAjax('_form_s', ['model' => $form]);
     }
 
     /**
@@ -178,5 +267,19 @@ class SchoolsController extends Controller
         }
         throw new NotFoundHttpException('Запрашиваемая страница не существует.');
     }
+
+    /*
+    * @param $id
+    * @return mixed
+    * @throws NotFoundHttpException
+  */
+    protected function findSchool($id)
+    {
+        if (($model = DictSchools::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Запрашиваемая страница не существует.');
+    }
+
 
 }

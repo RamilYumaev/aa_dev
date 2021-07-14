@@ -46,7 +46,7 @@ use yii\widgets\DetailView;
         <?php else: ?>
             <p> Необходимо актуализировать
                 раздел <?= Html::a('"Учебные организации"',
-                    ['/schools/create', 'redirect' => 'transfer-registration'], ['class' => 'btn btn-warning']) ?></p>
+                    ['/schools', 'redirect' => 'transfer-registration'], ['class' => 'btn btn-warning']) ?></p>
         <?php endif; ?>
         </div>
     </div>

@@ -16,6 +16,10 @@ class UserSchoolRepository
         }
     }
 
+    public function getUserCurrentYear($user_id) {
+        return $model = UserSchool::findOne(['user_id' => $user_id, 'edu_year' => EduYearHelper::eduYear()]);
+    }
+
     public function get($id, $user_id): UserSchool
     {
         if (!$user =  UserSchool::findOne(['user_id' => $user_id, 'id'=> $id])) {

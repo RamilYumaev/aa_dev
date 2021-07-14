@@ -3,6 +3,7 @@
 
 namespace dictionary\models;
 
+use common\auth\models\UserSchool;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
@@ -117,6 +118,10 @@ class DictSchools extends YiiActiveRecordAndModeration
     public static function find(): DictSchoolsQuery
     {
         return new DictSchoolsQuery(static::class);
+    }
+
+    public function getUserSchool() {
+        return $this->hasMany(UserSchool::class,['school_id' => 'id']);
     }
 
     public function titleModeration(): string

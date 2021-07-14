@@ -29,4 +29,8 @@ class UserSchoolHelper
             return DictSchoolsHelper::schoolName($array['school_id']);
         });
     }
+
+    public static function userSchoolYear($school_id, $edu_year) {
+        return UserSchool::findOne(['school_id'=> $school_id, "edu_year"=> $edu_year]);
+    }
 }

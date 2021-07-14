@@ -8,6 +8,7 @@ use common\helpers\FlashMessages;
 use common\sending\traits\MailTrait;
 use common\transactions\TransactionManager;
 use common\user\repositories\UserTeacherSchoolRepository;
+use dictionary\models\DictSchools;
 use dictionary\repositories\DictClassRepository;
 use dictionary\repositories\DictSchoolsRepository;
 use modules\entrant\models\DocumentEducation;
@@ -170,5 +171,65 @@ class UserSchoolService
         $teacher = $this->teacherSchoolRepository->getHash($hash);
         $teacher->setStatus(UserTeacherJobHelper::ACTIVE);
         $this->teacherSchoolRepository->save($teacher);
+    }
+
+    public function changeClass($id, \common\user\form\SchoolAndClassForm $form, $userId)
+    {
+        $usSchool = $this->userSchoolRepository->get($id, $userId);
+        $class = $this->classRepository->get($form->class_id);
+        $school = $this->schoolsRepository->get($form->school_id);
+        $usSchool->edit($school->id, $class->id);
+        $this->userSchoolRepository->save($usSchool);
+    }
+
+    public function addNewSchool(\common\user\form\SchoolAndClassForm $form, $userId)
+    {
+        $this->schoolsRepository->getFull($form->name, $form->country_id, $form->region_id);
+        $class = $this->classRepository->get($form->class_id);
+        $this->userSchoolRepository->isSchooLUser($userId);
+        $school = DictSchools::create($form->name, $form->country_id, $form->region_id);
+        $this->schoolsRepository->save($school);
+        $userSchool = UserSchool::create($school->id, $userId, $class->id);
+        $this->userSchoolRepository->save($userSchool);
+        return $userSchool;
+    }
+
+    public function selectSchool(\common\user\form\SchoolAndClassForm $form, $userId)
+    {
+        $class = $this->classRepository->get($form->class_id);
+        $this->userSchoolRepository->isSchooLUser($userId);
+        $school = $this->schoolsRepository->get($form->school_id);
+        $userSchool = UserSchool::create($school->id, $userId, $class->id);
+        $this->userSchoolRepository->save($userSchool);
+        return $userSchool;
+    }
+
+    public function renameSchool( \common\user\form\SchoolAndClassForm $form, $userId)
+    {
+        $usSchool = $this->userSchoolRepository->getUserCurrentYear($userId);
+        $this->schoolsRepository->getFull($form->name, $form->country_id, $form->region_id);
+        $class = $this->classRepository->get($form->class_id);
+        $school = $this->schoolsRepository->get($form->school_id);
+        $school->edit($form->name, $form->country_id, $form->region_id);
+        $this->schoolsRepository->save($school);
+        if($usSchool) {
+            $usSchool->edit($school->id, $class->id);
+        }else{
+            $usSchool = UserSchool::create($school->id, $userId, $class->id);
+        }
+        $this->userSchoolRepository->save($usSchool);
+        return $usSchool;
+    }
+
+    public function changeSchool( \common\user\form\SchoolAndClassForm $form, $userId) {
+        $usSchool = $this->userSchoolRepository->getUserCurrentYear($userId);
+        if(!$usSchool ) {
+            throw new \DomainException('Такой записи нет.');
+        }
+        $class = $this->classRepository->get($form->class_id);
+        $school = $this->schoolsRepository->get($form->school_id);
+        $usSchool->edit($school->id, $class->id);
+        $this->userSchoolRepository->save($usSchool);
+        return $usSchool;
     }
 }

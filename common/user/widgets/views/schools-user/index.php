@@ -19,10 +19,6 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
     <?php if ($isOlympicUser) : ?>
         <?= Yii::$app->session->setFlash('warning', 'Вы не можете добавлять/редактировать учебные организации, 
         так как записаны на одну из олимпиад ' . EduYearHelper::eduYear() . ' учебного года') ?>
-    <?php else: ?>
-    <p>
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?php endif; ?>
     <div class="row">
         <h1><?= Html::encode($this->title) ?></h1>
@@ -37,13 +33,19 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
                         },
                     ],
                     ['attribute' => 'class_id',
-                        'value' => function (UserSchool $model) {
-                            return DictClassHelper::getList()[$model->class_id];
+                        'format'=>'raw',
+                        'value' => function (UserSchool $model)
+                        use ($isOlympicUser) {
+                            return DictClassHelper::getList()[$model->class_id]. "".
+                                (!$isOlympicUser &&
+                            $model->edu_year == EduYearHelper::eduYear() ? Html::a('Изменить',
+                                    ['change-class', 'id' => $model->id], ['data-pjax' => 'w78'.$model->id, 'data-toggle' => 'modal',
+                                        'data-target' => '#modal', 'class'=>'btn btn-warning btn-xs pull-right', 'data-modalTitle' => "Изменить"]):'');
                         },
                     ],
                     'edu_year',
                     ['class' => \yii\grid\ActionColumn::class,
-                        'template' => '{update} {delete}',
+                        'template' => '{delete}',
                         'buttons' => [
                             'delete' => function ($url, $model) use ($isOlympicUser) {
                                 return !$isOlympicUser &&
