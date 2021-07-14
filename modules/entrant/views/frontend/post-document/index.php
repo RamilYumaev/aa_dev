@@ -38,7 +38,8 @@ $userId =  Yii::$app->user->identity->getId();
             'text' => 'https://sdo.mpgu.org/switch-user/by-user-id?id=' . $userId,
             'size' => 8,
         ]);
-        ?></p>
+        ?> <?= Html::a("Расписка", ['post-document/pdf'], ["class" => "btn btn-warning btn-lg", ]) ?>
+        </p>
         <?php endif;?>
         <h4>Общие требования к файлам</h4>
         <p align="justify">

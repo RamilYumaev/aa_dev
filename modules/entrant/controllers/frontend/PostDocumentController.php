@@ -6,6 +6,7 @@ use common\helpers\FileHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use kartik\mpdf\Pdf;
 use modules\entrant\helpers\FileCgHelper;
+use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\PostDocumentHelper;
 use modules\entrant\services\SubmittedDocumentsService;
 use Mpdf\Mpdf;
@@ -178,5 +179,23 @@ class PostDocumentController extends Controller
         return  Yii::$app->user->identity->getId();
     }
 
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
 
+    public function actionPdf()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
+
+        $content = $this->renderPartial('pdf/_main', ['userId' => $this->getUserId()]);
+        $pdf = PdfHelper::generate($content, 'Расписка.pdf');
+        $render = $pdf->render();
+
+        return $render;
+    }
 }
