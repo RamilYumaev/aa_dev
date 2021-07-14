@@ -18,7 +18,7 @@ use yii\widgets\ListView; ?>
         </div>
         <div class="col-md-8">
             <?= ListView::widget([
-                    'emptyText' => 'Ничего не найдено <br />'.  Html::a('Добавить новую', ['create'],  ['data-pjax' => 'w0'.$model->id, 'data-toggle' => 'modal',
+                    'emptyText' => 'Ничего не найдено <br />'.  Html::a('Добавить новую', ['create'],  ['data-pjax' => 'w8778', 'data-toggle' => 'modal',
                     'data-target' => '#modal', 'class'=>'btn btn-success pull-right', 'data-modalTitle' => 'Добавить новую учебную организацию']) ,
                 'dataProvider' => $dataProvider,
                 'itemView' => function (\dictionary\models\DictSchools $model) {
