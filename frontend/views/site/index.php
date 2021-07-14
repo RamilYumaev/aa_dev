@@ -161,13 +161,14 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     </div>
 
 <?php endif; ?>
+<?php if (!Yii::$app->user->isGuest) : ?>
 <p align="center">
 <br>
 Поступающим в МПГУ предоставлен бесплатный доступ в <strong><a href="http://elib.mpgu.info"> нашу электронную библиотеку </a></strong>:</br>
 <strong>Логин:</strong> АбитуриентМПГУ </br>
 <strong>Пароль:</strong> 18722019 </br>
 </p>
- 
+<?php endif; ?>
 
 <div class="row mt-50">
     <div class="col-md-10 col-md-offset-1">

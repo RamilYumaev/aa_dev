@@ -57,6 +57,11 @@ class PostDocumentController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['pdf'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
 
                 ],
             ],
