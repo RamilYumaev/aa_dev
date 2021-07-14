@@ -92,18 +92,17 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profil
     <?php endif; ?>
     <table width="100%" class="mt-50 fs-15">
         <tr>
-            <td width="25%"></td>
+            
             <td width="15%"><?= date("d.m.Y") ?> г.</td>
             <td class="bb" width="35%"></td>
-            <td width="25%"><?= $nameFull ?></td>
+            <td width="50%"><?= $nameFull ?></td>
 
         </tr>
         <tr>
-            <td width="25%"></td>
+            
             <td></td>
             <td width="35%" class="v-align-top text-center">(подпись поступающего)</td>
-            <td width="15%"></td>
-            <td width="25%"></td>
+            <td width="50%"></td>
 
         </tr>
     </table>
