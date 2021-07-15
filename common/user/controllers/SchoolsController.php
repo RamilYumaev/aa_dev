@@ -56,13 +56,16 @@ class SchoolsController extends Controller
 
     public function actionIndex()
     {
+        if (Yii::$app->user->getIsGuest()) {
+            return $this->goHome();
+        }
         $searchModel = new SchoolSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'role' => $this->role
+            'role' => $this->role,
         ]);
     }
 

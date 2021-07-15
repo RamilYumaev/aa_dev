@@ -19,6 +19,13 @@ class CompetitiveGroupSearch extends Model
         $year,
         $financing_type_id,
         $education_form_id;
+    private $finance;
+
+    public function __construct($finance, $config = [])
+    {
+        $this->finance = $finance;
+        parent::__construct($config);
+    }
 
     public function rules()
     {
@@ -33,6 +40,10 @@ class CompetitiveGroupSearch extends Model
         ];
     }
 
+    public function getStatusFinance() {
+        return $this->finance;
+    }
+
     /**
      * @param array $params
      * @return ActiveDataProvider
@@ -45,6 +56,8 @@ class CompetitiveGroupSearch extends Model
             ->specialRight(null)
             ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
             ->foreignerStatus(0)
+            ->finance($this->getStatusFinance() ? DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT: [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->tpgu(0)->orderBy(['year'=> SORT_ASC ]);
 
         $dataProvider = new ActiveDataProvider([

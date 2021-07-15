@@ -1,26 +1,19 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $other \modules\entrant\models\OtherDocument */
 
-use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\DocumentEducationHelper;
 use olympic\helpers\auth\ProfileHelper;
-use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\helpers\PassportDataHelper;
-use modules\entrant\helpers\AddressHelper;
 use yii\helpers\Html;
 
-
-/* @var $statementConsent modules\entrant\models\StatementConsentCg */
 $profile = ProfileHelper::dataArray($userId);
-$user = $statementConsent->statementCg->statement->user_id;
-// $profile = ProfileHelper::dataArray($user);
 $name = \common\auth\helpers\DeclinationFioHelper::userDeclination($userId);
-// $cg = \dictionary\helpers\DictCompetitiveGroupHelper::dataArray($statementConsent->statementCg->cg_id);
-// $passport = \modules\entrant\helpers\PassportDataHelper::dataArray($user);
-// $education = DocumentEducationHelper::dataArray($user);
-// $passport = PassportDataHelper::dataArray($user_id);
 $passport = PassportDataHelper::dataArray($userId);
 $education = DocumentEducationHelper::dataArray($userId);
+$others = \modules\entrant\models\OtherDocument::find()
+    ->andWhere(['user_id' => $userId])
+    ->andWhere('number IS NOT NULL')->all();
 
 $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_name'] . " ".$profile['patronymic'];
 // $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $statementConsent->statementCg->statement->user_id]);
@@ -65,6 +58,12 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
     <td>4</td>
     <td style="text-align: left; padding-left: 10px">Фотографии</td>
   </tr>
+        <?php $i=5; foreach ($others as $other) :  ?>
+            <tr>
+                <td><?= $i++; ?></td>
+                <td style="text-align: left; padding-left: 10px"><?= $other->typeName . " " . $other->series . " " . $other->number?>, копия</td>
+            </tr>
+        <?php endforeach; ?>
 </table>
 
 

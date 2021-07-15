@@ -2,6 +2,7 @@
 
 namespace modules\transfer\controllers\frontend;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\helpers\ConverterFaculty;
@@ -31,7 +32,7 @@ class CurrentEducationInfoController extends Controller
             \Yii::$app->session->setFlash('warning', 'Страница недоступна');
             return $this->redirect(['default/index']);
         }
-        $searchModel = new CompetitiveGroupSearch();
+        $searchModel = new CompetitiveGroupSearch($this->getEnd());
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -60,6 +61,8 @@ class CurrentEducationInfoController extends Controller
             ->andWhere(['id' => $id])
             ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
             ->foreignerStatus(0)
+            ->finance($this->getEnd() ? DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT: [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
             ->tpgu(0)->one();
         if(!$model) {
             throw new NotFoundHttpException("Не найдена конкурсная группа");
@@ -94,6 +97,16 @@ class CurrentEducationInfoController extends Controller
 
     protected function statement() {
         return StatementTransfer::findOne(['user_id' => $this->getUser()]);
+    }
+
+    public function getEnd() {
+        return strtotime("2021-07-15 18:00:00") < $this->currentDate();
+    }
+
+    private function currentDate()
+    {
+        //   \date_default_timezone_set('Europe/Moscow');
+        return strtotime(\date("Y-m-d G:i:s"));
     }
 
     protected function findModel() {

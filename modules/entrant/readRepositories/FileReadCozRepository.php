@@ -39,7 +39,7 @@ class FileReadCozRepository
     public function readData()
     {
         $query = File::find();
-        $pre =  '(SELECT `other_document`.`user_id`, `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
+        $pre =  '(SELECT `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
         if($this->zuk) {
             $query->innerJoin(Statement::tableName(), 'statement.user_id=files.user_id AND statement.id=files.record_id');
         } else {
@@ -66,8 +66,8 @@ class FileReadCozRepository
             if($this->zuk) {
                 $query->andWhere(['files.model'=> Statement::class]);
             } else {
-                $query->andWhere(['not in', 'anketa.user_id', $pre]);
-               $query->andWhere(['files.model'=> FileHelper::listModelsTarget()]);
+                $query->andWhere('files.user_id NOT IN '.  $pre);
+                $query->andWhere(['files.model'=> FileHelper::listModelsTarget()]);
             }
             $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
             if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
@@ -85,7 +85,7 @@ class FileReadCozRepository
                 CategoryStruct::WITHOUT_COMPETITION]]);
             $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
             $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
-            $query->andWhere(['not in', 'anketa.user_id', $pre]);
+            $query->andWhere('files.user_id NOT IN '.  $pre);
         }
         $query->distinct();
         return $query;
