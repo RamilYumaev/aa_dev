@@ -18,15 +18,14 @@ use yii\helpers\Html; ?>
     Подробнее о прохождении дистанционного вступительного экзамена Вы можете узнать по ссылке на инструкцию : <?= Html::a(Html::encode('https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit'), 'https://docs.google.com/document/d/1tG61PxT5x4ku9deJtYbZPCoJu6VF9xtuJ5xd9wIWLGo/edit') ?>
         или просмотрев видео-инструкцию  <?= Html::a(Html::encode('https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be'), 'https://www.youtube.com/watch?v=NUelbilye5Q&feature=youtu.be') ?> <br />
 
-        Телефоны для связи с прокторами: <br />
-        84994000248 добавочные номера: 691, 625, 659, 692, 640, 657, 658. <br />
+
 
         Техническая поддержка: <br />
         support_priem@mpgu.edu <br />
         группы телеграмм: <br />
-        Для поступающих на программы бакалавриата: <?= Html::a(Html::encode('https://t.me/joinchat/NO93UQnWOrAk_Gli9_H-Og'),'https://t.me/joinchat/NO93UQnWOrAk_Gli9_H-Og' ) ?><br />
-        Для поступающих в магистратуру: <?= Html::a(Html::encode('https://t.me/joinchat/NO93URlERkWTRmi0J-qNdg'),'https://t.me/joinchat/NO93URlERkWTRmi0J-qNdg' ) ?> <br />
-        Для поступающих в аспирантуру: <?= Html::a(Html::encode('https://t.me/joinchat/NO93URipPcKHwb3BKTbxVw'),'https://t.me/joinchat/NO93URipPcKHwb3BKTbxVw' ) ?><br />
+        Для поступающих на программы бакалавриата: <?= Html::a(Html::encode('https://t.me/joinchat/ImmN3-47WBM0NDIy'),'https://t.me/joinchat/ImmN3-47WBM0NDIy' ) ?><br />
+        Для поступающих в магистратуру: <?= Html::a(Html::encode('https://t.me/joinchat/HOULDWbHamNlZGVi'),'https://t.me/joinchat/HOULDWbHamNlZGVi' ) ?> <br />
+        Для поступающих в аспирантуру: <?= Html::a(Html::encode('https://t.me/joinchat/t1Nu6WFsQtYzOTcy'),'https://t.me/joinchat/t1Nu6WFsQtYzOTcy' ) ?><br />
 
         Удачного экзамена!
     <?php endif; ?>

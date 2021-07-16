@@ -37,6 +37,7 @@ class UserDisciplineCseForm extends Model
                 return $model->type != UserDiscipline::VI;
             }, 'enableClientValidation' => false],
             [['discipline_id', 'discipline_select_id', 'year'], 'integer'],
+            [['mark', 'year'], 'trim'],
             [['mark'], 'integer', 'min' => 0, 'max' => 100],
             [['year'], 'validateYear'],
             ['mark', 'validateMinSubject'],

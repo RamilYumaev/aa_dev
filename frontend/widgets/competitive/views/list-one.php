@@ -11,6 +11,7 @@ $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
 $aisCseIdCg = $cg->getExaminationsCseAisId();
 $aisCtIdCg = $cg->getExaminationsCtAisId();
+$examinations = $cg->getExaminationsAisId();
 $compositeId = $cg->getCompositeDisciplineId();
 $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
 $noGuest =!Yii::$app->user->getIsGuest();
@@ -88,7 +89,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <th style="font-size: 12px; text-align:center">Фамилия Имя Отчество</th>
                         <th style="font-size: 12px; text-align:center">Телефон</th>
                     <?php endif; ?>
-                    <?php foreach ($cg->getExaminationsAisId() as $value) : ?>
+                    <?php foreach ($examinations as $value) : ?>
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
                     <?php endforeach; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
@@ -120,7 +121,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                         <td style="font-size: 14px; text-align: center"> <?= key_exists('phone',$entrant) ? $entrant['phone'] : '-' ?></td>
                     <?php endif; ?>
-                    <?php foreach ($cg->getExaminationsAisId() as $aisKey => $value) :
+                    <?php foreach ($examinations as $aisKey => $value) :
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key];
                         ?>

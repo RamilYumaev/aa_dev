@@ -36,7 +36,7 @@ class ExamStatementSearch extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        if($this->jobEntrant && $this->jobEntrant->isCategoryCOZ()) {
+        if($this->jobEntrant && ($this->jobEntrant->category_id == 0 || $this->jobEntrant->isCategoryCOZ())) {
             $query->andWhere(['proctor_user_id'=> $this->jobEntrant->user_id]);
         }else if($this->jobEntrant && $this->jobEntrant->isCategoryTarget()) {
             $query->andWhere(['status'=> ExamStatementHelper::ERROR_RESERVE_STATUS]);

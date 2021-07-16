@@ -64,7 +64,7 @@ class UserDiscipline extends YiiActiveRecordAndModeration
     public function data(UserDisciplineCseForm $form) {
         $this->discipline_id = $form->discipline_id;
         $this->discipline_select_id = $form->discipline_select_id ?: $form->discipline_id;
-        $this->year = $form->type == self::VI ? '' : $form->year;
+        $this->year = $form->type == self::VI ? '' : trim($form->year);
         $this->mark = $form->type == self::VI ? null : $form->mark;
         $this->type = $form->type;
         $this->user_id = $form->user_id;

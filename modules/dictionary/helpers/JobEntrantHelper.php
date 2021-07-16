@@ -160,6 +160,7 @@ class JobEntrantHelper
     {
         $array = [
             self::COZ,
+            self::VOLUNTEERING,
             self::TARGET,
         ];
         return $array;

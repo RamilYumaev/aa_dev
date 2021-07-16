@@ -39,6 +39,7 @@ class ProfileFileReadRepository
 
     public function readData()
     {
+        $pre =  '(SELECT `other_document`.`user_id` FROM `preemptive_right` LEFT JOIN `other_document` ON `preemptive_right`.`other_id` = `other_document`.`id`)';
         $query = Profiles::find()->alias('profiles');
         $query->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id');
         $query->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT]);
@@ -49,9 +50,7 @@ class ProfileFileReadRepository
         CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::SPECIAL_RIGHT_COMPETITION,
         CategoryStruct::WITHOUT_COMPETITION]]);
         $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
-        $query->andWhere(['not in', 'anketa.user_id', PreemptiveRight::find()
-                ->joinWith('otherDocument')->select("other_document.user_id")
-                ->indexBy("other_document.user_id")->column()]);
+        $query->andWhere('anketa.user_id NOT IN '.  $pre);
         $query->innerJoin(File::tableName(), 'files.user_id=profiles.user_id');
         $query->andWhere(['files.model'=> FileHelper::listModelsCOZ()]);
         $query->select(['profiles.user_id', 'files.status',  'last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone']);
