@@ -144,7 +144,7 @@ class CompetitionListController extends Controller
             }
         }
 
-        $rCls = $query1->andWhere(['date' => $date ?? $dates[0]])->orderBy(['date'=> SORT_DESC])->all();
+        $rCls = $query1->andWhere(['date' => $date ? $date : $dates[0]])->orderBy(['date'=> SORT_DESC])->all();
         $array = [
             'dates'=> $dates,
             'type' => $type,
