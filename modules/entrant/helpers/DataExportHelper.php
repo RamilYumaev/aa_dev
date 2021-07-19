@@ -44,13 +44,13 @@ class DataExportHelper
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
         $receptionMethodId = in_array($anketa->category_id, array_merge(CategoryStruct::UMSGroup(), [CategoryStruct::TPGU_PROJECT])) ? 2 : 1;
-        if($info->is_epgu && $info->is_time) {
+        if ($info->is_epgu && $info->is_time) {
             $type = 4;
-        }elseif ($info->is_epgu && !$info->is_time) {
+        } elseif ($info->is_epgu && !$info->is_time) {
             $type = 4;
-        }elseif (!$info->is_epgu && $info->is_time) {
+        } elseif (!$info->is_epgu && $info->is_time) {
             $type = 5;
-        }else {
+        } else {
             $type = 3;
         }
         $result = [
@@ -625,17 +625,32 @@ class DataExportHelper
         /** @var UserDiscipline $discipline */
         $result = [];
         foreach (UserDiscipline::find()->user($user)->all() as $discipline) {
-            if($discipline->isVI()) {
-                $result ['vi'][] =  $discipline->dictDisciplineSelect->ais_id;
+            if ($discipline->isVI()) {
+                $result ['vi'][] = $discipline->dictDisciplineSelect->ais_id;
             }
-            if($discipline->isCseVi()) {
-                $result ['vi'][] =  $discipline->dictDisciplineSelect->ais_id;
-                $result ['cse'][] = [ 'subject_id'  => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark ];
+            if ($discipline->isCseVi()) {
+                $result ['vi'][] = $discipline->dictDisciplineSelect->ais_id;
+                $result ['cse'][] = ['subject_id' => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark];
             }
-            if($discipline->isCse()) {
-                $result ['cse'][] = [ 'subject_id'  => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark ];
+            if ($discipline->isCse()) {
+                $result ['cse'][] = ['subject_id' => $discipline->dictDisciplineSelect->cse->ais_id, 'year' => $discipline->year, 'mark' => $discipline->mark];
             }
         }
         return $result;
+    }
+
+    public static function compositeDisciplineSync($userId)
+    {
+//        $model = StatementCg::find()
+//            ->with('statement')
+//            ->with('cg.examinations.discipline.composite.dictDisciplineSelect')
+//            ->andWhere([Statement::tableName() . '.`status`' => StatementHelper::STATUS_ACCEPTED])->all();
+//
+//        foreach ($model as $cg) {
+//            $result = [];
+//            UserDiscipline::find()->user($cg->statement->user_id)->disciplineSelect()->all();
+//            $result['composite_disciplines'][] = $cg
+//        }
+
     }
 }
