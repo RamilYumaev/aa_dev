@@ -12,7 +12,7 @@ use modules\exam\models\Exam;
 
 class ExamCgUserHelper
 {
-    private static function discipline($userId, $vi)
+    private static function discipline($userId, $vi, $composite = false)
     {
         $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
                 ->groupBy('discipline_select_id')
@@ -27,11 +27,11 @@ class ExamCgUserHelper
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if ($vi && $viExam) {
-            $query->andWhere(['dict_discipline.id' => $viExam])->orWhere(['and',['in','id',
-                CompositeDiscipline::find()
-                    ->andWhere(['in', 'discipline_select_id', $viExam])
-                    ->select('discipline_id')->groupBy('discipline_id')
-                    ->column()], ['composite_discipline' => true], ['dict_competitive_group.id' => $ids]]);
+            if($composite) {
+                $query->andWhere(['composite_discipline' => true]);
+            }else{
+                $query->andWhere(['dict_discipline.id' => $viExam]);
+            }
         }
         else {
             $query->andWhere(['cse_subject_id' => null]);
@@ -52,11 +52,7 @@ class ExamCgUserHelper
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);
-            $query->orWhere(['and',['in','id',
-                CompositeDiscipline::find()
-                    ->andWhere(['in', 'discipline_select_id', $viExam])
-                    ->select('discipline_id')->groupBy('discipline_id')
-                    ->column()], ['composite_discipline' => true], ['dict_competitive_group.id' => $ids]]);
+            $query->orWhere(['cse_subject_id' => null, 'dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         }
         else {
             $query->andWhere(['cse_subject_id' => null]);
@@ -83,7 +79,18 @@ class ExamCgUserHelper
     }
 
     private static function examVIAsCse($userId) {
-       return self::discipline($userId, true);
+        $data = self::discipline($userId, true);
+        $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
+            ->groupBy('discipline_select_id')
+            ->column();
+        $composite =  self::discipline($userId, true, true);
+        $composites = CompositeDiscipline::find()
+            ->andWhere(['in', 'discipline_select_id', $viExam])
+            ->andWhere(['in', 'discipline_id', $composite])
+            ->select('discipline_select_id')->groupBy('discipline_select_id')
+            ->column();
+      $commonArray = $data ? array_merge($data, $composites) : [];
+      return $commonArray;
     }
 
     public static function examExists($userId) {

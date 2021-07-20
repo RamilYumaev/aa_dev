@@ -7,6 +7,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
+use modules\entrant\models\UserDiscipline;
 use modules\entrant\services\UserAisService;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamForm;
@@ -173,7 +174,11 @@ class ExamStatementService
                 continue;
             }
             foreach ($disciplines as $discipline) {
-                $exam = $this->examRepository->getDisciplineId($discipline);
+                /** @var UserDiscipline $userDiscipline */
+                $userDiscipline = UserDiscipline::find()->user($user)->discipline($discipline)->viFull()->joinWith('dictDiscipline')
+                    ->andWhere(['composite_discipline' => true])->select(['discipline_select_id'])->one();
+                $disciplineSelect  = $userDiscipline ?  $userDiscipline->discipline_select_id : $discipline;
+                    $exam = $this->examRepository->getDisciplineId($disciplineSelect);
                 if(!$exam){
                     continue;
                 }

@@ -162,6 +162,7 @@ class JobEntrantHelper
             self::COZ,
             self::VOLUNTEERING,
             self::TARGET,
+            self::FOK
         ];
         return $array;
     }

@@ -80,6 +80,7 @@ var currentCountry = $("#anketaform-citizenship_id");
 var currentEducationLevel = $("#anketaform-current_edu_level");
 var currentUniversityChoice = $("#anketaform-university_choice");
 var foreignerStatus;
+var universityChoice;
   
   
   function foreignerStatusValue()
@@ -88,7 +89,13 @@ var foreignerStatus;
     {foreignerStatus= 0;}else{foreignerStatus= 1;} return foreignerStatus;
   }
   
-  function ajaxReactive(foreignerStatus = 0, educationLevel = 1, universityChoice = 1)
+  function universityChoiceValue()
+  {if(currentCountry.val() == kr || currentCountry.val() == rb || currentCountry.val() == rk 
+  || currentCountry.val() == rt)
+    {universityChoice= 1;}else{universityChoice= 0;} return universityChoice;
+  }
+  
+  function ajaxReactive(foreignerStatus = 0, educationLevel = 1, universityChoice = 0)
   {
       if(!educationLevel)
           {
@@ -139,11 +146,11 @@ var foreignerStatus;
   }
   
     currentCountry.on("change init", function() {ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), 
-    currentUniversityChoice.val());}) 
+    universityChoiceValue());}) 
     currentEducationLevel.on("change init", function() {ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), 
-    currentUniversityChoice.val());}) 
+    universityChoiceValue());}) 
     currentUniversityChoice.on("change init", function() {
-        ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), currentUniversityChoice.val());
+        ajaxReactive(foreignerStatusValue(), currentEducationLevel.val(), universityChoiceValue());
         ajaxEducationlevel(currentUniversityChoice.val());
     }) 
     

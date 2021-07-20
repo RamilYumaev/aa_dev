@@ -56,6 +56,27 @@ class CategoryStruct
         ];
     }
 
+    public static function CPKGroupFull()
+    {
+        return [
+            self::GENERAL_COMPETITION,
+            self::WITHOUT_COMPETITION,
+            self::COMPATRIOT_COMPETITION,
+            self::FOREIGNER_CONTRACT_COMPETITION,
+            self::GOV_LINE_COMPETITION,
+        ];
+    }
+
+    public static function CPKGroupFullMagistracy()
+    {
+        return [
+            self::GENERAL_COMPETITION,
+            self::COMPATRIOT_COMPETITION,
+            self::FOREIGNER_CONTRACT_COMPETITION,
+            self::GOV_LINE_COMPETITION,
+        ];
+    }
+
 
     public static function datasetQualifier($foreignerStatus, $educationLevel, $universityChoice)
     {
@@ -66,11 +87,11 @@ class CategoryStruct
             || $educationLevel == AnketaHelper::SCHOOL_TYPE_DOCTOR_SCIENCES) {
             return JsonAjaxField::data([self::GENERAL_COMPETITION], self::labelLists());
         } elseif (in_array($educationLevel, AnketaHelper::educationLevelSpecialRight())) {
-            return JsonAjaxField::data(self::CPKGroup(), self::labelLists());
+            return $universityChoice ? JsonAjaxField::data(self::CPKGroupFull(), self::labelLists()) : JsonAjaxField::data(self::CPKGroup(), self::labelLists());
         } else {
             $data = self::labelLists();
             $data[self::GENERAL_COMPETITION] =  "Поступающий в рамках общего конкурса, на целевое обучение";
-            return JsonAjaxField::data([self::GENERAL_COMPETITION], $data);
+            return $universityChoice ? JsonAjaxField::data(self::CPKGroupFullMagistracy(), $data) : JsonAjaxField::data([self::GENERAL_COMPETITION], $data);
         }
     }
 }
