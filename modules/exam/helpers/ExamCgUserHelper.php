@@ -52,7 +52,11 @@ class ExamCgUserHelper
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);
-            $query->orWhere(['cse_subject_id' => null, 'dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
+            $query->orWhere(['and',['in','id',
+                CompositeDiscipline::find()
+                    ->andWhere(['in', 'discipline_select_id', $viExam])
+                    ->select('discipline_id')->groupBy('discipline_id')
+                    ->column()], ['composite_discipline' => true], ['dict_competitive_group.id' => $ids]]);
         }
         else {
             $query->andWhere(['cse_subject_id' => null]);
