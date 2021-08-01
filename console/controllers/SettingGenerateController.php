@@ -186,6 +186,34 @@ class SettingGenerateController extends Controller
         }
     }
 
+    public function actionUpdateBacZid() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()
+                     ->type(SettingEntrant::ZID)
+                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+                     ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
+                         DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])->all() as $st)  {
+            $st->datetime_end = '2021-07-29 18:00:00';
+            $st->save();
+        }
+    }
+
+    public function actionUpdateBacZuk() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()
+                     ->type(SettingEntrant::ZUK)
+                     ->isVi(false)
+                     ->isCseAsVi(false)
+                     ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+                     ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
+                         DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])
+                     ->foreign(false)->all() as $st)  {
+            $st->datetime_end = '2021-07-29 18:00:00';
+            $st->save();
+        }
+    }
+
 
     private function getEducationLevel($depart, $foreignerStatus)
     {

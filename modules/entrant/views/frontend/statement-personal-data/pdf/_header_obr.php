@@ -14,7 +14,7 @@ $passport = PassportDataHelper::dataArray($user_id);
 
 $cpkCountryArray = array_merge(DictCountryHelper::TASHKENT_AGREEMENT, [DictCountryHelper::RUSSIA]);
 
-$cpk = in_array($anketa->citizenship_id, $cpkCountryArray)
+$cpk = ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION && in_array($anketa->citizenship_id, $cpkCountryArray))
     || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION;
 if ($cpk) {
 

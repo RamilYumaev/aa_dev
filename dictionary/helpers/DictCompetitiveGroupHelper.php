@@ -442,6 +442,7 @@ class DictCompetitiveGroupHelper
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id])
+            ->andWhere(['dict_competitive_group.foreigner_status' => false])
             ->andWhere(['not', ['cse_subject_id' => null]])
             ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true])
             ->select(['name', 'dict_discipline.id'])
@@ -487,6 +488,21 @@ class DictCompetitiveGroupHelper
             ->all();
 
         return self::selectCseVi($data, $cse, $user_id) ?? self::stringExaminationsCse($data, $cse, $user_id);
+    }
+
+    public static function groupByExamsCseFacultyEduLevelSpecializationF($user_id, $faculty_id, $speciality_id, $ids)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->select(['name'])
+            ->column();
+
+        return $data ? implode(', ', $data) : '';
     }
 
     public static function groupByExamsCseFacultyEduLevelSpecializationN($user_id, $faculty_id, $speciality_id, $ids, $type)
@@ -840,6 +856,7 @@ class DictCompetitiveGroupHelper
     {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->eduLevel(self::EDUCATION_LEVEL_BACHELOR)
+            ->foreignerStatus(false)
             ->exists();
     }
 

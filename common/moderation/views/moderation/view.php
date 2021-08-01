@@ -29,10 +29,10 @@ if($userId)
         ['class' => 'btn btn-info', 'target' => '_blank']);
 }
 $ais = UserAis::findOne(['user_id' => $moderation->created_by]);
-$isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->created_by);
+$isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->updated_by);
 ?>
-<?= $isEntrant  ? '<h4 class="warning">Редактировал сотрудник ЦПК</h4>' : ($ais ?  Html::tag("span", "Загружен в АИС", ['class' => "label label-success"]) :
-    Html::tag("span", "Не загружен в АИС", ['class' => "label label-danger"]))  ?>
+<?= $isEntrant  ?  '<h4 class="warning">Редактировал сотрудник ЦПК</h4>' : ""; ?>
+<?= ($ais ?  Html::tag("span", "Загружен в АИС", ['class' => "label label-success"]) : Html::tag("span", "Не загружен в АИС", ['class' => "label label-danger"]))  ?>
 <div id="moderation-view">
     <div class="box">
         <div class="box-body">
@@ -49,6 +49,9 @@ $isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->creat
                         'value' => \common\moderation\helpers\ModerationHelper::statusName($moderation->status)],
                     ['label' => $moderation->getAttributeLabel('moderated_by'),
                         'value' => \olympic\helpers\auth\ProfileHelper::profileShortName($moderation->moderated_by)],
+                    ['label' => $moderation->getAttributeLabel('updated_by'),
+                        'value' => \olympic\helpers\auth\ProfileHelper::profileShortName($moderation->updated_by)
+                    ],
                     'created_at:datetime',
                     'updated_at:datetime',
                 ],]) ?>

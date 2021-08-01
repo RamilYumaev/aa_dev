@@ -30,8 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                             'attribute' => 'user_id',
                             'filter' => SelectDataHelper::dataSearchModel($searchModel, StatementHelper::columnStatement('user_id',  'profileUser', 'CONCAT(last_name, \' \', first_name, \' \', patronymic)'), 'user_id', 'profileUser.fio'),
-                            'value'=> 'profileUser.fio'
-
+                            'value'=>  function ($model) {
+                                return $model->profileUser->fio." ".$model->profileUser->phone;
+                            }
                     ],
                     [
                         'attribute' => 'faculty_id',
@@ -52,6 +53,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'special_right',
                         'filter' => DictCompetitiveGroupHelper::getSpecialRight(),
                          'value' => 'specialRight'
+                    ],
+                    [
+                        'attribute' => 'finance',
+                        'filter' => DictCompetitiveGroupHelper::listFinances(),
+                        'value'=>'eduFinance',
+                    ],
+                    [
+                        'attribute' => 'form_category',
+                        'filter' =>[ DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 =>'о или о-з',
+                            DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2=>'з'],
+                        'value'=>'eduForm',
                     ],
                     [
                         'attribute' => 'created_at',

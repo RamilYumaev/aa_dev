@@ -22,6 +22,8 @@ $cseVi = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializatio
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 2);
 $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 3);
+$noCseForeign = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationF($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 $noCseSuccess = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
 $language = LanguageHelper::all($statement->user_id);
@@ -100,20 +102,28 @@ $och = false;
 
 <?php endif; ?>
 
-
-<?php if ($noCse): ?>
-    <p>
-        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
-        <?php if ($noCseSuccess): ?>
-            <?php if ($otherDocument): ?>
-                <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
-            <?php elseif ($anketaOne->is_foreigner_edu_organization) ://@todo?>
-                <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
-            <?php elseif ($anketaOne->spoNpo()): ?>
-                <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
+<?php if ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::FOREIGNER_CONTRACT_COMPETITION) : ?>
+    <?php if ($noCseForeign): ?>
+        <p>
+            Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCseForeign ?>.<br/>
+             <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
+        </p>
+    <?php endif; ?>
+<?php else :?>
+    <?php if ($noCse): ?>
+        <p>
+            Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
+            <?php if ($noCseSuccess): ?>
+                <?php if ($otherDocument): ?>
+                    <?= $examBase . " " . $otherDocument->typeName . ", " . $otherDocument->otherDocumentFullStatement ?>.
+                <?php elseif ($anketaOne->is_foreigner_edu_organization) ://@todo?>
+                    <?= $examBase ?> Документ об образовании <?= $education->documentFull . " " . $education->school->countryRegion ?>
+                <?php elseif ($anketaOne->spoNpo()): ?>
+                    <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
+                <?php endif; ?>
             <?php endif; ?>
-        <?php endif; ?>
-    </p>
+        </p>
+    <?php endif; ?>
 <?php endif; ?>
 <?php if ($cseVi): ?>
     <p>

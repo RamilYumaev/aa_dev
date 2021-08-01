@@ -5,6 +5,7 @@
 
 use entrant\assets\modal\ModalAsset;
 use modules\entrant\models\EntrantInWork;
+use modules\entrant\models\UserDiscipline;
 use yii\helpers\Html;
 
 ModalAsset::register($this);
@@ -53,8 +54,10 @@ $userId = $profile->user_id;
                 <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['userId' => $userId, 'view' => "file-birth-document-backend"]); ?>
             </div>
         <?php endif; ?>
-
         <?= \modules\entrant\widgets\other\DocumentOtherFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
+        <?php if ($anketa->isBelarus() && UserDiscipline::find()->user($userId)->ctOrVi()->exists()): ?>
+            <?= \modules\entrant\widgets\discipline\CtWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
+        <?php endif; ?>
         <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
         <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['view' => 'index-pd-backend', 'userId' => $userId]); ?>
     </div>

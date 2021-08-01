@@ -25,6 +25,7 @@ class ExamCgUserHelper
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
+            ->andWhere(['dict_competitive_group.foreigner_status' => false])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if ($vi && $viExam) {
             if($composite) {
@@ -49,6 +50,7 @@ class ExamCgUserHelper
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
+            ->andWhere(['dict_competitive_group.foreigner_status' => false])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);

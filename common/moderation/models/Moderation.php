@@ -37,15 +37,20 @@ class Moderation extends ActiveRecord
         $moderation->before = $before;
         $moderation->after = $after;
         $moderation->created_by = self::getUser();
+        $moderation->updated_by = self::getUserUpdated();
         return $moderation;
     }
 
-    public static function getUser()
+    public static function getUserUpdated()
     {
         if ($user = \Yii::$app->session->get('user.idbeforeswitch')) {
             return $user;
         }
+        return null;
+    }
 
+    public static function getUser()
+    {
         return \Yii::$app->user->identity->getId()
         && !\Yii::$app->user->isGuest ?
             \Yii::$app->user->identity->getId() : null;
@@ -121,6 +126,7 @@ class Moderation extends ActiveRecord
             'record_id' => "Ид модели",
             'created_by' => "Кто создал?",
             'moderated_by' => "Кто проверял?",
+            'updated_by' => "Кто сотрудник?",
             'created_at' => "Дата создания",
             'updated_at' => "Дата обновления",
             'status' => "Статус",

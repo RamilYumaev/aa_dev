@@ -257,6 +257,10 @@ class SettingEntrant extends ActiveRecord
     }
 
      public function open() {
+         $swichUserId = \Yii::$app->session->get('user.idbeforeswitch');
+         if(\Yii::$app->authManager->getAssignment('entrant', $swichUserId)) {
+             return true;
+         }
         $date = date("Y-m-d H:i:s");
         return $this->datetime_start  <  $date && $this->datetime_end  > $date;
     }

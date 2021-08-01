@@ -14,7 +14,11 @@ use yii\data\ActiveDataProvider;
 
 class StatementSearch extends  Model
 {
-    public $faculty_id, $speciality_id, $edu_level, $special_right, $user_id, $date_from, $date_to;
+    public $faculty_id, $speciality_id, $edu_level, $special_right, $user_id,
+        $form_category,
+        $finance,
+        $date_from,
+        $date_to;
     private $jobEntrant;
     private $status;
 
@@ -29,7 +33,7 @@ class StatementSearch extends  Model
     public function rules()
     {
         return [
-            [['faculty_id', 'speciality_id', 'edu_level', 'special_right', 'user_id', ], 'integer'],
+            [['faculty_id', 'speciality_id', 'edu_level', 'special_right', 'user_id', 'form_category', 'finance' ], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -66,8 +70,9 @@ class StatementSearch extends  Model
             'statement.edu_level' => $this->edu_level,
             'statement.special_right'=> $this->special_right,
             'statement.user_id' => $this->user_id,
+            'statement.form_category' => $this->form_category,
+            'statement.finance'=> $this->finance,
         ]);
-
 
         $query
             ->andFilterWhere(['>=', 'statement.created_at', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])

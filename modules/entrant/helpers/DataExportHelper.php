@@ -140,7 +140,9 @@ class DataExportHelper
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
         && $organization->ais_id ? $organization->ais_id : null;
         foreach ($statement->statementCg as $currentApplication) {
-            if ($anketa->category_id == CategoryStruct::TPGU_PROJECT) {
+            if ($anketa->category_id == CategoryStruct::TPGU_PROJECT ||
+                $anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
+                $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
                 $noCse = 1;
             } else {
                 $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,

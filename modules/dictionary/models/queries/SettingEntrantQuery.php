@@ -5,6 +5,7 @@ use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\AnketaHelper;
+use Yii;
 use yii\db\ActiveQuery;
 
 class SettingEntrantQuery extends ActiveQuery
@@ -129,16 +130,30 @@ class SettingEntrantQuery extends ActiveQuery
 
     public function isOpenFormZUK(DictCompetitiveGroup $dictCompetitiveGroup)
     {
+        $swichUserId = \Yii::$app->session->get('user.idbeforeswitch');
+        if(Yii::$app->authManager->getAssignment('entrant', $swichUserId)) {
+            return true;
+        }
         return $this->existsFormEduOpen($dictCompetitiveGroup, SettingEntrant::ZUK);
     }
 
     public function isOpenZUK(DictCompetitiveGroup $dictCompetitiveGroup)
     {
+        $swichUserId = \Yii::$app->session->get('user.idbeforeswitch');
+        if(Yii::$app->authManager->getAssignment('entrant', $swichUserId)) {
+            return true;
+        }
         return $this->existsOpen($dictCompetitiveGroup, SettingEntrant::ZUK);
     }
 
     public function isOpenZID(DictCompetitiveGroup $dictCompetitiveGroup)
     {
+
+        $swichUserId = \Yii::$app->session->get('user.idbeforeswitch');
+        if(Yii::$app->authManager->getAssignment('entrant', $swichUserId)) {
+            return true;
+        }
         return $this->existsOpen($dictCompetitiveGroup, SettingEntrant::ZID);
     }
+
 }

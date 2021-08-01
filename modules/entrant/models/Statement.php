@@ -218,6 +218,17 @@ class Statement extends ActiveRecord
         return DictCompetitiveGroupHelper::eduLevelName($this->edu_level);
     }
 
+    public function getEduFinance()
+    {
+        return DictCompetitiveGroupHelper::financingTypeName($this->finance);
+    }
+
+    public function getEduForm()
+    {
+        return $this->form_category == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ?
+            'о или о-з' : 'з';
+    }
+
     public function getSpecialRight()
     {
         return  DictCompetitiveGroupHelper::specialRightName($this->special_right);
@@ -244,6 +255,8 @@ class Statement extends ActiveRecord
             'speciality_id' => "Направление подготовки",
             'edu_level' => "Уровень образования",
             'special_right' => "Основание приема",
+            'finance' => "Вид финансирования",
+            'form_category' => "Форма обучения",
             'user_id'=> "Абитуриент",
             'created_at' => "Дата создания"
         ];
