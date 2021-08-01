@@ -36,7 +36,8 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
         $array['competitive_group_id'] = $this->register->ais_cg_id;
         $array['token'] = \md5($this->register->ais_cg_id . \date('Y.m.d').Yii::$app->params['keyAisCompetitiveList']);
         if($this->register->settingCompetitionList->isEndDateZuk()) {
-            $array['status']=1;
+            $array['onlyMinMark'] = 1;
+            $array['filterTransferred'] = 1;
         }
         try {
             $item = (new Client(Yii::$app->params['ais_competitive']))->getData($this->url, $array);

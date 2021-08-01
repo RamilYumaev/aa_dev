@@ -55,6 +55,7 @@ $anketa = \Yii::$app->user->identity->anketa();
             }
             ?>
             <?= Collapse::widget(['encodeLabels' => false, 'items' => $result]); ?>
+            <?=  Html::a("Заявление о согласии на зачисление. Добавить", "/abiturient/post-document/consent-rejection",  ['class'=>'pull-right btn btn-success']) ?>
         </div>
     </div>
 <?php endif; ?>

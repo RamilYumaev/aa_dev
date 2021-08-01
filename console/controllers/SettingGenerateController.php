@@ -9,6 +9,7 @@ use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\forms\SettingCompetitionListForm;
 use modules\dictionary\forms\SettingEntrantForm;
+use modules\dictionary\models\SettingCompetitionList;
 use modules\dictionary\models\SettingEntrant;
 use modules\dictionary\searches\SettingEntrantSearch;
 use modules\dictionary\services\SettingCompetitionListService;
@@ -194,6 +195,18 @@ class SettingGenerateController extends Controller
                      ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
                          DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])->all() as $st)  {
             $st->datetime_end = '2021-07-29 18:00:00';
+            $st->save();
+        }
+    }
+
+    public function actionSetListZos() {
+        /** @var SettingCompetitionList $st */
+        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
+            ->andWhere(['edu_level'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
+            ->andWhere(['finance_edu' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+            ->andWhere(['form_edu' => [DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH]])
+                     ->all() as $st)  {
+            $st->end_date_zuk = "2021-08-02 00:00:00";
             $st->save();
         }
     }

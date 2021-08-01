@@ -40,10 +40,12 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             <?php if($cg->isContractCg()) : ?>
                 <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'].' руб. за семестр' : ''?> <br/>
             <?php endif; ?>
+            <?php if($data['kcp']['transferred']) : ?>
+                <?= $data['kcp']['transferred'] ?> - зачислено ранее <br/>
+            <?php endif; ?>
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($cg->special_right_id)) : ?>
-                
                     <?= $data['kcp']['sum'] ?>,
                     из них: 
                     особая квота - <?= $data['kcp']['quota'] ?>,
