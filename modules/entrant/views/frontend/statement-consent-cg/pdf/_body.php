@@ -90,18 +90,18 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profil
             2013 г. № 697 и предоставить в МПГУ соответствующие документы.
         </p>
     <?php endif; ?>
-    <table width="100%" class="mt-50 fs-15">
+    <table width="100%" class="mt-20 fs-15">
         <tr>
             
-            <td width="15%"><?= date("d.m.Y") ?> г.</td>
+            <td width="15%" style="font-size:12px;"><?= date("d.m.Y") ?> г.</td>
             <td class="bb" width="35%"></td>
-            <td width="50%"><?= $nameFull ?></td>
+            <td width="50%" style="font-size:12px;"><?= $nameFull ?></td>
 
         </tr>
         <tr>
             
             <td></td>
-            <td width="35%" class="v-align-top text-center">(подпись поступающего)</td>
+            <td width="35%" class="v-align-top text-center" style="font-size:9px;">(подпись поступающего)</td>
             <td width="50%"></td>
 
         </tr>
