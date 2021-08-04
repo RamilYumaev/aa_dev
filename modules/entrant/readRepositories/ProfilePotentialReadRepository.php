@@ -56,6 +56,8 @@ class ProfilePotentialReadRepository
         } elseif ($this->jobEntrant->isCategoryCOZ()) {
             $query->andWhere('profiles.user_id NOT IN (SELECT user_id FROM user_cg)');
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
+            $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             if ($this->isID == JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT) {
                 $query->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')->andWhere(['statement.status' => StatementHelper::STATUS_DRAFT]);
                 $query->andWhere(['statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);

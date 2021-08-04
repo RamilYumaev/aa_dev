@@ -76,7 +76,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         if(key_exists($aisCtId,$selectDiscipline)) {
                             $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
                         } else {
-                            $data['list'][$list]['subjects']['subject_type_id'] =  $aisCtId;
+                            $data['list'][$list]['subjects'][$key]['subject_id'] =  $aisCtId;
                         }
                     }
                 }

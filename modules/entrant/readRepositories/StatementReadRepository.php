@@ -63,6 +63,8 @@ class StatementReadRepository
         }
 
         if ($this->jobEntrant->isCategoryGraduate()) {
+            $query->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             $query->andWhere([
                 'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
         }
