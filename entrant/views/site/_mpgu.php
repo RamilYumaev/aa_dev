@@ -136,35 +136,7 @@ use \modules\dictionary\helpers\JobEntrantHelper;
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <?= InfoZidWidget::widget([
-            'colorBox' => AdminLTE::BG_OLIVE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'check-circle',
-            'status' => StatementHelper::STATUS_ACCEPTED,
-            'str' => "ЗИД (Рассмотренные)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_ACCEPTED]])
-        ?>
-    </div>
-    <div class="col-md-4">
-        <?= InfoZidWidget::widget([
-            'colorBox' => AdminLTE::BG_LIGHT_BLUE,
-            'entrant'=> $jobEntrant,
-            'icon'=> 'eye-open',
-            'status' => StatementHelper::STATUS_VIEW,
-            'str' => "ЗИД (Взято в работу)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_VIEW]])
-        ?>
-    </div>
-    <div class="col-md-4">
-        <?= InfoZidWidget::widget([
-        'colorBox' => AdminLTE::BG_ORANGE,
-        'entrant'=> $jobEntrant,
-        'icon'=> 'plus',
-        'status' => StatementHelper::STATUS_WALT,
-        'str' => "ЗИД (новые)", 'link' => ['/data-entrant/statement-individual-achievements/index', 'status'=> StatementHelper::STATUS_WALT]])
-        ?>
-    </div>
-</div>
+<?= $this->render('_id',['eduLevel'=> [1,2]]) ?>
 <?php Box::begin(
     [   "header" => "Отозванные заявления  об участии в конкурсе",
         "type" => Box::TYPE_INFO,

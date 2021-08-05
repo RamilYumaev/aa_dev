@@ -4,7 +4,7 @@
 /** @var $this \yii\web\View*/
 /** @var $model modules\dictionary\models\CompetitionList */
 /** @var $cg dictionary\models\DictCompetitiveGroup */
-use modules\entrant\helpers\DateFormatHelper;
+use dictionary\helpers\DictCompetitiveGroupHelper;use modules\entrant\helpers\DateFormatHelper;
 $cg = $model->registerCompetitionList->cg;
 $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
@@ -59,6 +59,13 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             <?php endif; ?>
         </p>
     </div>
+ <?php if($model->isBvi() && $model->registerCompetitionList->settingEntrant->form_edu != DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) :?>
+     <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+ <?php else:?>
+    <?php if(!$model->registerCompetitionList->settingEntrant->open()) :?>
+     <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+    <?php endif;?>
+ <?php endif;?>
 </div>
 <div style="margin-top: 80px">
         <?php if(key_exists($model->type, $data) && count($data[$model->type])):

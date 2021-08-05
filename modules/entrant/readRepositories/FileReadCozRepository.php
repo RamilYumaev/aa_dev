@@ -61,7 +61,18 @@ class FileReadCozRepository
             } else {
                 $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
             }
-        } elseif($this->jobEntrant->isCategoryTarget()){
+        } elseif ($this->jobEntrant->isCategoryGraduate()) {
+            $query->andWhere([
+            'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+            ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
+        if($this->zuk) {
+            $query->andWhere(['files.model'=> Statement::class]);
+        } else {
+            $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
+        }
+    }
+        elseif($this->jobEntrant->isCategoryTarget()){
             $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
             if($this->zuk) {
                 $query->andWhere(['files.model'=> Statement::class]);

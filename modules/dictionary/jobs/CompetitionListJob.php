@@ -4,6 +4,7 @@
 namespace modules\dictionary\jobs;
 use api\client\Client;
 use dictionary\helpers\CathedraCgHelper;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use GuzzleHttp\Exception\ClientException;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
@@ -42,8 +43,8 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
         try {
             $item = (new Client(Yii::$app->params['ais_competitive']))->getData($this->url, $array);
             $this->saveCompetitionList($item, 'list', 'list_bvi');
-            if($this->register->settingEntrant->isBachelor()) {
-                if (key_exists('list_bvi', $item) && count($item['list_bvi']) ) {
+            if($this->register->settingEntrant->isBachelor() && $this->register->settingEntrant->form_edu == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
+                if (key_exists('list_bvi', $item) && count($item['list_bvi'])) {
                     $this->saveCompetitionList($item, 'list_bvi', 'list');
                 }
             }

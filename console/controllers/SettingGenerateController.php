@@ -211,6 +211,32 @@ class SettingGenerateController extends Controller
         }
     }
 
+    public function actionSetListSt() {
+        /** @var SettingCompetitionList $st */
+        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
+                     ->andWhere(['edu_level'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
+                     ->andWhere(['finance_edu' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+                     ->andWhere(['special_right' => DictCompetitiveGroupHelper::USUAL])
+                     ->andWhere(['form_edu' => [DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH]])
+                     ->all() as $st)  {
+            $st->date_end = "2021-08-11";
+            $st->save();
+        }
+    }
+
+    public function actionSetListStT() {
+        /** @var SettingCompetitionList $st */
+        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
+                     ->andWhere(['edu_level'=>DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
+                     ->andWhere(['finance_edu' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+                     ->andWhere(['form_edu' => [DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH]])
+                    ->andWhere(['special_right' => [DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::TARGET_PLACE]])
+                     ->all() as $st)  {
+            $st->date_end = "2021-08-04";
+            $st->save();
+        }
+    }
+
     public function actionUpdateBacZuk() {
         /** @var SettingEntrant $st */
         foreach (SettingEntrant::find()
