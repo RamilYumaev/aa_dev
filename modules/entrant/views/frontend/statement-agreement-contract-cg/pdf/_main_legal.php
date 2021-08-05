@@ -488,29 +488,34 @@ if ($eduDurationMonth >= 1 / 12) {
             <td class="bb" align="left"><?= $legal->phone ?></td>
         </tr>
         <tr>
-            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
-            <td rowspan="3" class="bb br v-align-top" align="left"></td>
+            <td rowspan="2" class="h-30 v-align-top pl-10" align="left"></td>
+            <td rowspan="2" class="br v-align-top" align="left"></td>
 
-            <td rowspan="3" class="bb h-30 v-align-top pl-10" align="left"></td>
-            <td rowspan="3" class="bb v-align-top" align="left"></td>
+            <td rowspan="2" class="h-30 v-align-top pl-10" align="left"></td>
+            <td rowspan="2" class="v-align-top" align="left"></td>
         </tr>
         <tr>
             <td class="text-left h-50 br"><strong><?= $agreementData['positionNominative'] ?></strong></td>
         </tr>
         <tr>
-            <td class="text-right br prb-20 bb"><strong><?= $agreementData['directorNameShort'] ?></strong></td>
+            <td class="text-right br bb" style="padding-right: 20px; padding-bottom: 0; margin-bottom: 0; "><strong><?= $agreementData['directorNameShort'] ?></strong></td>
+            <td class="bb fs-25" style="padding-bottom: 0; margin-bottom: 0; text-align: right; padding-right: 10px">/</td>
+            <td class="fs-25 bb br" style="font-weight: 10px; padding-left: 5px;"></td>
+            
+            <td class="bb fs-25" style="padding-bottom: 0; margin-bottom: 0; text-align: right; padding-right: 10px">/</td>
+            <td class="fs-25 bb" style="font-weight: 10px; padding-left: 5px;"></td>
         </tr>
         <tr>
             <td>
                 <table width="100%">
                     <tr>
-                        <td class="text-left pl-20">Подпись<br/>м.п.</td>
+                        <td class="text-left pl-20">м.п.  Подпись</td>
                         <td class="text-right pr-20">Ф.И.О.</td>
                     </tr>
                 </table>
             </td>
             <td colspan="2">
-                <table width="100%">
+                <table width="100%" style="border-spacing: 0px;">
                     <tr>
                         <td class="text-left pl-20">Подпись</td>
                         <td class="text-right pr-20">Ф.И.О.</td>
@@ -519,7 +524,7 @@ if ($eduDurationMonth >= 1 / 12) {
             </td>
 
             <td colspan="2">
-                <table width="100%">
+                <table width="100%" style="border-spacing: 0px;">
                     <tr>
                         <td class="text-left pl-20">Подпись</td>
                         <td class="text-right pr-20">Ф.И.О.</td>
