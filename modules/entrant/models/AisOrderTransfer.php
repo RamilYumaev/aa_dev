@@ -23,7 +23,10 @@ class AisOrderTransfer extends ActiveRecord
     }
 
     public function getCg() {
-        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id'=> 'ais_cg']);
+        $currentYear = Date("Y");
+        $lastYear = $currentYear - 1;
+
+        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id'=> 'ais_cg'])->andWhere(['year' => "$lastYear-$currentYear"]);
     }
 
     public function getUserAis() {

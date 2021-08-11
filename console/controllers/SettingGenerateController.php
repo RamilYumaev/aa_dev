@@ -159,6 +159,18 @@ class SettingGenerateController extends Controller
         }
     }
 
+    public function actionUpdateMag() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
+                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)
+                     ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
+                         DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])
+                     ->foreign(false)->all() as $st)  {
+            $st->datetime_end = '2021-08-06 17:00:00';
+            $st->save();
+        }
+    }
+
 
     public function actionUpdateZid() {
         /** @var SettingEntrant $st */
@@ -195,6 +207,18 @@ class SettingGenerateController extends Controller
                      ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
                          DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])->all() as $st)  {
             $st->datetime_end = '2021-07-29 18:00:00';
+            $st->save();
+        }
+    }
+
+    public function actionUpdateMagZid() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()
+                     ->type(SettingEntrant::ZID)
+                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)
+                     ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH,
+                         DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])->all() as $st)  {
+            $st->datetime_end = '2021-08-06 17:00:00';
             $st->save();
         }
     }

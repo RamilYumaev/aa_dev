@@ -72,7 +72,7 @@ class CompetitionListJob extends BaseObject implements \yii\queue\JobInterface
                     $this->register->settingEntrant->edu_level . '/' .
                     (is_null($this->register->settingEntrant->special_right) ? 0 : $this->register->settingEntrant->special_right);
                 $alias = \Yii::getAlias('@modules');
-                $fileName = ($this->register->settingEntrant->isGraduate() ? $this->register->settingEntrant->finance_edu. "_" .$this->register->faculty_id . '_' . $this->register->speciality_id : $this->register->ais_cg_id) . "_" . $key . '.json';
+                $fileName = ($this->register->settingEntrant->isGraduate() ? $this->register->settingEntrant->form_edu. "_". $this->register->settingEntrant->finance_edu. "_" .$this->register->faculty_id . '_' . $this->register->speciality_id : $this->register->ais_cg_id) . "_" . $key . '.json';
                 if(!FileHelper::createDirectory($alias . $path)) {
                     throw  new \DomainException("Не удалось создать папку ". $alias . $path);
                 }

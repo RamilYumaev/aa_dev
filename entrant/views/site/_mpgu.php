@@ -136,7 +136,7 @@ use \modules\dictionary\helpers\JobEntrantHelper;
         </div>
     </div>
 </div>
-<?= $this->render('_id',['eduLevel'=> [1,2]]) ?>
+<?= $this->render('_id',['eduLevel'=> [1,2], 'jobEntrant' => $jobEntrant]) ?>
 <?php Box::begin(
     [   "header" => "Отозванные заявления  об участии в конкурсе",
         "type" => Box::TYPE_INFO,

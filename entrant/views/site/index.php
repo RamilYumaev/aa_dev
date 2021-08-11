@@ -56,7 +56,7 @@ $this->title= "Главная. ".$text;
     <?php if($jobEntrant->isCategoryGraduate()): ?>
         <?= $this->render('_coz_fok',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_fok',['jobEntrant' => $jobEntrant])?>
-        <?= $this->render('_id',['eduLevel'=> 3]) ?>
+        <?= $this->render('_id',['eduLevel'=> 3, 'jobEntrant' => $jobEntrant]) ?>
         <?= $this->render('_contract',['jobEntrant' => $jobEntrant])?>
         <?= $this->render('_receipt',['jobEntrant' => $jobEntrant])?>
     <?php endif; ?>

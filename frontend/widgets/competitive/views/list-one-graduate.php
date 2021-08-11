@@ -6,6 +6,7 @@
 /** @var $rcl modules\dictionary\models\RegisterCompetitionList */
 /** @var $entrantSetting modules\dictionary\models\SettingEntrant */
 use modules\entrant\helpers\DateFormatHelper;
+use yii\helpers\Html;
 
 $rcl = $model->registerCompetitionList;
 $entrantSetting = $rcl->settingEntrant;
@@ -27,6 +28,9 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             <span style="font-weight: bold">Вид финансирования: </span> <?= $entrantSetting->financeEdu ?>,<br/>
             <?php if( $entrantSetting->isContract()) :?>
             <span style="font-weight: bold">Стоимость обучения:  </span> <?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'] . ' руб. за семестр' : '' ?> <br/>
+            <?php endif; ?>
+            <?php if($data['kcp']['transferred']) : ?>
+                <span style="font-weight: bold">Ранее зачислено:</span> <?= $data['kcp']['transferred'] ?> <br/>
             <?php endif; ?>
             <?php if ($entrantSetting->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
@@ -53,6 +57,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     }
                 }
                 ?>
+                <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
             <div class="table-responsive">
             <table class="table">
                 <tr>

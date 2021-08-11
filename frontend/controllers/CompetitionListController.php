@@ -5,15 +5,39 @@ use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
+use Yii;
 use yii\db\ActiveQuery;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class CompetitionListController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['call-center'],
+                    ]
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         return $this->render('index');
     }
+
+    public function actionListShort()
+    {
+        return $this->render('list-short');
+    }
+
 
     public function actionSpo()
     {
@@ -38,21 +62,28 @@ class CompetitionListController extends Controller
     }
 
     protected function getFaculty($eduLevel, $department, $faculty) {
-        $query = DictCompetitiveGroup::find()->joinWith('faculty')
-            ->eduLevel($eduLevel)
-            ->select(['faculty_id','full_name'])
-            ->foreignerStatus(false)
-            ->currentAutoYear()
-            ->tpgu(false);
-        if($department) {
-            $query->filialAndCollege();
-        }else{
-            $query->notInFaculty();
-        }
-        if($faculty) {
-            $query->faculty($faculty);
-        }
-        return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
+
+        $cache = Yii::$app->cache;
+        $key = 'entrant_list';
+        $categories = $cache->getOrSet($key, function ()  use($eduLevel, $department, $faculty) {
+            $query = DictCompetitiveGroup::find()->joinWith('faculty')
+                ->eduLevel($eduLevel)
+                ->select(['faculty_id','full_name'])
+                ->foreignerStatus(false)
+                ->currentAutoYear()
+                ->tpgu(false);
+            if($department) {
+                $query->filialAndCollege();
+            }else{
+                $query->notInFaculty();
+            }
+            if($faculty) {
+                $query->faculty($faculty);
+            }
+            return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
+        }, 600);
+
+        return $categories;
     }
 
     public function actionDepartment()

@@ -111,6 +111,7 @@ $countRCls = count($rCls);?>
         <?php endforeach;?>
         </div>
     </div>
+
         <?= \frontend\widgets\competitive\CompetitiveListWidget::widget(['view' => $isGraduate ? 'list-one-graduate' : 'list-one','id'=>$id ?? $idLast]);?>
 </div>
 </div>

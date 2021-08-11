@@ -18,14 +18,13 @@ use yii\helpers\Html;
             'value'=> 'statementIndividualAchievement.profileUser.fio'
         ],
         [
-            'attribute' => 'statement_individual_id',
             'value'=> 'statementIndividualAchievement.numberStatement'
         ],
         [
             'value'=> 'userIndividualAchievements.dictOtherDocument.typeName'
         ],
          ['value' => function (\modules\entrant\models\StatementIa $model) {
-          return  Html::a("Просмотр",  ['data-entrant/statement-individual-achievements/view', 'id' => $model->record_id]
+          return  Html::a("Просмотр",  ['data-entrant/statement-individual-achievements/view', 'id' => $model->statement_individual_id]
              , ['class' =>  'btn btn-info']);
 
         },

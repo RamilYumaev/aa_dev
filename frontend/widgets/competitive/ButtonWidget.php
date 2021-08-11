@@ -2,6 +2,7 @@
 namespace frontend\widgets\competitive;
 
 use dictionary\models\DictCompetitiveGroup;
+use Yii;
 use yii\base\Widget;
 
 class ButtonWidget extends Widget
@@ -12,7 +13,9 @@ class ButtonWidget extends Widget
 
     public function run()
     {
-        $cgs = DictCompetitiveGroup::find()->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel);
+        $cache = Yii::$app->cache;
+        $key = 'button_list';
+        $cgs = $cache->getOrSet($key, function ()  { return DictCompetitiveGroup::find()->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel); });
         return $this->render('button', [
             'cgs' => $cgs,
             'eduLevel' => $this->eduLevel,

@@ -5,7 +5,9 @@
 /** @var $model modules\dictionary\models\CompetitionList */
 /** @var $cg dictionary\models\DictCompetitiveGroup */
 use dictionary\helpers\DictCompetitiveGroupHelper;use modules\entrant\helpers\DateFormatHelper;
-$cg = $model->registerCompetitionList->cg;
+ use yii\helpers\Html;
+
+ $cg = $model->registerCompetitionList->cg;
 $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
@@ -40,22 +42,26 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             <?php if($cg->isContractCg()) : ?>
                 <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'].' руб. за семестр' : ''?> <br/>
             <?php endif; ?>
-            <?php if($data['kcp']['transferred']) : ?>
-                <?= $data['kcp']['transferred'] ?> - зачислено ранее <br/>
-            <?php endif; ?>
+
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($cg->special_right_id)) : ?>
+                    <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk()) :?>
                     <?= $data['kcp']['sum'] ?>,
                     из них: 
                     особая квота - <?= $data['kcp']['quota'] ?>,
                     целевая квота - <?= $data['kcp']['target'] ?>
+                    <?php else: ?>
+                        <?= $data['kcp']['sum'] ?>
+                    <?php endif; ?>
                 <?php elseif ($cg->isKvota()): ?>
                     <?= $data['kcp']['quota'] ?>,
                 <?php elseif ($cg->isTarget()): ?>
                     <?=  $data['kcp']['target']  ?>,
+                <?php endif; ?> <br/>
+                <?php if($data['kcp']['transferred']) : ?>
+                    <span style="font-weight: bold">Ранее зачислено:</span> <?= $data['kcp']['transferred'] ?> <br/>
                 <?php endif; ?>
-                <?php /* $data['kcp']['transferred'] ?? '' */ ?><br/>
             <?php endif; ?>
         </p>
     </div>
@@ -89,6 +95,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 }
             }
             ?>
+            <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
             <div class="table-responsive">
             <table class="table" >
                 <tr>
@@ -149,7 +156,15 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                  <!--   <td style="font-size: 14px; text-align: center"><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
-                    <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
+                    <td style="font-size: 14px; text-align: center">
+                        <?php if($entrant['zos_status_id']===0) : ?>
+                        -
+                        <?php elseif( $entrant['zos_status_id']===1) : ?>
+                            +
+                        <?php elseif($entrant['zos_status_id']===2): ?>
+                            др.н.п
+                        <?php endif; ?>
+                    </td>
                     <?php if($cg->isTarget()) : ?>
                         <td style="font-size: 14px; text-align: center"><?= $entrant['target_organization_name'] ?></td >
                     <?php endif; ?>

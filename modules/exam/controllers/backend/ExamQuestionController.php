@@ -4,6 +4,7 @@
 namespace modules\exam\controllers\backend;
 
 
+use dictionary\models\DictDiscipline;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\FileCgHelper;
 use modules\entrant\helpers\PdfHelper;
@@ -114,13 +115,16 @@ class ExamQuestionController extends Controller
 
     public function actionPdf($discipline_id)
     {
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
         $questions = ExamQuestion::find()->andWhere(['discipline_id' => $discipline_id])->all();
+        $discipline= DictDiscipline::findOne($discipline_id);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('pdf/main', ["questions" => $questions]);
-        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
+        $pdf = PdfHelper::generate($content, $discipline->name.'.pdf');
         $render = $pdf->render();
         return $render;
     }
