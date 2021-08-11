@@ -21,13 +21,20 @@ class CompetitionListController extends Controller
     }
 
     protected function renderCompetitionList($eduLevel, $department, $faculty = null) {
-        $modelFaculty = $this->faculty($faculty);
-        return $this->render('_data',['faculty' =>
-            $this->getFaculty($eduLevel, $department, $faculty),
-            'title' => CompetitionList::listTitle($department)[$eduLevel]['name'],
-            'eduLevel' => $eduLevel,
-            'isFaculty' => $modelFaculty,
-        ]);
+        /** @var \yii\caching\FileCache $competitionListCache */
+        $competitionListCache = \Yii::$app->competitionListCache;
+        $cacheKey = ['renderCompetitionList', 'eduLevel' => $eduLevel, 'department' => $department, 'faculty' => $faculty];
+
+        return $competitionListCache->getOrSet($cacheKey, function () use ($eduLevel, $department, $faculty) {
+            $modelFaculty = $this->faculty($faculty);
+
+            return $this->render('_data',['faculty' =>
+                $this->getFaculty($eduLevel, $department, $faculty),
+                'title' => CompetitionList::listTitle($department)[$eduLevel]['name'],
+                'eduLevel' => $eduLevel,
+                'isFaculty' => $modelFaculty,
+            ]);
+        });
     }
 
     protected function getFaculty($eduLevel, $department, $faculty) {
@@ -74,43 +81,55 @@ class CompetitionListController extends Controller
 
     public function actionEntrantList($cg, $type, $date = null, $id = null)
     {
-        $query = RegisterCompetitionList::find()
-        ->joinWith('competitionList')
-        ->andWhere([
-            'ais_cg_id'=> $cg,
-            'status'=> RegisterCompetitionList::STATUS_SUCCESS,
-            'type'=> $type
-        ]);
+        /** @var \yii\caching\FileCache $competitionListCache */
+        $competitionListCache = \Yii::$app->competitionListCache;
+        $cacheKey = ['actionEntrantList', 'cg' => $cg, 'type' => $type, 'date' => $date, 'id' => $id];
 
-        $cgModel = DictCompetitiveGroup::find()->currentAutoYear()->aisId($cg)->one();
+        return $competitionListCache->getOrSet($cacheKey, function () use ($cg, $type, $date, $id) {
+            $query = RegisterCompetitionList::find()
+                ->joinWith('competitionList')
+                ->andWhere([
+                    'ais_cg_id'=> $cg,
+                    'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                    'type'=> $type
+                ]);
 
-        return $this->renderCompetitionOneList($query, $type, $date, $id,
-            $cgModel->faculty_id,
-            $cgModel->edu_level,
-            $cgModel->special_right_id,
-            $cgModel->financing_type_id,
-            $cgModel->speciality_id,
-            $cgModel->education_form_id,
-            $cgModel->faculty->filial, $cgModel->ais_id);
+            $cgModel = DictCompetitiveGroup::find()->currentAutoYear()->aisId($cg)->one();
+
+            return $this->renderCompetitionOneList($query, $type, $date, $id,
+                $cgModel->faculty_id,
+                $cgModel->edu_level,
+                $cgModel->special_right_id,
+                $cgModel->financing_type_id,
+                $cgModel->speciality_id,
+                $cgModel->education_form_id,
+                $cgModel->faculty->filial, $cgModel->ais_id);
+        });
     }
 
     public function actionEntrantGraduateList($faculty, $speciality, $finance, $form, $type, $special = null, $date = null, $id = null)
     {
-        $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
-        $query = RegisterCompetitionList::find()
-            ->joinWith(['competitionList', 'settingEntrant'])
-            ->andWhere([
-                'status'=> RegisterCompetitionList::STATUS_SUCCESS,
-                'special_right' =>  $special,
-                'edu_level' =>  $eduLevel,
-                'form_edu' => $form,
-                 RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
-                'speciality_id' => $speciality,
-                'finance_edu' => $finance,
-                 CompetitionList::tableName().'.type'=> $type
-            ]);
+        /** @var \yii\caching\FileCache $competitionListCache */
+        $competitionListCache = \Yii::$app->competitionListCache;
+        $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id];
 
-        return $this->renderCompetitionOneList($query, $type, $date, $id,  $faculty, $eduLevel, $special, $finance, $speciality, $form);
+        return $competitionListCache->getOrSet($cacheKey, function () use ($special, $form, $faculty, $speciality, $finance, $type, $date, $id) {
+            $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+            $query = RegisterCompetitionList::find()
+                ->joinWith(['competitionList', 'settingEntrant'])
+                ->andWhere([
+                    'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                    'special_right' =>  $special,
+                    'edu_level' =>  $eduLevel,
+                    'form_edu' => $form,
+                    RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
+                    'speciality_id' => $speciality,
+                    'finance_edu' => $finance,
+                    CompetitionList::tableName().'.type'=> $type
+                ]);
+
+            return $this->renderCompetitionOneList($query, $type, $date, $id,  $faculty, $eduLevel, $special, $finance, $speciality, $form);
+        });
     }
 
     protected function renderCompetitionOneList(ActiveQuery $query,

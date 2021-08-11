@@ -15,6 +15,10 @@ class CompetitionListController extends Controller
        $handler->handle();
        exec('/usr/local/bin/php /usr/home/sdotest/www/yii queue/run');
        echo "окей";
+
+        /** @var \yii\caching\FileCache $competitionListCache */
+        $competitionListCache = \Yii::$app->competitionListCache;
+        $competitionListCache->flush();
     }
 
     public function actionSendMail()

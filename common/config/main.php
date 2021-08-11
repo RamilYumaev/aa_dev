@@ -1,4 +1,6 @@
 <?php
+$params = require __DIR__ . '/params.php';
+
 return [
     'language' => 'ru_RU',
      'timeZone' => 'Europe/Moscow',
@@ -45,6 +47,11 @@ return [
             'tableName' => '{{%queue}}', // Table name
             'channel' => 'default', // Queue channel key
             'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
+        ],
+        'competitionListCache' => [
+            'class' => 'yii\caching\FileCache',
+            'keyPrefix' => 'competition_list',
+            'defaultDuration' => $params['competition_list_cache_duration'],
         ],
     ],
 ];
