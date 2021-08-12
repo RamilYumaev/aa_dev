@@ -47,7 +47,7 @@ class CompetitionListController extends Controller
     protected function renderCompetitionList($eduLevel, $department, $faculty = null) {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['renderCompetitionList', 'eduLevel' => $eduLevel, 'department' => $department, 'faculty' => $faculty];
+        $cacheKey = ['renderCompetitionList', 'eduLevel' => $eduLevel, 'department' => $department, 'faculty' => $faculty, 'userId' => Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($eduLevel, $department, $faculty) {
             $modelFaculty = $this->faculty($faculty);
@@ -114,7 +114,7 @@ class CompetitionListController extends Controller
     {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['actionEntrantList', 'cg' => $cg, 'type' => $type, 'date' => $date, 'id' => $id];
+        $cacheKey = ['actionEntrantList', 'cg' => $cg, 'type' => $type, 'date' => $date, 'id' => $id, 'userId' => Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($cg, $type, $date, $id) {
             $query = RegisterCompetitionList::find()
@@ -142,7 +142,7 @@ class CompetitionListController extends Controller
     {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id];
+        $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id, 'userId' => Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($special, $form, $faculty, $speciality, $finance, $type, $date, $id) {
             $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
