@@ -13,12 +13,8 @@ class CompetitionListController extends Controller
         \set_time_limit(1800); // 30 мин.
         $handler = new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_AUTO);
        $handler->handle();
-       exec('/usr/local/bin/php /usr/home/sdotest/www/yii queue/run');
+       exec('/usr/local/bin/php ' . \Yii::getAlias('@app') . '/yii queue/run > /dev/null &');
        echo "окей";
-
-        /** @var \yii\caching\FileCache $competitionListCache */
-        $competitionListCache = \Yii::$app->competitionListCache;
-        $competitionListCache->flush();
     }
 
     public function actionSendMail()
