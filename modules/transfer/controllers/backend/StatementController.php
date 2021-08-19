@@ -65,6 +65,26 @@ class StatementController extends Controller
 
     /**
      * @param $id
+     * @param $status
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionProtocol($id)
+    {
+        $model = $this->findModel($id);
+        try {
+            $model->setIsProtocol(true);
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */

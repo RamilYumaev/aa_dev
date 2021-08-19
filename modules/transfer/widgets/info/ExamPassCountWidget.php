@@ -10,7 +10,8 @@ use yii\base\Widget;
 class ExamPassCountWidget extends Widget
 {
     public $view = "index";
-    public $status;
+    public $status = null;
+    public $protocol = null;
     public $icon;
     public $str;
     public $link;
@@ -18,7 +19,7 @@ class ExamPassCountWidget extends Widget
 
     public function run()
     {
-        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status);
+        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status, $this->protocol);
         $count = $query->count();
         return $this->render($this->view, ['count'=> $count, 'icon'=>$this->icon, 'str' => $this->str, 'colorBox' => $this->colorBox, 'link' => $this->link,
             'status'=> $this->status]);

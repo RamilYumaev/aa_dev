@@ -48,7 +48,7 @@ $job = Yii::$app->user->identity->jobEntrant();
                         'model' => $model,
                         'attributes' => $columns
                     ]) ?>
-    <?= $this->render('index-exam-backend',['model'=> $model])?>
+    <?= $this->render('index-exam-backend',['model'=> $model, 'job' => $job ])?>
     <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' =>  $model::className(), 'userId' => $model->user_id]) ?>
     <?php Box::end() ?>
 <?php endif; ?>

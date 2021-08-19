@@ -31,9 +31,9 @@ class PassExamController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function actionIndex($type = null)
+    public function actionIndex($type = null, $protocol = null)
     {
-        $searchModel = new PassExamSearch($type);
+        $searchModel = new PassExamSearch($type, $protocol);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

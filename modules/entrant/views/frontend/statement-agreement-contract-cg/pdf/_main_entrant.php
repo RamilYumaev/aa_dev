@@ -425,10 +425,12 @@ if ($eduDurationMonth >= 1 / 12) {
             <td class="bb" align="left"><?= $passport['authority'] ?>
                 <?=\date("d.m.Y", strtotime($passport['date_of_issue']))?></td>
         </tr>
+
         <tr>
             <td class="bb h-30 pl-10" align="left">адрес регистрации:</td>
-            <td class="bb" align="left"><?= $reg['full'] ?></td>
+            <td class="bb" align="left"><?= !$cg->isUmsCg() ? $reg['full'] : "" ?></td>
         </tr>
+
         <tr>
             <td class="bb h-50 pl-10" align="left">телефон:</td>
             <td class="bb" align="left"><?= $profile['phone'] ?></td>

@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model modules\transfer\models\StatementTransfer */
 /* @var $transferMpgu \modules\transfer\models\TransferMpgu */
-?>
+/* @var $job \modules\dictionary\models\JobEntrant */?>
 <?php Box::begin(
         [
             "header" => "Аттестация",
@@ -24,6 +24,10 @@ use yii\widgets\DetailView;
     Html::a('Допустить', ['pass-exam/success', 'id' => $model->id],
     ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите допустить к аттестации?"]]) ?>
 <?php else: ?>
+<?php if ($job->isAgreement()) :?>
+   <?= !$model->is_protocol ? Html::a('Внести в протокол', ['statement/protocol', 'id' => $model->id],
+        ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите  сделать это?"]]) : ""?>
+<?php endif; ?>
   <h4><?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?></h4>
    <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?>
        <?= FileWidget::widget(['record_id' => $model->passExam->id, 'model' => \modules\transfer\models\PassExam::class ]) ?>

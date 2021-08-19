@@ -16,10 +16,12 @@ class PassExamSearch extends  Model
 {
     public $user_id, $date_from, $edu_count, $date_to, $is_pass, $agree;
     protected $status;
+    protected $protocol;
 
-    public function __construct($status, $config = [])
+    public function __construct($status, $protocol, $config = [])
     {
         $this->status = $status;
+        $this->protocol = $protocol;
         parent::__construct($config);
     }
 
@@ -39,7 +41,7 @@ class PassExamSearch extends  Model
 
     public function search(array $params, $limit = null): ActiveDataProvider
     {
-        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status)->orderBy(['created_at' => SORT_DESC]);
+        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass($this->status, $this->protocol)->orderBy(['created_at' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

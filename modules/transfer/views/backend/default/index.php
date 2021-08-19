@@ -144,6 +144,22 @@ $types = (new TransferMpgu())->listTypeShort();
             'str' => "Непринятые", 'link' => ['/transfer/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED]])?>
     </div>
 </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= ExamPassCountWidget::widget([
+                'colorBox' => AdminLTE::BG_BLUE,
+                'icon'=> 'list',
+                'protocol' => true,
+                'str' => "Внесены в протокол", 'link'=> ['/transfer/pass-exam/index', 'protocol'=> true]])?>
+        </div>
+        <div class="col-md-6">
+            <?= ExamPassCountWidget::widget([
+                'colorBox' => AdminLTE::BG_RED_ACTIVE,
+                'icon'=> 'list',
+                'protocol' => false,
+                'str' => "Не внесены в протокол", 'link'=> ['/transfer/pass-exam/index', 'protocol'=> false]])?>
+        </div>
+    </div>
 <?php endif; ?>
 <div class="row">
     <div class="col-md-6">

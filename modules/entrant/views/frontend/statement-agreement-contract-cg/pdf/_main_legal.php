@@ -10,6 +10,7 @@ use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\Html;
 
 /* @var $agreement modules\entrant\models\StatementAgreementContractCg */
+/* @var $cg dictionary\models\DictCompetitiveGroup  */
 /* @var $legal modules\entrant\models\LegalEntity */
 /* @var $anketa modules\entrant\models\Anketa */
 
@@ -468,7 +469,7 @@ if ($eduDurationMonth >= 1 / 12) {
         </tr>
         <tr>
             <td rowspan="2" class="bb pl-10" align="left">Адрес регистрации:</td>
-            <td rowspan="2" class="bb br" align="left"><?= $reg['full'] ?></td>
+            <td rowspan="2" class="bb br" align="left"><?= !$cg->isUmsCg() ? $reg['full'] : "" ?></td>
 
             <td class="bb pl-10" align="left">р/с:</td>
             <td class="bb" align="left"><?= $legal->p_c ?></td>

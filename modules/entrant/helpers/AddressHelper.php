@@ -54,7 +54,8 @@ class AddressHelper
 
     public static function registrationResidence($user_id): array
     {
-        return Address::find()->andWhere(['user_id' => $user_id, 'type' =>self::TYPE_REGISTRATION])
-            ->orWhere(['user_id' => $user_id,'type' => self::TYPE_RESIDENCE])->one()->dataArray();
+         $address = Address::find()->andWhere(['user_id' => $user_id, 'type' =>self::TYPE_REGISTRATION])
+            ->orWhere(['user_id' => $user_id,'type' => self::TYPE_RESIDENCE])->one();
+         return $address ? $address->dataArray() : ['full' => ''];
     }
 }

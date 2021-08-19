@@ -11,7 +11,7 @@ use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\Html;
 
 /* @var $agreement modules\entrant\models\StatementAgreementContractCg */
-
+/* @var $cg dictionary\models\DictCompetitiveGroup  */
 /* @var $personal modules\entrant\models\PersonalEntity */
 
 $profile = ProfileHelper::dataArray($agreement->statementCg->statement->user_id);
@@ -440,8 +440,7 @@ if ($eduDurationMonth >= 1 / 12) {
         </tr>
         <tr>
             <td class="bb h-30 pl-10" align="left">адрес регистрации:</td>
-            <td class="bb br" align="left"><?= $reg['full'] ?></td>
-
+            <td class="bb br" align="left"><?=  !$cg->isUmsCg() ? $reg['full'] : "" ?></td>
             <td class="bb h-30 pl-10" align="left">адрес регистрации:</td>
             <td class="bb" align="left"><?= $personal->address ?></td>
         </tr>

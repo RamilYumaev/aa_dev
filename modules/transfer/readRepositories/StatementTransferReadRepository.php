@@ -30,11 +30,14 @@ class StatementTransferReadRepository
         return  $query;
     }
 
-    public function readDataExamPass($type = null)
+    public function readDataExamPass($type = null, $isProtocol = null)
     {
         $query = PassExam::find()->joinWith('statement');
         if($type) {
             $query->andWhere(['is_pass'=> $type]);
+        }
+        if(!is_null($isProtocol)) {
+            $query->andWhere(['is_protocol'=> $isProtocol]);
         }
         $query->andWhere(['status' => StatementHelper::STATUS_ACCEPTED]);
         if ($this->jobEntrant->isTransferFok()) {

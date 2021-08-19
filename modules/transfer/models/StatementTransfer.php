@@ -28,7 +28,7 @@ use yii\db\ActiveRecord;
  * @property integer $edu_count
  * @property integer $cg_id
  * @property integer $faculty_id
- *
+ * @property integer $is_protocol
  *
  **/
 
@@ -68,6 +68,10 @@ class StatementTransfer extends ActiveRecord
 
     public function setCountPages($countPages) {
         $this->count_pages = $countPages;
+    }
+
+    public function setIsProtocol($status) {
+        $this->is_protocol = $status;
     }
 
     public function setStatus($status) {
