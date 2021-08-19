@@ -29,7 +29,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             Учебный год 2021/2022<br/><br/><br/>
             </span>
 
-            <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
+            <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($model->datetime, 'd.m.Y. H:i')?><br/>
             <span style="font-weight: bold">Категория поступающих: </span><?= $model->getTypeName($cg->special_right_id) ?><br/>
             <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?><br/>
             <span style="font-weight: bold">Направление подготовки: </span><?= $cg->specialty->codeWithName ?><br/>
@@ -48,8 +48,10 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 <?php if (is_null($cg->special_right_id)) : ?>
                     <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk()) :?>
                     <?= $data['kcp']['sum'] ?>,
-                    из них: 
+                    из них:
+                        <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
                     особая квота - <?= $data['kcp']['quota'] ?>,
+                        <?php endif; ?>
                     целевая квота - <?= $data['kcp']['target'] ?>
                     <?php else: ?>
                         <?= $data['kcp']['sum'] ?>
@@ -112,8 +114,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
-                    
-                  <!--  <th style="font-size: 12px; text-align: center">Подача документа об образовании</th> -->
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
+                    <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
+                    <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($cg->isTarget()) : ?>
                         <th style="font-size: 12px; text-align: center">Наименование целевой организации</th>
@@ -155,7 +158,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <?php endif; ?>
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
-                 <!--   <td style="font-size: 14px; text-align: center"><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
+                    <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
+                    <?php endif; ?>
                     <td style="font-size: 14px; text-align: center">
                         <?php if($entrant['zos_status_id']===0) : ?>
                         -

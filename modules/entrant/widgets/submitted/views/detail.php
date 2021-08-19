@@ -44,6 +44,7 @@ $formName = ($formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1 ?
                                         'formCategory'=> $formCategory,
                                         'userId' => Yii::$app->user->identity->getId(),
                                         'finance' => $cg->financing_type_id,
+                                        'foreignerStatus' => $cg->foreigner_status
                                            ])?>
                                 </td>
                             </tr>

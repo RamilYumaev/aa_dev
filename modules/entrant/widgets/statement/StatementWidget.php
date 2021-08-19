@@ -12,7 +12,7 @@ use Yii;
 
 class StatementWidget extends Widget
 {
-    public $facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory;
+    public $facultyId, $specialityId, $specialRight, $eduLevel, $userId, $formCategory, $foreignerStatus;
     public $finance =  0;
     private $service;
 
@@ -46,7 +46,7 @@ class StatementWidget extends Widget
             return "";
         }
         if(!$settingEntrant->open()) {
-            return $settingEntrant->note;
+            return "";
         }
         $model = Statement::find()->defaultWhereNoStatus(
             $this->facultyId,
@@ -69,6 +69,7 @@ class StatementWidget extends Widget
             ->specialRight($this->specialRight)
             ->eduLevel($this->eduLevel)
             ->faculty(DictFacultyHelper::getKeyFacultySetting($this->facultyId))
+            ->foreign($this->foreignerStatus)
             ->eduForm(DictCompetitiveGroupHelper::categoryForm()[$this->formCategory])->one();
     }
 }

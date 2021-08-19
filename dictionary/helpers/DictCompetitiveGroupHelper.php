@@ -8,7 +8,6 @@ use common\helpers\EduYearHelper;
 use dictionary\models\CompositeDiscipline;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\DictDiscipline;
-use dictionary\models\DictSpeciality;
 use dictionary\models\DisciplineCompetitiveGroup;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\entrant\helpers\CseSubjectHelper;
@@ -430,8 +429,8 @@ class DictCompetitiveGroupHelper
     {
         $query = DictCompetitiveGroup::find()->userCg($user_id)
                  ->finance($finance)
-                ->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id','financing_type_id'])
-                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id', 'financing_type_id']);
+                ->formEdu($form)->select(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id','financing_type_id', 'foreigner_status'])
+                ->groupBy(['user_id', 'faculty_id', 'edu_level', 'special_right_id', 'speciality_id', 'financing_type_id', 'foreigner_status']);
         return $query->all();
     }
 

@@ -13,21 +13,6 @@ use yii\web\Controller;
 class CompetitionListController extends Controller
 {
 
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['call-center'],
-                    ]
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex()
     {
         return $this->render('index');
@@ -47,7 +32,7 @@ class CompetitionListController extends Controller
     protected function renderCompetitionList($eduLevel, $department, $faculty = null) {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['renderCompetitionList', 'eduLevel' => $eduLevel, 'department' => $department, 'faculty' => $faculty];
+        $cacheKey = ['renderCompetitionList', 'eduLevel' => $eduLevel, 'department' => $department, 'faculty' => $faculty,  'userId' => \Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($eduLevel, $department, $faculty) {
             $modelFaculty = $this->faculty($faculty);
@@ -63,9 +48,6 @@ class CompetitionListController extends Controller
 
     protected function getFaculty($eduLevel, $department, $faculty) {
 
-        $cache = Yii::$app->cache;
-        $key = 'entrant_list';
-        $categories = $cache->getOrSet($key, function ()  use($eduLevel, $department, $faculty) {
             $query = DictCompetitiveGroup::find()->joinWith('faculty')
                 ->eduLevel($eduLevel)
                 ->select(['faculty_id','full_name'])
@@ -81,9 +63,6 @@ class CompetitionListController extends Controller
                 $query->faculty($faculty);
             }
             return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
-        }, 600);
-
-        return $categories;
     }
 
     public function actionDepartment()
@@ -114,7 +93,7 @@ class CompetitionListController extends Controller
     {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['actionEntrantList', 'cg' => $cg, 'type' => $type, 'date' => $date, 'id' => $id];
+        $cacheKey = ['actionEntrantList', 'cg' => $cg, 'type' => $type, 'date' => $date, 'id' => $id,  'userId' => \Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($cg, $type, $date, $id) {
             $query = RegisterCompetitionList::find()
@@ -142,7 +121,7 @@ class CompetitionListController extends Controller
     {
         /** @var \yii\caching\FileCache $competitionListCache */
         $competitionListCache = \Yii::$app->competitionListCache;
-        $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id];
+        $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id,  'userId' => \Yii::$app->user->id];
 
         return $competitionListCache->getOrSet($cacheKey, function () use ($special, $form, $faculty, $speciality, $finance, $type, $date, $id) {
             $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
