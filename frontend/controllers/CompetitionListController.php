@@ -124,21 +124,25 @@ class CompetitionListController extends Controller
         $competitionListCache = \Yii::$app->competitionListCache;
         $cacheKey = ['actionEntrantGraduateList', 'faculty' => $faculty, 'speciality' => $speciality, 'finance' => $finance, 'form' => $form, 'type' => $type, 'special' => $special, 'date' => $date, 'id' => $id, 'userId' => Yii::$app->user->id];
 
-        return $competitionListCache->getOrSet($cacheKey, function () use ($special, $form, $faculty, $speciality, $finance, $type, $date, $id) {
-            $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
-            $query = RegisterCompetitionList::find()
-                ->joinWith(['competitionList', 'settingEntrant'])
-                ->andWhere([
-                    'status'=> RegisterCompetitionList::STATUS_SUCCESS,
-                    'special_right' =>  $special,
-                    'edu_level' =>  $eduLevel,
-                    'form_edu' => $form,
-                    RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
-                    'speciality_id' => $speciality,
-                    'finance_edu' => $finance,
-                    CompetitionList::tableName().'.type'=> $type
-                ]);
+        $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        $query = RegisterCompetitionList::find()
+            ->joinWith(['competitionList', 'settingEntrant'])
+            ->andWhere([
+                'status'=> RegisterCompetitionList::STATUS_SUCCESS,
+                'special_right' =>  $special,
+                'edu_level' =>  $eduLevel,
+                'form_edu' => $form,
+                RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
+                'speciality_id' => $speciality,
+                'finance_edu' => $finance,
+                CompetitionList::tableName().'.type'=> $type
+            ]);
 
+        if ($this->checkCompetitionOneListRedirect($query, $date)) {
+            return $this->redirect('index');
+        }
+
+        return $competitionListCache->getOrSet($cacheKey, function () use ($special, $form, $faculty, $speciality, $finance, $type, $date, $id, $eduLevel, $query) {
             return $this->renderCompetitionOneList($query, $type, $date, $id,  $faculty, $eduLevel, $special, $finance, $speciality, $form);
         });
     }
@@ -158,22 +162,6 @@ class CompetitionListController extends Controller
 
         $dates = $query->select('date')->groupBy('date')->orderBy(['date'=>SORT_DESC])->column();
 
-        if(!$dates) {
-            return $this->redirect('index');
-        }
-
-
-        if ($date && !preg_match('/[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/', $date))
-        {
-            return $this->redirect('index');
-        }
-
-        if(\Yii::$app->user->getIsGuest() ||  !\Yii::$app->user->can('entrant')) {
-            if($date && ($dates[0] !== $date)){
-                return $this->redirect('index');
-            }
-        }
-
         $rCls = $query1->andWhere(['date' => $date ? $date : $dates[0]])->orderBy(['date'=> SORT_DESC])->all();
         $array = [
             'dates'=> $dates,
@@ -191,5 +179,28 @@ class CompetitionListController extends Controller
             'aisId' => $cg
         ];
         return $this->render('entrant-list', $array);
+    }
+
+    private function checkCompetitionOneListRedirect($query, $date)
+    {
+        $dates = (clone $query)->select('date')->groupBy('date')->orderBy(['date'=>SORT_DESC])->column();
+
+        if(!$dates) {
+            return true;
+        }
+
+
+        if ($date && !preg_match('/[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/', $date))
+        {
+            return true;
+        }
+
+        if(\Yii::$app->user->getIsGuest() ||  !\Yii::$app->user->can('entrant')) {
+            if($date && ($dates[0] !== $date)){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
