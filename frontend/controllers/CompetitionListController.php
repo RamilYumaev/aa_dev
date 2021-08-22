@@ -183,7 +183,7 @@ class CompetitionListController extends Controller
 
     private function checkCompetitionOneListRedirect($query, $date)
     {
-        $dates = $query->select('date')->groupBy('date')->orderBy(['date'=>SORT_DESC])->column();
+        $dates = (clone $query)->select('date')->groupBy('date')->orderBy(['date'=>SORT_DESC])->column();
 
         if(!$dates) {
             return true;
