@@ -46,7 +46,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             <?php if ($cg->isBudget()) : ?>
                 <span style="font-weight: bold">Контрольные цифры приема:</span>
                 <?php if (is_null($cg->special_right_id)) : ?>
-                    <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk()) :?>
+                    <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk() || ($model->registerCompetitionList->settingCompetitionList->isEndDateZuk() && $model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)) :?>
                     <?= $data['kcp']['sum'] ?>,
                     из них:
                         <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
@@ -129,7 +129,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <th style="font-size: 12px; text-align: center">Оплатил да/нет</th>
                     <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов</th>
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
                     <th style="font-size: 12px; text-align: center">Примечание</th>
+                    <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
                 </tr>
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
@@ -181,7 +183,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
                     <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
+                    <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                     <?php endforeach; ?>
                 </tr>
