@@ -323,7 +323,7 @@ class AgreementHelper
 
     private static function cameOnJuly18()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2021-07-19 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2021-08-02 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2021-08-23 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2021-08-30 00:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
@@ -369,22 +369,22 @@ class AgreementHelper
         } else {
             switch ($type) {
                 case self::FIO_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Шонус Иван Харлампиевич" : 'Страхов Василий Вячеславович';
+                    return self::cameOnJuly18() ? "Дронов Виктор Павлович" : 'Страхов Василий Вячеславович';
                     break;
                 case self::FIO_GENITIVE :
-                    return self::cameOnJuly18() ? "Шонуса Ивана Харлампиевича" :  "Страхова Василия Вячеславовича";
+                    return self::cameOnJuly18() ? "Дронова Виктора Павловича" :  "Страхова Василия Вячеславовича";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Проректор по социальной работе и комплексной безопасности" : "Проректор по развитию";
+                    return self::cameOnJuly18() ? "Первый проректор" : "Проректор по развитию";
                     break;
                 case self::POSITION_GENITIVE :
-                    return self::cameOnJuly18() ? "проректора по социальной работе и комплексной безопасности" : "проректора по развитию";
+                    return self::cameOnJuly18() ? "первого проректора" : "проректора по развитию";
                     break;
                 case self::FIO_SHORT :
-                    return self::cameOnJuly18() ? "И.Х. Шонус" : "В.В. Страхов";
+                    return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 23 от 02 июля 2021 г." : "№ 04 от 01 февр. 2021 г.";
+                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 04 от 01 февр. 2021 г.";
             }
 
         }
