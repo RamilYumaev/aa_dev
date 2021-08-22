@@ -1,13 +1,13 @@
- <?php
+<?php
 
 /** @var $data array */
 /** @var $this \yii\web\View*/
 /** @var $model modules\dictionary\models\CompetitionList */
 /** @var $cg dictionary\models\DictCompetitiveGroup */
 use dictionary\helpers\DictCompetitiveGroupHelper;use modules\entrant\helpers\DateFormatHelper;
- use yii\helpers\Html;
+use yii\helpers\Html;
 
- $cg = $model->registerCompetitionList->cg;
+$cg = $model->registerCompetitionList->cg;
 $this->title = $cg->getFullNameCg();
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
@@ -21,84 +21,84 @@ $incomingId = $noGuest ? Yii::$app->user->identity->incomingId() : '';
 $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
 ?>
 
-    <div class=" col-offset-md-3 col-md-9" >
-        <p style="font-size: 15px; margin-top: 30px">
+<div class=" col-offset-md-3 col-md-9" >
+    <p style="font-size: 15px; margin-top: 30px">
         <span style="display: block; text-align: center">
             ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
             Учебный год 2021/2022<br/><br/><br/>
             </span>
 
-            <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($model->datetime, 'd.m.Y. H:i')?><br/>
-            <span style="font-weight: bold">Категория поступающих: </span><?= $model->getTypeName($cg->special_right_id) ?><br/>
-            <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?><br/>
-            <span style="font-weight: bold">Направление подготовки: </span><?= $cg->specialty->codeWithName ?><br/>
-            <span style="font-weight: bold">Уровень образования: </span><?= $cg->eduLevelFull ?><br/>
-            <?php if($cg->specialisationName): ?>
-                <span style="font-weight: bold">Профиль(и): </span><?= $cg->specialisationName ?><br/>
-            <?php endif; ?>
-            <span style="font-weight: bold">Форма обучения: </span><?= $cg->formEdu ?><br/>
-            <span style="font-weight: bold">Вид финансирования: </span><?= $cg->finance ?><br/>
-            <?php if($cg->isContractCg()) : ?>
-                <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'].' руб. за семестр' : ''?> <br/>
-            <?php endif; ?>
+        <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($model->datetime, 'd.m.Y. H:i')?><br/>
+        <span style="font-weight: bold">Категория поступающих: </span><?= $model->getTypeName($cg->special_right_id) ?><br/>
+        <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?><br/>
+        <span style="font-weight: bold">Направление подготовки: </span><?= $cg->specialty->codeWithName ?><br/>
+        <span style="font-weight: bold">Уровень образования: </span><?= $cg->eduLevelFull ?><br/>
+        <?php if($cg->specialisationName): ?>
+            <span style="font-weight: bold">Профиль(и): </span><?= $cg->specialisationName ?><br/>
+        <?php endif; ?>
+        <span style="font-weight: bold">Форма обучения: </span><?= $cg->formEdu ?><br/>
+        <span style="font-weight: bold">Вид финансирования: </span><?= $cg->finance ?><br/>
+        <?php if($cg->isContractCg()) : ?>
+            <span style="font-weight: bold">Стоимость обучения:  </span><?= key_exists('price_per_semester', $data['kcp']) ? $data['kcp']['price_per_semester'].' руб. за семестр' : ''?> <br/>
+        <?php endif; ?>
 
-            <?php if ($cg->isBudget()) : ?>
-                <span style="font-weight: bold">Контрольные цифры приема:</span>
-                <?php if (is_null($cg->special_right_id)) : ?>
-                    <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk()) :?>
+        <?php if ($cg->isBudget()) : ?>
+            <span style="font-weight: bold">Контрольные цифры приема:</span>
+            <?php if (is_null($cg->special_right_id)) : ?>
+                <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk() || ($model->registerCompetitionList->settingCompetitionList->isEndDateZuk() && $model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)) :?>
                     <?= $data['kcp']['sum'] ?>,
                     из них:
-                        <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
-                    особая квота - <?= $data['kcp']['quota'] ?>,
-                        <?php endif; ?>
-                    целевая квота - <?= $data['kcp']['target'] ?>
-                    <?php else: ?>
-                        <?= $data['kcp']['sum'] ?>
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
+                        особая квота - <?= $data['kcp']['quota'] ?>,
                     <?php endif; ?>
-                <?php elseif ($cg->isKvota()): ?>
-                    <?= $data['kcp']['quota'] ?>,
-                <?php elseif ($cg->isTarget()): ?>
-                    <?=  $data['kcp']['target']  ?>,
-                <?php endif; ?> <br/>
-                <?php if($data['kcp']['transferred']) : ?>
-                    <span style="font-weight: bold">Ранее зачислено:</span> <?= $data['kcp']['transferred'] ?> <br/>
+                    целевая квота - <?= $data['kcp']['target'] ?>
+                <?php else: ?>
+                    <?= $data['kcp']['sum'] ?>
                 <?php endif; ?>
+            <?php elseif ($cg->isKvota()): ?>
+                <?= $data['kcp']['quota'] ?>,
+            <?php elseif ($cg->isTarget()): ?>
+                <?=  $data['kcp']['target']  ?>,
+            <?php endif; ?> <br/>
+            <?php if($data['kcp']['transferred']) : ?>
+                <span style="font-weight: bold">Ранее зачислено:</span> <?= $data['kcp']['transferred'] ?> <br/>
             <?php endif; ?>
-        </p>
-    </div>
- <?php if($model->isBvi() && $model->registerCompetitionList->settingEntrant->form_edu != DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) :?>
-     <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
- <?php else:?>
+        <?php endif; ?>
+    </p>
+</div>
+<?php if($model->isBvi() && $model->registerCompetitionList->settingEntrant->form_edu != DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) :?>
+    <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+<?php else:?>
     <?php if(!$model->registerCompetitionList->settingEntrant->open()) :?>
-     <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+        <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
     <?php endif;?>
- <?php endif;?>
+<?php endif;?>
 </div>
 <div style="margin-top: 80px">
-        <?php if(key_exists($model->type, $data) && count($data[$model->type])):
-            foreach ($data[$model->type] as $list => $value) {
-                foreach ($value['subjects'] as $key => $subject) {
-                    if($subject['subject_type_id'] == 1) {
-                        $aisCseId = $aisCseIdCg[$subject['subject_id']];
-                        if(key_exists($aisCseId,$selectDiscipline)) {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
-                        } else {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
-                        }
-                    }elseif($subject['subject_type_id'] == 2)  {
-                        $aisCtId = $aisCtIdCg[$subject['subject_id']];
-                        if(key_exists($aisCtId,$selectDiscipline)) {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
-                        } else {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] =  $aisCtId;
-                        }
+    <?php if(key_exists($model->type, $data) && count($data[$model->type])):
+        foreach ($data[$model->type] as $list => $value) {
+            foreach ($value['subjects'] as $key => $subject) {
+                if($subject['subject_type_id'] == 1) {
+                    $aisCseId = $aisCseIdCg[$subject['subject_id']];
+                    if(key_exists($aisCseId,$selectDiscipline)) {
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
+                    } else {
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
+                    }
+                }elseif($subject['subject_type_id'] == 2)  {
+                    $aisCtId = $aisCtIdCg[$subject['subject_id']];
+                    if(key_exists($aisCtId,$selectDiscipline)) {
+                        $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
+                    } else {
+                        $data['list'][$list]['subjects'][$key]['subject_id'] =  $aisCtId;
                     }
                 }
             }
-            ?>
-            <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
-            <div class="table-responsive">
+        }
+        ?>
+        <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
+        <div class="table-responsive">
             <table class="table" >
                 <tr>
                     <th style="font-size: 12px; text-align: center">№ п/п</th>
@@ -111,11 +111,11 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
                     <?php endforeach; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
-                    
+
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
-                    <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
+                        <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
                     <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($cg->isTarget()) : ?>
@@ -129,7 +129,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <th style="font-size: 12px; text-align: center">Оплатил да/нет</th>
                     <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов</th>
-                    <th style="font-size: 12px; text-align: center">Примечание</th>
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
+                        <th style="font-size: 12px; text-align: center">Примечание</th>
+                    <?php endif; ?>
                     <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
                 </tr>
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
@@ -159,11 +161,11 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
-                    <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
+                        <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
                     <?php endif; ?>
                     <td style="font-size: 14px; text-align: center">
                         <?php if($entrant['zos_status_id']===0) : ?>
-                        -
+                            -
                         <?php elseif( $entrant['zos_status_id']===1) : ?>
                             +
                         <?php elseif($entrant['zos_status_id']===2): ?>
@@ -181,13 +183,15 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
-                    <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
+                    <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
+                        <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
+                    <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                     <?php endforeach; ?>
                 </tr>
             </table>
-            </div>
-        <?php else: ?>
-            <h4 style="color: red">В списке нет ни одного абитуриента</h4>
-        <?php endif; ?>
- </div>
+        </div>
+    <?php else: ?>
+        <h4 style="color: red">В списке нет ни одного абитуриента</h4>
+    <?php endif; ?>
+</div>
