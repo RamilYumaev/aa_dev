@@ -40,7 +40,7 @@ class ExamCgUserHelper
        return $query->distinct()->column();
     }
 
-    public static function disciplineLevel($userId, $eduLevel, $formCategory)
+    public static function disciplineLevel($userId, $eduLevel, $formCategory, $faculty = null)
     {
         $viExam = $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
             ->groupBy('discipline_select_id')
@@ -52,9 +52,12 @@ class ExamCgUserHelper
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.foreigner_status' => false])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
+        if($faculty) {
+           $query->andWhere(['dict_competitive_group.faculty_id' =>$faculty]);
+        }
         if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);
-            $query->orWhere(['and',['in','id',
+            $query->orWhere(['and',['in','dict_discipline.id',
                 CompositeDiscipline::find()
                     ->andWhere(['in', 'discipline_select_id', $viExam])
                     ->select('discipline_id')->groupBy('discipline_id')

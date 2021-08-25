@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ->groupBy(['speciality_id','faculty_id','education_form_id']);
     } foreach ($cgs->all() as $cg): ?>
         <tr>
-            <th style="font-weight: 100"><?=$cg->specialty->codeWithName?> <?= ($eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO || $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL ? "(для " . $cg->spo_class . " классов)": $cg->specialization->name ) ?> </th>
+            <th style="font-weight: 100"><?=$cg->specialty->codeWithName?> <?= $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "(для " . $cg->spo_class . " классов)" :""?>
+                <?= $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL || $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  ? "": $cg->specialization->name  ?> </th>
             <th style="font-weight: 100"><?= $cg->formEdu ?></th>
             <th style="font-weight: 100"><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract'=> $cg, 'eduLevel'=> $eduLevel]) ?></th>
         </tr>
