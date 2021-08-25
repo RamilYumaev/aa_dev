@@ -15,6 +15,12 @@ use modules\dictionary\searches\SettingEntrantSearch;
 use modules\dictionary\services\SettingCompetitionListService;
 use modules\dictionary\services\SettingEntrantService;
 use modules\entrant\helpers\AnketaHelper;
+use modules\entrant\models\StatementCg;
+use modules\entrant\models\UserDiscipline;
+use modules\exam\helpers\ExamCgUserHelper;
+use modules\exam\models\ExamStatement;
+use modules\exam\repositories\ExamRepository;
+use modules\exam\repositories\ExamStatementRepository;
 use yii\console\Controller;
 
 class SettingGenerateController extends Controller
@@ -26,6 +32,8 @@ class SettingGenerateController extends Controller
     public $searchModel;
     public $competitionListService;
     public $competitionListForm;
+    private $examRepository;
+    private $repository;
     public function __construct($id, $module,
                                 SettingEntrantService $service,
                                 SettingCompetitionListService $competitionListService,
@@ -33,6 +41,8 @@ class SettingGenerateController extends Controller
                                 SettingEntrant $model,
                                 SettingEntrantForm $formModel,
                                 SettingEntrantSearch $searchModel,
+                                ExamRepository $examRepository,
+                                ExamStatementRepository $repository,
                                 $config = [])
     {
         parent::__construct($id, $module, $config);
@@ -42,6 +52,8 @@ class SettingGenerateController extends Controller
         $this->searchModel = $searchModel;
         $this->competitionListForm = $competitionListForm;
         $this->competitionListService =$competitionListService;
+        $this->examRepository = $examRepository;
+        $this->repository = $repository;
     }
 
     public function actionSetSetting()
@@ -259,6 +271,37 @@ class SettingGenerateController extends Controller
             $st->date_end = "2021-08-04";
             $st->save();
         }
+    }
+
+    public function actionAllExam($eduLevel, $formCategory, $faculty = null) {
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
+        $countUser = 0;
+        $countDisciplineUser = 0;
+        $array = [];
+        foreach ($users as  $user) {
+            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, $faculty);
+            if(!$disciplines) {
+                continue;
+            }
+            $countUser++;
+            foreach ($disciplines as $discipline) {
+                /** @var UserDiscipline $userDiscipline */
+                $userDiscipline = UserDiscipline::find()->user($user)->discipline($discipline)->viFull()->joinWith('dictDiscipline')
+                    ->andWhere(['composite_discipline' => true])->select(['discipline_select_id'])->one();
+                $disciplineSelect  = $userDiscipline ?  $userDiscipline->discipline_select_id : $discipline;
+                $exam = $this->examRepository->getDisciplineId($disciplineSelect);
+                if(!$exam){
+                    continue;
+                }
+                if($this->repository->getExamUserExists($exam->id, $user)) {
+                    continue;
+                }
+                $array[] = $disciplineSelect;
+                $countDisciplineUser++;
+            }
+        }
+       echo  "level" .$eduLevel." Form ".$formCategory." USER ". $countUser. " DISCIPLINE ". $countDisciplineUser;
+        print_r(array_count_values($array));
     }
 
     public function actionUpdateBacZuk() {
