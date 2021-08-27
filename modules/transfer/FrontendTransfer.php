@@ -28,7 +28,11 @@ class FrontendTransfer extends Module
 
     public function beforeAction($action)
     {
-         if($this->getEnd()) {
+        $url = ['no', 'yes', 'get'];
+        if(in_array(Yii::$app->controller->action->id, $url)) {
+            return true;
+        }
+        if($this->getEnd()) {
              Yii::$app->session->setFlash("warning", 'Прием заявок на переводы и восстановления в летний период приема документов завершен. Прием документов осуществлялся с 18 июня по 15 июля (на вакантные бюджетные места), по 20 августа (на места по договору об оказании платны образовательных услуг). Следующий прием документов для переводов и восстановлений будут осуществляться в зимний период приема документов (с 18 декабря по 5 февраля).
 Контакты для связи с отделом переводов и восстановлений: 8(499)233-41-81 и otdel_vp@mpgu.su');
              Yii::$app->getResponse()->redirect(['site/index']);
