@@ -62,7 +62,9 @@ class StatementReadConsentRepository
 
         if($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere([
-                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);
+                'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL])
+                ->andWhere(['not in','anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION]]);
         }
 
         if(in_array($this->jobEntrant->category_id,JobEntrantHelper::listCategoriesFilial())) {
