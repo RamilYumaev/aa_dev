@@ -17,9 +17,6 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 
 <?php if($orderTransfer) : ?>
-    <p class="label label-primary fs-15">
-        С 01.09 по 13.09 обучение будет проходить дистанционно.  <?= Html::a("Подробнее","http://mpgu.su/podgotovka-k-1-sentjabrja/", ['style'=>['color'=>'#ffffff', "text-decoration" => "underline"]]) ?>
-    </p>
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Приказы о зачислении <?= $isDownload ? "" : Html::a("Исключить", "/abiturient/post-document/rejection-record") ?></h4></div>
         <div class="panel-body">
