@@ -11,6 +11,7 @@ use modules\entrant\widgets\file\FileListWidget;
 /* @var $this yii\web\View */
 /* @var $orderTransfer yii\db\BaseActiveRecord */
 /* @var $order modules\entrant\models\AisOrderTransfer*/
+/* @var $event modules\entrant\models\EventCg*/
 /* @var $statementRecord yii\db\BaseActiveRecord */
 /* @var $record modules\entrant\models\StatementRejectionRecord*/
 /* @var $isDownload bool */
@@ -21,6 +22,23 @@ use modules\entrant\widgets\file\FileListWidget;
         <div class="panel-heading"><h4>Приказы о зачислении <?= $isDownload ? "" : Html::a("Исключить", "/abiturient/post-document/rejection-record") ?></h4></div>
         <div class="panel-body">
             <?php foreach ($orderTransfer as $order): ?>
+                <?php if($order->getEvent()) :?>
+                <h4>Собрание первокурсников</h4>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Дата и время</th>
+                        <th>Формат проведения</th>
+                        <th>Ссылка или место проведения</th>
+                    </tr>
+                    <?php foreach ($order->getEvent() as $event): ?>
+                        <tr class="info">
+                            <td><?= Yii::$app->formatter->asDatetime($event->event->date)?></td>
+                            <td><?= $event->event->typeName ?></td>
+                            <td><?=  Html::a($event->event->name_src, $event->event->src);?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <?php endif; ?>
                 <table class="table table-bordered">
                     <tr>
                         <td><?=$order->cg->fullNameB?></td>

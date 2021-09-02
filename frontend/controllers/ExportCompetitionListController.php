@@ -5,6 +5,8 @@ use common\helpers\FileHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\CompetitionList;
+use modules\dictionary\models\RegisterCompetitionList;
+use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\DateFormatHelper;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -49,7 +51,7 @@ class ExportCompetitionListController extends Controller
             throw new NotFoundHttpException('Ничего не найдено');
         }
         $fileName = $model->id.".xlsx";
-        $filePath = \Yii::getAlias('@common').'/file_templates/i_list_phone.xlsx';
+        $filePath =  $model->registerCompetitionList->settingEntrant->isGraduate() ? \Yii::getAlias('@common').'/file_templates/i_list_g_phone.xlsx' : \Yii::getAlias('@common').'/file_templates/i_list_phone.xlsx';
         $dataCommon = $this->getCommon($model);
         $dataApp = $this->getApplications($model);
         $this->openFile($filePath, $dataCommon,  $dataApp, $fileName);
@@ -72,27 +74,40 @@ class ExportCompetitionListController extends Controller
         $cg = $model->registerCompetitionList->cg;
         $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
         $subjectStatus = [1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума', 4 => 'истек срок'];
+        /** @var RegisterCompetitionList $rcl */
+        $rcl = $model->registerCompetitionList;
+        /** @var SettingEntrant $entrantSetting */
+        $entrantSetting = $rcl->settingEntrant;
+        $isGraduate = $entrantSetting->isGraduate();
         $aisCseIdCg = $cg->getExaminationsCseAisId();
         $aisCtIdCg = $cg->getExaminationsCtAisId();
-        $examinations = $cg->getExaminationsAisId();
+        $examinations =   $examinations =  $isGraduate ? $rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() : $cg->getExaminationsAisId();
         $compositeId = $cg->getCompositeDisciplineId();
         $selectDiscipline = \dictionary\models\CompositeDiscipline::getOne($compositeId);
         foreach ($data[$model->type] as $list => $value) {
-            foreach ($value['subjects'] as $key => $subject) {
-                if ($subject['subject_type_id'] == 1) {
-                    $aisCseId = $aisCseIdCg[$subject['subject_id']];
-                    if (key_exists($aisCseId, $selectDiscipline)) {
-                        $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
-                    } else {
-                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
+            if(!$isGraduate) {
+                foreach ($value['subjects'] as $key => $subject) {
+                    if ($subject['subject_type_id'] == 1) {
+                        $aisCseId = $aisCseIdCg[$subject['subject_id']];
+                        if (key_exists($aisCseId, $selectDiscipline)) {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
+                        } else {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
+                        }
+                    } elseif ($subject['subject_type_id'] == 2) {
+                        $aisCtId = $aisCtIdCg[$subject['subject_id']];
+                        if (key_exists($aisCtId, $selectDiscipline)) {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
+                        } else {
+                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCtId;
+                        }
                     }
-                } elseif ($subject['subject_type_id'] == 2) {
-                    $aisCtId = $aisCtIdCg[$subject['subject_id']];
-                    if (key_exists($aisCtId, $selectDiscipline)) {
-                        $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
-                    } else {
-                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCtId;
-                    }
+                }
+            }else {
+                foreach ($value['subjects'] as $key => $subject) {
+                    $isSpec = \dictionary\models\DictDiscipline::find()->andWhere(['ais_id' => $subject['subject_id']])
+                        ->andWhere(['like', 'name', 'Специальная дисциплина'])->exists();
+                    $data['list'][$list]['subjects'][$key]['subject_id'] = $isSpec ? 0 : $subject['subject_id'];
                 }
             }
         }
@@ -101,6 +116,7 @@ class ExportCompetitionListController extends Controller
         foreach ($data[$model->type] as $key => $entrant) {
             $application[$key]['num'] = ++$i;
             $application[$key]['full_name'] = $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'];
+            $application[$key]['specialization_name'] = $isGraduate ? $entrant['specialization_name'] : '';
             $application[$key]['number'] = key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'];
             if($entrant['zos_status_id'] === 0) {
                 $application[$key]['consent_status'] = "-";
@@ -137,24 +153,30 @@ class ExportCompetitionListController extends Controller
         $data = json_decode($json,true);
         /** @var DictCompetitiveGroup $cg */
         $cg = $model->registerCompetitionList->cg;
-        $examinations = $cg->getExaminationsAisId();
+        /** @var RegisterCompetitionList $rcl */
+        $rcl = $model->registerCompetitionList;
+        /** @var SettingEntrant $entrantSetting */
+        $entrantSetting = $rcl->settingEntrant;
+        $isGraduate = $entrantSetting->isGraduate();
+        $examinations =  $isGraduate ? $rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() : $cg->getExaminationsAisId();
 
         $array = [];
         $array[0]['academic_year'] =  "2021/2022";
         $array[0]['date'] =  DateFormatHelper::format($model->datetime, 'd.m.Y. H:i');
-        $array[0]['category'] = $model->getTypeName($cg->special_right_id);
-        $array[0]['faculty'] = $cg->faculty->full_name;
-        $array[0]['specialty_code'] = $cg->specialty->code;
-        $array[0]['specialty_name'] = $cg->specialty->name;
-        $array[0]['education_level'] = $cg->eduLevelFull;
-        $array[0]['specialization'] = $cg->specialisationName;
+        $array[0]['category'] = $model->getTypeName($isGraduate ? $entrantSetting->special_right : $cg->special_right_id);
+        $array[0]['faculty'] = $isGraduate ? $rcl->faculty->full_name : $cg->faculty->full_name;
+        $array[0]['specialty_code'] = $isGraduate ? $rcl->speciality->code :$cg->specialty->code;
+        $array[0]['specialty_name'] = $isGraduate ? $rcl->speciality->name : $cg->specialty->name;
+        $array[0]['education_level'] = $isGraduate ?  $entrantSetting->eduLevelFull : $cg->eduLevelFull;
+        $array[0]['specialization'] =  $isGraduate ? '' : $cg->specialisationName;
 
-        $array[0]['education_form'] = $cg->formEdu;
-        $array[0]['financing_type'] = $cg->finance;
-        $array[0]['kcp_show'] = $cg->isBudget() ? true : false;
+        $array[0]['education_form'] = $isGraduate ?  $entrantSetting->formEdu : $cg->formEdu;
+        $array[0]['financing_type'] = $isGraduate ?  $entrantSetting->financeEdu : $cg->finance;
+        $isBudget  =  $isGraduate ?  $entrantSetting->isBudget() : $cg->isBudget();
+        $array[0]['kcp_show'] = $isBudget;
         $array[0]['kcp'] = $data['kcp']['sum'];
         $array[0]['transferred'] = $data['kcp']['transferred'];
-        $array[0]['vacant'] =  $cg->isBudget() ? $data['kcp']['sum'] - $data['kcp']['transferred'] : 0;
+        $array[0]['vacant'] =  $isBudget ? $data['kcp']['sum'] - $data['kcp']['transferred'] : 0;
         $i=0;
         foreach ($examinations as $value) {
             $i++;
@@ -167,11 +189,6 @@ class ExportCompetitionListController extends Controller
             $array[0]['exam_3'] = '';
         }
         return $array;
-    }
-
-    public function getFullNameCL($cg)
-    {
-        return $cg->faculty->full_name . " / " . $cg->specialty->codeWithName;
     }
 
 

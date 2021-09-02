@@ -29,6 +29,10 @@ class AisOrderTransfer extends ActiveRecord
         return $this->hasOne(DictCompetitiveGroup::class, ['ais_id'=> 'ais_cg'])->andWhere(['year' => "$lastYear-$currentYear"]);
     }
 
+    public function getEvent() {
+         return EventCg::find()->andWhere(['cg_id'=>$this->cg->id])->all();
+    }
+
     public function getUserAis() {
         return $this->hasOne(UserAis::class, ['incoming_id'=> 'incoming_id']);
     }

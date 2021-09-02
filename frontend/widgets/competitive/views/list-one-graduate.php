@@ -99,7 +99,6 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <td><?= $entrant['specialization_name'] ?></td>
                     
                     <?php foreach ($rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() as $aisKey => $value) :
-
                         $key = array_search($aisKey, array_column($entrant['subjects'], 'subject_id'));
                         $subject = $entrant['subjects'][$key]; ?>
                         <td style="font-size: 14px; text-align: center">

@@ -79,12 +79,14 @@ class ProfileStatementReadRepository
                 $query->andWhere(['or', ['anketa.category_id' =>
                     CategoryStruct::COMPATRIOT_COMPETITION], ['special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]]);
             } else if ($this->isID == JobEntrantHelper::TASHKENT_BB) {
-                $query->andWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT]);
+                $query->andWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT])->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                    CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             } else {
                 $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
                     CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere([
                     'and', ['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT],
-                    ['>', 'statement.status', StatementHelper::STATUS_DRAFT]]);
+                    ['>', 'statement.status', StatementHelper::STATUS_DRAFT], ['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
+                        CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]]);
             }
         } elseif ($this->jobEntrant->isCategoryGraduate()) {
             $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=profiles.user_id');

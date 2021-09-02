@@ -110,7 +110,7 @@ $countRCls = count($rCls);?>
             <?php endforeach;?>
         <?php endforeach;?>
             <br />
-            <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant') && !$isGraduate): ?>
+            <?php if(!Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant')): ?>
                 <?= Html::a('Скачать Excel',['export-competition-list/table-file', 'id' => $id ?? $idLast ], ['class'=> 'btn btn-success', 'data-method'=> 'post', 'target'=>'_blank', 'style' => ["margin-top"=> "5px"]]) ?>
             <?php endif; ?>
         </div>

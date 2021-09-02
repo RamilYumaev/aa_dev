@@ -19,7 +19,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         <tr>
             <td>Направление подготовки</td>
             <?php if (!$isCollage) : ?>
-            <td>Образовательная программма</td>
+            <td>Образовательная программа</td>
             <?php endif;?>
             <td>Уровень образования</td>
             <td>Форма обучения</td>
