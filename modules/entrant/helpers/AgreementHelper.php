@@ -346,7 +346,7 @@ class AgreementHelper
                    return "Т.Н. Владимирова";
                    break;
                case self::PROCURATION :
-                   return "№ 09 от 1 февр. 2021 г.";
+                   return "№ 27 от 1 сент. 2021 г.";
 
                 // case self::FIO_NOMINATIVE :
                 //     return "Страхов Василий Вячеславович";
