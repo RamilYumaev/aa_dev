@@ -117,7 +117,15 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <!--<td><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
-                    <td style="font-size: 14px; text-align: center"><?= $entrant['zos_status_id'] ? '+': '-'?></td>
+                    <td style="font-size: 14px; text-align: center">
+                        <?php if($entrant['zos_status_id']===0) : ?>
+                            -
+                        <?php elseif( $entrant['zos_status_id']===1) : ?>
+                            +
+                        <?php elseif($entrant['zos_status_id']===2): ?>
+                            др.н.п
+                        <?php endif; ?>
+                    </td>
                     <?php if($entrantSetting->isTarget()) : ?>
                         <td><?= $entrant['target_organization_name'] ?></td>
                     <?php endif; ?>

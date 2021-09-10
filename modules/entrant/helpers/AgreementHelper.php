@@ -58,7 +58,7 @@ class AgreementHelper
 
     public static function isExits($user_id): bool
     {
-        return Agreement::find()->andWhere(['user_id' => $user_id, 'year' => EduYearHelper::eduYear()])->exists();
+        return Agreement::find()->andWhere(['user_id' => $user_id])->exists();
     }
 
     public static function data($faculty, $collegeStatus = false)

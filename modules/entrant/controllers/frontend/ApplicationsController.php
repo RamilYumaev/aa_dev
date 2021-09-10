@@ -52,18 +52,18 @@ class ApplicationsController extends Controller
                                     $tpguStatus = false,
                                     $facultyGet = null)
     {
+        $anketa = $this->getAnketa();
         $settingEntrant = SettingEntrant::find()
             ->type(SettingEntrant::ZUK)
             ->faculty($faculty)
             ->specialRight($specialRight)
-            ->foreign($foreignStatus)
+            ->foreign($anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION  ? true : $foreignStatus)
             ->tpgu($tpguStatus);
 
         $this->isOpenEduLevel($settingEntrant->eduLevelOpen($eduLevel));
 
         $this->permittedLevelChecked($eduLevel);
 
-        $anketa = $this->getAnketa();
         if($anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION && $foreignStatus) {
             $this->isGovLineControl();
         }

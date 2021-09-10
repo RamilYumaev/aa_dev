@@ -183,7 +183,7 @@ class SettingEntrantController extends ControllerClass
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionSendCgGraduate($id,$se, $faculty, $speciality)
+    public function actionSendCgGraduate($id,  $se, $faculty, $speciality)
     {
         try {
             if (($settingEntrant = SettingEntrant::findOne($se)) == null) {
