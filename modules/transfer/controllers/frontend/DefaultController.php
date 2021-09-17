@@ -3,6 +3,7 @@
 namespace modules\transfer\controllers\frontend;
 
 use api\client\Client;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use dictionary\models\Faculty;
 use modules\transfer\behaviors\RedirectBehavior;
@@ -49,6 +50,7 @@ class DefaultController extends Controller
                     $model->current_status = $data['current_status_id'];
                     try {
                         $model->isStatusMpsuCorrectType();
+                        $this->isNoGraduate($data['education_level_id']);
                     } catch (Exception $e) {
                         \Yii::$app->session->setFlash('error',  $e->getMessage());
                         return $this->redirect(['fix']);
@@ -153,6 +155,15 @@ class DefaultController extends Controller
         return StatementTransfer::findOne(['user_id' => $this->getUser()]);
     }
 
+    protected function isNoGraduate($eduLevel) {
+        if($eduLevel != DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
+            throw new Exception('Прием заявок на переводы и восстановления в летний период приема документов завершен. 
+            Прием документов осуществлялся с 18 июня по 15 июля (на вакантные бюджетные места), 
+            по 20 августа (на места по договору об оказании платны образовательных услуг). 
+            Следующий прием документов для переводов и восстановлений будут осуществляться в зимний период приема документов (с 18 декабря по 5 февраля).
+                Контакты для связи с отделом переводов и восстановлений: 8(499)233-41-81 и otdel_vp@mpgu.su');
+        }
+    }
 
     protected function findModel() {
         return TransferMpgu::findOne(['user_id'=> $this->getUser()]);

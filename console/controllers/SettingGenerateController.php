@@ -239,6 +239,8 @@ class SettingGenerateController extends Controller
     public function actionSetListZos() {
         /** @var SettingCompetitionList $st */
         foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
+                     ->andWhere(['form_edu' => DictCompetitiveGroupHelper::EDU_FORM_ZAOCH])
+                     ->andWhere(['edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR])
                      ->all() as $st)  {
             $st->date_end = DateFormatHelper::format($st->settingEntrant->datetime_end, "Y-m-d");
             $st->save();

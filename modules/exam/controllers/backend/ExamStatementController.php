@@ -120,7 +120,7 @@ class ExamStatementController extends Controller
      */
     public function actionViolation()
     {
-        $searchModel = new ExamStatementSearch($this->jobEntrant);
+        $searchModel = new ExamStatementSearch($this->jobEntrant, false);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index-bb', [

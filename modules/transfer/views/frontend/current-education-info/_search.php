@@ -5,9 +5,9 @@ use yii\helpers\Html; ?>
 
 <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get']); ?>
       <?= $form->field($model, 'year')->dropDownList($model->getYears())->label('Год поступления') ?>
-      <?= $form->field($model, 'edu_level')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduLevels()) ?>
+      <?= !$model->getIsOneValueEduLevel() ? $form->field($model, 'edu_level')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduLevels()) : ""?>
       <?= $form->field($model, 'education_form_id')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::getEduForms()) ?>
-      <?= !$model->getStatusFinance() ? $form->field($model, 'financing_type_id')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::listFinances()) : ''?>
+      <?= !$model->getIsOneValueFinance() ? $form->field($model, 'financing_type_id')->dropDownList(\dictionary\helpers\DictCompetitiveGroupHelper::listFinances()) : ''?>
       <?= $form->field($model, 'faculty_id')->widget(\kartik\select2\Select2::class,[
         'name' => 'filter-faculty_id',
         'id' => 'filter-faculty_id',

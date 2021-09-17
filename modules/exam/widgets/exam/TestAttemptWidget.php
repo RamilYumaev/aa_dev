@@ -23,6 +23,9 @@ class TestAttemptWidget extends Widget
         $query = ExamAttempt::find()->test($this->test_id)->type($this->type)->orderByMark();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 400,
+            ],
         ]);
 
         return $this->render($this->view, [

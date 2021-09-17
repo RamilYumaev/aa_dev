@@ -175,9 +175,25 @@ if(!Yii::$app->user->isGuest ) {
                             "icon" => "list-ul",
                         ],
                     ]],
+                \Yii::$app->user->can('proctor') ? ['label' => 'Заявки на экзамен',
+                    "items" => [
+                        [
+                            "label" => 'Новые заявки',
+                            "url" => ['/data-exam/exam-statement/index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => 'Мои заявки',
+                            "url" => ['/data-exam/exam-statement/my-list'],
+                            "icon" => "table",
+                        ],
+                        \Yii::$app->user->can('proctor-admin') ? [
+                            "label" => 'Заявки с прокторами',
+                            "url" => ['/data-exam/exam-statement/index-admin'],
+                            "icon" => "table",
+                        ] : [],
+                    ]] : [],
             ]
-
-
         );
     }
 

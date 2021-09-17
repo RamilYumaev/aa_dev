@@ -32,7 +32,8 @@ class CurrentEducationInfoController extends Controller
             \Yii::$app->session->setFlash('warning', 'Страница недоступна');
             return $this->redirect(['default/index']);
         }
-        $searchModel = new CompetitiveGroupSearch($this->getEnd());
+
+        $searchModel = new CompetitiveGroupSearch($this->getCurrentFinanceArray(), $this->getCurrentEduLevelArray());
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -61,8 +62,8 @@ class CurrentEducationInfoController extends Controller
             ->andWhere(['id' => $id])
             ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
             ->foreignerStatus(0)
-            ->finance($this->getEnd() ? DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT: [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+            ->eduLevel($this->getCurrentEduLevelArray())
+            ->finance($this->getCurrentFinanceArray())
             ->tpgu(0)->one();
         if(!$model) {
             throw new NotFoundHttpException("Не найдена конкурсная группа");
@@ -99,14 +100,13 @@ class CurrentEducationInfoController extends Controller
         return StatementTransfer::findOne(['user_id' => $this->getUser()]);
     }
 
-    public function getEnd() {
-        return strtotime("2021-07-15 18:00:00") < $this->currentDate();
+    public function getCurrentFinanceArray() {
+        return [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
     }
 
-    private function currentDate()
-    {
-        //   \date_default_timezone_set('Europe/Moscow');
-        return strtotime(\date("Y-m-d G:i:s"));
+    public function getCurrentEduLevelArray() {
+        return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
     protected function findModel() {

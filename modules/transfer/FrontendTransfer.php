@@ -28,7 +28,7 @@ class FrontendTransfer extends Module
 
     public function beforeAction($action)
     {
-        $url = ['no', 'yes', 'get'];
+       /* $url = ['no', 'yes', 'get'];
         if(in_array(Yii::$app->controller->action->id, $url)) {
             return true;
         }
@@ -40,7 +40,7 @@ class FrontendTransfer extends Module
                  Yii::$app->end();
              } catch (ExitException $e) {
              }
-         }
+         } */
         return (new UserNoEmail())->redirect();
     }
 

@@ -20,10 +20,12 @@ class CompetitiveGroupSearch extends Model
         $financing_type_id,
         $education_form_id;
     private $finance;
+    private $eduLevel;
 
-    public function __construct($finance, $config = [])
+    public function __construct($finance, $eduLevel,  $config = [])
     {
         $this->finance = $finance;
+        $this->eduLevel = $eduLevel;
         parent::__construct($config);
     }
 
@@ -40,8 +42,12 @@ class CompetitiveGroupSearch extends Model
         ];
     }
 
-    public function getStatusFinance() {
-        return $this->finance;
+    public function getIsOneValueFinance() {
+        return count($this->finance) == 1;
+    }
+
+    public function getIsOneValueEduLevel() {
+        return count($this->eduLevel) == 1;
     }
 
     /**
@@ -56,8 +62,8 @@ class CompetitiveGroupSearch extends Model
             ->specialRight(null)
             ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
             ->foreignerStatus(0)
-            ->finance($this->getStatusFinance() ? DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT: [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET])
+            ->eduLevel($this->eduLevel)
+            ->finance($this->finance)
             ->tpgu(0)->orderBy(['year'=> SORT_ASC ]);
 
         $dataProvider = new ActiveDataProvider([

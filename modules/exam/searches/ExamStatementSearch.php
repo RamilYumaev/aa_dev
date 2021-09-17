@@ -11,9 +11,11 @@ class ExamStatementSearch extends Model
 {
     public $exam_id, $entrant_user_id, $proctor_user_id, $date_from, $date_to, $type, $time;
     public $jobEntrant;
+    private $isOpen;
 
-    public function __construct(JobEntrant $entrant = null, $config = [])
+    public function __construct(JobEntrant $entrant = null,  $isOpen = true, $config = [])
     {
+        $this->isOpen = $isOpen;
         $this->jobEntrant = $entrant;
         parent::__construct($config);
     }
@@ -36,12 +38,16 @@ class ExamStatementSearch extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        if($this->jobEntrant && ($this->jobEntrant->category_id == 0  || $this->jobEntrant->isCategoryFOK() || $this->jobEntrant->isCategoryCOZ())) {
-            $query->andWhere(['proctor_user_id'=> $this->jobEntrant->user_id]);
-        }else if($this->jobEntrant && $this->jobEntrant->isCategoryTarget()) {
+        if($this->isOpen) {
+            if($this->jobEntrant && ($this->jobEntrant->category_id == 0  ||
+                    $this->jobEntrant->isCategoryFOK() || $this->jobEntrant->isCategoryCOZ()
+                    || $this->jobEntrant->isCategoryTarget())) {
+                $query->andWhere(['proctor_user_id'=> $this->jobEntrant->user_id]);
+            }else{
+                $query->andWhere(['proctor_user_id'=> null]);
+            }
+        }else {
             $query->andWhere(['status'=> ExamStatementHelper::ERROR_RESERVE_STATUS]);
-        }else{
-            $query->andWhere(['proctor_user_id'=> null]);
         }
 
         $this->load($params);
