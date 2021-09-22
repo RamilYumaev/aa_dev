@@ -293,7 +293,7 @@ class AgreementHelper
         $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         if ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
-                return '25 сентября';
+                return '01 октября';
             } elseif ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
                 return self::cameOnAugust31() ? '25 ноября' : '30 августа';
             } else {
