@@ -17,16 +17,18 @@ use dictionary\helpers\DictFacultyHelper;
 use olympic\helpers\ClassAndOlympicHelper;
 use olympic\helpers\OlimpicCgHelper;
 use olympic\helpers\OlympicHelper;
+use yii\db\ActiveRecord;
 use yii\helpers\Html;
 
 
-class OlimpicList extends  YiiActiveRecordAndModeration
+class OlimpicList extends  ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     private $_olmpicTypeTemplate;
 
+    /*
     public function behaviors()
     {
         return [
@@ -40,6 +42,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             ],
         ];
     }
+    */
 
     public static function tableName()
     {

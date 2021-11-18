@@ -156,7 +156,7 @@ class DefaultController extends Controller
     }
 
     protected function isNoGraduate($eduLevel) {
-        if($eduLevel != DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
+        if($eduLevel != 6) {
             throw new Exception('Прием заявок на переводы и восстановления в летний период приема документов завершен. 
             Прием документов осуществлялся с 18 июня по 15 июля (на вакантные бюджетные места), 
             по 20 августа (на места по договору об оказании платны образовательных услуг). 

@@ -1,6 +1,7 @@
 <?php
 namespace modules\dictionary\components;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\dictionary\jobs\CompetitionListJob;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingCompetitionList;
@@ -22,7 +23,12 @@ class RegisterCompetitiveListComponent
         /** @var SettingCompetitionList $item */
         $date = date('Y-m-d');
         echo count(SettingCompetitionList::find()->getAllWork($date));
-        foreach (SettingCompetitionList::find()->getAllWork($date) as $item) {
+        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
+                     ->andWhere(['edu_level'=>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+                     ->andWhere(['finance_edu' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
+                     ->andWhere(['form_edu' => [DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]])
+                     ->getAllWork($date) as $item) {
             /** @var SettingEntrant $settingEntrant */
             $settingEntrant = $item->settingEntrant;
             $array = $settingEntrant->isGraduate() ? $settingEntrant->getAllGraduateCgAisId() : $settingEntrant->getAllCgAisId();

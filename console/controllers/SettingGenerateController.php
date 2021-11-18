@@ -274,12 +274,12 @@ class SettingGenerateController extends Controller
     }
 
     public function actionAllExam($eduLevel, $formCategory, $faculty = null) {
-        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory,2);
         $countUser = 0;
         $countDisciplineUser = 0;
         $array = [];
         foreach ($users as  $user) {
-            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, $faculty);
+            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, DictFacultyHelper::FACULTY_FILIAL);
             if(!$disciplines) {
                 continue;
             }

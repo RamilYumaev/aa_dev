@@ -46,6 +46,9 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
             <?php endif; ?>
         </p>
     </div>
+    <?php if(!$entrantSetting->open()) :?>
+        <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+    <?php endif;?>
 </div>
     <div style="margin-top: 80px">
             <?php if(key_exists($model->type, $data) && count($data[$model->type])):

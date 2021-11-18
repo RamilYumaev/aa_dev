@@ -2,6 +2,8 @@
 namespace modules\exam\services;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictFacultyHelper;
+use modules\dictionary\helpers\DictDefaultHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
@@ -167,9 +169,9 @@ class ExamStatementService
     }
 
     public function addAllStatement($eduLevel, $formCategory) {
-        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory, 2);
         foreach ($users as $user) {
-            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory);
+            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, DictFacultyHelper::FACULTY_FILIAL);
             if(!$disciplines) {
                 continue;
             }
