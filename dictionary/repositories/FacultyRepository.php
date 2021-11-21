@@ -11,7 +11,7 @@ class FacultyRepository
     public function get($id): Faculty
     {
         if (!$model = Faculty::findOne($id)) {
-            throw new \DomainException( 'Faculty не найдено.');
+            throw new \DomainException( 'Факультет/Институт не найден.');
         }
         return $model;
     }

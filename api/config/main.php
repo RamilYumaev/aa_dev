@@ -28,6 +28,9 @@ return [
         'entrant-module' => [
             'class' => \modules\entrant\ApiEntrant::class
         ],
+        'student' => [
+            'class' => \modules\student\ApiStudent::class
+        ],
     ],
     'components' => [
         'request' => [

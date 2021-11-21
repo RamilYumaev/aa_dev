@@ -39,4 +39,8 @@ class UserSdoToken extends ActiveRecord
     public function getProfile(){
         return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
     }
+
+    public function getUser(){
+        return $this->hasOne(User::class, ['id'=>'user_id']);
+    }
 }

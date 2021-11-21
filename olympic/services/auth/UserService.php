@@ -1,6 +1,8 @@
 <?php
 namespace olympic\services\auth;
 
+use common\auth\models\UserSdoToken;
+use common\auth\services\UserTokensService;
 use common\sending\traits\SelectionCommitteeMailTrait;
 use frontend\search\Profile;
 use olympic\forms\auth\UserCreateForm;
@@ -17,26 +19,38 @@ class UserService
     private $repository;
     private $transaction;
     private $profileRepository;
+    private $userTokensService;
 
     use SelectionCommitteeMailTrait;
 
     public function __construct(
         UserRepository $repository,
         TransactionManager $transaction,
-        ProfileRepository $profileRepository
+        ProfileRepository $profileRepository,
+        UserTokensService $userTokensService
     )
     {
         $this->profileRepository = $profileRepository;
         $this->repository = $repository;
         $this->transaction = $transaction;
+        $this->userTokensService = $userTokensService;
+    }
+
+    public function createUserForApi(UserCreateForm $form): UserSdoToken
+    {
+        $user = $this->create($form);
+        return $this->userTokensService->getSdoToken($user->id);
     }
 
     public function create(UserCreateForm $form): User
     {
         $user = User::create($form);
+        $user->status = 10;
         $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
-            $user->setAssignment($form->role);
+            if($form->role) {
+                $user->setAssignment($form->role);
+            }
         });
         return $user;
     }

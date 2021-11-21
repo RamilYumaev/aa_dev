@@ -17,18 +17,22 @@ class UserCreateForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'email', 'role'], 'required'],
+            [['username', 'email'], 'required'],
             ['email', 'email'],
             [['username', 'email'], 'string', 'max' => 255],
             [['username', 'email'], 'unique', 'targetClass' => \common\auth\models\User::class],
             ['password', 'string', 'min' => 6],
-            ['phone', 'integer'],
         ];
     }
 
     public function rolesList(): array
     {
         return ArrayHelper::map(\Yii::$app->authManager->getRoles(), 'name', 'description');
+    }
+
+    public function attributeLabels()
+    {
+        return ['password' => "Пароль", 'username' => "Логин"];
     }
 
 }

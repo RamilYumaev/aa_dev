@@ -16,4 +16,8 @@ return [
     'mobile-ci/get-anketa'=>'entrant-module/mobile-ci/get-anketa',
     'mobile-ci/get-dict-cse'=>'entrant-module/mobile-ci/get-dict-cse',
     'queue/index'=>'entrant-module/queue/index',
+    'student/auth' => 'student/auth/index',
+    'student/registration' => 'student/register/create',
+    'student/faculty-list' => 'student/default/faculty-list',
+    'student/type-list' => 'student/default/type-list'
 ];
