@@ -41,4 +41,12 @@ class ProfileRepository
             throw new \RuntimeException('Ошибка удаления.');
         }
     }
+
+    public function getPhone($phone): Profiles
+    {
+        if (!$profile = Profiles::findOne(['phone' => $phone])) {
+            throw new \DomainException('Профиль с номером телефона не найден.');
+        }
+        return $profile;
+    }
 }

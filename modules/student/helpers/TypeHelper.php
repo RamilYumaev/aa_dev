@@ -1,6 +1,5 @@
 <?php
 namespace modules\student\helpers;
-use yii\helpers\ArrayHelper;
 
 class TypeHelper
 {

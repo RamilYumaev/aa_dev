@@ -7,34 +7,65 @@ use common\auth\forms\PasswordResetRequestForm;
 use common\auth\forms\ResetPasswordForm;
 use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
+use modules\student\forms\MultiResetForm;
+use olympic\repositories\auth\ProfileRepository;
+use olympic\services\auth\ProfileService;
 use Yii;
 
 class PasswordResetService
 {
     private $users;
     private $transaction;
+    private $profileRepository;
 
     public function __construct(
         UserRepository $users,
+        ProfileRepository $profileRepository,
         TransactionManager $transaction
     )
     {
         $this->users = $users;
         $this->transaction = $transaction;
+        $this->profileRepository = $profileRepository;
     }
 
-    public function request(PasswordResetRequestForm $form): void
+    public function requestApi(MultiResetForm $form): void
     {
         $this->transaction->wrap(function () use ($form) {
-            $user = $this->requestPassword($form);
+            switch ($form->getScenario()) {
+                case MultiResetForm::SCENARIO_PHONE:
+                  $profile =  $this->profileRepository->getPhone($form->phone);
+                  $email = $profile->user->email;
+                  break;
+                case  MultiResetForm::SCENARIO_LOGIN:
+                    $user = $this->users->findByUsernameOrEmail($form->username);
+                    if(!$user) {
+                        throw new \DomainException("Логин не найден");
+                    }
+                    $email = $user->email;
+                    break;
+                default:
+                    $email = $form->email;
+                    break;
+            }
+            $user = $this->requestPassword($email);
             $this->users->save($user);
             $this->sendEmail($user);
         });
     }
 
-    public function requestPassword(PasswordResetRequestForm $form)
+    public function request(PasswordResetRequestForm $form): void
     {
-        $user = $this->users->getByEmail($form->email);
+        $this->transaction->wrap(function () use ($form) {
+            $user = $this->requestPassword($form->email);
+            $this->users->save($user);
+            $this->sendEmail($user);
+        });
+    }
+
+    public function requestPassword($email)
+    {
+        $user = $this->users->getByEmail($email);
         $user->requestPasswordReset();
         return $user;
     }

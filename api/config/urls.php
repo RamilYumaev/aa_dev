@@ -18,6 +18,7 @@ return [
     'queue/index'=>'entrant-module/queue/index',
     'student/auth' => 'student/auth/index',
     'student/registration' => 'student/register/create',
+    'student/reset' => 'student/reset/index',
     'student/faculty-list' => 'student/default/faculty-list',
     'student/type-list' => 'student/default/type-list'
 ];
