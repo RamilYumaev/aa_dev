@@ -10,9 +10,7 @@ use yii\base\Model;
 
 class MultiResetForm extends Model
 {
-    public $email;
-    public $username;
-    public $phone;
+    public $value;
     public $type;
 
     const SCENARIO_EMAIL = 'email';
@@ -22,27 +20,26 @@ class MultiResetForm extends Model
     public function rules(): array
     {
         return [
-            ['email', 'trim', 'on' => self::SCENARIO_EMAIL],
-            ['email', 'required', 'on' => self::SCENARIO_EMAIL],
-            ['email', 'email', 'on' => self::SCENARIO_EMAIL],
-            ['email', 'exist',
+            ['value', 'trim', 'on' => [self::SCENARIO_LOGIN, self::SCENARIO_PHONE, self::SCENARIO_EMAIL]],
+            ['value', 'required', 'on' => [self::SCENARIO_LOGIN, self::SCENARIO_PHONE, self::SCENARIO_EMAIL]],
+            ['value', 'email', 'on' => self::SCENARIO_EMAIL],
+            ['value', 'exist',
                 'on' => self::SCENARIO_EMAIL,
-                'targetClass' => User::class,
+                'targetClass' => User::class,'targetAttribute' => ['value' => 'email'],
                 'filter' => ['status' => UserHelper::STATUS_ACTIVE],
                 'message' => 'Нет пользователя с таким адресом электронной почты или почта неподтверждена!'
             ],
-            ['username', 'trim', 'on' => self::SCENARIO_LOGIN],
-            ['username', 'required', 'on' => self::SCENARIO_LOGIN],
-            ['username', 'exist', 'on' => self::SCENARIO_LOGIN,
+            ['value', 'exist', 'on' => self::SCENARIO_LOGIN,
                 'targetClass' => User::class,
+                'targetAttribute' => ['value' => 'username'],
                 'filter' => ['status' => UserHelper::STATUS_ACTIVE],
                 'message' => 'Нет пользователя с таким логином или почта не неподтверждена!'
             ],
-            ['phone', 'required', 'on' => self::SCENARIO_PHONE],
-            [['phone'], 'string', 'max' => 25],
-            ['phone', 'exist', 'targetClass' => Profiles::class,
+            ['value', 'string', 'max' => 25, 'on' => self::SCENARIO_PHONE],
+            ['value', 'exist', 'targetClass' => Profiles::class,
+                'targetAttribute' => ['value' => 'phone'],
                 'message' => 'Нет пользователя с таким номером телефона!', 'on' => self::SCENARIO_PHONE],
-            [['phone'], PhoneInputValidator::class, 'on' => self::SCENARIO_PHONE],
+            [['value'], PhoneInputValidator::class, 'on' => self::SCENARIO_PHONE],
             ['type', 'required'],
             ['type', 'string'],
             ['type', 'in', 'range' => [self::SCENARIO_LOGIN, self::SCENARIO_PHONE, self::SCENARIO_EMAIL]],
@@ -51,6 +48,6 @@ class MultiResetForm extends Model
 
     public function attributeLabels()
     {
-        return ['type' => 'Тип сброса', 'username' => 'login', ''];
+        return ['type' => 'Тип сброса (email, username, phone)', 'value' => "Значение"];
     }
 }

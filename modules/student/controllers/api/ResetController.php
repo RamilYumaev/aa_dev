@@ -1,7 +1,6 @@
 <?php
 namespace modules\student\controllers\api;
 
-use common\auth\forms\PasswordResetRequestForm;
 use common\auth\services\PasswordResetService;
 use modules\student\forms\MultiResetForm;
 use yii\helpers\Json;
@@ -28,21 +27,25 @@ class ResetController extends Controller
    {
        $json = $this->getJson();
        $data = Json::decode($json);
-       $userForm = new MultiResetForm($data);
-       if($userForm->type) {
+       $userForm = new MultiResetForm();
+
+       if(key_exists('type', $data) && $userForm->type = $data['type']) {
            if(key_exists($userForm->type, $userForm->scenarios())) {
                $userForm->setScenario($userForm->type);
            }
        }
+       if(key_exists('value', $data)) {
+           $userForm->value =  $data['value'];
+       }
        if($userForm->validate()) {
            try{
                $this->service->requestApi($userForm);
-               return ['success'=> 'Проверьте свою электронную почту и следуйте инструкциям, указанным в письме.'];
+               return ['message'=> 'Проверьте свою электронную почту и следуйте инструкциям, указанным в письме.'];
            }catch (\DomainException $e) {
-               return ['errorMessage' => $e->getMessage()];
+               return ['error' => $e->getMessage()];
            }
        } else {
-           return ['errorMessage' => $userForm->errors];
+           return ['error' => trim($userForm->getFirstError('type')." ".$userForm->getFirstError('value'))];
        }
    }
 

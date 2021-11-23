@@ -34,18 +34,18 @@ class PasswordResetService
         $this->transaction->wrap(function () use ($form) {
             switch ($form->getScenario()) {
                 case MultiResetForm::SCENARIO_PHONE:
-                  $profile =  $this->profileRepository->getPhone($form->phone);
+                  $profile =  $this->profileRepository->getPhone($form->value);
                   $email = $profile->user->email;
                   break;
                 case  MultiResetForm::SCENARIO_LOGIN:
-                    $user = $this->users->findByUsernameOrEmail($form->username);
+                    $user = $this->users->findByUsernameOrEmail($form->value);
                     if(!$user) {
                         throw new \DomainException("Логин не найден");
                     }
                     $email = $user->email;
                     break;
                 default:
-                    $email = $form->email;
+                    $email = $form->value;
                     break;
             }
             $user = $this->requestPassword($email);
