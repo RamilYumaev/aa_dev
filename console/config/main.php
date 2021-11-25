@@ -25,6 +25,7 @@ return [
             'migrationNamespaces' => ['modules\entrant\migrations', 'modules\support\migrations',
                 'modules\transfer\migrations',
                 'modules\exam\migrations', 'modules\management\migrations',  'yii\queue\db\migrations',
+                'modules\student\migrations',
                 'modules\dictionary\migrations'],
         ],
     ],
