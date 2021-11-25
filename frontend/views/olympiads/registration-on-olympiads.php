@@ -41,9 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><?= $olympic->olympicOneLast->addressNameString ?></p>
             <p><?= $olympic->olympicOneLast->timeOfTourNameString ?></p>
             <?= $olympic->olympicOneLast->contentString ?>
-            <?php if (Yii::$app->user->isGuest && $olympic->olympicOneLast->isOnRegisterOlympic) : ?>
-                <?= $this->render('form/_form', ['model' => $model]) ?>
-            <?php endif; ?>
         </div>
         <div class="col-md-5">
             <div class="control-panel">
