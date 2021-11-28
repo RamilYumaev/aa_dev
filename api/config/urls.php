@@ -20,5 +20,6 @@ return [
     'student/registration' => 'student/register/create',
     'student/reset' => 'student/reset/index',
     'student/faculty-list' => 'student/default/faculty-list',
-    'student/type-list' => 'student/default/type-list'
+    'student/type-list' => 'student/default/type-list',
+    'student/user' => 'student/schedule/index'
 ];
