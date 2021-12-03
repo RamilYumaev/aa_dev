@@ -18,11 +18,13 @@ use common\user\repositories\TeacherClassUserRepository;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
+use olympic\repositories\auth\ProfileRepository;
 use olympic\repositories\ClassAndOlympicRepository;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\UserOlimpiadsRepository;
 use teacher\helpers\TeacherClassUserHelper;
 use teacher\models\TeacherClassUser;
+use yii\helpers\Html;
 
 class UserOlimpiadsService
 {
@@ -34,14 +36,14 @@ class UserOlimpiadsService
     private $transactionManager;
     private $userRepository;
     private $teacherClassUserRepository;
-
+    private $profileRepository;
     use MailTrait;
 
     function __construct(UserOlimpiadsRepository $repository, OlimpicListRepository $olimpicListRepository,
                          ClassAndOlympicRepository $classAndOlympicRepository, UserSchoolRepository $userSchoolRepository,
                          SendingDeliveryStatusRepository $deliveryStatusRepository,
                          TransactionManager $transactionManager, UserRepository $userRepository,
-                         TeacherClassUserRepository $teacherClassUserRepository)
+                         TeacherClassUserRepository $teacherClassUserRepository, ProfileRepository $profileRepository)
     {
         $this->repository = $repository;
         $this->olimpicListRepository = $olimpicListRepository;
@@ -51,6 +53,7 @@ class UserOlimpiadsService
         $this->transactionManager = $transactionManager;
         $this->userRepository = $userRepository;
         $this->teacherClassUserRepository = $teacherClassUserRepository;
+        $this->profileRepository = $profileRepository;
     }
 
     public function add($olympic_id, $user_id) {
@@ -61,6 +64,7 @@ class UserOlimpiadsService
         $this->transactionManager->wrap(function () use ($olympic_id, $user_id, $sendingTemplate) {
             $olympic = $this->olimpicListRepository->get($olympic_id);
             $user = $this->userRepository->get($user_id);
+            $this->isProfile($user->id);
             $userSchool = $this->userSchoolRepository->getSchooLUser($user->id);
             $this->classAndOlympicRepository->get($olympic->id, $userSchool->class_id);
             if(!$this->repository->isUserOlympic($olympic->id, $user->id)) {
@@ -152,4 +156,12 @@ class UserOlimpiadsService
         return $users;
     }
 
+    public function isProfile($user_id)
+    {
+        $profile = $this->profileRepository->getUser($user_id);
+        if(!$profile || (!$profile->last_name || !$profile->first_name)) {
+            throw new \DomainException('Для записи на олимпиаду необходимо актуализировать информацию в разделе 
+            '.Html::a('"Профиль"', '/profile/edit'));
+        }
+    }
 }

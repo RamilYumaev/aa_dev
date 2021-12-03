@@ -26,6 +26,11 @@ $this->params['breadcrumbs'][] = $olympic->year;
 </div>
 <div class="container">
     <div class="row">
+        <div class="col-md-4 col-md-offset-4 mb-30">
+            <?=Html::a("Как зарегистрироваться на олимпиаду или конкурс?", "/instructions/registration_on_olympic.pdf");?>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-7">
             <p><?= $olympic->dateRegStartNameString ?></p>
             <p><?= $olympic->dateRegEndNameString ?> </p>
