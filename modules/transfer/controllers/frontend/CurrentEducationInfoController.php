@@ -6,6 +6,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\transfer\behaviors\TransferRedirectBehavior;
 use modules\transfer\helpers\ConverterFaculty;
+use modules\transfer\models\CurrentEducation;
 use modules\transfer\models\CurrentEducationInfo;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\models\TransferMpgu;
@@ -33,7 +34,7 @@ class CurrentEducationInfoController extends Controller
             return $this->redirect(['default/index']);
         }
 
-        $searchModel = new CompetitiveGroupSearch($this->getCurrentFinanceArray(), $this->getCurrentEduLevelArray());
+        $searchModel = new CompetitiveGroupSearch($this->getCurrentFinanceArray(), $this->getEduLevelArray());
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +63,7 @@ class CurrentEducationInfoController extends Controller
             ->andWhere(['id' => $id])
             ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
             ->foreignerStatus(0)
-            ->eduLevel($this->getCurrentEduLevelArray())
+            ->eduLevel($this->getEduLevelArray())
             ->finance($this->getCurrentFinanceArray())
             ->tpgu(0)->one();
         if(!$model) {
@@ -73,6 +74,7 @@ class CurrentEducationInfoController extends Controller
                 $faculty = ConverterFaculty::searchFaculty($model->faculty_id);
             if(!$statement) {
                 StatementTransfer::create($this->getUser(), $data['edu_count'], $faculty, $model->id,
+                    $model->financing_type_id,
                     $data['semester'],
                     $data['course'])->save();
             }else {
@@ -101,16 +103,37 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getCurrentFinanceArray() {
-        return [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+        return $this->isFinanceContract() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,] :
+            [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
             DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
     }
 
-    public function getCurrentEduLevelArray() {
+    public function getCurrentEduLevelGraduateArray() {
         return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
+
+    public function getEduLevelArray() {
+        return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
+    }
+
+
     protected function findModel() {
-        return CurrentEducationInfo::findOne(['user_id'=> $this->getUser()]);
+        return CurrentEducation::findOne(['user_id'=> $this->getUser()]);
+    }
+
+    protected function isFinanceContract() {
+       $transfer = TransferMpgu::findOne(['user_id'=> $this->getUser()]);
+        if ($transfer && $transfer->isMpgu()) {
+            $data= $transfer->getJsonData();
+            return $data['finance'] == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+        } else {
+            if($model = $this->findModel()){
+                return $model->finance== DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+            }
+        }
+        return false;
     }
 
     protected function getUser() {

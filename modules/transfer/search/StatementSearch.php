@@ -9,19 +9,26 @@ use modules\entrant\models\Statement;
 use modules\entrant\models\StatementIndividualAchievements;
 use modules\entrant\models\UserAis;
 use modules\entrant\readRepositories\StatementReadRepository;
+use modules\transfer\models\PassExam;
 use modules\transfer\models\StatementTransfer;
+use modules\transfer\models\TransferMpgu;
 use modules\transfer\readRepositories\StatementTransferReadRepository;
+use Mpdf\Tag\Tr;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 class StatementSearch extends  Model
 {
     public $user_id, $date_from, $edu_count, $date_to;
+    public $type;
+    public $finance;
+    public $success_exam;
     private $status;
-
-    public function __construct($status, $config = [])
+    private $exam;
+    public function __construct($status, $exam = null,  $config = [])
     {
         $this->status = $status;
+        $this->exam = $exam;
         parent::__construct($config);
     }
 
@@ -29,7 +36,7 @@ class StatementSearch extends  Model
     public function rules()
     {
         return [
-            [['edu_count', 'user_id',], 'integer'],
+            [['edu_count', 'user_id', 'type', 'success_exam', 'finance'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -41,7 +48,12 @@ class StatementSearch extends  Model
 
     public function search(array $params, $limit = null): ActiveDataProvider
     {
-        $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readData()->orderBy(['created_at' => SORT_DESC]);
+        if(!is_null($this->exam)) {
+            $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readDataExamPass(PassExam::SUCCESS)
+                ->andWhere([PassExam::tableName().'.success_exam'=> $this->exam]);
+        } else {
+            $query = (new StatementTransferReadRepository($this->getJobEntrant()))->readData()->orderBy(['created_at' => SORT_DESC]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,9 +73,19 @@ class StatementSearch extends  Model
             $query->andWhere(['status'=>  $this->status]);
         }
 
+        if($this->type) {
+            if(!is_null($this->exam)) {
+                $query->joinWith('statement.transferMpgu')->andWhere([TransferMpgu::tableName() . '.type' => $this->type,]);
+            }else {
+                $query->joinWith('transferMpgu')->andWhere([TransferMpgu::tableName() . '.type' => $this->type,]);
+            }
+        }
+
         $query->andFilterWhere([
             'edu_count' => $this->edu_count,
             'user_id' => $this->user_id,
+            'finance'=>  $this->finance,
+            'success_exam'=> $this->success_exam,
         ]);
 
         $query

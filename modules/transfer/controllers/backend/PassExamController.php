@@ -3,10 +3,6 @@
 
 namespace modules\transfer\controllers\backend;
 use modules\dictionary\models\JobEntrant;
-use modules\entrant\forms\StatementMessageForm;
-use modules\entrant\helpers\DataExportHelper;
-use modules\entrant\helpers\FileCgHelper;
-use modules\entrant\helpers\PdfHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\transfer\models\PassExam;
 use modules\transfer\search\PassExamSearch;
@@ -43,12 +39,40 @@ class PassExamController extends Controller
         ]);
     }
 
+    public function actionExam($exam)
+    {
+        $status =  StatementHelper::STATUS_ACCEPTED;
+        $searchModel = new StatementSearch($status, $exam);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('exam', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'exam' => $exam
+        ]);
+    }
+
+
     /**
      * @param $id
      * @param $status
      * @return mixed
      * @throws NotFoundHttpException
      */
+
+    public function actionExamStatus($id, $status)
+    {
+        $model = $this->findModelPassExam($id);
+        try {
+            $model->setSuccessExam($status);
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
     /**
      * @param $id
@@ -123,9 +147,23 @@ class PassExamController extends Controller
      * @throws NotFoundHttpException
      */
     protected function findModel($id): StatementTransfer
-    {;
+    {
 
         if (($model = StatementTransfer::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelPassExam($id): PassExam
+    {
+
+        if (($model = PassExam::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');

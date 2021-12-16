@@ -1,8 +1,12 @@
 <?php
 namespace modules\transfer\controllers\frontend;
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\transfer\models\File;
+use modules\transfer\models\PassExam;
+use modules\transfer\models\ReceiptContractTransfer;
+use modules\transfer\models\StatementAgreementContractTransferCg;
 use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 use yii\bootstrap\ActiveForm;
@@ -134,13 +138,29 @@ class FileController extends Controller
 
     /**
      * @param integer $id
-     * @param integer $modelOne
+     * @param BaseActiveRecord $modelOne
      * @return mixed
      * @throws NotFoundHttpException
      * @var $model BaseActiveRecord;
      */
     protected function model($modelOne, $id): BaseActiveRecord
     {
+        if ($modelOne == StatementAgreementContractTransferCg::class && (($model = $modelOne::find()->alias('sactcg')->joinWith("statementTransfer.passExam")
+                ->andWhere(['sactcg.id' => $id])
+                ->andWhere(['finance'=> DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
+                ->andWhere(['user_id'=> $this->getUser(),
+                    'success_exam'=> PassExam::SUCCESS])->one()) !== null)) {
+            return $model;
+        }
+
+        if ($modelOne == ReceiptContractTransfer::class && (($model = $modelOne::find()->alias('sactcg')->joinWith("contractCg.statementTransfer.passExam")
+                    ->andWhere(['sactcg.id' => $id])
+                    ->andWhere(['finance'=> DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
+                    ->andWhere(['user_id'=> $this->getUser(),
+                        'success_exam'=> PassExam::SUCCESS])->one()) !== null)) {
+            return $model;
+        }
+
         if ($modelOne && (($model = $modelOne::findOne(['id' => $id, 'user_id' => $this->getUser()])) !== null)) {
             return $model;
         }

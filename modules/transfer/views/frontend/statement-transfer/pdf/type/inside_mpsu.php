@@ -46,6 +46,6 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block') ?>
+<?= $this->render('_block', ['message' => "Претендент может быть переведен(а)"]) ?>
 <p class="mt-30 fs-15">В Приемную комиссию представлены документы: <br />
     Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>

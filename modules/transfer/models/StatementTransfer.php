@@ -2,6 +2,7 @@
 namespace modules\transfer\models;
 
 
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictClass;
 use dictionary\models\DictCompetitiveGroup;
 use modules\exam\models\Exam;
@@ -25,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at;
  * @property integer $count_pages
  * @property integer $course
+ * @property integer $finance
  * @property integer $edu_count
  * @property integer $cg_id
  * @property integer $faculty_id
@@ -36,6 +38,7 @@ class StatementTransfer extends ActiveRecord
 {
     const DRAFT = 0;
     const MESSAGE = 2;
+
     public static function tableName()
     {
         return '{{%statement_transfer}}';
@@ -54,7 +57,7 @@ class StatementTransfer extends ActiveRecord
         return [TimestampBehavior::class, FileBehavior::class];
     }
 
-    public static  function create($user_id,  $eduCount, $facultyId, $cgId = null, $semester = null, $course=null) {
+    public static  function create($user_id,  $eduCount, $facultyId, $cgId = null, $finance = null,  $semester = null, $course=null) {
         $statement =  new static();
         $statement->user_id = $user_id;
         $statement->course = $course;
@@ -62,6 +65,7 @@ class StatementTransfer extends ActiveRecord
         $statement->semester = $semester;
         $statement->cg_id = $cgId;
         $statement->faculty_id = $facultyId;
+        $statement->finance = $finance;
         $statement->status = self::DRAFT;
         return $statement;
     }
@@ -93,6 +97,10 @@ class StatementTransfer extends ActiveRecord
 
     public function getStatusNameJob() {
         return StatementHelper::statusJobName($this->status);
+    }
+
+    public function getTypeFinance() {
+        return DictCompetitiveGroupHelper::financingTypeName($this->finance);
     }
 
     public function getProfileUser() {
@@ -139,6 +147,10 @@ class StatementTransfer extends ActiveRecord
         return $this->countAcceptedFiles() == $this->countFiles();
     }
 
+    public function isContract() {
+        return $this->finance  == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+    }
+
     public function statusNewJob() {
        return $this->status == StatementHelper::STATUS_WALT ||
         $this->status == StatementHelper::STATUS_WALT_SPECIAL;
@@ -183,11 +195,18 @@ class StatementTransfer extends ActiveRecord
         return $this->user_id.'-'.$this->transferMpgu->type.'-'.date("Y");
     }
 
+    public function getStatementAgreement()
+    {
+        return $this->hasOne( StatementAgreementContractTransferCg::className(), ['statement_transfer_id'=> 'id']);
+    }
+
     public function attributeLabels()
     {
         return [
             'edu_count' => "Образование",
             'course' => 'Курс',
+            'finance' => 'Вид финансирования',
+            'success_exam' => 'Успешность сдачи экзамена',
             'semester' => 'Семестр',
             'cg_id' => 'Конкурсная группа',
             'user_id'=> "Студент",

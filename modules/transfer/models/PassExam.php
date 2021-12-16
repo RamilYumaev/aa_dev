@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $is_pass
  * @property string  $message
  * @property boolean $agree;
+ * @property integer $success_exam
  *
  **/
 
@@ -22,7 +23,19 @@ class PassExam extends ActiveRecord
 {
     const SUCCESS = 1;
     const DANGER = 2;
+
+    const NO_DATA  = 0;
+    const DONE = 2;
+
     const MESSAGE = 'message';
+
+    public function listType() {
+        return [
+            self::NO_DATA => 'Нет данных',
+            self::SUCCESS => 'Успешно',
+            self::DONE => 'Неуспешно',
+        ];
+    }
 
     public static function tableName()
     {
@@ -67,5 +80,17 @@ class PassExam extends ActiveRecord
 
     public function countFilesSend() {
         return $this->getFiles()->andWhere(['status' => FileHelper::STATUS_SEND])->count();
+    }
+
+    public function setSuccessExam($success) {
+        $this->success_exam = $success;
+    }
+
+    public function isSuccessExam() {
+        return $this->success_exam == self::SUCCESS;
+    }
+
+    public function getSuccessExam() {
+        return $this->listType()[$this->success_exam];
     }
 }

@@ -82,6 +82,23 @@ class PostDocumentController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionAgreementContract()
+    {
+        return $this->render('agreement-contract');
+    }
+
+    public function actionContractSend() {
+        try {
+            $this->service->transferContractSend($this->getUserId());
+            return $this->redirect('/');
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        } catch (\Exception $e) {
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     /**
      * @param $id
      * @return string

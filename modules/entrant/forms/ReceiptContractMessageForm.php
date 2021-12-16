@@ -5,13 +5,14 @@ use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\StatementAgreementContractCg;
 use modules\entrant\models\StatementIa;
 use yii\base\Model;
+use yii\db\BaseActiveRecord;
 
 class ReceiptContractMessageForm extends Model
 {
 
     public $message;
 
-    public function __construct(ReceiptContract $file, $config = [])
+    public function __construct(BaseActiveRecord $file, $config = [])
     {
         $this->setAttributes($file->getAttributes(), false);
         parent::__construct($config);

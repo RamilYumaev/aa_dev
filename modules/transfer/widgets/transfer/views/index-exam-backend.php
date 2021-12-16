@@ -3,6 +3,7 @@
 use backend\widgets\adminlte\Box;
 use modules\entrant\helpers\BlockRedGreenHelper;
 use modules\entrant\helpers\StatementHelper;
+use modules\transfer\models\PassExam;
 use modules\transfer\widgets\file\FileListWidget;
 use modules\transfer\widgets\file\FileWidget;
 use yii\helpers\Html;
@@ -12,7 +13,9 @@ use yii\widgets\DetailView;
 /* @var $model modules\transfer\models\StatementTransfer */
 /* @var $transferMpgu \modules\transfer\models\TransferMpgu */
 /* @var $job \modules\dictionary\models\JobEntrant */?>
-<?php Box::begin(
+<?php
+$list = (new PassExam)->listType();
+Box::begin(
         [
             "header" => "Аттестация",
             "type" => Box::TYPE_PRIMARY,
@@ -34,6 +37,21 @@ use yii\widgets\DetailView;
        <?= $model->passExam->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
            ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
    </p>
+   <?php if ($model->passExam->isPassYes()) :?>
+    <p> Статус: <?= $list[$model->passExam->success_exam] ?> <br/>
+        <?=
+        !$model->passExam->success_exam? Html::a($list[PassExam::SUCCESS],
+        ['pass-exam/exam-status', 'id' => $model->passExam->id, 'status'=> PassExam::SUCCESS],
+        ['data'=>['confirm'=> 'Вы уверены, что хотите это сделать?'], 'class'=> 'btn btn-success']).
+        Html::a($list[PassExam::DONE],
+        ['pass-exam/exam-status', 'id' =>$model->passExam->id, 'status'=> PassExam::DONE],
+        ['data'=> ['confirm'=> 'Вы уверены, что хотите это сделать?'],  'class'=> 'btn btn-danger']) :
+        Html::a($list[PassExam::NO_DATA],
+        ['pass-exam/exam-status', 'id' => $model->passExam->id, 'status'=> PassExam::NO_DATA],
+        ['data'=> ['confirm'=> 'Вы уверены, что хотите это сделать?'],  'class'=> 'btn btn-warning']);
+       ?>
+    </p>
+    <?php endif; ?>
     <?= FileListWidget::widget(['record_id' => $model->passExam->id, 'model' => \modules\transfer\models\PassExam::class, 'userId' => $model->user_id ]) ?>
 <?php endif; ?>
 <?php Box::end() ?>

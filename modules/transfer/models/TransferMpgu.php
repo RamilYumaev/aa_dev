@@ -133,6 +133,10 @@ class TransferMpgu extends ActiveRecord
         return $this->listType()[$this->type];
     }
 
+    public function getTypeNameShort() {
+        return $this->listTypeShort()[$this->type];
+    }
+
     public function getDataMpsu() {
         return $this->data_mpgsu ? json_decode($this->data_mpgsu,true) : null;
     }

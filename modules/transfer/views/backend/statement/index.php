@@ -9,7 +9,7 @@ use modules\entrant\helpers\StatementHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $searchModel modules\entrant\searches\StatementSearch */
+/* @var $searchModel modules\transfer\search\StatementSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $status integer */
 $st= StatementHelper::statusJobName($status);
@@ -32,7 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'user_id',
                             'filter' => SelectDataHelper::dataSearchModel($searchModel, \modules\transfer\models\StatementTransfer::find()->joinWith('profileUser')->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)'])->indexBy('user_id')->column(), 'user_id', 'profileUser.fio'),
                             'value'=> 'profileUser.fio'
-
+                    ],
+                    [
+                        'attribute' => 'type',
+                        'label' => 'Тип',
+                        'filter' => (new \modules\transfer\models\TransferMpgu())->listTypeShort(),
+                        'value' => 'transferMpgu.typeNameShort',
+                    ],
+                    [
+                        'attribute' => 'finance',
+                        'filter' => DictCompetitiveGroupHelper::listFinances(),
+                        'value' => function($model) {
+                            return $model->finance ? $model->typeFinance : "";
+                        }
                     ],
                     [
                         'attribute' => 'created_at',

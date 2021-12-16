@@ -25,8 +25,12 @@ use modules\entrant\models\StatementRejectionCgConsent;
 use modules\entrant\models\StatementRejectionRecord;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\readRepositories\FileReadCozRepository;
+use modules\transfer\models\LegalEntityTransfer;
 use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\PassExam;
+use modules\transfer\models\PersonalEntityTransfer;
+use modules\transfer\models\ReceiptContractTransfer;
+use modules\transfer\models\StatementAgreementContractTransferCg;
 use modules\transfer\models\StatementTransfer;
 use Yii;
 
@@ -90,6 +94,10 @@ class FileHelper
             ReceiptContract::class,
             UserDiscipline::class,
             PassExam::class,
+            PersonalEntityTransfer::class,
+            LegalEntityTransfer::class,
+            StatementAgreementContractTransferCg::class,
+            ReceiptContractTransfer::class
         ];
     }
 
@@ -152,6 +160,10 @@ class FileHelper
             PacketDocumentUser::class => 20,
             ReceiptContract::class => 0,
             PassExam::class=>8,
+            PersonalEntityTransfer::class=>5,
+            LegalEntityTransfer::class=>5,
+            StatementAgreementContractTransferCg::class=>20,
+            ReceiptContractTransfer::class=>2,
         ];
     }
 
@@ -180,6 +192,10 @@ class FileHelper
             PacketDocumentUser::class => 'packet',
             UserDiscipline::class =>'ct',
             PassExam::class => 'exam-pass',
+            PersonalEntityTransfer::class=>'personal_t',
+            LegalEntityTransfer::class=>'legal_t',
+            StatementAgreementContractTransferCg::class=> 'st-agreement-t',
+            ReceiptContractTransfer::class=> 'st-transfer_t',
         ];
     }
 
@@ -208,6 +224,10 @@ class FileHelper
             StatementTransfer::class => 'Заявление перевода/восстановления',
             PacketDocumentUser::class => 'СКАНЫ',
             PassExam::class => 'Файлы',
+            StatementAgreementContractTransferCg::class=> 'Договор',
+            PersonalEntityTransfer::class=>"Данные заказчика (Ф)",
+            LegalEntityTransfer::class=>"Данные заказчика (Ю)",
+            ReceiptContractTransfer::class=> 'Квитанция',
         ];
     }
 

@@ -4,14 +4,17 @@
 namespace modules\transfer\services;
 
 use common\transactions\TransactionManager;
+use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\PassportData;
 use modules\exam\models\Exam;
+use modules\transfer\helpers\ContractHelper;
 use modules\transfer\models\File;
 use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\PassExam;
+use modules\transfer\models\StatementAgreementContractTransferCg;
 use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 
@@ -40,6 +43,13 @@ class SubmittedDocumentsService
             $this->statementTransfer($user_id);
             $this->packetDocument($user_id);
             $this->files($user_id);
+        });
+    }
+
+    public function transferContractSend($user_id)
+    {
+        $this->manager->wrap(function () use ($user_id) {
+            $this->contractTransfer($user_id);
         });
     }
 
@@ -105,6 +115,66 @@ class SubmittedDocumentsService
             $statement->save();
         }
     }
+
+    private function contractTransfer($userId)
+    {
+        /** @var StatementAgreementContractTransferCg $statement */
+        $statement = StatementAgreementContractTransferCg::
+        find()->joinWith("statementTransfer.passExam")
+            ->andWhere(['finance'=> DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
+            ->andWhere(['user_id'=> $userId,
+                'success_exam'=> PassExam::SUCCESS])->one();
+        if($statement->statusDraft()) {
+            if ($statement->typePersonal()) {
+                if (!$statement->personal->countFiles()) {
+                    throw new \DomainException(' Не загружены файлы!');
+                } else {
+                    foreach ($statement->personal->files as $file) {
+                        $file->setStatus(FileHelper::STATUS_WALT);
+                        $file->save($file);
+                    }
+                }
+            }
+            if ($statement->typeLegal()) {
+                if (!$statement->legal->countFiles()) {
+                    throw new \DomainException('Не загружены файлы!');
+                } else {
+                    foreach ($statement->legal->files as $file) {
+                        $file->setStatus(FileHelper::STATUS_WALT);
+                        $file->save($file);
+                    }
+                }
+            }
+            $statement->status_id = FileHelper::STATUS_WALT;
+        }
+
+        if($statement->statusCreated()) {
+            if (!$statement->countFiles()) {
+                throw new \DomainException('Не загружены файлы!');
+            }
+            foreach ($statement->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
+                $file->save($file);
+            }
+            $statement->status_id = ContractHelper::STATUS_ACCEPTED_STUDENT;
+        }
+
+        if($receipt = $statement->receiptContract) {
+            if (!$receipt->countFiles()) {
+                throw new \DomainException('Не загружены файлы квитанции!');
+            }
+            foreach ($receipt->files as $file) {
+                $file->setStatus(FileHelper::STATUS_WALT);
+                $file->save($file);
+            }
+            $receipt->status_id = ContractHelper::STATUS_WALT;
+            $receipt->save();
+        }
+
+        $statement->save(false);
+    }
+
+
 
     private function statementPd($userId)
     {

@@ -7,13 +7,14 @@ use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\models\File;
 use modules\entrant\models\ReceiptContract;
 use yii\base\Model;
+use yii\db\BaseActiveRecord;
 use yii\web\UploadedFile;
 
 class ReceiptContractForm extends Model
 {
     public $date, $bank, $pay_sum;
 
-    public function __construct(ReceiptContract $receipt, $config = [])
+    public function __construct(BaseActiveRecord $receipt, $config = [])
     {
         $this->setAttributes($receipt->getAttributes(), false);
         $this->date = DateFormatHelper::formatView($receipt->date);

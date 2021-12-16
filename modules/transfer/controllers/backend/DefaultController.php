@@ -10,4 +10,9 @@ class DefaultController extends Controller
     {
         return $this->render('index');
     }
+
+    public function actionContract()
+    {
+        return $this->render('contract');
+    }
 }

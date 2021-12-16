@@ -10,6 +10,7 @@ use backend\widgets\adminlte\components\AdminLTE;
 use modules\dictionary\models\JobEntrant;use modules\entrant\helpers\StatementHelper;
 use modules\transfer\models\PassExam;
 use modules\transfer\widgets\info\ExamPassCountWidget;
+use modules\transfer\widgets\info\ExamSuccessCountWidget;
 use modules\transfer\widgets\info\InfoUserFullWidget;
 use modules\transfer\widgets\info\StatusStatementCountWidget;
 use modules\transfer\models\TransferMpgu;
@@ -158,6 +159,32 @@ $types = (new TransferMpgu())->listTypeShort();
                 'icon'=> 'list',
                 'protocol' => false,
                 'str' => "Не внесены в протокол", 'link'=> ['/transfer/pass-exam/index', 'protocol'=> false]])?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3> Аттестационные испытания</h3>
+        </div>
+        <div class="col-md-4">
+            <?= ExamSuccessCountWidget::widget([
+                'colorBox' => AdminLTE::BG_YELLOW,
+                'icon'=> 'list',
+                'exam' => 0,
+                'str' => "Нет данных", 'link'=> ['/transfer/pass-exam/exam', 'exam'=> 0]])?>
+        </div>
+        <div class="col-md-4">
+            <?= ExamSuccessCountWidget::widget([
+                'colorBox' => AdminLTE::BG_GREEN,
+                'icon'=> 'list',
+                'exam' => 1,
+                'str' => "Успешно", 'link'=> ['/transfer/pass-exam/exam', 'exam'=> 1]])?>
+        </div>
+        <div class="col-md-4">
+            <?= ExamSuccessCountWidget::widget([
+                'colorBox' => AdminLTE::BG_RED_ACTIVE,
+                'icon'=> 'list',
+                'exam' => 2,
+                'str' => "Неуспешно", 'link'=> ['/transfer/pass-exam/exam', 'exam'=> 2]])?>
         </div>
     </div>
 <?php endif; ?>
