@@ -62,7 +62,7 @@ class StatementAgreementContractTransferCg extends \yii\db\ActiveRecord
             "updated_at" => "Дата  обновления",
             'statementTransfer.cg.faculty.full_name' => "Факультет",
             'statementTransfer.profileUser.fio' => "ФИО  Студента",
-            'statementTransfer.cg.fullNameV' => "Конкурсная группа",
+            'statementTransfer.cg.fullNameCg' => "Конкурсная группа",
             'number' => "Номер договора",
             "statusName" => "Статус",
             "status_id" => "Статус",

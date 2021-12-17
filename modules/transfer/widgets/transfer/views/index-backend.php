@@ -42,7 +42,8 @@ $job = Yii::$app->user->identity->jobEntrant();
                             'value' => $model->cg ? $model->cg->yearConverter()[1]."".$model->cg->getFullNameCg() : "",],
                         ['label' =>'',
                             'value' =>  $model->dictClass ? $model->dictClass->classFullName :"",],
-                        'finance'
+                        ['label' =>$model->getAttributeLabel('finance'),
+                        'value' =>  $model->typeFinance]
                     ]; ?>
                     <?= DetailView::widget([
                         'options' => ['class' => 'table table-bordered detail-view'],

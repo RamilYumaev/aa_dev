@@ -50,7 +50,7 @@ class DefaultController extends Controller
                     $model->current_status = $data['current_status_id'];
                     try {
                         $model->isStatusMpsuCorrectType();
-                        $this->isNoGraduate($data['education_level_id']);
+                         // $this->isNoGraduate($data['education_level_id']);
                     } catch (Exception $e) {
                         \Yii::$app->session->setFlash('error',  $e->getMessage());
                         return $this->redirect(['fix']);

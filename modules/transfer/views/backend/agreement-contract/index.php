@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'number',
                     ['header' => "Конкурсная группа",
                         'attribute' => 'cg_id',
-                        'value' => 'statementTransfer.cg.fullNameV'
+                        'value' => 'statementTransfer.cg.fullNameCg'
                     ],
                     ['header' => "Факультет",
                         'attribute' => 'cg_id',

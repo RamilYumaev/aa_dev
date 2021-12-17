@@ -68,7 +68,7 @@ use yii\helpers\Html;
         </tr>
             <tr>
                 <td>
-                    <?= $agreement->statementTransfer->cg->fullNameV ?>
+                    <?= $agreement->statementTransfer->cg->fullNameCg ?>
                     <?php if($agreement->message && $agreement->statusNoAccepted()): ?>
                         <br/> Причина отклонения: <?= $agreement->message ?>
                     <?php endif; ?>

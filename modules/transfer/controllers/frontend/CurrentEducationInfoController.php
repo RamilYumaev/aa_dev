@@ -87,6 +87,7 @@ class CurrentEducationInfoController extends Controller
                 $statement->edu_count = $data['edu_count'];
                 $statement->cg_id = $model->id;
                 $statement->faculty_id = $faculty;
+                $statement->finance = $model->financing_type_id;
                 $statement->save();
                 }
             return $this->redirect(['post-document/index']);

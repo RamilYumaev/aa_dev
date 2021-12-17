@@ -22,14 +22,14 @@ use modules\transfer\widgets\file\FileListWidget;
             </tr>
             <?php foreach ($statements as $statement): $agreement = $statement->statementAgreement;?>
                 <tr>
-                    <td><?= $statement->cg->fullNameV ?>
+                    <td><?= $statement->cg->fullNameCg ?>
                         <?= !$agreement ? Html::a('Создать договор', ['statement-agreement-contract-transfer-cg/create',
                             'id' => $statement->id], ['class' => 'btn btn-info',]) :
-                            ('<span class="label label-'.ContractHelper::colorAgreementList($agreement ->status_id).'">'.$agreement->statusNameStudent.'</span>'); ?> </td>
+                            ('<span class="label label-'.ContractHelper::colorAgreementList()[$agreement ->status_id].'">'.$agreement->statusNameStudent.'</span>'); ?> </td>
                 </tr>
                  <?php if ($agreement) : ?>
                 <tr>
-                    <td>Заказчик образовательных услуг: <?= ContractHelper::typeList()[$agreement->type]?>.
+                    <td> Заказчик образовательных услуг: <?= !is_null($agreement->type) ? ContractHelper::typeList()[$agreement->type] : ""?>.
                         <?= $agreement->statusCreated() ? Html::a('Сообщить об ошибке', ['statement-agreement-contract-transfer-cg/message',
                             'id' => $agreement->id],  ["class" => "btn btn-danger pull-right",
                             'data-pjax' => 'w444', 'data-toggle' => 'modal',
