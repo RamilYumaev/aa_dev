@@ -110,6 +110,10 @@ class StatementAgreementContractTransferCg extends \yii\db\ActiveRecord
         return $this->status_id == ContractHelper::STATUS_ACCEPTED;
     }
 
+    public function statusGroupAccepted() {
+        return $this->statusAccepted() || $this->statusSuccess() || $this->statusSendStatus();
+    }
+
     public function statusNoAccepted() {
         return $this->status_id == ContractHelper::STATUS_NO_ACCEPTED;
     }
@@ -187,4 +191,16 @@ class StatementAgreementContractTransferCg extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+    public function getTextEmail() {
+        return "Ваш договор об оказании платных образовательных услуг №".$this->number." ".mb_strtolower($this->statusName)
+            .( $this->statusAccepted() ? ". В личном кабинете Вы можете скачать квитанцию для оплаты":"");
+    }
+
+    public function getSuccessTextEmail() {
+        return "Ваш договор подписан со стороны Исполнителя (ВУЗа).
+        Выдача договоров об оказании платных образовательных услуг ведется строго по предварительной записи. Записаться возможно по номеру телефона 8(495)438-18-57.
+        В случае если заказчик и обучающийся разные лица на подписании необходимо присутствие как заказчика, так и обучающегося.";
+    }
+
 }

@@ -9,6 +9,7 @@ use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\ContractMessageForm;
+use modules\entrant\services\UserAisService;
 use modules\transfer\forms\FilePdfForm;
 use modules\transfer\helpers\ContractHelper;
 use modules\transfer\models\ReceiptContractTransfer;
@@ -24,11 +25,13 @@ use yii\web\Response;
 class AgreementContractController extends Controller
 {
     private $service;
+    private $userAisService;
 
-    public function __construct($id, $module, StatementAgreementContractTransferCg $service, $config = [])
+    public function __construct($id, $module, StatementAgreementContractTransferCg $service,  UserAisService $userAisService, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+        $this->userAisService = $userAisService;
     }
 
     public function beforeAction($event)
@@ -222,15 +225,9 @@ class AgreementContractController extends Controller
     public function actionStatus($id, $status)
     {
         $contract = $this->findModel($id);
-        $emailId = $this->jobEntrant->email_id;
-        if (!$emailId) {
-            Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
-                Обратитесть к администратору");
-            return $this->redirect(Yii::$app->request->referrer);
-        }
         try {
             $contract->status_id = $status;
-            $contract->save(false);
+            $this->send($contract);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -262,14 +259,32 @@ class AgreementContractController extends Controller
     }
 
 
+    public function send(StatementAgreementContractTransferCg $transferCg) {
+        $emailId = $this->jobEntrant->email_id;
+        if (!$emailId) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует электронная почта для рассылки. 
+                Обратитесть к администратору");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        if($transferCg->statusSuccess()) {
+            $this->userAisService->contractSend($emailId,
+                $transferCg->statementTransfer->user_id, $transferCg->successTextEmail);
+        }
+        else{
+            $this->userAisService->contractSend($emailId,
+                $transferCg->statementTransfer->user_id, $transferCg->textEmail);
+        }
+        $transferCg->save(false);
+    }
+
+
     /**
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
      */
     protected function findModel($id): StatementAgreementContractTransferCg
-    {;
-
+    {
         if (($model = StatementAgreementContractTransferCg::findOne($id))  !== null) {
             return $model;
         }

@@ -90,7 +90,7 @@ use modules\transfer\widgets\file\FileListWidget;
                                     </tr>
                                 <?php endif; ?>
                             <?php endif; ?>
-                                <?php if ($agreement->receiptContract): ?>
+                                <?php if ($agreement->statusGroupAccepted()  && $agreement->receiptContract): ?>
                                 <tr>
                                     <td colspan="2">
                                         <?= Html::a('Скачать квитанцию', ['statement-agreement-contract-transfer-cg/get-receipt', 'id' => $agreement->id],

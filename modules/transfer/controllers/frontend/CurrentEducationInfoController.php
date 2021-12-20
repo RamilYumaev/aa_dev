@@ -55,13 +55,11 @@ class CurrentEducationInfoController extends Controller
 
     public function actionSelect($id)
     {
-        $currentYear = Date("Y");
         $statement = $this->statement();
-        $lastYear = $currentYear - 1;
         $model = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['id' => $id])
-            ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
+            ->andWhere(['not in', 'year', "2021-2022"])
             ->foreignerStatus(0)
             ->eduLevel($this->getEduLevelArray())
             ->finance($this->getCurrentFinanceArray())

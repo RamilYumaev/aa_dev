@@ -148,8 +148,8 @@ class SubmittedDocumentsService
             $statement->status_id = FileHelper::STATUS_WALT;
         }
 
-        if($statement->statusCreated()) {
-            if (!$statement->countFiles()) {
+        if($statement->statusCreated() ||  $statement->statusNoAccepted()) {
+            if ($statement->countFiles() < 3) {
                 throw new \DomainException('Не загружены файлы!');
             }
             foreach ($statement->files as $file) {
@@ -159,7 +159,7 @@ class SubmittedDocumentsService
             $statement->status_id = ContractHelper::STATUS_ACCEPTED_STUDENT;
         }
 
-        if($receipt = $statement->receiptContract) {
+        if($statement->statusGroupAccepted() && $receipt = $statement->receiptContract) {
             if (!$receipt->countFiles()) {
                 throw new \DomainException('Не загружены файлы квитанции!');
             }

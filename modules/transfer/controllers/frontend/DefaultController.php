@@ -110,8 +110,9 @@ class DefaultController extends Controller
             $transfer=  $this->findModel();
             $faculty = Faculty::findOne(['ais_id' => $transfer->getDataMpsu()['faculty_id']]);
             $facultyId = ConverterFaculty::searchFaculty($faculty->id);
+            $finance = $transfer->getDataMpsu()['financing_type_id'];
             if(!$statement) {
-                StatementTransfer::create($this->getUser(), $data['edu_count'], $facultyId)->save();
+                StatementTransfer::create($this->getUser(), $data['edu_count'], $facultyId, null, $finance)->save();
             }else {
                 if($statement->countFiles()) {
                     \Yii::$app->session->setFlash('warning',  'Редактирование невозможно, пока в системе имеется сканированная копия документа, содержащая эти данные');
@@ -119,6 +120,7 @@ class DefaultController extends Controller
                 }
                 $statement->faculty_id =  $facultyId;
                 $statement->edu_count = $data['edu_count'];
+                $statement->finance = $finance;
                 $statement->save();
             }
 

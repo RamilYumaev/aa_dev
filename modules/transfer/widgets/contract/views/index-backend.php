@@ -28,9 +28,9 @@ use yii\widgets\DetailView;
     <?=  $model->statusWalt() || $model->statusFix() || $model->statusView() ? Html::a("Прикрепить файл  (pdf)", ['agreement-contract/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-warning",
     'data-pjax' => 'w5', 'data-toggle' => 'modal',
     'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']) : "" ?>
-    <?=  $model->statusAccepted() ? Html::a("Прикрепить квитанцию  (pdf)", ['agreement-contract/file-pdf-receipt', 'id' =>  $model->id, ], ["class" => "btn btn-warning",
+    <?=  Html::a("Прикрепить квитанцию  (pdf)", ['agreement-contract/file-pdf-receipt', 'id' =>  $model->id, ], ["class" => "btn btn-warning",
     'data-pjax' => 'w5', 'data-toggle' => 'modal',
-    'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']) : "" ?>
+    'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']) ?>
     <?= $model->pdf_file  ? Html::a("Скачать файл", ['agreement-contract/get', 'id' =>  $model->id ], ["class" => "btn btn-info"]) : "" ?>
     <?= $model->receiptContract ? Html::a("Скачать квитанцию", ['agreement-contract/get-receipt', 'id' =>  $model->id ], ["class" => "btn btn-info"]) : "" ?>
     <?= $model->statusWalt() || $model->statusView()   ? Html::a("Отклонить", ["agreement-contract/message", 'id' => $model->id], ["class" => "btn btn-danger",

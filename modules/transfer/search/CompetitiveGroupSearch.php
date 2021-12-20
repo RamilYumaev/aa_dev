@@ -56,11 +56,9 @@ class CompetitiveGroupSearch extends Model
      */
     public function search(array $params): ActiveDataProvider
     {
-        $currentYear = Date("Y");
-        $lastYear = $currentYear - 1;
         $query = DictCompetitiveGroup::find()
             ->specialRight(null)
-            ->andWhere(['not in', 'year', "$lastYear-$currentYear"])
+            ->andWhere(['not in', 'year', "2021-2022"])
             ->foreignerStatus(0)
             ->eduLevel($this->eduLevel)
             ->finance($this->finance)
@@ -95,7 +93,9 @@ class CompetitiveGroupSearch extends Model
     public function getYears() {
         $years = [];
         $currentYear = Date("Y");
-        for ($i = 1; $i < 6; $i++) {
+        $m = date("n") >5  && date("n")  < 10  ? 1 : 0;
+        $c = date("n") >5  && date("n")  < 10  ? 6 : 5;
+        for ($i = $m; $i < $c;  $i++) {
             $year = $currentYear - $i;
             $old = $year-1;
             $years["$old-$year"] = $year;

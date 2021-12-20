@@ -79,7 +79,7 @@ use yii\helpers\Html;
 
                 </td>
             </tr>
-            <?php if ($agreement->receiptContract): ?>
+            <?php if ($agreement->statusGroupAccepted() && $agreement->receiptContract): ?>
                 <tr>
                     <td>
                         Квитанция
