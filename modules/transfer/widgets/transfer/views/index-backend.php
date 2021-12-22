@@ -42,6 +42,8 @@ $job = Yii::$app->user->identity->jobEntrant();
                             'value' => $model->cg ? $model->cg->yearConverter()[1]."".$model->cg->getFullNameCg() : "",],
                         ['label' =>'',
                             'value' =>  $model->dictClass ? $model->dictClass->classFullName :"",],
+                        ['label' => "Тип",
+                            'value' =>  $model->transferMpgu->typeNameShort],
                         ['label' =>$model->getAttributeLabel('finance'),
                         'value' =>  $model->typeFinance]
                     ]; ?>

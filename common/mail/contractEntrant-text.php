@@ -4,7 +4,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $profile olympic\models\auth\Profiles */
 /* @var $text string */
-$url = Url::to('@frontendInfo/abiturient/post-document/agreement-contract', true); ?>
+$url = Yii::$app->controller->module->id == "transfer" ? Url::to('@frontendInfo/transfer/post-document/agreement-contract', true) : Url::to('@frontendInfo/abiturient/post-document/agreement-contract', true); ?>
 
 <?= $profile->withBestRegard() ?>, <?= $profile->firstNameAndPatronymic() ?>!
 Приемная комиссия МПГУ сообщает Вам, что <?= $text ?>.

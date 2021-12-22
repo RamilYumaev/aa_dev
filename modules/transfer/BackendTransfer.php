@@ -13,6 +13,7 @@ use yii\filters\AccessControl;
 class BackendTransfer extends Module
 {
     public $controllerNamespace = 'modules\transfer\controllers\backend';
+    public $id = 'transfer';
 
     public function behaviors(){
         return [

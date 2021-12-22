@@ -164,7 +164,7 @@ class AgreementContractController extends Controller
                 $model->setFilePdf($form->file_name);
                 $model->status_id = ContractHelper::STATUS_CREATED;
                 $model->number = $form->text;
-                $model->save();
+                $this->send($model);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -197,7 +197,7 @@ class AgreementContractController extends Controller
                 $receipt->contract_cg_id = $model->id;
                 $receipt->setFilePdf($form->file_name);
                 $receipt->status_id = ContractHelper::STATUS_NEW;
-                $receipt->save();
+                $receipt->save(false);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -227,30 +227,10 @@ class AgreementContractController extends Controller
         $contract = $this->findModel($id);
         try {
             $contract->status_id = $status;
+            if($contract->statusAccepted() && !$contract->receiptContract) {
+                throw new \DomainException("Необходимо загрузить квитанцию");
+            }
             $this->send($contract);
-        } catch (\DomainException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    /**
-     *
-     * @param $id
-     * @param $status
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-
-    public function actionIsMonth($id, $status)
-    {
-        if(!\Yii::$app->user->can('month-receipt')) {
-            throw  new NotFoundHttpException("У вас нет прав", 403);
-        }
-        $contract = $this->findModel($id);
-        try {
-            $this->service->month($contract->id, $status);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

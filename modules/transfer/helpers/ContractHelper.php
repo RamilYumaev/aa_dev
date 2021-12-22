@@ -33,7 +33,7 @@ class ContractHelper
             self::STATUS_WALT=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Проверен",
             self::STATUS_NO_ACCEPTED =>"Отклонен",
-            self::STATUS_VIEW => "Взят в рвботу",
+            self::STATUS_VIEW => "Взят в работу",
             self::STATUS_CREATED => "Сформировн",
             self::STATUS_SUCCESS => "Подписан",
             self::STATUS_SEND_SUCCESS => "Отправлен на подписание",
@@ -47,7 +47,7 @@ class ContractHelper
             self::STATUS_NEW =>"Новое",
             self::STATUS_WALT=> "Обрабатывается",
             self::STATUS_ACCEPTED =>"Проверен",
-            self::STATUS_VIEW => "Взят в рвботу",
+            self::STATUS_VIEW => "Взят в работу",
             self::STATUS_NO_ACCEPTED =>"Отклонен",
             self::STATUS_CREATED => "Сформировн",
             self::STATUS_SUCCESS => "Подписан",
@@ -122,6 +122,4 @@ class ContractHelper
     {
         return ArrayHelper::map(PersonalEntityTransfer::find()->andWhere(['user_id' => $userId])->all(), 'id', 'fio');
     }
-
-
 }

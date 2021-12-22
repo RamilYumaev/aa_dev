@@ -59,6 +59,12 @@ use yii\widgets\DetailView;
             ])
     ?></div>
         <div class="col-md-8">
+            <?php if(!$model->statementTransfer->transferMpgu->isMpgu()): ?>
+                <?= \modules\transfer\widgets\education\DocumentEducationWidget::widget(['userId' => $model->statementTransfer->user_id,  'view' => "index-backend"]); ?>
+            <?php else: ?>
+                <?= \modules\transfer\widgets\transfer\TransferMpsuWidget::widget(['userId' =>  $model->statementTransfer->user_id]); ?>
+            <?php endif; ?>
+            <?= \modules\transfer\widgets\transfer\TransferWidget::widget(['userId' =>  $model->statementTransfer->user_id, 'view' =>'index-backend', ]) ?>
         <?= \modules\transfer\widgets\passport\PassportMainWidget::widget(['view' => 'file-backend', 'userId' =>  $model->statementTransfer->user_id]); ?>
         <?= \modules\transfer\widgets\address\AddressFileWidget::widget(['view' => 'file-backend', 'userId' => $model->statementTransfer->user_id]); ?>
         <?= \modules\transfer\widgets\insurance\InsuranceWidget::widget([ 'view' => 'file-backend', 'userId' => $model->statementTransfer->user_id]); ?>

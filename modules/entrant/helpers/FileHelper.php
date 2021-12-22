@@ -160,10 +160,10 @@ class FileHelper
             PacketDocumentUser::class => 20,
             ReceiptContract::class => 0,
             PassExam::class=>8,
-            PersonalEntityTransfer::class=>5,
-            LegalEntityTransfer::class=>5,
-            StatementAgreementContractTransferCg::class=>20,
-            ReceiptContractTransfer::class=>2,
+            PersonalEntityTransfer::class=>2,
+            LegalEntityTransfer::class=>3,
+            StatementAgreementContractTransferCg::class=>4,
+            ReceiptContractTransfer::class=>1,
         ];
     }
 

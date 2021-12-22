@@ -125,7 +125,7 @@ class ReceiptContractTransfer extends \yii\db\ActiveRecord
             TimestampBehavior::class,
             [   'class' => FileUploadBehavior::class,
                 'attribute' => 'file_pdf',
-                'filePath' => '@frontend/file_transfer/pdf/[[id]]/[[attribute_file_pdf]]',
+                'filePath' => '@frontend/file_transfer/pdf_receipt/[[id]]/[[attribute_file_pdf]]',
             ],
         ];
     }
