@@ -78,7 +78,7 @@ class DefaultController extends Controller
                 PacketDocumentUser::deleteAll(['user_id' => $this->getUser()]);
                 }
 
-                \Yii::$app->session->setFlash('success', 'Успешно обнолено');
+                \Yii::$app->session->setFlash('success', 'Успешно обновлено');
                 return $this->redirect(['index']);
             }
         }

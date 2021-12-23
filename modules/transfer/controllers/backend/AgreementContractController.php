@@ -197,7 +197,7 @@ class AgreementContractController extends Controller
                 $receipt->contract_cg_id = $model->id;
                 $receipt->setFilePdf($form->file_name);
                 $receipt->status_id = ContractHelper::STATUS_NEW;
-                $receipt->save(false);
+                $receipt->save();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -254,7 +254,7 @@ class AgreementContractController extends Controller
             $this->userAisService->contractSend($emailId,
                 $transferCg->statementTransfer->user_id, $transferCg->textEmail);
         }
-        $transferCg->save(false);
+        $transferCg->save();
     }
 
 

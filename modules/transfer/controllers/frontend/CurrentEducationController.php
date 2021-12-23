@@ -28,7 +28,7 @@ class CurrentEducationController extends Controller
         $model = $this->findModel() ?? new CurrentEducation(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if($model->save()) {
-                \Yii::$app->session->setFlash('success', 'Успешно обнолено');
+                \Yii::$app->session->setFlash('success', 'Успешно обновлено');
                     return $this->redirect(['current-education-info/index']);
             }
         }

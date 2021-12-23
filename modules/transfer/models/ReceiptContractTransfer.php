@@ -33,20 +33,6 @@ class ReceiptContractTransfer extends \yii\db\ActiveRecord
         return 'receipt_contract_transfer';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['contract_cg_id', 'created_at', 'updated_at'], 'required'],
-            [['contract_cg_id',  'count_pages', 'created_at', 'updated_at', 'status_id'], 'integer'],
-            [['date'], 'safe'],
-            [['bank', 'pay_sum'], 'string', 'max' => 255],
-            [['contract_cg_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatementAgreementContractTransferCg::className(), 'targetAttribute' => ['contract_cg_id' => 'id']],
-        ];
-    }
-
     public function attributeLabels()
     {
         return [

@@ -67,7 +67,7 @@ class QueueController extends Controller
                 return $this->redirect(['index']);
             }
             if($model->save()) {
-                \Yii::$app->session->setFlash('success', 'Успешно обнолено');
+                \Yii::$app->session->setFlash('success', 'Успешно обновлено');
                 return $this->redirect(['works']);
             }
         }
