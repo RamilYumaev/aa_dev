@@ -8,6 +8,7 @@ use common\transactions\TransactionManager;
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\dictionary\models\DictCategory;
+use modules\entrant\behaviors\AnketaBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\helpers\OtherDocumentHelper;
@@ -37,10 +38,13 @@ class AnketaService
         return $model;
     }
 
-    public function update($id, AnketaForm $form)
+    public function update($id, AnketaForm $form, $isAdmin = false)
     {
         $model = $this->repository->get($id);
         $model->data($form);
+        if($isAdmin) {
+            $model->detachBehaviors();
+        }
         $model->save($model);
         $this->addOtherDoc($form);
         return $model;

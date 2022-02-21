@@ -51,6 +51,10 @@ return [
             'adminMatchCallback' => true,//false - for frontend, true - for backend
             'hashGenerator' => null,//user function for generation unique id for ticket or null for standart generator (The ticket id will be something like this: lkLHOoIho)
         ],
+        'data-entrant' => [
+            'class' => \modules\entrant\AdminEntrant::class,
+            'viewPath' => "@modules/entrant/views/admin",
+        ],
     ],
     'controllerMap' => [
         'elfinder' => [

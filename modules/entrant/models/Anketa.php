@@ -3,6 +3,7 @@
 namespace modules\entrant\models;
 
 
+use common\auth\models\User;
 use common\auth\models\UserSchool;
 use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
@@ -14,6 +15,7 @@ use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\models\queries\AnketaQuery;
+use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 
 /**
@@ -368,6 +370,19 @@ class Anketa extends ActiveRecord
         return $this->hasMany(InsuranceCertificateUser::class, ['user_id' => 'user_id']);
     }
 
+    public function getProfile()
+    {
+        return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getUser() {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getFiles() {
+       return $this->hasMany(File::class, ['user_id' => 'user_id']);
+    }
+
     public function getUserDisciplineCseCt()
     {
         return $this->hasMany(UserDiscipline::class, ['user_id' => 'user_id'])
@@ -378,10 +393,4 @@ class Anketa extends ActiveRecord
     {
         return $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_NPO || $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SPO;
     }
-
-//    public function getCategory()
-//    {
-//        return $this->hasOne(DictCategory::class, ['id' => 'category_id']);
-//    }
-
 }

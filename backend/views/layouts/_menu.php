@@ -96,6 +96,12 @@ array_merge(
     //        'items' => array_merge([['label' => 'Мастер-классы', 'url' => '/dictionary/master-class']]),
         ]] : []),
 
+    Yii::$app->user->can('dev') ?
+        [['label' => 'Абитуриенты', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Анкеты', 'url' => '/data-entrant/anketa'],
+            ])]] : [],
+
 
     Yii::$app->user->can('rbac') ?
         [['label' => 'Управление', 'url' => '#',
