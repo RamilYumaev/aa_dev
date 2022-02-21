@@ -329,6 +329,11 @@ class SiteController extends Controller
         return $this->render('log-view', ['logFile' => $logFile]);
     }
 
+    public function actionLit() {
+        return  $this->render('lit');
+
+    }
+
     public function actionAppLogClear()
     {
         $logFile = \Yii::getAlias(self::LOG_FILE_PATH_NAME);

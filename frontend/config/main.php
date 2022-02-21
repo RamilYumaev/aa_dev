@@ -116,6 +116,7 @@ return [
                 "index" => "/",
                 "site" => "",
                 'auth/' => '/',
+                '/lit2022' => 'site/lit'
             ],
         ],
     ],
