@@ -11,7 +11,7 @@ use Mpdf\Tag\Tr;
 class ConverterFaculty
 {
     const OVER_FACULTY_PP = [14, 18];
-    const OVER_FACULTY_H =  [9];
+    const OVER_FACULTY_H =  [9, 32];
     const OVER_FACULTY_I =  [29];
     const IPP =  41;
     const IPH =  38;

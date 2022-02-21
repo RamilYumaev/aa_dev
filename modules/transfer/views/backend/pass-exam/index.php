@@ -12,7 +12,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel modules\transfer\search\PassExamSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$list = (new PassExam)->listType();
 
 $this->title = "Аттестация";
 $this->params['breadcrumbs'][] = $this->title;
@@ -44,6 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => [PassExam::SUCCESS => 'Допущен', PassExam::DANGER => 'Недопущен'],
                         'value' => function (PassExam $model) {
                             return ' <span class="label label-' .($model->isPassYes() ? 'success' : 'danger').'">'.($model->isPassYes() ? 'Допущен' : 'Недопущен').'</span>';
+                        }],
+                    ['attribute'=> 'success_exam',
+                        'label' =>'Аттест. испытания',
+                        'filter'=> $list,
+                        'value' => function ($model) {
+                            return  $model->successExam;
                         }],
                     [   'attribute' => 'agree',
                         'label' => 'Результат',

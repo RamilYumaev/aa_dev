@@ -132,6 +132,7 @@ $("#olimpiclisteditform-time_of_distants_tour_type").on("change init", function(
 
 
 var levelSelect = $("#olimpiclisteditform-edu_level_olymp");
+var yearSelect = $("#olimpiclisteditform-year");
 var loadedCg = []; // Текущий список КГ
 var loadedClass = [];
 var clSelect = $("#olimpiclisteditform-classeslist");
@@ -143,7 +144,7 @@ levelSelect.on("change init", function(){
         method: "GET",
         dataType: "json",
         async: false,
-        data: {levelId: levelSelect.val()},
+        data: {levelId: levelSelect.val(), year: yearSelect.val()},
         success: function (groups){
             var cg = groups.result;
             loadedCg = cg;

@@ -30,6 +30,8 @@ Box::begin(
 <?php if ($job->isAgreement()) :?>
    <?= !$model->is_protocol ? Html::a('Внести в протокол', ['statement/protocol', 'id' => $model->id],
         ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите  сделать это?"]]) : ""?>
+    <?= !$model->passExam->isPassYes() ? Html::a('Допустить', ['pass-exam/fix', 'id' => $model->passExam->id],
+            ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите допустить к аттестации?"]]) : ""?>
 <?php endif; ?>
   <h4><?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?></h4>
    <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?>

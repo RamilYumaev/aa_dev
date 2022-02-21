@@ -92,7 +92,7 @@ class CompetitiveGroupSearch extends Model
 
     public function getYears() {
         $years = [];
-        $currentYear = Date("Y");
+        $currentYear = Date("Y")-1;
         $m = date("n") >5  && date("n")  < 10  ? 1 : 0;
         $c = date("n") >5  && date("n")  < 10  ? 6 : 5;
         for ($i = $m; $i < $c;  $i++) {

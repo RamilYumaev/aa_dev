@@ -76,6 +76,27 @@ class PassExamController extends Controller
 
     /**
      * @param $id
+     * @param $status
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionFix($id)
+    {
+        $model = $this->findModelPassExam($id);
+        try {
+            $model->is_pass = PassExam::SUCCESS;
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
+    /**
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */

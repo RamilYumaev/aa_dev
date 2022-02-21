@@ -19,7 +19,7 @@ use yiister\adminlte\widgets\Box;
 $types = (new TransferMpgu())->listTypeShort();
 
 ?>
-<?= Yii::$app->controller->module->id ?>
+
 <div class="box">
     <div class="box-body box-primary">
         <div class="row">

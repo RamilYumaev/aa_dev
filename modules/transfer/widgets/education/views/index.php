@@ -14,6 +14,8 @@ use yii\widgets\DetailView;
         <div class="p-30 green-border">
         <h4>Действующее образование</h4>
         <?php if ($isUserSchool) : ?>
+            <p><?= Html::a('Ваши учебные организации',
+                ['/schools', 'redirect' => 'transfer-registration'], ['class' => 'btn btn-warning']) ?></p>
             <?php if ($model) : ?>
                 <?php
                 $columns = [

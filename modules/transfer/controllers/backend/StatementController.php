@@ -85,6 +85,25 @@ class StatementController extends Controller
 
     /**
      * @param $id
+     * @param $finance
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionFinance($id, $finance)
+    {
+        $model = $this->findModel($id);
+        try {
+            $model->finance = $finance;
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
      * @return mixed
      * @throws NotFoundHttpException
      */

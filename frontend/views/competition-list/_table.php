@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <th>Конкурсные списки</th>
     </tr>
     <?php $cgs = $item->faculty->getCg()->contractOnly()->edulevel($eduLevel)->foreignerStatus(false)
-        ->tpgu(false)->currentAutoYear();
+        ->tpgu(false)->currentYear("2020-2021");
     if($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
         $cgs->select(['speciality_id','faculty_id','education_form_id'])
             ->groupBy(['speciality_id','faculty_id','education_form_id']);

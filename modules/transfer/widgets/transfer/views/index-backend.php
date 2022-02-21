@@ -52,6 +52,10 @@ $job = Yii::$app->user->identity->jobEntrant();
                         'model' => $model,
                         'attributes' => $columns
                     ]) ?>
+    <?php if ($job->isAgreement()) :?>
+        <?= Html::a($model->finance == 1 ? 'Договор' : "Бюджет", ['statement/finance', 'id' => $model->id, 'finance' => $model->finance == 1 ? 2 : 1],
+        ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите изменить вид финансирования?"]]) ?>
+    <?php endif; ?>
     <?= $this->render('index-exam-backend',['model'=> $model, 'job' => $job ])?>
     <?= FileListWidget::widget([ 'view'=>'list-backend', 'record_id' => $model->id, 'model' =>  $model::className(), 'userId' => $model->user_id]) ?>
     <?php Box::end() ?>

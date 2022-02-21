@@ -11,6 +11,8 @@ $this->title = "Действующее образование. Заполнен�
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
+            <p><?= Html::a('Ваши учебные организации',
+                    ['/schools', 'redirect' => 'transfer-registration'], ['class' => 'btn btn-warning']) ?></p>
             <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
             <?= $form->field($model, 'school_id')->dropDownList(UserSchoolHelper::userSchoolAll($model->user_id)) ?>
             <?= $form->field($model, 'school_name')->textInput(['maxlength' => true]) ?>

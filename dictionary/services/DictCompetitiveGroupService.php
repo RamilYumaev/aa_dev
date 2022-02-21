@@ -97,9 +97,9 @@ class DictCompetitiveGroupService
         $this->repository->remove($model);
     }
 
-    public function getAllCg ($levelId)
+    public function getAllCg ($levelId, $year)
     {
-        $model = DictCompetitiveGroup::find();
+        $model = DictCompetitiveGroup::find()->currentYear($year);
         if ($levelId == 1) {
             $model = $model->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR);
         } elseif ($levelId == 2) {

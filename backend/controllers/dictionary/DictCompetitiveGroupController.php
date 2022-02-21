@@ -138,10 +138,10 @@ class DictCompetitiveGroupController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionGetCg($levelId)
+    public function actionGetCg($levelId, $year)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['result' => $this->service->getAllCg($levelId)];
+        return ['result' => $this->service->getAllCg($levelId, $year)];
     }
 
     public function actionFullCg($year = null, $educationLevelId = null, $educationFormId = null,
