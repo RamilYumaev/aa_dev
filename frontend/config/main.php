@@ -116,7 +116,7 @@ return [
                 "index" => "/",
                 "site" => "",
                 'auth/' => '/',
-                '/lit2022' => 'site/lit'
+                '/lit2022' => 'literature/index'
             ],
         ],
     ],
@@ -125,7 +125,7 @@ return [
         'class' => 'yii\filters\AccessControl',
         'except' => ['olympiads/*', 'dod/*', 'print/*', 'gratitude/*', 'competition-list/*',
             'diploma/*','site/*', 'invitation/*', 'schools/*', 'account/*', 'sign-up/*',
-            'queue/*', 'reset/*', 'auth/confirm/*'],
+            'queue/*', 'reset/*', 'auth/confirm/*', 'literature/*'],
         'rules' => [
             [
                 'allow' => true,
