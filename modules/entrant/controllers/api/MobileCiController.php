@@ -180,9 +180,7 @@ class MobileCiController extends Controller
             'special_name' => $specialName,
             'target_id' => $targetId,
             'target_name' => $targetName,
-
         ];
-
     }
 
     public function actionGetAnketa()

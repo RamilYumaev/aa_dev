@@ -26,6 +26,7 @@ return [
                 'modules\transfer\migrations',
                 'modules\exam\migrations', 'modules\management\migrations',  'yii\queue\db\migrations',
                 'modules\student\migrations',
+                'modules\literature\migrations',
                 'modules\dictionary\migrations'],
         ],
     ],

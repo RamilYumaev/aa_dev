@@ -31,6 +31,9 @@ return [
         'student' => [
             'class' => \modules\student\ApiStudent::class
         ],
+        'literature' => [
+            'class' => \modules\literature\ApiLiterature::class,
+        ],
     ],
     'components' => [
         'request' => [

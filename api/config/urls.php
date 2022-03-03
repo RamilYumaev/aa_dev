@@ -21,5 +21,8 @@ return [
     'student/reset' => 'student/reset/index',
     'student/faculty-list' => 'student/default/faculty-list',
     'student/type-list' => 'student/default/type-list',
-    'student/user' => 'student/schedule/index'
+    'student/user' => 'student/schedule/index',
+    'literature' => 'literature/default/index',
+    'literature/register' => 'literature/register/index',
+    'literature/add-personal' => 'literature/register/add-person'
 ];
