@@ -2,21 +2,25 @@
 namespace modules\literature\controllers\api;
 
 use common\auth\models\User;
+use common\sending\traits\SelectionCommitteeMailTrait;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\models\Region;
 use modules\literature\models\LiteratureOlympic;
 use modules\literature\models\PersonsLiterature;
 use modules\literature\models\UserPersonsLiterature;
 use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\UserCreateForm;
+use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
 use Yii;
-use yii\base\InvalidConfigException;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
 use yii\rest\Controller;
 use yii\web\UploadedFile;
 
 class RegisterController extends Controller
 {
+    use SelectionCommitteeMailTrait;
     /**
      * @return array
      * @throws \yii\db\Exception
@@ -27,19 +31,10 @@ class RegisterController extends Controller
         $json = $this->getJson();
         $data = Json::decode($json);
 
-        $photo = UploadedFile::getInstanceByName("photo");
-        if (empty($photo)){
-            return ['error_message' => "Не загружен файл фото"];
-        }
-
-        $agreeFile = UploadedFile::getInstanceByName("agree_file");
-        if (empty($agreeFile)){
-            return ['error_message' => "Не загружен файл обработки персональных данных"];
-        }
-
         $transaction = \Yii::$app->db->beginTransaction();
         try {
             $formUser = new UserCreateForm();
+            $formUser->username = $data['user']['email'];
             $formUser->email = $data['user']['email'];
             $formUser->password = $data['user']['password'];
 
@@ -49,6 +44,8 @@ class RegisterController extends Controller
             }
 
             $user = User::create($formUser);
+            $user->generateAuthKey();
+            $user->generateEmailVerificationToken();
             $user->save();
 
             $formProfile = new ProfileCreateForm();
@@ -60,13 +57,15 @@ class RegisterController extends Controller
             $formProfile->country_id = DictCountryHelper::RUSSIA;
             $formProfile->region_id = $data['address']['region'];
 
-            if (!$formProfile->errors) {
+            if (!$formProfile->validate()) {
                 $error = Json::encode($formProfile->errors);
                 return ['error_message' => $error];
             }
 
             $profile = Profiles::create($formProfile, $user->id);
+            $profile->setRole(ProfileHelper::ROLE_STUDENT);
             $profile->save();
+
             $olympic = new LiteratureOlympic();
             $olympic->user_id = $user->id;
             $olympic->birthday = $data['user']['birthday'];
@@ -105,6 +104,7 @@ class RegisterController extends Controller
             $olympic->type_transport_departure = $data['route']['type_transport_departure'];
             $olympic->place_departure = $data['route']['place_departure'];
             $olympic->number_departure= $data['route']['number_departure'];
+            $olympic->hash = Yii::$app->security->generateRandomString();
 
             if (!$olympic->save()) {
                 $error = Json::encode($olympic->errors);
@@ -122,14 +122,15 @@ class RegisterController extends Controller
                     }
                 }
             }
-
+            $transaction->commit();
+            $configTemplate =  ['html' => 'api/emailVerify-html', 'text' => 'api/emailVerify-text'];
+            $configData = ['user' => $user];
+            $this->sendEmail($user, $configTemplate, $configData, "Подтверждение почты!");
+            return ['success_message' => 'Успешно отправлено! Потвердите почту.', 'hash' => $olympic->hash];
         } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;
         }
-
-        $transaction->commit();
-        return ['success_message' => 'Успешно отправлено!'];
     }
 
     public function actionAddPerson()
@@ -146,15 +147,71 @@ class RegisterController extends Controller
             return ['error_message' => $error];
         }
         return ['success_message' => 'Успешно добалено'];
+}
+
+    public function actionPersons() {
+        $query = PersonsLiterature::find()->select(['id','fio', 'place_work']);
+        $data = Yii::$app->request->getBodyParams();
+        if(key_exists('fio', $data)) {
+            $query->andFilterWhere(['like', 'fio', $data['fio']]);
+        }
+        if(key_exists('phone', $data)) {
+            $query->andFilterWhere(['like', 'phone', $data['phone']]);
+        }
+
+        if(key_exists('email', $data)) {
+            $query->andFilterWhere(['like', 'email', $data['email']]);
+        }
+
+        $provider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        if(key_exists('page', $data)) {
+             $provider->pagination->page = $data['page'] - 1;
+        }
+
+        return ["totalCount" => $provider->totalCount, 'data' =>$provider];
+    }
+
+    public function actionSendFile($hash)
+    {
+        $model = LiteratureOlympic::findOne(['hash' => $hash]);
+        if(!$model) {
+            return ['error_message' => "Запись не найдена"];
+        }
+
+        $photo = UploadedFile::getInstanceByName("photo");
+        if (empty($photo)){
+            return ['error_message' => "Не загружен файл фото"];
+        }
+
+        $agreeFile = UploadedFile::getInstanceByName("agree_file");
+        if (empty($agreeFile)){
+            return ['error_message' => "Не загружен файл обработки персональных данных"];
+        }
+
+        $model->photo = $photo;
+        $model->agree_file = $agreeFile;
+        $model->save();
+
+        return ['success_message' => 'Успешно добалены файлы'];
+    }
+
+    public function actionRegions() {
+        return Region::find()->select(['name','id'])->indexBy('id')->column();
     }
 
     public function verbs()
     {
         return [
-            'index' => ["GET"],
+            'index' => ["POST"],
+            'regions-person' => ["GET"],
             'add-person' => ["POST"],
-      ];
-   }
+            'send-file' => ["POST"],
+            'persons' => ["GET"],
+        ];
+    }
 
     private function getJson()
     {

@@ -24,5 +24,8 @@ return [
     'student/user' => 'student/schedule/index',
     'literature' => 'literature/default/index',
     'literature/register' => 'literature/register/index',
-    'literature/add-personal' => 'literature/register/add-person'
+    'literature/add-personal' => 'literature/register/add-person',
+    'literature/persons' => 'literature/register/persons',
+    'literature/send-file' => 'literature/register/send-file',
+    'literature/regions' => 'literature/register/regions',
 ];

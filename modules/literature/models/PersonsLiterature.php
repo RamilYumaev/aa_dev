@@ -5,8 +5,6 @@ namespace modules\literature\models;
 use borales\extensions\phoneInput\PhoneInputValidator;
 use common\auth\models\User;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
-use olympic\models\auth\Profiles;
-use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -20,6 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $phone
  * @property string $email
  * @property string $place_work
+ * @property string $agree_file
  * @property string $post
  * @property int $created_at
  * @property int $updated_at
@@ -63,7 +62,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
             [
                 'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'agree_file',
-                'filePath' => '@modules/files/persons/[[attribute_id]]/[[attribute_agree_file]].[[extension]]',
+                'filePath' => '@modules/literature/files/persons/[[attribute_id]]/[[attribute_agree_file]].[[extension]]',
             ],
         ];
     }

@@ -3,7 +3,7 @@
 namespace modules\literature\models;
 
 use common\auth\models\User;
-use Yii;
+use modules\usecase\ImageUploadBehaviorYiiPhp;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -48,6 +48,9 @@ use yii\behaviors\TimestampBehavior;
  * @property int|null $type_transport_departure
  * @property string|null $place_departure
  * @property string|null $number_departure
+ * @property string|null $hash
+ * @property string|null $agree_file
+ * @property string|null $photo
  *
  * @property User $user
  */
@@ -63,7 +66,19 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [
+            TimestampBehavior::class,
+            [
+                'class' => ImageUploadBehaviorYiiPhp::class,
+                'attribute' => 'agree_file',
+                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_agree_file]].[[extension]]',
+            ],
+            [
+                'class' => ImageUploadBehaviorYiiPhp::class,
+                'attribute' => 'photo',
+                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_agree_file]].[[extension]]',
+            ],
+        ];
     }
 
     /**
