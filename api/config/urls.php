@@ -28,4 +28,7 @@ return [
     'literature/persons' => 'literature/register/persons',
     'literature/send-file' => 'literature/register/send-file',
     'literature/regions' => 'literature/register/regions',
+    'literature/exists-phone' => 'literature/register/exists-phone',
+    'literature/exists-email' => 'literature/register/exists-email',
+
 ];

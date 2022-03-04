@@ -5,6 +5,7 @@ use common\auth\models\User;
 use common\sending\traits\SelectionCommitteeMailTrait;
 use dictionary\helpers\DictCountryHelper;
 use dictionary\models\Region;
+use modules\literature\forms\PhoneEmailForm;
 use modules\literature\models\LiteratureOlympic;
 use modules\literature\models\PersonsLiterature;
 use modules\literature\models\UserPersonsLiterature;
@@ -202,11 +203,35 @@ class RegisterController extends Controller
         return Region::find()->select(['name','id'])->indexBy('id')->column();
     }
 
+    public function actionExistsEmail() {
+        $model = new PhoneEmailForm();
+        $model->setScenario(PhoneEmailForm::EMAIL);
+        $model->load(Yii::$app->request->getBodyParams(),'');
+        if (!$model->validate()) {
+            $error = Json::encode($model->errors);
+            return ['error_message' => $error];
+        }
+        return ['success_message' => 'Ok'];
+    }
+
+    public function actionExistsPhone() {
+        $model = new PhoneEmailForm();
+        $model->setScenario(PhoneEmailForm::PHONE);
+        $model->load(Yii::$app->request->getBodyParams(),'');
+        if (!$model->validate()) {
+            $error = Json::encode($model->errors);
+            return ['error_message' => $error];
+        }
+        return ['success_message' => 'Ok'];
+    }
+
     public function verbs()
     {
         return [
             'index' => ["POST"],
-            'regions-person' => ["GET"],
+            'regions' => ["GET"],
+            'exists-email' => ["GET"],
+            'exists-phone' => ["GET"],
             'add-person' => ["POST"],
             'send-file' => ["POST"],
             'persons' => ["GET"],
