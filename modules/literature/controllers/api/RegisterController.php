@@ -18,10 +18,53 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
 use yii\rest\Controller;
 use yii\web\UploadedFile;
+use function GuzzleHttp\Promise\all;
 
 class RegisterController extends Controller
 {
     use SelectionCommitteeMailTrait;
+
+    public $enableCsrfValidation = false;
+
+    public function actions()
+    {
+        return [
+            'options' => [
+                'class' => 'yii\rest\OptionsAction',
+            ],
+        ];
+    }
+
+    public static function allowedDomains() {
+        return [
+            '*',
+            'https://api.sdotest.mpgu.org/*',
+        ];
+    }
+
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        unset($behaviors['authenticator']);
+
+        // add CORS filter
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::class,
+            'cors' => [
+                // restrict access to
+                'Origin' => self::allowedDomains(),
+                // Allow only POST and PUT methods
+                'Access-Control-Request-Method' => ['GET', 'PUT'],
+                'Access-Control-Request-Headers' => ['*'],
+                'Access-Control-Allow-Credentials' => null,
+                'Access-Control-Max-Age' => 86400,
+            ],
+        ];
+        return $behaviors;
+    }
+
     /**
      * @return array
      * @throws \yii\db\Exception
@@ -40,6 +83,7 @@ class RegisterController extends Controller
             $formUser->password = $data['user']['password'];
 
             if (!$formUser->validate()) {
+
                 $error = Json::encode($formUser->errors);
                 return ['error_message' => $error];
             }
@@ -134,6 +178,10 @@ class RegisterController extends Controller
         }
     }
 
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionAddPerson()
     {
         $agreeFile = UploadedFile::getInstanceByName("agree_file");
@@ -148,10 +196,15 @@ class RegisterController extends Controller
             return ['error_message' => $error];
         }
         return ['success_message' => 'Успешно добалено'];
-}
+    }
+
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
 
     public function actionPersons() {
-        $query = PersonsLiterature::find()->select(['id','fio', 'place_work']);
+        $query = PersonsLiterature::find()->select(['id','fio', 'post']);
         $data = Yii::$app->request->getBodyParams();
         if(key_exists('fio', $data)) {
             $query->andFilterWhere(['like', 'fio', $data['fio']]);
@@ -230,8 +283,8 @@ class RegisterController extends Controller
         return [
             'index' => ["POST"],
             'regions' => ["GET"],
-            'exists-email' => ["GET"],
-            'exists-phone' => ["GET"],
+            'exists-email' => ["POST"],
+            'exists-phone' => ["POST"],
             'add-person' => ["POST"],
             'send-file' => ["POST"],
             'persons' => ["GET"],

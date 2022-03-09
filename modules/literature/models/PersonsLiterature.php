@@ -42,7 +42,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fio', 'birthday', 'place_birth', 'phone', 'email', 'place_work', 'post'], 'required'],
+            [['fio', 'birthday', 'place_birth', 'phone', 'email', 'place_work', 'post', 'agree_file'], 'required'],
             [['sex'], 'integer'],
             [['birthday'], 'safe'],
             [['fio'], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
@@ -52,6 +52,9 @@ class PersonsLiterature extends \yii\db\ActiveRecord
             ['email', 'unique'],
             [['phone'], PhoneInputValidator::class],
             [['fio', 'place_birth', 'email', 'place_work', 'post'], 'string', 'max' => 255],
+            ['agree_file', 'file',
+                'extensions' => 'pdf',
+                'maxSize' => 1024 * 1024 * 10],
         ];
     }
 
@@ -74,14 +77,19 @@ class PersonsLiterature extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'fio' => 'Fio',
-            'sex' => 'Sex',
-            'birthday' => 'Birthday',
-            'place_birth' => 'Place Birth',
-            'phone' => 'Phone',
+            'fio' => 'ФИО',
+            'sex' => 'Пол',
+            'birthday' => 'Дата рождения',
+            'series' => 'Серия',
+            'number' => 'Номер',
+            'date_issue' => 'Дата выдачи',
+            'authority' => 'Кем выдан?',
+            'place_birth' => 'Место рождения',
+            'phone' => 'Телефон',
             'email' => 'Email',
-            'place_work' => 'Place Work',
-            'post' => 'Post',
+            'place_work' => 'Место работы',
+            'post' => 'Должность',
+            'agree_file' => 'Файл обработки персональных данных сопровождающего',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

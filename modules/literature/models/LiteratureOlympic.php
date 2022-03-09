@@ -71,12 +71,12 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             [
                 'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'agree_file',
-                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_agree_file]].[[extension]]',
+                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_agree_file]]',
             ],
             [
                 'class' => ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'photo',
-                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_agree_file]].[[extension]]',
+                'filePath' => '@modules/literature/files/olympic/[[attribute_user_id]]/[[attribute_photo]]',
             ],
         ];
     }
@@ -87,7 +87,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'size'], 'required'],
+            [['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'size', 'agree_file', 'photo'], 'required'],
             [['user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_allergy', 'is_voz', 'is_need_conditions', 'type_transport_arrival', 'type_transport_departure'], 'integer'],
             [['birthday', 'date_arrival', 'date_departure'], 'safe'],
             [['note_allergy', 'note_conditions', 'note_special'], 'string'],
@@ -95,6 +95,12 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             [['mark_olympic'], 'string', 'max' => 5],
             [['grade_letter'], 'string', 'max' => 1],
             [['number_arrival', 'number_departure'], 'string', 'max' => 10],
+            ['photo', 'image',
+                'extensions' => 'jpg, png, jpeg',
+                'maxSize' => 1024 * 1024 * 10],
+            ['agree_file', 'file',
+                'extensions' => 'pdf',
+                'maxSize' => 1024 * 1024 * 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -107,43 +113,88 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'birthday' => 'Birthday',
-            'type' => 'Type',
-            'series' => 'Series',
-            'number' => 'Number',
-            'date_issue' => 'Date Issue',
-            'authority' => 'Authority',
-            'region' => 'Region',
-            'zone' => 'Zone',
-            'city' => 'City',
-            'full_name' => 'Full Name',
-            'short_name' => 'Short Name',
-            'status_olympic' => 'Status Olympic',
-            'mark_olympic' => 'Mark Olympic',
-            'grade_number' => 'Grade Number',
+            'birthday' => 'Дата рождения',
+            'type' => 'Документ, удостоваеряющий личность',
+            'series' => 'Серия',
+            'number' => 'Номер',
+            'date_issue' => 'Дата выдачи',
+            'authority' => 'Кем выдан?',
+            'region' => 'Регион проживания',
+            'zone' => 'Район/область',
+            'city' => 'Город/населенный пункт проживания',
+            'full_name' => 'Полное наименование общеобразовательной организации (по уставу)',
+            'short_name' => 'Сокращенное наименование общеобразовательной организации (по уставу)',
+            'status_olympic' => 'Статус участника олимпиады',
+            'mark_olympic' => 'Кол-во набранных баллов на региональном этапе в 2021/2022 учебном году',
+            'grade_number' => 'Класс, в котором обучается участник',
             'grade_letter' => 'Grade Letter',
-            'grade_performs' => 'Grade Performs',
-            'fio_teacher' => 'Fio Teacher',
-            'place_work' => 'Place Work',
-            'post' => 'Post',
-            'academic_degree' => 'Academic Degree',
-            'size' => 'Size',
-            'is_allergy' => 'Is Allergy',
-            'note_allergy' => 'Note Allergy',
-            'is_voz' => 'Is Voz',
-            'is_need_conditions' => 'Is Need Conditions',
-            'note_conditions' => 'Note Conditions',
-            'note_special' => 'Note Special',
+            'grade_performs' => 'Класс, за который выступает участник',
+            'fio_teacher' => 'ФИО наставника, подготовившего участника олимпиады',
+            'place_work' => 'Место работы наставника',
+            'post' => 'Должность наставника',
+            'academic_degree' => 'Ученая степень',
+            'size' => 'Размер футболки',
+            'is_allergy' => 'Есть ли аллергия на продукты питания и/или медицинские препараты?',
+            'note_allergy' => "Укажите, на какие именно продукты питания и/или медицинские препараты есть аллергия",
+            'is_voz' => 'Относится ли участник к категории детей-инвалидов, инвалидов, детей с ОВЗ?',
+            'is_need_conditions' => 'Нуждается ли участник в специальных условиях при организации олимпиад?',
+            'note_conditions' => 'Укажите, какие специальные условия необходимо создать при организации олимпиады?',
+            'note_special' => 'Особые сведения (непереносимость медицинских препаратов, хронический заболевания, о которых необходимо знать организаторам)',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'date_arrival' => 'Date Arrival',
-            'type_transport_arrival' => 'Type Transport Arrival',
-            'place_arrival' => 'Place Arrival',
-            'number_arrival' => 'Number Arrival',
-            'date_departure' => 'Date Departure',
-            'type_transport_departure' => 'Type Transport Departure',
-            'place_departure' => 'Place Departure',
-            'number_departure' => 'Number Departure',
+            'date_arrival' => 'Дата и время прилета/приезда',
+            'type_transport_arrival' => 'Вид транспорта',
+            'place_arrival' => 'Место прибытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
+            'number_arrival' => 'Номер рейса самолета или номер поезда и вагона',
+            'date_departure' => 'Дата и время вылета/выезда',
+            'type_transport_departure' => 'Вид транспорта',
+            'place_departure' => 'Место отбытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
+            'number_departure' => 'Номер рейса самолета или номер поезда и вагона',
+            'agree_file' => 'Файл обработки персональных данных участника',
+            'photo' => 'Фотография 3x4 (необходимо загрузить)'
+        ];
+    }
+
+    public function getOlympicStatuses(){
+        return [
+            1 => 'прошел по баллам в 2022 году',
+            2 => 'по квоте субъекта РФ в 2022 году',
+            3 => 'прошел по баллам в 2021 году',
+            4 => 'иное'
+        ];
+    }
+
+    public function getGrades(){
+        return [
+            9 => 9,
+            10 => 10,
+            11 => 11,
+        ];
+    }
+
+    public function  getDocuments() {
+        return [1 => 'паспорт',
+            2 => 'свидетельство о рождении'];
+    }
+
+    public function getTransports() {
+        return [
+            1 => 'автобус',
+            2 => 'поезд',
+            3 => 'самолет',
+            4 => 'автомобиль'
+        ];
+    }
+
+    public function getSizes() {
+        return [
+            'S' => 'S',
+            'M' => 'M',
+            'L' => 'L',
+            'XL' => 'XL',
+            'XXL' => "XXL",
+            'XXXL' => 'XXXL',
+            'другое' => 'другое'
         ];
     }
 

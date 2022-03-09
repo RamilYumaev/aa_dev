@@ -39,6 +39,10 @@ return [
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],
+        'literature' => [
+            'class' => \modules\literature\FrontendLiterature::class,
+            'viewPath' => "@modules/literature/views/frontend",
+        ],
         'support' => [
             'class' => \modules\support\ModuleFrontend::class,
             'viewPath' => "@modules/support/views/frontend",
