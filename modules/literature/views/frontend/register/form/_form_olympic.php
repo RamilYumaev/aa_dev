@@ -48,9 +48,9 @@ use modules\entrant\helpers\DateFormatHelper; ?>
     <div class="col-md-6">
         <?= $form->field($model, 'grade_number')->dropDownList($model->getGrades()) ?>
     </div>
-<!--    <div class="col-md-4">-->
-<!--        --><?php // $form->field($model, 'grade_letter')->textInput(['maxlength' => true]) ?>
-<!--    </div>-->
+    <div class="col-md-4">
+        <?php  $form->field($model, 'grade_letter')->textInput(['maxlength' => true]) ?>
+    </div>
     <div class="col-md-6">
         <?= $form->field($model, 'grade_performs')->dropDownList($model->getGrades()) ?>
     </div>

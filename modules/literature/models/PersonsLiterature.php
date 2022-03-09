@@ -44,6 +44,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
         return [
             [['fio', 'birthday', 'place_birth', 'phone', 'email', 'place_work', 'post', 'agree_file'], 'required'],
             [['sex'], 'integer'],
+            [['email'], 'email'],
             [['birthday'], 'safe'],
             [['fio'], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],

@@ -120,7 +120,7 @@ return [
                 "index" => "/",
                 "site" => "",
                 'auth/' => '/',
-                '/lit2022' => 'literature/index'
+                '/lit2022' => 'literature/register/index',
             ],
         ],
     ],

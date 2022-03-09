@@ -11,9 +11,11 @@ class DefaultController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
             $userId = Yii::$app->user->identity->getId();
-            if(LiteratureOlympic::findOne(['user_id'=> $userId])) {
-               return $this->render('index');
+            if (LiteratureOlympic::findOne(['user_id' => $userId])) {
+                return $this->render('index');
             }
+            return $this->render('index');
         }
         return $this->render('index');
+    }
 }
