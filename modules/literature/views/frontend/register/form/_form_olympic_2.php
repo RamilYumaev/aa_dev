@@ -36,7 +36,7 @@ use yii\helpers\Html; ?>
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'post')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model, 'academic_degree')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'academic_degree')->dropDownList($model->getAcademicDegreeList()) ?>
     </div>
 <div class="col-md-12">
     <div class="form-group">

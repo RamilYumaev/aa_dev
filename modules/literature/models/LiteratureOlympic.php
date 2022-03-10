@@ -184,6 +184,14 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
         ];
     }
 
+    public function  getAcademicDegreeList(){
+        return [
+            1 => 'нет степени',
+            2 => 'кандидат наук',
+            3 => 'доктор наук',
+        ];
+    }
+
     public function getGrades(){
         return [
             9 => 9,
