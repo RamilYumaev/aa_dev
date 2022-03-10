@@ -23,11 +23,13 @@ use yii\helpers\Html; ?>
         <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="col-md-4">
+        <?= !$model->isNewRecord ? Html::a("Просмотр файла", ['get-file', 'name'=>'photo']) : ''?>
         <?= $form->field($model, 'photo')->widget(FileInput::class, ['language'=> 'ru',
             'options' => ['accept' => 'image/*'],
         ]);?>
     </div>
     <div class="col-md-12">
+        <?= !$model->isNewRecord ? Html::a("Просмотр файла", ['get-file', 'name'=>'agree_file']) : ''?>
         <?= $form->field($model, 'agree_file')->widget(FileInput::class, ['language'=> 'ru',
             'options' => [],
         ]);?>

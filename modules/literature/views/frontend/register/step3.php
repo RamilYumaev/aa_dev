@@ -1,6 +1,4 @@
 <?php
-$this->params['breadcrumbs'][] = ['label' => 'Всероссийская олимпиада школьников по литературе', 'url' => 'default/index'];
-
 use yii\helpers\Html; ?>
 <?= $this->render('steps',['step'=>$step]) ?>
 <div class="container">

@@ -90,7 +90,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
             'email' => 'Email',
             'place_work' => 'Место работы',
             'post' => 'Должность',
-            'agree_file' => 'Файл обработки персональных данных сопровождающего',
+            'agree_file' => 'Согласие на обработку персональных данных сопровождающего',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

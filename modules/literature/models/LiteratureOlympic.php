@@ -56,6 +56,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class LiteratureOlympic extends \yii\db\ActiveRecord
 {
+    const PERSON_DATA_CREATE = 'peron_data_create';
     const PERSON_DATA = 'peron_data';
     const SCHOOL_DATA = 'school_data';
     const ADDITIONAL_DATA = 'additional_data';
@@ -88,6 +89,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [self::PERSON_DATA => ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'agree_file', 'photo'],
+                self::PERSON_DATA_CREATE => ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'agree_file', 'photo'],
                 self::SCHOOL_DATA => ['full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_letter', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'academic_degree'],
                 self::ADDITIONAL_DATA => [ 'size', 'agree_file',  'is_allergy', 'is_voz', 'is_need_conditions', 'note_allergy', 'note_conditions', 'note_special', ],
                 self::ROUTE_DATA => ['type_transport_arrival', 'type_transport_departure', 'date_arrival', 'date_departure', 'place_arrival', 'place_departure', 'number_arrival', 'number_departure'],
@@ -100,9 +102,10 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'size', 'agree_file', 'photo'], 'required'],
+            [['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'size'], 'required'],
             [['user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_allergy', 'is_voz', 'is_need_conditions', 'type_transport_arrival', 'type_transport_departure'], 'integer'],
             [['birthday', 'date_arrival', 'date_departure'], 'safe'],
+            [['agree_file', 'photo'], 'required', 'on' => self::PERSON_DATA_CREATE],
             ['note_allergy', 'required', 'when' => function($model) {return $model->is_allergy == 1;},
                 'whenClient' => 'function (attribute, value) { return $("#literatureolympic-is_allergy").val() === 1}'],
             ['note_conditions', 'required', 'when' => function($model) {return $model->is_need_conditions == 1;},
@@ -167,7 +170,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'type_transport_departure' => 'Вид транспорта',
             'place_departure' => 'Место отбытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
             'number_departure' => 'Номер рейса самолета или номер поезда и вагона',
-            'agree_file' => 'Файл обработки персональных данных участника',
+            'agree_file' => 'Согласие на обработку персональных',
             'photo' => 'Фотография 3x4 (необходимо загрузить)'
         ];
     }

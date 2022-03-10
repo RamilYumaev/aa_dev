@@ -8,6 +8,15 @@ $titles = [
         5 => "Сопровождающее лицо",
         6 => "Маршрут"
 ];
+$url = [
+    1 => ['register/index'],
+    2 => ['register/step2'],
+    3 => ['register/step3'],
+    4 => ['register/step4'],
+    5 => ['register/step5'],
+    6 => ['register/step6'],
+];
+$this->params['breadcrumbs'][] = ['label' => 'Всероссийская олимпиада школьников по литературе', 'url' => ['default/index']];
 $this->title= "Регистрация на участие. Шаг ".$step;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -52,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-xs-2 bs-wizard-step <?= $status ?>">
             <div class="text-center bs-wizard-stepnum">Шаг <?= $key ?></div>
             <div class="progress"><div class="progress-bar"></div></div>
-            <a href="#" class="bs-wizard-dot"></a>
+            <?= \yii\helpers\Html::a('', $url[$key], ['class'=>'bs-wizard-dot'])?>
             <div class="bs-wizard-info text-center"><?= $title ?></div>
         </div>
         <?php endforeach; ?>

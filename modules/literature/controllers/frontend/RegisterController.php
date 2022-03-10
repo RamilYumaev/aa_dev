@@ -4,23 +4,21 @@ namespace modules\literature\controllers\frontend;
 use common\auth\Identity;
 use common\auth\models\User;
 use common\helpers\FlashMessages;
-use common\sending\traits\SelectionCommitteeMailTrait;
-use dictionary\helpers\DictCountryHelper;
-use dictionary\helpers\DictRegionHelper;
+use common\sending\traits\SelectionCommitteeMailTrait;;
 use modules\entrant\helpers\DateFormatHelper;
+use modules\entrant\helpers\FileHelper;
 use modules\literature\forms\RegisterForm;
 use modules\literature\forms\search\PersonsSearch;
-use modules\literature\forms\SignupForm;
 use modules\literature\models\LiteratureOlympic;
 use modules\literature\models\PersonsLiterature;
 use modules\literature\models\UserPersonsLiterature;
-use olympic\forms\auth\ProfileCreateForm;
 use olympic\forms\auth\UserCreateForm;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\models\auth\Profiles;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
 class RegisterController extends Controller
@@ -46,7 +44,7 @@ class RegisterController extends Controller
                     Yii::$app->session->setFlash('success', FlashMessages::get()["successRegistration"]);
                     Yii::$app->user->login(new Identity($user), 1);
                 }
-                return $this->redirect('step2');
+                return $this->redirect(['step2']);
             }catch (\DomainException $domainException) {
                 Yii::$app->session->setFlash('danger', $domainException->getMessage());
             }
@@ -65,18 +63,25 @@ class RegisterController extends Controller
         if($model) {
             $model->birthday = DateFormatHelper::formatView($model->birthday);
             $model->date_issue = DateFormatHelper::formatView($model->date_issue);
+            $model->setScenario(LiteratureOlympic::PERSON_DATA);
         }else {
             $model = new LiteratureOlympic();
+            $model->setScenario(LiteratureOlympic::PERSON_DATA_CREATE);
         }
-        $model->setScenario(LiteratureOlympic::PERSON_DATA);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->birthday = DateFormatHelper::formatRecord($model->birthday);
             $model->date_issue = DateFormatHelper::formatRecord($model->date_issue);
             $model->user_id = $this->getUserId();
             $photo = UploadedFile::getInstance($model, "photo");
-            $model->photo = $photo;
+
+            if($photo) {
+                $model->photo = $photo;
+            }
+
             $file = UploadedFile::getInstance($model, "agree_file");
-            $model->agree_file = $file;
+            if($file) {
+                $model->agree_file = $file;
+            }
             $model->save();
             return $this->redirect('step3');
         }
@@ -251,6 +256,26 @@ class RegisterController extends Controller
             $transaction->rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * @param $name
+     * @return \yii\console\Response|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionGetFile($name)
+    {
+        $model = $this->getModel();
+        if (!$model) {
+            throw new NotFoundHttpException('Страница не найдена');
+        }
+        $filePath = $model->getUploadedFilePath($name);
+        if (!file_exists($filePath)) {
+            Yii::$app->session->setFlash('danger', "Файл не найден");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return Yii::$app->response->sendFile($filePath);
     }
 
     protected function getUserId() {

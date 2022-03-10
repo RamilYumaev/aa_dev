@@ -7,8 +7,8 @@ use yii\widgets\ActiveForm; ?>
 <?php $form = ActiveForm::begin(['id'=> 'form-reg']); ?>
     <div class="col-md-4">
         <?= $form->field($model->profile, 'last_name')->textInput(['maxlength' => true]) ?>
-        <?= $form->field($model->profile, 'gender')->dropDownList($model->profile->genderList()) ?>
         <?= $form->field($model->profile, 'patronymic')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model->profile, 'gender')->dropDownList($model->profile->genderList()) ?>
     </div>
     <div class="col-md-4">
         <?= $form->field($model->profile, 'first_name')->textInput(['maxlength' => true]) ?>

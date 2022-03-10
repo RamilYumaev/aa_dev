@@ -2,6 +2,7 @@
 
 namespace modules\literature\forms\search;
 
+use borales\extensions\phoneInput\PhoneInputValidator;
 use modules\literature\models\PersonsLiterature;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -16,6 +17,7 @@ class PersonsSearch extends Model
     {
         return [
             [['email', 'phone' ,'fio'], 'safe'],
+            [['phone'], PhoneInputValidator::class],
         ];
     }
 
