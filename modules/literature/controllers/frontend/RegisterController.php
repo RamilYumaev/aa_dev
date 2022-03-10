@@ -51,7 +51,8 @@ class RegisterController extends Controller
         }
         return $this->render('index', [
             'model' => $model,
-            'step' => 1
+            'step' => 1,
+            'isRoute' => false,
         ]);
     }
 
@@ -85,7 +86,7 @@ class RegisterController extends Controller
             $model->save();
             return $this->redirect('step3');
         }
-        return $this->render('step2', [ 'step' => 2, 'model' => $model]);
+        return $this->render('step2', [ 'step' => 2, 'model' => $model, 'isRoute' => $model->isNewRecord ? false : ($model->region == 77 ? false : true)]);
     }
 
     public function actionStep3() {
@@ -101,7 +102,7 @@ class RegisterController extends Controller
             $model->save();
             return $this->redirect('step4');
         }
-        return $this->render('step3', [ 'step' => 3, 'model' => $model]);
+        return $this->render('step3', [ 'step' => 3, 'model' => $model, 'isRoute' => $model->region == 77 ? false : true]);
     }
 
     public function actionStep4() {
@@ -117,7 +118,7 @@ class RegisterController extends Controller
             $model->save();
             return $this->redirect('step5');
         }
-        return $this->render('step4', [ 'step' => 4, 'model' => $model]);
+        return $this->render('step4', [ 'step' => 4, 'model' => $model, 'isRoute' => $model->region == 77 ? false : true,]);
     }
 
     public function actionAddPerson($id) {
@@ -183,7 +184,7 @@ class RegisterController extends Controller
             Yii::$app->session->setFlash('success', "Спасибо за регистрацию");
             return $this->redirect(['default/index']);
         }
-        return $this->render('step6', [ 'step' => 6, 'model' => $model]);
+        return $this->render('step6', [ 'step' => 6, 'model' => $model, 'isRoute' => $model->region == 77 ? false : true,]);
     }
 
     public function actionStep5()
@@ -219,6 +220,7 @@ class RegisterController extends Controller
             'model' => $model,
             'provider' => $provider,
             'userId' => $olympic->user_id,
+            'isRoute' => $olympic->region == 77 ? false : true,
         ]);
     }
 

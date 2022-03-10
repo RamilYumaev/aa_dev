@@ -16,6 +16,10 @@ $url = [
     5 => ['register/step5'],
     6 => ['register/step6'],
 ];
+if(!$isRoute) {
+    unset($titles[6]);
+    unset($url[6]);
+}
 $this->params['breadcrumbs'][] = ['label' => 'Всероссийская олимпиада школьников по литературе', 'url' => ['default/index']];
 $this->title= "Регистрация на участие. Шаг ".$step;
 $this->params['breadcrumbs'][] = $this->title;
@@ -48,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-20">
-            <h1>Регистрация на участие в заключительном этапе всероссийской олимпиады школьников по литературе в городе Москва в 2022 году.</h1>
+            <h1>Регистрация на участие в заключительном этапе Всероссийской олимпиады школьников по литературе в городе Москва в 2022 году.</h1>
         </div>
     </div>
 </div>

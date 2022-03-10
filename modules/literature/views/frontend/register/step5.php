@@ -1,12 +1,12 @@
 <?php
 use modules\literature\models\UserPersonsLiterature;
 use yii\helpers\Html; ?>
-<?= $this->render('steps',['step'=>$step]) ?>
+<?= $this->render('steps',['step'=>$step, 'isRoute' => $isRoute]) ?>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <?=  Html::a("Шаг 4", ['step4'], ['class'=>'btn btn-warning pull-left']) ?>
-            <?=  Html::a("Шаг 6", ['step6'], ['class'=>'btn btn-primary pull-right'])?>
+            <?= Html::a( !$isRoute ? "Закончить" : "Шаг 6", ['step6'], ['class'=>'btn btn-primary pull-right']) ?>
         </div>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@ use yii\helpers\Html; ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-20">
             <h3>Ваши сопровождающие</h3>
             <?= \yii\grid\GridView::widget([
                 'tableOptions' => ['class' => 'table  table-bordered'],
@@ -45,7 +45,7 @@ use yii\helpers\Html; ?>
                 ],
             ]) ?>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 mb-20">
             <h3>Добавить нового сопровождающего</h3>
             <?= $this->render('form/_form_person', [
                 'model' => $model
