@@ -13,6 +13,7 @@ class UserEditForm extends Model
 {
     public $username;
     public $email;
+    public $status;
     public $role;
 
     public $_user;
@@ -21,8 +22,8 @@ class UserEditForm extends Model
     {
         $this->username = $user->username;
         $this->email = $user->email;
-        $roles = AuthAssignment::getRoleName($user->id);
-        $this->role = $roles ? reset($roles) : null;
+        $this->status = $user->status;
+        $this->role = AuthAssignment::find()->select('item_name')->where(['user_id' => $user->id])->indexBy('item_name')->column();
         $this->_user = $user;
         parent::__construct($config);
     }
@@ -30,8 +31,9 @@ class UserEditForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'email', 'role'], 'required'],
+            [['username', 'email', 'status'], 'required'],
             ['email', 'email'],
+            ['role', 'safe'],
             ['email', 'string', 'max' => 255],
             [['username', 'email'], 'unique', 'targetClass' => User::class, 'filter' => ['<>', 'id', $this->_user->id]],
         ];
@@ -40,5 +42,10 @@ class UserEditForm extends Model
     public function rolesList(): array
     {
         return RoleHelper::roleList();
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge((new User())->attributeLabels(), ['role' => 'Роли']);
     }
 }

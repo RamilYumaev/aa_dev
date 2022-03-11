@@ -10,20 +10,14 @@ use common\auth\models\User;
 use backend\widgets\adminlte\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\forms\UserSearch */
+/* @var $searchModel olympic\forms\auth\search\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="user-index">
-
-
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <div class="box">
         <div class="box-body">
             <?= GridView::widget([
@@ -31,22 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     'id',
-                    [
-                        'attribute' => 'created_at',
-                        'filter' => DatePicker::widget([
-                            'model' => $searchModel,
-                            'attribute' => 'date_from',
-                            'attribute2' => 'date_to',
-                            'type' => DatePicker::TYPE_RANGE,
-                            'separator' => '-',
-                            'pluginOptions' => [
-                                'todayHighlight' => true,
-                                'autoclose' => true,
-                                'format' => 'yyyy-mm-dd',
-                            ],
-                        ]),
-                        'format' => 'datetime',
-                    ],
                     [
                         'attribute' => 'username',
                         'value' => function (User $model) {

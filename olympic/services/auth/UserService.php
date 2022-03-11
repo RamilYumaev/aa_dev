@@ -5,14 +5,17 @@ use common\auth\models\UserSdoToken;
 use common\auth\services\UserTokensService;
 use common\sending\traits\SelectionCommitteeMailTrait;
 use frontend\search\Profile;
+use Mpdf\Tag\A;
 use olympic\forms\auth\UserCreateForm;
 use olympic\forms\auth\UserEditForm;
 use common\auth\models\User;
 use common\auth\repositories\UserRepository;
 use common\transactions\TransactionManager;
+use olympic\models\auth\AuthAssignment;
 use olympic\models\auth\Profiles;
 use olympic\repositories\auth\ProfileRepository;
 use yii\db\Exception;
+use yii\rbac\Assignment;
 
 class UserService
 {
@@ -59,9 +62,17 @@ class UserService
     {
         $user = $this->repository->get($id);
         $user->edit($form);
+        $user->status = $form->status;
         $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
-            $user->setAssignment($form->role);
+            if($form->role) {
+                AuthAssignment::deleteAll(['user_id'=> $user->id]);
+                foreach ($form->role as $role) {
+                    $as = AuthAssignment::create($role, $user->id);
+                    $as->save();
+                }
+            }
+
         });
     }
 

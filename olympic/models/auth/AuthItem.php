@@ -17,7 +17,6 @@ namespace olympic\models\auth;
 class AuthItem extends \yii\db\ActiveRecord
 {
 
-
     /**
      * {@inheritdoc}
      */

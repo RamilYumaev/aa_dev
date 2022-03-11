@@ -14,8 +14,8 @@ class UserHelper
     public static function statusList(): array
     {
         return [
-            self::STATUS_WAIT => 'Wait',
-            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_WAIT => 'Неактивный',
+            self::STATUS_ACTIVE => 'Активный',
         ];
     }
 

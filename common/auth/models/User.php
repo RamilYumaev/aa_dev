@@ -323,6 +323,7 @@ class User extends ActiveRecord
         return [
             'username'=> 'Логин',
             'email'=> 'Адрес электронной почты',
+            'status' => "Статус"
         ];
     }
 }

@@ -12,10 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * UserController implements the CRUD actions for User model.
- */
-class UserController extends Controller
+class AuthItemController extends Controller
 {
     private $service;
 
@@ -65,6 +62,28 @@ class UserController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new User model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $form = new UserCreateForm();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $user = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $user->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->render('create', [
+            'model' => $form,
         ]);
     }
 

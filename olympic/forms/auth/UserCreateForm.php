@@ -12,12 +12,13 @@ class UserCreateForm extends Model
     public $username;
     public $email;
     public $password;
+    public $status;
     public $role;
 
     public function rules(): array
     {
         return [
-            [['username', 'email'], 'required'],
+            [['username', 'email', 'status'], 'required'],
             ['email', 'email'],
             [['username', 'email'], 'string', 'max' => 255],
             [['username', 'email'], 'unique', 'targetClass' => \common\auth\models\User::class],
@@ -32,7 +33,7 @@ class UserCreateForm extends Model
 
     public function attributeLabels()
     {
-        return ['password' => "Пароль", 'username' => "Логин"];
+        return ['password' => "Пароль", 'username' => "Логин", "Статус"=> "Статус"];
     }
 
 }
