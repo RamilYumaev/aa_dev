@@ -10,13 +10,14 @@ use modules\entrant\helpers\DateFormatHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html; ?>
 <?php $form = ActiveForm::begin(['id'=> 'form-reg']); ?>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'birthday')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
         <?= $form->field($model, 'sex')->dropDownList(ProfileHelper::typeOfGender()) ?>
         <?= $form->field($model, 'place_birth')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="col-md-6">
+<div class="col-md-1"></div>
+    <div class="col-md-5">
         <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'phone')->widget(\borales\extensions\phoneInput\PhoneInput::class, [
             'jsOptions' => [

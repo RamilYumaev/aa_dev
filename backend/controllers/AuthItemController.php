@@ -2,12 +2,10 @@
 
 namespace backend\controllers;
 
-use olympic\forms\auth\UserCreateForm;
-use olympic\forms\auth\UserEditForm;
+use olympic\models\auth\AuthItem;
 use olympic\services\auth\UserService;
 use Yii;
-use common\auth\models\User;
-use olympic\forms\auth\search\UserSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,25 +41,11 @@ class AuthItemController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $dataProvider = new ActiveDataProvider(['queue'=> AuthItem::find()]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
@@ -72,15 +56,10 @@ class AuthItemController extends Controller
      */
     public function actionCreate()
     {
-        $form = new UserCreateForm();
+        $form = new AuthItem();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $user = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $user->id]);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
+            $form->save();
+            return $this->redirect(['index']);
         }
         return $this->render('create', [
             'model' => $form,
@@ -96,21 +75,14 @@ class AuthItemController extends Controller
      */
     public function actionUpdate($id)
     {
-        $user = $this->findModel($id);
+        $form = $this->findModel($id);
 
-        $form = new UserEditForm($user);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($user->id, $form);
-                return $this->redirect(['view', 'id' => $user->id]);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
+            $form->save();
+            return $this->redirect(['index']);
         }
         return $this->render('update', [
             'model' => $form,
-            'user' => $user,
         ]);
     }
 
@@ -119,10 +91,15 @@ class AuthItemController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
-        $this->service->remove($id);
+        $model =  $this->findModel($id);
+        $model->delete();
+
         return $this->redirect(['index']);
     }
 
@@ -130,12 +107,12 @@ class AuthItemController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

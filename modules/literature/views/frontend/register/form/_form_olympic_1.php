@@ -30,7 +30,7 @@ use yii\helpers\Html; ?>
     </div>
     <div class="col-md-12">
         <div class="mb-10 pull-right">
-        <?= Html::a('Согласие участника несовершеннолетнего',['pd', 'id' => 3]) ?> | <?= Html::a('Согласие участника совершеннолетнего', ['pd', 'id' => 2]) ?>
+        <?= Html::a('Согласие участника несовершеннолетнего',['pd', 'id' => 3],['target'=>'_blank']) ?> | <?= Html::a('Согласие участника совершеннолетнего', ['pd', 'id' => 2], ['target'=>'_blank']) ?>
         </div>
         <?= !$model->isNewRecord ? Html::a("Просмотр файла", ['get-file', 'name'=>'agree_file']) : ''?>
         <?= $form->field($model, 'agree_file')->widget(FileInput::class, ['language'=> 'ru',

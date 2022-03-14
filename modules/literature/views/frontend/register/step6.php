@@ -2,8 +2,8 @@
 use yii\helpers\Html; ?>
 <?= $this->render('steps',['step'=>$step, 'isRoute' => $isRoute]) ?>
 <div class="container">
-    <div class="col-md-12">
-        <?=  Html::a("Шаг 5", ['step5'], ['class'=>'btn btn-warning pull-left']) ?>
+    <div class="col-md-12 mb-20">
+        <?=  Html::a("<< Шаг 5", ['step5'], ['class'=>'btn btn-warning pull-left']) ?>
     </div>
     <div class="row">
         <div class="col-md-12 mb-20">
