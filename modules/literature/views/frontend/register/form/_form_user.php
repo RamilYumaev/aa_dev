@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm; ?>
         <?= $form->field($model, 'ids')->hiddenInput()->label('') ?>
     <div class="col-md-12">
         <div class="form-group">
-            <?= Html::submitButton('Далее', ['class' => 'btn btn-success pull-right']) ?>
+            <?= Html::submitButton('Далее', ['class' => 'btn btn-lg btn-success pull-right']) ?>
         </div>
     </div>
 <?php ActiveForm::end(); ?>

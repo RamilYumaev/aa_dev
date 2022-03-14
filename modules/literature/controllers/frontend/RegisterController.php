@@ -280,6 +280,20 @@ class RegisterController extends Controller
         return Yii::$app->response->sendFile($filePath);
     }
 
+    /**
+     * @return \yii\console\Response|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionPd($id)
+    {
+        $filePath = Yii::getAlias('@modules').'/literature/olympic/prilozhenie_'.$id.'.pdf';
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Файл не найден');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
     protected function getUserId() {
         return Yii::$app->user->identity->getId();
     }

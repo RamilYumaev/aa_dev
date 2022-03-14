@@ -34,7 +34,7 @@ use yii\helpers\Html; ?>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <?= Html::submitButton('Добавить', ['class' => 'btn btn-success pull-right']) ?>
+            <?= Html::submitButton('Добавить', ['class' => 'btn btn-lg btn-success pull-right']) ?>
         </div>
     </div>
 <?php ActiveForm::end(); ?>
