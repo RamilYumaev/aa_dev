@@ -50,7 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value'=>'desireWork'],
                     ['attribute'=>'experience', 'filter'=> ['Нет', 'Да'],
                         'value'=> 'experience', 'format' => 'boolean'],
-
+                    ['attribute'=>'is_reception', 'filter'=> ['Нет', 'Да'],
+                        'value'=> 'is_reception', 'format' => 'boolean'],
                 ]
             ]); ?>
         </div>

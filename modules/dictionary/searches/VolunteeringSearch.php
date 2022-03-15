@@ -8,13 +8,14 @@ use yii\data\ActiveDataProvider;
 class VolunteeringSearch extends  Model
 {
     public  $clothes_type, $clothes_size, $job_entrant_id, $faculty_id, $experience,
-        $note, $form_edu, $course_edu, $finance_edu, $number_edu, $desire_work;
+        $note, $form_edu, $course_edu, $finance_edu, $number_edu, $desire_work, $is_reception;
 
     public function rules()
     {
         return [
             [['form_edu', 'course_edu',
                 'experience',
+                'is_reception',
                 'finance_edu',
                 'job_entrant_id', 'faculty_id', 'clothes_type',], 'integer'],
             [['number_edu','clothes_size', 'desire_work'], 'safe'],
@@ -48,6 +49,7 @@ class VolunteeringSearch extends  Model
             'clothes_type' => $this->clothes_type,
             'clothes_size' => $this->clothes_size,
             'form_edu' => $this->form_edu,
+            'is_reception' => $this->is_reception
         ]);
 
 

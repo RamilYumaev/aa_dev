@@ -6,7 +6,7 @@ use yii\base\Model;
 class VolunteeringForm extends Model
 {
     public $clothes_type, $clothes_size, $link_vk, $job_entrant_id, $faculty_id,
-        $experience, $note, $form_edu, $course_edu, $finance_edu, $number_edu, $desire_work;
+        $experience, $note, $form_edu, $course_edu, $finance_edu, $number_edu, $desire_work, $is_reception;
     public $post;
 
     public function __construct(Volunteering $volunteering = null, $config = [])
@@ -33,7 +33,7 @@ class VolunteeringForm extends Model
             [['form_edu', 'course_edu', 'finance_edu', 'clothes_type', 'clothes_size', 'job_entrant_id', 'faculty_id',], 'integer'],
             [['link_vk', 'number_edu'], 'string' , 'max' => 255],
             [['note' ], 'string' ],
-            ['experience','boolean' ],
+            [['experience','is_reception'],'boolean' ],
             ['desire_work','safe' ],
         ];
     }

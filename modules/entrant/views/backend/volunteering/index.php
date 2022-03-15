@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php Modal::end(); ?>
             </div>
         </div>
+        <?= $form->field($model, 'is_reception')->checkbox()->label('Буду принимать участие в Приеме '.date("Y")) ?>
         <?= $form->field($model, 'note')->textarea() ?>
         <?= $form->field($model, 'link_vk')->textInput() ?>
     </div>

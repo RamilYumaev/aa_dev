@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property integer $clothes_type
  * @property integer $finance_edu
  * @property boolean $experience
+ * @property boolean $is_reception
  * @property string $number_edu
  * @property string $link_vk
  * @property string $note
@@ -55,6 +56,7 @@ class Volunteering extends ActiveRecord
         $this->clothes_size = $form->clothes_size;
         $this->clothes_type = $form->clothes_type;
         $this->experience = $form->experience;
+        $this->is_reception = $form->is_reception;
         $this->link_vk = $form->link_vk;
         $this->desire_work = json_encode($form->desire_work);
         $this->number_edu = $form->number_edu;
@@ -122,6 +124,10 @@ class Volunteering extends ActiveRecord
         }, json_decode($this->desire_work)));
     }
 
+    public function getIsReception() {
+        return $this->is_reception ? 'Да' : "Нет";
+    }
+
     public function attributeLabels()
     {
         return [
@@ -137,6 +143,7 @@ class Volunteering extends ActiveRecord
             'desire_work'  => "Желаемое направление работы",
             'link_vk' => "Ссылка на VK",
             'note' => "Коротко о Вас",
+            'is_reception' => 'Участие в Приеме '.date("Y")
         ];
     }
 
