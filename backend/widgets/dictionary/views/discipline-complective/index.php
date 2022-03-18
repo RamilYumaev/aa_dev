@@ -21,9 +21,10 @@ use dictionary\helpers\DictDisciplineHelper;
             'columns' => [
                 ['class' => \yii\grid\SerialColumn::class],
                 ['attribute' => 'discipline_id',
-                    'value' => function (DisciplineCompetitiveGroup $model) {
-                        return DictDisciplineHelper::disciplineName($model->discipline_id);
-                    },
+                    'value' => 'discipline.name',
+                ],
+                ['attribute' => 'spo_discipline_id',
+                    'value' => 'disciplineSpo.name',
                 ],
                 'priority',
                 ['class' => \yii\grid\ActionColumn::class,

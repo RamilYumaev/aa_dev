@@ -11,7 +11,7 @@ class DisciplineCompetitiveGroupRepository
     public function get($discipline_id, $competitive_group_id): DisciplineCompetitiveGroup
     {
         if (!$model = DisciplineCompetitiveGroup::findOne(['discipline_id'=>$discipline_id, 'competitive_group_id'=>$competitive_group_id])) {
-            throw new \DomainException('DisciplineCompetitiveGroup не найдено.');
+
         }
         return $model;
     }

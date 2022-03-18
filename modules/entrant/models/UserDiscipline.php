@@ -41,6 +41,7 @@ class UserDiscipline extends YiiActiveRecordAndModeration
         ];
     }
 
+    const NO = 0;
     const CSE = 1;
     const VI = 2;
     const CT = 3;
@@ -86,6 +87,9 @@ class UserDiscipline extends YiiActiveRecordAndModeration
 
     public function getTypeList() {
         return [
+            self::NO => [
+                'name' => 'Нет', 'name_short' => "Нет",
+            ],
             self::CSE => [
                 'name' => 'Единый государственный экзамен', 'name_short' => "ЕГЭ",
             ],

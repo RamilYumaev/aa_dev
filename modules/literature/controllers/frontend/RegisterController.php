@@ -204,8 +204,7 @@ class RegisterController extends Controller
 
         $model = new PersonsLiterature();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $agreeFile = UploadedFile::getInstanceByName("agree_file");
-            $model->agree_file = $agreeFile;
+            $model->birthday = DateFormatHelper::formatRecord($model->birthday);
             $model->save();
             $m = new UserPersonsLiterature();
             $m->user_id = $olympic->user_id;

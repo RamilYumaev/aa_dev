@@ -113,12 +113,16 @@ $cgFaculty = $cgFacultyBase->all();
                         {   ++$index;
                             $result .= Html::a($exam->dictDisciplineSelect->name, $exam->dictDisciplineSelect->links, ['target' => '_blank']).($count == $index ? "" : "/");
                         }
+                        $result .= $examination->spo_discipline_id ? " /".  Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
+                                ['target' => '_blank']) : "";
                         $result .= "</li>";
                     }
                     else {
                     $result .= "<li>";
                     $result .= Html::a($examination->discipline->name, $examination->discipline->links,
                         ['target' => '_blank']);
+                        $result .= $examination->spo_discipline_id ? " /".  Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
+                                ['target' => '_blank']) : "";
                     $result .= "</li>";
                     }
                 }

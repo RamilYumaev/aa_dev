@@ -39,6 +39,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->ais_id = $form->ais_id;
         $discipline->dvi = $form->dvi;
         $discipline->is_och = $form->is_och;
+        $discipline->is_spec_for_spo = $form->is_spec_for_spo;
         $discipline->composite_discipline = $form->composite_discipline;
         return $discipline;
     }
@@ -52,6 +53,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $this->ct_subject_id = $form->ct_subject_id;
         $this->ais_id = $form->ais_id;
         $this->dvi = $form->dvi;
+        $this->is_spec_for_spo = $form->is_spec_for_spo;
         $this->composite_discipline = $form->composite_discipline;
     }
 
@@ -75,6 +77,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'dvi' => "Дополнительное вступительное испытание бакалавриата",
             'composite_discipline' => "Составная дисциплина",
             'is_och' => "Очный экзамен?",
+            'is_spec_for_spo' => 'Спец. ВИ для СПО'
         ];
     }
 

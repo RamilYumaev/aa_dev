@@ -99,6 +99,11 @@ include 'navigation/index.html';
             <?= \modules\entrant\widgets\discipline\UserDisciplineWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>
         </div>
     <?php endif; ?>
+    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && !$anketa->isTpgu()): ?>
+        <div class="mt-20 table-responsive" id="vi-spo">
+            <?= \modules\entrant\widgets\discipline\UserDisciplineSpoWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>
+        </div>
+    <?php endif; ?>
     <div class="mt-20 table-responsive" id="additional">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>

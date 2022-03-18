@@ -42,7 +42,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fio', 'birthday', 'place_birth', 'phone', 'email', 'place_work', 'post', 'agree_file'], 'required'],
+            [['fio', 'birthday', 'place_birth', 'phone', 'email', 'place_work', 'post'], 'required'],
             [['sex'], 'integer'],
             [['email'], 'email'],
             [['birthday'], 'safe'],
@@ -62,12 +62,7 @@ class PersonsLiterature extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::class,
-            [
-                'class' => ImageUploadBehaviorYiiPhp::class,
-                'attribute' => 'agree_file',
-                'filePath' => '@modules/literature/files/persons/[[attribute_id]]/[[attribute_agree_file]].[[extension]]',
-            ],
+            TimestampBehavior::class
         ];
     }
 

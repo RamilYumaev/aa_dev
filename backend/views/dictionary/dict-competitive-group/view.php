@@ -1,5 +1,6 @@
 <?php
 
+use modules\literature\models\LiteratureOlympic;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use dictionary\helpers\CategoryDocHelper;

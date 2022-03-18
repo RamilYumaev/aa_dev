@@ -29,11 +29,6 @@ use yii\helpers\Html; ?>
         <?= $form->field($model, 'post')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="col-md-12">
-        <?= $form->field($model, 'agree_file')->widget(FileInput::class, ['language'=> 'ru',
-        'options' => ['accept' => 'image/*'],
-    ]);?>
-    </div>
-    <div class="col-md-12">
         <div class="form-group">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-lg btn-success pull-right']) ?>
         </div>

@@ -14,7 +14,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Заполнение персон�
 $this->params['breadcrumbs'][] = $this->title;
 
 $data = (new UserDiscipline())->getTypeListKey('name_short');
+unset($data[UserDiscipline::NO]);
 if (!$isBelarus) {
+
     unset($data[UserDiscipline::CT_VI], $data[UserDiscipline::CT]);
 }
 ?>

@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Обновить';
         <div class="box-body">
             <?= $form->field($model, 'discipline_id')->dropDownList($model->disciplineList(),['prompt'=> 'Выберите дисциплину']) ?>
             <?= $form->field($model, 'priority')->dropDownList($model->priorityList()) ?>
+            <?= $form->field($model, 'spo_discipline_id')->dropDownList($model->disciplineSpoList(),['prompt'=> 'Выберите специальную дисциплину для СПО']) ?>
         </div>
     </div>
 

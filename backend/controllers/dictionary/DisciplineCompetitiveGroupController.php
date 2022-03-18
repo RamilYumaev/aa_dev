@@ -66,11 +66,11 @@ class DisciplineCompetitiveGroupController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($form);
-                return $this->redirect(['/dictionary/dict-competitive-group/view', 'id'=>$form->competitive_group_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            return $this->redirect(['/dictionary/dict-competitive-group/view', 'id'=>$form->competitive_group_id]);
         }
         return $this->renderAjax('update', [
             'model' => $form,

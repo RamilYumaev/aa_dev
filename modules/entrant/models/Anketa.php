@@ -393,4 +393,9 @@ class Anketa extends ActiveRecord
     {
         return $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_NPO || $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SPO;
     }
+
+    public function onlySpo()
+    {
+        return $this->spoNpo() && $this->is_foreigner_edu_organization;
+    }
 }

@@ -34,7 +34,7 @@ class UserDisciplineCseForm extends Model
         return [
             [['discipline_id', 'user_id', 'type'], 'required'],
             [['mark', 'year'], 'required', 'when'=> function($model) {
-                return $model->type != UserDiscipline::VI;
+                return !in_array($model->type, [UserDiscipline::VI, UserDiscipline::NO]);
             }, 'enableClientValidation' => false],
             [['discipline_id', 'discipline_select_id', 'year'], 'integer'],
             [['mark', 'year'], 'trim'],
@@ -68,7 +68,7 @@ class UserDisciplineCseForm extends Model
 
     public function validateYear($attribute, $params)
     {
-        if($this->type != UserDiscipline::VI) {
+        if(!in_array($this->type, [UserDiscipline::VI, UserDiscipline::NO])) {
             $max = date("Y");
             $min = $this->minYear();
             if ($this->year < $min || $this->year > $max) {

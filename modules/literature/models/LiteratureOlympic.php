@@ -134,7 +134,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'birthday' => 'Дата рождения',
-            'type' => 'Документ, удостоваеряющий личность',
+            'type' => 'Документ, удостоверяющий личность',
             'series' => 'Серия',
             'number' => 'Номер',
             'date_issue' => 'Дата выдачи',
@@ -170,7 +170,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'type_transport_departure' => 'Вид транспорта',
             'place_departure' => 'Место отбытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
             'number_departure' => 'Номер рейса самолета или номер поезда и вагона',
-            'agree_file' => 'Согласие на обработку персональных',
+            'agree_file' => 'Согласие на обработку персональных данных',
             'photo' => 'Фотография 3x4 (необходимо загрузить)'
         ];
     }
