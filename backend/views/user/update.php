@@ -13,7 +13,6 @@ $this->title = 'Обновить пользователя: ' . $user->id;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $user->id, 'url' => ['view', 'id' => $user->id]];
 $this->params['breadcrumbs'][] = 'Обновление';
-var_dump($model->role);
 ?>
 <div class="user-update">
     <?php $form = ActiveForm::begin(); ?>

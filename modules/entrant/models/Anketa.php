@@ -396,6 +396,6 @@ class Anketa extends ActiveRecord
 
     public function onlySpo()
     {
-        return $this->spoNpo() && $this->is_foreigner_edu_organization;
+        return $this->spoNpo() && !$this->is_foreigner_edu_organization;
     }
 }

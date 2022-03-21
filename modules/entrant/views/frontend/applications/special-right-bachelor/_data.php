@@ -5,6 +5,7 @@
  * @var $currentFaculty
  * @var $cg
  * @var $transformYear
+ * @var $anketa modules\entrant\models\Anketa
  */
 
 use dictionary\models\Faculty;
@@ -127,6 +128,9 @@ foreach ($currentFaculty as $faculty) {
                     $result .= "<li>";
                     $result .= Html::a($examination->discipline->name, $examination->discipline->links,
                         ['target' => '_blank']);
+                    if($anketa->onlySpo()) {
+                        $result .= $examination->spo_discipline_id ? " /".  Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
+                                ['target' => '_blank']) : ""; }
                     $result .= "</li>";
                 }
                 $result .= "</ol>";

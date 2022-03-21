@@ -518,6 +518,8 @@ class DictCompetitiveGroupHelper
         return $data ? implode(', ', $data) : '';
     }
 
+
+
     public static function groupByExamsCseFacultyEduLevelSpecializationN($user_id, $faculty_id, $speciality_id, $ids, $type)
     {
         $typeCse = 1;
@@ -601,6 +603,27 @@ class DictCompetitiveGroupHelper
 
                     }
                 }
+            }
+        }
+        return  $result ? implode(', ', $result) : "";
+    }
+
+    public static function groupByExamsCseFacultyEduLevelSpecializationSpo($user_id, $faculty_id, $speciality_id, $ids)
+    {
+        $data = DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.spo_discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                'dict_competitive_group.id' => $ids,
+                'dict_competitive_group.speciality_id' => $speciality_id])
+            ->select(['name', 'dict_discipline.id', 'cse_subject_id', 'composite_discipline'])
+            ->asArray()
+            ->all();
+        $result = [];
+        foreach ($data as $value) {
+            if(UserDiscipline::find()->vi()->user($user_id)->discipline($value['id'])->exists()) {
+                    $result[] = $value['name'];
             }
         }
         return  $result ? implode(', ', $result) : "";

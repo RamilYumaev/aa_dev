@@ -205,6 +205,11 @@ class DictCompetitiveGroup extends ActiveRecord
             ->andWhere(['is_och' => true])->exists();
     }
 
+    public function isExamSpoVy() {
+        return $this->getExaminations()
+            ->andWhere(['not', ['spo_discipline_id' => null]])->exists();
+    }
+
     public function getUserCg()
     {
         return $this->hasMany(UserCg::class, ['cg_id' => 'id']);

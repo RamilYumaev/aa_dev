@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'role',
                         'class' => RoleColumn::class,
                         'filter' => $searchModel->rolesList(),
+                        'header' => 'Права'
                     ],
                     [
                         'attribute' => 'status',
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'raw',
                     ],
-                    ['class' => ActionColumn::class],
+                    ['class' => ActionColumn::class, 'template' => '{update}'],
                 ],
             ]); ?>
         </div>

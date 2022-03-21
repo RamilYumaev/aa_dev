@@ -121,8 +121,9 @@ $cgFaculty = $cgFacultyBase->all();
                     $result .= "<li>";
                     $result .= Html::a($examination->discipline->name, $examination->discipline->links,
                         ['target' => '_blank']);
+                    if($anketa->onlySpo()) {
                         $result .= $examination->spo_discipline_id ? " /".  Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
-                                ['target' => '_blank']) : "";
+                                ['target' => '_blank']) : ""; }
                     $result .= "</li>";
                     }
                 }

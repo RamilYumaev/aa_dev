@@ -3,6 +3,7 @@
 /* @var $model modules\entrant\forms\UserDisciplineCseForm */
 /* @var $nameExam */
 /* @var $isBelarus */
+/* @var $anketa modules\entrant\models\Anketa */
 
 use dictionary\models\DictDiscipline;
 use modules\entrant\models\UserDiscipline;
@@ -12,12 +13,15 @@ $this->title = "Вступительные испытания + ЕГЭ".($isBela
 
 $this->params['breadcrumbs'][] = ['label' => 'Заполнение персональной карточки поступающего', 'url' => ['/abiturient/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+$exam = $model->discipline_id ?: $keyExam;
+$anketa = \Yii::$app->user->identity->anketa();
 $data = (new UserDiscipline())->getTypeListKey('name_short');
 unset($data[UserDiscipline::NO]);
 if (!$isBelarus) {
-
     unset($data[UserDiscipline::CT_VI], $data[UserDiscipline::CT]);
+}
+if($anketa->onlySpo() && !$anketa->isExemptionDocument(1) && $exam != 1) {
+    unset($data[UserDiscipline::CSE_VI], $data[UserDiscipline::VI]);
 }
 ?>
 <div class="container">

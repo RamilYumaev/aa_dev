@@ -133,7 +133,8 @@ array_merge(
                 ['label' => 'Кейсы', 'url' => ['/dictionary-module/testing-entrant']],
                 ['label' => 'Мониторинг', 'url' => ['/dictionary-module/testing-entrant/list-case']],
             ])]] :[],
-
+    Yii::$app->user->can('dev') ?
+        [['label' => 'Пользователи', 'url' => '/user']] :[],
     Yii::$app->user->can('dev_task') ?
     [['label' => 'УОПП', 'url' => '#',
         'items' => array_merge([

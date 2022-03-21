@@ -22,6 +22,8 @@ $cseVi = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializatio
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 2);
 $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationN($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 3);
+$spo = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationSpo($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 $noCseForeign = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationF($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 $noCseSuccess = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
@@ -122,6 +124,11 @@ $och = false;
                     <?= $examBase ?> <?= $anketa['currentEduLevel'] ?>.
                 <?php endif; ?>
             <?php endif; ?>
+        </p>
+    <?php endif; ?>
+    <?php if ($anketaOne->onlySpo() && $spo): ?>
+        <p>
+            Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $spo ?><br/>
         </p>
     <?php endif; ?>
 <?php endif; ?>
