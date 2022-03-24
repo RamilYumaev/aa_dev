@@ -152,7 +152,7 @@ class UserDisciplineController extends Controller
         $form = new UserDisciplineCseForm($this->modelDiscipline($discipline), $config);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->createOne($form);
+                $this->service->createOne($form, true);
                 return $this->redirect('/abiturient/default');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

@@ -3,6 +3,7 @@
 namespace modules\literature\models;
 
 use common\auth\models\User;
+use dictionary\models\Region;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
 use yii\behaviors\TimestampBehavior;
 
@@ -51,6 +52,9 @@ use yii\behaviors\TimestampBehavior;
  * @property string|null $hash
  * @property string|null $agree_file
  * @property string|null $photo
+ * @property string|null $code
+ * @property boolean $is_success
+ * @property integer|null $mark_end
  *
  * @property User $user
  */
@@ -88,11 +92,17 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
 
     public function scenarios()
     {
-        return [self::PERSON_DATA => ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'agree_file', 'photo'],
+        return [
+                self::PERSON_DATA => ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'agree_file', 'photo'],
                 self::PERSON_DATA_CREATE => ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'agree_file', 'photo'],
                 self::SCHOOL_DATA => ['full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_letter', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'academic_degree'],
                 self::ADDITIONAL_DATA => [ 'size', 'agree_file',  'is_allergy', 'is_voz', 'is_need_conditions', 'note_allergy', 'note_conditions', 'note_special', ],
                 self::ROUTE_DATA => ['type_transport_arrival', 'type_transport_departure', 'date_arrival', 'date_departure', 'place_arrival', 'place_departure', 'number_arrival', 'number_departure'],
+                self::SCENARIO_DEFAULT =>  ['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city',
+                    'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_letter', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'academic_degree',
+                    'size', 'agree_file',  'is_allergy', 'is_voz', 'is_need_conditions', 'note_allergy', 'note_conditions', 'note_special',
+                    'type_transport_arrival', 'type_transport_departure', 'date_arrival', 'date_departure', 'place_arrival', 'place_departure', 'number_arrival', 'number_departure', 'code', 'mark_end',
+                    ],
             ];
     }
 
@@ -114,14 +124,16 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             [['note_allergy', 'note_conditions', 'note_special'], 'string'],
             [['series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'fio_teacher', 'place_work', 'post', 'academic_degree', 'size', 'place_arrival', 'place_departure'], 'string', 'max' => 255],
             [['mark_olympic'], 'string', 'max' => 5],
+            [['mark_end'], 'integer', 'max' => 100],
+            [['code'], 'string', 'max' => 50],
             [['grade_letter'], 'string', 'max' => 2],
             [['number_arrival', 'number_departure'], 'string', 'max' => 10],
             ['photo', 'image',
                 'extensions' => 'jpg, png, jpeg',
-                'maxSize' => 1024 * 1024 * 10],
+                'maxSize' => 1024 * 1024 * 10, 'on' => [self::PERSON_DATA_CREATE, self::PERSON_DATA]],
             ['agree_file', 'file',
                 'extensions' => 'pdf',
-                'maxSize' => 1024 * 1024 * 10],
+                'maxSize' => 1024 * 1024 * 10, 'on' => [self::PERSON_DATA_CREATE, self::PERSON_DATA]],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -136,24 +148,29 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'birthday' => 'Дата рождения',
             'type' => 'Документ, удостоверяющий личность',
+            'typeName' => 'Документ, удостоверяющий личность',
             'series' => 'Серия',
             'number' => 'Номер',
             'date_issue' => 'Дата выдачи',
             'authority' => 'Кем выдан?',
             'region' => 'Регион проживания',
+            'regionName' => 'Регион проживания',
             'zone' => 'Район/область',
             'city' => 'Город/населенный пункт проживания',
             'full_name' => 'Полное наименование общеобразовательной организации (по уставу)',
             'short_name' => 'Сокращенное наименование общеобразовательной организации (по уставу)',
             'status_olympic' => 'Статус участника олимпиады',
+            'statusName' => 'Статус участника олимпиады',
             'mark_olympic' => 'Кол-во набранных баллов на региональном этапе в 2021/2022 учебном году',
             'grade_number' => 'Класс, в котором обучается участник',
-            'grade_letter' => 'Grade Letter',
+            'grade_letter' => 'Литер',
+            'gradeLetterName' => 'Литер',
             'grade_performs' => 'Класс, за который выступает участник',
             'fio_teacher' => 'ФИО наставника, подготовившего участника олимпиады',
             'place_work' => 'Место работы наставника',
             'post' => 'Должность наставника',
             'academic_degree' => 'Ученая степень',
+            'academicName' => 'Ученая степень',
             'size' => 'Размер футболки',
             'is_allergy' => 'Есть ли аллергия на продукты питания и/или медицинские препараты?',
             'note_allergy' => "Укажите, на какие именно продукты питания и/или медицинские препараты есть аллергия",
@@ -161,18 +178,23 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'is_need_conditions' => 'Нуждается ли участник в специальных условиях при организации олимпиад?',
             'note_conditions' => 'Укажите, какие специальные условия необходимо создать при организации олимпиады?',
             'note_special' => 'Особые сведения (непереносимость медицинских препаратов, хронический заболевания, о которых необходимо знать организаторам)',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Дата создания записи',
+            'updated_at' => 'Дата обновления записи',
             'date_arrival' => 'Дата и время прилета/приезда',
             'type_transport_arrival' => 'Вид транспорта',
+            'typeTransportArrivalName' => 'Вид транспорта',
             'place_arrival' => 'Место прибытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
             'number_arrival' => 'Номер рейса самолета или номер поезда и вагона',
             'date_departure' => 'Дата и время вылета/выезда',
             'type_transport_departure' => 'Вид транспорта',
+            'typeTransportDepartureName' => 'Вид транспорта',
             'place_departure' => 'Место отбытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
             'number_departure' => 'Номер рейса самолета или номер поезда и вагона',
             'agree_file' => 'Согласие на обработку персональных данных',
-            'photo' => 'Фотография 3x4 (необходимо загрузить)'
+            'photo' => 'Фотография 3x4 (необходимо загрузить)',
+            'is_success'=> "Подтвержден?",
+            'code' => 'Шифр',
+            'mark_end' => "Итоговая оценка",
         ];
     }
 
@@ -185,12 +207,29 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getGenderName() {
+        return \olympic\helpers\auth\ProfileHelper::genderName($this->user->profiles->gender);
+    }
+
+    public function getSuccessName() {
+        return $this->is_success ?"Да":"Нет";
+    }
+
+    public function getStatusName() {
+        return key_exists($this->status_olympic, $this->getOlympicStatuses())
+            ? $this->getOlympicStatuses()[$this->status_olympic] : $this->status_olympic;
+    }
+
     public function  getAcademicDegreeList(){
         return [
             1 => 'нет степени',
             2 => 'кандидат наук',
             3 => 'доктор наук',
         ];
+    }
+
+    public function getAcademicName() {
+        return key_exists($this->academic_degree, $this->getAcademicDegreeList()) ? $this->getAcademicDegreeList()[$this->academic_degree] : "";
     }
 
     public function getGrades(){
@@ -206,6 +245,10 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             2 => 'свидетельство о рождении'];
     }
 
+    public function getTypeName() {
+        return key_exists($this->type, $this->getDocuments()) ? $this->getDocuments()[$this->type] : "";
+    }
+
     public function getTransports() {
         return [
             1 => 'автобус',
@@ -213,6 +256,18 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             3 => 'самолет',
             4 => 'автомобиль'
         ];
+    }
+
+    public function getRegionName() {
+        return $this->regionDb ? $this->regionDb->name : "";
+    }
+
+    public function getTypeTransportArrivalName() {
+        return key_exists($this->type_transport_arrival, $this->getTransports()) ? $this->getTransports()[$this->type_transport_arrival] : "";
+    }
+
+    public function getTypeTransportDepartureName() {
+        return key_exists($this->type_transport_departure, $this->getTransports()) ? $this->getTransports()[$this->type_transport_departure] : "";
     }
 
     public function getSizes() {
@@ -239,6 +294,22 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
         return $array;
     }
 
+    public function getGradeLetterName() {
+        return key_exists($this->grade_letter, $this->getLetters()) ? $this->getLetters()[$this->grade_letter] : "";
+    }
+
+    public function getPersonals() {
+        if($this->getUserPersonsLiterature()->exists()) {
+            $result = "";
+            /** @var UserPersonsLiterature $userPerson */
+            foreach ($this->getUserPersonsLiterature()->all() as $userPerson) {
+                $result .= $userPerson->personsLiterature->getDataFull()."<br/>";
+            }
+            return $result;
+        }
+        return "Нет данных";
+    }
+
     /**
      * Gets query for [[User]].
      *
@@ -247,5 +318,26 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * Gets query for [[serPersonsLiterature]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPersonsLiterature()
+    {
+        return $this->hasMany(UserPersonsLiterature::class, ['user_id' => 'user_id']);
+    }
+
+
+    /**
+     * Gets query for [[Region]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegionDb()
+    {
+        return $this->hasOne(Region::class, ['id' => 'region']);
     }
 }

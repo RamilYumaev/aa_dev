@@ -18,7 +18,12 @@ return [
     ],
     'controllerNamespace' => 'operator\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'literature' => [
+            'class' => \modules\literature\BackendLiterature::class,
+            'viewPath' => "@modules/literature/views/backend",
+        ],
+    ],
     'controllerMap' => [
         'elfinder' => [
             'class' => \mihaildev\elfinder\Controller::class,

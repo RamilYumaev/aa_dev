@@ -251,6 +251,10 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->userCg($user_id)->examinations()->andWhere(['discipline_id'=>$disciplineId]);
     }
 
+    public function userCgAndExamSpo($user_id, $disciplineId)
+    {
+        return $this->userCg($user_id)->examinations()->andWhere(['spo_discipline_id'=>$disciplineId]);
+    }
 
     public function specialRightCel()
     {

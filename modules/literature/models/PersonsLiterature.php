@@ -4,6 +4,7 @@ namespace modules\literature\models;
 
 use borales\extensions\phoneInput\PhoneInputValidator;
 use common\auth\models\User;
+use modules\entrant\helpers\DateFormatHelper;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
 use yii\behaviors\TimestampBehavior;
 
@@ -64,6 +65,30 @@ class PersonsLiterature extends \yii\db\ActiveRecord
         return [
             TimestampBehavior::class
         ];
+    }
+
+    public function getValue($property)
+    {
+        if ($property == "birthday") {
+            return DateFormatHelper::formatView($this->$property);
+        }
+        return $this->$property;
+    }
+
+    protected function getProperty($property)
+    {
+        return $this->getAttributeLabel($property) . ": " . $this->getValue($property);
+    }
+
+    public function getDataFull()
+    {
+        $string = "";
+        foreach ($this->getAttributes(null, ['sex', 'created_at', 'updated_at', 'agree_file']) as $key => $value) {
+            if ($value) {
+                $string .= $this->getProperty($key) . " ";
+            }
+        }
+        return $string;
     }
 
     /**

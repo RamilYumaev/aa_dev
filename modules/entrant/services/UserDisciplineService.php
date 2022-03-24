@@ -74,9 +74,9 @@ class UserDisciplineService
         }
     }
 
-    public function createOne(UserDisciplineCseForm $form) {
+    public function createOne(UserDisciplineCseForm $form, $isSpo = false) {
         if($form->type == UserDiscipline::VI) {
-            if(!$this->isOpenCseVi($form->user_id, $form->discipline_id)) {
+            if(!$this->isOpenCseVi($form->user_id, $form->discipline_id, $isSpo)) {
                 throw new  \DomainException("Вы не можете выбрать тип ВИ, как так срок подачи истек");
             }
         }
@@ -108,8 +108,9 @@ class UserDisciplineService
         }
     }
 
-    private function isOpenCseVi($userId, $disciplineId) {
-        $eduForms = DictCompetitiveGroupHelper::getFormsFromUserAndDiscipline($userId, $disciplineId);
+    private function isOpenCseVi($userId, $disciplineId, $isSpo) {
+        $eduForms = $isSpo ? DictCompetitiveGroupHelper::getFormsFromUserAndDisciplineSpo($userId, $disciplineId):
+            DictCompetitiveGroupHelper::getFormsFromUserAndDiscipline($userId, $disciplineId);
         return SettingEntrant::find()->type(SettingEntrant::ZUK)
             ->isCseAsVi(true)
             ->eduForm($eduForms)

@@ -15,12 +15,12 @@ return [
             'scope' => 'email',
         ],
 
-        'facebook' => [
-            'class' => 'yii\authclient\clients\Facebook',
-            'clientId' => '502733187338172',
-            'clientSecret' => '404861ebbcc6dbd75e92a794cd275260',
-            'scope' => 'email',
-        ],
+//        'facebook' => [
+//            'class' => 'yii\authclient\clients\Facebook',
+//            'clientId' => '502733187338172',
+//            'clientSecret' => '404861ebbcc6dbd75e92a794cd275260',
+//            'scope' => 'email',
+//        ],
 
         'vkontakte' => [
             'class' => 'yii\authclient\clients\VKontakte',

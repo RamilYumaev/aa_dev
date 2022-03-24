@@ -9,7 +9,7 @@ use yii\base\Model;
 
 class DictDisciplineEditForm extends Model
 {
-    public $name, $links, $_discipline, $cse_subject_id,  $ct_subject_id, $ais_id, $dvi, $is_och, $composite_discipline, $is_spec_for_spo;
+    public $name, $links, $_discipline, $cse_subject_id,  $ct_subject_id, $ais_id, $dvi, $is_och, $composite_discipline, $composite_disciplines, $is_spec_for_spo;
 
     public function __construct(DictDiscipline $discipline, $config = [])
     {

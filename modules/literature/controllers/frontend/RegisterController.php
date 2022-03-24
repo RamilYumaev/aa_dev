@@ -248,6 +248,7 @@ class RegisterController extends Controller
                 $user->email = $registerForm->user->email;
                 $user->save();
                 $profile = Profiles::findOne(['user_id' => $user->id]);
+                $profile->detachBehaviors();
                 $profile->edit($registerForm->profile);
                 $profile->save();
             }
