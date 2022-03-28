@@ -18,6 +18,7 @@ use modules\entrant\models\StatementRejection;
 use modules\entrant\models\StatementRejectionCg;
 use modules\entrant\models\UserCg;
 use modules\entrant\models\UserDiscipline;
+use Mpdf\Tag\U;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
@@ -699,39 +700,46 @@ class DictCompetitiveGroupHelper
     public static function groupByCompositeDiscipline($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
-                'dict_competitive_group.speciality_id' => $speciality_id, 'composite_discipline' =>true])->one();
-        if ($data) {
-            $userDiscipline = UserDiscipline::find()
-                ->user($user_id)
-                ->orderBy(['mark' => SORT_DESC])
-                ->discipline($data->id)->one();
-            if ($userDiscipline) {
-                return [$userDiscipline->dictDisciplineSelect->ais_id];
-            } else {
-                foreach ($data->getComposite()->all() as $composite) {
-                    $userDiscipline = UserDiscipline::find()->typeCse()
-                        ->user($user_id)
-                        ->orderBy(['mark' => SORT_DESC])
-                        ->disciplineSelect($composite->discipline_select_id)->one();
-                    if ($userDiscipline) {
-                        return [$composite->dictDisciplineSelect->ais_id];
+                'dict_competitive_group.speciality_id' => $speciality_id,
+                'composite_discipline' =>true])
+                 ->orWhere(['and',['not', ['discipline_competitive_group.spo_discipline_id' => null]],['composite_discipline' =>false,
+                     'user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
+                     'dict_competitive_group.id' => $ids,
+                     'dict_competitive_group.speciality_id' => $speciality_id,]])->all();
+           $composites = [];
+            foreach ($data as $item) {
+                $userDiscipline = UserDiscipline::find()
+                    ->andWhere(['not',[ 'type'=> UserDiscipline::NO]])
+                    ->user($user_id)
+                    ->orderBy(['mark' => SORT_DESC])
+                    ->discipline($item->id)->one();
+                if ($userDiscipline) {
+                    $composites[] = $userDiscipline->dictDisciplineSelect->ais_id;
+                } else {
+                    foreach ($item->getComposite()->all() as $composite) {
+                        $userDiscipline = UserDiscipline::find()
+                            ->andWhere(['not',[ 'type'=> UserDiscipline::NO]])
+                            ->user($user_id)
+                            ->orderBy(['mark' => SORT_DESC])
+                            ->disciplineSelect($composite->discipline_select_id)->one();
+                        if ($userDiscipline) {
+                            $composites[] = [$composite->dictDisciplineSelect->ais_id];
+                        }
                     }
                 }
-                return [];
             }
-        }
-        return [];
+        return array_unique($composites);
     }
 
     public static function groupByDisciplineVi($user_id, $faculty_id, $speciality_id, $ids)
     {
        return DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserDiscipline::tableName(), 'discipline_user.discipline_id=dict_discipline.id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
