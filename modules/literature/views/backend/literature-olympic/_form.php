@@ -1,6 +1,7 @@
 <?php
 
 use kartik\date\DatePicker;
+use kartik\file\FileInput;
 use modules\entrant\helpers\DateFormatHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -14,10 +15,18 @@ use yii\widgets\ActiveForm;
     <div class="box">
         <div class="box-body">
             <?php $form = ActiveForm::begin(); ?>
-
+            <?php if($model->isNewRecord): ?>
+            <?= $this->render('_form_user',['model'=>  $user, 'form' => $form]) ?>
+            <?php endif;?>
             <?php if($model->is_success):?>
                 <?= $form->field($model, 'code')->textInput() ?>
                 <?= $form->field($model, 'mark_end')->textInput() ?>
+                <?= $form->field($model, 'code_two')->textInput() ?>
+                <?= $form->field($model, 'mark_end_two')->textInput() ?>
+                <?= $form->field($model, 'code_three')->textInput() ?>
+                <?= $form->field($model, 'mark_end_three')->textInput() ?>
+                <?= $form->field($model, 'mark_end_last')->textInput() ?>
+                <?= $form->field($model, 'status_last')->dropDownList($model->getUserStatuses(),['prompt' => "Выберите статус"])?>
             <?php endif;?>
 
             <?= $form->field($model, 'birthday')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()) ?>
@@ -28,9 +37,9 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'date_issue')->textInput() ?>
+            <?= $form->field($model, 'date_issue')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()) ?>
 
-            <?= $form->field($model, 'authority')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget())?>
+            <?= $form->field($model, 'authority')->textInput()?>
 
             <?= $form->field($model, 'region')->dropDownList(\dictionary\helpers\DictRegionHelper::regionList()) ?>
 
@@ -97,6 +106,14 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'place_departure')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'number_departure')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'photo')->widget(FileInput::class, ['language'=> 'ru',
+                'options' => ['accept' => 'image/*'],
+            ]);?>
+
+            <?= $form->field($model, 'agree_file')->widget(FileInput::class, ['language'=> 'ru',
+                'options' => [],
+            ]);?>
 
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

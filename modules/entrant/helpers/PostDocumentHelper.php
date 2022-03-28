@@ -1,6 +1,9 @@
 <?php
 
 namespace modules\entrant\helpers;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DisciplineCompetitiveGroup;
+use frontend\widgets\competitive\ButtonWidget;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\UserDiscipline;
 use olympic\helpers\auth\ProfileHelper;
@@ -120,6 +123,18 @@ class PostDocumentHelper
         return true;
     }
 
+    private static function isSpoCorrect($userId)
+    {
+        foreach (DictCompetitiveGroupHelper::groupByExamsSpo($userId) as $key => $value) {
+            if(!UserDiscipline::find()->discipline($key)->exists()) {
+                return false;
+            }
+            if(!UserDisciplineHelper::isSpoCorrect($userId, $key)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private static function userAnketa($userId): ?Anketa
     {
@@ -132,12 +147,11 @@ class PostDocumentHelper
             return  self::compatriot($userId);
         }elseif (self::userAnketa($userId)->isWithOitCompetition()) {
             return self::without($userId);
+        }elseif (self::userAnketa($userId)->onlySpo()) {
+            return self::common($userId) && self::isSpoCorrect($userId);
         }
         else {
             return self::common($userId);
         }
     }
-
-
-
 }

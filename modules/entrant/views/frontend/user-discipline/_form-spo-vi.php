@@ -2,9 +2,12 @@
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\UserDisciplineCseForm */
 /* @var $nameExam */
+/* @var $keyExam */
 /* @var $isBelarus */
+/* @var $cg DictCompetitiveGroup */
+/* @var $cgs */
 
-use dictionary\models\DictDiscipline;
+use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\UserDiscipline;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -35,5 +38,7 @@ $data[UserDiscipline::VI] = "Да";
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
           <?php  ActiveForm::end(); ?>
         </div>
+        <?= \modules\entrant\widgets\discipline\UserDisciplineSpoCgWidget::widget(['userId'=> $model->user_id, 'spoDiscipline' => $keyExam ]) ?>
     </div>
 </div>
+

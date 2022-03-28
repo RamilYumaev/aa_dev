@@ -31,18 +31,22 @@ class DisciplineCompetitiveGroupService
         $discipline = $this->disciplineRepository->get($form->discipline_id);
         $competitiveGroup = $this->competitiveGroupRepository->get($form->competitive_group_id);
         $disciplineSpoId = $this->isSpo($form->spo_discipline_id, $competitiveGroup);
+        $this->repository->isCg($discipline->id,  $competitiveGroup->id);
         $model = DisciplineCompetitiveGroup::create($discipline->id, $competitiveGroup->id, $form->priority, $disciplineSpoId);
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit(DisciplineCompetitiveGroupForm $form)
+    public function edit(DisciplineCompetitiveGroupForm $form, DisciplineCompetitiveGroup $model)
     {
-        $model = $this->repository->get($form->discipline_id, $form->competitive_group_id);
         $discipline = $this->disciplineRepository->get($form->discipline_id);
         $competitiveGroup = $this->competitiveGroupRepository->get($form->competitive_group_id);
+        if($discipline->id != $model->discipline_id) {
+            $this->repository->isCg($discipline->id, $competitiveGroup->id);
+            }
         $disciplineSpoId = $this->isSpo($form->spo_discipline_id, $competitiveGroup);
-        $model->edit($discipline->id, $competitiveGroup->id, $form->priority, $disciplineSpoId);
+        $model->delete();
+        $model = DisciplineCompetitiveGroup::create($discipline->id, $competitiveGroup->id, $form->priority, $disciplineSpoId);
         $this->repository->save($model);
     }
 
@@ -57,7 +61,9 @@ class DisciplineCompetitiveGroupService
             if(!$dictCompetitiveGroup->isBachelor()) {
                 throw new \DomainException('Вы не можете добавить спецальную дисцплину СПО. Ее можно добавить только для бакалавриата');
             }
+
             $disciplineSpo = $this->disciplineRepository->get($spo_discipline_id);
+            $this->repository->isSpo($spo_discipline_id, $dictCompetitiveGroup->id);
             return $disciplineSpo->id;
         }
         return null;

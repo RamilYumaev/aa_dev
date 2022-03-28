@@ -434,20 +434,24 @@ class DictCompetitiveGroupHelper
         return $query->all();
     }
 
-    public static function groupByExams($user_id)
+    public static function groupByExams($user_id, $spo = false)
     {
-        return DictDiscipline::find()
+       $query = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id])
             ->andWhere(['dict_competitive_group.foreigner_status' => false])
-            ->andWhere(['not', ['cse_subject_id' => null]])
-            ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true])
-            ->select(['name', 'dict_discipline.id'])
-            ->indexBy('dict_discipline.id')
-            //  ->groupBy(['discipline_competitive_group.discipline_id'])
-            ->column();
+            ->andWhere(['not', ['cse_subject_id' => null]]);
+            if($spo) {
+                $query->andWhere(['spo_discipline_id' => null])
+                    ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true, 'spo_discipline_id' => null]);
+            }else {
+                $query->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true]);
+            }
+            $query->select(['name', 'dict_discipline.id'])
+            ->indexBy('dict_discipline.id');
+            return  $query->column();
     }
 
     public static function groupByExamsSpo($user_id)
@@ -461,6 +465,20 @@ class DictCompetitiveGroupHelper
             ->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id')
             //  ->groupBy(['discipline_competitive_group.discipline_id'])
+            ->column();
+    }
+
+    public static function groupByExamsSpoDiscipline($user_id, $spoDiscipline)
+    {
+        return DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id])
+            ->andWhere(['spo_discipline_id' => $spoDiscipline])
+            ->andWhere(['dict_competitive_group.foreigner_status' => false])
+            ->select(['name', 'dict_discipline.id'])
+            ->indexBy('dict_discipline.id')
             ->column();
     }
 

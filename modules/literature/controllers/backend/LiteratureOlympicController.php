@@ -2,9 +2,15 @@
 
 namespace modules\literature\controllers\backend;
 
+use common\auth\models\User;
 use common\components\TbsWrapper;
 use libphonenumber\MetadataLoaderInterface;
 use modules\entrant\helpers\DateFormatHelper;
+use modules\literature\forms\RegisterForm;
+use Mpdf\Tag\Li;
+use olympic\forms\auth\UserCreateForm;
+use olympic\helpers\auth\ProfileHelper;
+use olympic\models\auth\Profiles;
 use Yii;
 use modules\literature\models\LiteratureOlympic;
 use modules\literature\forms\search\LiteratureOlympciSearch;
@@ -56,121 +62,7 @@ class LiteratureOlympicController extends Controller
         $searchModel = new LiteratureOlympciSearch();
 
         $model = $searchModel->search(Yii::$app->request->queryParams);
-//        \moonland\phpexcel\Excel::widget([
-//            'asAttachment'=>true,
-//            'fileName' => date('d-m-Y H-i-s')."-Участники",
-//            'models' => $model->all(),
-//            'mode' => 'export', //default value as 'export'
-//            'columns' => [
-//$olympic[$key]['id',
-//$olympic[$key]['user_id',
-//$olympic[$key]['user.profiles.last_name',
-//$olympic[$key]['user.profiles.first_name',
-//$olympic[$key]['user.profiles.patronymic',
-//$olympic[$key]['gender.name',
-//$olympic[$key]['successName',
-//$olympic[$key]['code',
-//$olympic[$key]['mark_end',
-//$olympic[$key]['user.profiles.phone',
-//$olympic[$key]['user.email',
-//$olympic[$key]['birthday:date',
-//$olympic[$key]['typeName',
-//$olympic[$key]['series',
-//$olympic[$key]['number',
-//$olympic[$key]['date_issue:date',
-//$olympic[$key]['authority',
-//$olympic[$key]['regionName',
-//$olympic[$key]['zone',
-//$olympic[$key]['city',
-//$olympic[$key]['full_name',
-//$olympic[$key]['short_name',
-//$olympic[$key]['statusName',
-//$olympic[$key]['mark_olympic',
-//$olympic[$key]['grade_number',
-//$olympic[$key]['gradeLetterName',
-//$olympic[$key]['grade_performs',
-//$olympic[$key]['fio_teacher',
-//$olympic[$key]['place_work',
-//$olympic[$key]['post',
-//$olympic[$key]['academicName',
-//$olympic[$key]['size',
-//$olympic[$key]['is_allergy:boolean',
-//$olympic[$key]['note_allergy:ntext',
-//$olympic[$key]['is_voz:boolean',
-//$olympic[$key]['is_need_conditions:boolean',
-//$olympic[$key]['note_conditions:ntext',
-//$olympic[$key]['note_special:ntext',
-//$olympic[$key]['personals',
-//$olympic[$key]['date_arrival:datetime',
-//$olympic[$key]['typeTransportArrivalName',
-//$olympic[$key]['place_arrival',
-//$olympic[$key]['number_arrival',
-//$olympic[$key]['date_departure:datetime',
-//$olympic[$key]['typeTransportDepartureName',
-//$olympic[$key]['place_departure',
-//$olympic[$key]['number_departure',
-//$olympic[$key]['created_at:datetime',
-//$olympic[$key]['updated_at:datetime',
-////            ], //without header working, because the header will be get label from attribute label.
-////            'headers' => [
-//$olympic[$key]['id' => 'ID',
-//$olympic[$key]['user_id' => 'User ID',
-//$olympic[$key]['user.profiles.last_name' => 'Фамилия',
-//$olympic[$key]['user.profiles.first_name' => 'Имя',
-//$olympic[$key]['user.profiles.patronymic' => 'Отчество',
-//$olympic[$key]['genderName' => 'Пол',
-//$olympic[$key]['user.profiles.phone' => 'Телефон',
-//$olympic[$key]['user.email' => 'Email',
-//$olympic[$key]['birthday' => 'Дата рождения',
-//$olympic[$key]['type' => 'Документ, удостоверяющий личность',
-//$olympic[$key]['typeName' => 'Документ, удостоверяющий личность',
-//$olympic[$key]['series' => 'Серия',
-//$olympic[$key]['number' => 'Номер',
-//$olympic[$key]['date_issue' => 'Дата выдачи',
-//$olympic[$key]['authority' => 'Кем выдан?',
-//$olympic[$key]['region' => 'Регион проживания',
-//$olympic[$key]['regionName' => 'Регион проживания',
-//$olympic[$key]['zone' => 'Район/область',
-//$olympic[$key]['city' => 'Город/населенный пункт проживания',
-//$olympic[$key]['full_name' => 'Полное наименование общеобразовательной организации (по уставу)',
-//$olympic[$key]['short_name' => 'Сокращенное наименование общеобразовательной организации (по уставу)',
-//$olympic[$key]['status_olympic' => 'Статус участника олимпиады',
-//$olympic[$key]['statusName' => 'Статус участника олимпиады',
-//$olympic[$key]['mark_olympic' => 'Кол-во набранных баллов на региональном этапе в 2021/2022 учебном году',
-//$olympic[$key]['grade_number' => 'Класс, в котором обучается участник',
-//$olympic[$key]['grade_letter' => 'Литер',
-//$olympic[$key]['gradeLetterName' => 'Литер',
-//$olympic[$key]['grade_performs' => 'Класс, за который выступает участник',
-//$olympic[$key]['fio_teacher' => 'ФИО наставника, подготовившего участника олимпиады',
-//$olympic[$key]['place_work' => 'Место работы наставника',
-//$olympic[$key]['post' => 'Должность наставника',
-//$olympic[$key]['academic_degree' => 'Ученая степень',
-//$olympic[$key]['academicName' => 'Ученая степень',
-//$olympic[$key]['size' => 'Размер футболки',
-//$olympic[$key]['is_allergy' => 'Есть ли аллергия на продукты питания и/или медицинские препараты?',
-//$olympic[$key]['note_allergy' => "Укажите, на какие именно продукты питания и/или медицинские препараты есть аллергия",
-//$olympic[$key]['is_voz' => 'Относится ли участник к категории детей-инвалидов, инвалидов, детей с ОВЗ?',
-//$olympic[$key]['is_need_conditions' => 'Нуждается ли участник в специальных условиях при организации олимпиад?',
-//$olympic[$key]['note_conditions' => 'Укажите, какие специальные условия необходимо создать при организации олимпиады?',
-//$olympic[$key]['note_special' => 'Особые сведения (непереносимость медицинских препаратов, хронический заболевания, о которых необходимо знать организаторам)',
-//$olympic[$key]['created_at' => 'Дата создания записи',
-//$olympic[$key]['updated_at' => 'Дата обновления записи',
-//$olympic[$key]['date_arrival' => 'Дата и время прилета/приезда',
-//$olympic[$key]['type_transport_arrival' => 'Вид транспорта',
-//$olympic[$key]['typeTransportArrivalName' => 'Вид транспорта',
-//$olympic[$key]['place_arrival' => 'Место прибытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
-//$olympic[$key]['number_arrival' => 'Номер рейса самолета или номер поезда и вагона',
-//$olympic[$key]['date_departure' => 'Дата и время вылета/выезда',
-//$olympic[$key]['type_transport_departure' => 'Вид транспорта',
-//$olympic[$key]['typeTransportDepartureName' => 'Вид транспорта',
-//$olympic[$key]['place_departure' => 'Место отбытия (аэропорт/ ж/д вокзал, автовокзал и т.д.)',
-//$olympic[$key]['number_departure' => 'Номер рейса самолета или номер поезда и вагона',
-//$olympic[$key]['successName'=> "Подтвержден?",
-//$olympic[$key]['code' => 'Шифр',
-//$olympic[$key]['mark_end' => "Итоговая оценка",
-//$olympic[$key]['personals' => 'Сопровождающие'
-//            ],
-//        ]);
+
         $fileName =  date('d-m-Y H-i-s')."-Участники".".xlsx";
         $filePath =   \Yii::getAlias('@common').'/file_templates/olympic.xlsx';
         $dataApp = $this->getOlympic($model->all());
@@ -202,6 +94,12 @@ class LiteratureOlympicController extends Controller
             $olympic[$key]['is_success'] = $item->getSuccessName();
             $olympic[$key]['code'] = $item->code;
             $olympic[$key]['mark_end'] = $item->mark_end;
+            $olympic[$key]['code_two'] = $item->code_two;
+            $olympic[$key]['mark_end_two'] = $item->mark_end_two;
+            $olympic[$key]['code_three'] = $item->code_three;
+            $olympic[$key]['mark_end_three'] = $item->mark_end_three;
+            $olympic[$key]['mark_end_last'] = $item->mark_end_last;
+            $olympic[$key]['status_last'] = $item->getStatusUserName();
             $olympic[$key]['phone'] = $item->user->profiles->phone;
             $olympic[$key]['email'] = $item->user->email;
             $olympic[$key]['birthday'] = DateFormatHelper::formatView($item->birthday);
@@ -261,17 +159,43 @@ class LiteratureOlympicController extends Controller
      * Creates a new LiteratureOlympic model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws \Exception
      */
     public function actionCreate()
     {
-        $model = new LiteratureOlympic();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new RegisterForm();
+        $literature = new LiteratureOlympic();
+        if ($model->load(Yii::$app->request->post()) && $literature->load(Yii::$app->request->post())   && $model->validate()) {
+            $transaction = \Yii::$app->db->beginTransaction();
+            try{
+            $formUser = new UserCreateForm();
+            $formUser->username = $model->user->username;
+            $formUser->email = $model->user->email;
+            $formUser->password = $model->user->password;
+            $user = User::create($formUser);
+            $user->generateAuthKey();
+            $user->generateEmailVerificationToken();
+            $user->status = 10;
+            $user->save();
+            $userId = $user->id;
+            $profile = Profiles::create($model->profile, $userId);
+            $profile->setRole(ProfileHelper::ROLE_STUDENT);
+            $profile->save();
+                $literature->user_id = $userId;
+                $literature->birthday = DateFormatHelper::formatRecord($literature->birthday);
+                $literature->date_issue = DateFormatHelper::formatRecord($literature->date_issue);
+                $literature->save();
+            $transaction->commit();
+            return $this->redirect(['view', 'id' => $literature->id]);
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'literature' => $literature,
         ]);
     }
 
@@ -331,9 +255,10 @@ class LiteratureOlympicController extends Controller
     {
         $model = $this->findModel($id);
         $model->is_success = true;
-        $model->save();
-
-        return $this->redirect(['index']);
+        if(!$model->save()) {
+            Yii::$app->session->setFlash('danger', "Не все данные внесены, поэтому подтверждение невозможно");
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

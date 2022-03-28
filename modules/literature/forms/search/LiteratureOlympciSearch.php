@@ -13,14 +13,15 @@ class LiteratureOlympciSearch extends LiteratureOlympic
 {
 
     public $gender, $phone, $last_name, $first_name, $patronymic, $email, $personal;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_success',   'mark_end', 'is_allergy', 'is_voz', 'is_need_conditions', 'created_at', 'updated_at', 'type_transport_arrival', 'type_transport_departure', 'gender', 'personal'], 'integer'],
-            [['birthday', 'phone', 'last_name', 'first_name', 'patronymic', 'email', 'series', 'number', 'date_issue', 'code','authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'mark_olympic', 'grade_letter', 'fio_teacher', 'place_work', 'post', 'academic_degree', 'size', 'note_allergy', 'note_conditions', 'note_special', 'date_arrival', 'place_arrival', 'number_arrival', 'date_departure', 'place_departure', 'number_departure', 'photo', 'agree_file', 'hash'], 'safe'],
+            [['id', 'user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_success', 'mark_end', 'mark_end_two', 'mark_end_three', 'mark_end_last', 'status_last', 'is_allergy', 'is_voz', 'is_need_conditions', 'created_at', 'updated_at', 'type_transport_arrival', 'type_transport_departure', 'gender', 'personal'], 'integer'],
+            [['birthday', 'phone', 'last_name', 'first_name', 'patronymic', 'email', 'series', 'number', 'date_issue', 'code', 'code_two', 'code_three', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'mark_olympic', 'grade_letter', 'fio_teacher', 'place_work', 'post', 'academic_degree', 'size', 'note_allergy', 'note_conditions', 'note_special', 'date_arrival', 'place_arrival', 'number_arrival', 'date_departure', 'place_departure', 'number_departure', 'photo', 'agree_file', 'hash'], 'safe'],
         ];
     }
 
@@ -61,6 +62,10 @@ class LiteratureOlympciSearch extends LiteratureOlympic
             'lo.is_allergy' => $this->is_allergy,
             'lo.is_success' => $this->is_success,
             'lo.mark_end' => $this->mark_end,
+            'lo.mark_end_two' => $this->mark_end_two,
+            'lo.mark_end_three' => $this->mark_end_three,
+            'lo.mark_end_last' => $this->mark_end_last,
+            'lo.status_last' => $this->status_last,
             'lo.is_voz' => $this->is_voz,
             'lo.is_need_conditions' => $this->is_need_conditions,
             'lo.created_at' => $this->created_at,
@@ -93,6 +98,8 @@ class LiteratureOlympciSearch extends LiteratureOlympic
             ->andFilterWhere(['like', 'lo.academic_degree', $this->academic_degree])
             ->andFilterWhere(['like', 'lo.size', $this->size])
             ->andFilterWhere(['like', 'lo.code', $this->code])
+            ->andFilterWhere(['like', 'lo.code_two', $this->code_two])
+            ->andFilterWhere(['like', 'lo.code_three', $this->code_three])
             ->andFilterWhere(['like', 'lo.note_allergy', $this->note_allergy])
             ->andFilterWhere(['like', 'lo.note_conditions', $this->note_conditions])
             ->andFilterWhere(['like', 'lo.note_special', $this->note_special])
@@ -110,9 +117,5 @@ class LiteratureOlympciSearch extends LiteratureOlympic
             ->andFilterWhere(['like', 'lo.hash', $this->hash]);
 
         return $query;
-    }
-
-    public function getModel() {
-        return new LiteratureOlympic();
     }
 }

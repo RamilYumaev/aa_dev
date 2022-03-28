@@ -22,7 +22,7 @@ class ExamCgUserHelper
             return false;
         }
         $query = DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id ')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.foreigner_status' => false])

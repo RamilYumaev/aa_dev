@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-header">
                     <h4>Список</h4>
                     <?= Html::a("Данные в Excel",
-                        Yii::$app->request->queryString ? ['export?'.Yii::$app->request->queryString]: ['literature-olympic/export']
-                    , ['class' => 'btn btn-info'])?>
+                        Yii::$app->request->queryString ? ['export?'.Yii::$app->request->queryString]: ['literature-olympic/export'], ['class' => 'btn btn-info'])?>
+                    <?= Html::a("Добавить нового участника", ['create'], ['class' => 'btn btn-success'])?>
                 </div>
                 <div class="box-body">
                     <?= GridView::widget([
@@ -47,16 +47,24 @@ $this->params['breadcrumbs'][] = $this->title;
                             'user_id',
                             'code',
                             'mark_end',
+                            'code_two',
+                            'mark_end_two',
+                            'code_three',
+                            'mark_end_three',
+                            'mark_end_last',
+                            ['attribute'=> 'status_last',
+                                'filter' => $searchModel->getUserStatuses(),
+                                'value' => 'statusUserName'],
                             ['attribute'=> 'is_success',
                                 'filter' => ['Нет', 'Да'],
                                 'value' => 'successName'],
                             ['format' => "raw",
                                     'value' => function($model) {
-                                   return Html::a("Фото", ['get-file', 'id'=> $model->id, 'name'=>'photo']);
+                                   return $model->photo ? Html::a("Фото", ['get-file', 'id'=> $model->id, 'name'=>'photo']) : "";
                             }],
                             ['format' => "raw",
                                 'value' => function($model) {
-                                    return Html::a("ПДН", ['get-file', 'id'=> $model->id, 'name'=>'agree_file']);
+                                    return $model->agree_file ?  Html::a("ПДН", ['get-file', 'id'=> $model->id, 'name'=>'agree_file']) : "";
                                 }],
                             ['attribute'=> 'last_name',
                                 'label' => "Фамилия",
@@ -78,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'value' =>  'genderName'],
                             'birthday:date',
                             ['attribute'=> 'type',
-                                'filter' => $searchModel->getModel()->getDocuments(),
+                                'filter' => $searchModel->getDocuments(),
                                 'value' => 'typeName'],
                             'series',
                             'number',
@@ -92,26 +100,26 @@ $this->params['breadcrumbs'][] = $this->title;
                             'full_name',
                             'short_name',
                             ['attribute'=> 'status_olympic',
-                                'filter' => $searchModel->getModel()->getOlympicStatuses(),
+                                'filter' => $searchModel->getOlympicStatuses(),
                                 'value' => 'statusName'],
                             'mark_olympic',
                             ['attribute'=> 'grade_number',
-                                'filter' => $searchModel->getModel()->getGrades(),
+                                'filter' => $searchModel->getGrades(),
                                 'value' => 'grade_number'],
                             ['attribute'=> 'grade_letter',
-                                'filter' => $searchModel->getModel()->getLetters(),
+                                'filter' => $searchModel->getLetters(),
                                 'value' => 'gradeLetterName'],
                             ['attribute'=> 'grade_performs',
-                                'filter' => $searchModel->getModel()->getGrades(),
+                                'filter' => $searchModel->getGrades(),
                                 'value' => 'grade_performs'],
                             'fio_teacher',
                             'place_work',
                             'post',
                             ['attribute'=> 'academic_degree',
-                                'filter' => $searchModel->getModel()->getAcademicDegreeList(),
+                                'filter' => $searchModel->getAcademicDegreeList(),
                                 'value' => 'academicName'],
                             ['attribute'=> 'size',
-                                'filter' => $searchModel->getModel()->getSizes(),
+                                'filter' => $searchModel->getSizes(),
                                 'value' => 'size'],
                             ['attribute'=> 'is_allergy',
                                 'filter' => ['Нет', 'Да'],
@@ -132,13 +140,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'value' =>  'personals'],
                             'date_arrival:datetime',
                             ['attribute'=> 'type_transport_arrival',
-                                'filter' => $searchModel->getModel()->getTransports(),
+                                'filter' => $searchModel->getTransports(),
                                 'value' => 'typeTransportArrivalName'],
                             'place_arrival',
                             'number_arrival',
                             'date_departure:datetime',
                             ['attribute'=> 'type_transport_departure',
-                                'filter' => $searchModel->getModel()->getTransports(),
+                                'filter' => $searchModel->getTransports(),
                                 'value' => 'typeTransportDepartureName'],
                             'place_departure',
                             'number_departure',

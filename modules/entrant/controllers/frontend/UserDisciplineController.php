@@ -4,17 +4,20 @@
 namespace modules\entrant\controllers\frontend;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\AnketaRedirectBehavior;
 use modules\entrant\forms\CseSubjectMarkForm;
 use modules\entrant\forms\CseSubjectResultForm;
 use modules\entrant\forms\ExaminationOrCseForm;
 use modules\entrant\forms\UserDisciplineCseForm;
 use modules\entrant\helpers\CseSubjectHelper;
+use modules\entrant\helpers\UserDisciplineHelper;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\services\CseSubjectResultService;
 use modules\entrant\services\UserDisciplineService;
+use modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn;
 use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\data\ActiveDataProvider;
@@ -119,7 +122,7 @@ class UserDisciplineController extends Controller
 //        ]);
 //    }
 
-    public function actionCorrection($discipline) {
+    public function actionCorrection($discipline, $spo = null) {
         $config = ['user_id' => $this->getUserId()];
         $exams = DictCompetitiveGroupHelper::groupByExams($this->getUserId());
         if(!key_exists($discipline, $exams)) {
@@ -129,6 +132,9 @@ class UserDisciplineController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createOne($form);
+                if($spo) {
+                    return $this->redirect(['correction-spo', 'discipline' => $spo]);
+                }
                 return $this->redirect('/abiturient/default');
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -152,6 +158,9 @@ class UserDisciplineController extends Controller
         $form = new UserDisciplineCseForm($this->modelDiscipline($discipline), $config);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
+                if($form->type == UserDiscipline::NO && !UserDisciplineHelper::isSpoValid($this->getUserId(), $discipline)) {
+                    throw new \DomainException("Необходимо уточнить информацию по заменяемой дисциплине");
+                }
                 $this->service->createOne($form, true);
                 return $this->redirect('/abiturient/default');
             } catch (\DomainException $e) {
@@ -166,6 +175,8 @@ class UserDisciplineController extends Controller
             'isBelarus' => $this->getAnketa()->isBelarus(),
         ]);
     }
+
+
 
 
     /**

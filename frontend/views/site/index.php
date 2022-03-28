@@ -173,6 +173,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <div class="row mt-50">
     <div class="col-md-10 col-md-offset-1">
         <?php if (!Yii::$app->user->isGuest) : ?>
+            <?= \modules\literature\widgets\ButtonWidget::widget(['userId' => Yii::$app->user->identity->getId()]) ?>
             <?= \modules\entrant\widgets\information\InfodaWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \modules\entrant\widgets\statement\StatementIndexWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>
             <?= \modules\entrant\widgets\statement\StatementCgFrontendConsentWidget::widget(['userId' => Yii::$app->user->identity->getId()]); ?>

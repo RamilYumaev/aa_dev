@@ -65,7 +65,7 @@ class DisciplineCompetitiveGroupController extends Controller
         $form = new DisciplineCompetitiveGroupForm($model->competitive_group_id, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->edit($form);
+                $this->service->edit($form, $model);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

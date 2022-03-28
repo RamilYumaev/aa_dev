@@ -26,17 +26,17 @@ use yii\helpers\Html;
                 <?php $a = 0; foreach ($exams as $key => $exam):
                     $userDiscipline = UserDiscipline::find()->user($userId)->discipline($key)->one(); ?>
                 <?php if($userDiscipline): ?>
-                <tr>
+                <tr class="<?= UserDisciplineHelper::isSpoCorrect($userId, $key) ? "success": "danger"?>">
                     <td><?= ++ $a ?></td>
                     <td><?= $exam ?></td>
                     <td><?= $userDiscipline->type ? "Да": "Нет" ?></td>
                     <td><?= Html::a('Уточнение',['user-discipline/correction-spo', 'discipline' => $key]) ?></td>
                 </tr>
                 <?php else: ?>
-                <tr>
+                <tr class="danger">
                     <td><?= ++ $a ?></td>
                     <td><?= $exam ?></td>
-                    <td>Нет</td>
+                    <td>Нет информации</td>
                     <td><?= Html::a('Уточнение',['user-discipline/correction-spo', 'discipline' => $key]) ?></td>
                 </tr>
                 <?php endif; endforeach; ?>

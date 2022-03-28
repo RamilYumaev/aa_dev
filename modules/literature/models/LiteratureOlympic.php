@@ -53,8 +53,14 @@ use yii\behaviors\TimestampBehavior;
  * @property string|null $agree_file
  * @property string|null $photo
  * @property string|null $code
- * @property boolean $is_success
  * @property integer|null $mark_end
+ * @property string|null $code_two
+ * @property integer|null $mark_end_two
+ * @property string|null $code_three
+ * @property integer|null $mark_end_three
+ * @property integer|null $mark_end_last
+ * @property integer|null $status_last
+ * @property boolean $is_success
  *
  * @property User $user
  */
@@ -102,6 +108,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
                     'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_letter', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'academic_degree',
                     'size', 'agree_file',  'is_allergy', 'is_voz', 'is_need_conditions', 'note_allergy', 'note_conditions', 'note_special',
                     'type_transport_arrival', 'type_transport_departure', 'date_arrival', 'date_departure', 'place_arrival', 'place_departure', 'number_arrival', 'number_departure', 'code', 'mark_end',
+                    'code_two', 'mark_end_two', 'code_three', 'mark_end_three', 'mark_end_last', 'status_last'
                     ],
             ];
     }
@@ -113,7 +120,7 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
     {
         return [
             [['birthday', 'type', 'series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'status_olympic', 'mark_olympic', 'grade_number', 'grade_performs', 'fio_teacher', 'place_work', 'post', 'size'], 'required'],
-            [['user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_allergy', 'is_voz', 'is_need_conditions', 'type_transport_arrival', 'type_transport_departure'], 'integer'],
+            [['user_id', 'type', 'status_olympic', 'grade_number', 'grade_performs', 'is_allergy', 'status_last', 'is_voz', 'is_need_conditions', 'type_transport_arrival', 'type_transport_departure'], 'integer'],
             [['birthday', 'date_arrival', 'date_departure'], 'safe'],
             [['date_arrival', 'date_departure'],'date', 'format' => 'yyyy-M-d H:m:s', "message"=> 'Неверный формат даты, пример, 2022-03-24 14:00:00'],
             [['agree_file', 'photo'], 'required', 'on' => self::PERSON_DATA_CREATE],
@@ -124,8 +131,8 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             [['note_allergy', 'note_conditions', 'note_special'], 'string'],
             [['series', 'number', 'date_issue', 'authority', 'region', 'zone', 'city', 'full_name', 'short_name', 'fio_teacher', 'place_work', 'post', 'academic_degree', 'size', 'place_arrival', 'place_departure'], 'string', 'max' => 255],
             [['mark_olympic'], 'string', 'max' => 5],
-            [['mark_end'], 'integer', 'max' => 100],
-            [['code'], 'string', 'max' => 50],
+            [['mark_end', 'mark_end_two', 'mark_end_three', 'mark_end_last'], 'integer', 'max' => 100],
+            [['code', 'code_two', 'code_three'], 'string', 'max' => 50],
             [['grade_letter'], 'string', 'max' => 2],
             [['number_arrival', 'number_departure'], 'string', 'max' => 10],
             ['photo', 'image',
@@ -193,9 +200,28 @@ class LiteratureOlympic extends \yii\db\ActiveRecord
             'agree_file' => 'Согласие на обработку персональных данных',
             'photo' => 'Фотография 3x4 (необходимо загрузить)',
             'is_success'=> "Подтвержден?",
-            'code' => 'Шифр',
-            'mark_end' => "Итоговая оценка",
+            'code' => 'Шифр 1',
+            'mark_end' => "Оценка 1",
+            'code_two' => 'Шифр 2',
+            'mark_end_two' => "Оценка 2",
+            'code_three' => 'Шифр 3',
+            'mark_end_three' => "Оценка 3",
+            'mark_end_last' => "Итоговая оценка",
+            'status_last' => "Статус участника"
         ];
+    }
+
+    public function getUserStatuses(){
+        return [
+            1 => 'победитель',
+            2 => 'призер',
+            3 => 'участник',
+        ];
+    }
+
+    public function getStatusUserName() {
+        return key_exists($this->status_last, $this->getUserStatuses())
+            ? $this->getUserStatuses()[$this->status_last] : "";
     }
 
     public function getOlympicStatuses(){

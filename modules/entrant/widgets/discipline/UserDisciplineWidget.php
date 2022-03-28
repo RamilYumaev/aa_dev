@@ -20,7 +20,7 @@ class UserDisciplineWidget extends Widget
             ]);
         }
         return $this->render('index-vi', [
-            'exams' =>  DictCompetitiveGroupHelper::groupByExams($this->userId), 'userId' => $this->userId,
+            'exams' =>  DictCompetitiveGroupHelper::groupByExams($this->userId, $this->anketa->onlySpo()), 'userId' => $this->userId,
         ]);
     }
 }
