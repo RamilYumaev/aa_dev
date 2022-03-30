@@ -25,6 +25,7 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listEducation($model->typeAnketa)) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'year')->textInput(['maxlength' => true])?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'without_appendix')->checkbox() ?>
             <?= $form->field($model, 'fio')->checkbox() ?>

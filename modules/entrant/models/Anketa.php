@@ -24,7 +24,6 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property string $citizenship_id
- * @property integer $edu_finish_year
  * @property string $current_edu_level
  * @property string $category_id
  * @property integer $university_choice
@@ -32,6 +31,7 @@ use yii\db\ActiveRecord;
  * @property integer $speciality_spo
  * @property string $province_of_china
  * @property string $personal_student_number
+ * @property boolean $is_agree
  */
 class Anketa extends ActiveRecord
 {
@@ -59,7 +59,7 @@ class Anketa extends ActiveRecord
     public function data(AnketaForm $form)
     {
         $this->citizenship_id = $form->citizenship_id;
-        $this->edu_finish_year = $form->edu_finish_year;
+        $this->is_agree = $form->is_agree;
         $this->current_edu_level = $form->current_edu_level;
         $this->category_id = $form->category_id;
         $this->user_id = $form->user_id;
@@ -159,7 +159,7 @@ class Anketa extends ActiveRecord
     {
         return [
             'citizenship_id' => 'Какое у Вас гражданство?',
-            'edu_finish_year' => 'В каком году Вы окончили последнюю образовательную организацию?',
+            'is_agree' => 'Ознакомлены с инструкцией по подаче документов?',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
             'category' => 'Категория',

@@ -35,7 +35,6 @@ class DocumentEducationForm extends Model
         }else {
             $this->user_id = $user_id;
         }
-        $this->year = \Yii::$app->user->identity->anketa()->edu_finish_year;
         $this->typeAnketa = \Yii::$app->user->identity->anketa()->current_edu_level;
         parent::__construct($config);
     }
@@ -61,7 +60,7 @@ class DocumentEducationForm extends Model
             [['year','date',], 'safe'],
             [['date'], 'date', 'format' => 'dd.mm.yyyy'],
             [['date'], MaxDateValidate::class],
-            [['year'], 'date', 'format' => 'yyyy'],
+            [['year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeEducation($this->typeAnketa)],
         ];
     }

@@ -28,7 +28,6 @@ $userId = $anketa->user_id;
         <?= $form->field($model, 'province_of_china')->label("Провинция")->dropDownList(ProvinceOfChinaHelper::getName(),
         ['prompt' => 'Выберите провинцию']) ?>
         <?= $form->field($model, 'current_edu_level')->label("Образование")->dropDownList(AnketaHelper::currentEducationLevel()) ?>
-        <?= $form->field($model, 'edu_finish_year')->label("Год окончания")->textInput(['maxlength' => true, 'placeholder' => date('Y')]) ?>
         <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
         <?= $form->field($model, 'category_id')->label("Категория")->dropDownList([]) ?>
         <?= $form->field($model, 'personal_student_number')->label("Личный номер студента")->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>

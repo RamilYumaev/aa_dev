@@ -8,16 +8,15 @@ use yii\base\Model;
 
 class AnketaForm extends Model
 {
-    public $user_id, $citizenship_id, $edu_finish_year, $current_edu_level, $category_id,
+    public $user_id, $citizenship_id, $is_agree, $current_edu_level, $category_id,
         $province_of_china, $personal_student_number, $is_foreigner_edu_organization;
-    private $_anketaForm;
     public $speciality_spo;
 
     public function __construct(Anketa $anketa = null, $config = [])
     {
         if ($anketa) {
             $this->citizenship_id = $anketa->citizenship_id;
-            $this->edu_finish_year = $anketa->edu_finish_year;
+            $this->is_agree = $anketa->is_agree;
             $this->current_edu_level = $anketa->current_edu_level;
             $this->category_id = $anketa->category_id;
             $this->user_id = $anketa->user_id;
@@ -25,10 +24,8 @@ class AnketaForm extends Model
             $this->personal_student_number = $anketa->personal_student_number;
             $this->is_foreigner_edu_organization = $anketa->is_foreigner_edu_organization;
             $this->speciality_spo = $anketa->speciality_spo;
-
         }else{
             $this->user_id = \Yii::$app->user->identity->getId();
-
         }
         parent::__construct($config);
     }
@@ -37,18 +34,17 @@ class AnketaForm extends Model
     {
         return [
             [['user_id', 'citizenship_id','current_edu_level','category_id', 'is_foreigner_edu_organization'], 'integer'],
-            [['user_id', 'citizenship_id', 'edu_finish_year','current_edu_level','category_id'],
+            [['user_id', 'citizenship_id','current_edu_level','category_id'],
                 'required'],
+            ['is_agree', 'required', 'requiredValue' => true, 'message' => 'Подтвердите, пожалуйста, что Вы ознакомлены с инструкцией по подаче документов'],
             [['personal_student_number', 'province_of_china'], 'string'],
             [['speciality_spo'], 'safe'],
-            [['edu_finish_year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['province_of_china', 'required', 'when' => function ($model) {
                 return $model->citizenship_id == 13;
             }, 'whenClient' => 'function (attribute, value) { return $("#anketaform-citizenship_id").val() == 13}'],
             ['personal_student_number', 'required', 'when' => function ($model) {
                 return $model->category_id == \modules\entrant\helpers\CategoryStruct::GOV_LINE_COMPETITION;
             }, 'whenClient' => 'function (attribute, value) { return $("#anketaform-category_id").val() == 5}'],
-
         ];
     }
 

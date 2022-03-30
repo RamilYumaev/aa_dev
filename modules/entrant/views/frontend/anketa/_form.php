@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use \yii\web\View;
 
 /* @var $model modules\entrant\forms\AnketaForm */
@@ -10,12 +11,10 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use \modules\entrant\helpers\AnketaHelper;
 use \dictionary\helpers\DictCountryHelper;
-use kartik\select2\Select2;
 use \modules\entrant\helpers\ProvinceOfChinaHelper;
-use \common\helpers\EduYearHelper;
-use \common\auth\helpers\UserSchoolHelper;
 
 $model->speciality_spo = is_null($model->speciality_spo) ? '' : $model->speciality_spo;
+$docUrl = Html::a("Ознакомиться", 'https://docs.google.com/document/d/1ziiGMWfpqqBbdiOze-HrHgOmZHCdDqyI8g9KZBaZScU/edit',['target'=> "_blank"]);
 ?>
 
     <div class="container">
@@ -32,12 +31,15 @@ $model->speciality_spo = is_null($model->speciality_spo) ? '' : $model->speciali
                 <?= $form->field($model, 'province_of_china')->dropDownList(ProvinceOfChinaHelper::getName(),
                     ['prompt' => 'Выберите провинцию']) ?>
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
-                <?= $form->field($model, 'edu_finish_year')->textInput(['maxlength' => true, 'placeholder' => date('Y')]) ?>
-                    <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
+                <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
                 <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>
                 <?= $form->field($model, 'speciality_spo')
                     ->dropDownList(['' => 'Другое']+\dictionary\helpers\DictSpecialityHelper::specialityNameAndCodeEduLevelList(\dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)) ?>
+                <?= $form->field($model, 'is_agree')->checkbox([
+                    'template' => "{beginWrapper}\n<div class=\"checkbox\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n</div>
+                $docUrl\n{error}\n{endWrapper}\n{hint}",
+                ]) ?>
                 <div class="m-20 text-center">
                     <?= Html::submitButton(Html::tag("span", "",
                             ["class" => "glyphicon glyphicon-floppy-disk"]) . " " . Html::tag("span", "",
