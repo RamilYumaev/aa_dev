@@ -23,8 +23,7 @@ use yii\widgets\DetailView;
         ['label' => $anketa->getAttributeLabel('current_edu_level'),
             'value' => $anketa->currentEduLevel,],
         ['label' => $anketa->getAttributeLabel('category_id'),
-            'value' => $anketa->category,],
-        'edu_finish_year'
+            'value' => $anketa->category,]
     ];
     ?>
     <?php if ($anketa->isChina()): ?>

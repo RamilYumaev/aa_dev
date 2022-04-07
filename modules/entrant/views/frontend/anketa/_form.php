@@ -33,6 +33,7 @@ $docUrl = Html::a("Ознакомиться", 'https://docs.google.com/document/
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
                 <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
                 <?= $form->field($model, 'category_id')->dropDownList([]) ?>
+                <?= $form->field($model, 'is_dlnr_ua')->checkbox() ?>
                 <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>
                 <?= $form->field($model, 'speciality_spo')
                     ->dropDownList(['' => 'Другое']+\dictionary\helpers\DictSpecialityHelper::specialityNameAndCodeEduLevelList(\dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)) ?>
@@ -74,9 +75,11 @@ var loadedEdu = [];
 
  var province = $("div.field-anketaform-province_of_china");
  var specialitySpo = $("div.field-anketaform-speciality_spo");
+ var isDlnrUa = $("div.field-anketaform-is_dlnr_ua");
  var personalNumber = $("div.field-anketaform-personal_student_number");
  specialitySpo.hide();
  province.hide();
+ isDlnrUa.hide();
  personalNumber.hide();
 var currentCountry = $("#anketaform-citizenship_id");
 var currentEducationLevel = $("#anketaform-current_edu_level");
@@ -173,6 +176,7 @@ if(educationVal == educationSPO){
    
     var countryId = $("#anketaform-citizenship_id");
     var provinceText = $("#anketaform-province_of_china");
+    var dlnrUaValue = $("#anketaform-is_dlnr_ua");
     var category = $("#anketaform-category_id");
    
     var personalNumberVal = $("#anketaform-personal_student_number");
@@ -185,6 +189,12 @@ if(educationVal == educationSPO){
         province.show();
     }else {
         province.hide();
+    }
+    
+     if(countryId.val()== rf) {
+        isDlnrUa.show();
+    }else {
+        isDlnrUa.hide();
     }
     
     if(category.val() == govLineCategoryId)
@@ -223,11 +233,17 @@ if(educationVal == educationSPO){
     countryId.on("change", function() {
         if (this.value == "") {
             province.hide();
+            dlnrUaValue.val(0)
+            isDlnrUa.hide();
             provinceText.val("");
         } else if (this.value == china) {
             province.show();
+        } else if(this.value == rf) {
+            isDlnrUa.show();
         }
         else {
+            dlnrUaValue.val(0)
+            isDlnrUa.hide();
             province.hide();
             provinceText.val("");
             }

@@ -148,11 +148,7 @@ class DataExportHelper
                 $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
                         $statement->faculty_id,
                         $statement->speciality_id,
-                        $currentApplication->cg->id, false) ??
-                    DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
-                        $statement->faculty_id,
-                        $statement->speciality_id,
-                        $currentApplication->cg->id, true);
+                        $currentApplication->cg->id);
             }
             $composite = DictCompetitiveGroupHelper::groupByCompositeDiscipline(
                 $statement->user_id,

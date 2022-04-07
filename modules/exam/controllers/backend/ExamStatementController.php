@@ -186,6 +186,7 @@ class ExamStatementController extends Controller
         Yii::$app->queue->push(new StatementExamJob($this->service, ['eduLevel'=> $eduLevel, 'formCategory' => $formCategory]));
         $message = 'Задание отправлено в очередь';
         Yii::$app->session->setFlash("info", $message);
+        $this->service->addAllStatement($eduLevel, $formCategory);
         return $this->redirect(Yii::$app->request->referrer);
     }
 

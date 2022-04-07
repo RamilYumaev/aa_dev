@@ -9,7 +9,6 @@ use modules\entrant\models\Anketa;
 use modules\entrant\services\AdditionalInformationService;
 use yii\web\Controller;
 use Yii;
-use function GuzzleHttp\Psr7\normalize_header;
 
 class AdditionalInformationController extends Controller
 {
@@ -27,7 +26,7 @@ class AdditionalInformationController extends Controller
     public function actionIndex()
     {
         $model = $this->findModel() ?? null;
-        $form = new AdditionalInformationForm($this->getUserId(), $model);
+        $form = new AdditionalInformationForm($this->anketa(), $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->createOrUpdate($form);

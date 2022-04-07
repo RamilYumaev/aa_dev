@@ -6,7 +6,9 @@ use dictionary\helpers\DictFacultyHelper;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementCg;
 use modules\entrant\models\UserDiscipline;
@@ -169,13 +171,15 @@ class ExamStatementService
     }
 
     public function addAllStatement($eduLevel, $formCategory) {
-        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory, 2);
+        $users = StatementCg::find()->statementUserLevelCg($eduLevel, $formCategory);
         foreach ($users as $user) {
-            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, DictFacultyHelper::FACULTY_FILIAL);
+            $anketa = Anketa::findOne(['user_id'=> $user]);
+            $disciplines = ExamCgUserHelper::disciplineLevel($user, $eduLevel, $formCategory, null);
             if(!$disciplines) {
                 continue;
             }
             foreach ($disciplines as $discipline) {
+                if($anketa && $anketa->is_dlnr_ua && $discipline == 1) { continue;}
                 /** @var UserDiscipline $userDiscipline */
                 $userDiscipline = UserDiscipline::find()->user($user)->discipline($discipline)->viFull()->joinWith('dictDiscipline')
                     ->andWhere(['composite_discipline' => true])->select(['discipline_select_id'])->one();

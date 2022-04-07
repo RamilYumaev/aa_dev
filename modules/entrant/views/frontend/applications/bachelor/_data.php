@@ -113,8 +113,10 @@ $cgFaculty = $cgFacultyBase->all();
                         {   ++$index;
                             $result .= Html::a($exam->dictDisciplineSelect->name, $exam->dictDisciplineSelect->links, ['target' => '_blank']).($count == $index ? "" : "/");
                         }
-                        $result .= $examination->spo_discipline_id ? " /".  Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
-                                ['target' => '_blank']) : "";
+                        if($anketa->onlySpo()) {
+                            $result .= $examination->spo_discipline_id ? " /" . Html::a($examination->disciplineSpo->name, $examination->disciplineSpo->links,
+                                    ['target' => '_blank']) : "";
+                        }
                         $result .= "</li>";
                     }
                     else {

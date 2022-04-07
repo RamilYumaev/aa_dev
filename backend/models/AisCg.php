@@ -10,20 +10,7 @@ class AisCg extends ActiveRecord
 
     public static function tableName()
     {
-        return "ais_cg";
-    }
-
-    public static function transformYear($year)
-    {
-        if ($year == "2018-2019") {
-            return "2019";
-        } elseif ($year == "2019-2020") {
-            return "2020";
-        }elseif ($year == "2020-2021"){
-            return "2021";
-        }
-
-        throw new \DomainException("получен не предусмотренный год");
+        return "2022_dict_incoming_competitive_group";
     }
 
     public static function findCg($facultyId, $specialtyId, $specializationId, $educationFormId, $financingTypeId, $year)

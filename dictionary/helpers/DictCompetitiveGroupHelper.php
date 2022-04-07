@@ -678,20 +678,15 @@ class DictCompetitiveGroupHelper
 
     }
 
-    public static function groupByExamsNoCseCt($user_id, $faculty_id, $speciality_id, $ids, $ct)
+    public static function groupByExamsNoCseCt($user_id, $faculty_id, $speciality_id, $ids)
     {
         $data = DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
             ->andWhere(['user_cg.user_id' => $user_id, 'dict_competitive_group.faculty_id' => $faculty_id,
                 'dict_competitive_group.id' => $ids,
                 'dict_competitive_group.speciality_id' => $speciality_id]);
-            if($ct) {
-                $data->andWhere(['not', ['ct_subject_id' => null]]);
-            } else {
-                $data->andWhere(['not', ['cse_subject_id' => null]]);
-            }
             $data->select(['dict_discipline.id'])->column();
 
         return UserDiscipline::find()->discipline($data)->user($user_id)->viFull()->exists();

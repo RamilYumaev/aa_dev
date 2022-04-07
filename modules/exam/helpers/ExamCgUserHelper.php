@@ -17,12 +17,12 @@ class ExamCgUserHelper
         $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
                 ->groupBy('discipline_select_id')
                 ->column();
-        $ids =StatementCg::find()->statementUserCgIdActualColumn($userId, self::formCategory());
+        $ids = StatementCg::find()->statementUserCgIdActualColumn($userId, self::formCategory());
         if ($vi && !$viExam) {
             return false;
         }
         $query = DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id ')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.foreigner_status' => false])
@@ -35,25 +35,25 @@ class ExamCgUserHelper
             }
         }
         else {
-            $query->andWhere(['cse_subject_id' => null]);
+            $query->andWhere(['cse_subject_id' => null, 'spo_discipline_id'=> null]);
         }
        return $query->distinct()->column();
     }
 
     public static function disciplineLevel($userId, $eduLevel, $formCategory, $faculty = null)
     {
-        $viExam = $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
+        $viExam = UserDiscipline::find()->user($userId)->viFull()->select('discipline_select_id')
             ->groupBy('discipline_select_id')
             ->column();
         $ids = StatementCg::find()->statementUserCgIdActualLevelColumn($userId, $eduLevel, $formCategory);
         $query = DictDiscipline::find()
-            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id OR discipline_competitive_group.spo_discipline_id=dict_discipline.id')
             ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
             ->select(['dict_discipline.id'])
             ->andWhere(['dict_competitive_group.foreigner_status' => false])
             ->andWhere(['dict_competitive_group.id' => $ids, 'dict_discipline.is_och'=> 0]);
         if($faculty) {
-           $query->andWhere(['dict_competitive_group.faculty_id' =>$faculty]);
+           $query->andWhere(['dict_competitive_group.faculty_id' => $faculty]);
         }
         if ($eduLevel==DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $viExam) {
             $query->andWhere(['dict_discipline.id'=> $viExam]);
@@ -64,7 +64,7 @@ class ExamCgUserHelper
                     ->column()], ['composite_discipline' => true], ['dict_competitive_group.id' => $ids]]);
         }
         else {
-            $query->andWhere(['cse_subject_id' => null]);
+            $query->andWhere(['cse_subject_id' => null, 'spo_discipline_id'=> null]);
         }
         return $query->distinct()->column();
     }

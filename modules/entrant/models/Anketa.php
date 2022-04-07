@@ -32,6 +32,7 @@ use yii\db\ActiveRecord;
  * @property string $province_of_china
  * @property string $personal_student_number
  * @property boolean $is_agree
+ * @property boolean $is_dlnr_ua
  */
 class Anketa extends ActiveRecord
 {
@@ -66,6 +67,7 @@ class Anketa extends ActiveRecord
         $this->province_of_china = $form->province_of_china;
         $this->speciality_spo = $form->speciality_spo;
         $this->personal_student_number = $form->personal_student_number;
+        $this->is_dlnr_ua = $form->is_dlnr_ua;
         if ($this->userSchool && !$this->userSchool->school->isRussia()) {
             $this->is_foreigner_edu_organization = true;
         } elseif ($this->userSchool && $this->userSchool->school->isRussia()) {
@@ -160,6 +162,7 @@ class Anketa extends ActiveRecord
         return [
             'citizenship_id' => 'Какое у Вас гражданство?',
             'is_agree' => 'Ознакомлены с инструкцией по подаче документов?',
+            'is_dlnr_ua' => 'Гражданин РФ, который до прибытия на территорию Российской Федерации проживал на территории ДНР, ЛНР или Украины',
             'current_edu_level' => 'Какой Ваш текущий уровень образования?',
             'category_id' => 'К какой категории граждан Вы относитесь?',
             'category' => 'Категория',
@@ -269,6 +272,7 @@ class Anketa extends ActiveRecord
                 ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
                 in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)))
             && !$this->is_foreigner_edu_organization
+            && !$this->is_dlnr_ua
             && !$this->isExemptionDocument(1);
         return $condition;
 

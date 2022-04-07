@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class AnketaForm extends Model
 {
-    public $user_id, $citizenship_id, $is_agree, $current_edu_level, $category_id,
+    public $user_id, $citizenship_id, $is_agree, $current_edu_level, $category_id, $is_dlnr_ua,
         $province_of_china, $personal_student_number, $is_foreigner_edu_organization;
     public $speciality_spo;
 
@@ -19,6 +19,7 @@ class AnketaForm extends Model
             $this->is_agree = $anketa->is_agree;
             $this->current_edu_level = $anketa->current_edu_level;
             $this->category_id = $anketa->category_id;
+            $this->is_dlnr_ua = $anketa->is_dlnr_ua;
             $this->user_id = $anketa->user_id;
             $this->province_of_china = $anketa->province_of_china;
             $this->personal_student_number = $anketa->personal_student_number;
@@ -33,7 +34,7 @@ class AnketaForm extends Model
     public function rules()
     {
         return [
-            [['user_id', 'citizenship_id','current_edu_level','category_id', 'is_foreigner_edu_organization'], 'integer'],
+            [['user_id', 'citizenship_id','current_edu_level','category_id', 'is_foreigner_edu_organization', 'is_dlnr_ua'], 'integer'],
             [['user_id', 'citizenship_id','current_edu_level','category_id'],
                 'required'],
             ['is_agree', 'required', 'requiredValue' => true, 'message' => 'Подтвердите, пожалуйста, что Вы ознакомлены с инструкцией по подаче документов'],

@@ -59,6 +59,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH => "Покровский филиал МПГУ (Владимирская область)",
             DictFacultyHelper::STAVROPOL_BRANCH => "Ставропольский филиал МПГУ (Ставропольский край)",
             DictFacultyHelper::DERBENT_BRANCH => "Дербентский филиал МПГУ (Республика Дагестан)",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "Филиал МПГУ в г. Черняховске",
             DictFacultyHelper::COLLAGE => "Колледж МПГУ",
             self::TPGU => "Совместный проект МПГУ - ТПГУ",
             self::EXAM => "Экзаменационная комиссия",
@@ -89,6 +90,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             DictFacultyHelper::COLLAGE
         ];
 
@@ -103,6 +105,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             self::GRADUATE,
             self::MPGU];
         return $array;
@@ -116,6 +119,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             DictFacultyHelper::COLLAGE,
             self::AGREEMENT,
             self::GRADUATE];
@@ -130,6 +134,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             self::GRADUATE,
             self::MPGU,
             DictFacultyHelper::COLLAGE,
@@ -149,6 +154,7 @@ class JobEntrantHelper
             DictFacultyHelper::POKROV_BRANCH,
             DictFacultyHelper::STAVROPOL_BRANCH,
             DictFacultyHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             self::GRADUATE,
             DictFacultyHelper::COLLAGE,
             self::FOK
@@ -215,5 +221,4 @@ class JobEntrantHelper
     public static function columnJobEntrant($column, $value) {
         return ArrayHelper::map(JobEntrant::find()->select($column)->groupBy($column)->all(), $column, $value);
     }
-
 }

@@ -9,10 +9,6 @@ use yii\console\Controller;
 
 class SettingEntrantListController extends Controller
 {
-    public function __construct($id, $module, SettingEntrantService $service, $config = [])
-    {
-        parent::__construct($id, $module, $config);
-    }
 
     public function actionIndex()
     {

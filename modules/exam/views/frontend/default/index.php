@@ -12,11 +12,13 @@ use yii\helpers\Html;
 /* @var $exam modules\exam\models\Exam*/
 /* @var $examStatement modules\exam\models\ExamStatement*/
 /* @var $test modules\exam\models\ExamTest */
+/* @var $anketa modules\entrant\models\Anketa */
 $this->title = "Экзамены";
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
     ->user($userId)->status(StatementHelper::STATUS_ACCEPTED)->exists();
+$anketa = \Yii::$app->user->identity->anketa();
 
 \frontend\assets\modal\ModalAsset::register($this);
  ?>
@@ -38,6 +40,15 @@ $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::E
             </p>
         </div>
         <p></p>
+        <?php if ($anketa->is_dlnr_ua) : ?>
+            <div class="alert alert-warning" role="alert">
+                <p>
+                    Информация для граждан РФ, которые до прибытия на территорию Российской Федерации проживали на территории ДНР, ЛНР или Украины.
+                    Вступительное испытание по русскому языку будет проходить очно!
+                </p>
+            </div>
+            <p></p>
+        <?php endif; ?>
         <table class="table">
             <tr>
                 <th>Наименование</th>
@@ -48,6 +59,9 @@ $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::E
             </tr>
             <?php foreach ($examList as $exam) :
                 $examStatements = $exam->examStatementUser($userId);
+                 if($anketa->is_dlnr_ua && $exam->discipline_id == 1)  {
+                     continue;
+                 }
                 ?>
                 <tr class="info">
                     <td><?= $exam->discipline->name?></td>

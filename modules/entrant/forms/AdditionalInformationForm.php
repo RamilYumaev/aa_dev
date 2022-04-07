@@ -3,7 +3,9 @@
 
 namespace modules\entrant\forms;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\InsuranceCertificateUser;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -14,16 +16,18 @@ class AdditionalInformationForm extends Model
         $mpgu_training_status_id, $mark_spo, $insuranceNumber;
 
     private $_additionalInformation;
+    private $_anketa;
     public  $is_military_edu;
 
-    public function __construct($user_id, AdditionalInformation $additionalInformation = null, $config = [])
+    public function __construct(Anketa $anketa, AdditionalInformation $additionalInformation = null, $config = [])
     {
         if($additionalInformation){
             $this->setAttributes($additionalInformation->getAttributes(), false);
             $this->_additionalInformation= $additionalInformation;
             $this->insuranceNumber = $additionalInformation->insuranceCertificate ? $additionalInformation->insuranceCertificate->number : '';
         }
-        $this->user_id = $user_id;
+        $this->user_id = $anketa->user_id;
+        $this->_anketa = $anketa;
         parent::__construct($config);
     }
 
@@ -37,6 +41,9 @@ class AdditionalInformationForm extends Model
             [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'is_military_edu', 'chernobyl_status_id', 'is_epgu', 'is_time', 'mpgu_training_status_id'], 'integer'],
             [['insuranceNumber'], 'string', 'max'=>14],
+            [['insuranceNumber'], 'required', 'when' => function($model) {
+               return $model->_anketa->isRussia() == true;
+            }, 'enableClientValidation' => false],
             [['insuranceNumber'], 'validateInsuranceNumber'],
             $this->_additionalInformation && $this->_additionalInformation->insuranceCertificate ?
                 [['insuranceNumber'], 'unique', 'targetClass' => InsuranceCertificateUser::class, 'targetAttribute' => 'number', 'filter' => ['<>', 'id', $this->_additionalInformation->insuranceCertificate->id]]
