@@ -76,6 +76,12 @@ $userId =  Yii::$app->user->identity->getId();
                 посторонних предметов (частей тела, элементов одежды, т.п.).</p>
             <?= \modules\entrant\widgets\passport\PassportMainWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
 
+            <?php if ($anketa->isRussia() && $anketa->is_dlnr_ua): ?>
+                <h4>Требования к документу:</h4>
+                <p align="justify"> необходимо загрузить подтверждающий скан</p>
+                <?= \modules\entrant\widgets\anketa\AnketaWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
+            <?php endif; ?>
+
             <?php if ($anketa->isOrphan()): ?>
                 <?= \modules\entrant\widgets\passport\BirthDocumentWidget::widget(['view' => 'file-birth-document', 'userId' => $userId]); ?>
             <?php endif; ?>
@@ -95,6 +101,8 @@ $userId =  Yii::$app->user->identity->getId();
                 <p align="justify"> необходимо загрузить подтверждающий скан (скан карточки или скриншот из личного кабинета)..</p>
                 <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
+
+
 
             <?php if ($anketa->isBelarus() && UserDiscipline::find()->user($userId)->ctOrVi()->exists()): ?>
                 <h4>Требования к сертификатам ЦТ:</h4>

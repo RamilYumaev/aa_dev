@@ -9,10 +9,11 @@ use yii\base\Widget;
 class AnketaWidget extends Widget
 {
     public $userId;
+    public $view = "index";
     public function run()
     {
         $model = Anketa::findOne(['user_id' => $this->userId]);
-        return $this->render('index', [
+        return $this->render($this->view, [
             'anketa'=> $model,
         ]);
     }

@@ -112,6 +112,7 @@ class SubmittedDocumentsService
         $this->manager->wrap(function () use ($user_id) {
             $this->passport($user_id);
             $this->address($user_id);
+            $this->ldnr($user_id);
             $this->documentEdu($user_id);
             $this->agreement($user_id);
             $this->other($user_id);
@@ -341,6 +342,15 @@ class SubmittedDocumentsService
         $other = Agreement::find()->where(['user_id' => $userId])->one();
         if ($other && !$other->files) {
             throw new \DomainException(' Не загружен файл(-ы) раздела "Документ о целевом обучении" к типу !');
+        }
+    }
+
+
+    private function ldnr($userId)
+    {
+        $other = Anketa::findOne(['user_id' => $userId, 'is_dlnr_ua' => true]);
+        if ($other && !$other->filesUser) {
+            throw new \DomainException(' Не загружен файл(-ы) раздела "Гражданин РФ, который до прибытия на территорию Российской Федерации проживал на территории ДНР, ЛНР"!');
         }
     }
 

@@ -11,6 +11,7 @@ use dictionary\helpers\DictCountryHelper;
 use dictionary\models\Country;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\behaviors\AnketaBehavior;
+use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CategoryStruct;
@@ -47,6 +48,7 @@ class Anketa extends ActiveRecord
             [
                 'class' => AnketaBehavior::class,
             ],
+            FileBehavior::class
         ];
     }
 
@@ -363,6 +365,13 @@ class Anketa extends ActiveRecord
             'category_id' => $this->category_id];
     }
 
+    public function getFilesUser() {
+        return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function countFiles() {
+        return $this->getFilesUser()->count();
+    }
 
     public function getUserSchool()
     {

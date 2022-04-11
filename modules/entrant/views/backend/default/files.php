@@ -3,6 +3,8 @@
 
 /* @var $profile olympic\models\auth\Profiles */
 
+
+/* @var $anketa \modules\entrant\models\Anketa*/
 use entrant\assets\modal\ModalAsset;
 use modules\entrant\models\EntrantInWork;
 use modules\entrant\models\UserDiscipline;
@@ -47,6 +49,10 @@ $userId = $profile->user_id;
 
         <?php if (!$anketa->isNoRequired()): ?>
             <?= \modules\entrant\widgets\address\AddressFileWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
+        <?php endif; ?>
+
+        <?php if ($anketa->isRussia() && $anketa->is_dlnr_ua): ?>
+            <?= \modules\entrant\widgets\anketa\AnketaWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
         <?php endif; ?>
 
         <?php if ($anketa->isOrphan()): ?>

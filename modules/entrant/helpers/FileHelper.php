@@ -6,6 +6,7 @@ namespace modules\entrant\helpers;
 
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
+use modules\entrant\models\Anketa;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\InsuranceCertificateUser;
 use modules\entrant\models\LegalEntity;
@@ -75,6 +76,7 @@ class FileHelper
             DocumentEducation::class,
             PassportData::class,
             InsuranceCertificateUser::class,
+            Anketa::class,
             Address::class,
             OtherDocument::class,
             Agreement::class,
@@ -104,6 +106,7 @@ class FileHelper
     public static function listModelsCOZ() {
         return [
             DocumentEducation::class,
+            Anketa::class,
             PassportData::class,
             Address::class,
             OtherDocument::class,
@@ -115,6 +118,7 @@ class FileHelper
         return [
             DocumentEducation::class,
             PassportData::class,
+            Anketa::class,
             Address::class,
             StatementConsentPersonalData::class
         ];
@@ -140,6 +144,7 @@ class FileHelper
             DocumentEducation::class => 10,
             PassportData::class => 1,
             Address::class => 1,
+            Anketa::class => 1,
             OtherDocument::class => 20,
             Agreement::class => 20,
             PersonalEntity::class=>5,
@@ -169,6 +174,7 @@ class FileHelper
 
     public static function listHash() {
         return [
+            Anketa::class => 'anketa',
             DocumentEducation::class => 'doc',
             PassportData::class => "passport",
             Address::class => "address",
@@ -201,6 +207,7 @@ class FileHelper
 
     public static function listName() {
         return [
+            Anketa::class => "Документ",
             DocumentEducation::class => "Документ об образовании",
             PassportData::class => "Паспортные даннные",
             Address::class => "Адрес",

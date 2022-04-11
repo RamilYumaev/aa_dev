@@ -29,6 +29,9 @@ use yii\widgets\DetailView;
     <?php if ($anketa->isChina()): ?>
         <?php array_push($columns, 'province_of_china') ?>
     <?php endif; ?>
+    <?php if ($anketa->isRussia()): ?>
+        <?php array_push($columns, 'is_dlnr_ua:boolean') ?>
+    <?php endif; ?>
     <?php if ($anketa->isGovLineIncoming()): ?>
         <?php array_push($columns, 'personal_student_number') ?>
     <?php endif; ?>
