@@ -65,9 +65,10 @@ class SettingGenerateController extends Controller
             AnketaHelper::POKROV_BRANCH,
             AnketaHelper::STAVROPOL_BRANCH,
             AnketaHelper::DERBENT_BRANCH,
+            DictFacultyHelper::CHERNOHOVSK_BRANCH,
             DictFacultyHelper::COLLAGE];
 
-        $type = [SettingEntrant::ZUK, SettingEntrant::ZOS];
+        $type = [SettingEntrant::ZUK, SettingEntrant::ZOS, SettingEntrant::ZID];
         $dvi = [0, 1];
         $cseAsVi = [0, 1];
         $ums = [0, 1];
@@ -107,8 +108,8 @@ class SettingGenerateController extends Controller
                                             $model->note = "Настройка № $key";
                                             $model->faculty_id = $depart;
                                             $model->form_edu = $form;
-                                            $model->datetime_start = '2021-06-17 00:00:00';
-                                            $model->datetime_end = '2021-06-19 00:00:00';
+                                            $model->datetime_start = '2022-04-01 00:00:00';
+                                            $model->datetime_end = '2022-07-01 00:00:00';
                                             $model->cse_as_vi = $cVi;
                                             $model->is_vi = $dopVi;
                                             $model->type = $typeApp;
@@ -136,7 +137,19 @@ class SettingGenerateController extends Controller
         }
 
         return 'Выполнено $key итераций';
+    }
 
+    private function update() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
+                     ->isVi(true)
+                     ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT)
+                     ->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR)
+                     ->eduForm([DictCompetitiveGroupHelper::EDU_FORM_OCH, DictCompetitiveGroupHelper::EDU_FORM_OCH_ZAOCH])
+                     ->foreign(false)->all() as $st)  {
+            $st->datetime_end = '2021-07-29 18:00:00';
+            $st->save();
+        }
     }
 
     public function actionSetList() {

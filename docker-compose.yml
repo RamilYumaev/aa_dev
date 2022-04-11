@@ -32,7 +32,11 @@ services:
     image: tianon/true
     volumes:
       - ./:/app
-
+  rabbitmq:
+    build: ./docker/rabbitmq
+    ports:
+      - ${RABBITMQ_SERVER_PORT:-5672}:5672
+      - ${RABBITMQ_MANAGEMENT_SERVER_PORT:-15672}:15672
   php-fpm:
     build:
       context: ./docker/php-fpm
