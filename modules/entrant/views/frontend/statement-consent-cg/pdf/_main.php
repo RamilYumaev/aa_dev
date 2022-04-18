@@ -8,6 +8,7 @@ use olympic\helpers\auth\ProfileHelper;
 /* @var $statementConsent modules\entrant\models\StatementConsentCg */
 
 $user = $statementConsent->statementCg->statement->user_id;
+$isDlnr = $statementConsent->statementCg->statement->profileUser->anketa->is_dlnr_ua;
 $profile = ProfileHelper::dataArray($user);
 $name = \common\auth\helpers\DeclinationFioHelper::userDeclination($user);
 $cg = \dictionary\helpers\DictCompetitiveGroupHelper::dataArray($statementConsent->statementCg->cg_id);
@@ -18,4 +19,4 @@ $education = DocumentEducationHelper::dataArray($user)
 
 <?= $this->render("_header", ['profile' => $profile, 'user_id' => $user, 'name' => $name, 'cg' => $cg]) ?>
 <?= $this->render("_body", ['statementConsent' => $statementConsent,
-    'name' => $name, 'cg' => $cg, 'passport' => $passport, 'profile' => $profile, 'education'=>$education]) ?>
+    'name' => $name, 'cg' => $cg, 'passport' => $passport, 'profile' => $profile, 'education'=>$education, 'isDlnr'=> $isDlnr]) ?>

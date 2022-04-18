@@ -6,6 +6,8 @@ use modules\dictionary\models\Volunteering;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
+$list = (new Volunteering())->listConditionsWork();
+unset($list[0]);
 ?>
 <?php $form = ActiveForm::begin(['id'=> 'form-message' ]); ?>
     <div class="box box-primary">
@@ -60,6 +62,7 @@ use yii\helpers\Html;
                 </div>
             </div>
             <?= $form->field($model, 'is_reception')->checkbox()->label('Буду принимать участие в Приеме '.date("Y")) ?>
+            <?= $form->field($model, 'conditions_of_work')->dropDownList($list) ?>
             <?= $form->field($model, 'note')->textarea() ?>
             <?= $form->field($model, 'link_vk')->textInput() ?>
         </div>

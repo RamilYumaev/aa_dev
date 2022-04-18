@@ -163,7 +163,10 @@ class Identity implements IdentityInterface
     public function cseFilterFaculty($filteredCg)
     {
         $array = array_filter($filteredCg, function($v, $k) {
-            return SettingEntrant::find()->isOpenZUK(DictCompetitiveGroup::findOne($v));
+            $cg = DictCompetitiveGroup::findOne($v);
+            if ($cg) {
+                return SettingEntrant::find()->isOpenZUK($cg);
+            }
         }, ARRAY_FILTER_USE_BOTH);
         $arrayModel = DictCompetitiveGroup::find()
             ->select("faculty_id")

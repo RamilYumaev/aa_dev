@@ -43,7 +43,7 @@
     "yiisoft/yii2-authclient": "^2.1",
     "himiklab/yii2-jqgrid-widget": "*",
     "xj/yii2-qrcode-widget": "^1.1",
-    "mpdf/mpdf": "^7.1",
+    "mpdf/mpdf": "^8.0",
     "picqer/php-barcode-generator": "^0.3.0",
     "kartik-v/yii2-field-range": "*",
     "yii2mod/yii2-moderation": "*",

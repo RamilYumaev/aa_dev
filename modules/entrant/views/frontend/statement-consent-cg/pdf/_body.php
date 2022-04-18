@@ -3,6 +3,7 @@
 /* @var $gender string */
 
 /* @var $profile array */
+/* @var  $isDlnr boolean */
 
 /* @var $passport array */
 
@@ -62,7 +63,11 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profil
     <?php endif; ?>
 
     <p align="justify" class="lh-1-5">
-        Обязуюсь в течение первого года обучения
+        <?php if($isDlnr) : ?>
+            Обязуюсь до конца обучения
+        <?php else : ?>
+            Обязуюсь в течение первого года обучения
+        <?php endif; ?>
         <?php if ($cg['financing_type_id'] == "Бюджет"): ?>
             <?= $cg['foreigner_status'] ?
                 "предоставить в отдел по работе с иностранными учащимися оригинал и 

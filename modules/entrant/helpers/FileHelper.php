@@ -207,7 +207,7 @@ class FileHelper
 
     public static function listName() {
         return [
-            Anketa::class => "Документ",
+            Anketa::class => "Страница паспорта гражданина РФ с отметкой о пересечении границы РФ, миграционная карта или иной документ",
             DocumentEducation::class => "Документ об образовании",
             PassportData::class => "Паспортные даннные",
             Address::class => "Адрес",

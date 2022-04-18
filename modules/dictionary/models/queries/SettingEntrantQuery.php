@@ -4,7 +4,6 @@ namespace modules\dictionary\models\queries;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\SettingEntrant;
-use modules\entrant\helpers\AnketaHelper;
 use Yii;
 use yii\db\ActiveQuery;
 

@@ -32,6 +32,7 @@ use yii\db\ActiveRecord;
  * @property string $link_vk
  * @property string $note
  * @property array $desire_work
+ * @property int $conditions_of_work
  *
  **/
 
@@ -60,6 +61,7 @@ class Volunteering extends ActiveRecord
         $this->link_vk = $form->link_vk;
         $this->desire_work = json_encode($form->desire_work);
         $this->number_edu = $form->number_edu;
+        $this->conditions_of_work = $form->conditions_of_work;
     }
 
     public static function tableName()
@@ -100,6 +102,14 @@ class Volunteering extends ActiveRecord
 
     public function listClothesSize() {
         return ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+    }
+
+    public function listConditionsWork() {
+        return ['Нет данных', 1 =>'Практика',  2 =>'Договор'];
+    }
+
+    public function getConditionsWork() {
+        return $this->listConditionsWork()[$this->conditions_of_work];
     }
 
     public function getClothesSize() {
@@ -143,7 +153,8 @@ class Volunteering extends ActiveRecord
             'desire_work'  => "Желаемое направление работы",
             'link_vk' => "Ссылка на VK",
             'note' => "Коротко о Вас",
-            'is_reception' => 'Участие в Приеме '.date("Y")
+            'is_reception' => 'Участие в Приеме '.date("Y"),
+            'conditions_of_work' => "Условия работы в ПК",
         ];
     }
 

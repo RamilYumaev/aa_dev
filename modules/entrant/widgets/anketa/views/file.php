@@ -9,7 +9,7 @@ use modules\entrant\widgets\file\FileListWidget;
 ?>
 <table class="table table-bordered">
     <tr>
-        <th>Гражданин РФ, который до прибытия на территорию Российской Федерации проживал на территории ДНР, ЛНР </th>
+        <th>Страница паспорта гражданина РФ с отметкой о пересечении границы РФ, миграционная карта или иной документ </th>
         <th><?= FileWidget::widget(['record_id' => $anketa->id, 'model' =>$anketa::className() ]) ?></th>
     </tr>
     <tr class="<?= BlockRedGreenHelper::colorTableBg($anketa->countFiles(), FileHelper::listCountModels()[$anketa::className()], true) ?>">
