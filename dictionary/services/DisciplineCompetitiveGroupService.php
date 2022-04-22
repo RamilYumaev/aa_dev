@@ -59,7 +59,7 @@ class DisciplineCompetitiveGroupService
     private function isSpo($spo_discipline_id, DictCompetitiveGroup $dictCompetitiveGroup) {
         if($spo_discipline_id) {
             if(!$dictCompetitiveGroup->isBachelor()) {
-                throw new \DomainException('Вы не можете добавить спецальную дисцплину СПО. Ее можно добавить только для бакалавриата');
+                throw new \DomainException('Вы не можете добавить спецальную дисцплину СПО. Ее можно добавить только для программ бакалавриата');
             }
 
             $disciplineSpo = $this->disciplineRepository->get($spo_discipline_id);

@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property integer $created_at;
  * @property integer $updated_at;
  * @property integer $count_pages
+ * @property boolean $check_original
  **/
 
 class StatementConsentCg extends ActiveRecord
@@ -103,7 +104,6 @@ class StatementConsentCg extends ActiveRecord
         return StatementHelper::statusName($this->status);
     }
 
-
     public function getStatementCg() {
       return $this->hasOne(StatementCg::class, ['id'=>'statement_cg_id']);
     }
@@ -114,7 +114,7 @@ class StatementConsentCg extends ActiveRecord
 
     public function attributeLabels()
     {
-        return ["created_at" => "Дата создания", 'statement_cg_id' => "Конкурсная группа", "status_id" => "Статус"];
+        return ["created_at" => "Дата создания", 'statement_cg_id' => "Конкурсная группа", "status_id" => "Статус", 'check_original' => 'Оригинал документа об образовании?'];
     }
 
     public static function find(): StatementConsentCgQuery

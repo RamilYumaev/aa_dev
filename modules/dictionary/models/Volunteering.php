@@ -105,7 +105,7 @@ class Volunteering extends ActiveRecord
     }
 
     public function listConditionsWork() {
-        return ['Нет данных', 1 =>'Практика',  2 =>'Договор'];
+        return ['Нет данных', 1 =>'Практика',  2 =>'Договор',  3 =>'Договор + практика'];
     }
 
     public function getConditionsWork() {

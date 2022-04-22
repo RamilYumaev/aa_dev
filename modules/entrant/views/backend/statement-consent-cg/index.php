@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                          'label' => "Конкурсная группа",
                          'value' => 'statementCg.cg.fullNameB'
                     ],
+                     'check_original:boolean',
                     [
                         'attribute' => 'created_at',
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),

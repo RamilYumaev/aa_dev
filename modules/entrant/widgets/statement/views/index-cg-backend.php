@@ -29,6 +29,22 @@ use modules\entrant\widgets\file\FileListWidget;
                     ['class' => 'btn btn-large btn-warning'])?>
                 <?= $consent->statusAccepted() ? Html::a('Скачать расписку', ['statement-consent-cg/receipt', 'id' =>  $consent->id],
                     ['class' => 'btn btn-large btn-info']) : ""?>
+                <?php if($consent->statusAccepted()): ?>
+                    <p> Простановка оригинала документа об образовании</p>
+                    <?php if($consent->check_original): ?>
+                        <?= Html::a('Отозвать',  ['communication/export-statement-consent-reset',
+                            'user' => $consent->statementCg->statement->user_id,
+                            'statement' =>$consent->statementCg->statement->id,
+                            'consent' =>  $consent->id],
+                            ['data-method' => 'post', 'class' => 'btn btn-danger', "data-confirm" => "Вы уверены, что хотите это сделаать?"])?>
+                    <?php else: ?>
+                        <?= Html::a('Принять', ['communication/export-statement-consent-success',
+                            'user' => $consent->statementCg->statement->user_id,
+                            'statement' =>$consent->statementCg->statement->id,
+                            'consent' =>  $consent->id],
+                            ['data-method' => 'post', 'class' => 'btn btn-success', "data-confirm" => "Вы уверены, что хотите это сделаать?"])?>
+                    <?php endif ?>
+                <?php endif ?>
             </td>
             <td><span class="label label-<?= StatementHelper::colorName($consent->status)?>">
                         <?=$consent->statusNameJob?></span></td>

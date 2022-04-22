@@ -68,7 +68,7 @@ array_merge(
 //
 //            ])]] : []),
 
-    (Yii::$app->user->can('olymp_operator') ?
+    (Yii::$app->user->can('manager') ?
         [['label' => 'Олимпиады/конкурсы', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Перечень ', 'url' => '/olympic/olympic'],

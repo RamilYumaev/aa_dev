@@ -36,8 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['olympic/personal-presence-attempt/add-final-mark', 'olympic_id' => $olympic->id], ['class'=>'btn btn-danger'])?>
         <p>Для выставления оценок необходимо сначала подтвердить присутствие участников очного тура!</p>
     <?php elseif($olympic->isStatusPreliminaryFinish()): ?>
-        <?= Html::a("Показ работ",
-        ['olympic/personal-presence-attempt/appeal', 'olympic_id' => $olympic->id],['class'=>'btn btn-warning'])?>
+        <?= $olympic->isStatusAppeal() ? Html::a("Показ работ",
+        ['olympic/personal-presence-attempt/appeal', 'olympic_id' => $olympic->id],['class'=>'btn btn-warning']) : Html::a("Завершить и опубликовать результаты",
+            ['olympic/personal-presence-attempt/finish', 'olympic_id' => $olympic->id, 'status' => OlympicHelper::OCH_FINISH], ['class'=>'btn btn-warning'])?>
         <?php if($olympic->year == \common\helpers\EduYearHelper::eduYear()) :?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_PRELIMINARY, $olympic->id) ? Html::a("Запустить рассылку писем с предварительными итогами",

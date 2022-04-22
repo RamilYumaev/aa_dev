@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 
 class StatementConsentSearch extends  Model
 {
-    public  $cg, $user_id, $date_from, $date_to;
+    public  $cg, $user_id, $date_from, $date_to, $check_original;
 
     private $jobEntrant;
     private $status;
@@ -24,7 +24,7 @@ class StatementConsentSearch extends  Model
     public function rules()
     {
         return [
-            [[ 'cg', 'user_id'], 'integer'],
+            [[ 'cg', 'user_id', 'check_original'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -61,6 +61,7 @@ class StatementConsentSearch extends  Model
             $query->andWhere(['cg.cg_id' => $this->cg]);
         }
 
+        $query->andFilterWhere(['consent.check_original' => $this->check_original]);
         $query
             ->andFilterWhere(['>=', 'consent.created_at', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])
             ->andFilterWhere(['<=', 'consent.created_at', $this->date_to ? strtotime($this->date_to . ' 23:59:59') : null]);
@@ -71,13 +72,10 @@ class StatementConsentSearch extends  Model
     public function attributeLabels()
     {
         return [
-            'user_id'=> "Абитуриент",
-            'cg'=> "Конкурсная группа",
-            'created_at' => "Дата создания"
+            'user_id' => "Абитуриент",
+            'cg' => "Конкурсная группа",
+            'created_at' => "Дата создания",
+            'check_original' => 'Оригинал документа об образовнаии?'
         ];
     }
-
-
-
-
 }
