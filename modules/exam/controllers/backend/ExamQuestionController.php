@@ -154,7 +154,7 @@ class ExamQuestionController extends Controller
                     }
                 }
             }
-        }elseif($type == TestQuestionHelper::TYPE_ANSWER_DETAILED) {
+        }elseif($type == TestQuestionHelper::TYPE_ANSWER_DETAILED || $type == TestQuestionHelper::TYPE_FILE) {
             $form = new ExamQuestionForm($this->jobEntrant,null,['type_id' => $type]);
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                 try {
@@ -216,7 +216,7 @@ class ExamQuestionController extends Controller
                     }
                 }
             }
-        }elseif($model->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED) {
+        }elseif($model->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED || $model->type_id == TestQuestionHelper::TYPE_FILE) {
             $form = new ExamQuestionForm($this->jobEntrant, $model);
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {
                 try {

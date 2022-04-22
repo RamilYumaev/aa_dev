@@ -29,6 +29,11 @@ use mihaildev\elfinder\ElFinder;
         <?= $form->field($model, 'text')->widget(CKEditor::class, [
             'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash']),
         ]); ?>
+        <?php if ($model->type_id == TestQuestionHelper::TYPE_FILE): ?>
+            <?= $form->field($model, 'file_type_id')
+                ->dropDownList(TestQuestionHelper::getAllFileTypes()); ?>
+        <?php endif; ?>
+
     </div>
     <div class='box-footer'>
         <p id="error-message" style="color: red"></p>

@@ -12,6 +12,8 @@ use testing\helpers\TestQuestionHelper;
     <?= $this->render('types/type-select-one/update',['model'=> $model ]); ?>
 <?php elseif($question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ) :?>
     <?= $this->render('types/type-answer-detailed/update',['model'=> $model ]); ?>
+<?php elseif($question->type_id == TestQuestionHelper::TYPE_FILE ) :?>
+    <?= $this->render('types/type-file/update',['model'=> $model ]); ?>
 <?php elseif( $question->type_id == TestQuestionHelper::TYPE_ANSWER_SHORT ) :?>
     <?= $this->render('types/type-answer-short/update',['model'=> $model ]); ?>
 <?php elseif( $question->type_id == TestQuestionHelper::TYPE_SELECT ) :?>

@@ -5,4 +5,4 @@ use testing\helpers\TestQuestionHelper;
 ?>
     <?= $quent->question->text ?>
 <?php $a= yii\helpers\Json::decode($quent->result); ?>
-<?= Html::textarea('AnswerAttempt[detailed]', $a['detailed'] ?? "", ['cols'=>105, "rows"=>10] )?>
+<?= Html::textarea('AnswerAttempt[detailed]', $a['detailed'] ?? "", ["rows"=>10] )?>

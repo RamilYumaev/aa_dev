@@ -10,7 +10,10 @@ use testing\helpers\TestQuestionHelper;
 <?= $this->render('types/type-select-one/create',['model'=> $model ]); ?>
 <?php elseif(property_exists($model::className(), 'type_id') &&
     $model->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ) :?>
-<?= $this->render('types/type-answer-detailed/create',['model'=> $model ]); ?>
+    <?= $this->render('types/type-answer-detailed/create',['model'=> $model ]); ?>
+<?php elseif(property_exists($model::className(), 'type_id') &&
+    $model->type_id == TestQuestionHelper::TYPE_FILE ) :?>
+<?= $this->render('types/type-file/create',['model'=> $model ]); ?>
 <?php elseif(property_exists($model::className(), 'type') && $model->type == TestQuestionHelper::TYPE_ANSWER_SHORT ) :?>
     <?= $this->render('types/type-answer-short/create',['model'=> $model ]); ?>
 <?php elseif(property_exists($model::className(), 'type') && $model->type == TestQuestionHelper::TYPE_SELECT ) :?>

@@ -5,10 +5,7 @@ namespace modules\exam\models;
 
 use dictionary\models\DictDiscipline;
 use modules\exam\forms\question\ExamQuestionForm;
-use modules\exam\forms\question\ExamQuestionNestedUpdateForm;
 use modules\exam\helpers\ExamQuestionHelper;
-use testing\forms\question\TestQuestionForm;
-use testing\forms\question\TestQuestionEditForm;
 use yii\db\ActiveRecord;
 
 /**
@@ -39,7 +36,7 @@ class ExamQuestion extends ActiveRecord
         $this->title = $form->title;
         $this->type_id = $form->type_id;
         $this->text = $form->text;
-        $this->file_type_id = null;
+        $this->file_type_id = $form->file_type_id;
         $this->discipline_id = $form->discipline_id;
         $this->question_group_id = $form->question_group_id;
     }
@@ -118,7 +115,6 @@ class ExamQuestion extends ActiveRecord
     public function getQuestionGroup(){
         return $this->hasOne(ExamQuestionGroup::class, ['id'=>'question_group_id']);
     }
-
 
 
     public function getDiscipline(){

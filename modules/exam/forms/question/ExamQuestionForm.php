@@ -5,12 +5,13 @@ namespace modules\exam\forms\question;
 
 use modules\dictionary\models\JobEntrant;
 use modules\exam\models\ExamQuestion;
+use testing\helpers\TestQuestionHelper;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 class ExamQuestionForm extends Model
 {
-    public $type_id, $title, $text, $question_group_id, $discipline_id;
+    public $type_id, $title, $text, $question_group_id, $discipline_id, $file_type_id;
 
     private $_examQuestion;
     public $jobEntrant;
@@ -33,6 +34,9 @@ class ExamQuestionForm extends Model
         return [
             [['type_id', 'title', 'text', 'discipline_id'], 'required'],
             [['type_id', 'question_group_id','discipline_id'], 'integer'],
+            ['file_type_id', 'required', "when" => function($model) {
+                return $model->type_id == TestQuestionHelper::TYPE_FILE;
+            } ],
             [['title'], 'string', 'max' => 255],
             [['text'], 'string'],
         ];
