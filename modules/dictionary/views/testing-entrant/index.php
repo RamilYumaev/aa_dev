@@ -36,7 +36,7 @@ $columns = [
 if($isDev) {
     array_push($columns, ['attribute'=>'user_id',
         'filter' =>SelectDataHelper::dataSearchModel($searchModel, \olympic\helpers\auth\ProfileHelper::getVolunteering(),'user_id', 'profile.fio'),
-        'value'=> function ($model) {  return $model->profile->fio.' '.$model->profile->user->email;}]);
+        'value'=> function ($model) {  return $model->user_id ? $model->profile->fio.' '.$model->profile->user->email : "";}]);
 }
 ?>
 <div class="box">

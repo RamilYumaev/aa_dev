@@ -3,6 +3,7 @@
 namespace common\moderation\controllers;
 
 use common\auth\models\UserSchool;
+use common\moderation\forms\searches\ModerationSearch;
 use common\moderation\helpers\ModerationHelper;
 use common\moderation\models\Moderation;
 use common\moderation\forms\ModerationMessageForm;
@@ -65,10 +66,12 @@ class ModerationController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider(['query' => Moderation::find()->andWhere(["status" => ModerationHelper::STATUS_NEW])]);
+        $searchModel = new ModerationSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('@common/moderation/views/moderation/index', [
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
         ]);
     }
 

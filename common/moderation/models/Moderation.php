@@ -2,6 +2,7 @@
 
 namespace common\moderation\models;
 
+use common\auth\models\User;
 use common\moderation\helpers\ModerationHelper;
 use dictionary\behaviors\DictSchoolsEmailModerationBehavior;
 //use dictionary\behaviors\DictSchoolsModerationBehavior;
@@ -101,6 +102,11 @@ class Moderation extends ActiveRecord
     public function getBefore($key)
     {
         return ArrayHelper::getValue($this->getBeforeData(), $key);
+    }
+
+    public function getCreatedBy()
+    {
+        return $this->hasOne(User::class, ['id'=>'created_by']);
     }
 
     public function getAfter($key)
