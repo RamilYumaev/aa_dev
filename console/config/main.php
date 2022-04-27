@@ -15,6 +15,16 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'container' => [
+        'singletons' => [
+      \modules\superservice\amqp\Serializer::class => ['class' => \modules\superservice\amqp\Serializer::class],
+            \modules\superservice\amqp\Publisher::class => ['class' =>  \modules\superservice\amqp\Publisher::class],
+    \modules\superservice\handlers\ResponseHandler::class => ['class' => \modules\superservice\handlers\ResponseHandler::class],
+            ]],
+    'modules' => [
+        'superservice' => [
+            'class' => \modules\superservice\Superservice::class]
+    ],
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
