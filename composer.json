@@ -69,7 +69,8 @@
     "kreait/firebase-php" : "*",
     "php-amqplib/php-amqplib": "^3.2",
     "ramsey/uuid": "^4.2",
-    "myclabs/php-enum": "^1.7.7"
+    "myclabs/php-enum": "^1.7.7",
+    "jms/serializer": "^3.12"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

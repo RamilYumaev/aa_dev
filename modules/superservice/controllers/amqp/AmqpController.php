@@ -1,5 +1,5 @@
 <?php
-namespace console\controllers\amqp;
+namespace modules\superservice\controllers\amqp;
 
 use Exception;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
