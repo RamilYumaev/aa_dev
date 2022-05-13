@@ -35,6 +35,9 @@ class Publisher
         $this->channel->basic_publish($amqpMessage, $exchange, $routingKey);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __destruct()
     {
         $this->channel->close();

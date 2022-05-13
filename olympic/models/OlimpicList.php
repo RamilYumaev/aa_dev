@@ -21,14 +21,14 @@ use yii\db\ActiveRecord;
 use yii\helpers\Html;
 
 
-class OlimpicList extends  ActiveRecord
+class OlimpicList extends  YiiActiveRecordAndModeration
 {
     /**
      * {@inheritdoc}
      */
     private $_olmpicTypeTemplate;
 
-    /*
+
     public function behaviors()
     {
         return [
@@ -42,7 +42,7 @@ class OlimpicList extends  ActiveRecord
             ],
         ];
     }
-    */
+
 
     public static function tableName()
     {
