@@ -31,13 +31,13 @@ class ConsumeController extends Controller
      */
     public function actionIndex(): void
     {
-//        $this->lockFile = fopen(self::LOCK_FILE, 'wb');
-//        if (!$this->lockFile) {
-//            throw new Exception('Cannot create lock file.');
-//        }
-//        if (!flock($this->lockFile, LOCK_EX | LOCK_NB)) {
-//            return;
-//        }
+        $this->lockFile = fopen(self::LOCK_FILE, 'wb');
+        if (!$this->lockFile) {
+            throw new Exception('Cannot create lock file.');
+        }
+        if (!flock($this->lockFile, LOCK_EX | LOCK_NB)) {
+            return;
+        }
 
         $this->connection = new AMQPStreamConnection(
             \Yii::$app->params['rabbitmqHost'],
@@ -46,31 +46,32 @@ class ConsumeController extends Controller
             \Yii::$app->params['rabbitmqPassword']
         );
         $this->channel = $this->connection->channel();
-        $this->channel->queue_declare('to_superservice_request', false, false, false, false);
+        $channel = $this->channel;
+        $channel->exchange_declare('regular_exchange', '', false, false, false);
 
-        echo " [*] Waiting for messages. To exit press CTRL+C\n";
+        list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
 
-        $this->channel = $this->connection->channel();
+        $severities = array_slice($argv, 1);
+        if (empty($severities)) {
+            file_put_contents('php://stderr', "Usage: $argv[0] [info] [warning] [error]\n");
+            exit(1);
+        }
 
-        $this->channel->basic_consume(
-            'to_superservice_request',
-            '',
-            false,
-            false,
-            false,
-            false,
-            function (AMQPMessage $message) {
-                try {
-                    echo $message->body;
-                    $this->responseHandler->handle($message->body);
-                    $message->ack();
-                } catch (\Exception $exception) {
-                    echo $exception;
-                    \Yii::error($exception);
-                }
-            }
-        );
-        $this->channel->consume();
+        foreach ($severities as $severity) {
+            $channel->queue_bind($queue_name, 'regular_exchange', $severity);
+        }
+
+        echo " [*] Waiting for logs. To exit press CTRL+C\n";
+
+        $callback = function ($msg) {
+            echo ' [x] ', $msg->delivery_info['routing_key'], ':', $msg->body, "\n";
+        };
+
+        $channel->basic_consume($queue_name, '', false, true, false, false, $callback);
+
+        while ($channel->is_open()) {
+            $channel->wait();
+        }
     }
 
     public function __destruct()
