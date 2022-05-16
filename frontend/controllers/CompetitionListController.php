@@ -52,7 +52,7 @@ class CompetitionListController extends Controller
                 ->eduLevel($eduLevel)
                 ->select(['faculty_id','full_name'])
                 ->foreignerStatus(false)
-                ->currentYear("2020-2021")
+                ->currentAutoYear()
                 ->tpgu(false);
             if($department) {
                 $query->filialAndCollege();
@@ -105,7 +105,7 @@ class CompetitionListController extends Controller
                     'type'=> $type
                 ]);
 
-            $cgModel = DictCompetitiveGroup::find()->currentYear("2020-2021")->aisId($cg)->one();
+            $cgModel = DictCompetitiveGroup::find()->currentAutoYear()->aisId($cg)->one();
 
             return $this->renderCompetitionOneList($query, $type, $date, $id,
                 $cgModel->faculty_id,

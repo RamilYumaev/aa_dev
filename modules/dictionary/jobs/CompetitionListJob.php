@@ -3,7 +3,6 @@
 
 namespace modules\dictionary\jobs;
 use api\client\Client;
-use dictionary\helpers\CathedraCgHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use GuzzleHttp\Exception\ClientException;
 use modules\dictionary\models\CompetitionList;

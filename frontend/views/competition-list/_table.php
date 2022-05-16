@@ -7,6 +7,7 @@
  * @var $item
  * @var $isFaculty
  * @var $eduLevel
+ * @var  $facultyName
  */
 use dictionary\helpers\DictCompetitiveGroupHelper;
 if($isFaculty) {
@@ -15,7 +16,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Конкурсные списки'
 $this->params['breadcrumbs'][] = ['label' => $title, 'url' => [$url]];
 $this->params['breadcrumbs'][] = $this->title;
 }
-
 ?>
 <table class="table">
     <tr>
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <th>Конкурсные списки</th>
     </tr>
     <?php $cgs = $item->faculty->getCg()->contractOnly()->edulevel($eduLevel)->foreignerStatus(false)
-        ->tpgu(false)->currentYear("2020-2021");
+        ->tpgu(false)->currentAutoYear();
     if($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
         $cgs->select(['speciality_id','faculty_id','education_form_id'])
             ->groupBy(['speciality_id','faculty_id','education_form_id']);
