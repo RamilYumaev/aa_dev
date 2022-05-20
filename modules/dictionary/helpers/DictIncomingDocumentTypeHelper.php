@@ -136,10 +136,4 @@ class DictIncomingDocumentTypeHelper
     {
         return ArrayHelper::getValue(self::listType($type), $key);
     }
-
-
-
-
-
-
 }

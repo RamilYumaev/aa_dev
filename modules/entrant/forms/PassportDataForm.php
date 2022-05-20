@@ -60,7 +60,7 @@ class PassportDataForm extends Model
             [['authority','place_of_birth'], 'match', 'pattern' => '/^[а-яёА-ЯЁ0-9,.№()"<>\/\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы, цифры, пробел, специальные символы . № ( ) " < > /'],
             [['date_of_issue', 'date_of_birth'], MaxDateValidate::class],
-            [['date_of_birth', 'date_of_issue'], 'date', 'format' => 'd.m.Y'],
+            [['date_of_birth', 'date_of_issue'], 'date', 'format' => 'dd.mm.yyyy'],
             !$this->requiredAttributes ?
                 ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangePassport($this->nationality)] :
                 ['type', 'in', 'range' => [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,

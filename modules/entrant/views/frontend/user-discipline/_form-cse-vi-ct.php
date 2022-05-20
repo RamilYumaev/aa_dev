@@ -40,7 +40,15 @@ if($anketa->onlySpo() && !$anketa->isExemptionDocument(1) && $exam != 1) {
             <?php $field = $form->field($model, "discipline_select_id")->label(false); ?>
             <?php $dictDiscipline = DictDiscipline::findOne($model->discipline_id ?: $keyExam)?>
             <?php if($dictDiscipline && $dictDiscipline->composite_discipline) : ?>
-                <?= $field->dropDownList($dictDiscipline->getComposite()
+                <?= $field->dropDownList(
+                        !$anketa->is_dlnr_ua ?
+                            $dictDiscipline->getComposite()
+                                ->joinWith('dictDisciplineSelect')
+                                ->select('name')
+                                ->indexBy('discipline_select_id')
+                                ->andWhere(['dict_discipline.is_och' => false])
+                                ->column() :
+                        $dictDiscipline->getComposite()
                     ->joinWith('dictDisciplineSelect')
                     ->select('name')
                     ->indexBy('discipline_select_id')
@@ -58,6 +66,9 @@ if($anketa->onlySpo() && !$anketa->isExemptionDocument(1) && $exam != 1) {
 </div>
 <?php
 $this->registerJS(<<<JS
+var userDisciplineForm = $("#userdisciplinecseform-discipline_select_id");
+var exam = $exam;
+var lnr = $anketa->is_dlnr_ua;
 var typeSelect = $("#userdisciplinecseform-type");
 var year = $("#userdisciplinecseform-year");
 var mark = $("#userdisciplinecseform-mark");
@@ -70,5 +81,26 @@ $(typeSelect).on("change init", function() {
          year.attr('disabled', false);
      }
 }).trigger("init");
+if(lnr == 1) {
+$(userDisciplineForm).on("change init", function() {
+    if(exam == 1  && exam != userDisciplineForm.val()) {
+        typeSelect.append($('<option>', {
+            value: 2,
+            text: 'ВИ'
+        }));
+        typeSelect.attr('readonly', true).val(2);
+        year.attr('disabled', true).val('');
+        mark.attr('disabled', true).val('');
+    } else {
+        if(exam == 1) {
+        typeSelect.find('option[value="2"]').remove();
+        typeSelect.find('option[value="4"]').remove();
+        typeSelect.attr('readonly', false).val(1);
+        mark.attr('disabled', false);
+        year.attr('disabled', false);
+        }
+    }
+}).trigger("init");
+}
 JS
 );

@@ -182,6 +182,29 @@ class ApplicationsController extends Controller
 
     /**
      * @param $department
+     * @param null $faculty
+     * @return string|\yii\web\Response
+     * @throws \yii\base\ExitException
+     */
+    public function actionGetSpecialQuotaBachelor($department, $faculty = null)
+    {
+        if(!OtherDocumentHelper::isExitsExemption($this->anketa->user_id, [4])) {
+            return $this->redirect(["other-document/exemption"]);
+        }
+        $currentFaculty = $this->currentFaculty($department,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+            DictCompetitiveGroupHelper::SPECIAL_QUOTA, false, false, $faculty);
+        return $this->render('get-special-quota-bachelor', [
+            'currentFaculty' => $currentFaculty,
+            'department' => $department,
+            'faculty' => $faculty,
+        ]);
+    }
+
+
+
+    /**
+     * @param $department
      * @return string
      * @throws \yii\base\ExitException
      */

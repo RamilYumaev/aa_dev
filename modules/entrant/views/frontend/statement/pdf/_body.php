@@ -22,7 +22,9 @@ use modules\entrant\helpers\FileCgHelper;
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && !$statement->special_right): ?>
              <?= $this->render('_level_edu/bac',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $statement->special_right==DictCompetitiveGroupHelper::SPECIAL_RIGHT):?>
-             <?= $this->render('_level_edu/bac_ex',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa ]) ?>
+        <?= $this->render('_level_edu/bac_ex',['statement' => $statement, 'gender' => $gender, 'anketa'=> $anketa ]) ?>
+        <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $statement->special_right==DictCompetitiveGroupHelper::SPECIAL_QUOTA):?>
+             <?= $this->render('_level_edu/bac_ex_s',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa ]) ?>
         <?php elseif($statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $statement->special_right==DictCompetitiveGroupHelper::TARGET_PLACE): ?>
              <?= $this->render('_level_edu/bac_ag',['statement' => $statement, 'gender' => $gender, 'anketa'=>$anketa]) ?>
         <?php else: ?>

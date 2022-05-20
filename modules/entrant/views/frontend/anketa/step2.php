@@ -91,7 +91,7 @@ $onlyCse = $anketa->onlyCse();
             ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
                 || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
             && !AgreementHelper::isExits($anketa->user_id)): ?>
-        <div class="col-md-3 col-md-offset-3 mt-50" align="center">
+        <div class="col-md-3 col-md-offset-2 mt-50" align="center">
             <?=Html::img("/img/cabinet/OLD/bak_form.png")?><br/>
             <?= Html::a('Добавить договор о целевом обучении', ['agreement/index']) ?>
         </div>
@@ -103,6 +103,14 @@ $onlyCse = $anketa->onlyCse();
             <?=Html::img("/img/cabinet/OLD/mag_form.png")?><br/>
             <?= Html::a('Добавить документ для особой квоты', ['other-document/exemption']) ?>
         </div>
+        <?php endif; if(($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+                || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && in_array($anketa->current_edu_level, AnketaHelper::educationLevelSpecialRight())
+            && !OtherDocumentHelper::isExitsSpecialQuota($anketa->user_id)): ?>
+            <div class="col-md-3 mt-50" align="center">
+                <?=Html::img("/img/cabinet/OLD/mag_form.png")?><br/>
+                <?= Html::a('Добавить документ для специальной квоты в соответствии с Указом Президента РФ №268 от 09.05.2022г.', ['other-document/special-quota']) ?>
+            </div>
         <?php endif; ?>
     </div>
     <div class="mt-50">

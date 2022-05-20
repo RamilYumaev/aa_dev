@@ -88,6 +88,11 @@ class DictCompetitiveGroupQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['special_right_id' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]);
     }
 
+    public function onlySpecialQuota()
+    {
+        return $this->andWhere(['special_right_id' => DictCompetitiveGroupHelper::SPECIAL_QUOTA]);
+    }
+
     public function getAllCg($year)
     {
         return $this->andWhere(['year' => $year])->all();

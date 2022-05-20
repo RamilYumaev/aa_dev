@@ -43,6 +43,7 @@ class DictCompetitiveGroupHelper
     const USUAL = null;
     const SPECIAL_RIGHT = 1;
     const TARGET_PLACE = 2;
+    const SPECIAL_QUOTA = 4;
 
     const MAX_SPECIALTY_ALLOW = 3;
     const FORM_EDU_CATEGORY_1 = 1;
@@ -164,7 +165,7 @@ class DictCompetitiveGroupHelper
 
     public static function getSpecialRightShort(): array
     {
-        return [self::USUAL => 'USU', self::SPECIAL_RIGHT => 'SPEС', self::TARGET_PLACE => 'TAR'];
+        return [self::USUAL => 'USU', self::SPECIAL_RIGHT => 'SPEС', self::TARGET_PLACE => 'TAR', self::SPECIAL_QUOTA => "SPEC_Q"];
     }
 
     public static function getSpecialRightShortOne($key): string
@@ -175,13 +176,13 @@ class DictCompetitiveGroupHelper
     public static function getSpecialRight(): array
     {
         return [self::USUAL => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
-            self::TARGET_PLACE => 'Прием на целевое обучение'];
+            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Специальная квота'];
     }
 
     public static function getSpecialRightTesting(): array
     {
         return [0 => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
-            self::TARGET_PLACE => 'Прием на целевое обучение'];
+            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Специальная квота'];
     }
 
     public static function forms(): array
@@ -200,7 +201,7 @@ class DictCompetitiveGroupHelper
 
     public static function specialRight(): array
     {
-        return [self::USUAL, self::SPECIAL_RIGHT, self::TARGET_PLACE];
+        return [self::USUAL, self::SPECIAL_RIGHT, self::TARGET_PLACE, self::SPECIAL_QUOTA];
     }
 
     public static function eduLevels(): array
@@ -325,6 +326,9 @@ class DictCompetitiveGroupHelper
                     } else {
                         $url = "get-target-bachelor";
                     }
+                    break;
+                case DictCompetitiveGroupHelper::SPECIAL_QUOTA:
+                    $url = "get-special-quota-bachelor";
                     break;
             }
         } else if ($govLineStatus) {
@@ -1069,6 +1073,7 @@ class DictCompetitiveGroupHelper
         return [
             self::SPECIAL_RIGHT => 'На места в пределах особой квоты',
             self::TARGET_PLACE => 'На места в пределах целевой квоты',
+            self::SPECIAL_QUOTA => 'На места в пределах специальной квоты в соответствии с Указом Президента РФ №268 от 09.05.2022г.'
         ];
     }
 

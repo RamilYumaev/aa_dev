@@ -80,7 +80,12 @@ include 'navigation/index.html';
     <?php endif; ?>
     <?php if (OtherDocumentHelper::isExitsExemption($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
-            <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption']); ?>
+            <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption', 'exemption' => [1,2,3]]); ?>
+        </div>
+    <?php endif; ?>
+    <?php if (OtherDocumentHelper::isExitsSpecialQuota($anketa->user_id)): ?>
+        <div class="mt-20 table-responsive">
+            <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'type' => 'exemption', 'exemption' => [4]]); ?>
         </div>
     <?php endif; ?>
     <?php if ($anketa->isWithOitCompetition()): ?>

@@ -12,7 +12,7 @@ use yii\helpers\Html;
 
 ?>
  <?php $form = ActiveForm::begin(['id'=> 'form-other-documents', 'enableAjaxValidation' => $model->isAjax]); ?>
-      <?php if($model->type !=43): ?>
+      <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
       <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
       <?php endif; ?>
         <div id="other-document-full">
@@ -20,11 +20,11 @@ use yii\helpers\Html;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
-            <?php if($model->isExemption || $model->exemption_id): ?>
+            <?php if($model->type != 30 && ($model->isExemption || $model->exemption_id)): ?>
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
             <?php endif; ?>
         </div>
-        <?php if($model->type !=43): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
         <?php endif; ?>
         <div class="form-group">

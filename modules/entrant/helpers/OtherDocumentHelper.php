@@ -16,6 +16,8 @@ class OtherDocumentHelper
     const STATEMENT_AGREE_TPGU = 5;
     const WITHOUT_APPENDIX = 6;
 
+    const SPECIAL_QUOTA = 4;
+
     public static function translationList() {
         return [self::TRANSLATION_PASSPORT  => "Перевод документа, удостоверяющего личность",
             self::TRANSLATION_DOCUMENT_EDU  => "Перевод документа об образовании",
@@ -32,6 +34,11 @@ class OtherDocumentHelper
         return OtherDocument::find()->andWhere(['user_id' => $user_id, 'exemption_id'=> $category])->exists();
     }
 
+    public static function isExitsSpecialQuota($user_id): bool
+    {
+        return OtherDocument::find()->andWhere(['user_id' => $user_id, 'exemption_id'=> self::SPECIAL_QUOTA])->exists();
+    }
+
     public static function isExitsPatriot($user_id): bool
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'type'=> 43])->exists();
@@ -41,7 +48,6 @@ class OtherDocumentHelper
     {
         return OtherDocument::find()->andWhere(['user_id' => $user_id,'without'=> 1])->exists();
     }
-
 
     public static function isExitsMedicine($user_id): bool
     {
@@ -88,4 +94,6 @@ class OtherDocumentHelper
             return  $model->otherDocumentFull  ." (". $model->typeName .")";
         });
     }
+
+
 }

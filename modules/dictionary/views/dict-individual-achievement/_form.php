@@ -41,7 +41,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 </div>
 
 <?php
-$financingTypeBudget = DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET;
+$financingTypeBudget = [DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT];
 $this->registerJs(<<<JS
 "use strict";
 // фильтруем список конкурсных групп

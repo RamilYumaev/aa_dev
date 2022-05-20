@@ -67,7 +67,7 @@ class OtherDocumentController extends Controller
 
     public function actionExemption()
     {
-        $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['exemption_id'=> null ]])->one() ?? null;
+        $model = $this->findOne(['user_id' => $this->getUserId(),'exemption_id'=> [1,2,3]]) ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
             false,
@@ -77,6 +77,20 @@ class OtherDocumentController extends Controller
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("exemption", ["model" => $form]);
+    }
+
+    public function actionSpecialQuota()
+    {
+        $model = $this->findOne(['user_id' => $this->getUserId(), 'exemption_id'=> 4]) ?? null;
+        $form = new OtherDocumentForm(
+            $this->getUserId(),
+            false,
+            $model,
+            true,
+            ['series', 'number','authority','date'],
+            [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA], null, ['type'=> DictIncomingDocumentTypeHelper::ID_AFTER_DOC, 'exemption_id' => 4]);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
+        return $this->render("special-quota", ["model" => $form]);
     }
 
     public function actionWithout()

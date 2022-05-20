@@ -72,14 +72,14 @@ class UserDisciplineController extends Controller
         if(!$this->getAnketa()->isBelarus()) {
             $this->redirect('index');
         }
-        $config = ['user_id' => $this->getUserId(), 'type'=>UserDiscipline::CT];
+        $config = ['user_id' => $this->getUserId(), 'type'=>UserDiscipline::CT, 'composite' => false];
         $form = new UserDisciplineCseForm(null, $config);
         return $this->formCreate($form, 'create-ct');
     }
 
     public function actionCreateCse()
     {
-        $config = ['user_id' => $this->getUserId(), 'type'=>UserDiscipline::CSE];
+        $config = ['user_id' => $this->getUserId(), 'type'=>UserDiscipline::CSE, 'composite' => false];
         $form = new UserDisciplineCseForm(null, $config);
         return $this->formCreate($form, 'create-cse');
     }

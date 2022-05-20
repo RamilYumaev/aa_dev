@@ -157,10 +157,12 @@ class AnketaHelper
             $anchor = "Целевое обучение";
         } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_RIGHT) {
             $anchor = "Особая квота";
-        } else {
+        } elseif ($specialRight == DictCompetitiveGroupHelper::SPECIAL_QUOTA) {
+            $anchor = "Специальная квота";
+        }
+        else {
             $anchor = "Общий конкурс";
         }
-
         return Html::a($anchor, ["applications/"
             . DictCompetitiveGroupHelper::getUrlString($level, $specialRight, $govLineStatus, $tpguStatus), 'department'=> $department],
             ["class" => "btn btn-lg btn-bd-primary"]);
@@ -186,6 +188,15 @@ class AnketaHelper
              && OtherDocumentHelper::isExitsExemption($anketa->user_id)
         ) {
             $buttonArray[] = DictCompetitiveGroupHelper::SPECIAL_RIGHT;
+        }
+
+        if ($level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR &&
+            ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+                || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
+            && in_array($anketa->current_edu_level, self::educationLevelSpecialRight())
+            && OtherDocumentHelper::isExitsExemption($anketa->user_id, 4)
+        ) {
+            $buttonArray[] = DictCompetitiveGroupHelper::SPECIAL_QUOTA;
         }
 
         $govLineStatus = false;

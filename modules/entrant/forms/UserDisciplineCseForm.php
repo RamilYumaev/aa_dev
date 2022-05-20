@@ -14,6 +14,7 @@ class UserDisciplineCseForm extends Model
 {
     public $mark, $discipline_id, $discipline_select_id, $year, $user_id, $type;
     public $key;
+    public $composite = true;
     private $_userDiscipline;
 
     public function __construct(UserDiscipline $userDiscipline = null, $config = [])
@@ -40,6 +41,7 @@ class UserDisciplineCseForm extends Model
             [['mark', 'year'], 'trim'],
             [['mark'], 'integer', 'min' => 0, 'max' => 100],
             [['year'], 'validateYear'],
+            [['composite'], 'boolean'],
             ['mark', 'validateMinSubject'],
             $this->uniqueRules()
         ];
@@ -87,8 +89,12 @@ class UserDisciplineCseForm extends Model
             $this->addError('discipline_id', 'Такой предмет не существует');
             return false;
         } else {
-            $attribute = !$discipline->composite_discipline  ? 'discipline_id' : 'discipline_select_id';
-            $discipline = !$discipline->composite_discipline ? $discipline : DictDiscipline::findOne($this->discipline_select_id);
+            if($this->composite) {
+                $attribute = !$discipline->composite_discipline ? 'discipline_id' : 'discipline_select_id';
+                $discipline = !$discipline->composite_discipline ? $discipline : DictDiscipline::findOne($this->discipline_select_id);
+            }else {
+                $attribute = 'discipline_id';
+            }
         if ($this->type == UserDiscipline::CSE || $this->type == UserDiscipline::CSE_VI) {
            return $this->validateMinCseSubject($discipline, $attribute);
         }elseif ($this->type == UserDiscipline::CT || $this->type == UserDiscipline::CT_VI) {

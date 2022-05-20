@@ -97,7 +97,7 @@ class UserDisciplineService
 
     private function correctIdDiscipline(UserDisciplineCseForm $form) {
         $discipline = $this->dictDisciplineRepository->get($form->discipline_id);
-        if($discipline->composite_discipline) {
+        if($discipline->composite_discipline && $form->composite) {
             $discipline = $this->dictDisciplineRepository->get($form->discipline_select_id);
         }
         if ($form->type == UserDiscipline::CSE) {

@@ -8,6 +8,7 @@ class ExemptionOrPatriotWidget extends Widget
 {
     public $type = 'patriot';
     public $view = "other";
+    public $exemption = [];
     public $userId;
 
     public function run()
@@ -16,15 +17,16 @@ class ExemptionOrPatriotWidget extends Widget
         return $this->render($this->view, [
             'other' => $model,
             'type' => $this->type,
+            'exemption' => $this->exemption
         ]);
     }
 
     public function arrayCondition() {
-        if($this->type === "patriot")
+        if($this->type === "patriot" && !$this->exemption)
         {
             return OtherDocument::findOne(['type' => 43,'user_id' =>$this->userId ]);
         }
-        return  OtherDocument::find()->where(['user_id' =>  $this->userId])->andWhere(['not',['exemption_id'=> null ]])->one();
+        return  OtherDocument::find()->where(['user_id' =>  $this->userId])->andWhere(['exemption_id'=> $this->exemption])->one();
     }
 
 
