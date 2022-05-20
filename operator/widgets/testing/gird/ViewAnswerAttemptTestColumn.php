@@ -32,8 +32,10 @@ class ViewAnswerAttemptTestColumn extends DataColumn
             case TestQuestionHelper::TYPE_SELECT_ONE:
                 $data = $this->data($model->result);
                 $answer = $data ? $data['select-one'] : "";
+                $answerEntity = AnswerHelper::answerNameOne($answer);
+                $textAnswer = $answerEntity ? $answerEntity->name : "Ответ не найден в системе. ID ответа $answer";
                 $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
-                    ($answer ? Html::tag('h4','Ответ: '.AnswerHelper::answerNameOne($answer)) : '');
+                    ($answer ? Html::tag('h4','Ответ: '.$textAnswer) : '');
                 break;
             case TestQuestionHelper::TYPE_ANSWER_DETAILED:
                 $data = $this->data($model->result);

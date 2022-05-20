@@ -19,9 +19,9 @@ class AnswerHelper
         return ArrayHelper::map(Answer::find()->where(['quest_id'=>$que_id])->orderBy( new Expression('rand()'))->asArray()->all(), "answer_match", 'answer_match');
     }
 
-    public static function answerNameOne($id): ? string
+    public static function answerNameOne($id): ? Answer
     {
-        return Answer::findOne($id)->name;
+        return Answer::findOne($id);
     }
 
     public static function answerNameAll($ids)
