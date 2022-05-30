@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AchievementCategoryList>
+    <AchievementCategory>
+        <Id>10</Id>
+        <Name>Волонтерская деятельность</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>1</Id>
+        <Name>Участие в олимпиадах и иных конкурсах</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>2</Id>
+        <Name>Аттестат общего образования с отличием или медалью</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>3</Id>
+        <Name>Диплом профессионального образования с отличием или медалью</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>4</Id>
+        <Name>Итоговое сочинение</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>5</Id>
+        <Name>Победитель международных спортивных состязаний</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>6</Id>
+        <Name>Призер международных спортивных состязаний</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>9</Id>
+        <Name>Призер чемпионата &#34;Абилимпикс&#34;</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>11</Id>
+        <Name>Прочие достижения</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>7</Id>
+        <Name>Золотой знак ГТО</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>12</Id>
+        <Name>Серебряный знак ГТО</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>13</Id>
+        <Name>Бронзовый знак ГТО</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>14</Id>
+        <Name>Олимпиада ВСОШ</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>15</Id>
+        <Name>Олимпиада РСОШ</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+    <AchievementCategory>
+        <Id>16</Id>
+        <Name>Международная олимпиада</Name>
+        <Actual>true</Actual>
+    </AchievementCategory>
+</AchievementCategoryList>

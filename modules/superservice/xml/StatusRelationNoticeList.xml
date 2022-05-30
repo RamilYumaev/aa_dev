@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StatusRelationNoticeList>
+    <StatusRelationNotice>
+        <Id>6</Id>
+        <IdStatus>4</IdStatus>
+        <IdNotice>6</IdNotice>
+        <Actual>true</Actual>
+        <SendWithStatus>false</SendWithStatus>
+    </StatusRelationNotice>
+    <StatusRelationNotice>
+        <Id>12</Id>
+        <IdStatus>11</IdStatus>
+        <IdNotice>12</IdNotice>
+        <Actual>true</Actual>
+        <SendWithStatus>false</SendWithStatus>
+    </StatusRelationNotice>
+    <StatusRelationNotice>
+        <Id>10</Id>
+        <IdStatus>8</IdStatus>
+        <IdNotice>10</IdNotice>
+        <Actual>true</Actual>
+        <SendWithStatus>true</SendWithStatus>
+    </StatusRelationNotice>
+    <StatusRelationNotice>
+        <Id>11</Id>
+        <IdStatus>10</IdStatus>
+        <IdNotice>9</IdNotice>
+        <Actual>true</Actual>
+        <SendWithStatus>true</SendWithStatus>
+    </StatusRelationNotice>
+    <StatusRelationNotice>
+        <Id>9</Id>
+        <IdStatus>12</IdStatus>
+        <IdNotice>9</IdNotice>
+        <Actual>true</Actual>
+        <SendWithStatus>true</SendWithStatus>
+    </StatusRelationNotice>
+</StatusRelationNoticeList>

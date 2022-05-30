@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReturnTypeList>
+    <ReturnType>
+        <Id>2</Id>
+        <Name>Направление через операторов почтовой связи</Name>
+        <Actual>true</Actual>
+    </ReturnType>
+    <ReturnType>
+        <Id>3</Id>
+        <Name>Направление в электронной форме</Name>
+        <Actual>true</Actual>
+    </ReturnType>
+    <ReturnType>
+        <Id>1</Id>
+        <Name>Передача лично или через доверенное лицо</Name>
+        <Actual>true</Actual>
+    </ReturnType>
+</ReturnTypeList>

@@ -43,6 +43,10 @@ return [
             'class' => \modules\management\DirectorManagement::class,
             'viewPath' => "@modules/management/views/director",
         ],
+        'super-service' => [
+            'class' => \modules\superservice\BackendSuperService::class,
+            'viewPath' => "@modules/superservice/views/backend",
+        ],
         'support' => [
             'class' => \modules\support\ModuleBackend::class,
             'viewPath' => "@modules/support/views/backend",

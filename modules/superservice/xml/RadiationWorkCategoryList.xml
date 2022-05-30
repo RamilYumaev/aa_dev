@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RadiationWorkCategoryList>
+    <RadiationWorkCategory>
+        <Id>2</Id>
+        <Name>Участие в испытаниях ядерного оружия, боевых радиоактивных веществ в атмосфере, ядерного оружия под землей</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+    <RadiationWorkCategory>
+        <Id>3</Id>
+        <Name>Участие в учениях с применением ядерного оружия и боевых радиоактивных веществ до даты фактического прекращения указанных испытаний и учений</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+    <RadiationWorkCategory>
+        <Id>4</Id>
+        <Name>Непосредственныое участние в ликвидации радиационных аварий на ядерных установках надводных и подводных кораблей и других военных объектах</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+    <RadiationWorkCategory>
+        <Id>5</Id>
+        <Name>Участние в проведении и обеспечения работ по сбору и захоронению радиоактивных веществ</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+    <RadiationWorkCategory>
+        <Id>6</Id>
+        <Name>Участние в ликвидации последствий радиационных аварий</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+    <RadiationWorkCategory>
+        <Id>1</Id>
+        <Name>﻿Подверженность воздействию радиации вследствие катастрофы на Чернобыльской АЭС</Name>
+        <Actual>true</Actual>
+    </RadiationWorkCategory>
+</RadiationWorkCategoryList>

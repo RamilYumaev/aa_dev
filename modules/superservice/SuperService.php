@@ -8,9 +8,9 @@ use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 
-class Superservice extends Module implements BootstrapInterface
+class SuperService extends Module implements BootstrapInterface
 {
-    public $controllerNamespace = 'modules\superservice\controllers';
+    public $controllerNamespace = 'modules\superservice\controllers\amqp';
 
     public function init()
     {

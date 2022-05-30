@@ -23,7 +23,7 @@ return [
             ]],
     'modules' => [
         'superservice' => [
-            'class' => \modules\superservice\Superservice::class]
+            'class' => \modules\superservice\SuperService::class]
     ],
     'controllerMap' => [
         'fixture' => [
@@ -37,6 +37,7 @@ return [
                 'modules\exam\migrations', 'modules\management\migrations',  'yii\queue\db\migrations',
                 'modules\student\migrations',
                 'modules\literature\migrations',
+                'modules\superservice\migrations',
                 'modules\dictionary\migrations'],
         ],
     ],

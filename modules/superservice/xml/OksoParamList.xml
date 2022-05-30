@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OksoParamList>
+    <OksoParam>
+        <Id>1</Id>
+        <Actual>true</Actual>
+        <Name>Образовательная программа</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>2</Id>
+        <Actual>true</Actual>
+        <Name>Кафедра</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>3</Id>
+        <Actual>true</Actual>
+        <Name>Факультет</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>4</Id>
+        <Actual>true</Actual>
+        <Name>Мастерская</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>5</Id>
+        <Actual>true</Actual>
+        <Name>Вид спорта</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>7</Id>
+        <Actual>true</Actual>
+        <Name>Музыкальный инструмент</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>8</Id>
+        <Actual>true</Actual>
+        <Name>Институт</Name>
+    </OksoParam>
+    <OksoParam>
+        <Id>6</Id>
+        <Actual>true</Actual>
+        <Name>Профиль</Name>
+    </OksoParam>
+</OksoParamList>
