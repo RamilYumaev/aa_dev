@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AchievementTypeList>
+    <AchievementType>
+        <Id>1</Id>
+        <Actual>true</Actual>
+        <Name>Основное</Name>
+    </AchievementType>
+    <AchievementType>
+        <Id>2</Id>
+        <Actual>true</Actual>
+        <Name>Дает преимущественное право на более высокое место в конкурсном списке</Name>
+    </AchievementType>
+</AchievementTypeList>

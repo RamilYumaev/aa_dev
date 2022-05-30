@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CampaignTypeList>
+    <CampaignType>
+        <Id>2</Id>
+        <Actual>true</Actual>
+        <Name>Прием на обучение в магистратуру</Name>
+    </CampaignType>
+    <CampaignType>
+        <Id>5</Id>
+        <Actual>true</Actual>
+        <Name>Прием иностранцев по направлениям Минобрнауки</Name>
+    </CampaignType>
+    <CampaignType>
+        <Id>1</Id>
+        <Actual>true</Actual>
+        <Name>Прием на обучение на бакалавриат/специалитет</Name>
+    </CampaignType>
+    <CampaignType>
+        <Id>7</Id>
+        <Actual>false</Actual>
+        <Name>Тестовый прием</Name>
+    </CampaignType>
+    <CampaignType>
+        <Id>3</Id>
+        <Actual>false</Actual>
+        <Name>Прием на обучение на СПО</Name>
+    </CampaignType>
+    <CampaignType>
+        <Id>4</Id>
+        <Actual>false</Actual>
+        <Name>Прием на подготовку кадров высшей квалификации</Name>
+    </CampaignType>
+</CampaignTypeList>

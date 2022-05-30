@@ -281,7 +281,7 @@ class DictCompetitiveGroupHelper
                 . " / " . self::eduLevelAbbreviatedName($value->edu_level)
                 . " / " . $value->faculty->full_name
                 . " / " . $value->specialty->name
-                . " / " . $value->specialization->name
+                . " / " . ($value->specialization ? $value->specialization->name : '')
                 . " / " . self::formName($value->education_form_id)
                 . " / " . self::financingTypeName($value->financing_type_id)
                 . ($specialRight ? " / " . $specialRight : "");

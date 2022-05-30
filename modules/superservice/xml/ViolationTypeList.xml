@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViolationTypeList>
+    <ViolationType>
+        <Id>2</Id>
+        <Name>Нет нарушений</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>3</Id>
+        <Name>Более 5 заявлений</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>4</Id>
+        <Name>Ошибка проверки</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>5</Id>
+        <Name>Отклонено сотрудником ОО</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>6</Id>
+        <Name>Несовпадение результатов ЕГЭ</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>7</Id>
+        <Name>Свидетельство ЕГЭ просрочено</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+    <ViolationType>
+        <Id>1</Id>
+        <Name>Ожидает проверку</Name>
+        <Actual>true</Actual>
+    </ViolationType>
+</ViolationTypeList>

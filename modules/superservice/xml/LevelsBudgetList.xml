@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LevelsBudgetList>
+    <LevelBudget>
+        <Id>2</Id>
+        <Name>Региональный</Name>
+        <Actual>true</Actual>
+    </LevelBudget>
+    <LevelBudget>
+        <Id>3</Id>
+        <Name>Муниципальный</Name>
+        <Actual>true</Actual>
+    </LevelBudget>
+    <LevelBudget>
+        <Id>1</Id>
+        <Name>Федеральный</Name>
+        <Actual>true</Actual>
+    </LevelBudget>
+</LevelsBudgetList>

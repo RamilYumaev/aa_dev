@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VeteranCategoryList>
+    <VeteranCategory>
+        <Id>2</Id>
+        <Name>Военнослужащие, участвовавшие в разминировании</Name>
+        <Actual>true</Actual>
+    </VeteranCategory>
+    <VeteranCategory>
+        <Id>3</Id>
+        <Name>Военнослужащие, участвовавшие в доставке грузов в Афганистан</Name>
+        <Actual>true</Actual>
+    </VeteranCategory>
+    <VeteranCategory>
+        <Id>4</Id>
+        <Name>Военнослужащие, участвовавшие в вылетах на боевые задания в Афганистан</Name>
+        <Actual>true</Actual>
+    </VeteranCategory>
+    <VeteranCategory>
+        <Id>5</Id>
+        <Name>Инвалиды войны</Name>
+        <Actual>true</Actual>
+    </VeteranCategory>
+    <VeteranCategory>
+        <Id>1</Id>
+        <Name>﻿Военнослужащие, участвовавшие в боевых действиях</Name>
+        <Actual>true</Actual>
+    </VeteranCategory>
+</VeteranCategoryList>

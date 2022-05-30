@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EducationSourceList>
+    <EducationSource>
+        <Id>2</Id>
+        <Name>Квота приема лиц, имеющих особое право</Name>
+        <Actual>true</Actual>
+    </EducationSource>
+    <EducationSource>
+        <Id>3</Id>
+        <Name>С оплатой обучения</Name>
+        <Actual>true</Actual>
+    </EducationSource>
+    <EducationSource>
+        <Id>1</Id>
+        <Name>Основные места в рамках КЦП</Name>
+        <Actual>true</Actual>
+    </EducationSource>
+    <EducationSource>
+        <Id>4</Id>
+        <Name>Квота приема на целевое обучение</Name>
+        <Actual>true</Actual>
+    </EducationSource>
+</EducationSourceList>

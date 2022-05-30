@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EducationLevelList>
+    <EducationLevel>
+        <Id>2</Id>
+        <Name>Бакалавриат</Name>
+        <Actual>true</Actual>
+    </EducationLevel>
+    <EducationLevel>
+        <Id>3</Id>
+        <Name>Специалитет</Name>
+        <Actual>true</Actual>
+    </EducationLevel>
+    <EducationLevel>
+        <Id>4</Id>
+        <Name>Магистратура</Name>
+        <Actual>true</Actual>
+    </EducationLevel>
+    <EducationLevel>
+        <Id>5</Id>
+        <Name>Кадры высшей квалификации</Name>
+        <Actual>true</Actual>
+    </EducationLevel>
+    <EducationLevel>
+        <Id>1</Id>
+        <Name>СПО</Name>
+        <Actual>true</Actual>
+    </EducationLevel>
+</EducationLevelList>

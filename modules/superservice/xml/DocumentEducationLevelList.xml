@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocumentEducationLevelList>
+    <DocumentEducationLevel>
+        <Id>2</Id>
+        <Name>Среднее общее образование</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>3</Id>
+        <Name>Среднее профессиональное образование</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>4</Id>
+        <Name>Бакалавриат</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>5</Id>
+        <Name>Специалитет</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>6</Id>
+        <Name>Магистратура</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>7</Id>
+        <Name>Аспирантура/Адъюнктура/Ассистентура-стажировка</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+    <DocumentEducationLevel>
+        <Id>1</Id>
+        <Name>Основное общее образование</Name>
+        <Actual>true</Actual>
+    </DocumentEducationLevel>
+</DocumentEducationLevelList>
