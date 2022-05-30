@@ -712,6 +712,9 @@ class DictCompetitiveGroupHelper
                      'dict_competitive_group.speciality_id' => $speciality_id,]])->all();
            $composites = [];
             foreach ($data as $item) {
+                if($item->id  == 1) {
+                    continue;
+                }
                 $userDiscipline = UserDiscipline::find()
                     ->andWhere(['not',[ 'type'=> UserDiscipline::NO]])
                     ->user($user_id)
