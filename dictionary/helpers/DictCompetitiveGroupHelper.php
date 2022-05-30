@@ -730,7 +730,7 @@ class DictCompetitiveGroupHelper
                             ->orderBy(['mark' => SORT_DESC])
                             ->disciplineSelect($composite->discipline_select_id)->one();
                         if ($userDiscipline) {
-                            $composites[] = [$composite->dictDisciplineSelect->ais_id];
+                            $composites[] = $composite->dictDisciplineSelect->ais_id;
                         }
                     }
                 }
