@@ -6,7 +6,6 @@ namespace modules\entrant\controllers\frontend;
 use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\services\DocumentEducationService;
-use modules\superservice\components\DynamicGetData;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;

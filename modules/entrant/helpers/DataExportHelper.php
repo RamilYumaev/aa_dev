@@ -26,6 +26,7 @@ use modules\entrant\models\StatementIa;
 use modules\entrant\models\UserAis;
 use modules\entrant\models\UserDiscipline;
 use modules\entrant\models\UserIndividualAchievements;
+use modules\superservice\ais\Converter;
 use olympic\models\auth\Profiles;
 use wapmorgan\yii2inflection\Inflector;
 
@@ -413,12 +414,9 @@ class DataExportHelper
                 'patronymic' => $profile->patronymic,
                 'amount' => 1,
                 'main_status' => $currentDocument->main_status ?? 0,
-                'data_ss' => [
-                    'type' => $currentDocument->type_document,
-                    'version' => $currentDocument->version_document,
-                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
-                    ]
-                ];
+                ]+Converter::generate($currentDocument->type_documnt,
+                    $currentDocument->version_document,
+                    $currentDocument->other_data);
         }
 
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
@@ -450,14 +448,9 @@ class DataExportHelper
                 'patronymic' => $patronymic,
                 'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                 'main_status' => 0,
-                'epgu_document_type_id' => $currentDocument->type_document,
-                'version' => $currentDocument->version_document,
-                'data_ss' => [
-                    'type' => $currentDocument->type_document,
-
-                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
-                ]
-            ];
+            ]+Converter::generate($currentDocument->type_documnt,
+                    $currentDocument->version_document,
+                    $currentDocument->other_data, true);
         }
 
         foreach (DocumentEducation::find()
@@ -481,12 +474,9 @@ class DataExportHelper
                 'name' => $currentDocument->name ?? $profile->first_name,
                 'amount' => 1,
                 'main_status' => 1,
-                'data_ss' => [
-                    'type' => $currentDocument->type_document,
-                    'version' => $currentDocument->version_document,
-                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
-                ]
-            ];
+            ]+Converter::generate($currentDocument->type_documnt,
+                    $currentDocument->version_document,
+                    $currentDocument->other_data, true);
         }
         return $result;
     }
