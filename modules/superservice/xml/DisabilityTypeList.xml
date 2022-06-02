@@ -1,28 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DisabilityTypeList>
-    <DisabilityType>
-        <Id>2</Id>
-        <Name>II</Name>
-        <Actual>true</Actual>
-    </DisabilityType>
-    <DisabilityType>
-        <Id>5</Id>
-        <Name>Инвалиды с детства</Name>
-        <Actual>true</Actual>
-    </DisabilityType>
-    <DisabilityType>
-        <Id>4</Id>
-        <Name>Ребенок-инвалид</Name>
-        <Actual>true</Actual>
-    </DisabilityType>
-    <DisabilityType>
-        <Id>1</Id>
-        <Name>I</Name>
-        <Actual>true</Actual>
-    </DisabilityType>
-    <DisabilityType>
-        <Id>6</Id>
-        <Name>Инвалиды вследствие военной травмы или заболевания, полученных в период прохождения военной службы</Name>
-        <Actual>true</Actual>
-    </DisabilityType>
-</DisabilityTypeList>
+<DisabilityTypeList><DisabilityType><Id>2</Id><Name>II</Name><Actual>true</Actual></DisabilityType><DisabilityType><Id>5</Id><Name>Инвалиды с детства</Name><Actual>true</Actual></DisabilityType><DisabilityType><Id>4</Id><Name>Ребенок-инвалид</Name><Actual>true</Actual></DisabilityType><DisabilityType><Id>1</Id><Name>I</Name><Actual>true</Actual></DisabilityType><DisabilityType><Id>6</Id><Name>Инвалиды вследствие военной травмы или заболевания, полученных в период прохождения военной службы</Name><Actual>true</Actual></DisabilityType></DisabilityTypeList>

@@ -17,6 +17,10 @@ use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\helpers\OtherDocumentHelper;
+use modules\superservice\components\data\DocumentTypeList;
+use modules\superservice\components\data\DocumentTypeVersionList;
+use modules\superservice\forms\DocumentsFields;
+use yii\base\DynamicModel;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 
@@ -35,6 +39,9 @@ use yii\db\ActiveRecord;
  * @property string $authority
  * @property integer $amount
  * @property integer $exemption_id
+ * @property string $other_data
+ * @property integer $type_document
+ * @property integer $version_document
  *
 **/
 
@@ -44,7 +51,10 @@ class OtherDocument extends YiiActiveRecordAndModeration
     {
         return ['moderation' => [
             'class' => ModerationBehavior::class,
-            'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status'],
+            'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status',
+                'other_data',
+                'type_document',
+                'version_document'],
             'attributesNoEncode' => ['series', 'number'],
         ],
             FileBehavior::class,
@@ -72,6 +82,17 @@ class OtherDocument extends YiiActiveRecordAndModeration
         $this->user_id = $form->user_id;
     }
 
+    public function versionData(OtherDocumentForm $form)
+    {
+        $this->type_document = $form->type_document;
+        $this->version_document = $form->version_document;
+    }
+
+    public function otherData(DynamicModel $model)
+    {
+        $this->other_data = json_encode($model->getAttributes());
+    }
+
     public static  function createNote($typeNote, $type,  $user_id, $note) {
         $otherDocument =  new static();
         $otherDocument->dataNote($typeNote,  $type,  $user_id, $note);
@@ -85,7 +106,6 @@ class OtherDocument extends YiiActiveRecordAndModeration
         $this->user_id = $user_id;
         $this->note = $note;
     }
-
 
     public static function tableName()
     {
@@ -165,13 +185,16 @@ class OtherDocument extends YiiActiveRecordAndModeration
     public function attributeLabels()
     {
         return [
-            'type'=>'Тип документа',
+            'type'=>'Наименование',
             'series'=> "Серия",
             'number'=> "Номер",
             'authority' => "Кем выдан",
             'amount' => "Количество",
             'date' => "Дата выдачи",
             'exemption_id'=> "Категория льготы",
+            'type_document'=>'Тип документа',
+            'version_document' => 'Версия документа',
+            'other_data' => 'Дополнительные данные версии документа'
         ];
     }
 
@@ -195,6 +218,17 @@ class OtherDocument extends YiiActiveRecordAndModeration
         return DictIncomingDocumentType::find()->select('name')->indexBy('id')->column();
     }
 
+    public function getTypeDocumentList() {
+        $document = new DocumentTypeList();
+        return $document->getArray()->index('Id');
+    }
+
+    public function getTypeVersionDocumentList() {
+        $document = new DocumentTypeVersionList();
+        return $document->getArray()
+            ->getArrayWithProperties($document->getProperties(), true)->index('Id');
+    }
+
     public function moderationAttributes($value): array
     {
         return [
@@ -203,6 +237,9 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'number'=> $value,
             'date'=> DateFormatHelper::formatView($value),
             'authority'=> $value,
+            'type_document'=> $value && key_exists($value,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$value]['Name'] : $value,
+            'version_document' => $value && key_exists($value,  $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$value]['DocVersion'] : $value,
+            'other_data' => json_decode($value) === false ? '': (new DocumentsFields())->data(json_decode($value, true)),
         ];
     }
 }

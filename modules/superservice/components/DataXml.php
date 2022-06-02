@@ -5,10 +5,14 @@ abstract class DataXml
 {
     private $array;
 
+    public function nameFileXml() {
+        $class = new \ReflectionClass($this);
+        return $class->getShortName();
+    }
+
     public function __construct()
     {
-        $class = new \ReflectionClass($this);
-        $this->array = new ConvertXmlToArray($class->getShortName());
+        $this->array = new ConvertXmlToArray($this->nameFileXml());
     }
 
     public function getArray() {
@@ -27,7 +31,14 @@ abstract class DataXml
         return array_keys($this->getArray()->getArrayWithFirstKeyName()[0]);
     }
 
-    abstract public function getAllAttributeWithLabel(): array;
+    public function getAllAttributeWithLabel(): array
+    {
+        return [
+            ['attribute' =>"Id", 'label'=> "ИД"],
+            ['attribute' =>"Name", 'label'=> "Наименование"],
+            ['attribute' =>"Actual", 'label'=> 'Актуально', 'format'=> 'boolean'],
+        ];
+    }
 
     abstract public function getNameTitle(): string;
 }

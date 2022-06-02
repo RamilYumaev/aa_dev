@@ -15,6 +15,10 @@ use modules\entrant\forms\PassportDataForm;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\superservice\components\data\DocumentTypeList;
+use modules\superservice\components\data\DocumentTypeVersionList;
+use modules\superservice\forms\DocumentsFields;
+use yii\base\DynamicModel;
 use yii\base\InvalidConfigException;
 
 /**
@@ -32,6 +36,9 @@ use yii\base\InvalidConfigException;
  * @property string $authority
  * @property string $division_code
  * @property integer $main_status
+ * @property string $other_data
+ * @property integer $type_document
+ * @property integer $version_document
  *
  **/
 class PassportData extends YiiActiveRecordAndModeration
@@ -43,6 +50,9 @@ class PassportData extends YiiActiveRecordAndModeration
             'attributes' => ['nationality', 'type', 'series', 'number',
                 'date_of_birth',
                 'place_of_birth', 'date_of_issue', 'authority',
+                'other_data',
+                'type_document',
+                'version_document',
                 'division_code', 'main_status'],
             'attributesNoEncode' => ['series', 'number'],
         ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
@@ -68,6 +78,17 @@ class PassportData extends YiiActiveRecordAndModeration
         $this->main_status = $status;
         $this->division_code = $form->division_code;
         $this->user_id = $form->user_id;
+    }
+
+    public function versionData(PassportDataForm $form)
+    {
+        $this->type_document = $form->type_document;
+        $this->version_document = $form->version_document;
+    }
+
+    public function otherData(DynamicModel $model)
+    {
+        $this->other_data = json_encode($model->getAttributes());
     }
 
     public function getValue($property)
@@ -126,6 +147,19 @@ class PassportData extends YiiActiveRecordAndModeration
         return DictCountryHelper::countryName($this->nationality);
     }
 
+    public function getTypeDocumentList() {
+        $document = new DocumentTypeList();
+        return $document->getArray()->index('Id');
+    }
+
+    public function getTypeVersionDocumentList() {
+        $document = new DocumentTypeVersionList();
+        return $document->getArray()
+            ->getArrayWithProperties($document->getProperties(), true)->index('Id');
+    }
+
+
+
     public function moderationAttributes($value): array
     {
         return [
@@ -138,7 +172,10 @@ class PassportData extends YiiActiveRecordAndModeration
             'date_of_issue' => DateFormatHelper::formatView($value),
             'authority' => $value,
             'division_code' => $value,
-            'main_status' => DictDefaultHelper::name($value)
+            'main_status' => DictDefaultHelper::name($value),
+            'type_document'=> $value && key_exists($value,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$value]['Name'] : $value,
+            'version_document' => $value && key_exists($value,  $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$value]['DocVersion'] : $value,
+            'other_data' => json_decode($value) === false ? '': (new DocumentsFields())->data(json_decode($value, true)),
         ];
     }
 
@@ -146,7 +183,7 @@ class PassportData extends YiiActiveRecordAndModeration
     {
         return [
             'nationality' => 'Гражданство',
-            'type' => 'Тип документа',
+            'type' => 'Наименование',
             'series' => 'Серия',
             'number' => 'Номер',
             'date_of_birth' => 'Дата рождения',

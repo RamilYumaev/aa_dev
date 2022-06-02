@@ -19,6 +19,7 @@ use \dictionary\helpers\DictCountryHelper;
         <div class="col-md-12 mt-30">
             <p class="label label-warning fs-15">Заполнять нужно строго как в документе</p>
             <h1><?= Html::encode($this->title) ?></h1>
+            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=>json_encode([1]), 'document' => $model->type_document, 'version' =>  $model->version_document])?>
             <?php $form = ActiveForm::begin(['id' => 'form-passport']); ?>
             <?php if ($neededCountry): ?>
                 <?= $form->field($model, 'nationality')->label('Страна выдачи')->dropDownList(DictCountryHelper::countryList()) ?>
@@ -38,6 +39,9 @@ use \dictionary\helpers\DictCountryHelper;
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
             <?php if (!$neededCountry): ?>
                 <?= $form->field($model, 'division_code')->widget(MaskedInput::class, ['mask' => '999-999',]) ?>
+            <?php endif; ?>
+            <?php if($dynamic): ?>
+                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $dynamic, 'form'=> $form ]) ?>
             <?php endif; ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

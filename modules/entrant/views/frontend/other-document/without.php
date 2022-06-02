@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model modules\entrant\forms\OtherDocumentForm */
+/* @var $dynamic \modules\superservice\forms\DocumentsDynamicForm | boolean  */
 $this->title = "Документ, подтверждающий особое право";
 
 $this->params['breadcrumbs'][] = ['label' => 'Определение условий подачи документов', 'url' => ['/abiturient/anketa/step1']];
@@ -17,7 +18,8 @@ use yii\helpers\Html; ?>
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <?= $this->render('_form', ['model'=> $model] )?>
+            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=> json_encode([4,7]), 'document' => '', 'version' =>  ''])?>
+            <?= $this->render('_form', ['model'=> $model, 'dynamic' => $dynamic] )?>
         </div>
     </div>
 </div>

@@ -11,6 +11,7 @@ use modules\entrant\forms\PassportDataForm;
 use modules\entrant\models\PassportData;
 use modules\entrant\repositories\PassportDataRepository;
 use modules\entrant\repositories\StatementRepository;
+use yii\base\DynamicModel;
 
 
 class PassportDataService
@@ -27,9 +28,9 @@ class PassportDataService
 
     }
 
-    public function create(PassportDataForm $form, $birthDocument = false)
+    public function create(PassportDataForm $form, $birthDocument = false, DynamicModel $dynamicModel = null)
     {
-        $this->transactionManager->wrap(function () use ($form, $birthDocument) {
+        $this->transactionManager->wrap(function () use ($form, $birthDocument, $dynamicModel) {
             if ($birthDocument) {
                 if ($form->nationality == DictCountryHelper::RUSSIA) {
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
@@ -40,14 +41,18 @@ class PassportDataService
             }
 
             $model = PassportData::create($form, $this->mainStatusDefaultForm($form, $birthDocument));
+            $model->versionData($form);
+            if($dynamicModel) {
+                $model->otherData($dynamicModel);
+            }
             $this->repository->save($model);
         });
 
     }
 
-    public function edit($id, PassportDataForm $form, $birthDocument = false)
+    public function edit($id, PassportDataForm $form, $birthDocument = false, DynamicModel $dynamicModel = null)
     {
-        $this->transactionManager->wrap(function () use ($id, $form, $birthDocument) {
+        $this->transactionManager->wrap(function () use ($id, $form, $birthDocument, $dynamicModel) {
             if ($birthDocument) {
                 if ($form->nationality == DictCountryHelper::RUSSIA) {
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
@@ -56,7 +61,13 @@ class PassportDataService
 
                 }
             }
+
             $model = $this->repository->get($id);
+            $model->versionData($form);
+            if($dynamicModel) {
+                $model->otherData($dynamicModel);
+            }
+
             $model->data($form, $model->main_status);
             if (!$this->statementRepository->getStatementStatusNoDraft($model->user_id)) {
                 $model->detachBehavior("moderation");

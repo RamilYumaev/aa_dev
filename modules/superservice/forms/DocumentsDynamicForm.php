@@ -1,27 +1,34 @@
 <?php
 namespace modules\superservice\forms;
+use modules\superservice\components\data\DocumentTypeVersionList;
 use yii\base\DynamicModel;
 
 class DocumentsDynamicForm
 {
     private $data;
+    private $version;
 
-    public function __construct($data)
+    public function __construct($version)
     {
-        $this->data = $data;
+        $this->version = $version;
+        $this->data = (new DocumentTypeVersionList())->getArray()->filter(function ($v) {
+            return $v['Id'] == $this->version && key_exists('FieldsDescription', $v);
+        });
     }
 
     public function getFields() {
         $fields = [];
         foreach ($this->data as $cc) {
-            $array = $cc['FieldsDescription']['FieldDescription'];
-            foreach ($array as $key2 => $value) {
-                if(is_array($value)) {
-                    $fields = $this->addFields($fields, $value);
+            if(key_exists('FieldsDescription', $cc)) {
+                $array = $cc['FieldsDescription']['FieldDescription'];
+                foreach ($array as $key2 => $value) {
+                    if(is_array($value)) {
+                        $fields = $this->addFields($fields, $value);
+                    }
                 }
-            }
-            if(key_exists('Name', $array)) {
-                $fields = $this->addFields($fields, $array);
+                if(key_exists('Name', $array)) {
+                    $fields = $this->addFields($fields, $array);
+                }
             }
         }
         return $fields;

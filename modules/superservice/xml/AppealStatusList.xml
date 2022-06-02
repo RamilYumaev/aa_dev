@@ -1,18 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AppealStatusList>
-    <AppealStatus>
-        <Id>2</Id>
-        <Name>В процессе</Name>
-        <Actual>true</Actual>
-    </AppealStatus>
-    <AppealStatus>
-        <Id>3</Id>
-        <Name>Завершена</Name>
-        <Actual>true</Actual>
-    </AppealStatus>
-    <AppealStatus>
-        <Id>1</Id>
-        <Name>Отсутствует</Name>
-        <Actual>true</Actual>
-    </AppealStatus>
-</AppealStatusList>
+<AppealStatusList><AppealStatus><Id>2</Id><Name>В процессе</Name><Actual>true</Actual></AppealStatus><AppealStatus><Id>3</Id><Name>Завершена</Name><Actual>true</Actual></AppealStatus><AppealStatus><Id>1</Id><Name>Отсутствует</Name><Actual>true</Actual></AppealStatus></AppealStatusList>

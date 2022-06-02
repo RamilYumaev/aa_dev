@@ -8,6 +8,7 @@
 $this->title = 'Тест';
 $this->params['breadcrumbs'][] = $this->title;
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm; ?>
 
@@ -24,9 +25,17 @@ use yii\widgets\ActiveForm; ?>
             $form = \yii\widgets\ActiveForm::begin(['id'=> 'dynamic']); ?>
             <?php foreach($fields['names'] as $value): ?>
                 <?php if(key_exists('clsName', $fields) && key_exists($value, $fields['clsName'])):
+                      /** @var \modules\superservice\components\DataXml $class */
                      $class = '\\modules\\superservice\\components\\data\\'.$fields['clsName'][$value]; ?>
-                    <?= $form->field($model, $value)->dropDownList((new $class())->getDefaultMap(),
-                ['prompt' => "Выберите"]) ?>
+                    <?= $form->field($model, $value)->widget(Select2::class, [
+                        'data' =>(new $class())->getDefaultMap(),
+                        'options' => ['placeholder' => 'Выберите ...'],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ],
+            ]) ?>
+                <?php  elseif(key_exists('boolean', $fields["formats"]) && in_array($value, $fields["formats"]['boolean'])): ?>
+                    <?= $form->field($model, $value)->checkbox() ?>
                 <?php else: ?>
                     <?= $form->field($model, $value)->textInput() ?>
             <?php endif; endforeach; ?>

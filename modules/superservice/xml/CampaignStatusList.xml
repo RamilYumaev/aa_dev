@@ -1,18 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CampaignStatusList>
-    <CampaignStatus>
-        <Id>3</Id>
-        <Name>Завершена</Name>
-        <Actual>true</Actual>
-    </CampaignStatus>
-    <CampaignStatus>
-        <Id>2</Id>
-        <Name>Идет набор</Name>
-        <Actual>true</Actual>
-    </CampaignStatus>
-    <CampaignStatus>
-        <Id>1</Id>
-        <Name>Набор не начался</Name>
-        <Actual>true</Actual>
-    </CampaignStatus>
-</CampaignStatusList>
+<CampaignStatusList><CampaignStatus><Id>3</Id><Name>Завершена</Name><Actual>true</Actual></CampaignStatus><CampaignStatus><Id>2</Id><Name>Идет набор</Name><Actual>true</Actual></CampaignStatus><CampaignStatus><Id>1</Id><Name>Набор не начался</Name><Actual>true</Actual></CampaignStatus></CampaignStatusList>
