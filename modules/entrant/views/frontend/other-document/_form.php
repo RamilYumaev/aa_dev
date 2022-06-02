@@ -24,7 +24,7 @@ use yii\helpers\Html;
         </div>
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
-        <?php endif; ?>
+        <?php endif; ?>:
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
             <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
         <?php endif; ?>
