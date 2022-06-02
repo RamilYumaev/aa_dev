@@ -40,14 +40,14 @@ class DocumentEducationService
         $this->statementRepository = $statementRepository;
     }
 
-    public function create(DocumentEducationForm $form, Anketa $anketa, DynamicModel $dynamicModel = null)
+    public function create(DocumentEducationForm $form, Anketa $anketa)
     {
         $userSchool = $this->schoolUser($form->school_id);
         $this->conflictSchool($userSchool, $anketa);
         $model = DocumentEducation::create($form, $userSchool->school_id);
         $model->versionData($form);
-        if($dynamicModel) {
-            $model->otherData($dynamicModel);
+        if($form->other_data) {
+            $model->otherData($form->other_data);
         }
         $this->repository->save($model);
         $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
@@ -55,16 +55,16 @@ class DocumentEducationService
         return $model;
     }
 
-    public function edit($id, DocumentEducationForm $form, Anketa $anketa, DynamicModel $dynamicModel = null)
+    public function edit($id, DocumentEducationForm $form, Anketa $anketa)
     {
-        $this->transactionManager->wrap(function () use ($id, $form, $anketa, $dynamicModel) {
+        $this->transactionManager->wrap(function () use ($id, $form, $anketa) {
             $model = $this->repository->get($id);
             $userSchool = $this->schoolUser($form->school_id);
             $this->conflictSchool($userSchool, $anketa);
             $model->data($form, $userSchool->school_id);
             $model->versionData($form);
-            if($dynamicModel) {
-                $model->otherData($dynamicModel);
+            if($form->other_data) {
+                $model->otherData($form->other_data);
             }
             $model->other_data;
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);

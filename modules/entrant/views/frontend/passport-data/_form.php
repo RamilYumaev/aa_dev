@@ -40,8 +40,8 @@ use \dictionary\helpers\DictCountryHelper;
             <?php if (!$neededCountry): ?>
                 <?= $form->field($model, 'division_code')->widget(MaskedInput::class, ['mask' => '999-999',]) ?>
             <?php endif; ?>
-            <?php if($dynamic): ?>
-                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $dynamic, 'form'=> $form ]) ?>
+            <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
+                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form ]) ?>
             <?php endif; ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

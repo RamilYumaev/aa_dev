@@ -9,5 +9,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Персональная карт�
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<?= $this->render('_form', ['model'=> $model, 'dynamic' => $dynamic] )?>
+<?= $this->render('_form', ['model'=> $model] )?>
 

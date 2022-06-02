@@ -28,9 +28,9 @@ class PassportDataService
 
     }
 
-    public function create(PassportDataForm $form, $birthDocument = false, DynamicModel $dynamicModel = null)
+    public function create(PassportDataForm $form, $birthDocument = false)
     {
-        $this->transactionManager->wrap(function () use ($form, $birthDocument, $dynamicModel) {
+        $this->transactionManager->wrap(function () use ($form, $birthDocument) {
             if ($birthDocument) {
                 if ($form->nationality == DictCountryHelper::RUSSIA) {
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
@@ -42,17 +42,17 @@ class PassportDataService
 
             $model = PassportData::create($form, $this->mainStatusDefaultForm($form, $birthDocument));
             $model->versionData($form);
-            if($dynamicModel) {
-                $model->otherData($dynamicModel);
+            if($form->other_data) {
+                $model->otherData($form->other_data);
             }
             $this->repository->save($model);
         });
 
     }
 
-    public function edit($id, PassportDataForm $form, $birthDocument = false, DynamicModel $dynamicModel = null)
+    public function edit($id, PassportDataForm $form, $birthDocument = false)
     {
-        $this->transactionManager->wrap(function () use ($id, $form, $birthDocument, $dynamicModel) {
+        $this->transactionManager->wrap(function () use ($id, $form, $birthDocument) {
             if ($birthDocument) {
                 if ($form->nationality == DictCountryHelper::RUSSIA) {
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
@@ -64,8 +64,8 @@ class PassportDataService
 
             $model = $this->repository->get($id);
             $model->versionData($form);
-            if($dynamicModel) {
-                $model->otherData($dynamicModel);
+            if($form->other_data) {
+                $model->otherData($form->other_data);
             }
 
             $model->data($form, $model->main_status);

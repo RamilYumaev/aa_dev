@@ -22,24 +22,24 @@ class OtherDocumentService
         $this->statementRepository = $statementRepository;
     }
 
-    public function create(OtherDocumentForm $form, DynamicModel $dynamicModel = null)
+    public function create(OtherDocumentForm $form)
     {
         $model  = OtherDocument::create($form);
         $model->versionData($form);
-        if($dynamicModel) {
-            $model->otherData($dynamicModel);
+        if($form->other_data) {
+            $model->otherData($form->other_data);
         }
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit($id, OtherDocumentForm $form, DynamicModel $dynamicModel = null)
+    public function edit($id, OtherDocumentForm $form)
     {
         $model = $this->repository->get($id);
         $model->data($form);
         $model->versionData($form);
-        if($dynamicModel) {
-            $model->otherData($dynamicModel);
+        if($form->other_data) {
+            $model->otherData($form->other_data);
         }
         if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
             $model->detachBehavior("moderation");

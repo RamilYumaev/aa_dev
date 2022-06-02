@@ -47,7 +47,8 @@ class DirectionList extends DataXml
     public function getDefaultMap()
     {
         return $this->getArray()->map('Id', function ($v) {
-            return $v['Code']." ".$v['Name']. ' '.self::getInstance()[$v['IdEducationLevel']]['Name'];;
+            $code = key_exists('Code', $v) ? $v['Code']  : '';
+            return $code." ".$v['Name']. ' '.self::getInstance()[$v['IdEducationLevel']]['Name'];
         });
     }
 

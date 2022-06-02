@@ -33,8 +33,8 @@ use kartik\date\DatePicker;
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
             </div>
-            <?php if($dynamic): ?>
-                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $dynamic, 'form'=> $form, 'oldData' => $model->other_data ]) ?>
+            <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
+                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form, 'oldData' => $model->other_data ]) ?>
             <?php endif; ?>
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listEducation($model->typeAnketa)) ?>
             <div class="form-group">

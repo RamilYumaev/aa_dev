@@ -413,7 +413,12 @@ class DataExportHelper
                 'patronymic' => $profile->patronymic,
                 'amount' => 1,
                 'main_status' => $currentDocument->main_status ?? 0,
-            ];
+                'data_ss' => [
+                    'type' => $currentDocument->type_document,
+                    'version' => $currentDocument->version_document,
+                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
+                    ]
+                ];
         }
 
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
@@ -445,6 +450,13 @@ class DataExportHelper
                 'patronymic' => $patronymic,
                 'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                 'main_status' => 0,
+                'epgu_document_type_id' => $currentDocument->type_document,
+                'version' => $currentDocument->version_document,
+                'data_ss' => [
+                    'type' => $currentDocument->type_document,
+
+                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
+                ]
             ];
         }
 
@@ -469,6 +481,11 @@ class DataExportHelper
                 'name' => $currentDocument->name ?? $profile->first_name,
                 'amount' => 1,
                 'main_status' => 1,
+                'data_ss' => [
+                    'type' => $currentDocument->type_document,
+                    'version' => $currentDocument->version_document,
+                    'other' => $currentDocument->other_data ? json_decode($currentDocument->other_data, true) : '',
+                ]
             ];
         }
         return $result;
@@ -637,18 +654,5 @@ class DataExportHelper
         return $result;
     }
 
-    public static function compositeDisciplineSync($userId)
-    {
-//        $model = StatementCg::find()
-//            ->with('statement')
-//            ->with('cg.examinations.discipline.composite.dictDisciplineSelect')
-//            ->andWhere([Statement::tableName() . '.`status`' => StatementHelper::STATUS_ACCEPTED])->all();
-//
-//        foreach ($model as $cg) {
-//            $result = [];
-//            UserDiscipline::find()->user($cg->statement->user_id)->disciplineSelect()->all();
-//            $result['composite_disciplines'][] = $cg
-//        }
 
-    }
 }

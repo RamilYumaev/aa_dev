@@ -9,5 +9,5 @@ $this->params['breadcrumbs'][] =  $model->anketa ?
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<?= $this->render('_form', ['model' => $model, 'neededCountry' => $neededCountry,  'dynamic' => $dynamic]) ?>
+<?= $this->render('_form', ['model' => $model, 'neededCountry' => $neededCountry]) ?>
 

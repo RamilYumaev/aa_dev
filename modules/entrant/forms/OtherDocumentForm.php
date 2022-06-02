@@ -2,9 +2,11 @@
 
 namespace modules\entrant\forms;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\behaviors\EpguBehavior;
 use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\OtherDocument;
 use modules\superservice\components\data\DocumentTypeVersionList;
+use modules\superservice\forms\DocumentsDynamicForm;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -49,6 +51,17 @@ class OtherDocumentForm extends Model
         }
         $this->user_id = $user_id;
         parent::__construct($config);
+    }
+
+    public function behaviors()
+    {
+        return [
+            ['class' =>EpguBehavior::class, 'dynamicModel'=> $this->getDocumentsDynamicForm()]
+        ];
+    }
+
+    public function getDocumentsDynamicForm() {
+        return new DocumentsDynamicForm($this->version_document);
     }
 
     /**

@@ -24,12 +24,12 @@ use yii\helpers\Html;
         </div>
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
-        <?php endif; ?>:
+        <?php endif; ?>
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
             <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
         <?php endif; ?>
-        <?php if($dynamic): ?>
-            <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $dynamic, 'form'=> $form, 'oldData' => $model->other_data ]) ?>
+        <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
+            <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form, 'oldData' => $model->other_data ]) ?>
         <?php endif; ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

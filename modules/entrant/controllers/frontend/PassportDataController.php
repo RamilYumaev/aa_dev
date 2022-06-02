@@ -5,15 +5,9 @@ namespace modules\entrant\controllers\frontend;
 
 use dictionary\helpers\DictCountryHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
-use modules\dictionary\models\DictIncomingDocumentType;
-use modules\entrant\forms\DocumentEducationForm;
 use modules\entrant\forms\PassportDataForm;
-use modules\entrant\models\DocumentEducation;
-use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\services\PassportDataService;
-use modules\superservice\components\DynamicGetData;
-use Mpdf\Tag\P;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -22,13 +16,11 @@ use yii\web\NotFoundHttpException;
 class PassportDataController extends Controller
 {
     private $service;
-    private $dynamicFormModel;
 
-    public function __construct($id, $module, PassportDataService $service, DynamicGetData $dynamicFormModel, $config = [])
+    public function __construct($id, $module, PassportDataService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
-        $this->dynamicFormModel = $dynamicFormModel;
     }
 
     public function behaviors(): array
@@ -50,12 +42,10 @@ class PassportDataController extends Controller
     {
         $referrer = Yii::$app->request->get("referrer");
         $form = new PassportDataForm($this->getUserId(), null, $this->getAnketa());
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->create($form, $modelForm);
+                $this->service->create($form);
                 if($referrer) {
                     return $this->redirect('/transfer/default/index');
                 }
@@ -68,7 +58,6 @@ class PassportDataController extends Controller
         return $this->render('create', [
             'model' => $form,
             'neededCountry' => false,
-            'dynamic' => $dynamic
         ]);
     }
 
@@ -82,12 +71,10 @@ class PassportDataController extends Controller
         $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
         $form->date_of_birth = \date("d.m.Y",strtotime($this->findPassportDateBirth())) ?? null;
         $form->nationality = DictCountryHelper::RUSSIA;
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->create($form, true, $modelForm);
+                $this->service->create($form, true);
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -97,8 +84,6 @@ class PassportDataController extends Controller
         return $this->render('create', [
             'model' => $form,
             'neededCountry' => true,
-            'dynamic' => $dynamic
-
         ]);
     }
 
@@ -110,14 +95,12 @@ class PassportDataController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $dynamic = $this->dynamicFormModel->dynamicForm($model->version_document);
         $referrer = Yii::$app->request->get("referrer");
         $form = new PassportDataForm($model->user_id, $model, $this->getAnketa());
         $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->edit($model->id, $form, $modelForm);
+                $this->service->edit($model->id, $form);
                 if($referrer) {
                     return $this->redirect('/transfer/default/index');
                 }
@@ -130,7 +113,6 @@ class PassportDataController extends Controller
         return $this->render('update', [
             'model' => $form,
             'neededCountry' => false,
-            'dynamic' => $dynamic
         ]);
     }
 
@@ -143,14 +125,12 @@ class PassportDataController extends Controller
     public function actionUpdateBirthDocument($id)
     {
         $model = $this->findModel($id);
-        $dynamic = $this->dynamicFormModel->dynamicForm($model->version_document);
         $form = new PassportDataForm($model->user_id, $model, $this->getAnketa(),['nationality', 'number', 'date_of_issue', 'authority']);
       //  $form->date_of_birth = null;
         $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->edit($model->id, $form, true, $modelForm);
+                $this->service->edit($model->id, $form, true);
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -160,7 +140,6 @@ class PassportDataController extends Controller
         return $this->render('update', [
             'model' => $form,
             'neededCountry' => true,
-            'dynamic' => $dynamic
         ]);
     }
 

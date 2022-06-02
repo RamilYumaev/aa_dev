@@ -15,13 +15,11 @@ use yii\web\NotFoundHttpException;
 class DocumentEducationController extends Controller
 {
     private $service;
-    private $dynamicFormModel;
 
-    public function __construct($id, $module, DocumentEducationService $service, DynamicGetData $dynamicFormModel, $config = [])
+    public function __construct($id, $module, DocumentEducationService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
-        $this->dynamicFormModel = $dynamicFormModel;
     }
 
     public function behaviors(): array
@@ -44,13 +42,11 @@ class DocumentEducationController extends Controller
     public function actionCreate()
     {
         $this->findModelIsUser();
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $form = new DocumentEducationForm($this->getUserId());
         $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->create($form, $this->getAnketa(), $modelForm);
+                $this->service->create($form, $this->getAnketa());
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -59,7 +55,6 @@ class DocumentEducationController extends Controller
         }
         return $this->render('create', [
             'model' => $form,
-            'dynamic' => $dynamic
         ]);
     }
 
@@ -72,12 +67,10 @@ class DocumentEducationController extends Controller
     {
         $model = $this->findModel($id);
         $form = new DocumentEducationForm($model->user_id,$model);
-        $dynamic = $this->dynamicFormModel->dynamicForm($model->version_document);
         $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $modelForm = $this->dynamicFormModel->loadData($dynamic);
-                $this->service->edit($model->id, $form, $this->getAnketa(), $modelForm);
+                $this->service->edit($model->id, $form, $this->getAnketa());
                 return $this->redirect(['default/index']);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -86,7 +79,6 @@ class DocumentEducationController extends Controller
         }
         return $this->render('update', [
             'model' => $form,
-            'dynamic' => $dynamic
         ]);
     }
 

@@ -3,9 +3,11 @@
 namespace modules\entrant\forms;
 
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
+use modules\entrant\behaviors\EpguBehavior;
 use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\Anketa;
 use modules\entrant\models\PassportData;
+use modules\superservice\forms\DocumentsDynamicForm;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -39,6 +41,17 @@ class PassportDataForm extends Model
         $this->anketa = $anketa;
 
         parent::__construct($config);
+    }
+
+    public function behaviors()
+    {
+        return [
+            ['class' =>EpguBehavior::class, 'dynamicModel'=> $this->getDocumentsDynamicForm()]
+        ];
+    }
+
+    public function getDocumentsDynamicForm() {
+        return new DocumentsDynamicForm($this->version_document);
     }
 
     /**

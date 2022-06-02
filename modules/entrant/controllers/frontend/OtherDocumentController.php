@@ -10,9 +10,7 @@ use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\services\OtherDocumentService;
-use modules\superservice\components\DynamicGetData;
 use modules\superservice\forms\DocumentsDynamicForm;
-use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -21,13 +19,10 @@ use yii\web\NotFoundHttpException;
 class OtherDocumentController extends Controller
 {
     private $service;
-    private $dynamicFormModel;
-    public function __construct($id, $module, OtherDocumentService $service, DynamicGetData $dynamicFormModel,
-                                $config = [])
+    public function __construct($id, $module, OtherDocumentService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
-        $this->dynamicFormModel = $dynamicFormModel;
     }
 
     public function behaviors(): array
@@ -49,17 +44,15 @@ class OtherDocumentController extends Controller
 
     public function actionCreate()
     {
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $form = new OtherDocumentForm($this->getUserId());
         $this->setTypeAndVersion($form, null);
-        $this->formCreateUpdate($form, ['default/index'], null, $dynamic);
+        $this->formCreateUpdate($form, ['default/index'], null);
 
-       return $this->render('create', ['model' => $form, 'dynamic' => $dynamic]);
+       return $this->render('create', ['model' => $form]);
     }
 
     public function actionPatriot()
     {
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $type = DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC;
         $model = $this->findOne(['type'=> $type, 'user_id' => $this->getUserId()]) ?? null;
         $form = new OtherDocumentForm(
@@ -70,13 +63,12 @@ class OtherDocumentController extends Controller
             $this->arrayRequired(false),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null,['type' => $type]);
         $this->setTypeAndVersion($form, $model);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model,  $dynamic);
-        return $this->render("patriot", ["model" => $form,  'dynamic' => $dynamic]);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
+        return $this->render("patriot", ["model" => $form]);
     }
 
     public function actionExemption()
     {
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $model = $this->findOne(['user_id' => $this->getUserId(),'exemption_id'=> [1,2,3]]) ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
@@ -86,8 +78,8 @@ class OtherDocumentController extends Controller
             $this->arrayRequired(true),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null);
         $this->setTypeAndVersion($form, $model);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model, $dynamic);
-        return $this->render("exemption", ["model" => $form,  'dynamic' => $dynamic]);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
+        return $this->render("exemption", ["model" => $form]);
     }
 
     public function actionSpecialQuota()
@@ -106,7 +98,6 @@ class OtherDocumentController extends Controller
 
     public function actionWithout()
     {
-        $dynamic = $this->dynamicFormModel->dynamicForm();
         $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['without'=> null ]])->one() ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
@@ -116,23 +107,21 @@ class OtherDocumentController extends Controller
             ['series', 'number','authority','date'],
             [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA_WITHOUT], null,['without'=>1]);
         $this->setTypeAndVersion($form, $model);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model, $dynamic);
-        return $this->render("without", ["model" => $form, 'dynamic' => $dynamic]);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model);
+        return $this->render("without", ["model" => $form]);
     }
 
 
     private function formCreateUpdate(OtherDocumentForm $form,
                                       $urlRedirect,
-                                      OtherDocument $model = null,
-                                      DocumentsDynamicForm $documentsDynamicForm = null)
+                                      OtherDocument $model = null)
     {
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            $modelForm = $this->dynamicFormModel->loadData($documentsDynamicForm);
             try {
                 if($model) {
-                    $this->service->edit($model->id, $form, $modelForm);
+                    $this->service->edit($model->id, $form);
                 }else {
-                    $this->service->create($form, $modelForm);
+                    $this->service->create($form);
                 }
                 return  $this->redirect($urlRedirect);
             } catch (\DomainException $e) {
@@ -160,17 +149,15 @@ class OtherDocumentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $dynamic = $this->dynamicFormModel->dynamicForm($model->version_document);
         if($model->isPhoto()) {
             Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
             return $this->redirect(['default/index']);
         }
         $form = new OtherDocumentForm($model->user_id,  false, $model);
         $this->setTypeAndVersion($form, $model);
-        $this->formCreateUpdate($form, ['default/index'], $model, $dynamic);
+        $this->formCreateUpdate($form, ['default/index'], $model);
         return $this->render('update', [
             'model' => $form,
-            'dynamic' => $dynamic
         ]);
     }
 

@@ -8,4 +8,4 @@ $this->params['breadcrumbs'][] =  $model->anketa ?
     ['label' => 'Персональная карточка поступающего', 'url' => ['/abiturient/default/index']] : ['label' => 'Персональная карточка', 'url' => ['/transfer/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_form', ['model'=> $model, 'neededCountry' => $neededCountry,  'dynamic' => $dynamic] )?>
+<?= $this->render('_form', ['model'=> $model, 'neededCountry' => $neededCountry] )?>
