@@ -2,7 +2,7 @@
 namespace modules\superservice\controllers\backend;
 
 use modules\superservice\components\data\DocumentTypeVersionList;
-use modules\superservice\forms\DocumentsDynamicForm;
+use modules\superservice\forms\DocumentsFields;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -10,13 +10,8 @@ class TestController extends Controller
 {
    public function actionIndex()
    {
-       $array = (new DocumentTypeVersionList())->getArray()->filter(function ($v) {
-           return $v['Id'] == 14;
-       });
-       $model = new DocumentsDynamicForm(array_values($array));
-       $modelForm = $model->createDynamicModel();
-       return $this->render('index',
-           ['model' => $modelForm, 'fields'=> $model->getFields()]);
+       var_dump((new DocumentsFields)->getFields());
+
    }
 
     /**

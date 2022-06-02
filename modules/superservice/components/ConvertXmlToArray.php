@@ -46,7 +46,7 @@ class ConvertXmlToArray
     public function map($key, $keyValue) {
         $array =   ArrayHelper::map($this->getArray() ?? $this->getArrayWithFirstKeyName(), $key, $keyValue);
         if (!$array) {
-            throw new \DomainException("Ключи массива не найдены");
+            return [];
         }
         return $array;
     }
@@ -55,7 +55,7 @@ class ConvertXmlToArray
         $array = $this->getArray() ?? $this->getArrayWithFirstKeyName();
         $array = array_filter($array, $condition);
         if (!$array) {
-            throw new \DomainException("Ключи массива не найдены");
+            return [];
         }
         $this->setArray($array);
         return $isObject ? $this : $array;
@@ -65,7 +65,7 @@ class ConvertXmlToArray
         $array = $this->getArray() ?? $this->getArrayWithFirstKeyName();
         ArrayHelper::multisort($array, $keys, $sorting);
         if (!$array) {
-            throw new \DomainException("Ключи массива не найдены");
+            return [];
         }
         $this->setArray($array);
         return $this;
@@ -74,15 +74,15 @@ class ConvertXmlToArray
     public function column($key) {
         $array = ArrayHelper::getColumn($this->getArrayWithFirstKeyName(), $key);
         if (!$array) {
-            throw new \DomainException("Ключи массива не найдены");
+            return [];
         }
         return $array;
     }
 
     public function index($key) {
-        $array = ArrayHelper::index($this->getArrayWithFirstKeyName(), $key);
+        $array = ArrayHelper::index($this->getArray() ?? $this->getArrayWithFirstKeyName(), $key);
          if (!$array) {
-             throw new \DomainException("Ключи массива не найдены");
+             return [];
          }
          return $array;
     }
@@ -97,7 +97,7 @@ class ConvertXmlToArray
         if (key_exists($valueKey, $array)) {
             return ArrayHelper::getValue($array, $valueKey);
         }
-        throw new \DomainException("Ключи массива не найдены");
+        return [];
     }
 
     public function getArrayWithFirstKeyName() {
@@ -109,7 +109,7 @@ class ConvertXmlToArray
         $newArray = [];
         foreach ($array as $key =>$value) {
             foreach ($properties as $property) {
-                if(is_array($property) && key_exists($property['key'], $value)) {
+                if(is_array($property)) {
                     if(is_callable($property['value'])) {
                         $newArray[$key][$property['key']] = $property['value']($value);
                     }

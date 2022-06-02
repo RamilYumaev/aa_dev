@@ -1,13 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenderList>
-    <Gender>
-        <Id>1</Id>
-        <Name>Мужской</Name>
-        <Actual>true</Actual>
-    </Gender>
-    <Gender>
-        <Id>2</Id>
-        <Name>Женский</Name>
-        <Actual>true</Actual>
-    </Gender>
-</GenderList>
+<GenderList><Gender><Id>1</Id><Name>Мужской</Name><Actual>true</Actual></Gender><Gender><Id>2</Id><Name>Женский</Name><Actual>true</Actual></Gender></GenderList>

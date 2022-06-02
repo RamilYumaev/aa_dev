@@ -8,4 +8,4 @@ $this->title = "Документ об образовании. Редактиро
 $this->params['breadcrumbs'][] = ['label' => 'Персональная карточка поступающего', 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_form', ['model'=> $model] )?>
+<?= $this->render('_form', ['model'=> $model,  'dynamic' => $dynamic ] )?>

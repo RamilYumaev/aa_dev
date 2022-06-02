@@ -8,6 +8,8 @@ use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\StatementRepository;
+use modules\superservice\forms\DocumentsDynamicForm;
+use yii\base\DynamicModel;
 
 class OtherDocumentService
 {
@@ -20,17 +22,25 @@ class OtherDocumentService
         $this->statementRepository = $statementRepository;
     }
 
-    public function create(OtherDocumentForm $form)
+    public function create(OtherDocumentForm $form, DynamicModel $dynamicModel = null)
     {
         $model  = OtherDocument::create($form);
+        $model->versionData($form);
+        if($dynamicModel) {
+            $model->otherData($dynamicModel);
+        }
         $this->repository->save($model);
         return $model;
     }
 
-    public function edit($id, OtherDocumentForm $form)
+    public function edit($id, OtherDocumentForm $form, DynamicModel $dynamicModel = null)
     {
         $model = $this->repository->get($id);
         $model->data($form);
+        $model->versionData($form);
+        if($dynamicModel) {
+            $model->otherData($dynamicModel);
+        }
         if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
             $model->detachBehavior("moderation");
         }

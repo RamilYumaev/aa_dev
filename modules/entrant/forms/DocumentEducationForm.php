@@ -6,6 +6,7 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\components\MaxDateValidate;
 use modules\entrant\models\DocumentEducation;
 
+use modules\superservice\components\data\DocumentTypeVersionList;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -16,7 +17,7 @@ class DocumentEducationForm extends Model
     private $_documentEducation;
     public $original;
     public $fio;
-
+    public $type_document, $version_document, $other_data;
     const FIO_PROFILE = true;
     const FIO_NO_PROFILE = false;
 
@@ -32,6 +33,7 @@ class DocumentEducationForm extends Model
                 $this->fio = self::FIO_NO_PROFILE;
             }
             $this->_documentEducation = $documentEducation;
+            $this->other_data = $documentEducation->other_data ? json_decode($documentEducation->other_data, true) : [];
         }else {
             $this->user_id = $user_id;
         }
@@ -58,7 +60,7 @@ class DocumentEducationForm extends Model
                 'whenClient' => 'function (attribute, value) { return $("#documenteducationform-fio").val() == false}'],
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],
-            [['date'], 'date', 'format' => 'dd.mm.yyyy'],
+            $this->versionDocument(),
             [['date'], MaxDateValidate::class],
             [['year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeEducation($this->typeAnketa)],
@@ -76,6 +78,33 @@ class DocumentEducationForm extends Model
             return ArrayHelper::merge($arrayUnique, ['filter' => ['<>', 'id', $this->_documentEducation->id]]);
         }
         return $arrayUnique;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function versionDocument()
+    {
+        $documentVersion = new DocumentTypeVersionList();
+        $array = $documentVersion
+            ->getArray()
+            ->filter(function ($v) {
+                return $v['IdDocumentType'] == $this->type_document;
+            });
+        if($array && count($array) > 1) {
+           $data = array_filter($array, function ($v){
+               return  $v['Id'] == $this->version_document;
+            });
+            if($data) {
+                $data =array_values($data);
+                $year = DocumentTypeVersionList::getVersions()[$data[0]['DocVersion']]['value'] ?? date('Y');
+                return [['date'], 'date', 'format' => 'dd.mm.yyyy', 'max' => "31.12.$year"];
+            }
+                return [['date'], 'date', 'format' => 'dd.mm.yyyy'];
+
+        }else {
+            return [['date'], 'date', 'format' => 'dd.mm.yyyy'];
+        }
     }
 
     /**

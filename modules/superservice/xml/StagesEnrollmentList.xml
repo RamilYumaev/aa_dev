@@ -1,18 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<StagesEnrollmentList>
-    <StagesEnrollment>
-        <Id>1</Id>
-        <Actual>true</Actual>
-        <Name>Этап приоритетного зачисления</Name>
-    </StagesEnrollment>
-    <StagesEnrollment>
-        <Id>2</Id>
-        <Actual>true</Actual>
-        <Name>Этап основного зачисления</Name>
-    </StagesEnrollment>
-    <StagesEnrollment>
-        <Id>3</Id>
-        <Actual>true</Actual>
-        <Name>Этап дополнительного зачисления</Name>
-    </StagesEnrollment>
-</StagesEnrollmentList>
+<StagesEnrollmentList><StagesEnrollment><Id>1</Id><Actual>true</Actual><Name>Этап приоритетного зачисления</Name></StagesEnrollment><StagesEnrollment><Id>2</Id><Actual>true</Actual><Name>Этап основного зачисления</Name></StagesEnrollment><StagesEnrollment><Id>3</Id><Actual>true</Actual><Name>Этап дополнительного зачисления</Name></StagesEnrollment></StagesEnrollmentList>

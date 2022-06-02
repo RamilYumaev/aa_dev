@@ -1,28 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CompatriotCategoryList>
-    <CompatriotCategory>
-        <Id>2</Id>
-        <Name>Документ, подтверждающий проживание в прошлом на территории Российского государства, Российской республики, РСФСР, СССР или РФ</Name>
-        <Actual>true</Actual>
-    </CompatriotCategory>
-    <CompatriotCategory>
-        <Id>3</Id>
-        <Name>Документ, подтверждающий родство по прямой восходящей линии</Name>
-        <Actual>true</Actual>
-    </CompatriotCategory>
-    <CompatriotCategory>
-        <Id>4</Id>
-        <Name>Документ, подтверждающий проживание за рубежом</Name>
-        <Actual>true</Actual>
-    </CompatriotCategory>
-    <CompatriotCategory>
-        <Id>5</Id>
-        <Name>Иной документ</Name>
-        <Actual>true</Actual>
-    </CompatriotCategory>
-    <CompatriotCategory>
-        <Id>1</Id>
-        <Name>Документ, подтверждающий наличие гражданства СССР</Name>
-        <Actual>true</Actual>
-    </CompatriotCategory>
-</CompatriotCategoryList>
+<CompatriotCategoryList><CompatriotCategory><Id>2</Id><Name>Документ, подтверждающий проживание в прошлом на территории Российского государства, Российской республики, РСФСР, СССР или РФ</Name><Actual>true</Actual></CompatriotCategory><CompatriotCategory><Id>3</Id><Name>Документ, подтверждающий родство по прямой восходящей линии</Name><Actual>true</Actual></CompatriotCategory><CompatriotCategory><Id>4</Id><Name>Документ, подтверждающий проживание за рубежом</Name><Actual>true</Actual></CompatriotCategory><CompatriotCategory><Id>5</Id><Name>Иной документ</Name><Actual>true</Actual></CompatriotCategory><CompatriotCategory><Id>1</Id><Name>Документ, подтверждающий наличие гражданства СССР</Name><Actual>true</Actual></CompatriotCategory></CompatriotCategoryList>

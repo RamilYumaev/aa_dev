@@ -18,6 +18,7 @@ use modules\entrant\repositories\DocumentEducationRepository;
 use modules\entrant\repositories\OtherDocumentRepository;
 use modules\entrant\repositories\StatementRepository;
 use supplyhog\ClipboardJs\ClipboardJsAsset;
+use yii\base\DynamicModel;
 
 class DocumentEducationService
 {
@@ -39,24 +40,33 @@ class DocumentEducationService
         $this->statementRepository = $statementRepository;
     }
 
-    public function create(DocumentEducationForm $form, Anketa $anketa)
+    public function create(DocumentEducationForm $form, Anketa $anketa, DynamicModel $dynamicModel = null)
     {
         $userSchool = $this->schoolUser($form->school_id);
         $this->conflictSchool($userSchool, $anketa);
         $model = DocumentEducation::create($form, $userSchool->school_id);
+        $model->versionData($form);
+        if($dynamicModel) {
+            $model->otherData($dynamicModel);
+        }
         $this->repository->save($model);
         $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
         $this->addOtherDoc($form->without_appendix, $model->user_id, OtherDocumentHelper::WITHOUT_APPENDIX);
         return $model;
     }
 
-    public function edit($id, DocumentEducationForm $form, Anketa $anketa)
+    public function edit($id, DocumentEducationForm $form, Anketa $anketa, DynamicModel $dynamicModel = null)
     {
-        $this->transactionManager->wrap(function () use ($id, $form, $anketa) {
+        $this->transactionManager->wrap(function () use ($id, $form, $anketa, $dynamicModel) {
             $model = $this->repository->get($id);
             $userSchool = $this->schoolUser($form->school_id);
             $this->conflictSchool($userSchool, $anketa);
             $model->data($form, $userSchool->school_id);
+            $model->versionData($form);
+            if($dynamicModel) {
+                $model->otherData($dynamicModel);
+            }
+            $model->other_data;
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
             $this->addOtherDoc($form->without_appendix, $model->user_id, OtherDocumentHelper::WITHOUT_APPENDIX);
             if (!$this->statementRepository->getStatementStatusNoDraft($model->user_id)) {

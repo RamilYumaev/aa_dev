@@ -36,6 +36,10 @@ return [
             'class' => \modules\transfer\FrontendTransfer::class,
             'viewPath' => "@modules/transfer/views/frontend",
         ],
+        'ss' => [
+            'class' => \modules\superservice\FrontendSuperService::class,
+            'viewPath' => "@modules/superservice/views/frontend",
+        ],
         'kladr' => [
             'class' => \modules\kladr\Kladr::class
         ],

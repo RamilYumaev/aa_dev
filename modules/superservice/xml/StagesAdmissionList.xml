@@ -1,23 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<StagesAdmissionList>
-    <StagesAdmission>
-        <Id>2</Id>
-        <Name>1 волна</Name>
-        <Actual>false</Actual>
-    </StagesAdmission>
-    <StagesAdmission>
-        <Id>3</Id>
-        <Name>2-я волна</Name>
-        <Actual>false</Actual>
-    </StagesAdmission>
-    <StagesAdmission>
-        <Id>1</Id>
-        <Name>Основной набор</Name>
-        <Actual>true</Actual>
-    </StagesAdmission>
-    <StagesAdmission>
-        <Id>4</Id>
-        <Name>Дополнительный набор</Name>
-        <Actual>true</Actual>
-    </StagesAdmission>
-</StagesAdmissionList>
+<StagesAdmissionList><StagesAdmission><Id>2</Id><Name>1 волна</Name><Actual>false</Actual></StagesAdmission><StagesAdmission><Id>3</Id><Name>2-я волна</Name><Actual>false</Actual></StagesAdmission><StagesAdmission><Id>1</Id><Name>Основной набор</Name><Actual>true</Actual></StagesAdmission><StagesAdmission><Id>4</Id><Name>Дополнительный набор</Name><Actual>true</Actual></StagesAdmission></StagesAdmissionList>

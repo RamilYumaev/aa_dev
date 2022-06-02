@@ -18,8 +18,8 @@ use yii\helpers\Html; ?>
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <?= $this->render('_form', ['model'=> $model] )?>
-
+            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=> json_encode([4,5,6]),'document' => '', 'version' =>  ''])?>
+            <?= $this->render('_form', ['model'=> $model,  'dynamic' => $dynamic] )?>
         </div>
     </div>
 </div>

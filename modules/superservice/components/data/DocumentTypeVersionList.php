@@ -75,7 +75,10 @@ class DocumentTypeVersionList extends DataXml
             ['key' => 'DocVersion',
                 'value' => function($v)
                 { return self::getVersions()[$v['DocVersion']]['name'];}],
+            ['key' => 'Name',
+                'value' => function($v) {return self::getDocumentTypeList()[$v['IdDocumentType']]['Name'];}],
             'IdDocumentType',
+            ['key' => 'IdCategory', 'value' => function($v) {return self::getDocumentTypeList()[$v['IdDocumentType']]['IdCategory'];}],
         ];
     }
 

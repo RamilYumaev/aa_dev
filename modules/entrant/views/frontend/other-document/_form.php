@@ -1,6 +1,7 @@
 <?php
 /* @var $model modules\entrant\forms\OtherDocumentForm */
 /* @var $form yii\bootstrap\ActiveForm */
+/* @var $dynamic \modules\superservice\forms\DocumentsDynamicForm | boolean  */
 
 use kartik\date\DatePicker;
 use modules\dictionary\helpers\DictDefaultHelper;
@@ -12,9 +13,6 @@ use yii\helpers\Html;
 
 ?>
  <?php $form = ActiveForm::begin(['id'=> 'form-other-documents', 'enableAjaxValidation' => $model->isAjax]); ?>
-      <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
-      <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
-      <?php endif; ?>
         <div id="other-document-full">
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
@@ -26,6 +24,12 @@ use yii\helpers\Html;
         </div>
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
+        <?php endif; ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+            <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
+        <?php endif; ?>
+        <?php if($dynamic): ?>
+            <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $dynamic, 'form'=> $form, 'oldData' => $model->other_data ]) ?>
         <?php endif; ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

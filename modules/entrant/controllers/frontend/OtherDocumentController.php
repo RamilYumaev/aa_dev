@@ -10,6 +10,8 @@ use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\helpers\PdfHelper;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\services\OtherDocumentService;
+use modules\superservice\components\DynamicGetData;
+use modules\superservice\forms\DocumentsDynamicForm;
 use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -19,11 +21,13 @@ use yii\web\NotFoundHttpException;
 class OtherDocumentController extends Controller
 {
     private $service;
-
-    public function __construct($id, $module, OtherDocumentService $service, $config = [])
+    private $dynamicFormModel;
+    public function __construct($id, $module, OtherDocumentService $service, DynamicGetData $dynamicFormModel,
+                                $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+        $this->dynamicFormModel = $dynamicFormModel;
     }
 
     public function behaviors(): array
@@ -45,13 +49,17 @@ class OtherDocumentController extends Controller
 
     public function actionCreate()
     {
-       $form = new OtherDocumentForm($this->getUserId());
-       $this->formCreateUpdate($form, ['default/index']);
-       return $this->render('create', ['model' => $form]);
+        $dynamic = $this->dynamicFormModel->dynamicForm();
+        $form = new OtherDocumentForm($this->getUserId());
+        $this->setTypeAndVersion($form, null);
+        $this->formCreateUpdate($form, ['default/index'], null, $dynamic);
+
+       return $this->render('create', ['model' => $form, 'dynamic' => $dynamic]);
     }
 
     public function actionPatriot()
     {
+        $dynamic = $this->dynamicFormModel->dynamicForm();
         $type = DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC;
         $model = $this->findOne(['type'=> $type, 'user_id' => $this->getUserId()]) ?? null;
         $form = new OtherDocumentForm(
@@ -61,12 +69,14 @@ class OtherDocumentController extends Controller
             false,
             $this->arrayRequired(false),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null,['type' => $type]);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model);
-        return $this->render("patriot", ["model" => $form]);
+        $this->setTypeAndVersion($form, $model);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model,  $dynamic);
+        return $this->render("patriot", ["model" => $form,  'dynamic' => $dynamic]);
     }
 
     public function actionExemption()
     {
+        $dynamic = $this->dynamicFormModel->dynamicForm();
         $model = $this->findOne(['user_id' => $this->getUserId(),'exemption_id'=> [1,2,3]]) ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
@@ -75,8 +85,9 @@ class OtherDocumentController extends Controller
             true,
             $this->arrayRequired(true),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model);
-        return $this->render("exemption", ["model" => $form]);
+        $this->setTypeAndVersion($form, $model);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model, $dynamic);
+        return $this->render("exemption", ["model" => $form,  'dynamic' => $dynamic]);
     }
 
     public function actionSpecialQuota()
@@ -95,6 +106,7 @@ class OtherDocumentController extends Controller
 
     public function actionWithout()
     {
+        $dynamic = $this->dynamicFormModel->dynamicForm();
         $model = OtherDocument::find()->where(['user_id' => $this->getUserId()])->andWhere(['not',['without'=> null ]])->one() ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
@@ -103,19 +115,24 @@ class OtherDocumentController extends Controller
             false,
             ['series', 'number','authority','date'],
             [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA_WITHOUT], null,['without'=>1]);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model);
-        return $this->render("without", ["model" => $form]);
+        $this->setTypeAndVersion($form, $model);
+        $this->formCreateUpdate($form, ['anketa/step2'], $model, $dynamic);
+        return $this->render("without", ["model" => $form, 'dynamic' => $dynamic]);
     }
 
 
-    private function formCreateUpdate(OtherDocumentForm $form, $urlRedirect, OtherDocument $model = null)
+    private function formCreateUpdate(OtherDocumentForm $form,
+                                      $urlRedirect,
+                                      OtherDocument $model = null,
+                                      DocumentsDynamicForm $documentsDynamicForm = null)
     {
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $modelForm = $this->dynamicFormModel->loadData($documentsDynamicForm);
             try {
                 if($model) {
-                    $this->service->edit($model->id, $form);
+                    $this->service->edit($model->id, $form, $modelForm);
                 }else {
-                    $this->service->create($form);
+                    $this->service->create($form, $modelForm);
                 }
                 return  $this->redirect($urlRedirect);
             } catch (\DomainException $e) {
@@ -143,14 +160,17 @@ class OtherDocumentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $dynamic = $this->dynamicFormModel->dynamicForm($model->version_document);
         if($model->isPhoto()) {
             Yii::$app->session->setFlash("warning", 'Раздел "Фотографии" нельзя редактировать');
             return $this->redirect(['default/index']);
         }
         $form = new OtherDocumentForm($model->user_id,  false, $model);
-        $this->formCreateUpdate($form, ['default/index'], $model);
+        $this->setTypeAndVersion($form, $model);
+        $this->formCreateUpdate($form, ['default/index'], $model, $dynamic);
         return $this->render('update', [
             'model' => $form,
+            'dynamic' => $dynamic
         ]);
     }
 
@@ -159,6 +179,10 @@ class OtherDocumentController extends Controller
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Mpdf\MpdfException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \yii\base\InvalidConfigException
      */
 
@@ -183,6 +207,10 @@ class OtherDocumentController extends Controller
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Mpdf\MpdfException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \yii\base\InvalidConfigException
      */
 
@@ -207,6 +235,10 @@ class OtherDocumentController extends Controller
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Mpdf\MpdfException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \yii\base\InvalidConfigException
      */
 
@@ -265,6 +297,15 @@ class OtherDocumentController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    private function setTypeAndVersion(OtherDocumentForm $form, OtherDocument $model = null) {
+        if($model)  {
+            $form->type_document = \Yii::$app->request->get('type') ?? $model->type_document;
+            $form->version_document = \Yii::$app->request->get('version') ?? $model->version_document;
+        }else {
+            $form->type_document = \Yii::$app->request->get('type');
+            $form->version_document = \Yii::$app->request->get('version');
+        }
+    }
 
     private function getUserId()
     {

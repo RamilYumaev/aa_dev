@@ -1,18 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EntranceTestDocumentTypeList>
-    <EntranceTestDocumentType>
-        <Id>2</Id>
-        <Name>Экзаменационный лист</Name>
-        <Actual>true</Actual>
-    </EntranceTestDocumentType>
-    <EntranceTestDocumentType>
-        <Id>3</Id>
-        <Name>Апелляционная ведомость</Name>
-        <Actual>true</Actual>
-    </EntranceTestDocumentType>
-    <EntranceTestDocumentType>
-        <Id>1</Id>
-        <Name>Экзаменационная ведомость</Name>
-        <Actual>true</Actual>
-    </EntranceTestDocumentType>
-</EntranceTestDocumentTypeList>
+<EntranceTestDocumentTypeList><EntranceTestDocumentType><Id>2</Id><Name>Экзаменационный лист</Name><Actual>true</Actual></EntranceTestDocumentType><EntranceTestDocumentType><Id>3</Id><Name>Апелляционная ведомость</Name><Actual>true</Actual></EntranceTestDocumentType><EntranceTestDocumentType><Id>1</Id><Name>Экзаменационная ведомость</Name><Actual>true</Actual></EntranceTestDocumentType></EntranceTestDocumentTypeList>

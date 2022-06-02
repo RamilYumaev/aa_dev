@@ -14,6 +14,8 @@ class PassportDataForm extends Model
     public $nationality, $type, $series, $number, $date_of_birth, $user_id, $place_of_birth, $date_of_issue,
         $authority, $division_code;
 
+    public $type_document, $version_document, $other_data;
+
     private $_passport;
     public $anketa;
     private $requiredAttributes;
@@ -25,6 +27,7 @@ class PassportDataForm extends Model
             $this->date_of_birth = $passportData->date_of_birth ? $passportData->getValue("date_of_birth") : null;
             $this->date_of_issue = $passportData->getValue("date_of_issue");
             $this->_passport = $passportData;
+            $this->other_data = $passportData->other_data ? json_decode($passportData->other_data, true) : [];
         } else {
             $this->user_id = $user_id;
         }
