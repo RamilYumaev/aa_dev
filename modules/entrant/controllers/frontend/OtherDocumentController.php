@@ -45,7 +45,6 @@ class OtherDocumentController extends Controller
     public function actionCreate()
     {
         $form = new OtherDocumentForm($this->getUserId());
-        $this->setTypeAndVersion($form, null);
         $this->formCreateUpdate($form, ['default/index'], null);
 
        return $this->render('create', ['model' => $form]);
@@ -62,7 +61,6 @@ class OtherDocumentController extends Controller
             false,
             $this->arrayRequired(false),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null,['type' => $type]);
-        $this->setTypeAndVersion($form, $model);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("patriot", ["model" => $form]);
     }
@@ -77,7 +75,6 @@ class OtherDocumentController extends Controller
             true,
             $this->arrayRequired(true),
             [DictIncomingDocumentTypeHelper::TYPE_OTHER], null);
-        $this->setTypeAndVersion($form, $model);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("exemption", ["model" => $form]);
     }
@@ -91,7 +88,7 @@ class OtherDocumentController extends Controller
             $model,
             true,
             ['series', 'number','authority','date'],
-            [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA], null, ['type'=> DictIncomingDocumentTypeHelper::ID_AFTER_DOC, 'exemption_id' => 4]);
+             [], null, ['type'=> DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, 'exemption_id' => 4]);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("special-quota", ["model" => $form]);
     }
@@ -106,7 +103,6 @@ class OtherDocumentController extends Controller
             false,
             ['series', 'number','authority','date'],
             [DictIncomingDocumentTypeHelper::TYPE_DIPLOMA_WITHOUT], null,['without'=>1]);
-        $this->setTypeAndVersion($form, $model);
         $this->formCreateUpdate($form, ['anketa/step2'], $model);
         return $this->render("without", ["model" => $form]);
     }
@@ -154,7 +150,6 @@ class OtherDocumentController extends Controller
             return $this->redirect(['default/index']);
         }
         $form = new OtherDocumentForm($model->user_id,  false, $model);
-        $this->setTypeAndVersion($form, $model);
         $this->formCreateUpdate($form, ['default/index'], $model);
         return $this->render('update', [
             'model' => $form,
@@ -282,16 +277,6 @@ class OtherDocumentController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    private function setTypeAndVersion(OtherDocumentForm $form, OtherDocument $model = null) {
-        if($model)  {
-            $form->type_document = \Yii::$app->request->get('type') ?? $model->type_document;
-            $form->version_document = \Yii::$app->request->get('version') ?? $model->version_document;
-        }else {
-            $form->type_document = \Yii::$app->request->get('type');
-            $form->version_document = \Yii::$app->request->get('version');
-        }
     }
 
     private function getUserId()

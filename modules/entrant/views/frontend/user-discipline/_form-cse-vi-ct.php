@@ -16,12 +16,25 @@ $this->params['breadcrumbs'][] = $this->title;
 $exam = $model->discipline_id ?: $keyExam;
 $anketa = \Yii::$app->user->identity->anketa();
 $data = (new UserDiscipline())->getTypeListKey('name_short');
+$exam_quota = \dictionary\helpers\DictCompetitiveGroupHelper::groupByExams($anketa->user_id, false, true);
 unset($data[UserDiscipline::NO]);
 if (!$isBelarus) {
     unset($data[UserDiscipline::CT_VI], $data[UserDiscipline::CT]);
 }
 if($anketa->onlySpo() && !$anketa->isExemptionDocument(1) && $exam != 1) {
-    unset($data[UserDiscipline::CSE_VI], $data[UserDiscipline::VI]);
+    if($exam_quota && key_exists($exam, $exam_quota)) {
+        unset($data[UserDiscipline::CSE], $data[UserDiscipline::VI]);
+    } else {
+        unset($data[UserDiscipline::CSE_VI], $data[UserDiscipline::VI]);
+    }
+} else {
+    if (!$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1)) {
+        if ($exam_quota && key_exists($exam, $exam_quota)) {
+            unset($data[UserDiscipline::CSE], $data[UserDiscipline::VI]);
+        } else {
+            unset($data[UserDiscipline::CSE_VI], $data[UserDiscipline::VI]);
+        }
+    }
 }
 ?>
 <div class="container">

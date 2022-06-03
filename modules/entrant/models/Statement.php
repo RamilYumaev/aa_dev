@@ -245,6 +245,11 @@ class Statement extends ActiveRecord
         return $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE;
     }
 
+    public function isSpecialQuota()
+    {
+        return $this->special_right==DictCompetitiveGroupHelper::SPECIAL_QUOTA;
+    }
+
     public function columnIdCg(){
         return $this->getStatementCg()->select(['cg_id'])->column();
     }

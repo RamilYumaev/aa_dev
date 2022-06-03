@@ -16,6 +16,7 @@ class EpguBehavior extends Behavior
      * @var Model
      */
     public $owner;
+
     public function events()
     {
         return [
@@ -31,5 +32,4 @@ class EpguBehavior extends Behavior
             }
         }
     }
-
 }

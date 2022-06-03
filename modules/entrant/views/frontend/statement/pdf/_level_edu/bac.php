@@ -37,7 +37,7 @@ $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $s
 $examBase = "Основание для допуска к сдаче вступительных испытаний:";
 
 $anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
-
+$specQuota = !$anketaOne->onlySpo() && $anketaOne->isExemptionDocument(4) && !$anketaOne->isExemptionDocument(1);
 $otherDocument = OtherDocument::find()
     ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id' => 1])->one();
 $och = false;
@@ -94,13 +94,14 @@ $och = false;
 
 
 
-<?php if ($cse): ?>
+<?php if ($cse || $specQuota): ?>
     <p>
        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
        "Прошу допустить меня к вступительным испытаниям по следующим предметам:":
-           "Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь):"?>  <?= $cse?>
+           "Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь):"?>
+       <?= $specQuota ? ($cse.", ".$cseVi) : $cse ?>
     </p>
-<?php else :?>
+<?php else:?>
 
 <?php endif; ?>
 
@@ -132,7 +133,7 @@ $och = false;
         </p>
     <?php endif; ?>
 <?php endif; ?>
-<?php if ($cseVi): ?>
+<?php if ($cseVi && !$specQuota): ?>
     <p>
         <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
             "":

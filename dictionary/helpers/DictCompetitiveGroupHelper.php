@@ -439,7 +439,7 @@ class DictCompetitiveGroupHelper
         return $query->all();
     }
 
-    public static function groupByExams($user_id, $spo = false)
+    public static function groupByExams($user_id, $spo = false, $specialQuota = false)
     {
        $query = DictDiscipline::find()
             ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
@@ -453,6 +453,9 @@ class DictCompetitiveGroupHelper
                     ->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true, 'spo_discipline_id' => null]);
             }else {
                 $query->orWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true]);
+            }
+            if($specialQuota) {
+                $query->andWhere(['dict_competitive_group.special_right_id' => self::SPECIAL_QUOTA]);
             }
             $query->select(['name', 'dict_discipline.id'])
             ->indexBy('dict_discipline.id');

@@ -51,6 +51,8 @@ class DocumentEducationForm extends Model
     }
 
     public function getDocumentsDynamicForm() {
+        $this->type_document = \Yii::$app->request->get('type') ??  $this->type_document;
+        $this->version_document = \Yii::$app->request->get('version') ?? $this->version_document;
         return new DocumentsDynamicForm($this->version_document);
     }
 

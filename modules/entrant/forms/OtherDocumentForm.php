@@ -23,8 +23,7 @@ class OtherDocumentForm extends Model
     public $isExemption;
     public $isAjax;
 
-    public $type_document, $version_document, $other_data;
-
+    public $type_document, $version_document, $other_data, $reception_quota;
 
     private $idIa;
 
@@ -61,6 +60,8 @@ class OtherDocumentForm extends Model
     }
 
     public function getDocumentsDynamicForm() {
+        $this->type_document = \Yii::$app->request->get('type') ??  $this->type_document;
+        $this->version_document = \Yii::$app->request->get('version') ?? $this->version_document;
         return new DocumentsDynamicForm($this->version_document);
     }
 
@@ -72,7 +73,7 @@ class OtherDocumentForm extends Model
     {
         return [
             [$this->required(), 'required'],
-            [['type','amount', 'exemption_id','without'], 'integer'],
+            [['type','amount', 'exemption_id','without', 'reception_quota'], 'integer'],
             [['series',], 'string', 'max' => 10],
             [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],

@@ -22,16 +22,18 @@ $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializatio
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), 3);
 $noCseSuccess = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), false);
+$spo = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializationSpo($statement->user_id,
+    $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg());
 $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
 
 $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $statement->user_id]);
 
+$anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
 $examBase = "Основание для допуска к сдаче вступительных испытаний:";
 $otherDocument = OtherDocument::find()
     ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 4])->one();
-
 $och = false;
 ?>
 
@@ -87,6 +89,11 @@ $och = false;
 <?php if($cse): ?>
     <p>
         Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь): <?= $cse ?>
+    </p>
+<?php endif; ?>
+<?php if ($anketaOne->onlySpo() && $spo): ?>
+    <p>
+        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $spo ?><br/>
     </p>
 <?php endif; ?>
 <?php if ($cseVi): ?>

@@ -266,7 +266,6 @@ class Anketa extends ActiveRecord
         return  OtherDocument::find()->andWhere(['user_id'=>$this->user_id, 'exemption_id'=>$exemptionId])->exists();
     }
 
-
     public function onlyCse()
     {
         $condition = $this->current_edu_level == AnketaHelper::SCHOOL_TYPE_SCHOOL

@@ -11,7 +11,7 @@ class SelectTypeDocumentsForm extends Model
 
     public function __construct($category, $config = [])
     {
-        $this->category = $category;
+        $this->category = array_flip($category);
         parent::__construct($config);
     }
 
@@ -27,7 +27,7 @@ class SelectTypeDocumentsForm extends Model
         return (new \modules\superservice\components\data\DocumentTypeList())
             ->getArray()
             ->sort(['Name'], [SORT_ASC])->filter(function ($v) {
-                return in_array($v['IdCategory'], $this->category);
+                return key_exists($v['IdCategory'], $this->category);
             }, true)
             ->map('Id', 'Name');
     }

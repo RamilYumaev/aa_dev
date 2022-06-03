@@ -19,7 +19,6 @@ use yii\helpers\Html; ?>
             <h1><?= Html::encode($this->title) ?></h1>
             <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=>json_encode([4]), 'document' => '', 'version' =>  ''])?>
             <?= $this->render('_form', ['model'=> $model] )?>
-
         </div>
     </div>
 </div>

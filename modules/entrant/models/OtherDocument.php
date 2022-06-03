@@ -42,6 +42,7 @@ use yii\db\ActiveRecord;
  * @property string $other_data
  * @property integer $type_document
  * @property integer $version_document
+ * @property integer reception_quota
  *
 **/
 
@@ -53,6 +54,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'class' => ModerationBehavior::class,
             'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status',
                 'other_data',
+                'reception_quota',
                 'type_document',
                 'version_document'],
             'attributesNoEncode' => ['series', 'number'],
@@ -80,6 +82,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
         $this->exemption_id = $form->exemption_id;
         $this->without = $form->without;
         $this->user_id = $form->user_id;
+        $this->reception_quota = $form->reception_quota;
     }
 
     public function versionData(OtherDocumentForm $form)
@@ -194,7 +197,8 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'exemption_id'=> "Категория льготы",
             'type_document'=>'Тип документа',
             'version_document' => 'Версия документа',
-            'other_data' => 'Дополнительные данные версии документа'
+            'other_data' => 'Дополнительные данные версии документа',
+            'reception_quota' => 'Прием в соответствии'
         ];
     }
 
@@ -216,6 +220,13 @@ class OtherDocument extends YiiActiveRecordAndModeration
 
     public function getTypeList() {
         return DictIncomingDocumentType::find()->select('name')->indexBy('id')->column();
+    }
+
+    public function getReceptionList() {
+        return [
+            1 => 'с подпунктом “а” пунктом 2',
+            2 => 'с подпунктом “б” пунктом 2'
+        ];
     }
 
     public function getTypeDocumentList() {
@@ -240,6 +251,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'type_document'=> $value && key_exists($value,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$value]['Name'] : $value,
             'version_document' => $value && key_exists($value,  $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$value]['DocVersion'] : $value,
             'other_data' => json_decode($value) === false ? '': (new DocumentsFields())->data(json_decode($value, true)),
+            'reception_quota' =>  is_int($value) && key_exists($value, $this->getReceptionList()) ? $this->getReceptionList()[$value]: $value,
         ];
     }
 }

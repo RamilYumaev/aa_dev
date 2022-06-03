@@ -45,7 +45,7 @@ class Converter
         $other_data = $data ? json_decode($data, true) : [];
         if($showAllData) {
             foreach (array_flip(self::fieldsEpgu()) as $key => $value) {
-                $array[$key] = $other_data && key_exists($value, $other_data) ? $other_data[$value] : [];
+                $array[$key] = $other_data && key_exists($value, $other_data) ? $other_data[$value] : null;
             };
         }
         return $array;
@@ -59,6 +59,6 @@ class Converter
         if($data = array_values($array)) {
             return $data[0]['DocVersion'];
         }
-        throw new \DomainException('Не указано версия документа');
+       // throw new \DomainException('Не указано версия документа');
     }
 }

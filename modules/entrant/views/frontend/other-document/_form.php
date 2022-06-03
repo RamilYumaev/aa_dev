@@ -18,15 +18,18 @@ use yii\helpers\Html;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
-            <?php if($model->type != 30 && ($model->isExemption || $model->exemption_id)): ?>
+            <?php if($model->type != DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE && ($model->isExemption || $model->exemption_id)): ?>
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
             <?php endif; ?>
         </div>
-        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
         <?php endif; ?>
-        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_AFTER_DOC, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
             <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
+        <?php endif; ?>
+        <?php if(in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE])): ?>
+            <?= $form->field($model, 'reception_quota')->dropDownList((new \modules\entrant\models\OtherDocument())->getReceptionList()) ?>
         <?php endif; ?>
         <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
             <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form, 'oldData' => $model->other_data ]) ?>

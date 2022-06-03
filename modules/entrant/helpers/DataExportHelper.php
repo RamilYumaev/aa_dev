@@ -140,13 +140,14 @@ class DataExportHelper
         $organization = Agreement::findOne(['user_id' => $userId]);
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
         && $organization->ais_id ? $organization->ais_id : null;
+        $specialQuotaUsual  = is_null($statement->special_right) &&  !$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1);
         foreach ($statement->statementCg as $currentApplication) {
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT ||
                 $anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
                 $anketa->category_id == CategoryStruct::GOV_LINE_COMPETITION) {
                 $noCse = 1;
             } else {
-                $noCse = DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
+                $noCse = $specialQuotaUsual ? 0 : DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
                         $statement->faculty_id,
                         $statement->speciality_id,
                         $currentApplication->cg->id);
@@ -163,7 +164,7 @@ class DataExportHelper
                 'composite_discipline_id' => $composite,
                 'composite_disciplines' => $composite,
                 'preemptive_right_status' => $prRight ? 1 : 0,
-                'cse_ct_vi' => DictCompetitiveGroupHelper::groupByDisciplineVi($statement->user_id,
+                'cse_ct_vi' => $specialQuotaUsual ? [] : DictCompetitiveGroupHelper::groupByDisciplineVi($statement->user_id,
                     $statement->faculty_id,
                     $statement->speciality_id,
                     $currentApplication->cg->id),
@@ -414,7 +415,7 @@ class DataExportHelper
                 'patronymic' => $profile->patronymic,
                 'amount' => 1,
                 'main_status' => $currentDocument->main_status ?? 0,
-                ]+Converter::generate($currentDocument->type_documnt,
+                ]+Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data);
         }
@@ -448,7 +449,7 @@ class DataExportHelper
                 'patronymic' => $patronymic,
                 'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                 'main_status' => 0,
-            ]+Converter::generate($currentDocument->type_documnt,
+            ]+Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data, true);
         }
@@ -474,7 +475,7 @@ class DataExportHelper
                 'name' => $currentDocument->name ?? $profile->first_name,
                 'amount' => 1,
                 'main_status' => 1,
-            ]+Converter::generate($currentDocument->type_documnt,
+            ]+Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data, true);
         }
@@ -643,6 +644,4 @@ class DataExportHelper
         }
         return $result;
     }
-
-
 }

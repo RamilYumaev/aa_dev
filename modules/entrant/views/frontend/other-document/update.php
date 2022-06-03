@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title; ?>
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=>json_encode([4,5,6]), 'document' => $model->type_document, 'version' => $model->version_document])?>
+            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=>json_encode([4,7]), 'document' => $model->type_document, 'version' => $model->version_document])?>
             <?= $this->render('_form', ['model' => $model]) ?>
         </div>
     </div>

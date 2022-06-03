@@ -42,7 +42,6 @@ class PassportDataController extends Controller
     {
         $referrer = Yii::$app->request->get("referrer");
         $form = new PassportDataForm($this->getUserId(), null, $this->getAnketa());
-        $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form);
@@ -71,7 +70,6 @@ class PassportDataController extends Controller
         $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
         $form->date_of_birth = \date("d.m.Y",strtotime($this->findPassportDateBirth())) ?? null;
         $form->nationality = DictCountryHelper::RUSSIA;
-        $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form, true);
@@ -97,7 +95,6 @@ class PassportDataController extends Controller
         $model = $this->findModel($id);
         $referrer = Yii::$app->request->get("referrer");
         $form = new PassportDataForm($model->user_id, $model, $this->getAnketa());
-        $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form);
@@ -127,7 +124,6 @@ class PassportDataController extends Controller
         $model = $this->findModel($id);
         $form = new PassportDataForm($model->user_id, $model, $this->getAnketa(),['nationality', 'number', 'date_of_issue', 'authority']);
       //  $form->date_of_birth = null;
-        $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form, true);
@@ -177,17 +173,6 @@ class PassportDataController extends Controller
           return $this->redirect('/account/login');
         }
         return Yii::$app->user->identity->getId();
-    }
-
-    private function setTypeAndVersion(PassportDataForm $form, PassportData $model = null)
-    {
-        if ($model) {
-            $form->type_document = \Yii::$app->request->get('type') ?? $model->type_document;
-            $form->version_document = \Yii::$app->request->get('version') ?? $model->version_document;
-        } else {
-            $form->type_document = \Yii::$app->request->get('type');
-            $form->version_document = \Yii::$app->request->get('version');
-        }
     }
 
     private function findPassportDateBirth()

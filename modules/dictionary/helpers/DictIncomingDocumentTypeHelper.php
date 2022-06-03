@@ -32,6 +32,7 @@ class DictIncomingDocumentTypeHelper
     const ID_NAME_UPDATE = 50;
     const ID_PATRIOT_DOC = 43;
     const ID_AFTER_DOC = 30;
+    const ID_NAME_REFERENCE = 48;
 
     public static function listType($type)
     {

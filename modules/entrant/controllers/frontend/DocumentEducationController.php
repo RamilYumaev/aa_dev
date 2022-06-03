@@ -42,7 +42,6 @@ class DocumentEducationController extends Controller
     {
         $this->findModelIsUser();
         $form = new DocumentEducationForm($this->getUserId());
-        $this->setTypeAndVersion($form);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->create($form, $this->getAnketa());
@@ -66,7 +65,6 @@ class DocumentEducationController extends Controller
     {
         $model = $this->findModel($id);
         $form = new DocumentEducationForm($model->user_id,$model);
-        $this->setTypeAndVersion($form, $model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($model->id, $form, $this->getAnketa());
@@ -112,16 +110,6 @@ class DocumentEducationController extends Controller
             return $anketa;
         }
         return $this->redirect('default/index');
-    }
-
-    private function setTypeAndVersion(DocumentEducationForm $form, DocumentEducation $model = null) {
-        if($model)  {
-            $form->type_document = \Yii::$app->request->get('type') ?? $model->type_document;
-            $form->version_document = \Yii::$app->request->get('version') ?? $model->version_document;
-        }else {
-            $form->type_document = \Yii::$app->request->get('type');
-            $form->version_document = \Yii::$app->request->get('version');
-        }
     }
 
     /**
