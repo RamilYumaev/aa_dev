@@ -6,6 +6,8 @@ use modules\superservice\components\DataXml;
 
 class OkcmList extends DataXml
 {
+    const KEY_NAME = 'ShortName';
+
     public function getNameTitle(): string
     {
        return 'Страны';

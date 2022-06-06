@@ -20,7 +20,7 @@ class DocumentsFields
                 if(key_exists($key, $this->getFields()['clsName'])) {
                     $class = '\\modules\\superservice\\components\\data\\'.$this->getFields()['clsName'][$key];
                     $data .=   $this->getFields()['descriptions'][$key].": ".
-                        ($value ?  (new $class())->getArray()->index('Id')[$value]["Name"] : $value)."; ";
+                        ($value ?  (new $class())->getArray()->index('Id')[$value][$class::KEY_NAME] : $value)."; ";
                 }else {
                     $data .= $this->getFields()['descriptions'][$key].": ".$value. ";\n ";
                 }

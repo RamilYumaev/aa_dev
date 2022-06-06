@@ -5,6 +5,8 @@ abstract class DataXml
 {
     private $array;
 
+    const KEY_NAME = 'Name';
+
     public function nameFileXml() {
         $class = new \ReflectionClass($this);
         return $class->getShortName();
