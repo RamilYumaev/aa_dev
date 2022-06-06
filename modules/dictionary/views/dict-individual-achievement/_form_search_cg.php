@@ -22,6 +22,15 @@ use dictionary\helpers\DictSpecialityHelper;
             'pluginOptions' => ['allowClear' => true],
         ]); ?>
        <br/>
+        <label>Вид финасирования</label>
+        <?= Select2::widget([
+            'name' => 'filter-finance_id',
+            'id' => 'filter-finance_id',
+            'data' => DictCompetitiveGroupHelper::getFinancingTypes(),
+            'options' => ['placeholder' => 'Выберите вид финансирования', 'multiple' => true],
+            'pluginOptions' => ['allowClear' => true],
+        ]); ?>
+        <br/>
         <label>Факультет</label>
         <?= Select2::widget([
             'name' => 'filter-faculty_id',

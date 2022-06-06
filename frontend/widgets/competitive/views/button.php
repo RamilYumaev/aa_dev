@@ -12,6 +12,7 @@ $array =
     [DictCompetitiveGroupHelper::USUAL => ['name'=>'<img src="/img/cabinet/b.png">', 'color' => '',],
     DictCompetitiveGroupHelper::SPECIAL_RIGHT => ['name'=>'<img src="/img/cabinet/lg.png">', 'color' => '',],
     DictCompetitiveGroupHelper::TARGET_PLACE => ['name'=>'<img src="/img/cabinet/c.png">', 'color' => '',],
+        DictCompetitiveGroupHelper::SPECIAL_QUOTA => ['name'=>'<img src="/img/cabinet/spec_quota.png">', 'color' => '',],
         'list_bvi' => ['name'=>'<img src="/img/cabinet/bvi.png">', 'color' => '',]];
 
     $urlGraduate = ['entrant-graduate-list', 'faculty' => $cgContract->faculty_id, 'speciality' => $cgContract->speciality_id,

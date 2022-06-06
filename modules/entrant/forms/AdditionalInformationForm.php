@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 class AdditionalInformationForm extends Model
 {
-    public $voz_id, $user_id, $resource_id, $hostel_id, $chernobyl_status_id, $is_epgu, $is_time,
+    public $voz_id, $user_id, $resource_id, $hostel_id, $transfer_in_epgu, $chernobyl_status_id, $is_epgu, $is_time,
         $mpgu_training_status_id, $mark_spo, $insuranceNumber;
 
     private $_additionalInformation;
@@ -39,10 +39,10 @@ class AdditionalInformationForm extends Model
     {
         return [
             [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',] : ['resource_id'], 'required'],
-            [['voz_id', 'resource_id', 'hostel_id', 'is_military_edu', 'chernobyl_status_id', 'is_epgu', 'is_time', 'mpgu_training_status_id'], 'integer'],
+            [['voz_id', 'resource_id', 'hostel_id', 'transfer_in_epgu', 'is_military_edu', 'chernobyl_status_id', 'is_epgu', 'is_time', 'mpgu_training_status_id'], 'integer'],
             [['insuranceNumber'], 'string', 'max'=>14],
             [['insuranceNumber'], 'required', 'when' => function($model) {
-               return $model->_anketa->isRussia() == true;
+               return $model->transfer_in_epgu;
             }, 'enableClientValidation' => false],
             [['insuranceNumber'], 'validateInsuranceNumber'],
             $this->_additionalInformation && $this->_additionalInformation->insuranceCertificate ?

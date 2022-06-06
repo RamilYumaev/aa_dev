@@ -54,7 +54,7 @@ class FileReadCozRepository
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
-            $query->andWhere('files.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2))');
+            $query->andWhere('files.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2,4))');
             $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
             if($this->zuk) {
                 $query->andWhere(['files.model'=> Statement::class]);

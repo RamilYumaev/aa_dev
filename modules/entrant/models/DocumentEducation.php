@@ -94,7 +94,17 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         if ($property == "date") {
             return DateFormatHelper::formatView($this->$property);
             }
-          return $this->$property;
+        elseif ($property == "other_data") {
+           return json_decode($this->$property) === false ? '': (new DocumentsFields())->data(json_decode($this->$property, true));
+        }
+        elseif ($property == "type_document")  {
+            return $this->$property && key_exists($this->$property,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$this->$property]['Name'] : '';
+        }
+        elseif ($property == "version_document")  {
+            return $this->$property && key_exists($this->$property, $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$this->$property]['DocVersion']  : '';
+        }else {
+            return $this->$property;
+        }
     }
 
     protected function getProperty($property){
@@ -208,6 +218,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'surname' => "Фамилия",
             'name' => 'Имя',
             'without_appendix' => 'Без приложения или обложки',
+            'type_document'=>'Тип документа',
+            'version_document' => 'Версия документа',
+            'other_data' => 'Дополнительные данные версии документа',
         ];
     }
 

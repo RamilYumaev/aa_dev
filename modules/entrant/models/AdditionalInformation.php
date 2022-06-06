@@ -27,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property integer $is_epgu
  * @property integer $is_time
  * @property integer $is_military_edu
+ * @property integer $transfer_in_epgu
  **/
 
 class AdditionalInformation extends YiiActiveRecordAndModeration
@@ -46,6 +47,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
                 'chernobyl_status_id',
                 'mpgu_training_status_id',
                 'is_military_edu',
+                'transfer_in_epgu',
                 'is_epgu',
                 'is_time',
                 'mark_spo']
@@ -68,6 +70,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
         $this->mark_spo = $form->mark_spo;
         $this->is_military_edu = $form->is_military_edu;
         $this->is_epgu = $form->is_epgu;
+        $this->transfer_in_epgu = $form->transfer_in_epgu;
         $this->is_time = $form->is_time;
         $this->return_doc = 3;
         $this->mpgu_training_status_id = $form->mpgu_training_status_id;
@@ -93,7 +96,8 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             имеющие целью подготовку несовершеннолетних обучающихся к военной или иной государственной службе',
             'resource'=> 'Откуда узнали об МПГУ?',
             'is_epgu' => 'Поступающий через ЕПГУ',
-             'is_time' => 'Очный прием',
+            'transfer_in_epgu' => 'Поступающий через ЕПГУ',
+            'is_time' => 'Очный прием',
             'exam_check' => "Экзамен"
         ];
     }
@@ -169,6 +173,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
             'is_epgu' =>  DictDefaultHelper::infoName($value),
             'is_time' =>  DictDefaultHelper::infoName($value),
+            'in_transfer_mpgu' => DictDefaultHelper::infoName($value),
             'mark_spo' => $value
         ];
     }

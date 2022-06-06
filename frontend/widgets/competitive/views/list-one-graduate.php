@@ -17,7 +17,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
         <span style="display: block; text-align: center">
              ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
-            Учебный год 2021/2022<br/><br/><br/>
+            Учебный год 2022/2023<br/><br/><br/>
             </span>
             <span style="font-weight: bold"> Дата публикации списка и время обновления: </span> <?= DateFormatHelper::format($data['date_time'], 'd.m.Y. H:i')?><br/>
             <span style="font-weight: bold">Категория поступающих: </span> <?= $model->getTypeName($entrantSetting->special_right) ?>,<br/>

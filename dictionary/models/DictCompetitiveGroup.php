@@ -545,6 +545,11 @@ class DictCompetitiveGroup extends ActiveRecord
         return $this->special_right_id == DictCompetitiveGroupHelper::SPECIAL_RIGHT;
     }
 
+    public function isSpecQuota()
+    {
+        return $this->special_right_id == DictCompetitiveGroupHelper::SPECIAL_QUOTA;
+    }
+
     public function isTarget()
     {
         return $this->special_right_id == DictCompetitiveGroupHelper::TARGET_PLACE;

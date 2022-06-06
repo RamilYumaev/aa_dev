@@ -26,9 +26,11 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         <span style="display: block; text-align: center">
             ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
-            Учебный год 2021/2022<br/><br/><br/>
+            Учебный год 2022/2023<br/><br/><br/>
             </span>
-
+        <?php if($cg->isSpecQuota()): ?>
+        <span style="font-weight: bold"> «Специальная квота в соответствии с Указом Президента РФ №268 от 09.05.2022г.».</span>
+        <?php endif; ?>
         <span style="font-weight: bold"> Дата публикации списка и время обновления: </span><?= DateFormatHelper::format($model->datetime, 'd.m.Y. H:i')?><br/>
         <span style="font-weight: bold">Категория поступающих: </span><?= $model->getTypeName($cg->special_right_id) ?><br/>
         <span style="font-weight: bold">Структурное подразделение: </span><?= $cg->faculty->full_name ?><br/>
@@ -137,7 +139,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr <?=  $incomingId == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
-                    <td style="font-size: 14px; text-align: center"><?= key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'] ?></td>
+                    <td style="font-size: 14px; text-align: center"><?=  !$cg->isSpecQuota() ? $entrant['incoming_id'] : (key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id']) ?></td>
                     <?php if($isEntrant): ?>
                         <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                         <td style="font-size: 14px; text-align: center"> <?= key_exists('phone',$entrant) ? $entrant['phone'] : '-' ?></td>

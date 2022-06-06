@@ -123,7 +123,7 @@ class DictCompetitiveGroupService
             $facultyId, $specialityId, $foreignerStatus, $financingTypeId)
     {
         $model =  DictCompetitiveGroup::find()->filterCg($year, $educationLevelId, $this->jsonDecodeIntValue($educationFormId),
-            $this->jsonDecodeIntValue($facultyId), $this->jsonDecodeIntValue($specialityId), $foreignerStatus, $financingTypeId);
+            $this->jsonDecodeIntValue($facultyId), $this->jsonDecodeIntValue($specialityId), $foreignerStatus, $this->jsonDecodeIntValue( $financingTypeId));
         return $this->dataResult($model);
     }
     private function model($year, $educationLevelId, $educationFormId,

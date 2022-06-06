@@ -41,7 +41,6 @@ use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 </div>
 
 <?php
-$financingTypeBudget = [DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET, DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT];
 $this->registerJs(<<<JS
 "use strict";
 // фильтруем список конкурсных групп
@@ -52,16 +51,17 @@ var filterEducationFormSelect = $("#filter-education_form_id");
 var filterFinancingTypeSelect = $("#filter-financing_type_id");
 var filterFacultySelect = $("#filter-faculty_id");
 var filterSpeciality = $("#filter-speciality_id");
+var filterFinance = $("#filter-finance_id");
 
 filterEducationLevelSelect.add(filterEducationLevelSelect).add(filterEducationFormSelect).add(filterFinancingTypeSelect)
-    .add(filterFacultySelect).add(yearSelect).add(filterSpeciality)
+    .add(filterFacultySelect).add(yearSelect).add(filterSpeciality).add(filterFinance)
     .on("change", function() {
     $.ajax({
         url: "/dictionary/dict-competitive-group/full-cg",
         method: "GET",
         dataType: "json",
         data: {year: yearSelect.val(), educationLevelId: filterEducationLevelSelect.val(), educationFormId: JSON.stringify(filterEducationFormSelect.val()),
-            facultyId: JSON.stringify(filterFacultySelect.val()), specialityId: JSON.stringify(filterSpeciality.val()), foreignerStatus: 0, financingTypeId: {$financingTypeBudget}},
+            facultyId: JSON.stringify(filterFacultySelect.val()), specialityId: JSON.stringify(filterSpeciality.val()), foreignerStatus: 0, financingTypeId: JSON.stringify(filterFinance.val())},
         async: false,
         success: function(competitiveGroups) {
             var items = competitiveGroups.result;

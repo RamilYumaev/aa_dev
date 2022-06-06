@@ -49,7 +49,7 @@ class StatementRejectionReadRepository
             $query->andWhere(['anketa.category_id'=> CategoryStruct::WITHOUT_COMPETITION])
                 ->orWhere(['and',
                     ['anketa.category_id' =>CategoryStruct::GENERAL_COMPETITION],
-                    ['statement.special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
+                    ['statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::SPECIAL_QUOTA]]
                 ])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }

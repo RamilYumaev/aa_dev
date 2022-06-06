@@ -41,6 +41,7 @@ class DataExportHelper
         $fioLatin = FIOLatin::findOne(['user_id' => $profile->user_id]);
         $passport = PassportData::findOne(['user_id' => $profile->user_id, 'main_status' => true]);
         $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => [1, 2, 3]]);
+        $otherKz = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => 4]);
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -114,6 +115,7 @@ class DataExportHelper
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
+                'quota_kz_id'=> $otherKz ? $other->reception_quota : '',
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
