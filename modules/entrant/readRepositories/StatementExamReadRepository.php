@@ -53,7 +53,7 @@ class StatementExamReadRepository
         if ($this->jobEntrant->isCategoryMPGU()) {
             $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
             $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
-            $query->andWhere(['or', ['not  in', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
+            $query->andWhere(['or', ['not in', 'exemption_id', [null, 4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
         }
 
         if (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
