@@ -51,13 +51,16 @@ class StatementReadConsentRepository
 
         if($this->jobEntrant->isCategoryMPGU()) {
                        $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
-            $query->andWhere(['or', ['is not', 'exemption_id', null], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
+            $query->andWhere(['or', ['is not', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryTarget()) {
-            $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
-            $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere([
+                'statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::SPECIAL_RIGHT],
+                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+           ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

@@ -34,11 +34,11 @@ class DocumentTypeVersionList extends DataXml
     public static function getVersions() {
         return [
             self::VERSION_DOC_2021 => [
-                'name' => 'Версия 2021 года',
+                'name' => 'Дата выдачи до 2022 года',
                 'value' => 2021,
             ],
             self::VERSION_DOC_2022 => [
-                'name' => 'Версия 2022 года',
+                'name' => 'Дата выдачи в 2022 году',
                 'value' => 2022,
             ],
         ];

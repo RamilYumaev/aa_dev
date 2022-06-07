@@ -54,7 +54,7 @@ class ProfileStatementReadRepository
                 /*$query->andWhere(["in", "anketa.category_id",
                     [CategoryStruct::SPECIAL_RIGHT_COMPETITION, CategoryStruct::WITHOUT_COMPETITION]]);*/
 
-                $query->andWhere(['or', ['special_right' => [DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::SPECIAL_QUOTA]],
+                $query->andWhere(['or', ['special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT],
                     ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
 
 //                $query->andWhere(['or',['and',["anketa.category_id"=> CategoryStruct::SPECIAL_RIGHT_COMPETITION],
@@ -81,6 +81,8 @@ class ProfileStatementReadRepository
             } else if ($this->isID == JobEntrantHelper::TASHKENT_BB) {
                 $query->andWhere(['citizenship_id' => DictCountryHelper::TASHKENT_AGREEMENT])->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
+            }else if ($this->isID == JobEntrantHelper::SPECIAL_QUOTA) {
+                    $query->andWhere(['special_right' => DictCompetitiveGroupHelper::SPECIAL_QUOTA]);
             } else {
                 $query->andWhere(['anketa.category_id' => [CategoryStruct::TARGET_COMPETITION,
                     CategoryStruct::COMPATRIOT_COMPETITION]])->orWhere([

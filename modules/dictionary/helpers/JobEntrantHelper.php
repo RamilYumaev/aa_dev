@@ -37,6 +37,7 @@ class JobEntrantHelper
     const MPGU_PP = 3;
     const TASHKENT_BB = 4;
     const TARGET_BB = 5;
+    const SPECIAL_QUOTA = 6;
 
     const ENTRANT_POTENTIAL_STATEMENT_DRAFT = 1;
     const ENTRANT_POTENTIAL_NO_STATEMENT = 2;

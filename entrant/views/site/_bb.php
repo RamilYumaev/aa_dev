@@ -28,6 +28,14 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'icon' => 'user',
             'isID' => JobEntrantHelper::TARGET_BB,
             'str' => "Абитуриенты Целевики и Соотечественники (новые)", 'link' => ['data-entrant/default/index', 'type' => 2, 'is_id' => JobEntrantHelper::TARGET_BB]]) ?>
+
+        <?= CountUserCozWidget::widget([
+            'type' => 2,
+            'colorBox' => AdminLTE::BG_BLUE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::SPECIAL_QUOTA,
+            'str' => "Абитуриенты СпецКвоты (новые)", 'link' => ['data-entrant/default/index', 'type' => 2, 'is_id' => JobEntrantHelper::SPECIAL_QUOTA]]) ?>
     </div>
 
     <div class="col-md-4">
@@ -45,6 +53,14 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'icon' => 'user',
             'isID' => JobEntrantHelper::TARGET_BB,
             'str' => "Абитуриенты Целевики и Соотечественники (принятые)", 'link' => ['data-entrant/default/index', 'type' => 1, 'is_id' => JobEntrantHelper::TARGET_BB]]) ?>
+
+        <?= CountUserCozWidget::widget([
+            'type' => 1,
+            'colorBox' => AdminLTE::BG_OLIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::SPECIAL_QUOTA,
+            'str' => "Абитуриенты СпецКвоты", 'link' => ['data-entrant/default/index', 'type' => 1, 'is_id' => JobEntrantHelper::SPECIAL_QUOTA]]) ?>
     </div>
 
     <div class="col-md-4">
@@ -60,6 +76,12 @@ use \modules\dictionary\helpers\JobEntrantHelper;
             'icon' => 'user',
             'isID' => JobEntrantHelper::TARGET_BB,
             'str' => "Абитуриенты Целевики и Соотечественники (всего)", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::TARGET_BB]]) ?>
+        <?= CountUserCozWidget::widget([
+            'colorBox' => AdminLTE::BG_ORANGE_ACTIVE,
+            'entrant' => $jobEntrant,
+            'icon' => 'user',
+            'isID' => JobEntrantHelper::SPECIAL_QUOTA,
+            'str' => "Абитуриенты СпецКвоты", 'link' => ['data-entrant/default/index', 'is_id' => JobEntrantHelper::SPECIAL_QUOTA]]) ?>
     </div>
 </div>
 

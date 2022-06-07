@@ -41,7 +41,7 @@ class StatementCgRejectionReadRepository
 
         if($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
-                'statement.special_right' => DictCompetitiveGroupHelper::TARGET_PLACE]);
+                'statement.special_right' => [DictCompetitiveGroupHelper::TARGET_PLACE, DictCompetitiveGroupHelper::SPECIAL_QUOTA]]);
         }
 
         if($this->jobEntrant->isCategoryUMS()) {
@@ -55,7 +55,7 @@ class StatementCgRejectionReadRepository
             $query->andWhere(['anketa.category_id'=> CategoryStruct::WITHOUT_COMPETITION])
                 ->orWhere(['and',
                     ['anketa.category_id' =>CategoryStruct::GENERAL_COMPETITION],
-                    ['statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_RIGHT, DictCompetitiveGroupHelper::SPECIAL_QUOTA]]
+                    ['statement.special_right' => DictCompetitiveGroupHelper::SPECIAL_RIGHT]
                 ])->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
