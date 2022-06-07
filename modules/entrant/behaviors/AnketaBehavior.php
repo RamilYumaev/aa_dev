@@ -49,7 +49,7 @@ class AnketaBehavior extends Behavior
     public function beforeUpdate($event)
     {
         if($this->fileExits() && !$this->checkUpdate()) {
-            throw  new  \DomainException("Редактирование невозможно, так как у Вас имеется файл сканирования");
+            throw  new  \DomainException("Редактирование невозможно, так как Вы уже загрузили сканы документов");
         }
 
         if($this->userIndividualAchievementsExists() && !$this->checkUpdate()) {

@@ -20,7 +20,7 @@ use yii\helpers\Html;
                 'columns' => [
                     ['attribute' => 'type', 'value' => 'typeName',],
                     ['attribute' => 'nationality', 'value' => 'nationalityName'],
-                    ['value' => 'passportFull', 'header' => "Документ, удостоверяющий личность"],
+                    ['value' => 'passportBackendFull', 'header' => "Документ, удостоверяющий личность"],
                 ],
             ]) ?>
 

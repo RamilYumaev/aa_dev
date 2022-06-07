@@ -100,10 +100,10 @@ class PassportData extends YiiActiveRecordAndModeration
             return json_decode($this->$property) === false ? '': (new DocumentsFields())->data(json_decode($this->$property, true));
         }
         elseif ($property == "type_document")  {
-            return $this->$property && key_exists($this->$property,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$this->$property]['Name'] : '';
+            return DocumentsFields::getTypeDocument($this->$property);
         }
         elseif ($property == "version_document")  {
-            return $this->$property && key_exists($this->$property, $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$this->$property]['DocVersion']  : '';
+            return DocumentsFields::getTypeVersionDocumentList($this->$property);
         }else {
             return $this->$property;
         }
@@ -115,6 +115,19 @@ class PassportData extends YiiActiveRecordAndModeration
     }
 
     public function getPassportFull()
+    {
+        $string = "";
+        foreach ($this->getAttributes(null, ['user_id', 'type', 'nationality', 'id', 'main_status', 'other_data',
+            'type_document',
+            'version_document',]) as $key => $value) {
+            if ($value) {
+                $string .= $this->getProperty($key) . " ";
+            }
+        }
+        return $string;
+    }
+
+    public function getPassportBackendFull()
     {
         $string = "";
         foreach ($this->getAttributes(null, ['user_id', 'type', 'nationality', 'id', 'main_status']) as $key => $value) {
@@ -157,19 +170,6 @@ class PassportData extends YiiActiveRecordAndModeration
         return DictCountryHelper::countryName($this->nationality);
     }
 
-    public function getTypeDocumentList() {
-        $document = new DocumentTypeList();
-        return $document->getArray()->index('Id');
-    }
-
-    public function getTypeVersionDocumentList() {
-        $document = new DocumentTypeVersionList();
-        return $document->getArray()
-            ->getArrayWithProperties($document->getProperties(), true)->index('Id');
-    }
-
-
-
     public function moderationAttributes($value): array
     {
         return [
@@ -183,8 +183,8 @@ class PassportData extends YiiActiveRecordAndModeration
             'authority' => $value,
             'division_code' => $value,
             'main_status' => DictDefaultHelper::name($value),
-            'type_document'=> $value && key_exists($value,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$value]['Name'] : $value,
-            'version_document' => $value && key_exists($value,  $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$value]['DocVersion'] : $value,
+            'type_document'=> DocumentsFields::getTypeDocument($value),
+            'version_document' => DocumentsFields::getTypeVersionDocumentList($value),
             'other_data' => json_decode($value) === false ? '': (new DocumentsFields())->data(json_decode($value, true)),
         ];
     }

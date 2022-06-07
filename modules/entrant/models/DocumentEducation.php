@@ -50,7 +50,7 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
             'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
-                'patronymic', 'surname', 'name',    'other_data',
+                'patronymic', 'surname', 'name', 'other_data',
                 'type_document',
                 'version_document' ],
             'attributesNoEncode' => ['series', 'number'],
@@ -95,13 +95,13 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             return DateFormatHelper::formatView($this->$property);
             }
         elseif ($property == "other_data") {
-           return json_decode($this->$property) === false ? '': (new DocumentsFields())->data(json_decode($this->$property, true));
+           return json_decode($this->$property) === false ? '': DocumentsFields::data(json_decode($this->$property, true));
         }
         elseif ($property == "type_document")  {
-            return $this->$property && key_exists($this->$property,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$this->$property]['Name'] : '';
+            return DocumentsFields::getTypeDocument($this->$property);
         }
         elseif ($property == "version_document")  {
-            return $this->$property && key_exists($this->$property, $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$this->$property]['DocVersion']  : '';
+            return DocumentsFields::getTypeVersionDocumentList($this->$property);
         }else {
             return $this->$property;
         }
@@ -124,6 +124,18 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
 
 
     public function getDocumentFull(){
+        $string = "";
+        foreach ($this->getAttributes(null,['user_id', 'type', 'id', 'school_id','original', 'other_data',
+            'type_document',
+            'version_document']) as  $key => $value) {
+            if($value) {
+                $string .= $this->getProperty($key)." ";
+            }
+        }
+        return $string;
+    }
+
+    public function getDocumentBackendFull(){
         $string = "";
         foreach ($this->getAttributes(null,['user_id', 'type', 'id', 'school_id','original']) as  $key => $value) {
             if($value) {
@@ -157,18 +169,6 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
         return "Документ об образовании";
     }
 
-    public function getTypeDocumentList() {
-        $document = new DocumentTypeList();
-        return $document->getArray()->index('Id');
-    }
-
-    public function getTypeVersionDocumentList() {
-        $document = new DocumentTypeVersionList();
-        return $document->getArray()
-            ->getArrayWithProperties($document->getProperties(), true)->index('Id');
-    }
-
-
     public function moderationAttributes($value): array
     {
         return [
@@ -182,9 +182,9 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
             'patronymic' => $value,
             'surname' => $value,
             'name' => $value,
-            'type_document'=> $value && key_exists($value,  $this->getTypeDocumentList()) ? $this->getTypeDocumentList()[$value]['Name'] : $value,
-            'version_document' => $value && key_exists($value,  $this->getTypeVersionDocumentList()) ? $this->getTypeVersionDocumentList()[$value]['DocVersion'] : $value,
-            'other_data' => json_decode($value) === false ? '': (new DocumentsFields())->data(json_decode($value, true)),
+            'type_document'=> DocumentsFields::getTypeDocument($value),
+            'version_document' => DocumentsFields::getTypeVersionDocumentList($value),
+            'other_data' => json_decode($value) === false ? '': DocumentsFields::data(json_decode($value, true)),
             ];
     }
 

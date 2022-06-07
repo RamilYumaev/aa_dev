@@ -16,7 +16,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <tr>
         <td>
-            <?= $model->documentFull ?>, <?= $model->schoolName ?>, <?= $model->school->countryRegion ?>
+            <?= $model->documentBackendFull ?>, <?= $model->schoolName ?>, <?= $model->school->countryRegion ?>
         </td>
         <td>
             <?= $model->typeName ?>

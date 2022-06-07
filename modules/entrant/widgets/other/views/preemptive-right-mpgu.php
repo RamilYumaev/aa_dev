@@ -39,7 +39,7 @@ use yii\helpers\Html;
                 $ppOne = $item->preemptiveRightsTypeOne($pp->type_id);
                 ?>
                 <tr>
-                    <td colspan="2"> Данные документа: <?= $item->otherDocumentFull ?> (<?= $item->typeName ?>)</td>
+                    <td colspan="2"> Данные документа: <?= $item->otherDocumentBackendFull ?> (<?= $item->typeName ?>)</td>
                     <td> <?php if(!$ppOne->statue_id)  : ?>
                         <?= Html::a(Html::tag("span", "",
                             ["class" => "glyphicon glyphicon-check"]),

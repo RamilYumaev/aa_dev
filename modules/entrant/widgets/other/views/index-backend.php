@@ -18,7 +18,7 @@ use modules\entrant\helpers\OtherDocumentHelper;
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['attribute'=>'type', 'value' =>'typeName'],
-                ['value'=> 'otherDocumentFull', 'header' =>  "Данные"],
+                ['value'=> 'otherDocumentBackendFull', 'header' =>  "Данные"],
                 ['value'=> 'noteOrTypeNote', 'header' =>  "Примечание"],
             ],
         ]) ?>

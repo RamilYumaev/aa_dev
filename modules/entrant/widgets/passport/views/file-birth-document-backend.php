@@ -18,7 +18,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <tr>
         <td>
-            <?= $model->passportFull ?>
+            <?= $model->passportBackendFull ?>
         </td>
         <td>
             <?= $model->typeName ?>

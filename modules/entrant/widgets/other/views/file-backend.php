@@ -24,7 +24,7 @@ use modules\entrant\widgets\file\FileListWidget;
     </tr>
     <tr>
         <td><?= $other->typeName ?></td>
-        <td><?= $other->otherDocumentFull ?></td>
+        <td><?= $other->otherDocumentBackendFull ?></td>
         <td><?= $other->noteOrTypeNote ?></td>
     </tr>
 </table>
