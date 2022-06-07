@@ -51,16 +51,14 @@ class StatementReadConsentRepository
 
         if($this->jobEntrant->isCategoryMPGU()) {
                        $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
-            $query->andWhere(['or', ['is not', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
+            $query->andWhere(['or', ['not in', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]])
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if($this->jobEntrant->isCategoryTarget()) {
-            $query->andWhere([
-                'statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::SPECIAL_RIGHT],
-                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-           ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere('anketa.user_id  IN (SELECT user_id FROM agreement)');
+            $query->orWhere('anketa.user_id IN (SELECT user_id FROM other_document WHERE exemption_id = 4)');
         }
 
         if($this->jobEntrant->isCategoryGraduate()) {

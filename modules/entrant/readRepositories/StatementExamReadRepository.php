@@ -45,14 +45,15 @@ class StatementExamReadRepository
         }
 
         if ($this->jobEntrant->isCategoryTarget()) {
-            $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
             $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+            $query->andWhere('anketa.user_id  IN (SELECT user_id FROM agreement)');
+            $query->orWhere('anketa.user_id IN (SELECT user_id FROM other_document WHERE exemption_id = 4)');
         }
 
         if ($this->jobEntrant->isCategoryMPGU()) {
             $query->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
             $query->innerJoin(OtherDocument::tableName(), 'other_document.user_id=anketa.user_id');
-            $query->andWhere(['or', ['is not', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
+            $query->andWhere(['or', ['not  in', 'exemption_id', [null,4]], ['anketa.category_id' => CategoryStruct::WITHOUT_COMPETITION]]);
         }
 
         if (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {

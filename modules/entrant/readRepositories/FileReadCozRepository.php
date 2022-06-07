@@ -73,7 +73,8 @@ class FileReadCozRepository
         }
     }
         elseif($this->jobEntrant->isCategoryTarget()){
-            $query->innerJoin(Agreement::tableName(), 'agreement.user_id=anketa.user_id');
+            $query->andWhere('anketa.user_id  IN (SELECT user_id FROM agreement)');
+            $query->orWhere('anketa.user_id IN (SELECT user_id FROM other_document WHERE exemption_id = 4)');
             if($this->zuk) {
                 $query->andWhere(['files.model'=> Statement::class]);
             } else {

@@ -54,6 +54,12 @@ class StatementRejectionReadRepository
                 ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
+        if($this->jobEntrant->isCategoryTarget()) {
+            $query->andWhere(
+                    ['statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::TARGET_PLACE]])
+                ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+        }
+
         if($this->jobEntrant->isCategoryGraduate()) {
             $query->andWhere([
                 'statement.edu_level' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL]);

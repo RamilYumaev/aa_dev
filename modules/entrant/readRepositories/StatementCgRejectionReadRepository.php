@@ -41,7 +41,10 @@ class StatementCgRejectionReadRepository
 
         if($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
-                'statement.special_right' => [DictCompetitiveGroupHelper::TARGET_PLACE, DictCompetitiveGroupHelper::SPECIAL_QUOTA]]);
+                'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER],
+                'statement.special_right' => [DictCompetitiveGroupHelper::TARGET_PLACE, DictCompetitiveGroupHelper::SPECIAL_QUOTA]])
+                ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);;
         }
 
         if($this->jobEntrant->isCategoryUMS()) {

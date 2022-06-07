@@ -237,7 +237,8 @@ class Statement extends ActiveRecord
     public function isSpecialRightStatement()
     {
         return  $this->special_right==DictCompetitiveGroupHelper::SPECIAL_RIGHT ||
-            $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE;
+            $this->special_right==DictCompetitiveGroupHelper::TARGET_PLACE
+            || $this->special_right==DictCompetitiveGroupHelper::SPECIAL_QUOTA;
     }
 
     public function isSpecialRightTarget()
