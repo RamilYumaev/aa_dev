@@ -14,6 +14,10 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right pr-30'],
     'items' => [
+        \Yii::$app->session->get('user.idbeforeswitch') ?
+            ['label'=> \yii\helpers\Html::tag("span", "",
+                ["class"=> "glyphicon glyphicon-list"]),
+                'url'=> '/abiturient/talon/index'] : ['label' => ''],
         Yii::$app->user->can("call-center") ?
             ['label'=> \yii\helpers\Html::tag("span", "",
                 ["class"=> "glyphicon glyphicon-transfer"]),

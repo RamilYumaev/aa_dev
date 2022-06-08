@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr>
                     <td><?= ++$a?> </td>
                     <td><?= $talon->name ?></td>
-                    <td><?= $talon->anketaCi->fio ?></td>
-                    <td><?= $talon->anketaCi->phone ?></td>
-                    <td><?= $talon->anketaCi->email ?></td>
+                    <td><?= ($talon->anketaCi ? $talon->anketaCi->fio : '') . ($talon->entrant ? $talon->entrant->profiles->fio : '') ?></td>
+                    <td><?= ($talon->anketaCi ? $talon->anketaCi->phone : '') . ($talon->entrant ? $talon->entrant->profiles->phone : '') ?></td>
+                    <td><?= ($talon->anketaCi ? $talon->anketaCi->email : ''). ($talon->entrant ? $talon->entrant->email : '') ?></td>
                     <?php if($talon->isNew()): ?>
                     <td><?=  Html::a('Вызвать',['watting', 'id'=> $talon->id],['data-pjax' => 'w0'. $talon->id,
                             'data-toggle' => 'modal',
