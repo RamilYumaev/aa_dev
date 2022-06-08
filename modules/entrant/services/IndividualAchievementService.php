@@ -45,6 +45,10 @@ class IndividualAchievementService
             }
             $this->repositoryUserIa->isIndividual($form->user_id, $individualId);
             $document = OtherDocument::create($form);
+            $document->versionData($form);
+            if ($form->other_data) {
+                $document->otherData($form->other_data);
+            }
             $this->repositoryDocument->save($document);
 
             $individual = UserIndividualAchievements::create($form->user_id, $individualId, $document->id);
@@ -58,6 +62,10 @@ class IndividualAchievementService
         $this->manager->wrap(function () use ($form, $otherDoc) {
             $document = $this->repositoryDocument->get($otherDoc);
             $document->data($form);
+            $document->versionData($form);
+            if ($form->other_data) {
+                $document->otherData($form->other_data);
+            }
             $this->repositoryDocument->save($document);
         });
     }

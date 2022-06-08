@@ -16,15 +16,12 @@ class IndividualAchievementsHelper
         $save = Html::a(Html::tag("span", "",
             ["class" => "glyphicon glyphicon-plus"]),
             ["save", "id" => $individualId],
-            ["class" => "btn btn-success",
-                'data-pjax' => 'w0', 'data-toggle' => 'modal',
-                'data-target' => '#modal', 'data-modalTitle' => 'Добавить']);
+            ["class" => "btn btn-success"]);
 
         $remove = Html::a(Html::tag("span","", ["class" => "glyphicon glyphicon-minus"]), ["remove",
             "id" => $individualId], ["class"=> "btn btn-danger"]);
         $update = Html::a(Html::tag("span","", ["class" => "glyphicon glyphicon-edit"]), ["update",
-            "id" => $individualId], ["class"=> "btn btn-info",  'data-pjax' => 'w2', 'data-toggle' => 'modal',
-            'data-target' => '#modal', 'data-modalTitle' => 'Редактировать']);
+            "id" => $individualId], ["class"=> "btn btn-info"]);
 
         return $alreadyRecorded ? $remove."   ".$update : $save;
     }

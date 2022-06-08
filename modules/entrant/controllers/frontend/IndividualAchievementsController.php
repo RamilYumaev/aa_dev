@@ -63,10 +63,10 @@ class IndividualAchievementsController extends Controller
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect('index');
         }
 
-        return $this->renderAjax("@modules/entrant/views/frontend/other-document/_form", ["model" => $form]);
+        return $this->render("create", ["model" => $form]);
 
     }
 
@@ -91,10 +91,10 @@ class IndividualAchievementsController extends Controller
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect('index');
         }
 
-        return $this->renderAjax("@modules/entrant/views/frontend/other-document/_form", ["model" => $form]);
+        return $this->render("update", ["model" => $form]);
 
     }
 

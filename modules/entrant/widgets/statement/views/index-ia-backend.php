@@ -71,7 +71,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
             "header" =>$stIa->userIndividualAchievements->dictOtherDocument->typeName,
             "type" => Box::TYPE_DANGER,
             "filled" => true,]) ?>
-      <p>Данные документа:  <?= $stIa->userIndividualAchievements->dictOtherDocument->otherDocumentFull ?></p>
+      <p>Данные документа:  <?= $stIa->userIndividualAchievements->dictOtherDocument->otherDocumentBackendFull ?></p>
     <?= FileListBackendWidget::widget(['isCorrect'=> $stIa->isStatusAccepted(), 'record_id' => $stIa->userIndividualAchievements->dictOtherDocument->id, 'model' => \modules\entrant\models\OtherDocument::class, 'userId' =>$statementIa->user_id ]) ?>
 <?php Box::end();  endif; endforeach; ?>
 <?php Box::end() ?>

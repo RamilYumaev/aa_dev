@@ -39,7 +39,7 @@ class PreemptiveRightController extends Controller
         return $this->render("index",['userId' => $this->getUserId()]);
     }
 
-    public function actionCreate($typeId)
+    public function actionCreate($id)
     {
         $form = new OtherDocumentForm($this->getUserId(), true, null, false, ['authority','date'], [DictIncomingDocumentTypeHelper::TYPE_OTHER]);
         if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
@@ -48,20 +48,20 @@ class PreemptiveRightController extends Controller
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->create($form, $typeId);
+                $this->service->create($form, $id);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect('index');
         }
-        return $this->renderAjax("@modules/entrant/views/frontend/other-document/_form", ["model" => $form]);
+        return $this->render("create", ["model" => $form]);
     }
 
-    public function actionRemove($otherId, $typeId)
+    public function actionRemove($otherId, $id)
     {
         try {
-            $this->service->remove($otherId, $typeId);
+            $this->service->remove($otherId, $id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -70,12 +70,12 @@ class PreemptiveRightController extends Controller
         return $this->redirect(["index"]);
     }
 
-    public function actionAdd($typeId)
+    public function actionAdd($id)
     {
         $other_id = Yii::$app->request->post('other_id');
         if ($other_id) {
             try {
-                $this->service->add($other_id, $typeId);
+                $this->service->add($other_id, $id);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

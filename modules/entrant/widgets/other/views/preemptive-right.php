@@ -30,13 +30,11 @@ use modules\entrant\helpers\OtherDocumentHelper;
                     <td><?= $value ?></td>
                     <td><?= Html::a(Html::tag("span", "",
                             ["class" => "glyphicon glyphicon-plus-sign"]),
-                            ["preemptive-right/create", "typeId" => $key],
-                            ["class" => "btn btn-success",
-                                'data-pjax' => 'w0', 'data-toggle' => 'modal',
-                                'data-target' => '#modal', 'data-modalTitle' => 'Добавить']); ?>
+                            ["preemptive-right/create", "id" => $key],
+                            ["class" => "btn btn-success",]); ?>
                         <?= OtherDocumentHelper::preemptiveRightExits($user_id) ?  Html::a(Html::tag("span", "",
                             ["class" => "glyphicon glyphicon-briefcase"]),
-                            ["preemptive-right/add", "typeId" => $key],
+                            ["preemptive-right/add", "id" => $key],
                             ["class" => "btn btn-primary",
                                 'data-pjax' => 'w1', 'data-toggle' => 'modal',
                                 'data-target' => '#modal', 'data-modalTitle' => 'Добавить']) :""; ?>
@@ -48,7 +46,7 @@ use modules\entrant\helpers\OtherDocumentHelper;
                         <td colspan="2"><?= $item->otherDocumentFull ?> (<?= $item->typeName ?>)</td>
                         <td><?= Html::a(Html::tag("span", "",
                                 ["class" => "glyphicon glyphicon-minus"]),
-                                ["preemptive-right/remove", "otherId" =>$item->id, "typeId" => $key],
+                                ["preemptive-right/remove", "otherId" =>$item->id, "id" => $key],
                                 ["class" => "btn btn-danger"]); ?>
                         </td>
                     </tr>
