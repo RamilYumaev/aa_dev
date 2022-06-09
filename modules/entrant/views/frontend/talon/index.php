@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?=$this->title?></h1>
     <p>
         <?= Html::a("Добавить",
-            ["add"], ["class" => "btn btn-primary",
+            ["add"], ["class" => "btn btn-success",
                  'data-pjax' => 'w0', 'data-toggle' => 'modal',
                 'data-target' => '#modal', 'data-modalTitle' => 'Добавить талон']) ?>
     </p>
@@ -21,8 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' =>[
                 ['class' => \yii\grid\SerialColumn::class],
                 'name',
-                'date:date'
-            ],
+                'date:date',
+            ['class'=> \yii\grid\ActionColumn::class,
+                'template' => '{update}',
+                'buttons' => [
+                        'update' => function ($url, $model, $key) {
+                        return $model->date == date("Y-m-d") ? Html::a('Обновить', $url,
+                            ["class" => "btn btn-primary btn-xs",
+                            'data-pjax' => 'w0', 'data-toggle' => 'modal',
+                            'data-target' => '#modal', 'data-modalTitle' => 'Обновить талон']) : '';
+                        },
+                ]]
+                ],
         ]) ?>
     </div>
 </div>

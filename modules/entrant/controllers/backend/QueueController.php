@@ -132,8 +132,10 @@ class QueueController extends Controller
         $model->status = Talons::STATUS_WORK;
         if($model->save()) {
             $anketa = $model->anketaCi;
-             $urlParams = Yii::$app->urlManager->createUrl(['switch-user','last_name'=>$anketa->lastName, 'first_name' => $anketa->firstName,
-                'patronymic' => $anketa->patronymic, 'email'=>$anketa->email, 'phone' => $anketa->phone]);
+             $urlParams = Yii::$app->urlManager->createUrl($anketa ? ['switch-user','last_name'=>$anketa->lastName, 'first_name' => $anketa->firstName,
+                'patronymic' => $anketa->patronymic, 'email'=>$anketa->email, 'phone' => $anketa->phone] : [
+                    'switch-user/by-user-id', 'id' => $model->entrant_id]
+             );
             $url = Url::to('@frontendInfo'.$urlParams,true);
              return $this->redirect($url);
         }

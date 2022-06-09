@@ -4,7 +4,7 @@ use modules\entrant\helpers\OtherDocumentHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>
-<?php $form = ActiveForm::begin(['id' => 'talon']); ?>
+<?php $form = ActiveForm::begin(['id' => 'talon',  'enableAjaxValidation' => true]); ?>
 <?= $form->field($model, 'name')->textInput() ?>
     <div class="form-group m-10">
         <center>

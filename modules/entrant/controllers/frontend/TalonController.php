@@ -8,6 +8,8 @@ use olympic\models\auth\Profiles;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use Yii;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class TalonController extends Controller
 {
@@ -19,14 +21,14 @@ class TalonController extends Controller
     public function beforeAction($action)
     {
         if(!$this->getOperator()) {
-            return $this->redirect(['default/index']);
+            return $this->redirect('/');
         }
         return parent::beforeAction($action);
     }
 
     public function actionIndex()
     {
-        $profiles = Profiles::findOne($this->getUserId());
+        $profiles = Profiles::findOne(['user_id' =>$this->getUserId()]);
         if(!$profiles || $profiles->isNullProfile()) {
             Yii::$app->session->setFlash('warning', 'Необходимо заполнить профиль абитуриента');
             return $this->redirect('/profile/edit');
@@ -46,16 +48,38 @@ class TalonController extends Controller
             Yii::$app->session->setFlash('warning', 'У данного абитуриента есть талон на сегодня');
              return $this->redirect('index');
         }
-
         $model = new Talons();
+        $model->date = date('Y-m-d');
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->entrant_id = $this->getUserId();
-            $model->date = date('Y-m-d');
             $model->status = Talons::STATUS_NEW;
             $model->save();
             return $this->redirect('index');
         }
-        return $this->renderAjax('add', ['model' => $model]);
+        return $this->renderAjax('form', ['model' => $model]);
+    }
+
+    public function actionUpdate($id)
+    {
+        if(!$model = Talons::findOne(['id'=>$id, 'date' => date('Y-m-d')])) {
+            Yii::$app->session->setFlash('error', 'Талон не найден');
+            return $this->redirect('index');
+        }
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save();
+            return $this->redirect('index');
+        }
+        return $this->renderAjax('form', ['model' => $model]);
     }
 
     protected function getOperator() {
