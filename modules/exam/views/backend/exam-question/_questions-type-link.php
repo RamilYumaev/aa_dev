@@ -15,7 +15,7 @@ use yii\helpers\Html;
             Html::a('Краткий ответ', ['create', 'type' => TestQuestionHelper::TYPE_ANSWER_SHORT], [ 'class'=>'btn btn-success']) : ""; ?>
         <?= Yii::$app->user->can("detailed-type") ?
             Html::a('Развернутый ответ', ['create', 'type' =>TestQuestionHelper::TYPE_ANSWER_DETAILED], [ 'class'=>'btn btn-success']) : ""; ?>
-        <?= Yii::$app->user->can("file-type") ? Html::a('Загрузка файла', ['create', 'type' =>TestQuestionHelper::TYPE_FILE], [ 'class'=>'btn btn-success']) :"" ; ?>
+        <?= Yii::$app->user->can("file-type") ? Html::a('Трудный вопрос (загрузка файла)', ['create', 'type' =>TestQuestionHelper::TYPE_FILE], [ 'class'=>'btn btn-success']) :"" ; ?>
         <?= Html::a('Трудный вопрос (на заполнение пропусков)', ['create', 'type' =>TestQuestionHelper::TYPE_CLOZE], [ 'class'=>'btn btn-success']); ?>
     </div>
 </div>

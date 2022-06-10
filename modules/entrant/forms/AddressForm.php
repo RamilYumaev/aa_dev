@@ -30,7 +30,7 @@ class AddressForm extends Model
     public function defaultRules()
     {
         return [
-            [['country_id','type'], 'required'],
+            [['country_id', 'postcode', 'region', 'type'], 'required'],
             [['country_id','type'], 'integer'],
             [['postcode', 'region', 'district', 'city', 'village', 'street', 'house', 'housing', 'building', 'flat'],
                 'string', 'max' => 255],
@@ -66,8 +66,4 @@ class AddressForm extends Model
     {
         return (new Address())->attributeLabels();
     }
-
-
-
-
 }

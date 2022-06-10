@@ -1,6 +1,5 @@
 <?php
 
-
 namespace dictionary\models;
 
 
@@ -22,6 +21,7 @@ class Region extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название субъекта РФ',
+            'ss_id' =>'Название субъекта РФ'
         ];
     }
 }

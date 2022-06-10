@@ -32,14 +32,12 @@ array_merge(
                 ['label' => 'Реестр КС', 'url' => ['/dictionary-module/setting-entrant/register-competition-list-index']],
             ])]] : []),
 
-//    (Yii::$app->user->can('manager') ?
-//        [['label' => 'Рассылка', 'url' => '#',
-//            'items' => array_merge([
-//                ['label' => 'Шаблоны', 'url' => '/sending/template'],
-//                ['label' => 'Модерация рассылки', 'url' => '/sending/send'],
-//                ['label' => 'Опросы', 'url' => '/sending/polls/'],
-//                ['label' => 'Варианты ответов', 'url' => '/sending/dict-poll-answer/'],
-//            ])]] : []),
+    (Yii::$app->user->can('dev') ?
+        [['label' => 'Спецсправочники', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Справочники СС', 'url' => ['/super-service/']],
+                ['label' => 'Регионы', 'url' => ['/dictionary-module/dict-regiong']],
+            ])]] : []),
 
 
 //    (Yii::$app->user->can('manager') ?
