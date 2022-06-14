@@ -25,19 +25,34 @@ class StatementPersonalDataService
 
     public function create($userId)
     {
-        if(!$this->repository->get($userId)) {
+        if (!$this->repository->get($userId)) {
             $this->repository->save(StatementConsentPersonalData::create($userId));
         }
 
     }
 
-    public function addCountPages($userId, $count){
+    public function addCountPages($userId, $count)
+    {
         $statement = $this->repository->get($userId);
-        if($statement) {
-            if(!$statement->count_pages) {
+        if ($statement) {
+            if (!$statement->countFilesINSend()) {
                 $statement->setCountPages($count);
             }
             $this->repository->save($statement);
+        }
+    }
+
+    /**
+     * @param $userId
+     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
+     */
+
+    public function remove($userId)
+    {
+        $model = $this->repository->get($userId);
+        if ($model && !$model->countFiles()) {
+            $this->repository->remove($model);
         }
     }
 }

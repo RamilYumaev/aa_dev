@@ -96,7 +96,7 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             имеющие целью подготовку несовершеннолетних обучающихся к военной или иной государственной службе',
             'resource'=> 'Откуда узнали об МПГУ?',
             'is_epgu' => 'Поступающий через ЕПГУ',
-            'transfer_in_epgu' => 'Поступающий через ЕПГУ',
+            'transfer_in_epgu' => 'Согласен получать данные на ЕПГУ (Госуслуги)',
             'is_time' => 'Очный прием',
             'exam_check' => "Экзамен"
         ];

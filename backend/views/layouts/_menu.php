@@ -36,7 +36,7 @@ array_merge(
         [['label' => 'Спецсправочники', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Справочники СС', 'url' => ['/super-service/']],
-                ['label' => 'Регионы', 'url' => ['/dictionary-module/dict-regiong']],
+                ['label' => 'Регионы', 'url' => ['/dictionary-module/dict-region']],
             ])]] : []),
 
 

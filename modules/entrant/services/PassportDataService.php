@@ -11,6 +11,7 @@ use modules\entrant\forms\PassportDataForm;
 use modules\entrant\models\PassportData;
 use modules\entrant\repositories\PassportDataRepository;
 use modules\entrant\repositories\StatementRepository;
+use mysql_xdevapi\Statement;
 use yii\base\DynamicModel;
 
 
@@ -19,11 +20,14 @@ class PassportDataService
     private $repository;
     private $transactionManager;
     private $statementRepository;
+    private $service;
 
-    public function __construct(PassportDataRepository $repository, TransactionManager $transactionManager, StatementRepository $statementRepository)
+    public function __construct(PassportDataRepository $repository, TransactionManager
+    $transactionManager, StatementRepository $statementRepository, StatementPersonalDataService $service)
     {
         $this->repository = $repository;
         $this->transactionManager = $transactionManager;
+        $this->service = $service;
         $this->statementRepository = $statementRepository;
 
     }
@@ -39,7 +43,6 @@ class PassportDataService
 
                 }
             }
-
             $model = PassportData::create($form, $this->mainStatusDefaultForm($form, $birthDocument));
             $model->versionData($form);
             if($form->other_data) {
@@ -73,6 +76,8 @@ class PassportDataService
                 $model->detachBehavior("moderation");
             }
             $this->repository->save($model);
+
+            $this->service->remove($model->user_id);
         });
     }
 
