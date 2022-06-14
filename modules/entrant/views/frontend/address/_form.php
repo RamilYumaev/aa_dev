@@ -2,6 +2,7 @@
 /* @var $model modules\entrant\forms\AddressForm */
 /* @var $form yii\bootstrap\ActiveForm */
 
+use dictionary\helpers\DictRegionHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use dictionary\helpers\DictCountryHelper;
@@ -20,6 +21,7 @@ use modules\kladr\widgets\KladrAddressWidget;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id'=> 'form-address']); ?>
             <?= $form->field($model, 'country_id')->dropDownList(DictCountryHelper::countryList(), ['prompt'=> 'Выберите страну']) ?>
+            <?= $form->field($model, 'region_id')->dropDownList(DictRegionHelper::regionList(), ['prompt'=> 'Выберите регион']) ?>
             <?= $form->field($model, 'type')->dropDownList(AddressHelper::typeOfAddress()) ?>
             <?= KladrAddressWidget::widget([
                 'model' => $model,
@@ -35,3 +37,21 @@ use modules\kladr\widgets\KladrAddressWidget;
         </div>
     </div>
 </div>
+<?php
+$this->registerJS(<<<JS
+var country = $("#addressform-country_id");
+const russia = 46;
+const other  = 86;
+var regionField = $('.field-addressform-region_id');
+var region = $("#addressform-region_id");
+regionField.hide();
+$(country).on("change init", function() {
+     if(this.value == russia){
+        regionField.show();
+     }else {
+         region.val('');
+         regionField.hide();
+     }
+}).trigger("init");
+JS
+);

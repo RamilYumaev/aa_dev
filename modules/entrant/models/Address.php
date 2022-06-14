@@ -6,6 +6,8 @@ namespace modules\entrant\models;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictRegionHelper;
+use modules\dictionary\models\DictRegion;
 use modules\entrant\behaviors\FileBehavior;
 use modules\entrant\forms\AddressForm;
 use modules\entrant\helpers\AddressHelper;
@@ -27,6 +29,7 @@ use modules\entrant\helpers\AddressHelper;
  * @property string $housing
  * @property string $building
  * @property string $flat
+ * @property int| null $region_id
 **/
 
 class Address extends YiiActiveRecordAndModeration
@@ -35,7 +38,7 @@ class Address extends YiiActiveRecordAndModeration
     {
         return ['moderation' => [
             'class'=> ModerationBehavior::class,
-            'attributes'=>['country_id', 'type', 'postcode', 'region', 'district',
+            'attributes'=>['country_id', 'region_id','type', 'postcode', 'region', 'district',
                 'city', 'village', 'street', 'house', 'housing', 'building', 'flat'],
         ], FileBehavior::class, \modules\transfer\behaviors\FileBehavior::class];
     }
@@ -60,6 +63,7 @@ class Address extends YiiActiveRecordAndModeration
         $this->building  = $form->building;
         $this->flat = $form->flat;
         $this->user_id = $form->user_id;
+        $this->region_id = $form->region_id;
     }
 
     protected function getProperty($property){
@@ -68,7 +72,7 @@ class Address extends YiiActiveRecordAndModeration
 
     public function getAdders(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'country_id',  'region_id', 'type', 'id']) as  $key => $value) {
             if($value) {
                 $string .= $value.", ";
             }
@@ -78,7 +82,7 @@ class Address extends YiiActiveRecordAndModeration
 
     public function getAddersFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'country_id', 'type', 'region_id', 'id']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
@@ -93,6 +97,11 @@ class Address extends YiiActiveRecordAndModeration
     public function getCountryName()
     {
         return  DictCountryHelper::countryName($this->country_id);
+    }
+
+    public function getDictRegion()
+    {
+        return  $this->hasOne(DictRegion::class, ['id'=> 'region_id']);
     }
 
     public function isMoscow() {
@@ -123,7 +132,8 @@ class Address extends YiiActiveRecordAndModeration
             'house' => $value,
             'housing' => $value,
             'building' => $value,
-            'flat' => $value
+            'flat' => $value,
+            'region_id' => $value ? DictRegionHelper::regionName($value) :  '',
         ];
     }
 
@@ -140,7 +150,7 @@ class Address extends YiiActiveRecordAndModeration
             'country_id' =>"Страна",
             'type' => "Тип адреса",
             'postcode' => 'Индекс',
-            'region' => "Регион",
+            'region' => "Регион (Наименование)",
             'district' => "Район",
             'city' => "Город",
             'village' => "Посёлок",
@@ -149,6 +159,7 @@ class Address extends YiiActiveRecordAndModeration
             'housing' => "Корпус",
             'building' =>"Строение",
             'flat' => "Квартира",
+            'region_id' => "Регион",
         ];
     }
 

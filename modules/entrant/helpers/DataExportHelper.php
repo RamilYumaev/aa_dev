@@ -77,6 +77,7 @@ class DataExportHelper
                 'address_registration_housing' => $addressRegistration ? $addressRegistration->housing : "",
                 'address_registration_building' => $addressRegistration ? $addressRegistration->building : "",
                 'address_registration_flat' => $addressRegistration ? $addressRegistration->flat : "",
+                'address_registration_region_id' =>  $addressRegistration ? ($addressRegistration->dictRegion ? $addressRegistration->dictRegion->ss_id : "") : "",
                 'address_residence_postcode' => $addressResidence ? $addressResidence->postcode : "",
                 'address_residence_region' => $addressResidence ? $addressResidence->region : "",
                 'address_residence_district' => $addressResidence ? $addressResidence->district : "",
@@ -98,6 +99,7 @@ class DataExportHelper
                 'address_actual_housing' => $addressActual ? $addressActual->housing : "",
                 'address_actual_building' => $addressActual ? $addressActual->building : "",
                 'address_actual_flat' => $addressActual ? $addressActual->flat : "",
+                'address_actual_region_id' => $addressActual ? ($addressActual->dictRegion ? $addressActual->dictRegion->ss_id : "") : "",
                 'phone_mobile' => $profile->phone,
                 'email' => $profile->user->email,
                 'school_type_id' => $anketa->current_edu_level,
@@ -120,7 +122,8 @@ class DataExportHelper
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
                 'overall_diploma_mark_common' => $info->mark_spo ?? null,
-                'incoming_type_id' => $type
+                'incoming_type_id' => $type,
+                'epgu_status' => $info->transfer_in_epgu,
             ]
         ];
         return array_merge($result,

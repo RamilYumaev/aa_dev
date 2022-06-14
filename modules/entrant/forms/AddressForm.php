@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 class AddressForm extends Model
 {
     public $country_id, $type, $postcode, $region, $district, $city,
-        $village, $street, $house, $housing, $building, $flat, $user_id;
+        $village, $street, $house, $housing, $building, $flat, $user_id, $region_id;
 
     private $_address;
 
@@ -23,6 +23,13 @@ class AddressForm extends Model
         parent::__construct($config);
     }
 
+    public function afterValidate()
+    {
+        if($this->country_id != 46) {
+            $this->region_id = 86;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +38,10 @@ class AddressForm extends Model
     {
         return [
             [['country_id', 'postcode', 'region', 'type'], 'required'],
-            [['country_id','type'], 'integer'],
+            [['country_id', 'type', 'region_id'], 'integer'],
+            [['region_id'], 'required', 'when'=> function($model) {
+                return $model->country_id == 46;
+            }, 'whenClient' => 'function (attribute, value) { return $("#addressform-country_id").val() == 46}'],
             [['postcode', 'region', 'district', 'city', 'village', 'street', 'house', 'housing', 'building', 'flat'],
                 'string', 'max' => 255],
             ['type', 'in', 'range' => AddressHelper::rangeAddress()],

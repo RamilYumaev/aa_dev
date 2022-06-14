@@ -10,14 +10,14 @@ $passport = PassportDataHelper::dataArray($statementPd->user_id);
 ?>
 <?php if (!$statementPd->countFilesINSend()): ?>
     <?php if ($passport['age'] > 17): ?>
-        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd, 'anketa' => $userAnketa]) ?>
+        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd, 'userAnketa' => $userAnketa]) ?>
     <?php else: ?>
-        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd, 'anketa' => $userAnketa]) ?>
+        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd, 'userAnketa' => $userAnketa]) ?>
     <?php endif; ?>
 <?php else: ?>
     <?php if ($statementPd->count_pages == 4): ?>
-        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd, 'anketa' => $userAnketa]) ?>
+        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd, 'userAnketa' => $userAnketa]) ?>
     <?php else: ?>
-        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd, 'anketa' => $userAnketa]) ?>
+        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd, 'userAnketa' => $userAnketa]) ?>
     <?php endif; ?>
 <?php endif; ?>
