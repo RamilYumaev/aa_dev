@@ -24,23 +24,27 @@ class DocumentsFields
     public static function data($array) {
         $data = '';
         if(is_array($array)) {
+            $version = $array['version_document'];
             foreach ($array as $key => $value) {
-                if(key_exists($key, self::getFields()['clsName'])) {
-                    $class = '\\modules\\superservice\\components\\data\\'.self::getFields()['clsName'][$key];
-                    $data .=   self::getFields()['descriptions'][$key].": ".
+                if($key == 'version_document') {
+                    continue;
+                }
+                if(key_exists($key, self::getFields($version)['clsName'])) {
+                    $class = '\\modules\\superservice\\components\\data\\'.self::getFields($version)['clsName'][$key];
+                    $data .=   self::getFields($version)['descriptions'][$key].": ".
                         ($value ?  (new $class())->getArray()->index('Id')[$value][$class::KEY_NAME] : $value)."; ";
                 }else {
-                    $data .= self::getFields()['descriptions'][$key].": ".$value. ";\n ";
+                    $data .= self::getFields($version)['descriptions'][$key].": ".$value. ";\n ";
                 }
             }
         }
         return $data;
     }
 
-    private static function getFields() {
+    private static function getFields($version) {
         $fields = [];
-        $data = self::getDocumentTypeVersionList()->filter(function ($v) {
-            return key_exists('FieldsDescription', $v);
+        $data = self::getDocumentTypeVersionList()->filter(function ($v) use ($version) {
+            return $v['Id'] == $version && key_exists('FieldsDescription', $v);
         });
         foreach ($data as $cc) {
             $array = $cc['FieldsDescription']['FieldDescription'];

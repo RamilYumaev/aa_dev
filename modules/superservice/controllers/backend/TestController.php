@@ -8,17 +8,10 @@ use yii\web\Response;
 
 class TestController extends Controller
 {
-   public function actionIndex()
-   {
-       var_dump((new DocumentsFields)->getFields());
-
-   }
-
     /**
      * @param $selectOn
      * @return array
      */
-
     public function actionDoc($selectOn)
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;

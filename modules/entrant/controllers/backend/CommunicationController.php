@@ -103,9 +103,11 @@ class CommunicationController extends Controller
             }
             $ch = curl_init();
             $data = Json::encode(DataExportHelper::dataIncoming($model->user_id));
+            $headers = array("Content-Type" => "multipart/form-data");
             curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-entrant-with-doc?access-token=' . $token);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
             curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);

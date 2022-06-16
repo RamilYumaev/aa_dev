@@ -88,7 +88,8 @@ class PassportData extends YiiActiveRecordAndModeration
 
     public function otherData($data)
     {
-        $this->other_data = json_encode($data);
+        $additionalData = ['version_document' => $this->version_document];
+        $this->other_data = json_encode($data+$additionalData);
     }
 
     public function getValue($property)

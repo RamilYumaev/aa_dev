@@ -42,6 +42,18 @@ class DataExportHelper
         $passport = PassportData::findOne(['user_id' => $profile->user_id, 'main_status' => true]);
         $other = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => [1, 2, 3]]);
         $otherKz = OtherDocument::findOne(['user_id' => $profile->user_id, 'exemption_id' => 4]);
+        $photoDocument = OtherDocument::findOne(['user_id' => $profile->user_id,
+            'type' => DictIncomingDocumentTypeHelper::ID_PHOTO]);
+        $file = $photoDocument && $photoDocument->getFiles() ? $photoDocument->getFiles()->one() : null;
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $photo = null;
+        if($file) {
+            $filename = $file->getUploadedFilePath('file_name_user');
+            $mimetype = $finfo->file($filename);
+            $photo['file'] = base64_encode(file_get_contents($filename));
+            $photo['mime'] = $mimetype;
+            $photo['basename'] = basename($filename);
+        }
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
@@ -124,6 +136,7 @@ class DataExportHelper
                 'overall_diploma_mark_common' => $info->mark_spo ?? null,
                 'incoming_type_id' => $type,
                 'epgu_status' => $info->transfer_in_epgu,
+                'photo' => $photo
             ]
         ];
         return array_merge($result,
@@ -225,7 +238,9 @@ class DataExportHelper
             'patronymic' => '',
             'amount' => 1,
             'main_status' => 0,
-        ];
+        ]+Converter::generate($currentIa->userIndividualAchievements->dictOtherDocument->type_document,
+                $currentIa->userIndividualAchievements->dictOtherDocument->version_document,
+                $currentIa->userIndividualAchievements->dictOtherDocument->other_data, true);
         return $result;
     }
 
@@ -396,13 +411,13 @@ class DataExportHelper
         $surname = "";
         $name = "";
         $patronymic = "";
-        $result['documents'] = [];
+        $result['passportDocuments'] = [];
 
         foreach (PassportData::find()
                      ->andWhere(['user_id' => $userId])
                      ->orderBy(['main_status' => SORT_DESC])
                      ->all() as $currentDocument) {
-            $result['documents'][] = [
+            $result['passportDocuments'][] = [
                 'sdo_id' => $currentDocument->id,
                 'model_type' => 1,
                 'document_type_id' => $currentDocument->type,
@@ -424,9 +439,11 @@ class DataExportHelper
                     $currentDocument->version_document,
                     $currentDocument->other_data);
         }
+        $result['documents'] = [];
 
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
                      ->andWhere(['not in', 'id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
+                     ->andWhere(['not in', 'type', DictIncomingDocumentTypeHelper::ID_PHOTO])
                      ->all() as $currentDocument) {
             if (in_array($currentDocument->type,
                 [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
@@ -469,7 +486,7 @@ class DataExportHelper
                 'document_series' => $currentDocument->series,
                 'document_number' => $currentDocument->number,
                 'document_issue' => $currentDocument->date,
-                'document_authority' => "",
+                'document_authority' => $currentDocument->schoolName,
                 'document_authority_code' => "",
                 'document_authority_country_id' => $currentDocument->school->country_id,
                 'diploma_authority' => $currentDocument->schoolName,

@@ -92,7 +92,8 @@ class OtherDocument extends YiiActiveRecordAndModeration
 
     public function otherData($data)
     {
-        $this->other_data = json_encode($data);
+        $additionalData = ['version_document' => $this->version_document];
+        $this->other_data = json_encode($data+$additionalData);
     }
 
     public static  function createNote($typeNote, $type,  $user_id, $note) {

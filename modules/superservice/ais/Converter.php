@@ -2,6 +2,7 @@
 namespace modules\superservice\ais;
 
 use modules\superservice\components\data\DocumentTypeVersionList;
+use modules\superservice\forms\DocumentsDynamicForm;
 
 class Converter
 {
@@ -37,21 +38,45 @@ class Converter
         ];
     }
 
-    public static function generate($type, $version, $data, $showAllData = false) {
-
+    public static function generate($type, $version, $data, $showAllData = false)
+    {
         $array = [];
         $array['epgu_document_type_id'] = $type;
         $array['epgu_document_version_id'] = self::getVersionDocument($version);
         $other_data = $data ? json_decode($data, true) : [];
-        if($showAllData) {
+        if ($showAllData) {
             foreach (array_flip(self::fieldsEpgu()) as $key => $value) {
                 $array[$key] = $other_data && key_exists($value, $other_data) ? $other_data[$value] : null;
+            };
+            foreach (array_flip(self::categories()) as $key => $value) {
+                $fields = self::getClsNames($version);
+                if($fields
+                    && key_exists('clsName', $fields)
+                    && key_exists('IdCategory', $fields['clsName'])
+                    && $other_data
+                    && key_exists('IdCategory', $other_data)
+                    && $fields['clsName']['IdCategory'] == $value
+                ) {
+                    $array[$key] = $other_data['IdCategory'];
+                }else {
+                    $array[$key] = null;
+                }
             };
         }
         return $array;
     }
 
-    private static function getVersionDocument($version) {
+    private static function categories() {
+        return [
+            'ParentsLostCategoryList' => 'epgu_parents_lost_category_id',
+            'MilitaryCategoryList' => 'epgu_military_category_id',
+            'OrphanCategoryList' => 'epgu_orphan_category_id',
+            'RadiationWorkCategoryList' => 'epgu_radiation_work_category_id',
+            'VeteranCategoryList'=>'epgu_veteran_category_id'
+        ];
+    }
+
+    public static function getVersionDocument($version) {
         $document = new DocumentTypeVersionList();
         $array = $document->getArray()->filter(function ($v) use ($version) {
             return $v['Id'] == $version;
@@ -59,6 +84,9 @@ class Converter
         if($data = array_values($array)) {
             return $data[0]['DocVersion'];
         }
-       // throw new \DomainException('Не указано версия документа');
+    }
+
+    public static function getClsNames($version) {
+        return (new DocumentsDynamicForm($version))->getFields();
     }
 }
