@@ -186,10 +186,8 @@ class CopyCgController  extends Controller
         return "success";
     }
 
-    public function actionIaCg($year)
+    public function actionIaCg()
     {
-        ini_set('max_execution_time', 9000);
-        ini_set('memory_limit', 1024 * 1024 * 1024 * 2);
         $aisIaCg = iaCgAis::find()->all();
         if ($aisIaCg) {
             foreach ($aisIaCg as $iaAis) {
@@ -199,11 +197,11 @@ class CopyCgController  extends Controller
                 if (!$sdoCg) {
                     return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
                 }
-                if ($this->getIaCg($this->getIA2021($iaAis->individual_achievement_id), $sdoCg->id)) {
+                if ($this->getIaCg($this->getIA2022($iaAis->individual_achievement_id), $sdoCg->id)) {
                     continue;
                 } else {
                     $newIaCgSdo = new DictIndividualAchievementCg();
-                    $newIaCgSdo->individual_achievement_id = $this->getIA2021($iaAis->individual_achievement_id);
+                    $newIaCgSdo->individual_achievement_id = $this->getIA2022($iaAis->individual_achievement_id);
                     $newIaCgSdo->competitive_group_id = $sdoCg->id;
                     if (!$newIaCgSdo->save()) {
                         $error = Json::encode($newIaCgSdo->errors);
