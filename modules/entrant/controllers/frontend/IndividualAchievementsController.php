@@ -42,9 +42,6 @@ class IndividualAchievementsController extends Controller
 
     public function actionIndex()
     {
-        if(!UserCgHelper::userIsBudgetBachMagGrad($this->getUser())) {
-            return $this->redirect(['default/index']);
-        }
         $model = DictIndividualAchievementHelper::dictIndividualAchievementUser($this->getUser());
         return $this->render("index", ["model" => $model]);
     }

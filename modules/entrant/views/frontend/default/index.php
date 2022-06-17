@@ -112,7 +112,7 @@ include 'navigation/index.html';
     <div class="mt-20 table-responsive" id="additional">
         <?= \modules\entrant\widgets\information\AdditionalInformationWidget::widget(['userId' => $userId]); ?>
     </div>
-    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu() && \modules\entrant\helpers\UserCgHelper::userIsBudgetBachMagGrad($userId)): ?>
+    <?php if (!$anketa->isNoRequired() && !$anketa->isTpgu()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>

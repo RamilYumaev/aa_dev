@@ -10,6 +10,6 @@ class cathedraCgAis extends ActiveRecord
 {
     public static function tableName()
     {
-        return "cathedra_cg_ais";
+        return "2022_dict_incoming_competitive_group_cathedra";
     }
 }

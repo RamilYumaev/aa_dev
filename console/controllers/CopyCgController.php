@@ -14,6 +14,8 @@ use dictionary\models\DictSpeciality;
 use dictionary\models\DictSpecialization;
 use dictionary\models\DisciplineCompetitiveGroup;
 use dictionary\models\Faculty;
+use modules\dictionary\models\ais\DictIncomingIndividualAchievement;
+use modules\dictionary\models\ais\DictStudentSpecialization;
 use modules\dictionary\models\CathedraCg;
 use modules\dictionary\models\DictIndividualAchievement;
 use modules\dictionary\models\DictIndividualAchievementCg;
@@ -23,6 +25,15 @@ use yii\helpers\Json;
 
 class CopyCgController  extends Controller
 {
+    public function actionAddNewProfile()  {
+        foreach (DictStudentSpecialization::find()->all() as $value) {
+            if(DictSpecialization::findOne(['ais_id'=> $value->id])) {
+                continue;
+            }
+            DictSpecialization::create($value->name, 1, $value->id)->save();
+        }
+    }
+
     public function actionAisImport()
     {
         $allAisCg = AisCg::find()
@@ -53,7 +64,7 @@ class CopyCgController  extends Controller
             $model->financing_type_id = $aisCg->financing_type_id;
             $model->faculty_id = Faculty::aisToSdoConverter($aisCg->faculty_id);
             $model->kcp = $aisCg->kcp;
-            $model->special_right_id = $aisCg->special_right_id;
+            $model->special_right_id = $aisCg->special_right_id == 3 ? 4 : $aisCg->special_right_id;
             $model->passing_score = $aisCg->competition_mark;
             $model->is_new_program = $aisCg->is_new_status;
             $model->competition_count = $aisCg->competition_count;
@@ -135,7 +146,6 @@ class CopyCgController  extends Controller
 
     public function actionAisDiscipline()
     {
-
         $allDiscipline = ExamAis::find()->where(['between', 'id',210, 234])->all();
 
         foreach ($allDiscipline as $discipline) {
@@ -155,13 +165,12 @@ class CopyCgController  extends Controller
         return "success";
     }
 
-    public function actionCgCathedra($year)
+    public function actionCgCathedra()
     {
-        $cgCathedra = cathedraCgAis::find()->andWhere(['year' => $year])->all();
-        $eduYear = DictCompetitiveGroup::aisToSdoYearConverter()[$year];
+        $cgCathedra = cathedraCgAis::find()->all();
         if ($cgCathedra) {
             foreach ($cgCathedra as $cathedra) {
-                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->andWhere(['year' => $eduYear])->one();
+                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->andWhere(['year' => '2021-2022' ])->one();
                 if (!$cg) {
                     return "Отсутствует конкурсная группа $cathedra->competitive_group_id";
                 }
@@ -186,22 +195,45 @@ class CopyCgController  extends Controller
         return "success";
     }
 
+    public function actionUpdateNewIa() {
+       $ias = DictIncomingIndividualAchievement::find()->all();
+       /* @var $ia \modules\dictionary\models\ais\DictIncomingIndividualAchievement */
+       foreach($ias as $ia)  {
+           if ($this->getIA2022($ia->id)) {
+               continue;
+           }
+          $new = new DictIndividualAchievement();
+           $new->name = $ia->name;
+           $new->category_id = $ia->category_id;
+           $new->mark = $ia->mark;
+           $new->year = 2022;
+           $new->name_short = $ia->name_short;
+           $new->ais_id = $ia->id;
+           $new->save();
+        }
+    }
+
+
     public function actionIaCg()
     {
         $aisIaCg = iaCgAis::find()->all();
         if ($aisIaCg) {
             foreach ($aisIaCg as $iaAis) {
-                $sdoCg = DictCompetitiveGroup::find()
-                    ->andWhere(['ais_id' => $iaAis->competitive_group_id])
-                    ->andWhere(['year' => "2021-2022" ])->one();
+                $sdoCg = DictCompetitiveGroup::findOne(['ais_id' => $iaAis->competitive_group_id, 'year' => "2021-2022"]);
                 if (!$sdoCg) {
                     return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
                 }
-                if ($this->getIaCg($this->getIA2022($iaAis->individual_achievement_id), $sdoCg->id)) {
+                $model = $this->getIA2022($iaAis->individual_achievement_id);
+
+                if (!$model) {
+                    return "ИД АИС $iaAis->individual_achievement_id не найдено";
+                }
+
+                if ($this->getIaCg($model->id, $sdoCg->id)) {
                     continue;
                 } else {
                     $newIaCgSdo = new DictIndividualAchievementCg();
-                    $newIaCgSdo->individual_achievement_id = $this->getIA2022($iaAis->individual_achievement_id);
+                    $newIaCgSdo->individual_achievement_id = $model->id;
                     $newIaCgSdo->competitive_group_id = $sdoCg->id;
                     if (!$newIaCgSdo->save()) {
                         $error = Json::encode($newIaCgSdo->errors);
@@ -221,7 +253,7 @@ class CopyCgController  extends Controller
 
 
         foreach ($iaDoc as $doc) {
-            $ia = DictIndividualAchievement::find()->andWhere(['year' => "2021-2022"])->andWhere(['ais_id' => $doc->individual_achievement_id])->one();
+            $ia = DictIndividualAchievement::find()->andWhere(['year' => "2022"])->andWhere(['ais_id' => $doc->individual_achievement_id])->one();
 
             if (!$ia) {
                 return "Ошибка ИД не существует";
@@ -245,34 +277,8 @@ class CopyCgController  extends Controller
 
     private function getIA2022($id)
     {
-        $model = DictIndividualAchievement::find()
-            ->andWhere(['year' => 2022])
-            ->andWhere(['ais_id' => $id])
-            ->one();
-
-        return $model->id;
+        return DictIndividualAchievement::findOne(['year' => 2022, 'ais_id' => $id]);
     }
-
-    public function actionTransferId()
-    {
-        $models = DictIndividualAchievement::find()->all();
-
-        foreach ($models as $model) {
-
-            if ($model->year == '2022') {
-                $model->ais_id = $model->id;
-            } else {
-                $model->ais_id = $model->id - 758;
-            }
-
-            if (!$model->save()) {
-                return "Не удалось перекинуть id  $model->id";
-            }
-        }
-
-        return "успешно";
-    }
-
 
     private function getIaCg($iaId, $cgId)
     {

@@ -58,6 +58,7 @@ class CompetitiveGroupSearch extends Model
     {
         $query = DictCompetitiveGroup::find()
             ->specialRight(null)
+            ->andWhere(['not in', 'year', "2015-2016"])
             ->andWhere(['not in', 'year', "2021-2022"])
             ->foreignerStatus(0)
             ->eduLevel($this->eduLevel)
