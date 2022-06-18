@@ -42,30 +42,6 @@ if ($cpk) {
     </table>
     <table width="100%">
         <tr>
-            <td class="bb"><?= $passport['date_of_birth'] ?></td>
-            <td class="text-center"> года рождения, паспорт/иной документ удостоверяющий личность серия</td>
-            <td class="bb" width="5%"><?= $passport['series'] ?></td>
-            <td width="7%">номер</td>
-            <td class="bb" width="11%"><?= $passport['number'] ?></td>
-        </tr>
-    </table>
-    <table width="100%">
-        <tr>
-            <td width="17%"> кем и когда выдан</td>
-            <td width="83%" colspan="4" class="bb text-center"><?= $passport['authority'] ?> <?= $passport['date_of_issue'] ?></td>
-        </tr>
-    </table>
-<?php if ($cpk) : ?>
-    <table width="100%">
-        <tr>
-            <td width="32%">проживающий(ая) по адресу:</td>
-            <td width="68%" colspan="4" class="bb text-center"><?= $reg['full'] ?></td>
-        </tr>
-    </table>
-
-<?php endif; ?>
-    <table width="100%">
-        <tr>
             <td width="20%">телефон:</td>
             <td width="30%" colspan="4" class="bb text-center"><?= $profile['phone'] ?></td>
             <td width="5%"></td>
