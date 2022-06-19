@@ -107,7 +107,7 @@ class SettingGenerateController extends Controller
                                             $model->note = "Настройка № $key";
                                             $model->faculty_id = $depart;
                                             $model->form_edu = $form;
-                                            $model->datetime_start = '2022-06-20 00:00:00';
+                                            $model->datetime_start = '2022-06-20 10:00:00';
                                             $model->datetime_end = '2022-08-31 00:00:00';
                                             $model->cse_as_vi = $cVi;
                                             $model->is_vi = $dopVi;
@@ -138,6 +138,25 @@ class SettingGenerateController extends Controller
         return 'Выполнено $key итераций';
     }
 
+    public function actionSetList() {
+        /** @var SettingEntrant $st */
+        foreach (SettingEntrant::find()->type(SettingEntrant::ZOS)->isCseAsVi(false)->foreign(false)->all() as $st)  {
+            $model = new $this->competitionListForm;
+            $model->date_start = $st->getDateStart();
+            $model->date_end = $st->getDateEnd();
+            $model->time_start = "10:00:00";
+            $model->time_end = "18:00:00";
+            $model->se_id =  $st->id;
+            $model->time_start_week = "10:00:00";
+            $model->time_end_week = "15:00:00";
+            $model->interval = 5;
+            $model->date_ignore =[];
+            $model->is_auto = 1;
+            $model->end_date_zuk = null;
+            $this->competitionListService->create($model);
+        }
+    }
+
     private function update() {
         /** @var SettingEntrant $st */
         foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
@@ -150,26 +169,6 @@ class SettingGenerateController extends Controller
             $st->save();
         }
     }
-
-    public function actionSetList() {
-        /** @var SettingEntrant $st */
-        foreach (SettingEntrant::find()->type(SettingEntrant::ZOS)->isCseAsVi(false)->foreign(false)->all() as $st)  {
-            $model = new $this->competitionListForm;
-            $model->date_start = $st->getDateStart();
-            $model->date_end = $st->getDateEnd();
-            $model->time_start = "10:00:00";
-            $model->time_end = "20:00:00";
-            $model->se_id =  $st->id;
-            $model->time_start_week = "10:00:00";
-            $model->time_end_week = "15:00:00";
-            $model->interval = 7;
-            $model->date_ignore =[];
-            $model->is_auto = 1;
-            $model->end_date_zuk = null;
-            $this->competitionListService->create($model);
-        }
-    }
-
     public function actionUpdate() {
         /** @var SettingEntrant $st */
         foreach (SettingEntrant::find()->type(SettingEntrant::ZUK)
@@ -384,5 +383,4 @@ class SettingGenerateController extends Controller
             ->groupBy('special_right_id')
             ->column();
     }
-
 }

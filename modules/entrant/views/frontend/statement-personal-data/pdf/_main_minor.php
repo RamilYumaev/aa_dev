@@ -18,8 +18,6 @@
 <div style="page-break-after: always;">
 <?= $this->render("_header_ras_rod", ['profile' => $profile, 'user_id' => $statementPd->user_id, 'anketa' => $userAnketa]) ?>
 <?= $this->render("_body_ras_rod", ['statementPd' => $statementPd, 'profile' => $profile]) ?>
-</div>
-<div style="page-break-after: always;">
 <?= $this->render("_footer_ras_rod", ['statementPd' => $statementPd, 'profile' => $profile]) ?>
 </div>
 <?= $this->render("_header_obr_rod", ['profile' => $profile, 'user_id' => $statementPd->user_id, 'anketa' => $userAnketa]) ?>

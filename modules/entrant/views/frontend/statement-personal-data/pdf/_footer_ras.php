@@ -11,19 +11,6 @@ use \modules\entrant\helpers\CategoryStruct;
 
 ?>
 
-<table width="100%">
-        <tr>
-            <td class="text-left">Я,</td>
-            <td width="90%"
-                class="bb text-center"><?= $profile['last_name'] ?> <?= $profile['first_name'] ?> <?= $profile['patronymic'] ? " "
-                    . $profile['patronymic'] : "" ?></td>
-        </tr>
-</table>
-<p>
-настоящим даю согласие на распространение (передачу, предоставление) моих персональных данных (персональных данных представляемого лица).
-</p>
-    	
-
 <table width="100%" class="mt-50">
     <tr>
         <td width="5px">«</td>
@@ -48,9 +35,9 @@ use \modules\entrant\helpers\CategoryStruct;
         <td width="15px"></td>
         <td></td>
         <td></td>
-        <td width="150px" class="fs-7 text-center"><i>(подпись Субъекта)</i></td>
+        <td width="150px" class="fs-7 text-center"><i>(подпись)</i></td>
         <td></td>
-        <td width="150px" class="fs-7 text-center"><i>(ФИО)</i></td>
+        <td width="150px" class="fs-7 text-center"><i>(расшифровка подписи)</i></td>
         <td></td>
     </tr>
 </table>

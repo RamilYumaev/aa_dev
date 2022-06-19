@@ -23,55 +23,50 @@ if ($cpk) {
 }
 ?>
     <div class="bg-gray h-20"></div>
-    <p align="center"><strong>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ, РАЗРЕШЕННЫХ СУБЪЕКТОМ ПЕРСОНАЛЬНЫХ ДАННЫХ ДЛЯ РАСПРОСТРАНЕНИЯ</strong></p>
-    <p>В соответствии со ст. 9 Федерального закона от 27.07.2006 № 152-ФЗ "О персональных данных",</p>
+    <p align="center"><strong>СОГЛАСИЕ</strong></p>
+    <p align="center"><strong>законного представителя на обработку персональных данных абитуриента/обучающегося, разрешённых для распространения</strong></p>
     
     <table width="100%">
         <tr>
-            <td><strong>Субъект персональных данных</strong> (родитель, законный представитель обучающегося, абитуриента):</td>
-        </tr>
-    </table>
-    <table width="100%">
-        <tr>
+            <td>Я, </td>
             <td class="bb text-center h-20"></td>
         </tr>
         <tr>
-            
-            <td colspan="1" class="v-align-top text-center fs-7"><i>(фамилия, имя, отчество, законного представителя обучающегося, абитуриента)</i></td>
-        </tr>
-    </table>
-    <table width="100%">
-        <tr>
-            <td class="bb h-20"></td>
-            <td class="text-center"> года рождения, паспорт/иной документ удостоверяющий личность серия</td>
-            <td class="bb h-20" width="5%"></td>
-            <td width="7%">номер</td>
-            <td class="bb h-20" width="11%"></td>
-        </tr>
-    </table>
-    <table width="100%">
-        <tr>
-            <td width="17%"> кем и когда выдан</td>
-            <td width="83%" colspan="4" class="bb text-center h-20"></td>
-        </tr>
-    </table>
-<?php if ($cpk) : ?>
-    <table width="100%">
-        <tr>
-            <td width="32%">проживающий(ая) по адресу:</td>
-            <td width="68%" colspan="4" class="bb text-center h-20"></td>
+            <td></td>    
+            <td colspan="1" class="v-align-top text-center fs-7"><i>(фамилия, имя, отчество (при наличии) родителя, законного представителя абитуриента/обучающегося на русском языке (в русской транскрипции для иностранного гражданина и лица без гражданства)</i></td>
         </tr>
     </table>
 
-<?php endif; ?>
     <table width="100%">
         <tr>
-            <td width="20%">телефон:</td>
-            <td width="30%" colspan="4" class="bb text-center"></td>
+            <td width="10%">телефон:</td>
+            <td width="40%" colspan="4" class="bb text-center"></td>
             <td width="5%"></td>
-            <td width="15%">e-mail:</td>
-            <td width="30%" colspan="4" class="bb text-center"></td>
+            <td width="7%">e-mail:</td>
+            <td width="38%" colspan="4" class="bb text-center"></td>
         </tr>
     </table>
 
+<table width="100%">
+        <tr>
+            <td width="20%">являясь на основании</td>
+            <td width="80%" class="bb text-center h-20"></td>
+        </tr>
+        <tr>
+            <td></td>    
+            <td colspan="1" class="v-align-top text-center fs-7"><i>(документ, подтверждающий полномочия законного представитечя, или иное основание)</i></td>
+        </tr>
+    </table>
 
+<table width="100%">
+        <tr>
+            <td width="20%">законным представителем</td>
+            <td width="45%" class="bb text-center h-20"></td>
+            <td width="35%"> (далее - субъект персональных данных, Субъект),</td>
+        </tr>
+        <tr>
+            <td></td>    
+            <td colspan="1" class="v-align-top text-center fs-7"><i>(полное ФИО представляемого)</i></td>
+            <td></td>
+        </tr>
+    </table>

@@ -8,8 +8,6 @@
 <div style="page-break-after: always;">
 <?= $this->render("_header_obr", ['profile' => $profile, 'user_id' => $statementPd->user_id, 'anketa' => $userAnketa]) ?>
 <?= $this->render("_body_obr", ['statementPd' => $statementPd, 'profile' => $profile]) ?>
-</div>
-<div style="page-break-after: always;">
 <?= $this->render("_footer_obr", ['statementPd' => $statementPd, 'profile' => $profile]) ?>
 </div>
 <?= $this->render("_header_ras", ['profile' => $profile, 'user_id' => $statementPd->user_id, 'anketa' => $userAnketa]) ?>
