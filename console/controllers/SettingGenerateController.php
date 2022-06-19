@@ -75,11 +75,17 @@ class SettingGenerateController extends Controller
         $key = 0;
         foreach ($type as $typeApp) {
             foreach ($ums as $foreignerStatus) {
+                if($typeApp == SettingEntrant::ZID && $foreignerStatus == 1) {
+                    continue;
+                }
                 foreach ($dvi as $dopVi) {
                     foreach ($cseAsVi as $cVi) {
                         foreach ($departments as $depart) {
                             $eduLevel = $this->getEducationLevel($depart, $foreignerStatus);
                             foreach ($eduLevel as $level) {
+                                if($typeApp == SettingEntrant::ZID && $level == 0) {
+                                    continue;
+                                }
                                 $eduForm = $this->getEducationForm($depart, $level, $foreignerStatus);
                                 foreach ($eduForm as $form) {
                                     $financingType = $this->getDbFinanceArray($depart, $level, $form, $foreignerStatus);
