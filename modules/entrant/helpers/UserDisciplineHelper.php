@@ -3,6 +3,7 @@
 namespace modules\entrant\helpers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\UserDiscipline;
+use Mpdf\Tag\U;
 
 class UserDisciplineHelper
 {
@@ -49,5 +50,9 @@ class UserDisciplineHelper
                 ->select('discipline_id')
                 ->groupBy('discipline_id')->count();
             return count($keys) == $userDisciplinesCount;
+    }
+
+    public static function isCt($userId) {
+        return UserDiscipline::find()->user($userId)->ctOrVi()->exists();
     }
 }

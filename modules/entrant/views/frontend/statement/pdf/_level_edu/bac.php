@@ -12,6 +12,7 @@ use modules\entrant\helpers\AdditionalInformationHelper;
 use modules\entrant\helpers\ItemsForSignatureApp;
 use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
+use modules\entrant\helpers\UserDisciplineHelper;
 use \modules\entrant\models\OtherDocument;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right, $statement->columnIdCg());
@@ -31,6 +32,9 @@ $noCseSuccess = DictCompetitiveGroupHelper::groupByExamsNoCseId($statement->user
 $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
+
+$isCt = UserDisciplineHelper::isCt($statement->user_id);
+$textCt = $isCt ? '/(ЦТ Беларусь)' : '';
 
 $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $statement->user_id]);
 
@@ -60,7 +64,7 @@ $och = false;
     </tr>
     <tr>
         <th>Направление подготовки</th>
-        <th>Образовательная программма</th>
+        <th>Образовательная программа</th>
         <th>Форма обучения</th>
         
     </tr>
@@ -98,7 +102,7 @@ $och = false;
     <p>
        <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
        "Прошу допустить меня к вступительным испытаниям по следующим предметам:":
-           "Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь):"?>
+           "Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)".$textCt.":"?>
        <?= $specQuota ? ($cse.", ".$cseVi) : $cse ?>
     </p>
 <?php else:?>
@@ -137,7 +141,7 @@ $och = false;
     <p>
         <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
             "":
-            "Прошу засчитать в качестве балла по предмету ". $cseVi ." наивысший результат по вступительному испытанию или результату (ЕГЭ Россия)/(ЦТ Беларусь)"?>
+            "Прошу засчитать в качестве балла по предмету ". $cseVi ." наивысший результат по вступительному испытанию или результату (ЕГЭ Россия)".$textCt?>
     </p>
 <?php else :?>
 <?php endif; ?>
@@ -160,7 +164,7 @@ $och = false;
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<?php if ($statement->statementBudgetCg()): ?>
+<?php if ($anketaOne->isRussia()): ?>
     <table width="100%">
         <tr>
             <td></td>
@@ -170,20 +174,31 @@ $och = false;
             <td>Не имею</td>
         </tr>
     </table>
-<?php endif; ?>
-<?php if ($prRight && $statement->statementBudgetCg()) : ?>
-    <p class="underline-text"> на основании: <?= $prRight ?></p>
+    <?php if ($prRight) : ?>
+        <p class="underline-text"> на основании: <?= $prRight ?></p>
+    <?php endif; ?>
+
 <?php endif; ?>
 <p></p>
 <p></p>
-<p class="mt-20 text-center"><strong>Примечания:</strong></p>
-<?php if ($statement->statementBudgetCg()): ?>
+<?php if ($anketaOne->is_dlnr_ua) : ?>
     <p align="justify">
-        В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38
-        Порядка
-        приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
-        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 21.08.2020 № 1076, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав и преимуществ в дополнение к заявлению на участие в конкурсе.
+        Сведения о принадлежности к категории граждан Российской Федерации, которые до прибытия на территорию Российской Федерации проживали на территории ДНР, ЛНР, Украины, а также граждан Российской Федерации, которые были вынуждены прервать свое обучение в иностранных образовательных организациях: Принадлежу
     </p>
+<?php endif; ?>
+<p class="mt-20 text-center"><strong>Примечания:</strong></p>
+<?php if($anketaOne->isRussia()) :?>
+    <p align="justify">
+        В случае наличия индивидуальных достижений сведения о них отображаются в заявлении об учете индивидуальных достижений в дополнение к заявлению на участие в конкурсе.В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 24, 25 и 27 Порядка
+        приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
+        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
+        № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
+        и преимуществ в дополнение к заявлению на участие в конкурсе.
+    </p>
+<?php else: ?>
+<p align="justify">
+    В случае наличия индивидуальных достижений сведения о них отображаются в заявлении об учете индивидуальных достижений в дополнение к заявлению на участие в конкурсе.
+</p>
 <?php endif; ?>
 <?php
 if ($statement->statementBudgetCg()) {
@@ -196,11 +211,22 @@ if ($statement->statementBudgetCg()) {
 if (!$och) {
     unset($signaturePoint[9]);
 }
-foreach ($signaturePoint as $signature) :?>
-
-    <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
+foreach ($signaturePoint as $key => $signature) :
+    if($key == 1 && $anketaOne->spoNpo() && $statement->finance == 1) :?>
+        <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[21] ?></p>
+         <table width="100%">
+            <tr>
+                <td width="80%" rowspan="2"></td>
+                <td class="bb"></td>
+            </tr>
+            <tr>
+                <td class="v-align-top text-center fs-7">(Подпись поступающего)
+                </td>
+            </tr>
+        </table>
+    <?php endif; ?>
+        <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
     <?php if ($signature == ItemsForSignatureApp::SPECIAL_CONDITIONS) : ?>
-        
         <table width="100%">
         <tr></tr>
             <tr>

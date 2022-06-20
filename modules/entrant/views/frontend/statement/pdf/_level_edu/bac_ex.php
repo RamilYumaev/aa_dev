@@ -10,6 +10,7 @@ use modules\entrant\helpers\AdditionalInformationHelper;
 use modules\entrant\helpers\ItemsForSignatureApp;
 use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
+use modules\entrant\helpers\UserDisciplineHelper;
 use modules\entrant\models\OtherDocument;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
@@ -28,6 +29,10 @@ $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
 
 $education = \modules\entrant\models\DocumentEducation::findOne(['user_id' => $statement->user_id]);
 
+$isCt = UserDisciplineHelper::isCt($statement->user_id);
+$textCt = $isCt ? '/(ЦТ Беларусь)' : '';
+
+$anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
 $examBase = "Основание для допуска к сдаче вступительных испытаний:";
 $otherDocument = OtherDocument::find()
     ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 1])->one();
@@ -51,7 +56,7 @@ $och = false;
     </tr>
     <tr>
         <th>Направление подготовки</th>
-        <th>Образовательная программма</th>
+        <th>Образовательная программа</th>
         <th>Форма обучения</th>
         
     </tr>
@@ -86,14 +91,14 @@ $och = false;
 
 <?php if($cse): ?>
     <p>
-        Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь): <?= $cse ?>
+        Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)<?=$textCt?>: <?= $cse ?>
     </p>
 <?php endif; ?>
 <?php if ($cseVi): ?>
     <p>
         <?= ($anketa['category_id'] == \modules\entrant\helpers\CategoryStruct::TPGU_PROJECT) ?
             "":
-            "Прошу засчитать в качестве балла по предметам ". $cseVi ." наивысший результат по вступительному испытанию или результату (ЕГЭ Россия)/(ЦТ Беларусь)"?>
+            "Прошу засчитать в качестве балла по предметам ". $cseVi ." наивысший результат по вступительному испытанию или результату (ЕГЭ Россия)".$textCt?>
     </p>
 <?php endif; ?>
 <?php if($noCse): ?>
@@ -121,15 +126,38 @@ $och = false;
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
+<table width="100%">
+    <tr>
+        <td></td>
+        <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X": "" ?></td>
+        <td width="100px">Имею</td>
+        <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X": "" ?></td>
+        <td>Не имею</td>
+    </tr>
+</table>
+<?php if($prRight) :?>
+    <p class="underline-text"> на основании: <?= $prRight ?></p>
+<?php endif; ?>
+
+<?php if ($anketaOne->is_dlnr_ua) : ?>
+    <p align="justify">
+        Сведения о принадлежности к категории граждан Российской Федерации, которые до прибытия на территорию Российской Федерации проживали на территории ДНР, ЛНР, Украины, а также граждан Российской Федерации, которые были вынуждены прервать свое обучение в иностранных образовательных организациях: Принадлежу
+    </p>
+<?php endif; ?>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
-
-<p align="justify">
-   В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 33, 37 и 38
-        Порядка
+<?php if($anketaOne->isRussia()) :?>
+    <p align="justify">
+        В случае наличия индивидуальных достижений сведения о них отображаются в заявлении об учете индивидуальных достижений в дополнение к заявлению на участие в конкурсе.В случае наличия индивидуальных достижений и/или особых прав и преимуществ, указанных в пунктах 24, 25 и 27 Порядка
         приема на обучение по образовательным программам высшего образования – программам бакалавриата, программам
-        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 21.08.2020 № 1076, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав и преимуществ в дополнение к заявлению на участие в конкурсе.
-</p>
-
+        специалитета, программам магистратуры, утвержденного Приказом Министерства образования и науки РФ от 14.10.2015
+        № 1147, сведения о них отображаются в заявлении об учете индивидуальных достижений и соответствующих особых прав
+        и преимуществ в дополнение к заявлению на участие в конкурсе.
+    </p>
+<?php else: ?>
+    <p align="justify">
+        В случае наличия индивидуальных достижений сведения о них отображаются в заявлении об учете индивидуальных достижений в дополнение к заявлению на участие в конкурсе.
+    </p>
+<?php endif; ?>
 <?php
 $signaturePoint = ItemsForSignatureApp::GENERAL_BACHELOR_SIGNATURE;
 if(!$och) {

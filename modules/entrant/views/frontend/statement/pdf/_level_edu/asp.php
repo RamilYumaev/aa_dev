@@ -39,7 +39,7 @@ $och = false;
     </tr>
     <tr>
         <th>Направление подготовки</th>
-        <th>Образовательная программма</th>
+        <th>Образовательная программа</th>
         <th>Форма обучения</th>
     </tr>
     <?php foreach ($userCg as $key => $value): if($value['form'] == "очная") { $och = true;} ?>
@@ -84,21 +84,15 @@ $och = false;
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<?php if($prRight) :?>
-    <p class="underline-text"> на основании: <?= $prRight ?></p>
-<?php endif; ?>
 <p class="mt-20 text-center"><strong>Примечания:</strong></p>
-<?php if($statement->statementBudgetCg()):?>
 <p align="justify">
     В случае наличия индивидуальных достижений, сведения о них отображаются в заявлении об учете индивидуальных достижений
     в дополнение к заявлению на участие в конкурсе.
 </p>
-<?php endif;?>
-
 <?php
 $signaturePoint = ItemsForSignatureApp::GENERAL_GRADUATE_SIGNATURE;
 if(!$och) {
-    unset($signaturePoint[9]);
+    unset($signaturePoint[10]);
 }
 foreach ($signaturePoint as $signature) :?>
 

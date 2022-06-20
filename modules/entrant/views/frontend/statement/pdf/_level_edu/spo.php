@@ -20,6 +20,7 @@ $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecializatio
 $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
+$data= explode(', ', $noCse);
 
 $och = false;
 ?>
@@ -96,15 +97,10 @@ $och = false;
     <?php endforeach; ?>
     </tbody>
 </table>
-<?php if($cse): ?>
+<?php if($noCse):?>
     <p>
-        Прошу в качестве вступительных испытаний засчитать следующие результаты (ЕГЭ Россия)/(ЦТ Беларусь): <?= $cse ?>
-    </p>
-<?php endif; ?>
-<?php if($noCse): ?>
-    <p>
-        Прошу допустить меня к вступительным испытаниям по следующим предметам: <?= $noCse ?><br/>
-        
+        Основание для участия в конкурсе: Средний балл аттестата.<br/>
+        <?= count($data) > 1 ? "Прошу допустить меня к вступительным испытаниям по следующим предметам: ". $data[1] : "" ?>
     </p>
 <?php endif; ?>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
@@ -127,8 +123,11 @@ $signaturePoint = ItemsForSignatureApp::GENERAL_SPO;
 if(!$och) {
     unset($signaturePoint[9]);
 }
-foreach ($signaturePoint as $signature) :?>
+if (count($data) == 1) {
+    unset($signaturePoint[2]);
+}
 
+foreach ($signaturePoint as $signature) :?>
     <p class="mt-15"><?= ItemsForSignatureApp::getItemsText()[$signature] ?></p>
     <?php if ($signature == ItemsForSignatureApp::SPECIAL_CONDITIONS) : ?>
         <table width="100%">
