@@ -13,6 +13,7 @@ use yii\widgets\MaskedInput;
         <?php $form = ActiveForm::begin(['id'=> 'form-dict-organization']); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'short_name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'kpp')->widget(MaskedInput::class, [
             'mask' => '999999999',
         ]) ?>

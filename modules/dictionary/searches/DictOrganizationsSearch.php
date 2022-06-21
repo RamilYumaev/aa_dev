@@ -9,12 +9,12 @@ use yii\data\ActiveDataProvider;
 
 class DictOrganizationsSearch extends Model
 {
-    public $name, $kpp, $ogrn, $short_name, $region_id;
+    public $name, $kpp, $ogrn, $short_name, $region_id, $inn;
 
     public function rules()
     {
         return [
-            [['name','kpp', 'ogrn','short_name'], 'safe'],
+            [['name', 'kpp', 'ogrn', 'short_name', 'inn'], 'safe'],
             [['region_id'], 'integer'],
         ];
     }
@@ -38,6 +38,7 @@ class DictOrganizationsSearch extends Model
             ->andFilterWhere(['region_id' => $this->region_id]);
 
         $query
+            ->andFilterWhere(['like', 'inn', $this->kpp])
             ->andFilterWhere(['like', 'kpp', $this->kpp])
             ->andFilterWhere(['like', 'short_name', $this->short_name])
             ->andFilterWhere(['like', 'ogrn', $this->ogrn])

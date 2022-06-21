@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'short_name',
                     'kpp',
                     'ogrn',
+                    'inn',
                     ['attribute'=> 'region_id',
                         'filter'=> DictRegionHelper::regionList(),
                         'value' => 'region.name'

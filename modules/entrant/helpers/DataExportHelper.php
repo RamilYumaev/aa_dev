@@ -521,6 +521,7 @@ class DataExportHelper
                 'short_name' => $agreement->organization->short_name,
                 'code' => 'sdo' . $agreement->organization->id . "_2022",
                 'ogrn' => $agreement->organization->ogrn,
+                'inn' => $agreement->organization->inn,
                 'kpp' => $agreement->organization->kpp,
                 'employer_name' => $agreement->organizationWork ? $agreement->organizationWork->name : "",
                 'employer_ogrn' => $agreement->organizationWork ? $agreement->organizationWork->ogrn : "",

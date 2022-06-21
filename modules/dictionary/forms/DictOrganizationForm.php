@@ -1,15 +1,12 @@
 <?php
-
-
 namespace modules\dictionary\forms;
-
 
 use modules\dictionary\models\DictOrganizations;
 use yii\base\Model;
 
 class DictOrganizationForm extends Model
 {
-    public $name, $kpp, $ogrn, $region_id, $type, $short_name;
+    public $name, $kpp, $ogrn, $region_id, $inn, $type, $short_name;
     private $_organization;
     public $entrant;
 
@@ -26,11 +23,11 @@ class DictOrganizationForm extends Model
     public function defaultRules()
     {
         return [
-            [['name','ogrn', 'short_name', 'kpp','region_id'], 'required'],
+            [['name','ogrn', 'short_name', 'kpp', 'inn', 'region_id'], 'required'],
             [['name','ogrn','kpp'], 'trim'],
             [['type'], $this->entrant ? 'required' : 'safe'],
             [['ogrn'], 'string', 'min'=> 13, 'max' =>13],
-            [['name','short_name'], 'string', 'min'=> 3, 'max' =>255],
+            [['name','short_name', 'inn'], 'string', 'min'=> 3, 'max' =>255],
             [['kpp'], 'string', 'min'=> 9,'max' =>9],
             [['region_id', 'type'], 'integer'],
         ];
@@ -38,7 +35,7 @@ class DictOrganizationForm extends Model
 
     public function uniqueRules()
     {
-        $arrayUnique = [['name'], 'unique', 'targetClass' => DictOrganizations::class, 'targetAttribute'=>['name','kpp', 'ogrn', 'region_id']];
+        $arrayUnique = [['name'], 'unique', 'targetClass' => DictOrganizations::class, 'targetAttribute'=>['name','kpp', 'ogrn', 'inn', 'region_id']];
         if ($this->_organization) {
             return array_merge($arrayUnique, ['filter' => ['<>', 'id', $this->_organization->id]]);
         }
