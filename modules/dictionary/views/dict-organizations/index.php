@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
+                    'short_name',
                     'kpp',
                     'ogrn',
                     ['attribute'=> 'region_id',

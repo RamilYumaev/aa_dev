@@ -107,6 +107,10 @@ class CompetitionListController extends Controller
 
             $cgModel = DictCompetitiveGroup::find()->currentAutoYear()->aisId($cg)->one();
 
+            if(!$cgModel) {
+                return $this->render('index');
+            }
+
             return $this->renderCompetitionOneList($query, $type, $date, $id,
                 $cgModel->faculty_id,
                 $cgModel->edu_level,

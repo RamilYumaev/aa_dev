@@ -9,7 +9,7 @@ use yii\base\Model;
 
 class DictOrganizationForm extends Model
 {
-    public $name, $kpp, $ogrn, $region_id, $type;
+    public $name, $kpp, $ogrn, $region_id, $type, $short_name;
     private $_organization;
     public $entrant;
 
@@ -26,11 +26,11 @@ class DictOrganizationForm extends Model
     public function defaultRules()
     {
         return [
-            [['name','ogrn','kpp','region_id'], 'required'],
+            [['name','ogrn', 'short_name', 'kpp','region_id'], 'required'],
             [['name','ogrn','kpp'], 'trim'],
             [['type'], $this->entrant ? 'required' : 'safe'],
-            [['ogrn'], 'string', 'min'=> 13,'max' =>13],
-            [['name'], 'string', 'min'=> 3, 'max' =>255],
+            [['ogrn'], 'string', 'min'=> 13, 'max' =>13],
+            [['name','short_name'], 'string', 'min'=> 3, 'max' =>255],
             [['kpp'], 'string', 'min'=> 9,'max' =>9],
             [['region_id', 'type'], 'integer'],
         ];

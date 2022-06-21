@@ -14,6 +14,7 @@ use olympic\models\auth\Profiles;
 /**
  * Class DictOrganizations
  * @package modules\dictionary\models
+ * @property $short_name string
  * @property $name string
  * @property $ogrn string
  * @property $kpp string
@@ -27,7 +28,7 @@ class DictOrganizations extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class'=> ModerationBehavior::class,
-                'attributes'=>['name', 'kpp', 'ogrn', 'region_id'],
+                'attributes'=>['name', 'kpp', 'short_name', 'ogrn', 'region_id'],
             ]];
     }
 
@@ -59,6 +60,7 @@ class DictOrganizations extends YiiActiveRecordAndModeration
     public function data(DictOrganizationForm $form)
     {
         $this->name = $form->name;
+        $this->short_name = $form->short_name;
         $this->kpp = $form->kpp;
         $this->region_id = $form->region_id;
         $this->ogrn = $form->ogrn;
@@ -95,6 +97,7 @@ class DictOrganizations extends YiiActiveRecordAndModeration
     public function moderationAttributes($value): array
     {
         return [
+            "short_name" => $value,
             "name" => $value,
             'kpp' => $value,
             'ogrn' => $value,
@@ -105,6 +108,7 @@ class DictOrganizations extends YiiActiveRecordAndModeration
     public function attributeLabels()
     {
         return [
+            "short_name" => "Краткое наименование организации",
             "name" => "Наименование организации",
             "ogrn" => "ОГРН организации",
             "kpp" => 'КПП организации',

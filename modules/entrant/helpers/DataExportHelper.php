@@ -159,6 +159,7 @@ class DataExportHelper
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
         && $organization->ais_id ? $organization->ais_id : null;
         $specialQuotaUsual  = is_null($statement->special_right) &&  !$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1);
+        $firstEducationStatus =  $statement->finance  == 1 && $statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ? true : false;
         foreach ($statement->statementCg as $currentApplication) {
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT ||
                 $anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
@@ -190,9 +191,9 @@ class DataExportHelper
                 'benefit_BVI_status' => 0,
                 'benefit_BVI_reason' => '',
                 'application_code' => $statement->numberStatement,
+                'first_higher_education_status'=> $firstEducationStatus,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,
-                // 'current_status_id' => '',
             ];
         }
         return $result;
@@ -517,7 +518,8 @@ class DataExportHelper
         $result['incoming']['organization'] =
             [
                 'name' => $agreement->organization->name,
-                'code' => 'sdo' . $agreement->organization->id . "_2021",
+                'short_name' => $agreement->organization->short_name,
+                'code' => 'sdo' . $agreement->organization->id . "_2022",
                 'ogrn' => $agreement->organization->ogrn,
                 'kpp' => $agreement->organization->kpp,
                 'employer_name' => $agreement->organizationWork ? $agreement->organizationWork->name : "",
