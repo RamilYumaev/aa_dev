@@ -24,9 +24,20 @@ class SiteController extends Controller
             ],
         ];
     }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
     public function actionAntiDdos(){
         $this->layout = "@frontend/views/layouts/contentOnly.php";
         if(Yii::$app->request->post()){
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'cookieAntiDdos',
+                'value' => Yii::$app->security->generateRandomString(),
+            ]));
+
             return $this->redirect(['index']);
         }
         return $this->render('anti-ddos');
@@ -40,7 +51,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = "@frontend/views/layouts/frontPage.php";
-        //   \Yii::$app->user->switchIdentity();
         return $this->render('index');
     }
 
