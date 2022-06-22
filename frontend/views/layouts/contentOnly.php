@@ -1,5 +1,5 @@
 <?php
-use app\assets\AppAsset;
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
 /** @var \yii\web\View $this */

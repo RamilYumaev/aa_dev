@@ -24,6 +24,13 @@ class SiteController extends Controller
             ],
         ];
     }
+    public function actionAntiDdos(){
+        $this->layout = "@frontend/views/layouts/contentOnly.php";
+        if(Yii::$app->request->post()){
+            return $this->redirect(['index']);
+        }
+        return $this->render('anti-ddos');
+    }
 
     /**
      * Displays homepage.

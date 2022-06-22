@@ -20,7 +20,7 @@ class DictIncomingDocumentTypeHelper
     const TYPE_DIPLOMA_WITHOUT = 7;
 
     const ID_PHOTO= 45;
-    const ID_MEDICINE= 29;
+    const ID_MEDICINE= 35;
 
     const ID_BIRTH_DOCUMENT = 4;
     const ID_BIRTH_FOREIGNER_DOCUMENT = 8;
