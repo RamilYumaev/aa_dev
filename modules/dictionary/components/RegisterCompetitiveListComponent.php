@@ -23,12 +23,7 @@ class RegisterCompetitiveListComponent
         /** @var SettingCompetitionList $item */
         $date = date('Y-m-d');
         echo count(SettingCompetitionList::find()->getAllWork($date));
-        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')
-                     ->andWhere(['edu_level'=>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                         DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
-                     ->andWhere(['finance_edu' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT])
-                     ->andWhere(['form_edu' => [DictCompetitiveGroupHelper::EDU_FORM_ZAOCH]])
-                     ->getAllWork($date) as $item) {
+        foreach (SettingCompetitionList::find()->joinWith('settingEntrant')->getAllWork($date) as $item) {
             /** @var SettingEntrant $settingEntrant */
             $settingEntrant = $item->settingEntrant;
             $array = $settingEntrant->isGraduate() ? $settingEntrant->getAllGraduateCgAisId() : $settingEntrant->getAllCgAisId();

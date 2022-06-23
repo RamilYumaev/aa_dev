@@ -293,32 +293,32 @@ class AgreementHelper
         $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         if ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
-                return '01 октября';
+                return '03 октября';
             } elseif ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
-                return self::cameOnAugust31() ? '25 ноября' : '30 августа';
+                return self::cameOnAugust31() ? '25 ноября' : '29 августа';
             } else {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
                     return '28 сентября';
                 } else {
-                    return '30 августа';
+                    return '29 августа';
                 }
             }
         } else {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
-                    return '29 октября';
+                    return '28 октября';
                 } else {
-                    return '30 августа';
+                    return '29 августа';
                 }
             } else {
-                return self::cameOnAugust31() ? '25 ноября' : '30 августа';
+                return self::cameOnAugust31() ? '25 ноября' : '29 августа';
             }
         }
     }
 
     private static function cameOnAugust31()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2021-08-31 18:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-30 18:00:00');
     }
 
     private static function cameOnJuly18()
@@ -384,7 +384,7 @@ class AgreementHelper
                     return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 25 от 01 сент. 2021 г.";
+                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июня 2021 г.";
             }
 
         }
