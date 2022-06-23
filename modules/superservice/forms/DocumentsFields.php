@@ -29,7 +29,7 @@ class DocumentsFields
                 if($key == 'version_document') {
                     continue;
                 }
-                if(key_exists($key, self::getFields($version)['clsName'])) {
+                if(key_exists('clsName', self::getFields($version)) && key_exists($key, self::getFields($version)['clsName'])) {
                     $class = '\\modules\\superservice\\components\\data\\'.self::getFields($version)['clsName'][$key];
                     $data .=   self::getFields($version)['descriptions'][$key].": ".
                         ($value ?  (new $class())->getArray()->index('Id')[$value][$class::KEY_NAME] : $value)."; ";

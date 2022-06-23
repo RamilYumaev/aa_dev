@@ -61,7 +61,12 @@ class DocumentsDynamicForm
             }
             if(key_exists('formats', $fields)) {
                 foreach ($fields['formats'] as $key  => $value) {
-                    $model->addRule($value, $key);
+                    if($key == 'date') {
+                        $model->addRule($value, $key, ['format' => 'yyyy-dd-mm']);
+                    } {
+                        $model->addRule($value, $key);
+                    }
+
                 }
             }
             $model->setAttributeLabels($fields['descriptions']);

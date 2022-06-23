@@ -4,6 +4,8 @@
 /* @var $provider yii\data\ArrayDataProvider */
 /* @var $fields array */
 /* @var $model \yii\base\DynamicModel */
+
+use kartik\date\DatePicker;
 use kartik\select2\Select2; ?>
 
 <div class="forms_data">
@@ -20,6 +22,13 @@ use kartik\select2\Select2; ?>
                 ]]) ?>
             <?php  elseif(key_exists('boolean', $fields["formats"]) && in_array($value, $fields["formats"]['boolean'])): ?>
                 <?= $form->field($model, $value)->checkbox() ?>
+            <?php  elseif(key_exists('date', $fields["formats"]) && in_array($value, $fields["formats"]['date'])): ?>
+                <?= $form->field($model, $value)->widget(DatePicker::class, [
+                    'language' => 'ru',
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ]]); ?>
             <?php else: ?>
                 <?= $form->field($model, $value)->textInput() ?>
             <?php endif;

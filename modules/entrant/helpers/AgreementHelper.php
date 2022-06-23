@@ -2,14 +2,10 @@
 
 namespace modules\entrant\helpers;
 
-use common\helpers\EduYearHelper;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\helpers\DictFacultyHelper;
-use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\Agreement;
-use modules\entrant\models\Anketa;
 use modules\entrant\readRepositories\AgreementReadRepository;
-use modules\entrant\readRepositories\StatementReadRepository;
 use yii\helpers\ArrayHelper;
 
 class AgreementHelper
@@ -206,6 +202,28 @@ class AgreementHelper
                                             ОКТМО – 46728000<br/>
                                             КБК 00000000000000000130 – за оказание платных услуг
                                             ",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "Федеральное государственное 
+                                                бюджетное образовательное
+                                                учреждение высшего
+                                                образования «Московский
+                                                педагогический государственный
+                                                университет»<br/>
+                                                Место нахождения: 119435, г. Москва,
+                                                 ул. Малая Пироговская, д. 1, стр.1<br/>
+                                                тел./факс: 8-499-245-03-10<br/>
+                                                e-mail: mail@mpgu.su<br/>
+                                                ОГРН 1027700215344<br/>
+                                                ИНН 7704077771<br/>
+                                                КПП 770401001<br/>
+                                                Банковские реквизиты:
+                                                <br/><br/>
+                                                ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва<br/>
+                                                БИК 004525988<br/>
+                                                Казначейский счет 03214643000000017300<br/>
+                                                ОКТМО 45383000<br/>
+                                                КБК 00000000000000000130 - за оказание платных услуг<br/>
+                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
+                                                Единый казначейский счет (ЕКС) 40102810545370000003",
         ];
     }
 
@@ -218,6 +236,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'директора Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'директора Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора Сергиево-Посадского филиала',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::POSITION_GENITIVE),
         ];
     }
 
@@ -230,6 +249,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Директор Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'Директор Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор Сергиево-Посадского филиала',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::POSITION_NOMINATIVE),
         ];
     }
 
@@ -242,6 +262,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Н.Н. Сотникова',
             AnketaHelper::DERBENT_BRANCH => 'Р.Д. Гусейнов',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'В.С. Морозова',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::FIO_SHORT),
         ];
     }
 
@@ -254,6 +275,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотниковой Натальи Николаевны',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнова Руслана Джангировича',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозовой Валентины Сергеевны',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::FIO_GENITIVE),
         ];
     }
 
@@ -266,6 +288,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотникова Наталья Николаевна',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнов Руслан Джангирович',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозова Валентина Сергеевна',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::FIO_NOMINATIVE),
         ];
     }
 
@@ -273,11 +296,12 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
-            AnketaHelper::ANAPA_BRANCH => '№ 12 от 18 февраля 2021 г.',
-            AnketaHelper::POKROV_BRANCH => '№ 15 от 02 февраля 2021 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 16 от 18 февраля 2021 г.',
-            AnketaHelper::DERBENT_BRANCH => '№ 18 от 18 февраля 2021 г.',
+            AnketaHelper::ANAPA_BRANCH => '№ 16 от 18 февраля 2022 г.',
+            AnketaHelper::POKROV_BRANCH => '№ 13 от 18 февраля 2022 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 13 от 18 февраля 2022 г.',
+            AnketaHelper::DERBENT_BRANCH => '№ 18 от 18 февраля 2022 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июля 2020 г.',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
         ];
     }
 
@@ -346,7 +370,7 @@ class AgreementHelper
                    return "Т.Н. Владимирова";
                    break;
                case self::PROCURATION :
-                   return "№ 27 от 01 сент. 2021 г.";
+                   return "№ 39 от 15 июня 2022 г.";
 
                 // case self::FIO_NOMINATIVE :
                 //     return "Страхов Василий Вячеславович";
