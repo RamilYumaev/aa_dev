@@ -384,7 +384,7 @@ class AgreementHelper
                     return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июня 2021 г.";
+                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июня 2022 г.";
             }
 
         }

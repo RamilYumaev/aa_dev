@@ -6,6 +6,8 @@ use olympic\helpers\auth\ProfileHelper;
 
 /* @var $agreement modules\entrant\models\StatementAgreementContractCg */
 
+
+
 if ($agreement->typeLegal()) : ?>
   <?=$this->render('_main_legal',['agreement'=> $agreement, 'anketa'=>$anketa]) ?>
 <?php elseif ($agreement->typePersonal()) : ?>
@@ -13,3 +15,10 @@ if ($agreement->typeLegal()) : ?>
 <?php else : ?>
     <?=$this->render('_main_entrant',['agreement'=> $agreement, 'anketa'=>$anketa]) ?>
 <?php endif; ?>
+<htmlpagefooter name="footer">
+    <div>
+Исполнитель: _________________ / А.Д. Дегтярева <br />
+тел.: 8(495) 438-18-57
+    </div>
+</htmlpagefooter>
+<sethtmlpagefooter name="footer" />
