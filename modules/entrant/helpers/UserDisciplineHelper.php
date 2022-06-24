@@ -3,12 +3,10 @@
 namespace modules\entrant\helpers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\models\UserDiscipline;
-use Mpdf\Tag\U;
 
 class UserDisciplineHelper
 {
-    public static function
-    allCtCse($userId): array
+    public static function allCtCse($userId): array
     {
         return UserDiscipline::find()->user($userId)->cseOrCt()
           ->select('discipline_select_id')
@@ -18,7 +16,8 @@ class UserDisciplineHelper
 
     public static function isCorrect($userId)
     {
-        if(\Yii::$app->user->identity->anketa()->isTpgu())
+        if(\Yii::$app->user->identity->anketa()->isTpgu() || in_array(\Yii::$app->user->identity->anketa()->category_id,
+                CategoryStruct::UMSGroup()))
         {
             return true;
         }

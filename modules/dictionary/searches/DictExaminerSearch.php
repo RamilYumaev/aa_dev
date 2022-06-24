@@ -8,11 +8,13 @@ use yii\data\ActiveDataProvider;
 class DictExaminerSearch extends Model
 {
     public $fio;
+    public $exams;
 
     public function rules()
     {
         return [
             ['fio', 'safe'],
+            ['exams', 'integer']
         ];
     }
 
@@ -31,8 +33,12 @@ class DictExaminerSearch extends Model
             return $dataProvider;
         }
 
+        if($this->exams) {
+            $query->joinWith('disciplineExaminer')->andWhere(['discipline_id' => $this->exams]);
+        }
         $query
             ->andFilterWhere(['like', 'fio', $this->fio]);
+
 
         return $dataProvider;
     }

@@ -1,10 +1,11 @@
 <?php
 
 
+use modules\dictionary\helpers\DisciplineExaminerHelper;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
-use dictionary\models\DictClass;
+use modules\entrant\helpers\SelectDataHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -25,6 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                     'fio',
+                    [
+                    'attribute' => 'exams',
+                    'filter' => SelectDataHelper::dataSearchModel($searchModel, DisciplineExaminerHelper::listDisciplineAll(), 'exams', 'name'),
+                    'header' => 'Дисциплины',
+                        'value'=> function (\modules\dictionary\models\DictExaminer $model) {
+                            return implode(', ', $model->getDisciplineExaminer()->joinWith('discipline')->select('name')->column());
+                        }
+                    ],
                     ['class' => ActionColumn::class,
                         'controller' => "dict-examiner",
                         'template' => '{update} {delete}',
