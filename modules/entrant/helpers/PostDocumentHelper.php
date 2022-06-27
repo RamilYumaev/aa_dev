@@ -110,9 +110,9 @@ class PostDocumentHelper
     }
 
     public static function medicine($user_id) {
-//        if(UserCgHelper::userMedicine($user_id)) {
-//            return OtherDocumentHelper::isExitsMedicine($user_id);
-//        }
+        if(UserCgHelper::userMedicine($user_id)) {
+            return OtherDocumentHelper::isExitsMedicine($user_id);
+        }
         return true;
     }
 

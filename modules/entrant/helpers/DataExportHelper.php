@@ -129,7 +129,7 @@ class DataExportHelper
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
-                'quota_kz_id'=> $otherKz ? $other->reception_quota : '',
+                'quota_kz_id'=> $otherKz ? $otherKz->reception_quota : '',
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",

@@ -1,6 +1,6 @@
 <?php
 
-use modules\entrant\helpers\PostDocumentHelper;
+use modules\entrant\helpers\UserCgHelper;
 use yii\helpers\Html;
 use modules\entrant\helpers\DocumentEducationHelper;
 use modules\entrant\helpers\OtherDocumentHelper;
@@ -18,6 +18,13 @@ use modules\entrant\helpers\OtherDocumentHelper;
                 <?php if(!OtherDocumentHelper::isExitsUpdateName($userId)): ?>
                     <p class="bg-danger m-10">
                         Необходимо добавить документ, подтверждающий смену фамилии
+                    </p>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if(UserCgHelper::userMedicine($userId)): ?>
+                <?php if(!OtherDocumentHelper::isExitsMedicine($userId)): ?>
+                    <p class="bg-danger m-10">
+                        Необходимо добавить заключение об отсутствии противопоказаний для обучения
                     </p>
                 <?php endif; ?>
             <?php endif; ?>

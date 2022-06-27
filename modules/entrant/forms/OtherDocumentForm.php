@@ -77,7 +77,6 @@ class OtherDocumentForm extends Model
             [['series',], 'string', 'max' => 10],
             [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
-            $this->versionDocument(),
             [['date'], MaxDateValidate::class],
             [['amount'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PHOTO;},

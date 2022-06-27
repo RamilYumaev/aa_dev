@@ -75,7 +75,6 @@ class DocumentEducationForm extends Model
                 'whenClient' => 'function (attribute, value) { return $("#documenteducationform-fio").val() == false}'],
             [['number'], 'string', 'max' => 25],
             [['year','date',], 'safe'],
-            $this->versionDocument(),
             [['date'], MaxDateValidate::class],
             [['year'], 'date', 'format' => 'yyyy', 'min'=> 1950,'max'=> date("Y")],
             ['type', 'in', 'range' => DictIncomingDocumentTypeHelper::rangeEducation($this->typeAnketa)],
