@@ -141,7 +141,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 <?php  $i=1; foreach ($data[$model->type] as $entrant): ?>
                 <tr <?=  $incomingId == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
                     <td style="font-size: 14px; text-align: center"><?=$i++?></td>
-                    <td style="font-size: 14px; text-align: center"><?=  !$cg->isSpecQuota() ? $entrant['incoming_id'] : (key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id']) ?></td>
+                    <td style="font-size: 14px; text-align: center"><?=  $cg->isSpecQuota() ? $entrant['incoming_id'] : (key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id']) ?></td>
                     <?php if($isEntrant): ?>
                         <td style="font-size: 14px; text-align: center"> <?= $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'] ?></td>
                         <td style="font-size: 14px; text-align: center"> <?= key_exists('phone',$entrant) ? $entrant['phone'] : '-' ?></td>

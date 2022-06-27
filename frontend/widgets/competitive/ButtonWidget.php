@@ -15,7 +15,8 @@ class ButtonWidget extends Widget
     {
         $cache = Yii::$app->cache;
         $key = 'button_list';
-        $cgs = $cache->getOrSet($key, function ()  { return DictCompetitiveGroup::find()->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel); });
+        $cgs = $cache->getOrSet($key, function ()  { return
+            DictCompetitiveGroup::find()->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel); });
         return $this->render('button', [
             'cgs' => $cgs,
             'eduLevel' => $this->eduLevel,

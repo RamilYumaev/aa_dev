@@ -40,7 +40,7 @@ class ConverterBasicExam
         $array = [];
         foreach ($data as $a => $item)  {
             $id = DictDiscipline::aisToSdoConverter($item);
-            $dg = $group->getExaminations()->andWhere(['discipline_id'=>$id])->andWhere(['not', ['spo_discipline_id' => null]])->one();
+            $dg = $group->getExaminations()->andWhere(['or',['discipline_id'=>$id], ['spo_discipline_id'=>$id]])->andWhere(['not', ['spo_discipline_id' => null]])->one();
             if($dg) {
                 $discipline = $dg->discipline->ais_id;
                 $disciplineSpo = $dg->disciplineSpo->ais_id;

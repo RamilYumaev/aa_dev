@@ -108,12 +108,12 @@ class RegisterCompetitionList extends ActiveRecord
 
     public function getCg()
     {
-        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id' => 'ais_cg_id'])->currentYear("2020-2021");
+        return $this->hasOne(DictCompetitiveGroup::class, ['ais_id' => 'ais_cg_id'])->currentAutoYear();
     }
 
     public function getCgFacultyAndSpeciality()
     {
-        return $this->hasOne(DictCompetitiveGroup::class, ['speciality_id' => 'speciality_id', 'faculty_id' => 'faculty_id'])->andWhere(['financing_type_id'=>2])->currentYear("2020-2021");
+        return $this->hasOne(DictCompetitiveGroup::class, ['speciality_id' => 'speciality_id', 'faculty_id' => 'faculty_id'])->andWhere(['financing_type_id'=>2])->currentAutoYear();
     }
 
     public function getFaculty()
