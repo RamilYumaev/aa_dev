@@ -463,7 +463,7 @@ class DataExportHelper
                 'document_issue' => $currentDocument->date,
                 'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
                 'document_authority_code' => '',
-                'document_authority_country_id' => $documentCountryId,
+                'document_authority_country_id' => $currentDocument->country_id ?? $documentCountryId,
                 'diploma_authority' => '',
                 'diploma_specialty_id' => '',
                 'diploma_end_year' => '',

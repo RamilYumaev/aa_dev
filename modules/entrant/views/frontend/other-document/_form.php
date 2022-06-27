@@ -3,6 +3,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $dynamic \modules\superservice\forms\DocumentsDynamicForm | boolean  */
 
+use dictionary\helpers\DictCountryHelper;
 use kartik\date\DatePicker;
 use modules\dictionary\helpers\DictDefaultHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
@@ -18,6 +19,7 @@ use yii\helpers\Html;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
             <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'country_id')->dropDownList(DictCountryHelper::countryList(), ['prompt' => 'Выберите страну']) ?>
             <?php if($model->type != DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE && ($model->isExemption || $model->exemption_id)): ?>
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
             <?php endif; ?>

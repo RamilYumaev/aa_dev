@@ -27,7 +27,7 @@ class AnketaSearch extends Model
 
     public function search(array $params): ActiveDataProvider
     {
-        $query = Anketa::find()->joinWith(['user', 'profile', 'files'])->andWhere(['files.status'=>1])->distinct();
+        $query = Anketa::find()->joinWith(['user', 'profile'])->distinct();
 
         $dataProvider = new ActiveDataProvider(['query' => $query]);
 

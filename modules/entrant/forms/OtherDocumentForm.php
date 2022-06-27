@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 class OtherDocumentForm extends Model
 {
-    public $type, $user_id, $amount, $series, $number, $date, $authority, $exemption_id, $without;
+    public $type, $user_id, $amount, $series, $number, $date, $authority, $exemption_id, $without, $country_id;
 
     private $arrayRequired;
 
@@ -73,17 +73,20 @@ class OtherDocumentForm extends Model
     {
         return [
             [$this->required(), 'required'],
-            [['type','amount', 'exemption_id','without', 'reception_quota'], 'integer'],
+            [['type','amount', 'exemption_id', 'without', 'country_id', 'reception_quota'], 'integer'],
             [['series',], 'string', 'max' => 10],
             [['number', 'authority'], 'string', 'max' => 255],
             [['date',], 'safe'],
+            [['country_id'], 'required', 'when' => function ($model) {
+                return $model->type == DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC;},
+                'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 43}'],
             [['date'], MaxDateValidate::class],
             [['amount'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_PHOTO;},
                 'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 45}'],
             [['date'], 'required', 'when' => function ($model) {
                 return $model->type == DictIncomingDocumentTypeHelper::ID_MEDICINE;},
-                'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 29}'],
+                'whenClient' => 'function (attribute, value) { return $("#otherdocumentform-type").val() == 35}'],
             ['type', 'in', 'range' => $this->rangeValidation()
             ],
         ];
@@ -94,7 +97,7 @@ class OtherDocumentForm extends Model
         if ($this->arrayRequired) {
             $attribute = $this->arrayRequired;
         }else {
-            $attribute =['type'];
+            $attribute = ['series', 'number','authority','date'];
         }
        return $attribute;
     }

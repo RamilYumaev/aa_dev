@@ -6,9 +6,11 @@ use modules\entrant\forms\AnketaForm;
 use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\CategoryStruct;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\File;
 use modules\entrant\searches\admin\AnketaSearch;
 use modules\entrant\services\AnketaService;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -16,6 +18,18 @@ use yii\web\Response;
 class AnketaController extends Controller
 {
     private $service;
+
+    public function behaviors(): array
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete-data' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     public function __construct($id, $module, AnketaService $service, $config = [])
     {
@@ -42,6 +56,11 @@ class AnketaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if($model->profile->aisUser) {
+            Yii::$app->session->setFlash('warning', 'Нельзя редактировать данные, так как они были экспортированы');
+            return $this->redirect(['index']);
+
+        }
         $form = new AnketaForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -56,6 +75,30 @@ class AnketaController extends Controller
             'model' => $form,
             'anketa'=> $model,
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDeleteData($id)
+    {
+        $model = $this->findModel($id);
+        if($model->profile->aisUser) {
+            Yii::$app->session->setFlash('warning', 'Нельзя редактировать данные, так как они были экспортированы');
+            return $this->redirect(['index']);
+        }
+        foreach (File::find()->user($model->user_id)->all() as $file) {
+            $file->delete();
+        }
+        $model->category_id = null;
+        $model->citizenship_id = null;
+        $model->current_edu_level = null;
+        $model->save(false);
+        Yii::$app->session->setFlash('warning', 'Данные очищены');
+        return $this->redirect(['index']);
     }
 
     public function actionGetCategory($foreignerStatus, $educationLevel, $universityChoice)

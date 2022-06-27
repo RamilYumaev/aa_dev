@@ -43,6 +43,7 @@ use yii\db\ActiveRecord;
  * @property integer $type_document
  * @property integer $version_document
  * @property integer $reception_quota
+ * @property integer $country_id
  *
 **/
 
@@ -55,6 +56,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'attributes' => [ 'type', 'series', 'number', 'date', 'authority', 'main_status', 'reception_quota',
                 'other_data',
                 'type_document',
+                'country_id',
                 'version_document'],
             'attributesNoEncode' => ['series', 'number'],
         ],
@@ -82,6 +84,7 @@ class OtherDocument extends YiiActiveRecordAndModeration
         $this->without = $form->without;
         $this->user_id = $form->user_id;
         $this->reception_quota = $form->reception_quota;
+        $this->country_id = $form->country_id;
     }
 
     public function versionData(OtherDocumentForm $form)
@@ -224,7 +227,8 @@ class OtherDocument extends YiiActiveRecordAndModeration
             'type_document'=>'Тип документа',
             'version_document' => 'Версия документа',
             'other_data' => 'Дополнительные данные версии документа',
-            'reception_quota' => 'Прием в соответствии'
+            'reception_quota' => 'Прием в соответствии',
+            'country_id' => 'Страна выдачи документа',
         ];
     }
 

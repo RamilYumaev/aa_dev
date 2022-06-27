@@ -2,13 +2,8 @@
 
 namespace modules\entrant\behaviors;
 
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\models\DictCompetitiveGroup;
-use modules\entrant\helpers\OtherDocumentHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
-use modules\entrant\models\CseSubjectResult;
-use modules\entrant\models\CseViSelect;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\File;
 use modules\entrant\models\OtherDocument;
@@ -22,9 +17,6 @@ use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use modules\entrant\models\UserCg;
 use yii\db\BaseActiveRecord;
-use yii\db\StaleObjectException;
-use yii\web\User;
-use Yii;
 
 
 class AnketaBehavior extends Behavior
@@ -99,13 +91,13 @@ class AnketaBehavior extends Behavior
             Agreement::deleteAll($this->userWhere());
         }
         if ($this->userExemption() && !$this->checkUpdate()) {
-            OtherDocument::deleteAll(['user_id' => Yii::$app->user->identity->getId(), 'exemption_id'=> true]);
+            OtherDocument::deleteAll(['user_id' => $this->owner->user_id, 'exemption_id'=> true]);
         }
     }
 
     private function userCgExists()
     {
-        return UserCg::find()->findUser()->exists();
+        return UserCg::find()->andWhere($this->userWhere())->exists();
     }
 
     private function userDiscipline()
@@ -186,7 +178,6 @@ class AnketaBehavior extends Behavior
     }
 
     private function userWhere() {
-        return ['user_id' => Yii::$app->user->identity->getId()];
+        return ['user_id' => $this->owner->user_id];
     }
-
 }
