@@ -55,6 +55,7 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 $text.= ($answer ?  Html::tag('h4','Ответ: '.$answer) : '');
                 }
                 break;
+            case TestQuestionHelper::TYPE_MATCHING_SAME:
             case TestQuestionHelper::TYPE_MATCHING:
                 $data = $this->data($model->result);
                 $text =  $model->question->text.'</br>';
@@ -147,6 +148,7 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 }
                 $text.=  Html::endTag('h4');
                 break;
+            case TestQuestionHelper::TYPE_MATCHING_SAME:
             case TestQuestionHelper::TYPE_MATCHING:
                 $answerText = "Правильные ответы: ";
                 foreach ($answers as $answer) {

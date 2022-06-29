@@ -8,7 +8,7 @@ use mihaildev\elfinder\ElFinder;
 /* @var $this yii\web\View */
 /* @var $model testing\forms\question\TestQuestionTypesForm */
 
-$this->title = 'Создать "Однозначное сопоставление"';
+$this->title = 'Создать "Сопоставление (единый вариант)"';
 $this->params['breadcrumbs'][] = ['label' => 'Вопросы',
     'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

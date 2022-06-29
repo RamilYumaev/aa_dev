@@ -19,6 +19,7 @@ class TestQuestionHelper
     const TYPE_FILE = 5;
     const TYPE_SELECT_ONE = 6;
     const TYPE_CLOZE = 7;
+    const TYPE_MATCHING_SAME = 8;
 
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_TEXT = 2;
@@ -50,11 +51,12 @@ class TestQuestionHelper
         return [
             self::TYPE_SELECT => 'Выбрать вариант(ы)',
             self::TYPE_SELECT_ONE => 'Выбрать вариант',
-            self::TYPE_MATCHING => 'Сопоставить',
+            self::TYPE_MATCHING => 'Сопоставить (ОС)',
             self::TYPE_ANSWER_SHORT => 'Краткий ответ',
             self::TYPE_ANSWER_DETAILED => 'Развернутый ответ',
             self::TYPE_FILE => 'Загрузка файла',
             self::TYPE_CLOZE => 'Вложенные ответы',
+            self::TYPE_MATCHING_SAME => 'Сопоставить (ЕВ)',
         ];
     }
 

@@ -49,7 +49,8 @@ $url = Url::to(['exam-attempt/end', 'test_id' => $test->id]);
                             <?php case TestQuestionHelper::TYPE_SELECT_ONE: ?>
                                 <?= $this->render('type/select-one', ['quent' => $quent]) ?>
                                 <?php break; ?>
-                            <?php case TestQuestionHelper::TYPE_MATCHING: ?>
+                            <?php case TestQuestionHelper::TYPE_MATCHING_SAME:
+                            case TestQuestionHelper::TYPE_MATCHING: ?>
                                 <?= $this->render('type/matching', ['quent' => $quent]) ?>
                                 <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_ANSWER_DETAILED: ?>

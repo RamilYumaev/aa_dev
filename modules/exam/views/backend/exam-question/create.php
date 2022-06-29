@@ -20,6 +20,8 @@ use testing\helpers\TestQuestionHelper;
     <?= $this->render('types/type-select/create',['model'=> $model ]); ?>
 <?php elseif(property_exists($model::className(), 'type') && $model->type == TestQuestionHelper::TYPE_MATCHING ) :?>
     <?= $this->render('types/type-matching/create',['model'=> $model ]); ?>
+<?php elseif(property_exists($model::className(), 'type') && $model->type == TestQuestionHelper::TYPE_MATCHING_SAME ) :?>
+    <?= $this->render('types/type-matching-same/create',['model'=> $model ]); ?>
 <?php elseif(property_exists($model->question::className(), 'type_id')
     && $model->question->type_id == TestQuestionHelper::TYPE_CLOZE ) :?>
     <?= $this->render('types/type-nested/create',['model'=> $model ]); ?>

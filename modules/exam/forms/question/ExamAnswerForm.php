@@ -28,6 +28,7 @@ class ExamAnswerForm extends Model
         return [
             [['is_correct'], 'boolean'],
             [['name','answer_match' ], 'string'],
+            [['name','answer_match' ], 'trim'],
         ];
     }
 

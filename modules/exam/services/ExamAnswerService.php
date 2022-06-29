@@ -90,7 +90,8 @@ class ExamAnswerService
                 $mark = null;
                 \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
                 break;
-            case ExamQuestionHelper::TYPE_MATCHING:
+            case TestQuestionHelper::TYPE_MATCHING_SAME:
+            case TestQuestionHelper::TYPE_MATCHING:
                  $data = $data['matching'];
                  $a = 0;
                 foreach ($data as $index => $value) {

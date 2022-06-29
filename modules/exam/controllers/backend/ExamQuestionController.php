@@ -140,6 +140,7 @@ class ExamQuestionController extends Controller
         if($type == TestQuestionHelper::TYPE_SELECT_ONE ||
             $type == TestQuestionHelper::TYPE_SELECT ||
             $type == TestQuestionHelper::TYPE_MATCHING ||
+            $type == TestQuestionHelper::TYPE_MATCHING_SAME ||
             $type == TestQuestionHelper::TYPE_ANSWER_SHORT) {
             $form = new ExamTypeQuestionAnswerForm($this->jobEntrant, null, $type);
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -202,6 +203,7 @@ class ExamQuestionController extends Controller
         if($model->type_id == TestQuestionHelper::TYPE_SELECT_ONE ||
             $model->type_id == TestQuestionHelper::TYPE_SELECT ||
             $model->type_id == TestQuestionHelper::TYPE_MATCHING ||
+            $model->type_id == TestQuestionHelper::TYPE_MATCHING_SAME||
             $model->type_id == TestQuestionHelper::TYPE_ANSWER_SHORT) {
             $form = new ExamTypeQuestionAnswerForm($this->jobEntrant, $model);
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {

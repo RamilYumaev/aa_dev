@@ -168,7 +168,10 @@ class ExamQuestionService
             $this->addAnswerSort($form, $quest_id);
         } else if ($type_id == TestQuestionHelper::TYPE_MATCHING) {
             $this->addAnswerMatching($form, $quest_id);
+        } else if ($type_id == TestQuestionHelper::TYPE_MATCHING_SAME) {
+            $this->addAnswerMatching($form, $quest_id);
         }
+
     }
 
     private function updateAnswer(ExamTypeQuestionAnswerForm $form, $type_id, $quest_id) {
@@ -177,6 +180,8 @@ class ExamQuestionService
         } else if ($type_id === TestQuestionHelper::TYPE_ANSWER_SHORT) {
             $this->updateAnswerSort($form, $quest_id);
         } else if ($type_id === TestQuestionHelper::TYPE_MATCHING) {
+            $this->updateAnswerMatching($form, $quest_id);
+        } else if ($type_id === TestQuestionHelper::TYPE_MATCHING_SAME) {
             $this->updateAnswerMatching($form, $quest_id);
         }
     }

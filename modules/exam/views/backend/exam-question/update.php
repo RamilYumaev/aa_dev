@@ -20,6 +20,8 @@ use testing\helpers\TestQuestionHelper;
     <?= $this->render('types/type-select/update',['model'=> $model ]); ?>
 <?php elseif( $question->type_id == TestQuestionHelper::TYPE_MATCHING ) :?>
     <?= $this->render('types/type-matching/update',['model'=> $model ]); ?>
+<?php elseif( $question->type_id == TestQuestionHelper::TYPE_MATCHING_SAME ) :?>
+    <?= $this->render('types/type-matching-same/update',['model'=> $model ]); ?>
 <?php elseif( $question->type_id == TestQuestionHelper::TYPE_CLOZE ) :?>
     <?= $this->render('types/type-nested/update',['model'=> $model ]); ?>
 <?php endif; ?>
