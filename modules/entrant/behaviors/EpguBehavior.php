@@ -30,6 +30,8 @@ class EpguBehavior extends Behavior
             if($formModel->load(\Yii::$app->request->post())) {
                 $this->owner->other_data = $formModel->getAttributes();
             }
+        }else {
+            $this->owner->other_data = null;
         }
     }
 }

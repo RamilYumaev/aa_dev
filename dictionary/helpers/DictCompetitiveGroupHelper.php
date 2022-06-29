@@ -719,6 +719,7 @@ class DictCompetitiveGroupHelper
                     continue;
                 }
                 $userDiscipline = UserDiscipline::find()
+                    ->andWhere(['not',[ 'type'=> UserDiscipline::NO]])
                     ->user($user_id)
                     ->orderBy(['mark' => SORT_DESC])
                     ->discipline($item->id)->one();
@@ -727,11 +728,13 @@ class DictCompetitiveGroupHelper
                 } else {
                     foreach ($item->getComposite()->all() as $composite) {
                         $userDiscipline = UserDiscipline::find()
+                            ->andWhere(['not',[ 'type'=> UserDiscipline::NO]])
                             ->user($user_id)
                             ->orderBy(['mark' => SORT_DESC])
                             ->disciplineSelect($composite->discipline_select_id)->one();
                         if ($userDiscipline) {
                             $composites[] = $composite->dictDisciplineSelect->ais_id;
+                            break;
                         }
                     }
                 }
