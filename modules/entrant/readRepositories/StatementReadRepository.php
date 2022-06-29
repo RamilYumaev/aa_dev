@@ -46,7 +46,7 @@ class StatementReadRepository
 
         if ($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
-                'statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::SPECIAL_RIGHT],
+                'statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::TARGET_PLACE],
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }

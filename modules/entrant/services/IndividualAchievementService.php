@@ -65,6 +65,8 @@ class IndividualAchievementService
             $document->versionData($form);
             if ($form->other_data) {
                 $document->otherData($form->other_data);
+            }else {
+                $document->other_data = null;
             }
             $this->repositoryDocument->save($document);
         });

@@ -719,7 +719,6 @@ class DictCompetitiveGroupHelper
                     continue;
                 }
                 $userDiscipline = UserDiscipline::find()
-                    ->viFull()
                     ->user($user_id)
                     ->orderBy(['mark' => SORT_DESC])
                     ->discipline($item->id)->one();
@@ -728,7 +727,6 @@ class DictCompetitiveGroupHelper
                 } else {
                     foreach ($item->getComposite()->all() as $composite) {
                         $userDiscipline = UserDiscipline::find()
-                            ->viFull()
                             ->user($user_id)
                             ->orderBy(['mark' => SORT_DESC])
                             ->disciplineSelect($composite->discipline_select_id)->one();

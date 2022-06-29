@@ -33,6 +33,7 @@ class CompetitionList extends ActiveRecord
             DictCompetitiveGroupHelper::USUAL => 'Общий конкурс',
             DictCompetitiveGroupHelper::SPECIAL_RIGHT => 'Лица,имеющие право на прием на обучение за счет бюджетных ассигнований в пределах особой квоты',
             DictCompetitiveGroupHelper::TARGET_PLACE=> 'Лица, поступающие на целевое обучение',
+            DictCompetitiveGroupHelper::SPECIAL_QUOTA=> 'Лица,имеющие право на прием на обучение за счет бюджетных ассигнований в пределах специальной квоты',
             'list_bvi' => 'Лица,имеющие право на прием без вступительных испытаний'
         ];
     }

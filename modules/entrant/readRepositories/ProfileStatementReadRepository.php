@@ -142,7 +142,7 @@ class ProfileStatementReadRepository
             ->innerJoin(Statement::tableName(), 'statement.user_id=profiles.user_id')
             ->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT])
             ->orderBy(['statement.user_id' => SORT_DESC])
-            ->select(['statement.user_id', 'last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone'])
+            ->select(['statement.user_id', 'last_name', 'first_name', 'patronymic', 'gender', 'profiles.country_id', 'region_id', 'phone'])
             ->distinct();
     }
 }

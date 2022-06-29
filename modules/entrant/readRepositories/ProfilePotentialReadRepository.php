@@ -101,7 +101,7 @@ class ProfilePotentialReadRepository
         return Profiles::find()->alias('profiles')
             ->innerJoin(Anketa::tableName(), 'anketa.user_id=profiles.user_id')
             ->orderBy(['anketa.user_id' => SORT_DESC])
-            ->select(['anketa.user_id', 'last_name', 'first_name', 'patronymic', 'gender', 'country_id', 'region_id', 'phone'])
+            ->select(['anketa.user_id', 'last_name', 'first_name', 'patronymic', 'gender', 'profiles.country_id', 'region_id', 'phone'])
             ->distinct();
     }
 }
