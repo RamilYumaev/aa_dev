@@ -136,7 +136,8 @@ class DataExportHelper
                 'overall_diploma_mark_common' => $info->mark_spo ?? null,
                 'incoming_type_id' => $type,
                 'epgu_status' => $info->transfer_in_epgu,
-                'photo' => $photo
+                'photo' => $photo,
+                'citizenship_current_year_status' => $anketa->is_dlnr_ua
             ]
         ];
         return array_merge($result,
