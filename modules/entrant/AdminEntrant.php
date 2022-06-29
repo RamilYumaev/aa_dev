@@ -17,7 +17,7 @@ class AdminEntrant extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dev']
+                        'roles' => ['dev-entrant']
                     ]
                 ],
             ],

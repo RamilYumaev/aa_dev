@@ -49,6 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value'=> 'profile.phone'
                     ],
                     [
+                        'attribute' => 'is_dlnr_ua',
+                        'header' => $searchModel->getAttributeLabel('is_dlnr_ua'),
+                        'value'=> 'is_dlnr_ua',
+                        'format'=> 'boolean'
+                    ],
+                    [
                         'attribute' => 'email',
                         'value'=> 'user.email'
                     ],
