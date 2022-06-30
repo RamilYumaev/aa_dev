@@ -54,6 +54,6 @@ class ConverterBasicExam
                 $array[$a] = $item;
             }
         }
-        return $array;
+        return array_unique($array);
     }
 }
