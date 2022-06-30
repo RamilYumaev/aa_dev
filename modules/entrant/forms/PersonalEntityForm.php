@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 class PersonalEntityForm extends Model
 {
     public  $series, $number, $postcode, $region, $district, $city,
-        $division_code,
+        $division_code, $email,
         $village, $street, $house, $housing, $building, $flat, $phone, $user_id,
         $surname, $name, $patronymic,
         $date_of_issue, $authority;
@@ -43,7 +43,8 @@ class PersonalEntityForm extends Model
             [[ 'series',
                 'number', 'date_of_issue', 'authority', 'postcode', 'phone',], 'required'],
             [['series',],'string', 'max' => 4],
-            [['series', 'number', 'date_of_issue', 'authority', 'postcode',  'phone',
+            ['email','email'],
+            [['series', 'number', 'date_of_issue', 'authority', 'postcode',  'phone', 'email'
                 ],'string'],
             [['surname', 'name', 'patronymic',],'string', 'max' => 255],
             [['surname', 'name', 'patronymic',], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',

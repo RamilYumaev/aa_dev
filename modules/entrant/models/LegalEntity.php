@@ -48,7 +48,8 @@ use yii\db\ActiveRecord;
  * @property string $surname
  * @property string $first_name
  * @property string $bank
- * @property string $phone,
+ * @property string $phone
+ * @property string $email
  *
  **/
 class LegalEntity extends ActiveRecord
@@ -108,7 +109,7 @@ class LegalEntity extends ActiveRecord
         $this->position = $form->position;
         $this->footing = $form->footing;
         $this->inn = $form->inn;
-
+        $this->email = $form->email;
         $this->user_id = $form->user_id;
     }
 

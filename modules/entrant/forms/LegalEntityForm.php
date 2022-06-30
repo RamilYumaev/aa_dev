@@ -8,7 +8,7 @@ use yii\base\Model;
 class LegalEntityForm extends Model
 {
     public  $bik, $p_c, $k_c, $ogrn, $inn, $name, $postcode, $address_postcode,  $region, $district, $city,
-        $village, $street, $house, $housing, $building, $flat, $phone, $user_id,
+        $village, $street, $house, $housing, $building, $flat, $phone, $user_id, $email,
          $requisites, $fio, $footing, $position, $surname, $first_name, $patronymic, $bank;
 
     private $_legal;
@@ -33,7 +33,8 @@ class LegalEntityForm extends Model
     {
         return [
             [['bik', 'bank', 'p_c','k_c','ogrn', 'inn', 'name','address_postcode', 'postcode', 'phone', 'fio', 'footing', 'position'], 'required'],
-            [['surname', 'first_name', 'patronymic',],'string', 'max' => 255],
+            [['surname', 'first_name', 'patronymic', 'email'],'string', 'max' => 255],
+            ['email','email'],
             [['surname', 'first_name', 'patronymic',], 'match', 'pattern' => '/^[а-яёА-ЯЁ\-\s]+$/u',
                 'message' => 'Значение поля должно содержать только буквы кириллицы пробел или тире'],
             [['surname', 'first_name'], 'required',],

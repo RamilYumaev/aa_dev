@@ -552,6 +552,7 @@ class DataExportHelper
                     'customer_type_id' => 2,
                     'customer_is_abiturient_status' => 1,
                     'current_status_id' => 1,
+                    'abiturient_email' => $contractCg->statementCg->statement->profileUser->email
                 ],
             ]];
         } elseif ($contractCg->typePersonal()) {
@@ -585,6 +586,7 @@ class DataExportHelper
                     'individual_address_building' => $personal->building,
                     'individual_address_flat' => $personal->flat,
                     'individual_phone' => $personal->phone,
+                    'individual_email' => $personal->email,
                 ],
             ]];
         } elseif ($contractCg->typeLegal()) {
@@ -622,6 +624,7 @@ class DataExportHelper
                     'entity_address_flat' => $legal->flat,
                     'entity_post_address_line' => $legal->address_postcode,
                     'entity_phone' => $legal->phone,
+                    'entity_email' => $legal->email,
                 ],
             ]];
         }

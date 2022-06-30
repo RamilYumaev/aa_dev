@@ -43,7 +43,8 @@ use yii\db\ActiveRecord;
  * @property string $flat
  * @property string $division_code
  * @property string $address,
- * @property string $phone,
+ * @property string $phone
+ * @property string $email
  *
 **/
 
@@ -82,6 +83,7 @@ class PersonalEntity extends ActiveRecord
         $this->patronymic = $form->patronymic;
         $this->name = $form->name;
         $this->user_id = $form->user_id;
+        $this->errors = $form->email;
     }
 
     public function getValue($property){
