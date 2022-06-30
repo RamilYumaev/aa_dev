@@ -272,7 +272,7 @@ class Anketa extends ActiveRecord
             && (($this->citizenship_id == DictCountryHelper::RUSSIA) ||
                 ($this->category_id == CategoryStruct::COMPATRIOT_COMPETITION ||
                 in_array($this->citizenship_id, DictCountryHelper::TASHKENT_AGREEMENT)))
-            && !$this->is_foreigner_edu_organization
+            && (!$this->is_foreigner_edu_organization && $this->citizenship_id == DictCountryHelper::RUSSIA)
             && !$this->is_dlnr_ua
             && !$this->isExemptionDocument([1,4]);
         return $condition;
