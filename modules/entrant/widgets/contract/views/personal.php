@@ -36,6 +36,7 @@ use yii\widgets\DetailView;
                     'housing',
                     'building',
                     'flat',
+                    'email',
                 ]
             ]) ?>
 

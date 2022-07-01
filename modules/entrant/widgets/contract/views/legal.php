@@ -42,7 +42,8 @@ use yii\widgets\DetailView;
                     'requisites',
                     'fio',
                     'footing',
-                    'position'
+                    'position',
+                    'email',
                 ]
             ]) ?>
     <?= FileListWidget::widget([ 'view' => 'list-backend', 'record_id' => $model->id, 'model' => $model::className(), 'userId' => $model->user_id]) ?>

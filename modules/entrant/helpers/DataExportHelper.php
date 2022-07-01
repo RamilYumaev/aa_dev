@@ -552,7 +552,7 @@ class DataExportHelper
                     'customer_type_id' => 2,
                     'customer_is_abiturient_status' => 1,
                     'current_status_id' => 1,
-                    'abiturient_email' => $contractCg->statementCg->statement->profileUser->email
+                    'abiturient_email' => $contractCg->statementCg->statement->profileUser->user->email
                 ],
             ]];
         } elseif ($contractCg->typePersonal()) {
