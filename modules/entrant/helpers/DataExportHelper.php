@@ -547,12 +547,12 @@ class DataExportHelper
                 'token' => '849968aa53dd0732df8c55939f6d1db9',
                 'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
                 "incoming_id" => $userAis->incoming_id,
+                'abiturient_email' => $contractCg->statementCg->statement->profileUser->user->email,
                 'agreement' => [
                     'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
                     'customer_type_id' => 2,
                     'customer_is_abiturient_status' => 1,
                     'current_status_id' => 1,
-                    'abiturient_email' => $contractCg->statementCg->statement->profileUser->user->email
                 ],
             ]];
         } elseif ($contractCg->typePersonal()) {
@@ -562,6 +562,7 @@ class DataExportHelper
                 'token' => '849968aa53dd0732df8c55939f6d1db9',
                 'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
                 "incoming_id" => $userAis->incoming_id,
+                'abiturient_email' => $contractCg->statementCg->statement->profileUser->user->email,
                 'agreement' => [
                     'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
                     'customer_type_id' => 2,
@@ -596,6 +597,7 @@ class DataExportHelper
                 'token' => '849968aa53dd0732df8c55939f6d1db9',
                 'competitive_group_id' => $contractCg->statementCg->cg->ais_id,
                 "incoming_id" => $userAis->incoming_id,
+                'abiturient_email' => $contractCg->statementCg->statement->profileUser->user->email,
                 'agreement' => [
                     'date' => \Yii::$app->formatter->asDate($contractCg->created_at, 'php:Y-m-d'),
                     'customer_type_id' => 1,

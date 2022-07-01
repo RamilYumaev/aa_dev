@@ -56,11 +56,7 @@ class AnketaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if($model->profile->aisUser) {
-            Yii::$app->session->setFlash('warning', 'Нельзя редактировать данные, так как они были экспортированы');
-            return $this->redirect(['index']);
 
-        }
         $form = new AnketaForm($model);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {

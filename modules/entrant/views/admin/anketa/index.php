@@ -23,10 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                        ['class' => ActionColumn::class, 'controller' => 'anketa', 'template' => '{update}', 'buttons'=>
-                        ['update' => function ($url, $model, $key) {
-                                return !$model->profile->aisUser  ? Html::a(new Icon('eye'), $url) : '';}, ],
-                            ],
+                        ['class' => ActionColumn::class, 'controller' => 'anketa', 'template' => '{update}'],
                     'user_id',
                     [
                         'attribute' => 'surname',
