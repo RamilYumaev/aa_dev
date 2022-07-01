@@ -83,7 +83,7 @@ class PersonalEntity extends ActiveRecord
         $this->patronymic = $form->patronymic;
         $this->name = $form->name;
         $this->user_id = $form->user_id;
-        $this->errors = $form->email;
+        $this->email = $form->email;
     }
 
     public function getValue($property){
@@ -121,7 +121,7 @@ class PersonalEntity extends ActiveRecord
             'division_code',
             'date_of_issue',
             'authority',
-            'phone',]) as  $key => $value) {
+            'phone','email',]) as  $key => $value) {
             if($value) {
                 $string .= $this->getPropertyAddress($key).", ";
             }
