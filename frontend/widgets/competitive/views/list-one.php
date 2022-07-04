@@ -53,6 +53,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     из них:
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
                         особая квота - <?= $data['kcp']['quota'] ?>,
+                        спецквота - <?= $data['kcp']['z'] ?>,
                     <?php endif; ?>
                     целевая квота - <?= $data['kcp']['target'] ?>
                 <?php else: ?>
@@ -62,6 +63,8 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 <?= $data['kcp']['quota'] ?>,
             <?php elseif ($cg->isTarget()): ?>
                 <?=  $data['kcp']['target']  ?>,
+            <?php elseif ($cg->isSpecQuota()): ?>
+                <?=  $data['kcp']['z']  ?>,
             <?php endif; ?> <br/>
             <?php if($data['kcp']['transferred']) : ?>
                 <span style="font-weight: bold">Ранее зачислено:</span> <?= $data['kcp']['transferred'] ?> <br/>
