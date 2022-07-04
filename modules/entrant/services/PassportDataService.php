@@ -40,7 +40,6 @@ class PassportDataService
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT;
                 } else {
                     $form->type = DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT;
-
                 }
             }
             $model = PassportData::create($form, $this->mainStatusDefaultForm($form, $birthDocument));
@@ -69,6 +68,9 @@ class PassportDataService
             $model->versionData($form);
             if($form->other_data) {
                 $model->otherData($form->other_data);
+            }
+            else {
+                $model->other_data = null;
             }
 
             $model->data($form, $model->main_status);

@@ -41,6 +41,9 @@ class OtherDocumentService
         if($form->other_data) {
             $model->otherData($form->other_data);
         }
+        else {
+            $model->other_data = null;
+        }
         if(!$this->statementRepository->getStatementStatusNoDraft($model->user_id) ) {
             $model->detachBehavior("moderation");
         }

@@ -66,7 +66,9 @@ class DocumentEducationService
             if($form->other_data) {
                 $model->otherData($form->other_data);
             }
-            $model->other_data;
+            else {
+                $model->other_data = null;
+            }
             $this->addOtherDoc($model->school->country_id !== DictCountryHelper::RUSSIA, $model->user_id, OtherDocumentHelper::TRANSLATION_DOCUMENT_EDU);
             $this->addOtherDoc($form->without_appendix, $model->user_id, OtherDocumentHelper::WITHOUT_APPENDIX);
             if (!$this->statementRepository->getStatementStatusNoDraft($model->user_id)) {
