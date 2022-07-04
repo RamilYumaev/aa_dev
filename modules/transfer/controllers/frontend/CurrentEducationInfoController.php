@@ -113,7 +113,7 @@ class CurrentEducationInfoController extends Controller
 
 
     public function getEduLevelArray() {
-        return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+        return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
