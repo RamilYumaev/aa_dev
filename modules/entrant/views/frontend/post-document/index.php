@@ -39,7 +39,6 @@ $userId =  Yii::$app->user->identity->getId();
             'size' => 8,
         ]);
         ?> <br /> <br />
-            <?= Html::a("Расписка", ['post-document/pdf'], ["class" => "btn btn-warning btn-lg", ]) ?>
         </p>
         <?php endif;?>
         <h4>Общие требования к файлам</h4>
