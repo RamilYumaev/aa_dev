@@ -78,7 +78,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
-                  <!--  <th>Подача документа об образовании</th> -->
+                    <th>Подача документа об образовании</th>
                     <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php if($entrantSetting->isTarget()) : ?>
                         <th style="font-size: 12px; text-align: center">Наименование целевой организации</th>
@@ -119,7 +119,7 @@ $this->title = $rcl->faculty->full_name.". ".$rcl->speciality->codeWithName;
                         <?php endif; ?>
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
-                    <!--<td><?php /* $entrant['original_status_id'] ? 'оригинал': 'копия' */ ?></td> -->
+                    <td><?= $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
                     <td style="font-size: 14px; text-align: center">
                         <?php if($entrant['zos_status_id']===0) : ?>
                             -

@@ -119,9 +119,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
 
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
-                    <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
-                        <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
-                    <?php endif; ?>
+                    <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
                     <?php if(!$cg->isSpo()) :?>
                         <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
                     <?php endif; ?>
@@ -167,9 +165,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <?php endif; ?>
                     </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
-                    <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) :?>
-                        <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
-                    <?php endif; ?>
+                    <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
                     <?php if(!$cg->isSpo()) :?>
                         <td style="font-size: 14px; text-align: center">
                             <?php if($entrant['zos_status_id']===0) : ?>
