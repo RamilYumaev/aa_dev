@@ -88,16 +88,14 @@ class AgreementHelper
                                                 e-mail: mail@mpgu.su<br/>
                                                 ОГРН 1027700215344<br/>
                                                 ИНН 7704077771<br/>
-                                                КПП 770401001<br/>
-                                                Банковские реквизиты:
-                                                <br/><br/>
+                                                КПП 770401001<br/><br/>
+                                                Банковские реквизиты:<br/>
+                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
                                                 ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва<br/>
                                                 БИК 004525988<br/>
                                                 Казначейский счет 03214643000000017300<br/>
                                                 ОКТМО 45383000<br/>
-                                                КБК 00000000000000000130 - за оказание платных услуг<br/>
-                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
-                                                Единый казначейский счет (ЕКС) 40102810545370000003",
+                                                КБК 00000000000000000130 - за оказание платных услуг",
             AnketaHelper::ANAPA_BRANCH => "Федеральное государственное бюджетное образовательное учреждение 
                                            высшего образования «Московский педагогический государственный университет» <br/> 
                                                 Место нахождения: 119991, г. Москва, ул. Малая Пироговская, д. 1, стр.1<br/>
@@ -214,16 +212,14 @@ class AgreementHelper
                                                 e-mail: mail@mpgu.su<br/>
                                                 ОГРН 1027700215344<br/>
                                                 ИНН 7704077771<br/>
-                                                КПП 770401001<br/>
-                                                Банковские реквизиты:
-                                                <br/><br/>
+                                                КПП 770401001<br/><br/>
+                                                Банковские реквизиты:<br/>
+                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
                                                 ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва<br/>
                                                 БИК 004525988<br/>
                                                 Казначейский счет 03214643000000017300<br/>
                                                 ОКТМО 45383000<br/>
-                                                КБК 00000000000000000130 - за оказание платных услуг<br/>
-                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
-                                                Единый казначейский счет (ЕКС) 40102810545370000003",
+                                                КБК 00000000000000000130 - за оказание платных услуг",
         ];
     }
 
@@ -296,11 +292,11 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
-            AnketaHelper::ANAPA_BRANCH => '№ 16 от 18 февраля 2022 г.',
-            AnketaHelper::POKROV_BRANCH => '№ 13 от 18 февраля 2022 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 12 от 18 февраля 2022 г.',
-            AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февраля 2022 г.',
-            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июля 2020 г.',
+            AnketaHelper::ANAPA_BRANCH => '№ 16 от 18 февр. 2022 г.',
+            AnketaHelper::POKROV_BRANCH => '№ 13 от 18 февр. 2022 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 12 от 18 февр. 2022 г.',
+            AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февр. 2022 г.',
+            AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июл. 2020 г.',
             DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
         ];
     }
@@ -317,25 +313,25 @@ class AgreementHelper
         $universityChoice = DictFacultyHelper::getKeyFacultySetting($faculty);
         if ($universityChoice == AnketaHelper::HEAD_UNIVERSITY) {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
-                return '03 октября';
+                return '03.10';
             } elseif ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
-                return self::cameOnAugust31() ? '25 ноября' : '29 августа';
+                return self::cameOnAugust31() ? '25.11' : '29.08';
             } else {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
-                    return '28 сентября';
+                    return '28.09';
                 } else {
-                    return '29 августа';
+                    return '29.08';
                 }
             }
         } else {
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
-                    return '28 октября';
+                    return '28.10';
                 } else {
-                    return '29 августа';
+                    return '29.08';
                 }
             } else {
-                return self::cameOnAugust31() ? '25 ноября' : '29 августа';
+                return self::cameOnAugust31() ? '25.11' : '29.08';
             }
         }
     }
@@ -370,7 +366,7 @@ class AgreementHelper
                    return "Т.Н. Владимирова";
                    break;
                case self::PROCURATION :
-                   return "№ 39 от 15 июня 2022 г.";
+                   return "№ 39 от 15 июн. 2022 г.";
 
                 // case self::FIO_NOMINATIVE :
                 //     return "Страхов Василий Вячеславович";
@@ -408,7 +404,7 @@ class AgreementHelper
                     return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июня 2022 г.";
+                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июн.2022 г.";
             }
 
         }

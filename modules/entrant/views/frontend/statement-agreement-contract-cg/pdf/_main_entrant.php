@@ -49,7 +49,7 @@ if ($eduDurationMonth >= 1 / 12) {
         </tr>
         <tr>
             <td class="h-30">г. Москва</td>
-            <td class="text-right"><?= Yii::$app->formatter->asDate($agreement->created_at) ?></td>
+            <td class="text-right"><strong><?= Yii::$app->formatter->asDate($agreement->created_at) ?></strong></td>
         </tr>
     </table>
     <p align="justify" style="margin-top: 0">
@@ -59,9 +59,9 @@ if ($eduDurationMonth >= 1 / 12) {
         выданной Федеральной службой по надзору в сфере образования и науки на срок – бессрочно, и
         свидетельства о государственной аккредитации от <?= Yii::$app->formatter->asDate($speciality->date_begin,  'long') ?> № <?= $speciality->series ?>, выданного Федеральной
         службой по надзору в сфере образования и науки на срок до <?= Yii::$app->formatter->asDate($speciality->date_end,  'long') ?>, именуемое в дальнейшем
-        «Исполнитель», а также «Университет», в лице <?= $agreementData['positionsGenitive'] ?>
+        «Исполнитель», а также «Университет», в лице <strong><?= $agreementData['positionsGenitive'] ?>
         <?= $agreementData['directorNameGenitiveFull'] ?>,
-        действующего на основании доверенности <?= $agreementData['procuration'] ?>,<br/><br/>
+        действующего на основании доверенности <?= $agreementData['procuration'] ?></strong>,<br/><br/>
         и <strong><?= $profile['last_name'] ?> <?= $profile['first_name'] ?>
             <?= $profile['patronymic'] ? " " . $profile['patronymic'] : "" ?>
         </strong> именуемый(ая), в дальнейшем «Заказчик», а также «Обучающийся»,
@@ -71,7 +71,7 @@ if ($eduDurationMonth >= 1 / 12) {
 
     <p align="justify" style="margin: 0">1.1. Исполнитель обязуется предоставить образовательную услугу,
         а Заказчик обязуется оплатить обучение по основной профессиональной образовательной программе
-        <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
+        <strong><?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
             среднего профессионального образования –  программе подготовки специалистов среднего звена,
         <?php else: ?>
             высшего образования -
@@ -83,8 +83,8 @@ if ($eduDurationMonth >= 1 / 12) {
                 программе подготовки научно-педагогических кадров в аспирантуре,
             <?php endif; ?>
         <?php endif; ?>
-        направления подготовки <strong><?= $cg->specialty->getCodeWithName() ?></strong>,
-        направленность (профиль) <strong><?= $cg->specialization->name ?? $cg->specialty->name ?></strong>
+        направления подготовки<?= $cg->specialty->getCodeWithName() ?>,
+        направленность (профиль) <?= $cg->specialization->name ?? $cg->specialty->name ?></strong>
         (далее – образовательная программа) в пределах федерального государственного образовательного
         стандарта в соответствии с учебным планом, в том числе индивидуальным, и образовательной
         программой Исполнителя.
@@ -178,7 +178,7 @@ if ($eduDurationMonth >= 1 / 12) {
         <?php else: ?>
             студента
         <?php endif; ?>
-        на 1&nbsp;курс, 1&nbsp;семестр;
+        <strong>на 1&nbsp;курс, 1&nbsp;семестр;</strong>
     </p>
     <p align="justify" style="margin: 0">2.4.2. Довести до Заказчика информацию, содержащую сведения о предоставлении платных
         образовательных услуг в порядке и объеме, которые предусмотрены Законом Российской Федерации от 7
@@ -218,13 +218,13 @@ if ($eduDurationMonth >= 1 / 12) {
     <p class="text-center"><strong>3. Стоимость образовательных услуг, сроки и порядок их оплаты</strong></p>
     <p align="justify" style="margin: 0">3.1. Полная стоимость образовательных услуг за весь период обучения Обучающегося
         составляет
-        <?= $costRuble
-        . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?>рублей(-я) <?= $costMonet ?>
+        <strong><?= $costRuble
+            . " (" . \Yii::$app->inflection->cardinalize($totalCost) . ") " ?></strong>рублей(-я) <strong><?= $costMonet ?></strong>
         копеек(-йки),
         НДС не облагается на основании подпункта 14 пункта 2 статьи 149 Налогового кодекса Российской Федерации.
     </p>
-    <p align="justify" style="margin: 0">Стоимость образовательных услуг за один учебный год составляет <?= $costRublePerYear ?>
-        (<?= \Yii::$app->inflection->cardinalize($costRublePerYear) ?>) рублей(-я) <?= $costMonetPerYear ?>
+    <p align="justify" style="margin: 0">Стоимость образовательных услуг за один учебный год составляет <strong><?= $costRublePerYear ?>
+            (<?= \Yii::$app->inflection->cardinalize($costRublePerYear) ?>)</strong> рублей(-я) <strong><?= $costMonetPerYear ?></strong>
         копеек(-йки),
         НДС не облагается на основании подпункта 14 пункта 2 статьи 149 Налогового кодекса Российской Федерации.
     </p>
@@ -239,13 +239,13 @@ if ($eduDurationMonth >= 1 / 12) {
         1) за 1-ый год обучения:<br/>
         - первый семестр - не позднее <?=AgreementHelper::payPerDate($cg->edu_level, $cg->education_form_id, $cg->faculty_id)?> текущего года;<br/>
         <?php if ($cg->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL): ?>
-        - второй семестр - не позднее 09 марта текущего учебного года;<br/>
+        - второй семестр - не позднее 09.03 текущего учебного года;<br/>
         <?php else: ?>
-        - второй семестр - не позднее 01 февраля текущего учебного года;<br/>
+        - второй семестр - не позднее 01.02 текущего учебного года;<br/>
         <?php endif; ?>
         2) за 2-ой и последующие годы обучения:<br/>
-        - нечетный семестр - не позднее 01 сентября текущего учебного года;<br/>
-        - четный семестр - не позднее 01 февраля текущего учебного года.
+        - нечетный семестр - не позднее 01.09 текущего учебного года;<br/>
+        - четный семестр - не позднее 01.02 текущего учебного года.
     </p>
     <p align="justify" style="margin: 0">
         3.3. Оплата производится за наличный расчет и/или в безналичном порядке на счет Университета,
@@ -299,9 +299,9 @@ if ($eduDurationMonth >= 1 / 12) {
     </p>
     <p align="justify" style="margin: 0">4.5. Исполнитель вправе отказаться от исполнения обязательств по Договору при условии
         полного
-        возмещения Обучающемуся/Заказчику убытков.</p>
+        возмещения Заказчику убытков.</p>
     <p class="fs-7">(ненужное вычеркнуть)</p>
-    <p align="justify" style="margin: 0">4.6. Обучающийся/Заказчик вправе отказаться от исполнения настоящего Договора при условии
+    <p align="justify" style="margin: 0">4.6. Заказчик вправе отказаться от исполнения настоящего Договора при условии
         оплаты
         Исполнителю</p>
     <p class="fs-7" style="text-indent: 60px">(ненужное вычеркнуть)</p>
