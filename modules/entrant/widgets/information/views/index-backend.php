@@ -25,7 +25,8 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         'voz',
         'chernobyl',
         'is_military_edu:boolean',
-        'mpguTraining'
+        'mpguTraining',
+        'is_epgu:boolean'
 
     ];
     ?>
