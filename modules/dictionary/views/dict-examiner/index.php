@@ -9,7 +9,7 @@ use modules\entrant\helpers\SelectDataHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel \modules\dictionary\searches\DictOrganizationsSearch*/
+/* @var $searchModel \modules\dictionary\searches\DictExaminerSearch*/
 
 $this->title = 'Справочник председателей экзаменационных комиссий';
 $this->params['breadcrumbs'][] = $this->title;

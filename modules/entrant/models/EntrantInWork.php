@@ -5,6 +5,7 @@ namespace modules\entrant\models;
 
 
 use modules\dictionary\models\JobEntrant;
+use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 
 /**
@@ -39,4 +40,15 @@ class EntrantInWork extends ActiveRecord
         return $this->hasOne(JobEntrant::class, ['id' => 'job_entrant_id']);
     }
 
+    public function getProfile() {
+        return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
+    }
+
+    public function getAttributeLabels()
+    {
+        return [
+            'user_id' => 'Абитуриент',
+            'job_entrant_id'=> 'Сотрудник',
+        ];
+    }
 }

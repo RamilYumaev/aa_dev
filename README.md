@@ -15,6 +15,9 @@ autoconf.sh migrate
 docker-compose run --rm workspace mkdir -m777 entrant/web/assets
 docker-compose run --rm workspace mkdir -m777 operator/web/assets
 ~~~~
+
+**Если использовать внутреннюю базу данных init_db.sql, то логин пользователя: root, пароль: rootroot**
+
 URLs localhost
 
 FRONTEND

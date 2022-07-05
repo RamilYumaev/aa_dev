@@ -98,6 +98,7 @@ array_merge(
         [['label' => 'Абитуриенты', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Анкеты', 'url' => '/data-entrant/anketa'],
+                ['label' => 'Взяты в работу', 'url' => '/data-entrant/entrant-in-work'],
             ])]] : [],
 
 
