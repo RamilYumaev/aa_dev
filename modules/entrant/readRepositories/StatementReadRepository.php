@@ -36,8 +36,6 @@ class StatementReadRepository
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
-            $query->andWhere('anketa.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2,4))');
-
         }
 
         if ($this->jobEntrant->isTPGU()) {
