@@ -8,12 +8,12 @@ $('#save-answer-select-type-one').click(function (e) {
     var form = $('#dynamic-form');
     var countInputAnswer = ast.find('input[type="text"]').length;
 
-    var countCheckAnswer = ast.find('input:checked').length;
-
+    var countCheckAnswer = ast.find('select option:selected[value="1"]').length;
     if (countInputAnswer < 2) {
         error.text('Заполните миниум 2 варианта ответа ');
         valid = valid && false;
     }
+
     if (countInputAnswer > 1 && countCheckAnswer !== 1) {
         error.text('Должен быть один правильный ответ');
         valid = valid && false;

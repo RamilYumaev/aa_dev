@@ -28,6 +28,26 @@ use yii\grid\ActionColumn;
                         ['attribute' => 'discipline_id',
                             'filter'=> $searchModel->filterDiscipline(),
                             'value'=> 'discipline.name'],
+                        [
+                                'header'=> 'Наличия правильного ответа',
+                            'value'=> function (\modules\exam\models\ExamQuestion $model) {
+                                return $model->getAnswer() && $model->getAnswerCorrect()->exists() ? 'Да' : "Нет данных";
+                            }],
+                        [
+                            'header'=> 'Количество ответов',
+                            'value'=> function (\modules\exam\models\ExamQuestion $model) {
+                                return $model->getAnswer() ? $model->getAnswer()->count() : "Нет данных";
+                            }],
+                        [
+                            'header'=> 'Количество правильных ответов',
+                            'value'=> function (\modules\exam\models\ExamQuestion $model) {
+                                return$model->getAnswer() && $model->getAnswerCorrect()->exists() ? $model->getAnswerCorrect()->count() : "Нет данных";
+                            }],
+                        [
+                            'header'=> 'Наличия вложенного ответа',
+                            'value'=> function (\modules\exam\models\ExamQuestion $model) {
+                                return $model->getQuestionNested()->exists() ? "Да" : "Нет данных";
+                            }],
                         ['class' => ActionColumn::class,
                             'controller' => 'exam-question',
                             'template' => '{update} {delete}',
