@@ -52,7 +52,7 @@ foreach ($currentFaculty as $faculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
-<th width=\"250\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
+<th width=\"250\">Основная профессиональная образовательная программа</th>
 <th width=\"200\">Кафедра</th>
 <th width=\"120\">Форма и срок обучения</th>
 <th width=\"100\">Уровень образования</th>
@@ -65,12 +65,7 @@ foreach ($currentFaculty as $faculty) {
             $trColor = UserCgHelper::specialColor($currentCg->competitiveGroup->id);
             $result .= "<tr" . $trColor . ">";
             $result .= "<td>";
-            $result .= $currentCg->competitiveGroup->specialty->getCodeWithName();
-            $result .= $currentCg->competitiveGroup->specialization ? ", профиль(-и) <strong>" . $currentCg->competitiveGroup->specialization->name
-                . "</strong>" : "";
-            $result .= "</td>";
-            $result .= "<td>";
-            $result .= $currentCg->cathedra->name;
+            $result .= $currentCg->competitiveGroup->specialization ?  $currentCg->competitiveGroup->specialization->name : "";
             $result .= "</td>";
             $result .= "<td>";
             $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->competitiveGroup->education_form_id] . ", ";
@@ -85,9 +80,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->competitiveGroup->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a($examination->discipline->name,
-                    $examination->discipline->links,
-                    ['target' => '_blank']);
+                $result .= $examination->discipline->name;
                 $result .= "</li>";
             }
             $result .= "</ol>";

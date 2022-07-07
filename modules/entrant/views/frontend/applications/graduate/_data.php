@@ -69,7 +69,7 @@ foreach ($currentFaculty as $faculty) {
         $result .=
             "<table class=\"table tabled-bordered\">
 <tr>
-<th width=\"250\">Код, Направление подготовки, Основная профессиональная образовательная программа</th>
+<th width=\"250\">Основная профессиональная образовательная программа</th>
 <th width=\"200\">Кафедра</th>
 <th width=\"120\">Форма и срок обучения</th>
 <th width=\"100\">Уровень образования</th>
@@ -88,9 +88,6 @@ foreach ($currentFaculty as $faculty) {
                 . "</strong>" : "";
             $result .= "</td>";
             $result .= "<td>";
-            $result .= $currentCg->cathedra->name;
-            $result .= "</td>";
-            $result .= "<td>";
             $result .= DictCompetitiveGroupHelper::getEduForms()[$currentCg->competitiveGroup->education_form_id] . ", ";
             $result .= $currentCg->competitiveGroup->education_duration != 5 ? $currentCg->competitiveGroup->education_duration . " года"
                 : $currentCg->competitiveGroup->education_duration . " лет";
@@ -103,9 +100,7 @@ foreach ($currentFaculty as $faculty) {
             foreach ($currentCg->competitiveGroup->examinations as $examination) {
 
                 $result .= "<li>";
-                $result .= Html::a($examination->discipline->name,
-                    $examination->discipline->links,
-                    ['target' => '_blank']);
+                $result .= $examination->discipline->name;
                 $result .= "</li>";
             }
             $result .= "</ol>";

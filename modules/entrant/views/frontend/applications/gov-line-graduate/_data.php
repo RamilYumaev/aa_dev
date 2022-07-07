@@ -51,8 +51,7 @@ if($currentFaculty) {
             $result .=
                 "<table class=\"table tabled-bordered\">
 <tr>
-<th>Код, Направление подготовки, профиль</th>
-<th>Кафедра</th>
+<th>Основная профессиональная образовательная программа</th>
 <th>Форма и срок обучения</th>
 <th>Уровень образования</th>
 <th</th>
@@ -69,10 +68,6 @@ if($currentFaculty) {
                 $result .= $currentCg->competitiveGroup->specialty->getCodeWithName();
                 $result .= $currentCg->competitiveGroup->specialization ? ", профиль(-и) <strong>" . $currentCg->competitiveGroup->specialization->name
                     . "</strong>" : "";
-                $result .= "</td>";
-
-                $result .= "<td>";
-                $result .= $currentCg->cathedra->name;
                 $result .= "</td>";
 
                 $result .= "<td>";

@@ -72,8 +72,8 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         <?php endif; ?>
     </p>
 </div>
-<?php if($model->isBvi() && $model->registerCompetitionList->settingEntrant->form_edu != DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) :?>
-    <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
+<?php if($model->isBvi()) :?>
+<!--    <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>-->
 <?php else:?>
     <?php if(!$model->registerCompetitionList->settingEntrant->open()) :?>
         <h4 style="color: red">Прием заявлений о согласии на зачисление окончен</h4>
