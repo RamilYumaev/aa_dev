@@ -27,10 +27,10 @@ use yii\helpers\Html;
         <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
         <?php endif; ?>
-        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
             <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
         <?php endif; ?>
-        <?php if(in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE])  && $model->exemption_id): ?>
+        <?php if(in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE])  && $model->exemption_id == 4): ?>
             <?= $form->field($model, 'reception_quota')->dropDownList((new \modules\entrant\models\OtherDocument())->getReceptionList()) ?>
         <?php endif; ?>
         <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
