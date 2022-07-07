@@ -53,7 +53,6 @@ foreach ($currentFaculty as $faculty) {
             "<table class=\"table tabled-bordered\">
 <tr>
 <th width=\"250\">Основная профессиональная образовательная программа</th>
-<th width=\"200\">Кафедра</th>
 <th width=\"120\">Форма и срок обучения</th>
 <th width=\"100\">Уровень образования</th>
 <th colspan=\"2\">Вступительные испытания</th>
