@@ -343,7 +343,7 @@ class AgreementHelper
 
     private static function cameOnJuly18()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2021-08-23 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2021-08-31 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-07-08 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-01 00:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
@@ -373,7 +373,7 @@ class AgreementHelper
                 //     break;
                 // case self::FIO_GENITIVE :
                 //     return "Страхова Василия Вячеславовича";
-                //     break;
+                //     break;BackendExam.php
                 // case self::POSITION_NOMINATIVE :
                 //     return "Проректор по развитию";
                 //     break;
@@ -389,22 +389,22 @@ class AgreementHelper
         } else {
             switch ($type) {
                 case self::FIO_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Дронов Виктор Павлович" : 'Страхов Василий Вячеславович';
+                    return self::cameOnJuly18() ? "Кудрявцева Дарья Александровна" : 'Страхов Василий Вячеславович';
                     break;
                 case self::FIO_GENITIVE :
-                    return self::cameOnJuly18() ? "Дронова Виктора Павловича" :  "Страхова Василия Вячеславовича";
+                    return self::cameOnJuly18() ? "Кудрявцевой Дарьи Александровны" :  "Страхова Василия Вячеславовича";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Первый проректор" : "Проректор по развитию";
+                    return self::cameOnJuly18() ? "Проректор по дополнительному образованию" : "Проректор по развитию";
                     break;
                 case self::POSITION_GENITIVE :
-                    return self::cameOnJuly18() ? "первого проректора" : "проректора по развитию";
+                    return self::cameOnJuly18() ? "проректора по дополнительному образованию" : "проректора по развитию";
                     break;
                 case self::FIO_SHORT :
-                    return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
+                    return self::cameOnJuly18() ? "Д.А. Кудрявцева" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 03 от 01 февр. 2021 г." : "№ 43 от 15 июн.2022 г.";
+                    return self::cameOnJuly18() ? "№ 49 от 08 июл. 2022 г." : "№ 43 от 15 июн. 2022 г.";
             }
 
         }
