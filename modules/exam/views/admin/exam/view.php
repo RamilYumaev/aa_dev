@@ -18,9 +18,6 @@ ModalAsset::register($this);
 <div class="row">
     <div class="col-md-12">
         <div class="box box-default">
-            <div class="box box-header">
-                <?= Html::a("Редактировать", ['update','id' => $exam->id], ['class' => 'btn btn-primary']) ?>
-            </div>
             <div class="box-body">
                 <?= DetailView::widget([
                     'model' => $exam,
@@ -42,7 +39,7 @@ ModalAsset::register($this);
 </div>
 <div class="row">
     <div class="col-md-12">
-        <?= \modules\exam\widgets\exam\TestWidget::widget(['exam_id' => $exam->id]) ?>
+        <?= \modules\exam\widgets\exam\TestWidget::widget(['exam_id' => $exam->id, 'view' => 'test/index-admin']) ?>
     </div>
 </div>
 

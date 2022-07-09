@@ -20,5 +20,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?=Html::a("Подсчитать оценки незавершенных попыток", ['update-test-result', 'testId'=>$test->id], ['class'=>'btn btn-warning'])?>
 
 <div class="row">
-    <div class="col-md-12"><?= \modules\exam\widgets\exam\TestAttemptWidget::widget(['test_id' => $test->id, 'type' => $type ]) ?></div>
+    <div class="col-md-12"><?= \modules\exam\widgets\exam\TestAttemptWidget::widget(['test_id' => $test->id, 'type' => $type, 'view'=> 'test-attempt/index-admin' ]) ?></div>
 </div>

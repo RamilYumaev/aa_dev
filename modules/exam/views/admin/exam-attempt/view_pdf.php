@@ -1,29 +1,30 @@
 <?php
 
 use entrant\assets\modal\ModalAsset;
+use modules\exam\helpers\ExamQuestionInTestHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $attempt \modules\exam\models\ExamAttempt */
+/* @var $jobEntrant \modules\dictionary\models\JobEntrant */
 
 
 $column = [
         ['attribute' => 'user_id',
             'value' => $attempt->profile->fio,
         ],
+        'test.exam.discipline.name',
         'start:datetime',
         'end:datetime',
-        'typeName',
-         'mark',
+        ['attribute' => 'mark',
+            'value' => $attempt->mark. " из ". ExamQuestionInTestHelper::markSum($attempt->test_id),
+        ],
 ];
 ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="box box-default">
-            <div class="box box-header">
-                <?= $attempt->user_id == Yii::$app->user->identity->getId() ? Html::a("Удалить", ['delete',
-                    'id' => $attempt->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post', 'confirm' => "Вы уверены что хотите удалить попытку?"]]) : "" ?>
-            </div>
             <div class="box-body">
                 <?= DetailView::widget([
                     'model' => $attempt,
@@ -33,10 +34,68 @@ $column = [
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
-        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt'=>$attempt, 'size'=> 50]) ?>
+        <h2 align="center">Материал вступительного испытания</h2>
     </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <?= modules\exam\widgets\exam\TestResultWidget::widget(['attempt'=>$attempt, 'size'=> 50, 'view'=> 'test-result/index-pdf']) ?>
+    </div>
+</div>
+<h4>Лицо, сформировавшее документ:</h4>
+<div class="mt-10">
+    <table>
+        <tr>
+            <td class="bb w-200"><strong><?= $jobEntrant->post ? mb_strtolower($jobEntrant->postName) : ""?></strong></td>
+            <td></td>
+            <td class="bb w-200"></td>
+            <td></td>
+            <td class="bb w-200"><strong><?=  $jobEntrant->post ? $jobEntrant->profileUser->fio : "" ?></strong></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-center fs-7">(Должность)</td>
+            <td></td>
+            <td class="text-center fs-7">(Подпись)</td>
+            <td></td>
+            <td class="text-center fs-7">(Фамилия И.О.)</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<h4>Ответственное лицо <br /> приёмной комиссии:</h4>
+<div class="mt-25">
+    <table>
+        <tr>
+            <td class="bb w-200"></td>
+            <td></td>
+            <td class="bb w-200"></td>
+            <td></td>
+            <td class="bb w-200"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-center fs-7">(Должность)</td>
+            <td></td>
+            <td class="text-center fs-7">(Подпись)</td>
+            <td></td>
+            <td class="text-center fs-7">(Фамилия И.О.)</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>М.П.</td>
+            <td></td>
+        </tr>
+    </table>
 </div>
 

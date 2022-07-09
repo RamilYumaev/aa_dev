@@ -54,7 +54,7 @@ class ExamQuestionSearch extends Model
     }
 
     public function filterDiscipline() {
-        return DisciplineExaminerHelper::listDiscipline();
+        return DisciplineExaminerHelper::listDisciplineAll();
     }
 
     public function filterQuestionGroup() {

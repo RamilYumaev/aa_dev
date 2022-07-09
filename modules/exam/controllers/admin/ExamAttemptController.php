@@ -71,6 +71,19 @@ class ExamAttemptController extends Controller
     }
 
     /**
+     * @param $test_id
+     * @param $type
+     * @return string
+     */
+
+    public function actionIndex($test_id, $type)
+    {
+        $test = $this->testRepository->get($test_id);
+        return $this->render('index', [
+            'test' => $test, 'type' => $type]);
+    }
+
+    /**
      * @param integer $id
      * @return mixed
      * @throws InvalidConfigException
