@@ -2,7 +2,6 @@
 
 namespace modules\entrant;
 
-use modules\entrant\components\UserNoJobEntrant;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
