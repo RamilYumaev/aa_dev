@@ -9,6 +9,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use modules\exam\forms\ExamForm;
 use modules\exam\models\queries\ExamAttemptQuery;
 use modules\exam\models\queries\ExamQuery;
+use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 
 /**
@@ -83,6 +84,10 @@ class Exam extends ActiveRecord
 
     public function getExamStatement(){
         return $this->hasMany(ExamStatement::class, ['exam_id'=>'id']);
+    }
+
+    public function getProfile(){
+        return $this->hasOne(Profiles::class, ['user_id'=>'user_id']);
     }
 
     public function getExamTest(){

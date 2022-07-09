@@ -47,6 +47,10 @@ return [
             'class' => \modules\superservice\BackendSuperService::class,
             'viewPath' => "@modules/superservice/views/backend",
         ],
+        'exam-admin' => [
+            'class' => \modules\exam\AdminExam::class,
+            'viewPath' => "@modules/exam/views/admin",
+        ],
         'support' => [
             'class' => \modules\support\ModuleBackend::class,
             'viewPath' => "@modules/support/views/backend",

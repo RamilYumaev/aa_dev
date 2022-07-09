@@ -100,7 +100,23 @@ array_merge(
                 ['label' => 'Анкеты', 'url' => '/data-entrant/anketa'],
                 ['label' => 'Взяты в работу', 'url' => '/data-entrant/entrant-in-work'],
             ])]] : [],
-
+    Yii::$app->user->can('dev') ?
+        [['label' => 'Экзамены', 'url' => '#',
+            'items' => array_merge([
+                ['label' => 'Группы вопросов', 'url' => ['/exam-admin/exam-question-group/index']],
+                ['label' => 'Вопросы', 'url' => ['/exam-admin/exam-question/index']],
+                ['label' => 'Экзамены', 'url' => ['/exam-admin/exam/index']],
+                [
+                    "label" => 'Новые заявки',
+                    "url" => ['/exam-admin/exam-statement/index'],
+                    "icon" => "table",
+                ],
+                [
+                    "label" => 'Заявки с прокторами',
+                    "url" => ['/exam-admin/exam-statement/index-admin'],
+                    "icon" => "table",
+                ]
+            ])]] : [],
 
     Yii::$app->user->can('rbac') ?
         [['label' => 'Управление', 'url' => '#',
