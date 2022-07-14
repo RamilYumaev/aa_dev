@@ -31,7 +31,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
             <tr class="room-item">
                 <td class="vcenter">
                     <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]name")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]is_correct")->checkbox() ?>
+                    <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]is_correct")->dropDownList(['Нет', 'Да']) ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
                     <button type="button" class="remove-answer-cloze btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>

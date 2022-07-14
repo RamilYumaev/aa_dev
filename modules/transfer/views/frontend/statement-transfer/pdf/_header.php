@@ -21,7 +21,7 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
         <td width="50%"></td>
         <td>
             Ректору МПГУ<br />
-            члену-корреспонденту РАО,<br />
+            академику РАО,<br />
             доктору исторических наук,<br />
             профессору А.В. Лубкову<br />
             От: <?= $nameFull?><br/>

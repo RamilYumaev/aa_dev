@@ -39,7 +39,7 @@ if ($eduDurationMonth >= 1 / 12) {
 }
 
 ?>
-<div width="100%" class="fs-11 agreement" style="margin-top: 0">
+<p width="100%" class="fs-11 agreement" style="margin-top: 0">
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
@@ -300,12 +300,10 @@ if ($eduDurationMonth >= 1 / 12) {
     <p align="justify" style="margin: 0">4.5. Исполнитель вправе отказаться от исполнения обязательств по Договору при условии
         полного
         возмещения Заказчику убытков.</p>
-    <p class="fs-7">(ненужное вычеркнуть)</p>
     <p align="justify" style="margin: 0">4.6. Заказчик вправе отказаться от исполнения настоящего Договора при условии
         оплаты
-        Исполнителю</p>
-    <p class="fs-7" style="text-indent: 60px">(ненужное вычеркнуть)</p>
-    <div>фактически понесенных им расходов.</div>
+        Исполнителю фактически понесенных им расходов.</p>
+    <div></div>
     <p class="text-center"><strong>5. Ответственность Исполнителя, Заказчика и Обучающегося</strong></p>
     <p align="justify" style="margin: 0">
         5.1. За неисполнение или ненадлежащее исполнение своих обязательств по Договору Стороны несут ответственность,

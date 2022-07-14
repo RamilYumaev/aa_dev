@@ -23,9 +23,9 @@ use yii\helpers\Html; ?>
         Техническая поддержка: <br />
         support_priem@mpgu.edu <br />
         группы телеграмм: <br />
-        Для поступающих на программы бакалавриата: <?= Html::a(Html::encode('https://t.me/joinchat/ImmN3-47WBM0NDIy'),'https://t.me/joinchat/ImmN3-47WBM0NDIy' ) ?><br />
-        Для поступающих в магистратуру: <?= Html::a(Html::encode('https://t.me/joinchat/HOULDWbHamNlZGVi'),'https://t.me/joinchat/HOULDWbHamNlZGVi' ) ?> <br />
-        Для поступающих в аспирантуру: <?= Html::a(Html::encode('https://t.me/joinchat/t1Nu6WFsQtYzOTcy'),'https://t.me/joinchat/t1Nu6WFsQtYzOTcy' ) ?><br />
+        Для поступающих на программы бакалавриата: <?= Html::a(Html::encode('https://t.me/+ltXhe1C6PUE4N2Iy'),'https://t.me/+ltXhe1C6PUE4N2Iy' ) ?><br />
+        Для поступающих в магистратуру: <?= Html::a(Html::encode('https://t.me/+IeHReBSlLgtlOWQy'),'https://t.me/+IeHReBSlLgtlOWQy' ) ?> <br />
+        Для поступающих в аспирантуру: <?= Html::a(Html::encode('https://t.me/+pcmmF8Lm-FE3MjQy'),'https://t.me/+pcmmF8Lm-FE3MjQy' ) ?><br />
 
         Удачного экзамена!
     <?php endif; ?>

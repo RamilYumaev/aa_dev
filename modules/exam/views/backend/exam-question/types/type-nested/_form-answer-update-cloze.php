@@ -33,7 +33,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 <td class="vcenter">
                     <?= Html::activeHiddenInput($answerCloze, "[{$index}][{$indexAnswer}]id"); ?>
                     <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]name")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]is_correct")->checkbox() ?>
+                    <?= $form->field($answerCloze, "[{$index}][{$indexAnswer}]is_correct")->dropDownList(['Нет', 'Да']) ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
                     <button type="button" class="remove-answer-nested btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>

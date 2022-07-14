@@ -45,9 +45,10 @@ class StatementReadRepository
 
         if ($this->jobEntrant->isCategoryTarget()) {
             $query->andWhere([
-                'statement.special_right' => [DictCompetitiveGroupHelper::SPECIAL_QUOTA, DictCompetitiveGroupHelper::TARGET_PLACE],
                 'statement.edu_level' =>[DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
+                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+                ->andWhere('anketa.user_id IN (SELECT user_id FROM statement WHERE special_right IN (2,4))')
+                ->andWhere(['not in', 'statement.faculty_id', JobEntrantHelper::listCategoriesFilial()]);
         }
 
         if ($this->jobEntrant->isCategoryUMS()) {

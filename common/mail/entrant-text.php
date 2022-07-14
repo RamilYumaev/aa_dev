@@ -20,9 +20,9 @@
     Техническая поддержка:
     support_priem@mpgu.edu,
     группы телеграмм:
-    Для поступающих на программы бакалавриата: https://t.me/joinchat/ImmN3-47WBM0NDIy
-    Для поступающих в магистратуру: https://t.me/joinchat/HOULDWbHamNlZGVi
-    Для поступающих в аспирантуру: https://t.me/joinchat/t1Nu6WFsQtYzOTcy
+    Для поступающих на программы бакалавриата: https://t.me/+ltXhe1C6PUE4N2Iy
+    Для поступающих в магистратуру: https://t.me/+IeHReBSlLgtlOWQy
+    Для поступающих в аспирантуру: https://t.me/+pcmmF8Lm-FE3MjQy
 
     Удачного экзамена!
     <?php endif; ?>

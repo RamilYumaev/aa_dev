@@ -17,6 +17,7 @@ use modules\dictionary\models\DictCtSubject;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
 use modules\entrant\helpers\CategoryStruct;
+use modules\entrant\helpers\ConverterBasicExam;
 use modules\entrant\helpers\CseSubjectHelper;
 use modules\entrant\models\AisOrderTransfer;
 use modules\entrant\models\Infoda;
@@ -155,12 +156,21 @@ class DictCompetitiveGroup extends ActiveRecord
 
     public function getExaminationsAisId()
     {
-        return $this->getExaminations()
-            ->joinWith('discipline')
-            ->select(['name', 'ais_id'])
-            ->andWhere(['not', ['ais_id'=> null]])
-            ->indexBy('ais_id')
-        ->column();
+        $array = [];
+        foreach ($this->getExaminations() as $examination) {
+            $discipline = $examination->discipline;
+            $disciplineSpo = $examination->disciplineSpo;
+            if($disciplineSpo) {
+                foreach (ConverterBasicExam::getCompositeDisciplines() as $key => $compositeDiscipline) {
+                    if($compositeDiscipline[0] == $discipline->ais_id && $compositeDiscipline[1] == $disciplineSpo->ais_id) {
+                        $array[$key] = $discipline->name."/". $disciplineSpo->name;
+                        break;
+                    }
+                }
+            }
+            $array[$discipline->ais_id] = $discipline->name;
+        }
+        return $array;
     }
 
     public function getExaminationsCseAisId()

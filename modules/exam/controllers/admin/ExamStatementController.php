@@ -5,12 +5,16 @@ namespace modules\exam\controllers\admin;
 
 
 use common\components\TbsWrapper;
+use dictionary\helpers\DictDisciplineHelper;
+use modules\dictionary\helpers\DisciplineExaminerHelper;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamSrcBBBForm;
 use modules\exam\forms\ExamStatementForm;
 use modules\exam\forms\ExamStatementMessageForm;
 use modules\exam\forms\ExamStatementProctorForm;
+use modules\exam\helpers\ExamHelper;
 use modules\exam\jobs\StatementExamJob;
+use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamStatement;
 use modules\exam\searches\admin\ExamStatementAdminSearch;
 use modules\exam\searches\admin\ExamStatementSearch;
@@ -67,7 +71,8 @@ class ExamStatementController extends Controller
             return ActiveForm::validate($form);
         }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            $fileName = $form->date . ".xlsx";
+            $disc = $form->discipline ? ExamHelper::examList()[$form->discipline] : "";
+            $fileName = $form->date." ".$disc . ".xlsx";
             $filePath = \Yii::getAlias('@modules') . '/exam/template/' . ($form->isProctor ? 'exam-proctor-statement.xlsx' : 'exam-statement.xlsx');
             $dataApp = $this->getApplications($form->date, $form->isProctor, $form->discipline);
             $this->openFile($filePath, $dataApp, $fileName);
@@ -82,17 +87,26 @@ class ExamStatementController extends Controller
                 ExamStatement::find()->joinWith('exam')->andWhere(['date' => $date])->andWhere(['is', 'proctor_user_id', null])
                     ->andWhere(['is', 'src_bb', null])->all();
         }else {
-            $models = ExamStatement::find()->andWhere(['exam_id'=>$exam])->andWhere(['is not','proctor_user_id', null])->all();
+            $models =
+                $exam ? ExamStatement::find()->andWhere(['date' => $date, 'exam_id' => $exam])->andWhere(['exam_id'=>$exam])->andWhere(['is not','proctor_user_id', null])->all() :
+                    ExamStatement::find()->andWhere(['date' => $date])->andWhere(['is not','proctor_user_id', null])->all();
         }
 
         $application = [];
         $i = 0;
         /* @var $entrant ExamStatement */
         foreach ($models as $key => $entrant) {
+            $attempt = $entrant->exam->getAttempt()->exam($entrant->exam_id)->user($entrant->entrant_user_id)->orderBy(['id'=> SORT_DESC])->one();
             $application[$key]['num'] = ++$i;
             $application[$key]['exam'] = $entrant->exam->discipline->name;
+            $application[$key]['incoming'] = $entrant->profileEntrant->aisUser->incoming_id;
             $application[$key]['fio'] = $entrant->getEntrantFio();
+            $application[$key]['citizenship'] = $entrant->information->anketa->citizenship;
+            $application[$key]['education'] = $entrant->information->anketa->currentEduLevel;
+            $application[$key]['quota'] = $entrant->information->anketa->isExemptionDocument(1) ? 'Инвалид' : "Нет" ;
+            $application[$key]['mark'] = $attempt ? $attempt->mark : "";
             $application[$key]['proctor'] = $entrant->getProctorFio();
+            $application[$key]['violation'] = $entrant->violation ? "Есть" : "Нет";
             $application[$key]['link'] = $entrant->src_bbb;
         }
         return $application;

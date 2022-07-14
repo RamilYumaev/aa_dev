@@ -8,7 +8,7 @@ use dictionary\models\DictDiscipline;
 
 class ConverterBasicExam
 {
-    private static function getCompositeDisciplines() {
+    public static function getCompositeDisciplines() {
         return [
             235 => [1,228],
             236 => [215,228],
