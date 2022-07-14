@@ -48,11 +48,11 @@ $column = [
 <div class="mt-10">
     <table>
         <tr>
-            <td class="bb w-200"><strong><?= $jobEntrant->post ? mb_strtolower($jobEntrant->postName) : ""?></strong></td>
+            <td class="bb w-200"><strong><?= ""?></strong></td>
             <td></td>
             <td class="bb w-200"></td>
             <td></td>
-            <td class="bb w-200"><strong><?=  $jobEntrant->post ? $jobEntrant->profileUser->fio : "" ?></strong></td>
+            <td class="bb w-200"><strong><?= "" ?></strong></td>
             <td></td>
             <td></td>
         </tr>

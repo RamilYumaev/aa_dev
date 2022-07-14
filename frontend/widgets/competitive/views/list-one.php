@@ -4,7 +4,9 @@
 /** @var $this \yii\web\View*/
 /** @var $model modules\dictionary\models\CompetitionList */
 /** @var $cg dictionary\models\DictCompetitiveGroup */
-use dictionary\helpers\DictCompetitiveGroupHelper;use modules\entrant\helpers\DateFormatHelper;
+use dictionary\helpers\DictCompetitiveGroupHelper;
+use modules\entrant\helpers\ConverterBasicExam;
+use modules\entrant\helpers\DateFormatHelper;
 use yii\helpers\Html;
 
 $cg = $model->registerCompetitionList->cg;
@@ -18,6 +20,7 @@ $compositeId = $cg->getCompositeDisciplineId();
 $selectDiscipline =\dictionary\models\CompositeDiscipline::getOne($compositeId);
 $noGuest =!Yii::$app->user->getIsGuest();
 $incomingId = $noGuest ? Yii::$app->user->identity->incomingId() : '';
+$basicExam = ConverterBasicExam::getCompositeDisciplines();
 $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
 ?>
 
@@ -88,15 +91,43 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     $aisCseId = $aisCseIdCg[$subject['subject_id']];
                     if(key_exists($aisCseId,$selectDiscipline)) {
                         $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
+                        foreach ($examinations as $aisId => $examination) {
+                            if(key_exists($aisId, $basicExam)) {
+                                if($basicExam[$aisId][0] == $selectDiscipline[$aisCseId]) {
+                                    $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                }
+                            }
+                        }
                     } else {
                         $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
+                        foreach ($examinations as $aisId => $examination) {
+                            if(key_exists($aisId, $basicExam)) {
+                                if($basicExam[$aisId][0] == $aisCseId) {
+                                    $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                }
+                            }
+                        }
                     }
                 }elseif($subject['subject_type_id'] == 2)  {
                     $aisCtId = $aisCtIdCg[$subject['subject_id']];
                     if(key_exists($aisCtId,$selectDiscipline)) {
                         $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
+                        foreach ($examinations as $aisId => $examination) {
+                            if(key_exists($aisId, $basicExam)) {
+                                if($basicExam[$aisId][0] == $selectDiscipline[$aisCtId]) {
+                                    $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                }
+                            }
+                        }
                     } else {
                         $data['list'][$list]['subjects'][$key]['subject_id'] =  $aisCtId;
+                        foreach ($examinations as $aisId => $examination) {
+                            if(key_exists($aisId, $basicExam)) {
+                                if($basicExam[$aisId][0] == $aisCtId) {
+                                    $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                }
+                            }
+                        }
                     }
                 }
             }

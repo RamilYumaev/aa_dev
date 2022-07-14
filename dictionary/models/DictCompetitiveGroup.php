@@ -167,8 +167,9 @@ class DictCompetitiveGroup extends ActiveRecord
                         break;
                     }
                 }
+            }else {
+                $array[$discipline->ais_id] = $discipline->name;
             }
-            $array[$discipline->ais_id] = $discipline->name;
         }
         return $array;
     }

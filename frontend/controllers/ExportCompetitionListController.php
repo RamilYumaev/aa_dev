@@ -7,6 +7,7 @@ use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use modules\dictionary\models\SettingEntrant;
+use modules\entrant\helpers\ConverterBasicExam;
 use modules\entrant\helpers\DateFormatHelper;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -84,22 +85,51 @@ class ExportCompetitionListController extends Controller
         $examinations =   $examinations =  $isGraduate ? $rcl->cgFacultyAndSpeciality->getExaminationsGraduateAisId() : $cg->getExaminationsAisId();
         $compositeId = $cg->getCompositeDisciplineId();
         $selectDiscipline = \dictionary\models\CompositeDiscipline::getOne($compositeId);
+        $basicExam = ConverterBasicExam::getCompositeDisciplines();
         foreach ($data[$model->type] as $list => $value) {
             if(!$isGraduate) {
                 foreach ($value['subjects'] as $key => $subject) {
-                    if ($subject['subject_type_id'] == 1) {
+                    if($subject['subject_type_id'] == 1) {
                         $aisCseId = $aisCseIdCg[$subject['subject_id']];
-                        if (key_exists($aisCseId, $selectDiscipline)) {
+                        if(key_exists($aisCseId,$selectDiscipline)) {
                             $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCseId];
+                            foreach ($examinations as $aisId => $examination) {
+                                if(key_exists($aisId, $basicExam)) {
+                                    if($basicExam[$aisId][0] == $selectDiscipline[$aisCseId]) {
+                                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                    }
+                                }
+                            }
                         } else {
                             $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCseId;
+                            foreach ($examinations as $aisId => $examination) {
+                                if(key_exists($aisId, $basicExam)) {
+                                    if($basicExam[$aisId][0] == $aisCseId) {
+                                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                    }
+                                }
+                            }
                         }
-                    } elseif ($subject['subject_type_id'] == 2) {
+                    }elseif($subject['subject_type_id'] == 2)  {
                         $aisCtId = $aisCtIdCg[$subject['subject_id']];
-                        if (key_exists($aisCtId, $selectDiscipline)) {
+                        if(key_exists($aisCtId,$selectDiscipline)) {
                             $data['list'][$list]['subjects'][$key]['subject_id'] = $selectDiscipline[$aisCtId];
+                            foreach ($examinations as $aisId => $examination) {
+                                if(key_exists($aisId, $basicExam)) {
+                                    if($basicExam[$aisId][0] == $selectDiscipline[$aisCtId]) {
+                                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                    }
+                                }
+                            }
                         } else {
-                            $data['list'][$list]['subjects'][$key]['subject_id'] = $aisCtId;
+                            $data['list'][$list]['subjects'][$key]['subject_id'] =  $aisCtId;
+                            foreach ($examinations as $aisId => $examination) {
+                                if(key_exists($aisId, $basicExam)) {
+                                    if($basicExam[$aisId][0] == $aisCtId) {
+                                        $data['list'][$list]['subjects'][$key]['subject_id'] = $aisId;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
