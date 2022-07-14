@@ -132,7 +132,7 @@ class StatementHelper
 
     public static function columnStatementConsent($column,  $joinW, $value) {
         return (new StatementReadRepository(self::entrantJob()))
-            ->readData()
+            ->readData(true)
             ->innerJoin(StatementCg::tableName() . ' cg', 'cg.statement_id = statement.id')
             ->innerJoin(StatementConsentCg::tableName() . ' consent', 'consent.statement_cg_id = cg.id')
             ->andWhere(['statement.status'=> self::STATUS_ACCEPTED])->joinWith( $joinW)

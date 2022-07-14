@@ -24,19 +24,21 @@ class StatementReadRepository
         $this->jobEntrant = $jobEntrant;
     }
 
-    public function readData()
+    public function readData($isConsent = false)
     {
         $query = Statement::find()->distinct()->statusNoDraft('statement.');
         $query->innerJoin(UserAis::tableName(), 'user_ais.user_id=statement.user_id');
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=statement.user_id');
         if ($this->jobEntrant->isCategoryFOK()) {
-
             $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
                 'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
                     DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
-            $query->andWhere('anketa.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2,4))');
+            if(!$isConsent) {
+                $query->andWhere('anketa.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2,4))');
+            }
+
         }
 
         if ($this->jobEntrant->isTPGU()) {

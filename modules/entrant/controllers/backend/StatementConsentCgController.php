@@ -151,13 +151,18 @@ class StatementConsentCgController extends Controller
     public function actionView($id)
     {
         $statement = $this->findModel($id);
-        $this->render('view', ['statement' => $statement]);
+        $this->render('view', ['model' => $statement]);
     }
+
     /**
      *
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Mpdf\MpdfException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \yii\base\InvalidConfigException
      */
 
@@ -178,6 +183,10 @@ class StatementConsentCgController extends Controller
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \Mpdf\MpdfException
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \yii\base\InvalidConfigException
      */
 
