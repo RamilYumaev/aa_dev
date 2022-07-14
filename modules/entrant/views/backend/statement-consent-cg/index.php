@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['value' => function ($model) {
                         return Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-eye-open']),
                                 ['view', 'id' => $model->id],
-                                ['data-method' => 'post', 'class' => 'btn btn-info']);
+                                ['class' => 'btn btn-info']);
                     }, 'format'=> 'raw' ],
                 ],
             ]); ?>

@@ -151,7 +151,7 @@ class StatementConsentCgController extends Controller
     public function actionView($id)
     {
         $statement = $this->findModel($id);
-        $this->render('view', ['model' => $statement]);
+        return $this->render('view', ['model' => $statement]);
     }
 
     /**
