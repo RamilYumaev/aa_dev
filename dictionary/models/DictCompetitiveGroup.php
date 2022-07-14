@@ -157,7 +157,7 @@ class DictCompetitiveGroup extends ActiveRecord
     public function getExaminationsAisId()
     {
         $array = [];
-        foreach ($this->getExaminations() as $examination) {
+        foreach ($this->getExaminations()->all() as $examination) {
             $discipline = $examination->discipline;
             $disciplineSpo = $examination->disciplineSpo;
             if($disciplineSpo) {
