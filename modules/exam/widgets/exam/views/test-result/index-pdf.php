@@ -7,7 +7,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var  $attempt  \modules\exam\models\ExamAttempt */
-$s = $attempt->test->exam->discipline_id == 22;
+/* @var $isCorrect $boolean */
+
 ?>
 <div class="box box-default">
     <div class="box-body">
@@ -28,7 +29,8 @@ $s = $attempt->test->exam->discipline_id == 22;
                 ['class' => \yii\grid\SerialColumn::class,  'header'=> '№ п/п',],
                ['attribute'=>'question_id',
                    'header'=> 'Вопрос',
-               'class'=> \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class],
+               'class'=> $isCorrect ? \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestColumn::class
+               : \modules\exam\widgets\exam\gird\ViewAnswerAttemptTestNotCorrectColumn::class ],
                 ['attribute'=>'mark',
                     'header'=> 'Оценка. Итого: '.$attempt->getResult()->sum('mark'),
                     'value'=> 'mark'],

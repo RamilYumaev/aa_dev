@@ -16,7 +16,7 @@ class AdminExam extends Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['entrant']
+                        'roles' => ['dev-entrant']
                     ]
                 ],
             ],

@@ -85,6 +85,7 @@ class ExamAttemptController extends Controller
 
     /**
      * @param integer $id
+     * @param bool $is_correct
      * @return mixed
      * @throws InvalidConfigException
      * @throws NotFoundHttpException
@@ -94,14 +95,14 @@ class ExamAttemptController extends Controller
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      */
 
-    public function actionPdf($id)
+    public function actionPdf($id, $is_correct = true)
     {
         $model = $this->findModel($id);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
-        $content = $this->renderPartial('view_pdf', ['attempt' => $model]);
+        $content = $this->renderPartial('view_pdf', ['attempt' => $model, 'is_correct'=> $is_correct]);
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
         $render = $pdf->render();
         return $render;

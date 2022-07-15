@@ -13,6 +13,7 @@ class TestResultWidget extends Widget
      * @var ExamAttempt
      */
     public $attempt;
+    public $isCorrect = true;
     public $size = 20;
     /**
      * @var string
@@ -31,7 +32,8 @@ class TestResultWidget extends Widget
 
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
-            'attempt' => $this->attempt
+            'attempt' => $this->attempt,
+            'isCorrect'=> $this->isCorrect
         ]);
     }
 }

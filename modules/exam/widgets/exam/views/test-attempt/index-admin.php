@@ -35,7 +35,7 @@ use yii\helpers\Html;
                 'mark',
                 ['header' => "Апелляция",
                     'value'=> function (ExamAttempt $model) {
-                       return $model->status ? Html::a('Скачать pdf',['pdf','id' => $model->id]) : "";
+                       return $model->status ? Html::a('Скачать pdf',['pdf','id' => $model->id])."/".Html::a('Скачать pdf (БПВ)',['pdf','id' => $model->id, 'is_correct'=>false ])  : "";
                     },
                     'format' => 'raw',
                 ],
