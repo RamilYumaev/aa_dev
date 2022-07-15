@@ -129,6 +129,10 @@ class FileCgHelper
         return "Договор об оказании платных образовательных услуг" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;
     }
 
+    public static function fileExamMaterial($entrantFullName, $examTitle, $extension = ".pdf") {
+        return "ЭМ. ".". ". $entrantFullName . ". ". $examTitle.$extension;
+    }
+
     public static function fileNameReceipt($extension = '.docx')
     {
         return "Квитанция" . date("Y") ." ". date('Y-m-d H:i:s') . $extension;

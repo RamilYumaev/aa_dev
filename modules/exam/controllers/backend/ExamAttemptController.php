@@ -11,6 +11,7 @@ use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamResult;
 use modules\exam\repositories\ExamTestRepository;
 use modules\exam\services\ExamAttemptService;
+use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
 use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
@@ -91,12 +92,13 @@ class ExamAttemptController extends Controller
     public function actionPdf($id)
     {
         $model = $this->findModel($id);
+        $profile = Profiles::find()->andWhere(['user_id'=>$model->user_id]);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'image/jpeg');
 
         $content = $this->renderPartial('view_pdf', ['attempt' => $model]);
-        $pdf = PdfHelper::generate($content, FileCgHelper::fileNameAgreement(".pdf"));
+        $pdf = PdfHelper::generate($content, FileCgHelper::fileExamMaterial($profile->fio, $model->exam->discipline->name));
         $render = $pdf->render();
         return $render;
 
