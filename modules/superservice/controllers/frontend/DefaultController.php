@@ -34,11 +34,20 @@ class DefaultController extends Controller
             $path = parse_url($url, PHP_URL_PATH);
             $query = parse_url($url, PHP_URL_QUERY);
             $pos = strpos($query, 'id=');
+            $referrer = strpos($query, 'referrer=');
+            $data = explode('&',$query);
             if($pos === false) {
-                $path = $path.'?type='.$model->type.'&version='.$model->version;
+                if($referrer === false) {
+                    $path = $path.'?type='.$model->type.'&version='.$model->version;
+                }else {
+                    $path = $path.'?'.$data[0].'&type='.$model->type.'&version='.$model->version;
+                }
             }else {
-                $data = explode('&',$query);
-                $path = $path.'?'.$data[0].'&type='.$model->type.'&version='.$model->version;
+                if($referrer === false) {
+                    $path = $path.'?'.$data[0].'&type='.$model->type.'&version='.$model->version;
+                }else {
+                    $path = $path.'?'.$data[0].'&type='.$model->type.'&version='.$model->version.'&'.$data[1];
+                }
             }
             return $this->redirect($path);
         }

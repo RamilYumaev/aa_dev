@@ -28,6 +28,7 @@ class DocumentEducationForm extends Model
     public function __construct($user_id, DocumentEducation $documentEducation = null, $config = [])
     {
         $this->fio = self::FIO_PROFILE;
+        $this->without_appendix = 0;
         if($documentEducation){
             $this->setAttributes($documentEducation->getAttributes(), false);
             $this->date= $documentEducation->getValue("date");

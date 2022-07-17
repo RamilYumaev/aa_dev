@@ -26,7 +26,6 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'year')->textInput(['maxlength' => true])?>
             <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget()); ?>
-            <?= $form->field($model, 'without_appendix')->checkbox() ?>
             <?= $form->field($model, 'fio')->checkbox() ?>
             <div id="no-fio-profile">
                 <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>

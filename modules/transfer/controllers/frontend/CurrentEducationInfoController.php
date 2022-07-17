@@ -103,14 +103,19 @@ class CurrentEducationInfoController extends Controller
 
     public function getCurrentFinanceArray() {
         return $this->isFinanceContract() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,] :
+            ($this->getEnd() ?
+                [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT] :
             [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
+            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
     }
 
     public function getCurrentEduLevelGraduateArray() {
         return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
+    public function getEnd() {
+        return strtotime("2022-07-15 17:00:00") < strtotime(\date("Y-m-d G:i:s"));
+    }
 
     public function getEduLevelArray() {
         return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,

@@ -358,9 +358,12 @@ class SubmittedDocumentsService
     {
         $others = Address::find()->where(['user_id' => $userId, 'type' => [AddressHelper::TYPE_REGISTRATION, AddressHelper::TYPE_RESIDENCE]])->all();
         /* @var $other \modules\entrant\models\Address */
-        foreach ($others as $other) {
-            if (!$other->files) {
-                throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу ' . $other->typeName . '!');
+        $anketa = Anketa::findOne(['user_id' =>$userId]);
+        if(!$anketa->isNoRequired()) {
+            foreach ($others as $other) {
+                if (!$other->files) {
+                    throw new \DomainException(' Не загружен файл(-ы) раздела "Адреса" к типу ' . $other->typeName . '!');
+                }
             }
         }
     }

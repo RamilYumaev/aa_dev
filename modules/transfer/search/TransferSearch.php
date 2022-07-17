@@ -58,7 +58,7 @@ class TransferSearch  extends  Model
         }
 
         $query->andFilterWhere([
-            'user_id' => $this->user_id,
+            'transfer_mpgu.user_id' => $this->user_id,
         ]);
 
         $query
