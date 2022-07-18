@@ -46,7 +46,7 @@ if ($eduDurationMonth >= 1 / 12) {
 }
 
 ?>
-< width="100%" class="fs-11 agreement" style="margin-top: 0">
+<p width="100%" class="fs-11 agreement" style="margin-top: 0">
     <table width="100%" class="fs-11">
         <tr>
             <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
@@ -508,4 +508,4 @@ if ($eduDurationMonth >= 1 / 12) {
         «____» _____________ 20___ г. ________________ (подпись Обучающегося)<br/><br/>
         «____» _____________ 20___ г. ________________ (подпись Заказчика)
     </p>
-</div>
+</p>

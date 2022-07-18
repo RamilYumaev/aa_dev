@@ -134,6 +134,24 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         }
         ?>
         <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
+        <?php if($cg->isSpecQuota()):
+        $result = array_filter($data[$model->type], function($v) {
+            return $v['subject_sum'] == 300; }); ?>
+            <?= $this->render('list_spec', ['bvi' => true,
+            'examinations' => $examinations,
+            'isEntrant' => $isEntrant,
+            'incomingId' => $incomingId,
+            'data' => $result,
+        ])?>
+        <?= $this->render('list_spec', ['bvi' => false,
+            'examinations' => $examinations,
+            'isEntrant' => $isEntrant,
+            'incomingId' => $incomingId,
+            'subjectType' => $subjectType,
+            'subjectStatus' => $subjectStatus,
+            'data' => $data[$model->type],
+        ])?>
+        <?php else : ?>
         <div class="table-responsive">
             <table class="table" >
                 <tr>
@@ -227,6 +245,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 </tr>
             </table>
         </div>
+        <?php endif; ?>
     <?php else: ?>
         <h4 style="color: red">В списке нет ни одного абитуриента</h4>
     <?php endif; ?>
