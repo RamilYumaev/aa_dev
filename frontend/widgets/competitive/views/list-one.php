@@ -10,7 +10,7 @@ use modules\entrant\helpers\DateFormatHelper;
 use yii\helpers\Html;
 
 $cg = $model->registerCompetitionList->cg;
-$this->title = $cg->getFullNameCg();
+$this->title =$cg->specialty->codeWithName ."/". $cg->getEduLevel()."/".$cg->getSpecialisationName().'/'.$cg->getSpecialisationName()."/".$cg->formEdu;
 $subjectType = [1 => 'ЕГЭ', 2 => 'ЦТ', 3 => 'ВИ', 4 => 'СБА'];
 $subjectStatus =[ 1 => 'не проверено', 2 => 'проверено', 3 => 'ниже минимума' , 4 => 'истек срок'];
 $aisCseIdCg = $cg->getExaminationsCseAisId();

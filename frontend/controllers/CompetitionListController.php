@@ -24,9 +24,9 @@ class CompetitionListController extends Controller
     }
 
 
-    public function actionSpo()
+    public function actionSpo($faculty = null)
     {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, true);
+        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, true, $faculty);
     }
 
     protected function renderCompetitionList($eduLevel, $department, $faculty = null) {
@@ -65,9 +65,9 @@ class CompetitionListController extends Controller
             return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
     }
 
-    public function actionDepartment()
+    public function actionDepartment($faculty = null)
     {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, true);
+        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, true, $faculty);
     }
 
     public function actionBachelor($faculty = null)
@@ -136,7 +136,7 @@ class CompetitionListController extends Controller
                 'special_right' =>  $special,
                 'edu_level' =>  $eduLevel,
                 'form_edu' => $form,
-                RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
+                 RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
                 'speciality_id' => $speciality,
                 'finance_edu' => $finance,
                 CompetitionList::tableName().'.type'=> $type

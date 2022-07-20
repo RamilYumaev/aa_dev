@@ -25,6 +25,18 @@ use yii\helpers\Html; ?>
                 <?php else: ?>
                     <div style='font-weight: 100; font-size: 24px'><?=  Html::a($item->faculty->full_name,['bachelor', 'faculty'=> $item->faculty->id])?></div>
                 <?php endif ?>
+            <?php elseif ($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR && $item->faculty->filial): ?>
+                <?php if($isFaculty): ?>
+                    <?= $this->render('_table', ['item'=> $item, 'facultyName' =>$item->faculty->full_name,'eduLevel' => $eduLevel, 'url' => 'department', 'title' => $title, 'isFaculty'=>$isFaculty])?>
+                <?php else: ?>
+                    <div style='font-weight: 100; font-size: 24px'><?=  Html::a($item->faculty->full_name,['department', 'faculty'=> $item->faculty->id])?></div>
+                <?php endif ?>
+            <?php elseif ($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO): ?>
+                <?php if($isFaculty): ?>
+                    <?= $this->render('_table', ['item'=> $item, 'facultyName' =>$item->faculty->full_name,'eduLevel' => $eduLevel, 'url' => 'spo', 'title' => $title, 'isFaculty'=>$isFaculty])?>
+                <?php else: ?>
+                    <div style='font-weight: 100; font-size: 24px'><?=  Html::a($item->faculty->full_name,['spo', 'faculty'=> $item->faculty->id])?></div>
+                <?php endif ?>
             <?php elseif ($eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER): ?>
                 <?php if($isFaculty): ?>
                     <?= $this->render('_table', ['item'=> $item, 'facultyName' =>$item->faculty->full_name,'eduLevel' => $eduLevel, 'url' => 'magistracy', 'title' => $title, 'isFaculty'=>$isFaculty])?>
@@ -37,9 +49,6 @@ use yii\helpers\Html; ?>
                 <?php else: ?>
                     <div style='font-weight: 100; font-size: 24px'><?=  Html::a($item->faculty->full_name,['graduate', 'faculty'=> $item->faculty->id])?></div>
                 <?php endif ?>
-            <?php else : ?>
-                <h3 style="margin-top: 40px"><?= $item->faculty->full_name?></h3>
-                <?= $this->render('_table', ['item'=> $item,'eduLevel' => $eduLevel, 'isFaculty'=>$isFaculty])?>
             <?php endif; ?>
         <?php endforeach; ?>
         </div>

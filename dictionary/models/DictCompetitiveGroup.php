@@ -157,7 +157,7 @@ class DictCompetitiveGroup extends ActiveRecord
     public function getExaminationsAisId()
     {
         $array = [];
-        foreach ($this->getExaminations()->all() as $examination) {
+        foreach ($this->getExaminations()->with(['discipline', 'disciplineSpo'])->all() as $examination) {
             $discipline = $examination->discipline;
             $disciplineSpo = $examination->disciplineSpo;
             if($disciplineSpo) {
@@ -470,12 +470,7 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function getRegisterCompetition() {
-        return $this->hasOne(RegisterCompetitionList::class,['ais_cg_id' => 'ais_id'])->joinWith('competitionList')
-            ->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS]);
-    }
-
-    public function getRegisterCompetitionList($type) {
-        return $this->getRegisterCompetition()->andWhere(['type'=> $type])->exists();
+        return $this->hasOne(RegisterCompetitionList::class,['ais_cg_id' => 'ais_id'])->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS]);
     }
 
     public function getRegisterCompetitionListGraduate($faculty, $speciality, $form)
@@ -490,7 +485,6 @@ class DictCompetitiveGroup extends ActiveRecord
                  RegisterCompetitionList::tableName().'.faculty_id' => $faculty,
                 'speciality_id' => $speciality,
                 'finance_edu' => $this->financing_type_id,
-                CompetitionList::tableName().'.type'=> 'list'
             ])->one();
     }
 

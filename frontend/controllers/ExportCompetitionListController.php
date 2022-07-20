@@ -148,6 +148,7 @@ class ExportCompetitionListController extends Controller
             $application[$key]['full_name'] = $entrant['last_name']." ". $entrant['first_name']." ". $entrant['patronymic'];
             $application[$key]['specialization_name'] = $isGraduate ? $entrant['specialization_name'] : '';
             $application[$key]['number'] = key_exists('snils', $entrant) ? ($entrant['snils'] ? $entrant['snils'] : $entrant['incoming_id']) : $entrant['incoming_id'];
+            $application[$key]['original'] = $entrant['original_status_id'] ? 'оригинал' : 'копия' ;
             if($entrant['zos_status_id'] === 0) {
                 $application[$key]['consent_status'] = "-";
             }
