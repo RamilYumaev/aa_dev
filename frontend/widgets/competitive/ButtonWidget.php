@@ -19,8 +19,8 @@ class ButtonWidget extends Widget
         $cgs = $cache->getOrSet($key, function ()  { return
             DictCompetitiveGroup::find()->currentAutoYear()
                 ->with( $this->eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ?
-                    ['registerCompetition.competitionList', 'registerCompetition.competitionListBvi'] :
-                    ['registerCompetition.competitionList',])
+                    ['registerCompetition.competitionListNo', 'registerCompetition.competitionListBvi'] :
+                    ['registerCompetition.competitionListNo',])
                 ->cgAllGroup($this->cgContract, $this->eduLevel); });
         return $this->render('button', [
             'cgs' => $cgs,

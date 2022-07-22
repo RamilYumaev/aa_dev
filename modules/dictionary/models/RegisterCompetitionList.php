@@ -103,12 +103,17 @@ class RegisterCompetitionList extends ActiveRecord
 
     public function getCompetitionList()
     {
-        return $this->hasMany(CompetitionList::class,['rcl_id'=> 'id'])->andWhere([CompetitionList::tableName().'.type'=> 'list']);
+        return $this->hasMany(CompetitionList::class,['rcl_id'=> 'id']);
+    }
+
+    public function getCompetitionListNo()
+    {
+        return $this->getCompetitionList()->andWhere(['type'=> 'list']);
     }
 
     public function getCompetitionListBvi()
     {
-        return $this->hasMany(CompetitionList::class,['rcl_id'=> 'id'])->andWhere(['type'=> 'list_bvi']);
+        return $this->getCompetitionList()->andWhere(['type'=> 'list_bvi']);
     }
 
     public function getCg()

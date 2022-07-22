@@ -130,7 +130,7 @@ class CompetitionListController extends Controller
 
         $eduLevel = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
         $query = RegisterCompetitionList::find()
-            ->joinWith(['competitionList', 'settingEntrant'])
+            ->joinWith(['competitionList'])
             ->andWhere([
                 'status'=> RegisterCompetitionList::STATUS_SUCCESS,
                 'special_right' =>  $special,

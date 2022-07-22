@@ -30,16 +30,10 @@ use modules\entrant\helpers\DateFormatHelper;
             <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
             <th style="font-size: 12px; text-align: center">Нуждается в общежитии</th>
             <th style="font-size: 12px; text-align: center">Сумма баллов</th>
-            <th style="font-size: 12px; text-align: center">Прмечание</th>
+            <th style="font-size: 12px; text-align: center">Примечание</th>
             <th style="font-size: 12px; text-align: center">Дата приема заявлений</th>
         </tr>
-        <?php  $i=1; foreach ($data as $entrant):
-        if($bvi &&  $entrant['subject_sum'] != 300) {
-            continue;
-        }elseif(!$bvi && $entrant['subject_sum'] == 300) {
-            continue;
-        }
-        ?>
+        <?php  $i=1; foreach ($data as $entrant): ?>
         <tr <?=  $incomingId == $entrant['incoming_id'] ? 'class="success"': ''  ?> >
             <td style="font-size: 14px; text-align: center"><?=$i++?></td>
             <td style="font-size: 14px; text-align: center"><?=   $entrant['incoming_id']  ?></td>

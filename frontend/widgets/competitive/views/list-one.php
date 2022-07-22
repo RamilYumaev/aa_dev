@@ -7,6 +7,8 @@
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\ConverterBasicExam;
 use modules\entrant\helpers\DateFormatHelper;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\models\UserAis;
 use yii\helpers\Html;
 
 $cg = $model->registerCompetitionList->cg;
@@ -135,13 +137,18 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         ?>
         <center style="font-size: 18px"><?= Html::a('Расшифровки аббревиатур в конкурсных списках', ['list-short'])?></center>
         <?php if($cg->isSpecQuota()):
-        $result = array_filter($data[$model->type], function($v) {
-            return $v['subject_sum'] == 300; }); ?>
+        $result = function ($type) use($data, $model) {
+            return array_filter($data[$model->type], function ($v) use($type) {
+                $incoming = UserAis::findOne(['incoming_id' => $v['incoming_id']]);
+                return $incoming &&  OtherDocument::findOne(['user_id' => $incoming->user_id,
+                    'exemption_id' => \modules\entrant\helpers\OtherDocumentHelper::SPECIAL_QUOTA,  "reception_quota" => $type]);
+            });
+        };?>
             <?= $this->render('list_spec', ['bvi' => true,
             'examinations' => $examinations,
             'isEntrant' => $isEntrant,
             'incomingId' => $incomingId,
-            'data' => $result,
+            'data' => $result(2),
         ])?>
         <?= $this->render('list_spec', ['bvi' => false,
             'examinations' => $examinations,
@@ -149,7 +156,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             'incomingId' => $incomingId,
             'subjectType' => $subjectType,
             'subjectStatus' => $subjectStatus,
-            'data' => $data[$model->type],
+            'data' => $result(1),
         ])?>
         <?php else : ?>
         <div class="table-responsive">
