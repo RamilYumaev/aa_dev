@@ -51,6 +51,7 @@ class RegisterCompetitiveListComponent
             $register = $this->getRegisterCompositeList($item, $number, $ais_id, $value['faculty_id'], $value['speciality_id']);
             $compositeJob = new CompetitionListJob(['register' => $register]);
             if($this->queue) {
+                Yii::$app->queue->ttr = 3000;
                 Yii::$app->queue->push($compositeJob);
             }else {
                 $compositeJob->generate();

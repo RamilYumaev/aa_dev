@@ -18,7 +18,7 @@ abstract class ClientBase
         $this->client = new \GuzzleHttp\Client([
             "base_uri" => $baseUrl,
             "headers" => $headers,
-            "timeout" => 90
+            "timeout" => 600,
         ]);
     }
 

@@ -136,6 +136,7 @@ class SettingEntrantController extends ControllerClass
 
     public function actionSend($id)
     {
+        set_time_limit(600);
         if (($model = RegisterCompetitionList::findOne($id)) == null) {
             throw new NotFoundHttpException('Такой страницы не существует.');
         }
@@ -143,10 +144,12 @@ class SettingEntrantController extends ControllerClass
             $cgs = explode(',', $model->ais_cg_id);
             $array = ['ais_id'=> $cgs ? $cgs : $model->ais_cg_id,
                 'faculty_id' => $model->faculty_id, 'speciality_id' => $model->speciality_id];
-            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, false))
+            $queue = true;
+            $register = (new RegisterCompetitiveListComponent(RegisterCompetitionList::TYPE_HANDLE, $queue))
                 ->push(array($array), $model->settingCompetitionList, date('Y-m-d'));
-            Yii::$app->session->setFlash($register->isStatusError() ? 'error' : 'info',
-                'Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:''));
+            Yii::$app->session->setFlash(!$queue ? ($register->isStatusError() ? 'error' : 'info') : 'info',
+                !$queue ?
+                    ('Статус: '. $register->statusName.($register->isStatusError() ?'Сообщение: '.$register->error_message:'')) : "Отправлено в очередь");
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

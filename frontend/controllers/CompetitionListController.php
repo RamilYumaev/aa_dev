@@ -8,11 +8,32 @@ use modules\dictionary\models\RegisterCompetitionList;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 class CompetitionListController extends Controller
 {
 
+//    public function behaviors(): array
+//    {
+//        return [
+//            'verbs' => [
+//                'class' => VerbFilter::class,
+//                'actions' => [
+//                    'table-file' => ['POST']
+//                ]
+//            ],
+//            'access' => [
+//                'class' => AccessControl::class,
+//                'rules' => [
+//                    [
+//                        'allow' => true,
+//                        'roles' => ['@']
+//                    ]
+//                ],
+//            ],
+//        ];
+//    }
     public function actionIndex()
     {
         return $this->render('index');

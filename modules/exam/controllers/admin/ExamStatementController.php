@@ -96,15 +96,9 @@ class ExamStatementController extends Controller
         $i = 0;
         /* @var $entrant ExamStatement */
         foreach ($models as $key => $entrant) {
-            $attempt = $entrant->exam->getAttempt()->exam($entrant->exam_id)->user($entrant->entrant_user_id)->orderBy(['id'=> SORT_DESC])->one();
             $application[$key]['num'] = ++$i;
             $application[$key]['exam'] = $entrant->exam->discipline->name;
-            $application[$key]['incoming'] = $entrant->profileEntrant->aisUser->incoming_id;
             $application[$key]['fio'] = $entrant->getEntrantFio();
-            $application[$key]['citizenship'] = $entrant->information->anketa->citizenship;
-            $application[$key]['education'] = $entrant->information->anketa->currentEduLevel;
-            $application[$key]['quota'] = $entrant->information->anketa->isExemptionDocument(1) ? 'Инвалид' : "Нет" ;
-            $application[$key]['mark'] = $attempt ? $attempt->mark : "";
             $application[$key]['proctor'] = $entrant->getProctorFio();
             $application[$key]['violation'] = $entrant->violation ? "Есть" : "Нет";
             $application[$key]['link'] = $entrant->src_bbb;

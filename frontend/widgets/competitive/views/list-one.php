@@ -53,7 +53,8 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         <?php if ($cg->isBudget()) : ?>
             <span style="font-weight: bold">Контрольные цифры приема:</span>
             <?php if (is_null($cg->special_right_id)) : ?>
-                <?php if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk() || ($model->registerCompetitionList->settingCompetitionList->isEndDateZuk() && $model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)) :?>
+                <?php /* if(!$model->registerCompetitionList->settingCompetitionList->isEndDateZuk() || ($model->registerCompetitionList->settingCompetitionList->isEndDateZuk()
+          && $model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER)) : */ ?>
                     <?= $data['kcp']['sum'] ?>,
                     из них:
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) :?>
@@ -61,9 +62,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         спецквота - <?= $data['kcp']['z'] ?>,
                     <?php endif; ?>
                     целевая квота - <?= $data['kcp']['target'] ?>
-                <?php else: ?>
-                    <?= $data['kcp']['sum'] ?>
-                <?php endif; ?>
+                <?php /* else: */ ?>
+                    <?php /*$data['kcp']['sum'] */ ?>
+                <?php /* endif; */ ?>
             <?php elseif ($cg->isKvota()): ?>
                 <?= $data['kcp']['quota'] ?>,
             <?php elseif ($cg->isTarget()): ?>
