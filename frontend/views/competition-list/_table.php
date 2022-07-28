@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <th style="font-weight: 100"><?=$cg->specialty->codeWithName?> <?= $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO ? "(для " . $cg->spo_class . " классов)" :""?>
                 <?= $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL || $eduLevel ==  DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  ? "": $cg->specialization->name  ?> </th>
             <th style="font-weight: 100"><?= $cg->formEdu ?></th>
-            <th style="font-weight: 100"><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract'=> $cg, 'eduLevel'=> $eduLevel]) ?></th>
+            <th style="font-weight: 100"><?= \frontend\widgets\competitive\ButtonWidget::widget(['cgContract' => $cg, 'eduLevel'=> $eduLevel]) ?></th>
         </tr>
     <?php endforeach; ?>
 </table>

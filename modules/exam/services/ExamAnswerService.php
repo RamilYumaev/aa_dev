@@ -87,6 +87,7 @@ class ExamAnswerService
                 if(!$data['detailed']) {
                     throw new \DomainException( 'Напишите эссе.');
                 }
+
                 $mark = null;
                 \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
                 break;

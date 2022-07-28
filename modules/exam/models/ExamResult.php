@@ -95,8 +95,8 @@ class ExamResult extends ActiveRecord
             [
                 'class' => FileUploadBehavior::class,
                 'attribute' => 'result',
-                'filePath' => '@frontendRoot/result/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
-                'fileUrl' => '@frontendInfo/result/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
+                'filePath' => '@frontendRoot/result/exam/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
+                'fileUrl' => '@frontendInfo/result/exam/[[attribute_attempt_id]]_[[attribute_question_id]]_[[attribute_tq_id]].[[extension]]',
             ],
         ];
     }
