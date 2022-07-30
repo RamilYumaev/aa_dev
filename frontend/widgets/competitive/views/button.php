@@ -44,7 +44,7 @@ $array =
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php if($cg->isBudget() && $cg->isBachelor() &&  $cg->registerCompetition && $cg->registerCompetition->competitionListBvi): ?>
+    <?php if($cg->isBudget() && $cg->isBachelor() && $cg->getRegisterCompetitionList('list_bvi')): ?>
         <?= Html::a($array['list_bvi']['name'], ['entrant-list', 'cg' => $cg->ais_id, 'type' => 'list_bvi'],['class'=>$array['list_bvi']['color']]) ?>
     <?php endif; ?>
 

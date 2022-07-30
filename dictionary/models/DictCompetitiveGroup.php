@@ -470,9 +470,14 @@ class DictCompetitiveGroup extends ActiveRecord
     }
 
     public function getRegisterCompetition() {
-        return $this->hasOne(RegisterCompetitionList::class,['ais_cg_id' => 'ais_id'])->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS]);
+        return $this->hasOne(RegisterCompetitionList::class,['ais_cg_id' => 'ais_id'])->joinWith('competitionList')
+            ->andWhere(['status'=> RegisterCompetitionList::STATUS_SUCCESS]);
     }
 
+    public function getRegisterCompetitionList($type) {
+        return $this->getRegisterCompetition()->andWhere(['type'=> $type])->exists();
+
+    }
     public function getRegisterCompetitionListGraduate($faculty, $speciality, $form)
     {
         return RegisterCompetitionList::find()

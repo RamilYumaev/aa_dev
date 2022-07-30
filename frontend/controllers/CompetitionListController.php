@@ -7,33 +7,62 @@ use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\RegisterCompetitionList;
 use Yii;
 use yii\db\ActiveQuery;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 class CompetitionListController extends Controller
 {
+    public function behaviors(): array
+    {
+        $cookie = $_COOKIE["cookieAntiDdos"];
+        return [
+            [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['index', 'spo', 'department', 'bachelor', 'magistracy'],
+                'duration' => 7200,
+                'variations' => [
+                    Yii::$app->request->get('faculty'),
+                    Yii::$app->user->id,
+                    Yii::$app->user->isGuest,
+                    $cookie,
+                ]
+            ],
+            [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['graduate'],
+                'duration' => 7200,
+                'variations' => [
+                    Yii::$app->request->get('faculty'),
+                    Yii::$app->user->id,
+                    Yii::$app->user->isGuest,
+                    $cookie,
+                ]
+            ],
+            [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['entrant-list'],
+                'duration' => 7200,
+                'variations' => [
+                    Yii::$app->request->get('cg'),
+                    Yii::$app->request->get('type'),
+                    Yii::$app->request->get('date'),
+                    Yii::$app->request->get('id'),
+                    Yii::$app->user->id,
+                    Yii::$app->user->isGuest,
+                    $cookie,
+                ]
+            ],
+           /* 'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['entrant']
+                    ]
+                ],
+            ], */
+        ];
+    }
 
-//    public function behaviors(): array
-//    {
-//        return [
-//            'verbs' => [
-//                'class' => VerbFilter::class,
-//                'actions' => [
-//                    'table-file' => ['POST']
-//                ]
-//            ],
-//            'access' => [
-//                'class' => AccessControl::class,
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'roles' => ['@']
-//                    ]
-//                ],
-//            ],
-//        ];
-//    }
     public function actionIndex()
     {
         return $this->render('index');
