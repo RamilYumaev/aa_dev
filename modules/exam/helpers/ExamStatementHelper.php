@@ -15,6 +15,7 @@ class ExamStatementHelper
     const END_STATUS = 3;
     const RESERVE_STATUS = 4;
     const CANCEL_STATUS = 5;
+    const ABSENCE_STATUS = 6;
 
     public static function listTypes ()
     {
@@ -105,7 +106,8 @@ class ExamStatementHelper
             self::ERROR_RESERVE_STATUS => "Нарушение/Резервный",
             self::END_STATUS => "Завершен",
             self::RESERVE_STATUS => "Перенос на резервный день",
-            self::CANCEL_STATUS => "Аннулирован"
+            self::CANCEL_STATUS => "Аннулирован",
+            self::ABSENCE_STATUS => "Неявка",
         ];
     }
 

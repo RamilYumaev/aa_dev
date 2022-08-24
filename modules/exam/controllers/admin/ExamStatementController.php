@@ -174,6 +174,12 @@ class ExamStatementController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionStatementsAdd()
+    {
+        $this->service->statementAllEnd();
+        echo "Статусы заявки изменены";
+    }
+
     /**
      * @param integer $id
      * @return mixed

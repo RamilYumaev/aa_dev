@@ -41,7 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '<tr><td colspan="3">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
                             $model->profileEntrant->phone.'<br/>'.
-                            ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"]) : "").
+                            ($model->statusWalt() ? Html::a('Допустить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::SUCCESS_STATUS],['class'=> "btn btn-success btn-block", 'data-confirm'=> "Вы уверены, что хотите допустить?"])
+                                .Html::a('Неявка', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::ABSENCE_STATUS],['class'=> "btn btn-danger btn-block", 'data-confirm'=> "Вы уверены, что хотите это сделать ?"]): "").
                             ($model->statusSuccess() && !$model->getViolation()->count() ? Html::a('Завершить', ['exam-statement/status', 'id' => $model->id, 'status' => ExamStatementHelper::END_STATUS],['class'=> "btn btn-primary btn-block", 'data-confirm'=> "Вы уверены, что хотите завершить?"]) : "").
                             ($model->statusWalt() ? Html::a('Редактировать BigBlueButton', ['exam-statement/src', 'id' => $model->id],
                                    [  'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Редактирование ссылки', 'class' => 'btn btn-info btn-block']) : "")

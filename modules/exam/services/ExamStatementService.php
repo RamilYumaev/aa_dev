@@ -80,7 +80,7 @@ class ExamStatementService
 
     public function status($id, $status)
     {
-        $array = [ExamStatementHelper::SUCCESS_STATUS, ExamStatementHelper::END_STATUS];
+        $array = [ExamStatementHelper::SUCCESS_STATUS, ExamStatementHelper::END_STATUS, ExamStatementHelper::ABSENCE_STATUS];
         $model = $this->repository->get($id);
         if($model->getViolation()->count() && $status == ExamStatementHelper::END_STATUS) {
             throw new \DomainException("Вы не можете завершить, так как имеются нарушения");
@@ -98,7 +98,7 @@ class ExamStatementService
         }
 
         if(!in_array($status, $array)) {
-            throw new \DomainException("Можно только допустить или завершить");
+            throw new \DomainException("Можно только допустить, завершить, или поставить неявку");
         }
 
         $model->setStatus($status);
@@ -188,7 +188,7 @@ class ExamStatementService
                 if(!$exam){
                     continue;
                 }
-                if($this->repository->getExamUserExists($exam->id, $user)) {
+                if($this->examAttemptRepository->isAttemptExamUser($exam->id, $user)) {
                     continue;
                 }
                 if($formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 && !$exam->date_start_reserve) {
@@ -204,6 +204,21 @@ class ExamStatementService
 
                 $this->repository->save($examSt);
             }
+        }
+    }
+
+    public function statementAllEnd()
+    {
+        /** @var ExamStatement $item */
+        foreach (ExamStatement::find()
+                     ->andWhere(['status' => ExamStatementHelper::WALT_STATUS])
+                     ->all() as $item) {
+            if($this->examAttemptRepository->isAttemptExamUser($item->exam_id, $item->entrant_user_id)) {
+                $item->status = ExamStatementHelper::END_STATUS;
+            }else {
+                $item->status = ExamStatementHelper::ABSENCE_STATUS;
+            }
+            $item->save();
         }
     }
 
