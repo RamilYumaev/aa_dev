@@ -177,6 +177,8 @@ if(!Yii::$app->user->isGuest ) {
                             "icon" => "list-ul",
                         ],
                     ]],
+                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ)', 'url' => ['/data-entrant/statement-rejection-record/index']] :[] ,
+                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ) ВР', 'url' => ['/data-entrant/statement-rejection-record/index', 'status'=> StatementHelper::STATUS_VIEW]] :[] ,
                 \Yii::$app->user->can('proctor') ? ['label' => 'Заявки на экзамен',
                     "items" => [
                         [

@@ -140,7 +140,7 @@ class DictDiscipline extends \yii\db\ActiveRecord
     {
         $query = $this->getDisciplineCg()->joinWith("competitiveGroup")
             ->select('dict_competitive_group.ais_id');
-        $query->andWhere(['year' => "2020-2021"])->andWhere(['foreigner_status' => 0]);
+        $query->andWhere(['year' => "2021-2022"])->andWhere(['foreigner_status' => 0]);
         if ($filial) {
             return $query->andWhere(['faculty_id' => $filial])->column();
         } else {

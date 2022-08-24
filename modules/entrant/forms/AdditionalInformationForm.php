@@ -41,9 +41,9 @@ class AdditionalInformationForm extends Model
             [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id','mark_spo',] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'transfer_in_epgu', 'is_military_edu', 'chernobyl_status_id', 'is_epgu', 'is_time', 'mpgu_training_status_id'], 'integer'],
             [['insuranceNumber'], 'string', 'max'=>14],
-            [['insuranceNumber'], 'required', 'when' => function($model) {
-               return $model->transfer_in_epgu;
-            }, 'enableClientValidation' => false],
+//            [['insuranceNumber'], 'required', 'when' => function($model) {
+//               return $model->transfer_in_epgu;
+//            }, 'enableClientValidation' => false],
             [['insuranceNumber'], 'validateInsuranceNumber'],
             $this->_additionalInformation && $this->_additionalInformation->insuranceCertificate ?
                 [['insuranceNumber'], 'unique', 'targetClass' => InsuranceCertificateUser::class, 'targetAttribute' => 'number', 'filter' => ['<>', 'id', $this->_additionalInformation->insuranceCertificate->id]]

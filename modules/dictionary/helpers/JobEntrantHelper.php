@@ -196,7 +196,8 @@ class JobEntrantHelper
     {
         $array = [
             self::COZ,
-            self::MPGU
+            self::MPGU,
+            self::TARGET,
         ];
         return $array;
     }

@@ -351,22 +351,40 @@ class AgreementHelper
         if ($collegeStatus) {
             switch ($type) {
                case self::FIO_NOMINATIVE :
-                   return "Владимирова Татьяна Николаевна";
+                   return "Шонус Иван Харлампиевич";
                    break;
                case self::FIO_GENITIVE :
-                   return "Владимировой Татьяны Николаевны";
+                   return "Шонуса Ивана Харлампиевича";
                    break;
                case self::POSITION_NOMINATIVE :
-                   return "Проректор по связям с общественностью";
+                   return "Проректор по воспитательной работе и молодежной политике";
                    break;
                case self::POSITION_GENITIVE :
-                   return "проректора по связям с общественностью";
+                   return "Проректора по воспитательной работе и молодежной политике";
                    break;
                case self::FIO_SHORT :
-                   return "Т.Н. Владимирова";
+                   return "И.Х. Шонус";
                    break;
                case self::PROCURATION :
-                   return "№ 39 от 15 июн. 2022 г.";
+                   return "№ 53 от 01 авг. 2022 г.";
+
+//               case self::FIO_NOMINATIVE :
+//                   return "Владимирова Татьяна Николаевна";
+//                   break;
+//               case self::FIO_GENITIVE :
+//                   return "Владимировой Татьяны Николаевны";
+//                   break;
+//               case self::POSITION_NOMINATIVE :
+//                   return "Проректор по связям с общественностью";
+//                   break;
+//               case self::POSITION_GENITIVE :
+//                   return "Проректора по связям с общественностью";
+//                   break;
+//               case self::FIO_SHORT :
+//                   return "Т.Н. Владимирова";
+//                   break;
+//               case self::PROCURATION :
+//                   return "№ 39 от 15 июн. 2022 г.";
 
                 // case self::FIO_NOMINATIVE :
                 //     return "Страхов Василий Вячеславович";

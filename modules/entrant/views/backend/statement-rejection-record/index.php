@@ -44,10 +44,10 @@ unset($arrayStatus[StatementHelper::STATUS_WALT_SPECIAL]);
                             .'</td>'.'<td>'.
                             $model->profileUser->phone.'<br /> incoming_id -'. $model->profileUser->ais->incoming_id.
                             Html::a('Скачать заявление', ['statement-rejection-record/pdf', 'id' =>  $model->id], ['class' => 'btn btn-large btn-warning  btn-block']).
-                            ($jobEntrant->isCategoryMPGU() && !$model->isStatusAccepted() ? Html::a('Взять в работу', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_VIEW], ['class' => 'btn btn-large btn-info  btn-block']) : "").
+                            (($jobEntrant->isCategoryMPGU() || $jobEntrant->isCategoryTarget()) && !$model->isStatusAccepted() ? Html::a('Взять в работу', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_VIEW], ['class' => 'btn btn-large btn-info  btn-block']) : "").
                             (!$jobEntrant->isCategoryCOZ() || $model->isStatusAccepted()  ? "" : Html::a('Принять', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_ACCEPTED], ['class' => 'btn btn-large btn-success  btn-block'])).
-                            ($jobEntrant->isCategoryMPGU()  && !$model->isStatusAccepted() ? Html::a('Отклонить', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_NO_ACCEPTED], ['class' => 'btn btn-large btn-danger btn-block']) :"").
-                            ($jobEntrant->isCategoryCOZ() ? Html::a("Прикрепить файл  (pdf)", ['statement-rejection-record/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-primary btn-block",
+                            (($jobEntrant->isCategoryMPGU() || $jobEntrant->isCategoryTarget())  && !$model->isStatusAccepted() ? Html::a('Отклонить', ['statement-rejection-record/status', 'id' =>  $model->id, 'status'=> StatementHelper::STATUS_NO_ACCEPTED], ['class' => 'btn btn-large btn-danger btn-block']) :"").
+                            (($jobEntrant->isCategoryMPGU() || $jobEntrant->isCategoryTarget()) ? Html::a("Прикрепить файл  (pdf)", ['statement-rejection-record/file-pdf', 'id' =>  $model->id, ], ["class" => "btn btn-primary btn-block",
                                 'data-pjax' => 'w5', 'data-toggle' => 'modal',
                                 'data-target' => '#modal', 'data-modalTitle' => 'Загрузить файл']).
                             ($model->pdf_file ? Html::a("Скачать файл", ['statement-rejection-record/get', 'id' => $model->id], ["class" => "btn btn-info btn-block"]) : "") : "")
