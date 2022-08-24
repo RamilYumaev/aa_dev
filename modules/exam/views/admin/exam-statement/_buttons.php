@@ -27,4 +27,6 @@ use yii\helpers\Html;
         'eduLevel' => DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL,
         'formCategory'=>DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'off'=>0], ['class'=> "btn btn-warning", 'data'=> ['method'=> 'post', 'confirm'=> 'Вы уверены, что хотите сделать?']])?>
 
+<?= Html::a('Обновить стаутусы заявок (Неявка и Завершение)',['statements-end',], ['class'=> "btn btn-warning", 'data'=> [ 'confirm'=> 'Вы уверены, что хотите сделать?']])?>
+
 <?= Html::a('Выгрузка заявок',['table-file'], ['class'=> "btn btn-danger",'data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Выгрузка заявок'])?>

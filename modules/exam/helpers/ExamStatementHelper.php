@@ -119,7 +119,8 @@ class ExamStatementHelper
             self::ERROR_RESERVE_STATUS => "label label-danger",
             self::END_STATUS => "label label-primary",
             self::RESERVE_STATUS => "label label-info",
-            self::CANCEL_STATUS => "label label-danger"
+            self::CANCEL_STATUS => "label label-danger",
+            self::ABSENCE_STATUS => "label label-danger",
         ];
     }
 

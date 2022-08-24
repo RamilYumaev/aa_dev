@@ -212,6 +212,7 @@ class ExamStatementService
         /** @var ExamStatement $item */
         foreach (ExamStatement::find()
                      ->andWhere(['status' => ExamStatementHelper::WALT_STATUS])
+                     ->andWhere(['is not','proctor_user_id', null ])
                      ->all() as $item) {
             if($this->examAttemptRepository->isAttemptExamUser($item->exam_id, $item->entrant_user_id)) {
                 $item->status = ExamStatementHelper::END_STATUS;

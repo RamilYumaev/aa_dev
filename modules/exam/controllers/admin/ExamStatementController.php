@@ -7,12 +7,14 @@ namespace modules\exam\controllers\admin;
 use common\components\TbsWrapper;
 use dictionary\helpers\DictDisciplineHelper;
 use modules\dictionary\helpers\DisciplineExaminerHelper;
+use modules\entrant\models\Statement;
 use modules\exam\forms\ExamDateReserveForm;
 use modules\exam\forms\ExamSrcBBBForm;
 use modules\exam\forms\ExamStatementForm;
 use modules\exam\forms\ExamStatementMessageForm;
 use modules\exam\forms\ExamStatementProctorForm;
 use modules\exam\helpers\ExamHelper;
+use modules\exam\jobs\StatementExamEndJob;
 use modules\exam\jobs\StatementExamJob;
 use modules\exam\models\ExamAttempt;
 use modules\exam\models\ExamStatement;
@@ -174,10 +176,17 @@ class ExamStatementController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionStatementsAdd()
+    public function actionStatementsEnd()
     {
-        $this->service->statementAllEnd();
-        echo "Статусы заявки изменены";
+        Yii::$app->queue->push(new StatementExamEndJob($this->service));
+        $message = 'Задание "Обновить статусы заявки" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionStatementsDeleteAll()
+    {
+        ExamStatement::deleteAll();
     }
 
     /**
@@ -339,6 +348,26 @@ class ExamStatementController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('Такой страницы не существует.');
+    }
+
+
+    protected function getJobEntrant() {
+        return Yii::$app->user->identity->jobEntrant();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function actionMyList()
+    {
+        $searchModel = new ExamStatementSearch($this->jobEntrant);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 }
