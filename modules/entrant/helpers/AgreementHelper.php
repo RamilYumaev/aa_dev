@@ -343,86 +343,56 @@ class AgreementHelper
 
     private static function cameOnJuly18()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-07-08 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-07-23 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-22 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-26 00:00:00');
+    }
+
+
+    private static function cameOnJuly18vCollage()
+    {
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-22 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-25 00:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
     {
         if ($collegeStatus) {
             switch ($type) {
-               case self::FIO_NOMINATIVE :
-                   return "Шонус Иван Харлампиевич";
-                   break;
-               case self::FIO_GENITIVE :
-                   return "Шонуса Ивана Харлампиевича";
-                   break;
-               case self::POSITION_NOMINATIVE :
-                   return "Проректор по воспитательной работе и молодежной политике";
-                   break;
-               case self::POSITION_GENITIVE :
-                   return "Проректора по воспитательной работе и молодежной политике";
-                   break;
-               case self::FIO_SHORT :
-                   return "И.Х. Шонус";
-                   break;
-               case self::PROCURATION :
-                   return "№ 53 от 01 авг. 2022 г.";
-
-//               case self::FIO_NOMINATIVE :
-//                   return "Владимирова Татьяна Николаевна";
-//                   break;
-//               case self::FIO_GENITIVE :
-//                   return "Владимировой Татьяны Николаевны";
-//                   break;
-//               case self::POSITION_NOMINATIVE :
-//                   return "Проректор по связям с общественностью";
-//                   break;
-//               case self::POSITION_GENITIVE :
-//                   return "Проректора по связям с общественностью";
-//                   break;
-//               case self::FIO_SHORT :
-//                   return "Т.Н. Владимирова";
-//                   break;
-//               case self::PROCURATION :
-//                   return "№ 39 от 15 июн. 2022 г.";
-
-                // case self::FIO_NOMINATIVE :
-                //     return "Страхов Василий Вячеславович";
-                //     break;
-                // case self::FIO_GENITIVE :
-                //     return "Страхова Василия Вячеславовича";
-                //     break;BackendExam.php
-                // case self::POSITION_NOMINATIVE :
-                //     return "Проректор по развитию";
-                //     break;
-                // case self::POSITION_GENITIVE :
-                //     return "проректора по развитию";
-                //     break;
-                // case self::FIO_SHORT :
-                //     return "В.В. Страхов";
-                //     break;
-                // case self::PROCURATION :
-                //     return "№ 54 от 01 сен. 2020 г.";
+                case self::FIO_NOMINATIVE :
+                    return self::cameOnJuly18vCollage() ?  "Шонус Иван Харлампиевич" : "Владимирова Татьяна Николаевна";
+                    break;
+                case self::FIO_GENITIVE :
+                    return  self::cameOnJuly18vCollage() ? "Шонуса Ивана Харлампиевича" :  "Владимировой Татьяны Николаевны";
+                    break;
+                case self::POSITION_NOMINATIVE :
+                    return self::cameOnJuly18vCollage() ? "Проректор по воспитательной работе и молодежной политике" : "Проректор по связям с общественностью";
+                    break;
+                case self::POSITION_GENITIVE :
+                    return  self::cameOnJuly18vCollage() ? "проректора по воспитательной работе и молодежной политике": "проректора по связям с общественностью";
+                    break;
+                case self::FIO_SHORT :
+                    return self::cameOnJuly18vCollage() ? "И.Х. Шонус" : "Т.Н. Владимирова";
+                    break;
+                case self::PROCURATION :
+                    return self::cameOnJuly18vCollage() ? "№ 53 от 01 авг. 2022 г." : "№ 39 от 15 июн. 2022 г.";
             }
         } else {
             switch ($type) {
                 case self::FIO_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Кудрявцева Дарья Александровна" : 'Страхов Василий Вячеславович';
+                    return self::cameOnJuly18() ? "Дронов Виктор Павлович" : 'Страхов Василий Вячеславович';
                     break;
                 case self::FIO_GENITIVE :
-                    return self::cameOnJuly18() ? "Кудрявцевой Дарьи Александровны" :  "Страхова Василия Вячеславовича";
+                    return self::cameOnJuly18() ? "Дронова Виктора Павловича" :  "Страхова Василия Вячеславовича";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return self::cameOnJuly18() ? "Проректор по дополнительному образованию" : "Проректор по развитию";
+                    return self::cameOnJuly18() ? "Первый проректор" : "Проректор по развитию";
                     break;
                 case self::POSITION_GENITIVE :
-                    return self::cameOnJuly18() ? "проректора по дополнительному образованию" : "проректора по развитию";
+                    return self::cameOnJuly18() ? "первого проректора" : "проректора по развитию";
                     break;
                 case self::FIO_SHORT :
-                    return self::cameOnJuly18() ? "Д.А. Кудрявцева" : "В.В. Страхов";
+                    return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 49 от 08 июл. 2022 г." : "№ 43 от 15 июн. 2022 г.";
+                    return self::cameOnJuly18() ? "№ 38 от 15 июн. 2022 г." : "№ 43 от 15 июн. 2022 г.";
             }
 
         }
