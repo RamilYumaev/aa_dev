@@ -343,7 +343,7 @@ class AgreementHelper
 
     private static function cameOnJuly18()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-22 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-26 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-29 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-31 00:00:00');
     }
 
 
