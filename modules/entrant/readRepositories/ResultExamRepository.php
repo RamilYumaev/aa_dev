@@ -32,7 +32,7 @@ class ResultExamRepository
             ->innerJoin(DisciplineCompetitiveGroup::tableName().' as dcg', 'dcg.competitive_group_id=cg.id')
             ->innerJoin(Exam::tableName().' as ex', 'ex.discipline_id=dcg.discipline_id')
             ->innerJoin(ExamAttempt::tableName().' as ex_at', 'ex_at.exam_id=ex.id AND ex_at.user_id=user.user_id')
-            ->currentYear('2020-2021')->foreignerStatus(0);
+            ->currentYear('2021-2022')->foreignerStatus(0);
         if ($this->jobEntrant->isCategoryFOK()) {
             $query->faculty($this->jobEntrant->faculty_id)
                 ->eduLevel([DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,

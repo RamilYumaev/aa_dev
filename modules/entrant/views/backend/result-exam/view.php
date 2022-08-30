@@ -31,7 +31,8 @@ $examIdArray = Exam::find()->where(['discipline_id'=> $cgDisciplineArray ])->sel
                    $examId = $exam ? $exam->id : 0;
                    $examAttempt =  ExamAttempt::findOne(['exam_id'=> $examId, 'user_id' => $userId]);
                    $examAttemptId = $examAttempt ? $examAttempt->id : 0; ?>
-                <?= $examAttemptId ? Html::a($cgDiscipline->discipline->name, ['pdf', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) : "" ?>
+                <?= $examAttemptId ? Html::a($cgDiscipline->discipline->name, ['pdf', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) : "" ?> |
+                        <?= $examAttemptId ? Html::a($cgDiscipline->discipline->name.' (Для печати)', ['view-r', 'cg'=> $cg->id, 'attempt' => $examAttemptId]) : "" ?>
                 <?php endforeach;?>
                    </p>
                </div>
