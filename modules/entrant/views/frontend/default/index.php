@@ -104,6 +104,13 @@ include 'navigation/index.html';
             <?= \modules\entrant\widgets\discipline\UserDisciplineWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>
         </div>
     <?php endif; ?>
+    <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId, true)
+        && DictCompetitiveGroupHelper::groupByExamsForeign($userId)
+        && !$anketa->isTpgu()): ?>
+        <div class="mt-20 table-responsive" id="vi-foreign">
+            <?= \modules\entrant\widgets\discipline\UserDisciplineWidget::widget(['anketa' => $anketa, 'userId' => $userId, 'foreignStatus' => true]); ?>
+        </div>
+    <?php endif; ?>
     <?php if (\dictionary\helpers\DictCompetitiveGroupHelper::bachelorExistsUser($userId) && $anketa->onlySpo() && !$anketa->isTpgu()): ?>
         <div class="mt-20 table-responsive" id="vi-spo">
             <?= \modules\entrant\widgets\discipline\UserDisciplineSpoWidget::widget(['anketa' => $anketa, 'userId' => $userId]); ?>

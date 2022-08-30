@@ -74,9 +74,9 @@ class UserDisciplineService
         }
     }
 
-    public function createOne(UserDisciplineCseForm $form, $isSpo = false) {
+    public function createOne(UserDisciplineCseForm $form, $isSpo = false, $foreign = false) {
         if($form->type == UserDiscipline::VI) {
-            if(!$this->isOpenCseVi($form->user_id, $form->discipline_id, $isSpo)) {
+            if(!$foreign && !$this->isOpenCseVi($form->user_id, $form->discipline_id, $isSpo)) {
                 throw new  \DomainException("Вы не можете выбрать тип ВИ, как так срок подачи истек");
             }
         }

@@ -16,8 +16,7 @@ class UserDisciplineHelper
 
     public static function isCorrect($userId)
     {
-        if(\Yii::$app->user->identity->anketa()->isTpgu() || in_array(\Yii::$app->user->identity->anketa()->category_id,
-                CategoryStruct::UMSGroup()))
+        if(\Yii::$app->user->identity->anketa()->isTpgu())
         {
             return true;
         }
@@ -26,7 +25,9 @@ class UserDisciplineHelper
             return count(self::allCtCse($userId)) >= CseSubjectHelper::MIN_NEEDED_SUBJECT_CSE;
         }
 
-        $exams = DictCompetitiveGroupHelper::groupByExams($userId, \Yii::$app->user->identity->anketa()->onlySpo());
+        $exams = in_array(\Yii::$app->user->identity->anketa()->category_id,
+            CategoryStruct::UMSGroup()) ? DictCompetitiveGroupHelper::groupByExamsForeign($userId) :
+            DictCompetitiveGroupHelper::groupByExams($userId, \Yii::$app->user->identity->anketa()->onlySpo());
         $keys = array_values(array_flip($exams));
         $userDisciplinesCount = UserDiscipline::find()->user($userId)->discipline($keys)
             ->select('discipline_id')

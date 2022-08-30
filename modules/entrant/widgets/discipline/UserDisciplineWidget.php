@@ -12,6 +12,8 @@ class UserDisciplineWidget extends Widget
     /* @var  $anketa  Anketa */
     public $anketa;
 
+    public $foreignStatus = false;
+
     public function run()
     {
         if($this->anketa->onlyCse()) {
@@ -19,8 +21,10 @@ class UserDisciplineWidget extends Widget
                 'userDisciplines' => UserDiscipline::find()->cseOrCt()->user($this->userId)->all(), 'userId' => $this->userId,
             ]);
         }
-        return $this->render('index-vi', [
-            'exams' =>  DictCompetitiveGroupHelper::groupByExams($this->userId, $this->anketa->onlySpo()), 'userId' => $this->userId,
+        return $this->render( !$this->foreignStatus ? 'index-vi' : 'index-ums', [
+            'exams' => !$this->foreignStatus ?  DictCompetitiveGroupHelper::groupByExams($this->userId, $this->anketa->onlySpo())
+            : DictCompetitiveGroupHelper::groupByExamsForeign($this->userId)
+            , 'userId' => $this->userId,
         ]);
     }
 }

@@ -462,6 +462,20 @@ class DictCompetitiveGroupHelper
             return  $query->column();
     }
 
+    public static function groupByExamsForeign($user_id)
+    {
+        return DictDiscipline::find()
+            ->innerJoin(DisciplineCompetitiveGroup::tableName(), 'discipline_competitive_group.discipline_id=dict_discipline.id')
+            ->innerJoin(DictCompetitiveGroup::tableName(), 'dict_competitive_group.id=discipline_competitive_group.competitive_group_id')
+            ->innerJoin(UserCg::tableName(), 'user_cg.cg_id=dict_competitive_group.id')
+            ->andWhere(['user_cg.user_id' => $user_id])
+            ->andWhere(['dict_competitive_group.foreigner_status' => true])
+            ->andWhere(['user_cg.user_id' => $user_id, 'composite_discipline' => true])
+            ->andWhere(['not in', 'dict_discipline.id', 1])
+            ->select(['name', 'dict_discipline.id'])
+            ->indexBy('dict_discipline.id')->column();
+    }
+
     public static function groupByExamsSpo($user_id)
     {
         return DictDiscipline::find()
@@ -928,11 +942,11 @@ class DictCompetitiveGroupHelper
             ->column();
     }
 
-    public static function bachelorExistsUser($user_id)
+    public static function bachelorExistsUser($user_id, $foreignStatus = false)
     {
         return DictCompetitiveGroup::find()->userCg($user_id)
             ->eduLevel(self::EDUCATION_LEVEL_BACHELOR)
-            ->foreignerStatus(false)
+            ->foreignerStatus($foreignStatus)
             ->exists();
     }
 
