@@ -191,6 +191,12 @@ class ExamStatementService
                 if($this->examAttemptRepository->isAttemptExamUser($exam->id, $user)) {
                     continue;
                 }
+
+                if($this->repository->getExamUserTypeExists($exam->id, $user,
+                    $formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 ? 1 :0 )) {
+                    continue;
+                }
+
                 if($formCategory == DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2 && !$exam->date_start_reserve) {
                     continue;
                 }
