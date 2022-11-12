@@ -132,7 +132,6 @@ class ExamAttemptController extends Controller
     {
         $incompleteAttempts = ExamAttempt::find()
             ->andWhere(['test_id' => $testId])
-            ->andWhere(['status' => TestAttemptHelper::NO_END_TEST])
             ->all();
 
         foreach ($incompleteAttempts as $attempt) {

@@ -55,6 +55,7 @@ class ExamDataExportHelper
             . Html::a("Экспорт в АИС Ставрополь " . $type, ['communication/export-data', 'examId' => $examId, 'type' => $type, 'filial' => \dictionary\helpers\DictFacultyHelper::STAVROPOL_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success']) . " "
             . Html::a("Экспорт в АИС Дербент " . $type, ['communication/export-data', 'examId' => $examId, 'type' => $type, 'filial' => \dictionary\helpers\DictFacultyHelper::DERBENT_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success']) . " "
             . Html::a("Экспорт в АИС Сергиев-Посад " . $type, ['communication/export-data', 'examId' => $examId, 'type' => $type, 'filial' => \dictionary\helpers\DictFacultyHelper::SERGIEV_POSAD_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success']) . " "
+            . Html::a("Экспорт в АИС Черняховск " . $type, ['communication/export-data', 'examId' => $examId, 'type' => $type, 'filial' => \dictionary\helpers\DictFacultyHelper::CHERNOHOVSK_BRANCH], ['data-method' => 'post', 'class' => 'btn btn-success']) . " "
             . Html::a("json " . $type, ['communication/json-data', 'examId' => $examId, 'type' => $type], ['data-method' => 'post', 'class' => 'btn btn-warning']);
     }
 

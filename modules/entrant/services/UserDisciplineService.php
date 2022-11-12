@@ -116,7 +116,7 @@ class UserDisciplineService
             ->eduForm($eduForms)
             ->foreign(false)
             ->tpgu(false)
-            ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET)
+            ->eduFinance(DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT)
             ->dateStart()->dateEnd()->exists();
     }
 

@@ -30,7 +30,7 @@ class ResultExamRepository
             ->innerJoin(AisOrderTransfer::tableName(). ' as order','order.ais_cg=cg.ais_id')
             ->innerJoin(UserAis::tableName(). ' as user','user.incoming_id=order.incoming_id')
             ->innerJoin(DisciplineCompetitiveGroup::tableName().' as dcg', 'dcg.competitive_group_id=cg.id')
-            ->innerJoin(Exam::tableName().' as ex', 'ex.discipline_id=dcg.discipline_id')
+            ->innerJoin(Exam::tableName().' as ex', 'ex.discipline_id=dcg.spo_discipline_id OR ex.discipline_id=dcg.discipline_id')
             ->innerJoin(ExamAttempt::tableName().' as ex_at', 'ex_at.exam_id=ex.id AND ex_at.user_id=user.user_id')
             ->currentYear('2021-2022')->foreignerStatus(0);
         if ($this->jobEntrant->isCategoryFOK()) {

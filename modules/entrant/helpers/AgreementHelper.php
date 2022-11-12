@@ -200,26 +200,26 @@ class AgreementHelper
                                             ОКТМО – 46728000<br/>
                                             КБК 00000000000000000130 – за оказание платных услуг
                                             ",
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => "Федеральное государственное 
-                                                бюджетное образовательное
-                                                учреждение высшего
-                                                образования «Московский
-                                                педагогический государственный
-                                                университет»<br/>
-                                                Место нахождения: 119435, г. Москва,
-                                                 ул. Малая Пироговская, д. 1, стр.1<br/>
-                                                тел./факс: 8-499-245-03-10<br/>
-                                                e-mail: mail@mpgu.su<br/>
-                                                ОГРН 1027700215344<br/>
-                                                ИНН 7704077771<br/>
-                                                КПП 770401001<br/><br/>
-                                                Банковские реквизиты:<br/>
-                                                УФК по г. Москве (МПГУ л/с 20736У53790)<br/>
-                                                ГУ БАНКА РОССИИ ПО ЦФО//УФК ПО Г. МОСКВЕ г. Москва<br/>
-                                                БИК 004525988<br/>
-                                                Казначейский счет 03214643000000017300<br/>
-                                                ОКТМО 45383000<br/>
-                                                КБК 00000000000000000130 - за оказание платных услуг",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "Федеральное государственное бюджетное образовательное 
+                                                    учреждение высшего образования «Московский педагогический государственный университет»
+                                                    Место нахождения: 119435, г. Москва, ул. Малая Пироговская, д. 1, стр.1 <br />
+                                                    Адрес (место нахождения) филиала: 238158, Калининградская область,
+                                                     г. Черняховск, пер. Суворова, д. 2  <br >
+                                                    тел./факс:  <br />
+                                                    e-mail: f_chernyakhovsk@mpgu.su  <br />
+                                                    ОГРН 1027700215344  <br />
+                                                    ИНН 7704077771  <br />
+                                                    КПП 391443001 <br />
+                                                    Банковские реквизиты:
+                                                    ИНН 7704077771 <br />
+                                                    КПП 391443001 <br />
+                                                    Получатель: УФК по Калининградской области (филиал МПГУ в г. Черняховске, л/с 20356Ы94310)  <br />
+                                                    Банк: ОТДЕЛЕНИЕ КАЛИНИНГРАД БАНКА РОССИИ//УФК по Калининградской области, г. Калининград <br />
+                                                    БИК банка: 012748051  <br />
+                                                    р/с 03214643000000013500 <br />
+                                                    кор/с 40102810545370000028 <br />
+                                                    ОКТМО <br />
+                                                    КБК 00000000000000000130 – за оказание платных услуг",
         ];
     }
 
@@ -232,7 +232,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'директора Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'директора Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора Сергиево-Посадского филиала',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::POSITION_GENITIVE),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'директора филиала МПГУ в г. Черняховске',
         ];
     }
 
@@ -245,7 +245,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Директор Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'Директор Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор Сергиево-Посадского филиала',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::POSITION_NOMINATIVE),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'Директор филиала МПГУ в г. Черняховске',
         ];
     }
 
@@ -258,7 +258,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Н.Н. Сотникова',
             AnketaHelper::DERBENT_BRANCH => 'Р.Д. Гусейнов',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'В.С. Морозова',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => self::collegeVuzSwitcher($collegeStatus, self::FIO_SHORT),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'Н.Ю. Тараненко',
         ];
     }
 
@@ -271,7 +271,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотниковой Натальи Николаевны',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнова Руслана Джангировича',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозовой Валентины Сергеевны',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::FIO_GENITIVE),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Тараненко Натальи Юрьевны',
         ];
     }
 
@@ -284,7 +284,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотникова Наталья Николаевна',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнов Руслан Джангирович',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозова Валентина Сергеевна',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::FIO_NOMINATIVE),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Тараненко Наталья Юрьевна',
         ];
     }
 
@@ -297,7 +297,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => '№ 12 от 18 февр. 2022 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февр. 2022 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июл. 2020 г.',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => ' №52 от 26 июля. 2022 г.',
         ];
     }
 
@@ -343,7 +343,7 @@ class AgreementHelper
 
     private static function cameOnJuly18()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-08-29 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-08-31 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2022-09-01 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2022-10-31 00:00:00');
     }
 
 
@@ -392,7 +392,7 @@ class AgreementHelper
                     return self::cameOnJuly18() ? "В.П. Дронов" : "В.В. Страхов";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18() ? "№ 38 от 15 июн. 2022 г." : "№ 43 от 15 июн. 2022 г.";
+                    return self::cameOnJuly18() ? "№ 55 от 01 сент. 2022  г." : "№ 43 от 15 июн. 2022 г.";
             }
 
         }

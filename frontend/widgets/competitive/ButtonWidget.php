@@ -16,8 +16,10 @@ class ButtonWidget extends Widget
     {
         $cache = Yii::$app->cache;
         $key = 'button_list';
-        $cgs = $cache->getOrSet($key, function ()  { return
-            DictCompetitiveGroup::find()->currentAutoYear()
+        $cgs = $cache->getOrSet($key, function ()  {
+            return $this->cgContract->faculty_id == 6 ?  DictCompetitiveGroup::find()
+                ->currentAutoYear()->cgAllGroup($this->cgContract, $this->eduLevel) :
+                DictCompetitiveGroup::find()->currentAutoYear()
                 ->with( $this->eduLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ?
                     ['registerCompetition.competitionListNo', 'registerCompetition.competitionListBvi'] :
                     ['registerCompetition.competitionListNo',])
