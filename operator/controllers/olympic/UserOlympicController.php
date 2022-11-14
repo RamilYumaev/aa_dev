@@ -2,33 +2,25 @@
 
 namespace operator\controllers\olympic;
 
-use common\auth\models\UserSchool;
-use common\helpers\EduYearHelper;
+use common\auth\helpers\UserSchoolHelper;
 use common\helpers\FileHelper;
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\models\DictCompetitiveGroup;
-use olympic\forms\OlympicCreateForm;
-use olympic\forms\OlympicEditForm;
-use olympic\forms\search\OlympicSearch;
+use common\sending\traits\MailTrait;
+use dictionary\helpers\DictClassHelper;
+use dictionary\helpers\DictSchoolsHelper;
+use dictionary\models\DictDiscipline;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\OlympicHelper;
+use olympic\jobs\TestEmailJob;
 use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
-use olympic\models\Olympic;
 use olympic\models\UserOlimpiads;
 use Yii;
-use olympic\services\OlympicService;
-use yii\bootstrap\ActiveForm;
 use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
-use yii\web\User;
 
 class UserOlympicController extends Controller
 {
-
     /**
      * @param integer $id
      * @return mixed
@@ -38,23 +30,67 @@ class UserOlympicController extends Controller
     {
         $olympic = $this->findModel($olympic_id);
         $model = $this->getAllUserOlympic($olympic);
+        $model1 = clone $model;
         $dataProvider = new ActiveDataProvider(['query' => $model, 'pagination' => false]);
+        $count = $model1->andWhere(['information' => null])->count();
         return $this->render('@backend/views/olympic/user-olympic/index', [
             'dataProvider' => $dataProvider,
-            'olympic' => $olympic
+            'olympic' => $olympic,
+            'count' => $count
         ]);
     }
-
-    public function actionGetReportOlympic($olympicId)
+    /**
+     * @param $olympicId
+     * @throws NotFoundHttpException
+     */
+    public function actionGetReportOlympic($olympicId, $ext = 'docx')
     {
         $olympic = $this->findModel($olympicId);
-        $neededUser = $this->getAllUserOlympic($olympic)->select("user_id")->column();
-        $model = Profiles::find()->getAllMembers($neededUser, $olympic);
-        $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "members.docx";
-        $fileName = "Список участников " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".docx";
+        $model = $this->data($olympic);
+        $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "members.".$ext;
+        $fileName = "Список участников " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".".$ext;
 
         FileHelper::getFile($model, $path, $fileName);
+    }
 
+    /***
+     * @param $id
+     * @return
+     * @throws NotFoundHttpException
+     */
+    public function actionSendSubject($id) {
+        $olympic = $this->findModel($id);
+        if($olympic->olimpic_id == 61) {
+            \Yii::$app->queue->push(new TestEmailJob(['olympicId' => $olympic->id]));
+        }
+        Yii::$app->session->setFlash('success', "Всем участником отправлены письма");
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function data($olympic) {
+        $model = $this->getAllUserOlympic($olympic);
+        $disciplines = DictDiscipline::find()->select('name')->indexBy('id')->column();
+        /** @var UserOlimpiads $data */
+        $array = [];
+        foreach ($model->all() as  $index => $data) {
+            $array[$index]['fio'] = ProfileHelper::profileFullName($data->user_id);
+            $array[$index]['phone'] = ProfileHelper::findProfile($data->user_id)->phone ?? "";
+            $array[$index]['email'] = \common\auth\helpers\UserHelper::getEmailUserId($data->user_id);
+            $array[$index]['school'] =  DictSchoolsHelper::schoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
+                DictSchoolsHelper::preSchoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
+            $array[$index]['class'] = DictClassHelper::classFullName(UserSchoolHelper::userClassId($data->user_id, $olympic->year));
+            $array[$index]['date'] = $data->created_at ? Yii::$app->formatter->asDate($data->created_at,'php:d.m.Y') :  "";
+            if($data->information) {
+                $information = json_decode($data->information, true);
+                $array[$index]['subject_1'] = $disciplines[$information[0]];
+                $array[$index]['subject_2'] = $disciplines[$information[1]];
+            } else {
+                $array[$index]['subject_1'] = '';
+                $array[$index]['subject_2'] = '';
+            }
+
+        }
+        return $array;
     }
 
     private function getAllUserOlympic(OlimpicList $olympic)

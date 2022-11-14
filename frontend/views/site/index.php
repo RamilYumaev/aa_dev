@@ -208,8 +208,3 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 
 </div>
 
-<div class="container">
-    https://dbstest.mpgu.su/external/incoming-abiturient/get-list?competitive_group_id=43&token=<?=\md5(43 . \date('Y.m.d').Yii::$app->params['keyAisCompetitiveList']); ?>
-</div>
-
-

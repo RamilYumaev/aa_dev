@@ -19,7 +19,7 @@ $this->registerJs($js);
         ['class' => \frontend\widgets\olympic\gird\user\PersonalUserOlympicColumn::class,],
         ['class' => \yii\grid\ActionColumn::class,
             'controller' => '/user-olympic',
-            'template' => '{delete}',
+            'template' => '{delete} {edit}',
             'buttons' =>[
                 'delete' => function ($url, $model) {
                     $class = \common\auth\helpers\UserSchoolHelper::userClassId(\Yii::$app->user->identity->getId(), \common\helpers\EduYearHelper::eduYear());
@@ -27,7 +27,13 @@ $this->registerJs($js);
                     return $model->olympicOne->year == \common\helpers\EduYearHelper::eduYear() &&
                        $model->olympicOne->isOnRegisterOlympic  && !\testing\helpers\TestAttemptHelper::isAttempt($test, \Yii::$app->user->identity->getId()) ?
                        \yii\helpers\Html::a("Отменить запись", $url,  ['data' => ['confirm' => 'Вы действительно хотите отменить запись ?', 'method' => 'POST']]) : "";
-                }
+                },
+                'edit' => function ($url, $model)  {
+                    return $model->olympicOne->year == \common\helpers\EduYearHelper::eduYear() &&
+                    $model->olympicOne->isOnRegisterOlympic  &&   $model->olympicOne->olimpic_id == 61 ?
+                    \yii\helpers\Html::a("Дополнительная информация", ['/user-olympic/information', 'id' => $model->olympicOne->id ] ) : "";
+
+                },
             ]
         ],
     ]

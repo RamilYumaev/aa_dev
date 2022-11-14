@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'dvi')->checkbox() ?>
             <?= $form->field($model, 'is_och')->checkbox() ?>
             <?= $form->field($model, 'is_spec_for_spo')->checkbox() ?>
+            <?= $form->field($model, 'is_olympic')->checkbox() ?>
             <?= $form->field($model, 'composite_discipline')->checkbox() ?>
             <?= $form->field($model, 'composite_disciplines')->widget(Select2::class, [
                 'options' => ['placeholder' => 'Выберите...', 'multiple' => true],

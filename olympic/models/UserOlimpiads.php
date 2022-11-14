@@ -5,11 +5,13 @@ namespace olympic\models;
 
 
 use common\auth\helpers\UserSchoolHelper;
+use common\auth\models\User;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\DiplomaHelper;
 use olympic\helpers\OlympicListHelper;
+use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
 class UserOlimpiads extends \yii\db\ActiveRecord
@@ -27,6 +29,11 @@ class UserOlimpiads extends \yii\db\ActiveRecord
             self::WAIT=> 'Ожидание',
             self::ACTIVE => 'Подтверждено',
         ];
+    }
+
+    public function behaviors()
+    {
+        return [TimestampBehavior::class];
     }
 
     public static function statusName($key): string
@@ -116,6 +123,10 @@ class UserOlimpiads extends \yii\db\ActiveRecord
         return DiplomaHelper::userDiplomaFirstSecondThree($this->user_id, $this->olympiads_id);
     }
 
+    public function getUser() {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -124,5 +135,12 @@ class UserOlimpiads extends \yii\db\ActiveRecord
         return 'user_olimpiads';
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'updated_at' => "Дата обновления",
+            'created_at' => "Дата создания",
+        ];
+    }
 
 }

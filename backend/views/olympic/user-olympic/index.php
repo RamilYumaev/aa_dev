@@ -1,6 +1,6 @@
 <?php
 
-use  common\auth\helpers\UserSchoolHelper;
+use common\auth\helpers\UserSchoolHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\helpers\DictClassHelper;
 use common\sending\helpers\SendingHelper;
@@ -8,9 +8,7 @@ use common\sending\helpers\SendingDeliveryStatusHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 /* @var $this \yii\web\View */
 /* @var $olympic \olympic\models\OlimpicList */
 
@@ -27,6 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
 use olympic\helpers\auth\ProfileHelper; ?>
 <div class="box">
     <div class="box-header">
+        <?php if($olympic->olimpic_id == 61): ?>
+           <?= $count ? Html::a("Запустить рассылку на выбор предметных секций -".$count,
+            ['send-subject',
+                'id' => $olympic->id], ['class'=>'btn btn-warning']) : '' ?>
+            <?=\yii\helpers\Html::a("Выгрузить список в Excel", ["get-report-olympic", "olympicId"=>$olympic->id, 'ext' =>'xlsx'], ["class"=>"btn btn-success"]);?>
+        <?php endif; ?>
+
         <?php if ($olympic->isFormOfPassageInternal()  && $olympic->year == \common\helpers\EduYearHelper::eduYear()): ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
                 SendingDeliveryStatusHelper::TYPE_SEND_INVITATION, $olympic->id) ? Html::a("Запустить рассылку приглашений",
@@ -37,6 +42,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
         <?php endif; ?>
         <?=\yii\helpers\Html::a("Выгрузить список в Word", ["get-report-olympic", "olympicId"=>$olympic->id], ["class"=>"btn btn-primary"]);?>
     </div>
+
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
@@ -68,6 +74,18 @@ use olympic\helpers\auth\ProfileHelper; ?>
                         return DictClassHelper::classFullName(UserSchoolHelper::userClassId($model->user_id, $olympic->year));
                     }
                 ],
+                ['header' => "Доп. информация",
+                    'value' => function ($model)  {
+                      if($model->information) {
+                          $information = json_decode($model->information, true);
+                          return  implode(', ', \dictionary\models\DictDiscipline::find()->select('name')->where(['id' => $information])->column());
+                      } else {
+                          return 'Отсутствует';
+                      }
+                    }
+                ],
+                'created_at:datetime',
+                'updated_at:datetime'
                 ],
 
         ]); ?>

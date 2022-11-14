@@ -89,7 +89,6 @@ class SendingProcessService
         }
     }
 
-
     private function sendInvitation(OlimpicList $olympic,Sending $sending, $sendingTemplate, $typeSending) {
         $ppt  = PersonalPresenceAttempt::find()->olympic($olympic->id)->all();
         foreach($ppt as $invitation) {
@@ -122,6 +121,5 @@ class SendingProcessService
                 $sending->id, $sendingTemplate);
         }
     }
-
 
 }

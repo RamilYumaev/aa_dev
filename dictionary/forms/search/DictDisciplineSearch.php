@@ -10,12 +10,12 @@ use yii\data\ActiveDataProvider;
 
 class DictDisciplineSearch extends Model
 {
-    public $name, $is_och, $composite_discipline;
+    public $name, $is_och, $composite_discipline, $is_olympic;
 
     public function rules(): array
     {
         return [
-            [['is_och', 'composite_discipline'], 'integer'],
+            [['is_och', 'composite_discipline', 'is_olympic' ], 'integer'],
             [['name',], 'safe'],
         ];
     }
@@ -41,6 +41,7 @@ class DictDisciplineSearch extends Model
 
         $query
             ->andFilterWhere([ 'is_och' => $this->is_och])
+            ->andFilterWhere([ 'is_olympic' => $this->is_olympic])
             ->andFilterWhere([ 'composite_discipline' => $this->composite_discipline]);
 
         $query

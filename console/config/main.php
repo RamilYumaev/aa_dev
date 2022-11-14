@@ -14,6 +14,10 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@frontendRoot' => $params['staticPath'],
+        '@frontendInfo' => $params['staticHostInfo'],
+        '@entrantRoot' => $params['entrantPath'],
+        '@entrantInfo' => $params['entrantHostInfo'],
     ],
     'container' => [
         'singletons' => [

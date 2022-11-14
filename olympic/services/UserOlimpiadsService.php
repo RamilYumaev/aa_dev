@@ -57,10 +57,10 @@ class UserOlimpiadsService
     }
 
     public function add($olympic_id, $user_id) {
-        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
-                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)) == null) {
-            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
-        }
+//        if (($sendingTemplate = DictSendingTemplateHelper::dictTemplate(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
+//                SendingDeliveryStatusHelper::TYPE_SEND_INVITATION)) == null) {
+//            throw new \DomainException( 'Нет шаблона рассылки. Обратитесь к админстратору.');
+//        }
         $this->transactionManager->wrap(function () use ($olympic_id, $user_id, $sendingTemplate) {
             $olympic = $this->olimpicListRepository->get($olympic_id);
             $user = $this->userRepository->get($user_id);

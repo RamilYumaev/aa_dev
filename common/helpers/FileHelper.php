@@ -14,6 +14,4 @@ class FileHelper
         $tbs->merge('a', $data);
         $tbs->download($fileName);
     }
-
-
 }

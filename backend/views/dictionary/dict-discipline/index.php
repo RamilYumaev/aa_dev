@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute'=> 'cse_subject_id', 'value'=> 'cse.name'],
                     ['attribute'=> 'ct_subject_id', 'value'=> 'ct.name'],
                     'composite_discipline:boolean',
+                    'is_olympic:boolean',
                     ['attribute'=> 'is_och', 'filter'=>DictDefaultHelper::nameList(),
                         'value'=> 'nameIsOch'],
                     ['class' => ActionColumn::class,
