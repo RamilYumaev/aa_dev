@@ -26,7 +26,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
 <div class="box">
     <div class="box-header">
         <?php if($olympic->olimpic_id == 61): ?>
-           <?= $count ? Html::a("Запустить рассылку на выбор предметных секций -".$count,
+           <?= $count &&  $olympic->year == \common\helpers\EduYearHelper::eduYear() ? Html::a("Запустить рассылку на выбор предметных секций -".$count,
             ['send-subject',
                 'id' => $olympic->id], ['class'=>'btn btn-warning']) : '' ?>
             <?=\yii\helpers\Html::a("Выгрузить список в Excel", ["get-report-olympic", "olympicId"=>$olympic->id, 'ext' =>'xlsx'], ["class"=>"btn btn-success"]);?>

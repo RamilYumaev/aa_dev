@@ -80,7 +80,7 @@ class UserOlympicController extends Controller
             $array[$index]['school'] =  DictSchoolsHelper::schoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
                 DictSchoolsHelper::preSchoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
             $array[$index]['class'] = DictClassHelper::classFullName(UserSchoolHelper::userClassId($data->user_id, $olympic->year));
-            $array[$index]['date'] = Yii::$app->formatter->asDate($data->created_at,'php:d.m.Y');
+            $array[$index]['date'] = $data->created_at ? Yii::$app->formatter->asDate($data->created_at,'php:d.m.Y') :  "";
             if($data->information) {
                 $information = json_decode($data->information, true);
                 $array[$index]['subject_1'] = $disciplines[$information[0]];
