@@ -6,7 +6,7 @@
 </table>
 <table width="100%" class="fs-15 mt-25">
     <tr><td width="55%"><strong>Ответственный секретарь <br/>Комиссии по переводам и восстановлениям</strong></td>
-        <td align="right"><strong>Е.С. Бурцев </strong></td></tr>
+        <td align="right"><strong>Е.К. Егорова</strong></td></tr>
 </table>
 <div class="bg-black h-5 mt-20"></div>
 <p><strong>Аттестационное испытание проведено.</strong></p>

@@ -27,6 +27,7 @@ class DictCompetitiveGroupSearch extends Model
         $specialization_id,
         $faculty_id, $year,
         $financing_type_id,
+        $is_unavailable_transfer,
         $education_form_id;
     private $settingEntrant;
 
@@ -39,6 +40,7 @@ class DictCompetitiveGroupSearch extends Model
                 'passing_score',
                 'specialization_id',
                 'edu_level',
+                'is_unavailable_transfer',
                 'special_right_id',
                 'faculty_id', 'financing_type_id', 'education_form_id'], 'integer'],
             [['competition_count',],'number'],
@@ -115,6 +117,7 @@ class DictCompetitiveGroupSearch extends Model
             'faculty_id' => $this->faculty_id,
             'financing_type_id'=> $this->financing_type_id,
             'education_form_id'=> $this->education_form_id,
+            'is_unavailable_transfer' => $this->is_unavailable_transfer,
         ]);
 
         $query->andFilterWhere(['like', 'year', $this->year]);

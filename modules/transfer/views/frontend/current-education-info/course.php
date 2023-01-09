@@ -3,7 +3,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html; ?>
 <?php $form = ActiveForm::begin();
-$result = date("Y") - $cg->yearConverter()[1];
+$result = date("Y") - $cg->yearConverter()[1] - (date("n") > 10  && date("n") <= 12  ? 0 : 1);
 $class = \dictionary\helpers\DictClassHelper::getListTransfer($cg->edu_level);
 $classFlip = array_values(array_flip($class));
 $arraySliceClass =array_slice($classFlip, 0, $result+1);

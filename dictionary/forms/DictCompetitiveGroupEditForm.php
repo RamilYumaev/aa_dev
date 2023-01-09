@@ -19,7 +19,7 @@ class DictCompetitiveGroupEditForm extends Model
     public $speciality_id, $specialization_id, $education_form_id, $financing_type_id, $faculty_id,
         $kcp, $special_right_id, $passing_score, $is_new_program, $only_pay_status, $competition_count, $education_duration,
         $link, $year, $education_year_cost,  $cathedraList, $enquiry_086_u_status, $spo_class, $discount, $ais_id,
-        $foreigner_status, $edu_level, $only_spo, $_competitiveGroup, $tpgu_status, $additional_set_status, $success_speciality;
+        $foreigner_status, $edu_level, $only_spo, $_competitiveGroup, $tpgu_status, $additional_set_status, $success_speciality, $is_unavailable_transfer;
 
     public function __construct(DictCompetitiveGroup $competitiveGroup, $config = [])
     {
@@ -50,6 +50,7 @@ class DictCompetitiveGroupEditForm extends Model
         $this->tpgu_status = $competitiveGroup->tpgu_status;
         $this->additional_set_status = $competitiveGroup->additional_set_status;
         $this->success_speciality = json_decode($competitiveGroup->success_speciality);
+        $this->is_unavailable_transfer = $competitiveGroup->is_unavailable_transfer;
 
         parent::__construct($config);
     }
@@ -63,7 +64,7 @@ class DictCompetitiveGroupEditForm extends Model
             [['speciality_id', 'education_form_id', 'financing_type_id', 'faculty_id', 'kcp', 'year', 'education_duration'], 'required'],
             [['speciality_id', 'specialization_id', 'education_form_id', 'financing_type_id', 'faculty_id',
                 'kcp', 'special_right_id', 'passing_score', 'is_new_program', 'only_pay_status', 'ais_id', 'spo_class',
-                'enquiry_086_u_status', 'foreigner_status', 'edu_level', 'only_spo'], 'integer'],
+                'enquiry_086_u_status', 'foreigner_status', 'edu_level', 'only_spo', 'is_unavailable_transfer'], 'integer'],
             [['competition_count'], 'number'],
             [['education_duration', 'discount', 'education_year_cost'], 'double'],
             [['specialization_id'], 'required', 'when' => function($model) {

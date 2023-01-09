@@ -60,6 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
 
+                    'is_unavailable_transfer:boolean',
+
                     ['attribute' => 'financing_type_id',
                         'filter' => $searchModel->financingTypeList(),
                         'value' => function ($model) {

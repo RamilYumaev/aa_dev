@@ -76,6 +76,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'tpgu_status')->checkbox() ?>
 
             <?= $form->field($model, 'additional_set_status')->checkbox() ?>
+            <?= $form->field($model, 'is_unavailable_transfer')->checkbox() ?>
 
             <?= $form->field($model, 'ais_id')->textInput() ?>
         </div>

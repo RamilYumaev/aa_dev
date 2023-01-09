@@ -59,7 +59,8 @@ class CurrentEducationInfoController extends Controller
         $model = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['id' => $id])
-            ->andWhere(['not in', 'year', "2021-2022"])
+            ->andWhere(['not in', 'year', "2022-2023"])
+            ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
             ->eduLevel($this->getEduLevelArray())
             ->finance($this->getCurrentFinanceArray())
@@ -103,10 +104,8 @@ class CurrentEducationInfoController extends Controller
 
     public function getCurrentFinanceArray() {
         return $this->isFinanceContract() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,] :
-            ($this->getEnd() ?
-                [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT] :
             [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
+            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
     }
 
     public function getCurrentEduLevelGraduateArray() {
@@ -114,12 +113,27 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2022-07-15 17:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2023-02-05 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
+    }
+
+    public function getStartGraduate() {
+        return strtotime("2023-02-01 10:00:00") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2023-03-07 15:00:00") > strtotime(\date("Y-m-d G:i:s"));
     }
 
     public function getEduLevelArray() {
-        return [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO, DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
-            DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL];
+        $array = [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+        ];
+        if($this->getStartGraduate()) {
+            $array[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
+        }
+
+        if($this->getEnd()) {
+            array_splice($array, 0, 3);
+        }
+
+        return $array;
     }
 
 
@@ -134,7 +148,7 @@ class CurrentEducationInfoController extends Controller
             return $data['finance'] == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
         } else {
             if($model = $this->findModel()){
-                return $model->finance== DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
+                return $model->finance == DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT;
             }
         }
         return false;

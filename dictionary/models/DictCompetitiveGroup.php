@@ -29,8 +29,9 @@ use yii\helpers\StringHelper;
 /**
  * Class DictCompetitiveGroup
  * @package dictionary\models
- * @property  $special_right_id string
- * @property  $success_speciality string
+ * @property $special_right_id string
+ * @property $success_speciality string
+ * @property $is_unavailable_transfer
  */
 class DictCompetitiveGroup extends ActiveRecord
 {
@@ -72,6 +73,9 @@ class DictCompetitiveGroup extends ActiveRecord
         $competitiveGroup->tpgu_status = $form->tpgu_status;
         $competitiveGroup->additional_set_status = $form->additional_set_status;
         $competitiveGroup->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
+        $competitiveGroup->is_unavailable_transfer = $form->is_unavailable_transfer;
+
+
         return $competitiveGroup;
     }
 
@@ -101,6 +105,7 @@ class DictCompetitiveGroup extends ActiveRecord
         $this->tpgu_status = $form->tpgu_status;
         $this->additional_set_status = $form->additional_set_status;
         $this->success_speciality = $form->success_speciality ? json_encode($form->success_speciality) : null;
+        $this->is_unavailable_transfer = $form->is_unavailable_transfer;
     }
 
     /**
@@ -134,7 +139,8 @@ class DictCompetitiveGroup extends ActiveRecord
             'tpgu_status'=> 'для ТПГУ',
             'additional_set_status'=> 'Дополнительный набор',
             'fullNameB'=> "Конкурсная группа",
-            'success_speciality' => 'Допущенные направления подготовки к участию в конкурсе'
+            'success_speciality' => 'Допущенные направления подготовки к участию в конкурсе',
+            'is_unavailable_transfer' => 'Недоступен для перевода и восстановления'
         ];
     }
 
