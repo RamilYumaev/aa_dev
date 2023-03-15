@@ -5,6 +5,7 @@ namespace dictionary\models;
 
 
 use dictionary\forms\DictSchoolsPreModerationForm;
+use modules\dictionary\models\DictRegion;
 
 class DictSchoolsPreModeration extends \yii\db\ActiveRecord
 {
@@ -61,6 +62,14 @@ class DictSchoolsPreModeration extends \yii\db\ActiveRecord
     public function getDictSchool()
     {
         return $this->hasOne(DictSchools::className(), ['id' => 'dict_school_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDictRegion()
+    {
+        return $this->hasOne(DictRegion::className(), ['id' => 'region_id']);
     }
 
     public static function getAllSchool()

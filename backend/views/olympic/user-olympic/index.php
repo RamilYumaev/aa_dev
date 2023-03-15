@@ -69,6 +69,12 @@ use olympic\helpers\auth\ProfileHelper; ?>
                             DictSchoolsHelper::preSchoolName(UserSchoolHelper::userSchoolId($model->user_id, $olympic->year));
                     }
                 ],
+                ['header' => "Регион",
+                    'value' => function ($model) use($olympic) {
+                        return  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($model->user_id, $olympic->year)) ??
+                            DictSchoolsHelper::preRegionName(UserSchoolHelper::userSchoolId($model->user_id, $olympic->year));
+                    }
+                ],
                 ['header' => "Класс/курс",
                     'value' => function ($model) use($olympic) {
                         return DictClassHelper::classFullName(UserSchoolHelper::userClassId($model->user_id, $olympic->year));

@@ -24,10 +24,15 @@ class DictSchoolsHelper
         return ArrayHelper::getValue(self::typesEmail(), $type);
     }
 
-
     public static function schoolName($key): ?string
     {
         return self::find($key)->name ?? null;
+    }
+
+    public static function regionName($key): ?string
+    {
+        $model = self::find($key);
+        return $model && $model->region ? $model->region->name : null;
     }
 
     public static function schoolEmail($key): ?string
@@ -40,7 +45,6 @@ class DictSchoolsHelper
         return  self::find($key)->email && self::find($key)->status;
     }
 
-
     protected static function find($key): ?DictSchools
     {
         return  DictSchools::findOne($key);
@@ -51,5 +55,9 @@ class DictSchoolsHelper
         return  DictSchoolsPreModeration::findOne($key)->name ?? null;
     }
 
-
+    public static function preRegionName($key): ?string
+    {
+        $model = DictSchoolsPreModeration::findOne($key);
+        return  $model && $model->dictRegion ? $model->dictRegion->name :null;
+    }
 }
