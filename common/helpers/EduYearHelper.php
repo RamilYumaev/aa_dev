@@ -20,11 +20,11 @@ class EduYearHelper
 
     public  static function eduYearList(): array
     {
-        $year = date("Y");
-        $year = $year - 3;
+        $year = date("Y")+1;
+        $count = ($year) - 2015;
         $result = [];
-        for ($i = 1; $i <= 4; $i++) {
-            $b = $year+$i;
+        for ($i = 1; $i <= $count; $i++) {
+            $b = $year-$i;
             $a = $b+1;
             $eduYear= $b.'-'.$a;
             $result[$eduYear] = $eduYear;
