@@ -9,7 +9,7 @@ class OlympicUserInformationForm extends Model
 {
     public $subject_one, $subject_two;
 
-    public function __construct(UserOlimpiads $userOlimpiads, $config = [])
+    public function __construct(UserOlimpiads $userOlimpiads = null, $config = [])
     {
         if($userOlimpiads) {
             if($userOlimpiads->information) {
@@ -29,7 +29,15 @@ class OlympicUserInformationForm extends Model
         return [
             [['subject_one', 'subject_two'], 'required'],
             [['subject_one', 'subject_two'], 'integer'],
+            [['subject_two'], 'validateSubject'],
         ];
+    }
+
+    public function validateSubject($attribute, $params, $validator)
+    {
+        if ($this->$attribute == $this->subject_one) {
+            $this->addError($attribute, 'Нельзя выбирать два одинаковых предмета.');
+        }
     }
 
     /**

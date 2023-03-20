@@ -9,7 +9,7 @@ $maxFileSize = TestQuestionHelper::FILE_VALIDATE_RULES[TestQuestionHelper::quest
 <?php if ($quent->getUploadedFileUrl('result')): ?>
     <?= Html::a('Ваш файл',$quent->getUploadedFileUrl('result'))?>
 <?php else: ?>
-    <p>Загрузите файл: </p>
+    <p>Загрузите файл с ответом: </p>
 <?php endif; ?>
 <?= FileInput::widget([
     'name' => 'AnswerAttempt[file]',

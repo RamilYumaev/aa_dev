@@ -8,14 +8,17 @@ use common\sending\traits\MailTrait;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictDiscipline;
+use olympic\forms\OlympicUserInformationForm;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\jobs\TestEmailJob;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use Yii;
+use yii\bootstrap\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UserOlympicController extends Controller
 {
@@ -38,6 +41,30 @@ class UserOlympicController extends Controller
             'olympic' => $olympic,
             'count' => $count
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionUpdate($id) {
+        $model = $this->findModelUser($id);
+        $form = new OlympicUserInformationForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $model->information = json_encode([$form->subject_one, $form->subject_two]);
+            $model->save();
+            return $this->redirect(['index', 'olympic_id' =>  $model->olympiads_id]);
+        }
+        return $this->renderAjax('_form', [
+            'model' => $form
+        ]);
+
     }
 
     /***
@@ -99,6 +126,19 @@ class UserOlympicController extends Controller
     private function getAllUserOlympic(OlimpicList $olympic)
     {
         return UserOlimpiads::find()->where(['olympiads_id' => $olympic->id]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelUser($id): UserOlimpiads
+    {
+        if (($model = UserOlimpiads::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 

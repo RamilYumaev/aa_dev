@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
+use Mpdf\Tag\U;
 use olympic\forms\OlympicUserInformationForm;
 use olympic\models\UserOlimpiads;
 use olympic\readRepositories\OlimpicReadRepository;
@@ -62,12 +63,11 @@ class UserOlympicController extends Controller
     {
         $this->isGuest();
         try {
-            $this->service->add($id, Yii::$app->user->id);
             $olympic = $this->olimpicListRepository->get($id);
             if($olympic->olimpic_id == 61) {
-                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию.');
                 return $this->redirect(['information', 'id' => $id]);
             } else {
+                $this->service->add($id, Yii::$app->user->id);
                 Yii::$app->session->setFlash('success', 'Спасибо за регистрацию.');
             }
 
@@ -94,21 +94,24 @@ class UserOlympicController extends Controller
         if($olympic->olimpic_id != 61) {
             return $this->redirect(['olympiads/index']);
         }
+
         $olympicModel = $this->findOlympic($olympic->olimpic_id);
         $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => Yii::$app->user->id]);
-        if(!$userOlympic) {
+        if($userOlympic) {
+            Yii::$app->session->setFlash('warning', 'Вы не можете редактировать данные.');
             return $this->redirect(['olympiads/registration-on-olympiads', 'id' => $olympic->olimpic_id]);
         }
-
         $form = new OlympicUserInformationForm($userOlympic);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 if($form->subject_one == $form->subject_two) {
                     throw  new \DomainException('Нельзя выбирать два одинаковых предмета');
                 }
+                $this->service->add($id, Yii::$app->user->id);
+                $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => Yii::$app->user->id]);
                 $userOlympic->information = json_encode([$form->subject_one, $form->subject_two]);
                 $userOlympic->save();
-                Yii::$app->session->setFlash('success', 'Спасибо.');
+                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию');
                 return $this->goHome();
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

@@ -8,6 +8,7 @@ use common\sending\traits\MailTrait;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\DictDiscipline;
+use olympic\forms\OlympicUserInformationForm;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\OlympicHelper;
 use olympic\jobs\TestEmailJob;
@@ -15,9 +16,11 @@ use olympic\models\auth\Profiles;
 use olympic\models\OlimpicList;
 use olympic\models\UserOlimpiads;
 use Yii;
+use yii\bootstrap\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UserOlympicController extends Controller
 {
@@ -38,6 +41,31 @@ class UserOlympicController extends Controller
             'olympic' => $olympic,
             'count' => $count
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return array|string|Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionUpdate($id) {
+        $model = $this->findModelUser($id);
+        $form = new OlympicUserInformationForm($model);
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $model->information = json_encode([$form->subject_one, $form->subject_two]);
+            $model->save();
+            return $this->redirect(['index', 'olympic_id' =>  $model->olympiads_id]);
+        }
+
+        return $this->renderAjax('@backend/views/olympic/user-olympic/_form', [
+            'model' => $form
+        ]);
+
     }
     /**
      * @param $olympicId
@@ -79,6 +107,8 @@ class UserOlympicController extends Controller
             $array[$index]['school'] =  DictSchoolsHelper::schoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
                 DictSchoolsHelper::preSchoolName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
             $array[$index]['class'] = DictClassHelper::classFullName(UserSchoolHelper::userClassId($data->user_id, $olympic->year));
+            $array[$index]['region'] =  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
+                DictSchoolsHelper::preRegionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
             $array[$index]['date'] = $data->created_at ? Yii::$app->formatter->asDate($data->created_at,'php:d.m.Y') :  "";
             if($data->information) {
                 $information = json_decode($data->information, true);
@@ -96,6 +126,19 @@ class UserOlympicController extends Controller
     private function getAllUserOlympic(OlimpicList $olympic)
     {
         return UserOlimpiads::find()->where(['olympiads_id' => $olympic->id]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    protected function findModelUser($id): UserOlimpiads
+    {
+        if (($model = UserOlimpiads::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 

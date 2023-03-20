@@ -115,7 +115,7 @@ class ExamAnswerService
                 break;
             case ExamQuestionHelper::TYPE_FILE:
                 if(!$this->getFile()) {
-                    throw new \DomainException('Загрузите файл');
+                    throw new \DomainException('Загрузите файл с ответом');
                 }
                 $mark = null;
                 \Yii::$app->session->addFlash('success','Файл успешно загружен!');
