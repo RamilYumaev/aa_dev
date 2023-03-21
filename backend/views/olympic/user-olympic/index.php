@@ -37,6 +37,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
                         'typeSending'=> SendingDeliveryStatusHelper::TYPE_SEND_INVITATION], ['class'=>'btn btn-info'])?>
         <?php endif; ?>
         <?=\yii\helpers\Html::a("Выгрузить список в Word", ["get-report-olympic", "olympicId"=>$olympic->id], ["class"=>"btn btn-primary"]);?>
+        <?=\yii\helpers\Html::a("Статистика", ["get-statistic", "olympicId"=>$olympic->id], ["class"=>"btn btn-info"]);?>
     </div>
 
     <div class="box-body">

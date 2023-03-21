@@ -3,6 +3,7 @@
 namespace operator\controllers\olympic;
 
 use common\auth\helpers\UserSchoolHelper;
+use common\components\TbsWrapper;
 use common\helpers\FileHelper;
 use common\sending\traits\MailTrait;
 use dictionary\helpers\DictClassHelper;
@@ -81,6 +82,27 @@ class UserOlympicController extends Controller
         FileHelper::getFile($model, $path, $fileName);
     }
 
+
+    /**
+     * @param $olympicId
+     * @throws NotFoundHttpException
+     */
+    public function actionGetStatistic($olympicId, $ext = 'docx')
+    {
+        $olympic = $this->findModel($olympicId);
+        $data = $this->statistic($olympic);
+        $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "statistic.".$ext;
+        $fileName = "Статистика " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".".$ext;
+        $tbs = new TbsWrapper();
+        $tbs->openTemplate($path);
+        $common = [];
+        $common[0]['block_subject'] = key_exists('subjects', $data) ? 1:0;
+        $tbs->merge('common', $common);
+        $tbs->merge('regions', $data['regions']);
+        $tbs->merge('subjects', $data['subjects']);
+        $tbs->download($fileName);
+    }
+
     /***
      * @param $id
      * @return
@@ -119,6 +141,39 @@ class UserOlympicController extends Controller
                 $array[$index]['subject_2'] = '';
             }
 
+        }
+        return $array;
+    }
+
+    public function statistic($olympic) {
+        $model = $this->getAllUserOlympic($olympic);
+        $disciplines = DictDiscipline::find()->select('name')->indexBy('id')->column();
+        /** @var UserOlimpiads $data */
+        $regions = [];
+        $array = [];
+        $subjects = [];
+        foreach ($model->all() as  $data) {
+            $regions[] =  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
+                DictSchoolsHelper::preRegionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
+            if($data->information) {
+                $information = json_decode($data->information, true);
+                $subjects[] = $disciplines[$information[0]];
+                $subjects[] = $disciplines[$information[1]];
+            }
+        }
+        $a  = 0;
+        asort($regions);
+        foreach (array_count_values($regions) as $index => $region) {
+            $array['regions'][$a]['name'] = $index;
+            $array['regions'][$a]['count'] = $region;
+            $a++;
+        }
+        $b  = 0;
+        asort($subjects);
+        foreach (array_count_values($subjects) as $index => $subject) {
+            $array['subjects'][$b]['name'] = $index;
+            $array['subjects'][$b]['count'] = $subject;
+            $b++;
         }
         return $array;
     }
