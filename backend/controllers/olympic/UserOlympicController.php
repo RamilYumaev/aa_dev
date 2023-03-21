@@ -111,8 +111,12 @@ class UserOlympicController extends Controller
         $common = [];
         $common[0]['block_subject'] = key_exists('subjects', $data) ? 1:0;
         $tbs->merge('common', $common);
-        $tbs->merge('regions', $data['regions']);
-        $tbs->merge('subjects', $data['subjects']);
+        if(key_exists('subjects', $data)) {
+            $tbs->merge('regions', $data['regions']);
+        }
+        if(key_exists('subjects', $data)) {
+            $tbs->merge('subjects', $data['subjects']);
+        }
         $tbs->download($fileName);
     }
 
