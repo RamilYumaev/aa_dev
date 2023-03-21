@@ -111,7 +111,7 @@ class UserOlympicController extends Controller
         $common = [];
         $common[0]['block_subject'] = key_exists('subjects', $data) ? 1:0;
         $tbs->merge('common', $common);
-        if(key_exists('subjects', $data)) {
+        if(key_exists('regions', $data)) {
             $tbs->merge('regions', $data['regions']);
         }
         if(key_exists('subjects', $data)) {
@@ -156,8 +156,11 @@ class UserOlympicController extends Controller
         $array = [];
         $subjects = [];
         foreach ($model->all() as  $data) {
-            $regions[] =  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
+            $region =  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
                 DictSchoolsHelper::preRegionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
+            if($region) {
+                $regions[] = $region;
+            }
             if($data->information) {
                 $information = json_decode($data->information, true);
                 $subjects[] = $disciplines[$information[0]];
