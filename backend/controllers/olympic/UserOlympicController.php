@@ -65,7 +65,6 @@ class UserOlympicController extends Controller
         return $this->renderAjax('_form', [
             'model' => $form
         ]);
-
     }
 
     /***
@@ -118,6 +117,45 @@ class UserOlympicController extends Controller
             $tbs->merge('subjects', $data['subjects']);
         }
         $tbs->download($fileName);
+    }
+
+    /**
+     * @param $subject
+     * @param $olympicId
+     * @throws NotFoundHttpException
+     */
+    public function actionRound($subject, $olympicId, $ext = 'docx')
+    {
+        $olympic = $this->findModel($olympicId);
+        $discipline = DictDiscipline::findOne($subject);
+        if(!$discipline) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        $data = $this->round($olympic, $discipline->id);
+        $path = Yii::getAlias("@common") . DIRECTORY_SEPARATOR . "file_templates" . DIRECTORY_SEPARATOR . "qualif_round.".$ext;
+        $fileName = "Ведомость отборочного этапа " . $olympic->genitive_name . " на " . date('Y-m-d H:i:s') . ".".$ext;
+        $tbs = new TbsWrapper();
+        $tbs->openTemplate($path);
+        $common = [];
+        $common[0]['year'] = str_replace( '-', '/', $olympic->year). ' уч. г.';
+        $common[0]['subject'] = $discipline->name;
+        $tbs->merge('common', $common);
+        if(key_exists('members', $data)) {
+            $tbs->merge('member', $data['members']);
+        }
+        $tbs->download($fileName);
+    }
+
+    /**
+     * @param $olympicId
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionSubjects($olympicId)
+    {
+        $olympic = $this->findModel($olympicId);
+        $data = $this->subjects($olympic);
+        return $this->renderAjax('subjects',['data' => $data, 'olympicId' => $olympicId]);
     }
 
     public function data($olympic) {
@@ -182,6 +220,38 @@ class UserOlympicController extends Controller
             $b++;
         }
         return $array;
+    }
+
+    public function subjects($olympic) {
+        $model = $this->getAllUserOlympic($olympic);
+        $disciplines = DictDiscipline::find()->select('name')->indexBy('id')->column();
+        /** @var UserOlimpiads $data */
+        $subjects = [];
+        foreach ($model->all() as  $data) {
+            if($data->information) {
+                $information = json_decode($data->information, true);
+                $subjects[$information[0]] = $disciplines[$information[0]];
+                $subjects[$information[1]] = $disciplines[$information[1]];
+            }
+        }
+        return $subjects;
+    }
+
+    /**
+     * @param $olympic
+     * @param $subject
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    protected function round($olympic, $subject) {
+
+        $model = $this->getAllUserOlympic($olympic)->andWhere(['like', 'information', $subject]);
+        /** @var UserOlimpiads $data */
+        $members = [];
+        foreach ($model->all() as $index => $data) {
+            $members['members'][$index]['fio'] = ProfileHelper::profileFullName($data->user_id);
+        }
+        return $members;
     }
 
 

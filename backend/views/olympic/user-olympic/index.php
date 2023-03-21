@@ -27,6 +27,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
     <div class="box-header">
         <?php if($olympic->olimpic_id == 61): ?>
             <?=\yii\helpers\Html::a("Выгрузить список в Excel", ["get-report-olympic", "olympicId"=>$olympic->id, 'ext' =>'xlsx'], ["class"=>"btn btn-success"]);?>
+            <?=\yii\helpers\Html::a("Ведомость отборочного этапа", ["subjects", "olympicId"=>$olympic->id,], ['data-pjax' => 'w4', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Ведомость отборочного этапа', "class"=>"btn btn-danger"]);?>
         <?php endif; ?>
         <?php if ($olympic->isFormOfPassageInternal()  && $olympic->year == \common\helpers\EduYearHelper::eduYear()): ?>
             <?= !SendingHelper::sendingData(SendingDeliveryStatusHelper::TYPE_OLYMPIC,
