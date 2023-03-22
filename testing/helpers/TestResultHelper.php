@@ -2,17 +2,25 @@
 
 namespace testing\helpers;
 
-use testing\models\Test;
-use testing\models\TestClass;
 use testing\models\TestQuestion;
 use testing\models\TestResult;
-use yii\helpers\ArrayHelper;
-use olympic\helpers\OlympicListHelper;
 
 class TestResultHelper
 {
     public static function countQuestionAll($testAttempt) {
         return TestResult::find()->where(['attempt_id'=>$testAttempt])->count();
+    }
+
+    public static function countResultEmpty($testAttempt) {
+        return TestResult::find()->where(['attempt_id'=>$testAttempt])->andWhere(['is', 'result', null])->count();
+    }
+
+    public static function countResultMark($testAttempt) {
+        return TestResult::find()->where(['attempt_id'=>$testAttempt])->andWhere(['is not', 'result.mark', null])->count();
+    }
+
+    public static function countStatus($testAttempt, $status) {
+        return TestResult::find()->where(['attempt_id'=>$testAttempt, 'status' => $status])->andWhere(['is not', 'result', null])->count();
     }
 
     public static function countQuestionNoAutomaticAnswerAll($testAttempt) {
@@ -48,4 +56,15 @@ class TestResultHelper
         return !self::equallyCount($attempt) && self::noEquallyQuestionCount($attempt);
     }
 
+    public static function isEmptyResultFull($attempt) {
+        return self::countQuestionAll($attempt) == self::countResultEmpty($attempt);
+    }
+
+    public static function isResultMarkFull($attempt) {
+        return self::countQuestionAll($attempt) == self::countResultMark($attempt);
+    }
+
+    public static function isNew($attempt) {
+        return self::countStatus($attempt, 0) > 0;
+    }
 }

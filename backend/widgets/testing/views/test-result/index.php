@@ -32,6 +32,17 @@ use yii\helpers\Html;
                     'template' => '{update}',
                     'controller' => 'testing/test-result',
                     'buttons'=> [
+                        'link' => function ($url,$model) {
+                            return  $model->status == 0 &&
+                            $model->question->type_id  == TestQuestionHelper::TYPE_FILE ?
+                                Html::a(
+                                    '<span class="glyphicon glyphicon-check"></span>',
+                                    ['/testing/test-result/status', 'attempt_id' => $model->attempt_id,
+                                        'question_id' => $model->question_id, 'tq_id' =>$model->tq_id], [ 'data' => [
+                                    'confirm' => 'Вы уверены, что хотите изменть статус на "Просмотрен"?',
+                                    'method' => 'post',
+                                ],]) :"";
+                        },
                         'update' => function ($url,$model) {
                             return $model->question->type_id  == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
                             $model->question->type_id  == TestQuestionHelper::TYPE_FILE ?

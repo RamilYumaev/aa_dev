@@ -24,6 +24,7 @@ class TestResultController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'status' => ['POST'],
                 ],
             ],
         ];
@@ -61,6 +62,23 @@ class TestResultController extends Controller
         return $this->renderAjax('@backend/views/testing/test-result/update', [
             'model' => $form,
         ]);
+    }
+
+    /**
+     * @param $attempt_id
+     * @param $question_id
+     * @param $tq_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+
+    public function actionStatus($attempt_id, $question_id,  $tq_id)
+    {
+        $model = $this->findModel($attempt_id, $question_id,  $tq_id);
+        $model->setStatus();
+        $model->save();
+        return $this->redirect(['testing/test-attempt/view', 'id' => $model->attempt_id]);
+
     }
     /**
      * @param integer $id

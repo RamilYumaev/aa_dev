@@ -2,17 +2,18 @@
 namespace backend\widgets\testing;
 
 use yii\base\Widget;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\db\Query;
 
 class TestAttemptWidget extends Widget
 {
     public $test_id;
+    public $olympicId = null;
     /**
      * @var string
      */
     public $view = 'test-attempt/index';
+    public $viewPo = 'test-attempt/index_po';
 
     public function run()
     {
@@ -22,7 +23,7 @@ class TestAttemptWidget extends Widget
             'allModels' => $query->all(),
         ]);
 
-        return $this->render($this->view, [
+        return $this->render($this->olympicId == 61 ?  $this->viewPo : $this->view, [
             'dataProvider' => $dataProvider,
         ]);
     }

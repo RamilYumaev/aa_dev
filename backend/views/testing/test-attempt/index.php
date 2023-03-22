@@ -36,5 +36,5 @@ if (\Yii::$app->user->can("dev") && TestAttemptHelper::checkOldDateAttempt($olym
 <?=Html::a("Подсчитать оценки незавершенных попыток", ['update-test-result', 'testId'=>$test->id], ['class'=>'btn btn-warning'])?>
 
 <div class="row">
-    <div class="col-md-12"><?= \backend\widgets\testing\TestAttemptWidget::widget(['test_id' => $test->id,]) ?></div>
+    <div class="col-md-12"><?= \backend\widgets\testing\TestAttemptWidget::widget(['test_id' => $test->id, 'olympicId' => $olympic->olimpic_id ]) ?></div>
 </div>

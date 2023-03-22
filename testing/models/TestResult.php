@@ -7,7 +7,8 @@ use yiidreamteam\upload\FileUploadBehavior;
 
 class TestResult extends ActiveRecord
 {
-
+    const STATUS_NEW = 0;
+    const STATUS_VIEW = 1;
 
     public static function tableName()
     {
@@ -34,8 +35,14 @@ class TestResult extends ActiveRecord
         $this->mark = $mark;
     }
 
+    public function setStatus(): void
+    {
+        $this->status = self::STATUS_VIEW;
+    }
+
     public function edit($result, $mark) {
         $this->updated = date("Y-m-d H:i:s");
+        $this->status = self::STATUS_NEW;
         $this->result = $result;
         $this->mark = $mark;
     }
