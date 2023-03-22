@@ -28,6 +28,7 @@ class TestResult extends ActiveRecord
     public function setFile(UploadedFile $file): void
     {
         $this->result = $file;
+        $this->status = self::STATUS_NEW;
     }
 
     public function setMark($mark): void

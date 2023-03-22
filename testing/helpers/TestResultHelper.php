@@ -16,7 +16,7 @@ class TestResultHelper
     }
 
     public static function countResultMark($testAttempt) {
-        return TestResult::find()->where(['attempt_id'=>$testAttempt])->andWhere(['is not', 'result.mark', null])->count();
+        return TestResult::find()->where(['attempt_id'=>$testAttempt])->andWhere(['is not', 'mark', null])->count();
     }
 
     public static function countStatus($testAttempt, $status) {

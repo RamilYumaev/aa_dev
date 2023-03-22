@@ -16,10 +16,10 @@ use yii\helpers\Html;
             'rowOptions' => function($model){
                 if (TestResultHelper::isEmptyResultFull($model['id'])) {
                     return ['class' => 'default'];
+                } elseif(TestResultHelper::isNew($model['id'])) {
+                    return ['class' => 'danger'];
                 } elseif(TestResultHelper::isResultMarkFull($model['id'])) {
                     return ['class' => 'success'];
-                } elseif(!TestResultHelper::isNew($model['id'])) {
-                    return ['class' => 'danger'];
                 } else {
                     return ['class' => 'warning'];
                 }
