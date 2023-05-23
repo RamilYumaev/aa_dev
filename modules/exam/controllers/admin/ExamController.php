@@ -3,14 +3,17 @@
 
 namespace modules\exam\controllers\admin;
 
+use modules\exam\components\ExportToMoodle;
 use modules\exam\forms\ExamForm;
 use modules\exam\models\Exam;
 use modules\exam\searches\admin\ExamSearch;
 use modules\exam\services\ExamService;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class ExamController extends Controller
 {
@@ -49,6 +52,14 @@ class ExamController extends Controller
         ]);
     }
 
+    public function actionXml($discipline_id)
+    {
+        $export = new ExportToMoodle();
+        $export->export($discipline_id);
+        $path = Yii::getAlias('@backend').'/web/'.$export->getFilename();
+        Yii::$app->response->sendFile($path);
+        unlink($path);
+    }
     /**
      * @return mixed
      */

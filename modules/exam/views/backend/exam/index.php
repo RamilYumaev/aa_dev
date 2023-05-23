@@ -26,6 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
+                    [
+                        'header' => '',
+                        'format' => 'raw',
+                        'value' => function($model) {
+                            return \yii\helpers\Html::a("Выгрузить файл xml для moodle", ['xml', 'discipline_id' => $model->discipline_id]);
+                        }
+                    ],
                     ['attribute' => 'discipline_id',
                         'filter'=> $searchModel->filterDiscipline(),
                         'value'=> 'discipline.name'],

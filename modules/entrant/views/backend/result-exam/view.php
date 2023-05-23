@@ -3,6 +3,7 @@
 /** @var  $order modules\entrant\models\AisOrderTransfer */
 /** @var  $cgDiscipline DisciplineCompetitiveGroup */
 use dictionary\models\DisciplineCompetitiveGroup;
+use dictionary\models\CompositeDiscipline;
 use modules\exam\models\Exam;
 use modules\exam\models\ExamAttempt;
 use yii\helpers\Html;
@@ -14,7 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $cgDisciplineArray = DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->select('discipline_id')->column();
 $cgDisciplineSpoArray = DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->select('spo_discipline_id')->column();
-$examIdArray = Exam::find()->where(['discipline_id'=> array_merge($cgDisciplineArray, $cgDisciplineSpoArray)])->select('id')->column();
+$cgDisciplineCompositeArray = CompositeDiscipline::find()->where(['discipline_id'=> $cgDisciplineArray])->select('discipline_select_id')->column();
+$examIdArray = Exam::find()->where(['discipline_id'=> array_merge($cgDisciplineArray, $cgDisciplineSpoArray) + $cgDisciplineSpoArray])->select('id')->column();
 ?>
 <div class="row">
     <div class="box box-primary">
@@ -28,7 +30,7 @@ $examIdArray = Exam::find()->where(['discipline_id'=> array_merge($cgDisciplineA
                <div class="col-md-12">
                 <p><?= ++$i.". ".$order->userAis->user->profiles->fio ?>
                 <?php foreach (DisciplineCompetitiveGroup::find()->where(['competitive_group_id'=> $cg->id ])->orderBy(['priority'=> SORT_ASC])->all() as $cgDiscipline):
-                   $exam = Exam::findOne(['discipline_id'=> $cgDiscipline->discipline_id]);
+                   $exam =  $exam = Exam::findOne(['discipline_id'=> $cgDiscipline->discipline->composite_discipline ? CompositeDiscipline::find()->where(['discipline_id'=> $cgDiscipline->discipline_id ])->select('discipline_select_id')->column() : $cgDiscipline->discipline_id ]);
                    $examSpo = Exam::findOne(['discipline_id'=> $cgDiscipline->spo_discipline_id]);
                    $examId = $exam ? $exam->id : 0;
                    $examSpoId = $examSpo ? $examSpo->id : 0;

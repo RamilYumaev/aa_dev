@@ -20,6 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => ActionColumn::class, 'controller' => 'exam', 'template' => ' {view}'],
+                    [
+                        'header' => '',
+                        'format' => 'raw',
+                        'value' => function($model) {
+                             return \yii\helpers\Html::a("Выгрузить файл json", ['json', 'discipline_id' => $model->discipline_id]);
+                        }
+                    ],
                     ['class' => \yii\grid\SerialColumn::class],
                     [
                         'header' => 'Кол-во тестов',

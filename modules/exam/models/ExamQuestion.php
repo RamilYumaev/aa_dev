@@ -74,7 +74,6 @@ class ExamQuestion extends ActiveRecord
         return $this->hasMany(ExamQuestionNested::class, ['question_id' => "id"]);
     }
 
-
     public function getAnswerCorrect () {
         return $this->getAnswer()->andWhere( ['is_correct' => true]);
     }
@@ -125,15 +124,9 @@ class ExamQuestion extends ActiveRecord
         return ExamQuestionHelper::typeName($this->type_id);
     }
 
-
-
     public static function labels()
     {
         $testQue = new static();
         return $testQue->attributeLabels();
     }
-
-
-
-
 }

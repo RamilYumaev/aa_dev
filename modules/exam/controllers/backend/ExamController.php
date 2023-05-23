@@ -9,6 +9,7 @@ use modules\dictionary\models\JobEntrant;
 use modules\entrant\forms\LanguageForm;
 use modules\entrant\models\Language;
 use modules\entrant\services\LanguageService;
+use modules\exam\components\ExportToMoodle;
 use modules\exam\forms\ExamForm;
 use modules\exam\models\Exam;
 use modules\exam\searches\ExamSearch;
@@ -59,6 +60,15 @@ class ExamController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionXml($discipline_id)
+    {
+        $export = new ExportToMoodle();
+        $export->export($discipline_id);
+        $path = Yii::getAlias('@entrant').'/web/'.$export->getFilename();
+        Yii::$app->response->sendFile($path);
+        unlink($path);
     }
 
     /**
