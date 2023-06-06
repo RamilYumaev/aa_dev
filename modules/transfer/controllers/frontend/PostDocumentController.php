@@ -82,9 +82,19 @@ class PostDocumentController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @throws \yii\base\ExitException
+     */
     public function actionAgreementContract()
     {
-        return $this->render('agreement-contract');
+        Yii::$app->session->setFlash("warning", "Договор об оказании платных образовательных услуг 
+        заключается очно по адресу: Проспект Вернадского, 88, кабинет 546. 
+        Необходимо присутствие обучающегося и заказчика (в случае если обучающийся не является заказчиком). 
+        При себе необходимо иметь паспорта. При возникновении вопросов обращаться в отдел договорного приема МПГУ по тел: 8-495-438-18-57, 
+        по адресу электронной почты: dg@mpgu.su");
+        Yii::$app->getResponse()->redirect(['site/index']);
+        Yii::$app->end();
+        // return $this->render('agreement-contract');
     }
 
     public function actionContractSend() {

@@ -2,28 +2,12 @@
 
 
 namespace modules\transfer\controllers\frontend;
-use common\auth\forms\ResetPasswordForm;
 use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\helpers\DictFacultyHelper;
-use modules\dictionary\models\SettingEntrant;
 use modules\entrant\forms\ContractMessageForm;
-use modules\entrant\forms\LegalEntityForm;
-use modules\entrant\forms\PersonalEntityForm;
 use modules\entrant\forms\ReceiptContractForm;
-use modules\entrant\helpers\AnketaHelper;
 use modules\entrant\helpers\DataExportHelper;
 use modules\entrant\helpers\DateFormatHelper;
-use modules\entrant\helpers\FileCgHelper;
-use modules\entrant\helpers\PdfHelper;
-use modules\entrant\helpers\SettingContract;
-use modules\entrant\models\LegalEntity;
-use modules\entrant\models\PersonalEntity;
-use modules\entrant\models\ReceiptContract;
-use modules\entrant\models\StatementAgreementContractCg;
-use modules\entrant\models\StatementCg;
 use modules\entrant\models\UserAis;
-use modules\entrant\services\StatementAgreementContractCgService;
-use \kartik\mpdf\Pdf;
 use modules\transfer\helpers\ContractHelper;
 use modules\transfer\models\LegalEntityTransfer;
 use modules\transfer\models\PassExam;
@@ -32,10 +16,9 @@ use modules\transfer\models\ReceiptContractTransfer;
 use modules\transfer\models\StatementAgreementContractTransferCg;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\services\StatementAgreementContractTransferCgService;
-use Mpdf\Tag\P;
+use yii\base\ExitException;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -61,6 +44,23 @@ class StatementAgreementContractTransferCgController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * @param $action
+     * @return bool|void
+     * @throws ExitException
+     */
+
+    public function beforeAction($action)
+    {
+        Yii::$app->session->setFlash("warning", "Договор об оказании платных образовательных услуг 
+        заключается очно по адресу: Проспект Вернадского, 88, кабинет 546. 
+        Необходимо присутствие обучающегося и заказчика (в случае если обучающийся не является заказчиком). 
+        При себе необходимо иметь паспорта. При возникновении вопросов обращаться в отдел договорного приема МПГУ по тел: 8-495-438-18-57, 
+        по адресу электронной почты: dg@mpgu.su");
+        Yii::$app->getResponse()->redirect(['site/index']);
+        Yii::$app->end();
     }
 
     /**
