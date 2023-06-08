@@ -7,6 +7,7 @@ namespace modules\entrant\controllers\backend;
 use common\helpers\EduYearHelper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
+use modules\entrant\forms\AgreementClarifyCgForm;
 use modules\entrant\forms\AgreementForm;
 use modules\entrant\forms\AgreementMessageForm;
 use modules\entrant\forms\FileMessageForm;
@@ -36,7 +37,7 @@ class AgreementController extends Controller
 
     public function beforeAction($event)
     {
-        if($this->getJobEntrant()->isStatusDraft() || !$this->jobEntrant->isCategoryTarget()) {
+        if ($this->getJobEntrant()->isStatusDraft()) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['site/index']);
             try {
@@ -53,7 +54,7 @@ class AgreementController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'status'=> $status,
+            'status' => $status,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -67,7 +68,7 @@ class AgreementController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if($model->isStatusNew()) {
+        if ($model->isStatusNew()) {
             try {
                 $this->service->addStatus($id);
             } catch (\DomainException $e) {
@@ -80,8 +81,9 @@ class AgreementController extends Controller
         ]);
     }
 
-    /* @return  JobEntrant*/
-    protected function getJobEntrant() {
+    /* @return  JobEntrant */
+    protected function getJobEntrant()
+    {
         return Yii::$app->user->identity->jobEntrant();
     }
 
@@ -113,6 +115,21 @@ class AgreementController extends Controller
         ]);
     }
 
+    public function actionClarifyCgs($id)
+    {
+        $model = $this->findModel($id);
+        $form = AgreementClarifyCgForm::findOne($model->id);
+        if ($form->competitive_list != "") {
+            $form->competitive_list = json_decode($form->competitive_list);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $form->competitive_list = json_encode($form->competitive_list);
+            $form->save();
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('clarify-cgs', ['model' => $form]);
+    }
+
 
     /**
      * @param $agreementId
@@ -120,7 +137,8 @@ class AgreementController extends Controller
      * @throws NotFoundHttpException
      */
 
-    public function actionDataJson($agreementId) {
+    public function actionDataJson($agreementId)
+    {
         $agreement = $this->findModel($agreementId);
         $result = DataExportHelper::dataIncomingAgreement($agreement);
         Yii::$app->response->format = Response::FORMAT_JSON;

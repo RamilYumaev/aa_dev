@@ -394,7 +394,8 @@ if(!Yii::$app->user->isGuest ) {
                 \Yii::$app->user->can('call-center') ? ['label'=>'Очный прием','url'=>['/data-entrant/queue']] : [],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
-                ]
+                ],
+            ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
 
         );
     }
@@ -415,6 +416,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
+                ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
                 $jobEntrant->isCategoryMPGU() ?
                     ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']]:
 

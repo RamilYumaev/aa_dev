@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\models\AdditionalInformation;
@@ -47,7 +48,7 @@ class DataExportHelper
         $file = $photoDocument && $photoDocument->getFiles() ? $photoDocument->getFiles()->one() : null;
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $photo = null;
-        if($file) {
+        if ($file) {
             $filename = $file->getUploadedFilePath('file_name_user');
             $mimetype = $finfo->file($filename);
             $photo['file'] = base64_encode(file_get_contents($filename));
@@ -89,7 +90,7 @@ class DataExportHelper
                 'address_registration_housing' => $addressRegistration ? $addressRegistration->housing : "",
                 'address_registration_building' => $addressRegistration ? $addressRegistration->building : "",
                 'address_registration_flat' => $addressRegistration ? $addressRegistration->flat : "",
-                'address_registration_region_id' =>  $addressRegistration ? ($addressRegistration->dictRegion ? $addressRegistration->dictRegion->ss_id : "") : "",
+                'address_registration_region_id' => $addressRegistration ? ($addressRegistration->dictRegion ? $addressRegistration->dictRegion->ss_id : "") : "",
                 'address_residence_postcode' => $addressResidence ? $addressResidence->postcode : "",
                 'address_residence_region' => $addressResidence ? $addressResidence->region : "",
                 'address_residence_district' => $addressResidence ? $addressResidence->district : "",
@@ -129,7 +130,7 @@ class DataExportHelper
                 'quota_k1_status' => $other ? ($other->exemption_id == 1 ? 1 : 0) : 0,
                 'quota_k2_status' => $other ? ($other->exemption_id == 2 ? 1 : 0) : 0,
                 'quota_k3_status' => $other ? ($other->exemption_id == 3 ? 1 : 0) : 0,
-                'quota_kz_id'=> $otherKz ? $otherKz->reception_quota : '',
+                'quota_kz_id' => $otherKz ? $otherKz->reception_quota : '',
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
@@ -159,8 +160,8 @@ class DataExportHelper
         $organization = Agreement::findOne(['user_id' => $userId]);
         $target_organization_id = $statement->isSpecialRightTarget() && $organization
         && $organization->ais_id ? $organization->ais_id : null;
-        $specialQuotaUsual  = is_null($statement->special_right) &&  !$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1);
-        $firstEducationStatus =  $statement->finance  == 1 && $statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ? true : false;
+        $specialQuotaUsual = is_null($statement->special_right) && !$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1);
+        $firstEducationStatus = $statement->finance == 1 && $statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ? true : false;
         foreach ($statement->statementCg as $currentApplication) {
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT ||
                 $anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
@@ -168,9 +169,9 @@ class DataExportHelper
                 $noCse = 1;
             } else {
                 $noCse = $specialQuotaUsual ? 0 : DictCompetitiveGroupHelper::groupByExamsNoCseCt($statement->user_id,
-                        $statement->faculty_id,
-                        $statement->speciality_id,
-                        $currentApplication->cg->id);
+                    $statement->faculty_id,
+                    $statement->speciality_id,
+                    $currentApplication->cg->id);
             }
             $composite = DictCompetitiveGroupHelper::groupByCompositeDiscipline(
                 $statement->user_id,
@@ -192,7 +193,7 @@ class DataExportHelper
                 'benefit_BVI_status' => 0,
                 'benefit_BVI_reason' => '',
                 'application_code' => $statement->numberStatement,
-                'first_higher_education_status'=> $firstEducationStatus,
+                'first_higher_education_status' => $firstEducationStatus,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,
             ];
@@ -221,26 +222,26 @@ class DataExportHelper
         $currentIa = StatementIa::findOne($statementId);
         $result['individual_achievements'] = [];
         $result['individual_achievements'][] = [
-            'incoming_id' => $incomingId->incoming_id,
-            'individual_achievement_id' => $currentIa->dictIndividualAchievement->ais_id,
-            'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
-            'model_type' => 2,
-            'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
-            'document_series' => $currentIa->userIndividualAchievements->dictOtherDocument->series,
-            'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
-            'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
-            'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
-            'document_authority_code' => '',
-            'document_authority_country_id' => "",
-            'diploma_authority' => '',
-            'diploma_specialty_id' => '',
-            'diploma_end_year' => '',
-            'surname' => '',
-            'name' => '',
-            'patronymic' => '',
-            'amount' => 1,
-            'main_status' => 0,
-        ]+Converter::generate($currentIa->userIndividualAchievements->dictOtherDocument->type_document,
+                'incoming_id' => $incomingId->incoming_id,
+                'individual_achievement_id' => $currentIa->dictIndividualAchievement->ais_id,
+                'sdo_id' => $currentIa->userIndividualAchievements->dictOtherDocument->id,
+                'model_type' => 2,
+                'document_type_id' => $currentIa->userIndividualAchievements->dictOtherDocument->type,
+                'document_series' => $currentIa->userIndividualAchievements->dictOtherDocument->series,
+                'document_number' => $currentIa->userIndividualAchievements->dictOtherDocument->number,
+                'document_issue' => $currentIa->userIndividualAchievements->dictOtherDocument->date,
+                'document_authority' => mb_strtoupper($currentIa->userIndividualAchievements->dictOtherDocument->authority, 'UTF-8'),
+                'document_authority_code' => '',
+                'document_authority_country_id' => "",
+                'diploma_authority' => '',
+                'diploma_specialty_id' => '',
+                'diploma_end_year' => '',
+                'surname' => '',
+                'name' => '',
+                'patronymic' => '',
+                'amount' => 1,
+                'main_status' => 0,
+            ] + Converter::generate($currentIa->userIndividualAchievements->dictOtherDocument->type_document,
                 $currentIa->userIndividualAchievements->dictOtherDocument->version_document,
                 $currentIa->userIndividualAchievements->dictOtherDocument->other_data, true);
         return $result;
@@ -420,24 +421,24 @@ class DataExportHelper
                      ->orderBy(['main_status' => SORT_DESC])
                      ->all() as $currentDocument) {
             $result['passportDocuments'][] = [
-                'sdo_id' => $currentDocument->id,
-                'model_type' => 1,
-                'document_type_id' => $currentDocument->type,
-                'document_series' => $currentDocument->series,
-                'document_number' => $currentDocument->number,
-                'document_issue' => $currentDocument->date_of_issue,
-                'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
-                'document_authority_code' => $currentDocument->division_code,
-                'document_authority_country_id' => $currentDocument->nationality,
-                'diploma_authority' => '',
-                'diploma_specialty_id' => '',
-                'diploma_end_year' => '',
-                'surname' => $profile->last_name,
-                'name' => $profile->first_name,
-                'patronymic' => $profile->patronymic,
-                'amount' => 1,
-                'main_status' => $currentDocument->main_status ?? 0,
-                ]+Converter::generate($currentDocument->type_document,
+                    'sdo_id' => $currentDocument->id,
+                    'model_type' => 1,
+                    'document_type_id' => $currentDocument->type,
+                    'document_series' => $currentDocument->series,
+                    'document_number' => $currentDocument->number,
+                    'document_issue' => $currentDocument->date_of_issue,
+                    'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
+                    'document_authority_code' => $currentDocument->division_code,
+                    'document_authority_country_id' => $currentDocument->nationality,
+                    'diploma_authority' => '',
+                    'diploma_specialty_id' => '',
+                    'diploma_end_year' => '',
+                    'surname' => $profile->last_name,
+                    'name' => $profile->first_name,
+                    'patronymic' => $profile->patronymic,
+                    'amount' => 1,
+                    'main_status' => $currentDocument->main_status ?? 0,
+                ] + Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data);
         }
@@ -456,24 +457,24 @@ class DataExportHelper
                 $patronymic = $profile->patronymic;
             }
             $result['documents'][] = [
-                'sdo_id' => $currentDocument->id,
-                'model_type' => 2,
-                'document_type_id' => $currentDocument->type,
-                'document_series' => $currentDocument->series,
-                'document_number' => $currentDocument->number,
-                'document_issue' => $currentDocument->date,
-                'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
-                'document_authority_code' => '',
-                'document_authority_country_id' => $currentDocument->country_id ?? $documentCountryId,
-                'diploma_authority' => '',
-                'diploma_specialty_id' => '',
-                'diploma_end_year' => '',
-                'surname' => $surname,
-                'name' => $name,
-                'patronymic' => $patronymic,
-                'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
-                'main_status' => 0,
-            ]+Converter::generate($currentDocument->type_document,
+                    'sdo_id' => $currentDocument->id,
+                    'model_type' => 2,
+                    'document_type_id' => $currentDocument->type,
+                    'document_series' => $currentDocument->series,
+                    'document_number' => $currentDocument->number,
+                    'document_issue' => $currentDocument->date,
+                    'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
+                    'document_authority_code' => '',
+                    'document_authority_country_id' => $currentDocument->country_id ?? $documentCountryId,
+                    'diploma_authority' => '',
+                    'diploma_specialty_id' => '',
+                    'diploma_end_year' => '',
+                    'surname' => $surname,
+                    'name' => $name,
+                    'patronymic' => $patronymic,
+                    'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
+                    'main_status' => 0,
+                ] + Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data, true);
         }
@@ -482,24 +483,24 @@ class DataExportHelper
                      ->andWhere(['user_id' => $userId])
                      ->all() as $currentDocument) {
             $result['documents'][] = [
-                'sdo_id' => $currentDocument->id,
-                'model_type' => 3,
-                'document_type_id' => $currentDocument->type,
-                'document_series' => $currentDocument->series,
-                'document_number' => $currentDocument->number,
-                'document_issue' => $currentDocument->date,
-                'document_authority' => $currentDocument->schoolName,
-                'document_authority_code' => "",
-                'document_authority_country_id' => $currentDocument->school->country_id,
-                'diploma_authority' => $currentDocument->schoolName,
-                'diploma_specialty_id' => '',
-                'diploma_end_year' => $currentDocument->year,
-                'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
-                'surname' => $currentDocument->surname ?? $profile->last_name,
-                'name' => $currentDocument->name ?? $profile->first_name,
-                'amount' => 1,
-                'main_status' => 1,
-            ]+Converter::generate($currentDocument->type_document,
+                    'sdo_id' => $currentDocument->id,
+                    'model_type' => 3,
+                    'document_type_id' => $currentDocument->type,
+                    'document_series' => $currentDocument->series,
+                    'document_number' => $currentDocument->number,
+                    'document_issue' => $currentDocument->date,
+                    'document_authority' => $currentDocument->schoolName,
+                    'document_authority_code' => "",
+                    'document_authority_country_id' => $currentDocument->school->country_id,
+                    'diploma_authority' => $currentDocument->schoolName,
+                    'diploma_specialty_id' => '',
+                    'diploma_end_year' => $currentDocument->year,
+                    'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
+                    'surname' => $currentDocument->surname ?? $profile->last_name,
+                    'name' => $currentDocument->name ?? $profile->first_name,
+                    'amount' => 1,
+                    'main_status' => 1,
+                ] + Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data, true);
         }
@@ -529,14 +530,20 @@ class DataExportHelper
                 'employer_kpp' => $agreement->organizationWork ? $agreement->organizationWork->kpp : "",
                 'employer_region' => $agreement->organizationWork ? $agreement->organizationWork->region->name : "",
             ];
-        foreach ($agreement->statement as $statement) {
-            if ($statement->isSpecialRightTarget()) {
-                foreach ($statement->statementCg as $currentApplication) {
-                    $result['incoming']['competitive_groups'][] =
-                        $currentApplication->cg->ais_id;
-                }
-            }
+//        foreach ($agreement->statement as $statement) {
+//            if ($statement->isSpecialRightTarget()) {
+//                foreach ($statement->statementCg as $currentApplication) {
+//                    $result['incoming']['competitive_groups'][] =
+//                        $currentApplication->cg->ais_id;
+//                }
+//            }
+//        }
+        $cgs = $agreement->competitive_list ? json_decode($agreement->competitive_list) : [];
+        $aisCgs = [];
+        foreach ($cgs as $cgId) {
+            $aisCgs[] = DictCompetitiveGroup::find()->select(['ais_id'])->andWhere(['id' => $cgId])->scalar();
         }
+        $result['incoming']['competitive_groups'] = $aisCgs;
         return $result;
     }
 

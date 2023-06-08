@@ -104,8 +104,7 @@ $onlyCse = $anketa->onlyCse();
     </div>
     <div class="row">
         <?php
-        if (!in_array($anketa->current_edu_level, [AnketaHelper::SCHOOL_TYPE_SCHOOL_9]) &&
-            ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
+        if (($anketa->category_id == CategoryStruct::GENERAL_COMPETITION
                 || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION)
             && !AgreementHelper::isExits($anketa->user_id)): ?>
             <div class="col-md-3 col-md-offset-2 mt-50" align="center">

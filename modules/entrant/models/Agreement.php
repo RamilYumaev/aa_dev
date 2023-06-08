@@ -72,7 +72,8 @@ class Agreement extends YiiActiveRecordAndModeration
             'year' =>   'Год',
             'user_id'=> "Абитуриент",
             'message'=> "Сообщение об ошибке",
-            'status_id' => 'Статус'
+            'status_id' => 'Статус',
+            'competitive_list' => 'Конкурсные группы целевого договора',
         ];
     }
 
@@ -108,7 +109,7 @@ class Agreement extends YiiActiveRecordAndModeration
 
     public function getDocumentFull(){
         $string = "";
-        foreach ($this->getAttributes(null,['user_id', 'id', 'work_organization_id', 'organization_id']) as  $key => $value) {
+        foreach ($this->getAttributes(null,['user_id', 'id', 'work_organization_id', 'organization_id', 'competitive_list']) as  $key => $value) {
             if($value) {
                 $string .= $this->getProperty($key)." ";
             }
