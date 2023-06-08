@@ -65,22 +65,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-header">
         <h4>Задачи</h4>
         <?php if($isDev): ?>
-        <?= Html::a('Добавить заадчу', ['testing-entrant/add-task','id'=>$testing->id, ], ['class' => 'btn btn-success', 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']) ?>
+        <?= Html::a('Добавить задачу', ['testing-entrant/add-task','id'=>$testing->id, ], ['class' => 'btn btn-success', 'data-pjax' => 'w2', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']) ?>
         <?php endif; ?>
     </div>
     <div class="box-body">
         <div class="table-responsive">
         <?= GridView::widget([
-            'dataProvider' => new ActiveDataProvider(['query' => $testing->getTestingEntrantDict()]),
+            'dataProvider' => new ActiveDataProvider(['query' => $testing->getTestingEntrantDict()
+                ->joinWith('dctTestingEntrant')->orderBy('priority')]),
             'afterRow' => function (TestingEntrantDict $model) use ($isDev) {
 
                     return '<tr><td colspan="3">'. (!$model->isStatusError() || !$model->isStatusFix() ? TestingEntrantDictHelper::link($model::STATUS_WORK, $model).
                             TestingEntrantDictHelper::link($model::STATUS_SUCCESS, $model):"").
                         ($isDev && $model->isStatusError()  ? TestingEntrantDictHelper::link($model::STATUS_FIX, $model) :'').
-                        Html::a("Ошибка", ["testing-entrant/message", 'id' => $model->id_testing_entrant,
-                            'dict'=> $model->id_dict_testing_entrant],
-                            ["class" => "btn btn-danger",
-                                'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => '']).'</td>
+                        '</td>
                         <td colspan="1">'.Html::tag('span', $model->statusName, ['class' => 'label label-' . $model->statusColor]).'</td>
                             <tr/>'.($model->error_note ? '<tr class="danger"><td colspan="5">'.$model->error_note.'</td></tr>':'').
                         ($model->count_files ? '<tr class="info"><td colspan="5">'.\modules\dictionary\helpers\TestingEntrantHelper::images($model).'</td></tr>':'');

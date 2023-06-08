@@ -176,13 +176,13 @@ class DictCompetitiveGroupHelper
     public static function getSpecialRight(): array
     {
         return [self::USUAL => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
-            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Специальная квота'];
+            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Отдельная квота'];
     }
 
     public static function getSpecialRightTesting(): array
     {
         return [0 => 'Общий конкурс', self::SPECIAL_RIGHT => 'Особая квота',
-            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Специальная квота'];
+            self::TARGET_PLACE => 'Прием на целевое обучение', self::SPECIAL_QUOTA => 'Отдельная квота'];
     }
 
     public static function forms(): array

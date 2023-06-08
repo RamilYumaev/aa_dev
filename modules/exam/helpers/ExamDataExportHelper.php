@@ -19,7 +19,7 @@ class ExamDataExportHelper
         $exam = Exam::findOne($examId);
         $aisIdDiscipline = $exam->discipline->ais_id;
         $cse = $exam->discipline->cse_subject_id;
-        $disciplineCg = $exam->discipline->disciplineCgAisColumn($filial);
+        $disciplineCg = $exam->discipline->disciplineCgAisColumn($filial, $type);
         $examAttempts = ExamAttempt::find()->type($type)->exam($exam->id)->select(['exam_attempt.user_id', 'mark'])->joinWith('statement')
             ->andWhere(['statement.faculty_id' => $filial ? $filial : Faculty::find()->andWhere(['filial' => false])->column()])
             ->andWhere(['statement.status' => StatementHelper::STATUS_ACCEPTED])

@@ -88,7 +88,7 @@ class TestingEntrantDict extends ActiveRecord
         return [
             self::STATUS_NEW => ['name' => "Новая", 'color'=> 'warning'],
             self::STATUS_WORK => ['name' => "Взято в работу", 'color'=> 'primary'],
-            self::STATUS_SUCCESS => ['name' => "Принято", 'color'=> 'success'],
+            self::STATUS_SUCCESS => ['name' => "Выполнено", 'color'=> 'success'],
             self::STATUS_FIX => ['name' => 'Исправлено', 'color'=> 'info'],
             self::STATUS_FIX_SUCCESS => ['name' => "Принято с исправлением", 'color'=> 'success'],
             self::STATUS_ERROR => ['name' => "Ошибка", 'color'=> 'danger'],

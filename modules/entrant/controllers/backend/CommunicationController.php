@@ -136,6 +136,14 @@ class CommunicationController extends Controller
         }
     }
 
+    public function actionIaJson($user, $idIa) {
+        $model = Profiles::find()
+            ->alias('profiles')
+            ->innerJoin(StatementIndividualAchievements::tableName(), StatementIndividualAchievements::tableName() . '.user_id=profiles.user_id')
+            ->andWhere(['>', StatementIndividualAchievements::tableName() . '.status', StatementHelper::STATUS_DRAFT])
+            ->andWhere(['profiles.user_id' => $user])->one();
+        return Json::encode(DataExportHelper::dataIncomingStatementIa($model->user_id, $idIa));
+    }
 
     /**
      * @param integer $user
@@ -321,6 +329,11 @@ class CommunicationController extends Controller
 
             return $this->redirect(\Yii::$app->request->referrer);
         }
+    }
+
+    public function actionOrgJson($agreementId){
+        $model = Agreement::findOne($agreementId);
+        return $data = Json::encode(DataExportHelper::dataIncomingAgreement($model));
     }
 
     /**
@@ -853,6 +866,11 @@ class CommunicationController extends Controller
         return $this->render('form');
     }
 
+    public function actionContractJson($id, $status) {
+        $model = StatementAgreementContractCg::findOne($id);
+        return Json::encode(DataExportHelper::dataContractStatus($model, $status));
+
+    }
 
     /**
      * @param integer $status
