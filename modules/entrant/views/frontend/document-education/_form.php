@@ -19,7 +19,6 @@ use kartik\date\DatePicker;
                 Если в Вашем документе об образовании нет явного разделения на серию и номер документа,<br/>
                 то условно можно считать, что буквы относятся к серии, цифры к номеру документа.
                 Если же в Вашем документе только цифры без разделителя, <br/>то первые 4 цифры это серия, остальное - номер</p>
-            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=> json_encode([3]), 'document' => $model->type_document, 'version' =>  $model->version_document])?>
             <?php $form = ActiveForm::begin(['id'=> 'form-school-user']); ?>
             <?= $form->field($model, 'school_id')->dropDownList(UserSchoolHelper::userSchoolAll($model->user_id)) ?>
             <?= $form->field($model, 'series')->textInput(['maxlength' => true]) ?>
@@ -32,9 +31,6 @@ use kartik\date\DatePicker;
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
             </div>
-            <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
-                <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form, 'oldData' => $model->other_data ]) ?>
-            <?php endif; ?>
             <?= $form->field($model, 'type')->dropDownList(DictIncomingDocumentTypeHelper::listEducation($model->typeAnketa)) ?>
             <div class="form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

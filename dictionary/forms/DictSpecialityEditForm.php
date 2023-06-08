@@ -30,7 +30,6 @@ class DictSpecialityEditForm extends Model
     {
         return [
             [['code', 'name','short', 'edu_level','series','number', 'date_begin', 'date_end'], 'required'],
-            [['date_begin', 'date_end'], 'date', 'format' => "Y-m-d"],
             [['name','series','number'], 'string'],
             [['code'], 'string', 'max' => 8],
             [['short'], 'string', 'max' => 10],

@@ -9,7 +9,7 @@ use modules\entrant\helpers\PostDocumentHelper;
 <table class="table table-bordered">
     <tr>
         <th>#</th>
-        <th>Факультет</th>
+        <th>Подразделение</th>
         <th>Направление подготовки</th>
         <th>Уровень образования</th>
         <th>Основание приема</th>

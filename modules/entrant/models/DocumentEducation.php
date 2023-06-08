@@ -232,7 +232,8 @@ class DocumentEducation extends YiiActiveRecordAndModeration implements DataMode
 
     public function isDataNoEmpty(): bool
     {
-        $arrayNoRequired = ['user_id', 'original','patronymic', 'without_appendix'];
+        $arrayNoRequired = ['user_id', 'original','patronymic', 'without_appendix',
+            'type_document','version_document', 'other_data'];
         if(!$this->name && !$this->surname)
         {
             array_push($arrayNoRequired, 'surname','name');

@@ -46,10 +46,12 @@ class FileService
     }
 
     public function correctImageFile(UploadedFile $file) {
-        $array = ["image/png", 'image/jpeg'];
+        $array = ["image/png", 'image/jpeg',
+            'application/pdf', 'application/x-pdf',
+            'application/x-bzpdf', 'application/x-gzpdf'];
         $type = IfFile::getMimeType($file->tempName, null, false);
         if (!in_array($type, $array)) {
-            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg');
+            throw new \DomainException('Неверный тип файла, разрешено загружать только файлы с расширением jpg, png, pdf');
         }
     }
 

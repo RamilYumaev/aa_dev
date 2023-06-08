@@ -50,7 +50,7 @@ class CopyCgController  extends Controller
                 DictSpecialization::aisToSdoConverter($aisCg->specialization_id),
                 DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id),
                 $aisCg->financing_type_id,
-                "2021-2022",
+                "2022-2023",
                 $aisCg->special_right_id, $aisCg->foreigner_status, $aisCg->spo_class);
 
             if ($sdoCg !== null) {
@@ -77,7 +77,7 @@ class CopyCgController  extends Controller
             $model->spo_class = $aisCg->spo_class;
             $model->ais_id = $aisCg->id;
             $model->link = $aisCg->site_url;
-            $model->year = "2021-2022";
+            $model->year = "2022-2023";
             $model->foreigner_status = $aisCg->foreigner_status;
             $model->save();
             $key++;
@@ -128,7 +128,7 @@ class CopyCgController  extends Controller
             if (DisciplineCompetitiveGroup::findOne([
                 'discipline_id' => DictDiscipline::aisToSdoConverter($disciplineId),
                 'competitive_group_id' => DictCompetitiveGroup::aisToSdoConverter($discipline->competitive_group_id,
-                    "2021-2022")])) {
+                    "2022-2023")])) {
                 continue;
             } else {
                 $model = new DisciplineCompetitiveGroup();
@@ -136,7 +136,7 @@ class CopyCgController  extends Controller
 
             $model->discipline_id = DictDiscipline::aisToSdoConverter($disciplineId);
             $model->competitive_group_id = DictCompetitiveGroup::aisToSdoConverter(
-                $discipline->competitive_group_id, "2021-2022");
+                $discipline->competitive_group_id, "2022-2023");
             $model->priority = $discipline->priority;
             $model->spo_discipline_id = $disciplineSpo ?  DictDiscipline::aisToSdoConverter($disciplineSpo) : null;
             $model->save();
@@ -170,7 +170,7 @@ class CopyCgController  extends Controller
         $cgCathedra = cathedraCgAis::find()->all();
         if ($cgCathedra) {
             foreach ($cgCathedra as $cathedra) {
-                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->andWhere(['year' => '2021-2022' ])->one();
+                $cg = DictCompetitiveGroup::find()->andWhere(['ais_id' => $cathedra->competitive_group_id])->andWhere(['year' => '2022-2023' ])->one();
                 if (!$cg) {
                     return "Отсутствует конкурсная группа $cathedra->competitive_group_id";
                 }
@@ -199,7 +199,7 @@ class CopyCgController  extends Controller
        $ias = DictIncomingIndividualAchievement::find()->all();
        /* @var $ia \modules\dictionary\models\ais\DictIncomingIndividualAchievement */
        foreach($ias as $ia)  {
-           if ($this->getIA2022($ia->id)) {
+           if ($this->getIA2023($ia->id)) {
                continue;
            }
           $new = new DictIndividualAchievement();
@@ -219,11 +219,11 @@ class CopyCgController  extends Controller
         $aisIaCg = iaCgAis::find()->all();
         if ($aisIaCg) {
             foreach ($aisIaCg as $iaAis) {
-                $sdoCg = DictCompetitiveGroup::findOne(['ais_id' => $iaAis->competitive_group_id, 'year' => "2021-2022"]);
+                $sdoCg = DictCompetitiveGroup::findOne(['ais_id' => $iaAis->competitive_group_id, 'year' => "2022-2023"]);
                 if (!$sdoCg) {
                     return "конкурсная группа АИС $iaAis->competitive_group_id не найдена";
                 }
-                $model = $this->getIA2022($iaAis->individual_achievement_id);
+                $model = $this->getIA2023($iaAis->individual_achievement_id);
 
                 if (!$model) {
                     return "ИД АИС $iaAis->individual_achievement_id не найдено";
@@ -275,9 +275,9 @@ class CopyCgController  extends Controller
         return "Удача!";
     }
 
-    private function getIA2022($id)
+    private function getIA2023($id)
     {
-        return DictIndividualAchievement::findOne(['year' => 2022, 'ais_id' => $id]);
+        return DictIndividualAchievement::findOne(['year' => 2023, 'ais_id' => $id]);
     }
 
     private function getIaCg($iaId, $cgId)

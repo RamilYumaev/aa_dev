@@ -28,15 +28,8 @@ $docUrl = Html::a("Ознакомиться", 'https://docs.google.com/document/
                 <?php $form = ActiveForm::begin(['id' => 'anketa-form', 'options' => ['autocomplete' => 'off']]); ?>
                 <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList(),
                     ['prompt' => 'Выберите страну']) ?>
-                <?= $form->field($model, 'province_of_china')->dropDownList(ProvinceOfChinaHelper::getName(),
-                    ['prompt' => 'Выберите провинцию']) ?>
                 <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
                 <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
-                <?= $form->field($model, 'category_id')->dropDownList([]) ?>
-                <?= $form->field($model, 'is_dlnr_ua')->checkbox() ?>
-                <?= $form->field($model, 'personal_student_number')->textInput(['maxlength' => true, 'placeholder' => "CHN-0143/19"]) ?>
-                <?= $form->field($model, 'speciality_spo')
-                    ->dropDownList(['' => 'Другое']+\dictionary\helpers\DictSpecialityHelper::specialityNameAndCodeEduLevelList(\dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO)) ?>
                 <?= $form->field($model, 'is_agree')->checkbox([
                     'template' => "{beginWrapper}\n<div class=\"checkbox\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n</div>
                 $docUrl\n{error}\n{endWrapper}\n{hint}",
@@ -49,7 +42,6 @@ $docUrl = Html::a("Ознакомиться", 'https://docs.google.com/document/
                 </div>
             </div>
         </div>
-        <p>* - если Вы закончили специалитет набора 2011 года или позднее, обратитесь к специалистам приёмной комиссии для уточнения квалификации: priem@mpgu.su.</p>
     </div>
 
 <?php

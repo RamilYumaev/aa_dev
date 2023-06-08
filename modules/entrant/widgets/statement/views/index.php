@@ -14,7 +14,7 @@ use modules\entrant\helpers\BlockRedGreenHelper;
     <div class="panel-body">
         <table class="table table-bordered">
             <?php foreach ($statements as $statement):  ?>
-                <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages) ?>">
+                <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages, true) ?>">
                     <td><?= $statement->numberStatement ?></td>
                     <td><?= Html::a('Скачать заявление', ['statement/pdf', 'id' =>  $statement->id],
                             ['class' => 'btn btn-large btn-warning'])?>

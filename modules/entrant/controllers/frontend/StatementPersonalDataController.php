@@ -43,7 +43,7 @@ class StatementPersonalDataController extends Controller
         $render = $pdf->render();
 
         try {
-            $this->service->addCountPages($statementPd->user_id, count($pdf->getApi()->pages));
+            $this->service->addCountPages($statementPd->user_id, 1);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

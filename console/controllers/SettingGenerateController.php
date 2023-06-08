@@ -113,8 +113,8 @@ class SettingGenerateController extends Controller
                                             $model->note = "Настройка № $key";
                                             $model->faculty_id = $depart;
                                             $model->form_edu = $form;
-                                            $model->datetime_start = '2022-06-20 10:00:00';
-                                            $model->datetime_end = '2022-08-31 00:00:00';
+                                            $model->datetime_start = '2023-06-08 10:00:00';
+                                            $model->datetime_end = '2023-08-15 18:00:00';
                                             $model->cse_as_vi = $cVi;
                                             $model->is_vi = $dopVi;
                                             $model->type = $typeApp;

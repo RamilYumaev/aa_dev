@@ -9,7 +9,7 @@ class CgExamAis extends ActiveRecord
 
     public static function tableName()
     {
-        return "2022_dict_incoming_competitive_group_entrance_examination";
+        return "2023_dict_incoming_competitive_group_entrance_examination";
     }
 
 }

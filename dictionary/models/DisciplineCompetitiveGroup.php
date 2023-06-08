@@ -54,7 +54,7 @@ class DisciplineCompetitiveGroup extends ActiveRecord
             'discipline_id' => 'Дисциплина',
             'competitive_group_id' => 'Конкурсная группа',
             'priority' => 'Приоритет',
-            'spo_discipline_id'=> 'Специалная дисциплина для СПО'
+            'spo_discipline_id'=> 'Специальная дисциплина для СПО'
         ];
     }
 

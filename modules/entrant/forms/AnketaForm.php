@@ -14,18 +14,18 @@ class AnketaForm extends Model
 
     public function __construct(Anketa $anketa = null, $config = [])
     {
+        $this->category_id = 1;
+        $this->is_dlnr_ua = 0;
         if ($anketa) {
             $this->citizenship_id = $anketa->citizenship_id;
             $this->is_agree = $anketa->is_agree;
             $this->current_edu_level = $anketa->current_edu_level;
-            $this->category_id = $anketa->category_id;
-            $this->is_dlnr_ua = $anketa->is_dlnr_ua;
             $this->user_id = $anketa->user_id;
             $this->province_of_china = $anketa->province_of_china;
             $this->personal_student_number = $anketa->personal_student_number;
             $this->is_foreigner_edu_organization = $anketa->is_foreigner_edu_organization;
             $this->speciality_spo = $anketa->speciality_spo;
-        }else{
+        } else {
             $this->user_id = \Yii::$app->user->identity->getId();
         }
         parent::__construct($config);

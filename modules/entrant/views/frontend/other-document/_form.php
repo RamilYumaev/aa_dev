@@ -33,9 +33,6 @@ use yii\helpers\Html;
         <?php if(in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE])  && $model->exemption_id == 4): ?>
             <?= $form->field($model, 'reception_quota')->dropDownList((new \modules\entrant\models\OtherDocument())->getReceptionList()) ?>
         <?php endif; ?>
-        <?php if($model->getDocumentsDynamicForm()->getFields()): ?>
-            <?= \modules\superservice\widgets\FormVersionDocumentsWidgets::widget(['dynamicModel' => $model->getDocumentsDynamicForm(), 'form'=> $form, 'oldData' => $model->other_data ]) ?>
-        <?php endif; ?>
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
