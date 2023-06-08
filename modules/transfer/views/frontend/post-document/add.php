@@ -11,11 +11,11 @@ use yii\helpers\Html;
 <div class="mt-20 table-responsive">
     <?php $form = ActiveForm::begin(['id'=> 'form-transfer']); ?>
     <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget())
-    ->label($model->isRemove() ? 'Дата приказа об отчислении' : 'Дата выдачи') ?>
+    <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget())->label($model->isRemove() ? 'Дата приказа об отчислении' : 'Дата выдачи') ?>
     <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
     <?php if($model->isRemove()): ?>
-        <?= $form->field($model, 'note')->textInput(['maxlength' => true])->label('Причина отчисления') ?>
+        <?= $form->field($model, 'cause_id')->dropDownList($model->listCauses())->label('Причина отчисления') ?>
+        <?= $form->field($model, 'note')->textInput(['maxlength' => true])->label('Другая причина отчисления') ?>
     <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

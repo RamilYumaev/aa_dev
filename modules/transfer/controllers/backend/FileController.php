@@ -6,6 +6,8 @@ use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\transfer\models\File;
 use modules\entrant\searches\FileSearch;
+use modules\transfer\models\PassExamProtocol;
+use modules\transfer\models\PassExamStatement;
 use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\services\FileService;
@@ -202,14 +204,18 @@ class FileController extends Controller
             } else {
                 $arrayCount = $model->count_pages;
             }
-            $true = $arrayCount ==  File::find()->andWhere(['user_id' => $model->statement->user_id, 'model' => $model::className()
+            if(in_array($model::className() ,[PassExamProtocol::class, PassExamStatement::class])) {
+                $user = $model->passExam->statement->user_id;
+            }else {
+                $user = $model->statement->user_id;
+            }
+            $true = $arrayCount ==  File::find()->andWhere(['user_id' => $user, 'model' => $model::className()
                     , 'record_id' => $model->id])->count();
             if($true) {
                 throw new \DomainException('Вы загрузили достаточное количество файлов!');
             }
-            $modelFile  = File::create($form->file_name,  $model->statement->user_id, $model::className(), $model->id);
+            $modelFile  = File::create($form->file_name,  $user, $model::className(), $model->id);
             $modelFile->save();
-
             return $modelFile;
         }
     }
@@ -217,7 +223,6 @@ class FileController extends Controller
     public function actionSend($userId) {
         try {
             $this->submittedDocumentsService->examSend($userId);
-            return $this->redirect('/');
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

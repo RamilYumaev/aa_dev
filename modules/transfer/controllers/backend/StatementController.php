@@ -65,6 +65,25 @@ class StatementController extends Controller
 
     /**
      * @param $id
+     * @param $gia
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionIsGia($id, $gia)
+    {
+        $model = $this->findModel($id);
+        try {
+            $model->is_gia = $gia;
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
      * @param $status
      * @return Response
      * @throws NotFoundHttpException

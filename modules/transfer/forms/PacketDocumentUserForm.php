@@ -26,12 +26,15 @@ class PacketDocumentUserForm extends PacketDocumentUser
         return [
             [['number', 'authority', 'date'], 'required', 'when' => function($model) {
                 return $model->packet_document !=  self::PACKET_DOCUMENT_BOOK; },],
-            [['note'], 'required', 'when' =>
+            [['cause_id'], 'required', 'when' =>
                 function($model) {
                     return $model->packet_document ==  self::PACKET_DOCUMENT_REMOVE; },
             ],
-            [['date'], MaxDateValidate::class],
-            [['date'], 'date', 'format' => 'd.m.Y'],
+            [['note'], 'required', 'when' =>
+                function($model) {
+                    return $model->cause_id == 5; },
+            ],
+            [['date'], MaxDateValidate::class]
             ];
     }
 

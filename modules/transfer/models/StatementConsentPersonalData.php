@@ -50,6 +50,10 @@ class  StatementConsentPersonalData extends ActiveRecord
         return $this->getFiles()->count();
     }
 
+    public function countFilesINSend() {
+        return $this->getFiles()->andWhere(['>', 'status', 0])->count();
+    }
+
     public function countFilesAndCountPagesTrue() {
         return $this->count_pages && $this->count_pages == $this->countFiles();
     }

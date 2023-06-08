@@ -34,11 +34,7 @@ Box::begin(
             ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите допустить к аттестации?"]]) : ""?>
 <?php endif; ?>
   <h4><?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?></h4>
-   <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?>
-       <?= FileWidget::widget(['record_id' => $model->passExam->id, 'model' => \modules\transfer\models\PassExam::class ]) ?>
-       <?= $model->passExam->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
-           ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
-   </p>
+   <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?></p>
    <?php if ($model->passExam->isPassYes()) :?>
     <p> Статус: <?= $list[$model->passExam->success_exam] ?> <br/>
         <?=
@@ -54,7 +50,37 @@ Box::begin(
        ?>
     </p>
     <?php endif; ?>
-    <?= FileListWidget::widget(['record_id' => $model->passExam->id, 'model' => \modules\transfer\models\PassExam::class, 'userId' => $model->user_id ]) ?>
+    <?php if(!$model->passExam->passExamStatement): ?>
+    <?= Html::a('Открыть доступ к загрузке файла "Зааявление"', ['pass-exam/statement', 'id' => $model->passExam->id],
+    ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите это сделать?"]]) ?>
+    <?php else: ?>
+    <?php Box::begin(
+    ["header" => "Заявление",
+    "type" => Box::TYPE_WARNING,
+    "icon" => 'list',
+    "filled" => true,]) ?>
+    <?= FileWidget::widget(['record_id' => $model->passExam->passExamStatement->id, 'model' => \modules\transfer\models\PassExamStatement::class ]) ?>
+    <?= $model->passExam->passExamStatement->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
+        ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
+    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamStatement->id, 'model' => \modules\transfer\models\PassExamStatement::class, 'userId' => $model->user_id ]) ?>
+        <?php Box::end() ?>
+    <?php endif; ?>
+
+    <?php if(!$model->passExam->passExamProtocol): ?>
+        <?= Html::a('Открыть доступ к загрузке файла "Протокол"', ['pass-exam/protocol', 'id' => $model->passExam->id],
+        ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите это сделать?"]]) ?>
+    <?php else: ?>
+    <?php Box::begin(
+        ["header" => "Протокол",
+            "type" => Box::TYPE_INFO,
+            "icon" => 'book',
+            "filled" => true,]) ?>
+    <?= FileWidget::widget(['record_id' => $model->passExam->passExamProtocol->id, 'model' => \modules\transfer\models\PassExamProtocol::class ]) ?>
+    <?= $model->passExam->passExamProtocol->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
+        ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
+    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamProtocol->id, 'model' => \modules\transfer\models\PassExamProtocol::class, 'userId' => $model->user_id ]) ?>
+    <?php Box::end() ?>
+    <?php endif; ?>
 <?php endif; ?>
 <?php Box::end() ?>
 

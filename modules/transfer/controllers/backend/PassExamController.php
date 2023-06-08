@@ -5,6 +5,8 @@ namespace modules\transfer\controllers\backend;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\helpers\StatementHelper;
 use modules\transfer\models\PassExam;
+use modules\transfer\models\PassExamProtocol;
+use modules\transfer\models\PassExamStatement;
 use modules\transfer\search\PassExamSearch;
 use modules\transfer\search\StatementSearch;
 use modules\entrant\services\StatementService;
@@ -94,8 +96,44 @@ class PassExamController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * @param $id
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionStatement($id)
+    {
+        $this->findModelPassExam($id);
+        try {
+            $model = new PassExamStatement();
+            $model->pass_exam_id = $id;
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
     /**
+     * @param $id
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionProtocol($id)
+    {
+        $this->findModelPassExam($id);
+        try {
+            $model = new PassExamProtocol();
+            $model->pass_exam_id = $id;
+            $model->save();
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    /*
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException

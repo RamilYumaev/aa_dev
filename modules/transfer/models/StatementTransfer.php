@@ -31,6 +31,7 @@ use yii\db\ActiveRecord;
  * @property integer $cg_id
  * @property integer $faculty_id
  * @property integer $is_protocol
+ * @property integer $is_gia
  *
  **/
 

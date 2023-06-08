@@ -14,6 +14,8 @@ use modules\transfer\helpers\ContractHelper;
 use modules\transfer\models\File;
 use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\PassExam;
+use modules\transfer\models\PassExamProtocol;
+use modules\transfer\models\PassExamStatement;
 use modules\transfer\models\StatementAgreementContractTransferCg;
 use modules\transfer\models\StatementConsentPersonalData;
 use modules\transfer\models\StatementTransfer;
@@ -55,12 +57,12 @@ class SubmittedDocumentsService
 
     public function examSend($userId)
     {
-            $files = File::find()->model(PassExam::class)->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
+        $files = File::find()->model([PassExamProtocol::class, PassExamStatement::class])->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
             /* @var $statement \modules\entrant\models\File */
-            foreach ($files as $file) {
-                $file->setStatus(FileHelper::STATUS_SEND);
-                $file->save($file);
-            }
+        foreach ($files as $file) {
+            $file->setStatus(FileHelper::STATUS_SEND);
+            $file->save($file);
+        }
     }
 
 

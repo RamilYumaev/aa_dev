@@ -1,139 +1,23 @@
 <?php
 /* @var $this yii\web\View */
 
-use modules\entrant\helpers\AddressHelper;
 use olympic\helpers\auth\ProfileHelper;
 use modules\entrant\helpers\PassportDataHelper;
 
 /* @var $statementPd modules\transfer\models\StatementConsentPersonalData */
 $profile = ProfileHelper::dataArray($statementPd->user_id);
 $passport = PassportDataHelper::dataArray($statementPd->user_id);
-$reg = AddressHelper::registrationResidence($statementPd->user_id);
 ?>
-
-<h2 align="center"><u>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</u></h2>
-<table class="table table-bordered app-table">
-    <tr>
-        <td>Фамилия,  имя, отчество,  дата рождения </td>
-        <td align="left" style="padding: 5px">Я, <?=$profile['last_name']?> <?= $profile['first_name'] ?> <?=$profile['patronymic']?>  (далее Субъект),
-        <br /> <?= $passport['date_of_birth'] ?> года рождения</td>
-    </tr>
-    <tr>
-        <td>Документ, удостоверяющий личность</td>
-        <td align="left" style="padding: 5px">паспорт серия: <?= $passport['series'] ?>, номер: <?= $passport['number'] ?>, выдан: <?= $passport['authority'] ?>, дата выдачи: <?= $passport['date_of_issue'] ?></td>
-    </tr>
-    <tr>
-        <td>Адрес регистрации</td>
-        <td align="left" style="padding: 5px">Зарегистрированный(ая) по адресу: <?= $reg['full'] ?> </td>
-    </tr>
-    <tr>
-        <td>Контактный телефон</td>
-        <td align="left" style="padding: 5px">Тел.: <?= $profile['phone'] ?></td>
-    </tr>
-    <tr>
-        <td>Адрес электронной почты</td>
-        <td align="left" style="padding: 5px">e-mail: <?= $profile['email'] ?> </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="left" style="padding: 5px">в соответствии со статьей 9 Федерального закона от 27 июля 2006 № 152-ФЗ «О персональных данных» даю свободно, своей волей и в своем интересе согласие федеральному государственному бюджетному образовательному учреждению высшего образования «Московский педагогический государственный университет» (далее – Оператор), с местом нахождения в городе Москве, ул. Малая Пироговская, дом 1,
-            стр. 1, на обработку своих персональных данных
-        </td>
-    </tr>
-    <tr>
-        <td>Цель обработки</td>
-        <td align="left" style="padding: 5px"><ul><li>осуществление обеспечения организации учебного процесса;</li>
-                <li>ведение научной, организационной и финансово-экономической деятельности Оператора;</li>
-                <li>выполнение требований законодательства Российской Федерации об образовании, обязательном социальном страховании и обязательном пенсионном страховании, приказов Министерства образования и науки Российской Федерации, в том числе требований ФГОС ВО;</li>
-                <li>предоставление мер социальной поддержки;</li>
-                <li>осуществление деятельности в соответствии с уставом Оператора.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Перечень обрабатываемых персональных данных</td>
-        <td align="left" style="padding: 5px">
-            <ul>
-            <li>фамилия, имя, отчество;</li>
-                <li>пол;</li>
-                <li>дата и место рождения;</li>
-                <li>сведения о гражданстве (отсутствии гражданства);</li>
-                <li>сведения о документе, удостоверяющем личность (вид документа, его серия и номер, кем и когда выдан);</li>
-                <li>адрес регистрации по месту жительства и фактического проживания;</li>
-                <li>сведения об образовании, документе об образовании и (или) о квалификации, документе об обучении;</li>
-                <li>сведения о семейном положении, составе семьи;</li>
-                <li>отношение к воинской обязанности;</li>
-                <li>сведения о трудовом стаже, месте работы;</li>
-                <li>СНИЛС;</li>
-                <li>ИНН;</li>
-                <li>номера телефонов;</li>
-                <li>адрес электронной почты.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="left" style="padding: 5px">Субъект дает согласие на обработку Оператором своих персональных данных, то есть совершение, в том числе, следующих действий включая
-            без ограничения:
-        </td>
-    </tr>
-    <tr>
-        <td>Перечень действий с персональными
-            данными
-        </td>
-        <td align="left" style="padding: 5px">
-            Обработку (включая  сбор,  систематизацию,  накопление,  хранение,  уточнение  (обновление,  изменение)),
-            использование, распространение   (в   том   числе   передачу),   обезличивание,   блокирование,   уничтожение
-            персональных данных, передачу такой информации третьим лицам, в случаях, установленных законодательством
-            Российской Федерации.
-        </td>
-    </tr>
-    <tr>
-        <td>Способы обработки Оператором персональных данных
-        </td>
-        <td align="left" style="padding: 5px"><ul>
-                <li>с использованием автоматизированных средств обработки персональных данных;</li>
-                <li>без использования средств автоматизации.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Срок действия
-            согласия
-        </td>
-        <td align="left" style="padding: 5px">Настоящее согласие на обработку персональных данных действует с момента его подписания и до истечения
-            срока хранения личного дела Субъекта.
-        </td>
-    </tr>
-</table>
-<p>Передача моих персональных данных иным лицам или иное их разглашение может осуществляться только с моего письменного согласия. Я оставляю за собой право отозвать свое согласие посредством составления соответствующего письменного заявления.</p>
-<p>Подтверждаю, что ознакомлен(а) с положениями Федерального закона от 27 июля 2006 г. № 152-ФЗ «О персональных данных», права и обязанности в области защиты персональных данных мне разъяснены.</p>
-
-<table width="100%" class="mt-50">
-    <tr>
-        <td width="5px">«</td>
-        <td width="25px" class="bb"></td>
-        <td width="5px">»</td>
-        <td class="bb"></td>
-        <td width="15px">202</td>
-        <td width="15px" class="bb"></td>
-        <td>год</td>
-        <td></td>
-        <td width="150px" class="bb"></td>
-        <td></td>
-        <td width="150px" class="bb"></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td width="5px"></td>
-        <td width="25px"></td>
-        <td width="5px"></td>
-        <td></td>
-        <td width="15px"></td>
-        <td width="15px"></td>
-        <td></td>
-        <td></td>
-        <td width="150px" class="fs-7 text-center"><i>(подпись Субъекта)</i></td>
-        <td></td>
-        <td width="150px" class="fs-7 text-center"><i>(ФИО)</i></td>
-        <td></td>
-    </tr>
-</table>
+<?php if (!$statementPd->countFilesINSend()): ?>
+    <?php if ($passport['age'] > 17): ?>
+        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd]) ?>
+    <?php else: ?>
+        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd]) ?>
+    <?php endif; ?>
+<?php else: ?>
+    <?php if ($statementPd->count_pages == 4): ?>
+        <?= $this->render("_main_adult", ['profile' => $profile, 'statementPd' => $statementPd]) ?>
+    <?php else: ?>
+        <?= $this->render("_main_minor", ['profile' => $profile, 'statementPd' => $statementPd]) ?>
+    <?php endif; ?>
+<?php endif; ?>

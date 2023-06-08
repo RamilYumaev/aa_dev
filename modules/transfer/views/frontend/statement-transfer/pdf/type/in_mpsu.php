@@ -43,7 +43,7 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а)"]) ?>
+<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а)", 'about' => 'возможности восстановления']) ?>
 <p class="fs-15">
     В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.<br/>

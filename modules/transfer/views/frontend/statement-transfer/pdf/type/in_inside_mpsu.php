@@ -49,7 +49,7 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а) и переведен(а)"]) ?>
+<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а) и переведен(а)", 'about' => 'возможности восстановления']) ?>
 <p align="justify" class="fs-15">В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
 Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.

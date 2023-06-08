@@ -9,7 +9,7 @@ $edu = $statement->currentEducation;
 $docPeriod = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_PERIOD);
 $cg = $statement->cg;
 ?>
-<p class="fs-15" align="justify">Прошу перевести меня из <?= $edu->school_name ?>,
+<p class="fs-15" align="justify">Прошу зачислить в порядке перевода из <?= $edu->school_name ?>,
     образовательная программа <?= $edu->speciality ?><?= $edu->specialization ? ', '.$edu->specialization:''?>,
     форма обучения <?= mb_strtolower($edu->formEdu)  ?>, <?= $edu->dictCourse->name ?> курс,
     обучаюсь на <?= $edu->finance == 1 ? 'бюджетной': 'платной' ?> основе,
@@ -49,7 +49,7 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block', ['message' => "Претендент может быть зачислен(а) в порядке перевода"]) ?>
+<?= $this->render('_block', ['message' => "Претендент может быть зачислен(а) в порядке перевода", 'about' => 'возможности зачисления в порядке перевода']) ?>
     <p class="fs-15" align="justify">
 В Приемную комиссию представлена справка о периоде обучения № <?= $docPeriod->number ?> <?= $edu->school_name ?>
     </p>

@@ -33,6 +33,8 @@ $job = Yii::$app->user->identity->jobEntrant();
     ['class' => 'btn btn-success']) : "" ?>
     <?= $model->statusNewJob() ? Html::a('Взять в работу', ['statement/status-view', 'id' => $model->id],
     ['class' => 'btn btn-info', 'data' =>["confirm" => "Вы уверены, что хотите взять заявление в работу?"]]) : "" ?>
+    <?= $model->statusAccepted() ? (!$model->is_gia ? Html::a('ГИА', ['statement/is-gia', 'id' => $model->id, 'gia' => 1 ],
+    ['class' => 'btn btn-warning pull-right', 'data' =>["confirm" => "Вы уверены, что хотите это сделать?"]]): Html::tag('span', 'ГИА', ['class' => 'pull-right']) ) : "" ?>
     <span class="label label-<?= StatementHelper::colorName($model->status)?>">
                         <?=$model->statusNameJob?></span>
                 <h4>Куда осуществляется перевод/восстановление?</h4>

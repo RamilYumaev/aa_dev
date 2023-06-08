@@ -28,7 +28,8 @@ use modules\entrant\models\UserDiscipline;
 use modules\entrant\readRepositories\FileReadCozRepository;
 use modules\transfer\models\LegalEntityTransfer;
 use modules\transfer\models\PacketDocumentUser;
-use modules\transfer\models\PassExam;
+use modules\transfer\models\PassExamProtocol;
+use modules\transfer\models\PassExamStatement;
 use modules\transfer\models\PersonalEntityTransfer;
 use modules\transfer\models\ReceiptContractTransfer;
 use modules\transfer\models\StatementAgreementContractTransferCg;
@@ -95,7 +96,8 @@ class FileHelper
             PacketDocumentUser::class,
             ReceiptContract::class,
             UserDiscipline::class,
-            PassExam::class,
+            PassExamStatement::class,
+            PassExamProtocol::class,
             PersonalEntityTransfer::class,
             LegalEntityTransfer::class,
             StatementAgreementContractTransferCg::class,
@@ -164,7 +166,8 @@ class FileHelper
             StatementTransfer::class => 0,
             PacketDocumentUser::class => 20,
             ReceiptContract::class => 0,
-            PassExam::class=>8,
+            PassExamProtocol::class => 10,
+            PassExamStatement::class => 5,
             PersonalEntityTransfer::class=>2,
             LegalEntityTransfer::class=>3,
             StatementAgreementContractTransferCg::class=>4,
@@ -197,7 +200,8 @@ class FileHelper
             StatementTransfer::class => 'st-transfer',
             PacketDocumentUser::class => 'packet',
             UserDiscipline::class =>'ct',
-            PassExam::class => 'exam-pass',
+            PassExamProtocol::class => 'exam-pass-protocol',
+            PassExamStatement::class => 'exam-pass-statement',
             PersonalEntityTransfer::class=>'personal_t',
             LegalEntityTransfer::class=>'legal_t',
             StatementAgreementContractTransferCg::class=> 'st-agreement-t',
@@ -230,7 +234,8 @@ class FileHelper
             UserDiscipline::class =>'Сертификаты ЦТ',
             StatementTransfer::class => 'Заявление перевода/восстановления',
             PacketDocumentUser::class => 'СКАНЫ',
-            PassExam::class => 'Файлы',
+            PassExamStatement::class => 'Файлы',
+            PassExamProtocol::class => 'Файлы',
             StatementAgreementContractTransferCg::class=> 'Договор',
             PersonalEntityTransfer::class=>"Данные заказчика (Ф)",
             LegalEntityTransfer::class=>"Данные заказчика (Ю)",

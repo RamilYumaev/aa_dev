@@ -74,6 +74,14 @@ class PassExam extends ActiveRecord
         return $this->hasOne(StatementTransfer::class, ['id' => 'statement_id']);
     }
 
+    public function getPassExamStatement() {
+        return $this->hasOne(PassExamStatement::class, ['pass_exam_id' => 'id']);
+    }
+
+    public function getPassExamProtocol() {
+        return $this->hasOne(PassExamProtocol::class, ['pass_exam_id' => 'id']);
+    }
+
     public function countFiles() {
         return $this->getFiles()->count();
     }

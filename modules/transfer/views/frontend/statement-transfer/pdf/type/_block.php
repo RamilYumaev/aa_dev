@@ -1,7 +1,11 @@
+<?php
+/** @var string $message */
+/** @var string $about */
+?>
 <div class="bg-black h-5 mt-20"></div>
 <table class="fs-15 mt-25">
     <tr><td width="45%" valign="top">Руководителю учебного структурного подразделения</td><td colspan="2"><p align="justify">Прошу провести аттестационное испытание,
-                определить академическую разницу и высказать Ваше мнение о возможности восстановления</p></td></tr>
+                определить академическую разницу и высказать Ваше мнение о <?= $about ?></p></td></tr>
     <tr><td class="bb"></td></tr>
 </table>
 <table width="100%" class="fs-15 mt-25">

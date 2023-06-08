@@ -113,7 +113,7 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2023-02-05 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2024-04-05 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
     }
 
     public function getStartGraduate() {

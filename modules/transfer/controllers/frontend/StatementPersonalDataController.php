@@ -40,7 +40,7 @@ class StatementPersonalDataController extends Controller
         $pdf = PdfHelper::generate($content, FileCgHelper::fileNamePD('.pdf'));
         $render = $pdf->render();
         try {
-            $statementPd->setCountPages($pdf->getApi()->pages);
+            $statementPd->setCountPages(count($pdf->getApi()->pages));
             $statementPd->save();
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
