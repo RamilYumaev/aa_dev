@@ -1,11 +1,11 @@
 <?php
 
-namespace modules\entrant\migrations;
+namespace modules\dictionary\migrations;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Talons;
 use \yii\db\Migration;
 
-class m191208_000143_add_columns_talons extends Migration
+class m200332_104171_add_columns_talons extends Migration
 {
     private function table() {
         return Talons::tableName();

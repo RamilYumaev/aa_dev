@@ -1,13 +1,13 @@
 <?php
 
-namespace modules\entrant\migrations;
+namespace modules\dictionary\migrations;
 
 use api\providers\User;
 use dictionary\models\DictCompetitiveGroup;
 use modules\entrant\models\AnketaCi;
 use modules\entrant\models\Talons;
 
-class m191208_000107_add_check_talon_table extends \yii\db\Migration
+class m200332_104171_add_check_talon_table extends \yii\db\Migration
 {
     private function table()
     {

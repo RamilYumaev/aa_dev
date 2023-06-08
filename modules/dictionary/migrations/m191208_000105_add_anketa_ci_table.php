@@ -1,5 +1,5 @@
 <?php
-namespace modules\entrant\migrations;
+namespace modules\dictionary\migrations;
 use common\auth\models\User;
 
 class m191208_000105_add_anketa_ci_table extends \yii\db\Migration {
