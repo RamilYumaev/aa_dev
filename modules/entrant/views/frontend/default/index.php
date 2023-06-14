@@ -130,6 +130,9 @@ include 'navigation/index.html';
         <?php endif; ?>
     <?php endif; ?>
     <div class="mt-20 table-responsive">
+        <?= \modules\entrant\widgets\other\MedicineOtherWidget::widget(['userId' => $userId]); ?>
+    </div>
+    <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(['userId' => $userId]); ?>
     </div>
     <?php if (\modules\entrant\helpers\PostDocumentHelper::isCorrectBlocks($userId)) : ?>

@@ -29,8 +29,8 @@ class DocumentOtherWidget extends Widget
     {
         try {
             $form = new OtherDocumentForm($this->getIdUser(), false, $this->modelOne(), false, [], [DictIncomingDocumentTypeHelper::TYPE_EDUCATION_PHOTO], null, [
-            'type'=> DictIncomingDocumentTypeHelper::ID_PHOTO, 'amount'=> $this->facultyCount()* self::COUNT_PHOTO]);
-            $this->serviceOther($form,$this->modelOne());
+            'type'=> DictIncomingDocumentTypeHelper::ID_PHOTO, 'amount'=> $this->facultyCount() * self::COUNT_PHOTO]);
+            $this->serviceOther($form, $this->modelOne());
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -42,7 +42,7 @@ class DocumentOtherWidget extends Widget
     {
         $query = OtherDocument::find()->where(['user_id' => $this->getIdUser()])
         ->andWhere(['not in', 'id', UserIndividualAchievements::find()
-            ->user($this->getIdUser())->select('document_id')->column()]);
+            ->user($this->getIdUser())->select('document_id')->column()])->andWhere(['not in', 'type', DictIncomingDocumentTypeHelper::ID_MEDICINE]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
@@ -73,5 +73,4 @@ class DocumentOtherWidget extends Widget
     private function facultyCount() {
        return DictCompetitiveGroupHelper::groupByFacultyCountUser($this->getIdUser());
     }
-
 }

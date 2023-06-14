@@ -20,6 +20,7 @@ $isOlympicUser = Yii::$app->user->identity->isUserOlympic();
         <?= Yii::$app->session->setFlash('warning', 'Вы не можете добавлять/редактировать учебные организации, 
         так как записаны на одну из олимпиад ' . EduYearHelper::eduYear() . ' учебного года') ?>
     <?php endif; ?>
+    <?= Yii::$app->user->identity->anketa() ? Html::a('Персональная карточка поступающего', ['/abiturient/default/index'], ['class'=> 'btn btn-warning']) : ''?>
     <div class="row">
         <h1><?= Html::encode($this->title) ?></h1>
         <div class="col-md-12">

@@ -97,5 +97,8 @@ $userId = $profile->user_id;
     </div>
 <?php endif; ?>
 <div class="mt-20 table-responsive">
+    <?= \modules\entrant\widgets\other\MedicineOtherWidget::widget(['userId' => $userId, 'view' => "medicine-backend"]); ?>
+</div>
+<div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>

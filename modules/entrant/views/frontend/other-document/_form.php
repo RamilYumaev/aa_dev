@@ -24,10 +24,10 @@ use yii\helpers\Html;
                 <?= $form->field($model, 'exemption_id')->dropDownList(DictDefaultHelper::categoryExemptionList()) ?>
             <?php endif; ?>
         </div>
-        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC, DictIncomingDocumentTypeHelper::ID_MEDICINE])): ?>
         <?= $form->field($model, 'amount')->textInput() ?>
         <?php endif; ?>
-        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC])): ?>
+        <?php if(!in_array($model->type, [DictIncomingDocumentTypeHelper::ID_PATRIOT_DOC, DictIncomingDocumentTypeHelper::ID_MEDICINE])): ?>
             <?= $form->field($model, 'type')->dropDownList($model->listTypesDocument()) ?>
         <?php endif; ?>
         <?php if(in_array($model->type, [DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE])  && $model->exemption_id == 4): ?>

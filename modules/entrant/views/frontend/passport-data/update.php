@@ -4,7 +4,7 @@
 /* @var $neededCountry bool */
 
 $this->title = ($neededCountry ? "Свидетельство о рождении. " : "Документ, удостоверяющий личность.")." Редактирование.";
-$this->params['breadcrumbs'][] =  $model->anketa ?
+$this->params['breadcrumbs'][] = !Yii::$app->request->get('referrer') ?
     ['label' => 'Персональная карточка поступающего', 'url' => ['/abiturient/default/index']] : ['label' => 'Персональная карточка', 'url' => ['/transfer/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

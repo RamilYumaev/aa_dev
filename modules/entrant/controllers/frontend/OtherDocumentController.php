@@ -65,6 +65,21 @@ class OtherDocumentController extends Controller
         return $this->render("patriot", ["model" => $form]);
     }
 
+    public function actionMedicine()
+    {
+        $type = DictIncomingDocumentTypeHelper::ID_MEDICINE;
+        $model = $this->findOne(['type'=> $type, 'user_id' => $this->getUserId()]) ?? null;
+        $form = new OtherDocumentForm(
+            $this->getUserId(),
+            false,
+            $model,
+            false,
+            $this->arrayRequired(false),
+            [DictIncomingDocumentTypeHelper::TYPE_OTHER], null,['type' => $type]);
+        $this->formCreateUpdate($form, ['default/index'], $model);
+        return $this->render("medicine", ["model" => $form]);
+    }
+
     public function actionExemption()
     {
         $model = $this->findOne(['user_id' => $this->getUserId(),'exemption_id'=> [1,2,3]]) ?? null;

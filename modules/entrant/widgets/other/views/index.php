@@ -21,14 +21,6 @@ use modules\entrant\helpers\OtherDocumentHelper;
                     </p>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(UserCgHelper::userMedicine($userId)): ?>
-                <?php if(!OtherDocumentHelper::isExitsMedicine($userId)): ?>
-                    <p class="bg-danger m-10">
-                        При подаче на направления "Педагогическое образование", "Педагогическое образование (с двумя профилями подготовки)", "Психолого-педагогическое образование", "Специальное (дефектологическое) образование", требуется Заключение об
-                        отсутсвии противопоказаний для обучения (медицинская справка 086у; дествующая медицинская книжка).
-                    </p>
-                <?php endif; ?>
-            <?php endif; ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
