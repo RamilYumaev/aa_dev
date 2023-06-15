@@ -11,7 +11,7 @@ use yii\helpers\Html; ?>
 <div class="row">
     <div class="col-md-1">
         <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]),
-            ["anketa/step1"], ["class" => "btn btn-success position-fixed mt-10 ml-30"]) ?>
+            ['default/index'], ["class" => "btn btn-success position-fixed mt-10 ml-30"]) ?>
     </div>
 </div>
 <div class="container">

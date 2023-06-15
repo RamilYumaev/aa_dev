@@ -53,7 +53,6 @@ class CategoryStruct
             self::COMPATRIOT_COMPETITION,
             self::FOREIGNER_CONTRACT_COMPETITION,
             self::GOV_LINE_COMPETITION,
-            self::TPGU_PROJECT,
         ];
     }
 

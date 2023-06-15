@@ -5,6 +5,7 @@ namespace modules\entrant\helpers;
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\DictDiscipline;
 use modules\dictionary\models\SettingEntrant;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -81,6 +82,12 @@ class UserCgHelper
         }
         return $bool ?? false;
     }
+
+    public static function isExamPsychology($user_id) {
+        return UserCg::find()->with(['cg.examinations.discipline'])
+            ->andWhere(['user_id'=>$user_id, DictDiscipline::tableName().'ais_id' => 302])->exists();
+    }
+
 
     public static function userIsBudgetAndBachelor($user_id) {
         foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)

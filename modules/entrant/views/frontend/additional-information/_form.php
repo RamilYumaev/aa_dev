@@ -21,7 +21,6 @@ use yii\widgets\MaskedInput;
             <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($model->user_id)): ?>
                 <?= $form->field($model, 'mark_spo')->textInput(['placeholder'=>'4.44444']); ?>
             <?php endif; ?>
-            <?= $form->field($model, 'transfer_in_epgu')->checkbox(); ?>
             <?= $form->field($model, 'insuranceNumber')->widget(MaskedInput::class, [
                 'mask' => '999-999-999 99',
             ]) ?>

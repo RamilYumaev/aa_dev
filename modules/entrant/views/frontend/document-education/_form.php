@@ -15,6 +15,8 @@ use kartik\date\DatePicker;
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
+            <?= Html::a('"Учебные организации"',
+                ['/schools', 'redirect' => 'online-registration'], ['class' => 'btn btn-info']) ?>
             <p class="label label-danger" align="justify">Обратите внимание, что поле серия является обязательным.
                 Если в Вашем документе об образовании нет явного разделения на серию и номер документа,<br/>
                 то условно можно считать, что буквы относятся к серии, цифры к номеру документа.

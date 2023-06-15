@@ -100,9 +100,6 @@ $userId =  Yii::$app->user->identity->getId();
                 <p align="justify"> необходимо загрузить подтверждающий скан (скан карточки или скриншот из личного кабинета)..</p>
                 <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
             <?php endif; ?>
-
-
-
             <?php if ($anketa->isBelarus() && UserDiscipline::find()->user($userId)->ctOrVi()->exists()): ?>
                 <h4>Требования к сертификатам ЦТ:</h4>
                 <p align="justify"> необходимо загрузить подтверждающий скан (сертификат ЦТ).</p>
@@ -119,6 +116,10 @@ $userId =  Yii::$app->user->identity->getId();
 
             <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
                 загружается отдельно</p>
+            <?php if (\modules\entrant\helpers\UserCgHelper::isExamPsychology($userId)): ?>
+            <a class="btn btn-warning" href="<?= \yii\helpers\Url::to('/instructions/psy_test.docx')?>" download>Психологическое тестирование</a>
+            <?php endif;?>
+
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);  ?>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
