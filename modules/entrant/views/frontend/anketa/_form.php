@@ -14,7 +14,7 @@ use \dictionary\helpers\DictCountryHelper;
 use \modules\entrant\helpers\ProvinceOfChinaHelper;
 
 $model->speciality_spo = is_null($model->speciality_spo) ? '' : $model->speciality_spo;
-$docUrl = Html::a("Ознакомиться", 'https://docs.google.com/document/d/1ziiGMWfpqqBbdiOze-HrHgOmZHCdDqyI8g9KZBaZScU/edit',['target'=> "_blank"]);
+$docUrl = Html::a("Ознакомиться", '/instructions/instruction.pdf',['target'=> "_blank"]);
 ?>
 
     <div class="container">

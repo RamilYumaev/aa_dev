@@ -186,7 +186,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <?php endif; ?>
     <h1>Добро пожаловать в Личный кабинет<br/> поступающего в МПГУ!</h1>
     <h4 align="center">
-        <a href="https://docs.google.com/document/d/1ziiGMWfpqqBbdiOze-HrHgOmZHCdDqyI8g9KZBaZScU/edit?usp=sharing">
+        <a href="/instructions/instruction.pdf" download>
             Как подать документы онлайн (читать инструкцию)>></a></h4>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/aINJrrhLXZY" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

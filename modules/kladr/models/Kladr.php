@@ -24,8 +24,9 @@ class Kladr
             ->from(self::TABLE_KLADR_NAME)
             ->where(['like', 'CODE', $code, false])
             ->all();
-        return ArrayHelper::map($rows, 'CODE', function ($row) {
-            return "{$row['SOCR']}. {$row['NAME']}";
+
+        return ArrayHelper::map($rows, 'code', function ($row) {
+            return "{$row['socr']}. {$row['name']}";
         });
     }
 
@@ -44,8 +45,8 @@ class Kladr
             ->from(self::TABLE_KLADR_NAME)
             ->where(['like', 'CODE', $code, false])
             ->all();
-        $resultArray = ArrayHelper::map($rows, 'CODE', function ($row) {
-            return "{$row['SOCR']}. {$row['NAME']}";
+        $resultArray = ArrayHelper::map($rows, 'code', function ($row) {
+            return "{$row['socr']}. {$row['name']}";
         });
         unset($resultArray[substr($regionCode, 0, 2) . '00000000000']);
 
@@ -67,8 +68,8 @@ class Kladr
             ->from(self::TABLE_KLADR_NAME)
             ->where(['like', 'CODE', $code, false])
             ->all();
-        $resultArray = ArrayHelper::map($rows, 'CODE', function ($row) {
-            return "{$row['SOCR']}. {$row['NAME']}";
+        $resultArray = ArrayHelper::map($rows, 'code', function ($row) {
+            return "{$row['socr']}. {$row['name']}";
         });
         unset($resultArray[substr($districtCode, 0, 5) . '00000000']);
 
@@ -90,8 +91,8 @@ class Kladr
             ->from(self::TABLE_KLADR_NAME)
             ->where(['like', 'CODE', $code, false])
             ->all();
-        $resultArray = ArrayHelper::map($rows, 'CODE', function ($row) {
-            return "{$row['SOCR']}. {$row['NAME']}";
+        $resultArray = ArrayHelper::map($rows, 'code', function ($row) {
+            return "{$row['socr']}. {$row['name']}";
         });
         unset($resultArray[substr($districtCode, 0, 8) . '00000']);
 
@@ -112,8 +113,8 @@ class Kladr
             ->from(self::TABLE_STREET_NAME)
             ->where(['like', 'CODE', $code, false])
             ->all();
-        return ArrayHelper::map($rows, 'CODE', function ($row) {
-            return "{$row['SOCR']}. {$row['NAME']}";
+        return ArrayHelper::map($rows, 'code', function ($row) {
+            return "{$row['socr']}. {$row['name']}";
         });
     }
 
@@ -134,9 +135,9 @@ class Kladr
 
         $result = [];
         foreach ($rows as $row) {
-            $houses = explode(',', $row['NAME']);
+            $houses = explode(',', $row['name']);
             foreach ($houses as $currentBuilding) {
-                $result[$row['CODE'] . '_' . $currentBuilding] = $currentBuilding;
+                $result[$row['code'] . '_' . $currentBuilding] = $currentBuilding;
             }
         }
 
@@ -158,7 +159,7 @@ class Kladr
             ->one();
 
         /** @var array $row */
-        return $row ? $row['INDEX'] : '';
+        return $row ? $row['index'] : '';
     }
 
     /**

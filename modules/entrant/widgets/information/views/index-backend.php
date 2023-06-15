@@ -23,8 +23,6 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
         'resource',
         'insuranceCertificate.number',
         'voz',
-        'chernobyl',
-        'is_military_edu:boolean',
         'mpguTraining',
         'is_epgu:boolean'
 

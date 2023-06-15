@@ -84,8 +84,8 @@ class UserCgHelper
     }
 
     public static function isExamPsychology($user_id) {
-        return UserCg::find()->with(['cg.examinations.discipline'])
-            ->andWhere(['user_id'=>$user_id, DictDiscipline::tableName().'ais_id' => 302])->exists();
+        return UserCg::find()->joinWith(['cg.examinations.discipline'])
+            ->andWhere(['user_id'=>$user_id, DictDiscipline::tableName().'.ais_id' => 302])->exists();
     }
 
 
