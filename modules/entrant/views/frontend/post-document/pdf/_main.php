@@ -99,15 +99,6 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
 <p>
 Напоминаем, что документы, поданные абитуриентом в Приемную комиссию, могут быть возвращены владельцу только на основании письменного заявления и при наличии расписки.
 </p>
-<table width="100%" class="fs-15" style="text-align:center">
-  <tr>
-    <td width="35%"></td>
-    <td width="65%">Поступающим в МПГУ предоставлен бесплатный доступ в нашу электронную библиотеку:<br>
-Логин: АбитуриентМПГУ<br>
-Пароль: 18722019<br>
-<?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/qr.png")?></td>
-  </tr>
-</table>
 
 
 </div>
