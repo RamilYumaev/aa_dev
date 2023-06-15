@@ -32,7 +32,8 @@ class PacketDocumentUserForm extends PacketDocumentUser
             ],
             [['note'], 'required', 'when' =>
                 function($model) {
-                    return $model->cause_id == 5; },
+                    return $model->cause_id == 5;  },
+                'whenClient' => 'function (attribute, value) { return $("#cause").val() == 5}'
             ],
             [['date'], MaxDateValidate::class]
             ];

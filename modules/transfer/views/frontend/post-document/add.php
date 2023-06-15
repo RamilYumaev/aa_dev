@@ -14,11 +14,23 @@ use yii\helpers\Html;
     <?= $form->field($model, 'date')->widget(DatePicker::class, DateFormatHelper::dateSettingWidget())->label($model->isRemove() ? 'Дата приказа об отчислении' : 'Дата выдачи') ?>
     <?= $form->field($model, 'authority')->textInput(['maxlength' => true]) ?>
     <?php if($model->isRemove()): ?>
-        <?= $form->field($model, 'cause_id')->dropDownList($model->listCauses())->label('Причина отчисления') ?>
-        <?= $form->field($model, 'note')->textInput(['maxlength' => true])->label('Другая причина отчисления') ?>
+        <?= $form->field($model, 'cause_id')->dropDownList($model->listCauses(), ['id' => 'cause'])->label('Причина отчисления') ?>
+        <?= $form->field($model, 'note')->textInput(['maxlength' => true, 'id' => 'cause_note'])->label('Другая причина отчисления') ?>
     <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>
+<?php $this->registerJs('
+var causeNote = $(".form-group.field-cause_note");
+var cause = $("#cause")
+cause.on("change init", function() { 
+if(this.value == 5){
+causeNote.show();
+}else {
+causeNote.hide();
+}
+});
+cause.trigger("init");
+'); ?>

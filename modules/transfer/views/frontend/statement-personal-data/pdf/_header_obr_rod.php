@@ -14,13 +14,8 @@ $passport = PassportDataHelper::dataArray($user_id);
 
 $cpkCountryArray = array_merge(DictCountryHelper::TASHKENT_AGREEMENT, [DictCountryHelper::RUSSIA]);
 
-$cpk = ($anketa->category_id == CategoryStruct::GENERAL_COMPETITION && in_array($anketa->citizenship_id, $cpkCountryArray))
-    || $anketa->category_id == CategoryStruct::COMPATRIOT_COMPETITION;
-if ($cpk) {
-
    // $actual = AddressHelper::actual($user_id);
-    $reg = AddressHelper::registrationResidence($user_id);
-}
+$reg = AddressHelper::registrationResidence($user_id);
 ?>
     <div class="bg-gray h-20"></div>
     <p align="center"><strong>СОГЛАСИЕ</strong></p>
@@ -52,16 +47,12 @@ if ($cpk) {
             <td width="10%" class="bb text-center h-20"></td>
         </tr>
     </table>
-<?php if ($cpk) : ?>
     <table width="100%">
         <tr>
             <td width="20%">проживающий по адресу:</td>
             <td width="80%" colspan="4" class="bb text-center h-20"></td>
         </tr>
     </table>
-
-<?php endif; ?>
-
 <table width="100%">
         <tr>
             <td width="32%">являясь на основании</td>

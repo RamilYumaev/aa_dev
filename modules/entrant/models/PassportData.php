@@ -241,7 +241,7 @@ class PassportData extends YiiActiveRecordAndModeration
 
     public function countFiles()
     {
-        return $this->getFiles()->count();
+        return $this->getFiles() ? $this->getFiles()->count() : 0;
     }
 
     public function getFilesTransfer()
@@ -251,7 +251,7 @@ class PassportData extends YiiActiveRecordAndModeration
 
     public function countTransfer()
     {
-        return $this->getFilesTransfer()->count();
+        return $this->getFilesTransfer() ? $this->getFilesTransfer()->count() : 0;
     }
 
 }
