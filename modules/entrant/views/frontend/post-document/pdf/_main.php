@@ -22,7 +22,7 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
 
 <table width="100%">
     <tr>
-        <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
+        <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.png")?></td>
         <td class="v-align-center text-center fs-10"><p>
                     ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ
                    ВЫСШЕГО ОБРАЗОВАНИЯ </br> 

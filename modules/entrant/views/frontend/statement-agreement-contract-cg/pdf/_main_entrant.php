@@ -42,7 +42,7 @@ if ($eduDurationMonth >= 1 / 12) {
 <p width="100%" class="fs-11 agreement" style="margin-top: 0">
     <table width="100%" class="fs-11">
         <tr>
-            <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.svg") ?></td>
+            <td><?= Html::img(\Yii::$app->params["staticPath"] . "/img/incoming/logo.png") ?></td>
             <td class="text-center"><strong>ДОГОВОР №<?=$number?></strong><br/>
                 об оказании платных образовательных услуг
             </td>

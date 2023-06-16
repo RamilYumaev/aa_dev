@@ -16,7 +16,7 @@ $education = DocumentEducationHelper::dataArray($user_id);
 
 <table width="100%">
     <tr>
-        <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
+        <td><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.png")?></td>
         <td class="v-align-center text-right fs-10"><p><strong>Ректору<br/>
                     федерального государственного бюджетного образовательного учреждения высшего образования<br/>
                     «Московский педагогический государственный университет»<br/>

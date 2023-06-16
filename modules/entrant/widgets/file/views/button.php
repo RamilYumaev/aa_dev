@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 ?>
 <span id="<?=$link.$id ?>"></span>
-<?= Html::a("Загрузить скан  (jpg, png, jpeg)", [$url, "hash" => $hash, 'id' => $id], ["class" => "btn btn-info",
+<?= Html::a("Загрузить скан  (jpg, png, jpeg, pdf)", [$url, "hash" => $hash, 'id' => $id], ["class" => "btn btn-info",
         'data-pjax' => 'w0', 'data-toggle' => 'modal',
         'data-target' => '#modal', 'data-modalTitle' => 'Загрузить скан']) ?>
 

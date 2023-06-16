@@ -20,7 +20,7 @@ $education = DocumentEducationHelper::dataArray($user_id)
 <table width="100%">
     <tr class="bg-gray"><td colspan="2" class="h-20"></td></tr>
     <tr>
-        <td class="v-align-center text-center"><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.svg")?></td>
+        <td class="v-align-center text-center"><?=Html::img(\Yii::$app->params["staticPath"]."/img/incoming/logo.png")?></td>
         <td class="v-align-center text-left"><p class="fs-20">В ПОДКОМИССИЮ ПО УЧЕТУ <br/>ИНДИВИДУАЛЬНЫХ ДОСТИЖЕНИЙ</strong></p><br/>
             <p class="mt-10">Фамилия: <?= $profile['last_name'] ?></p><br/>
             <p class="mt-10">Имя: <?= $profile['first_name'] ?></p><br/>
