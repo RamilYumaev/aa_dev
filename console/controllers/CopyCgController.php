@@ -206,7 +206,7 @@ class CopyCgController  extends Controller
            $new->name = $ia->name;
            $new->category_id = $ia->category_id;
            $new->mark = $ia->mark;
-           $new->year = 2022;
+           $new->year = 2023;
            $new->name_short = $ia->name_short;
            $new->ais_id = $ia->id;
            $new->save();
@@ -253,7 +253,7 @@ class CopyCgController  extends Controller
 
 
         foreach ($iaDoc as $doc) {
-            $ia = DictIndividualAchievement::find()->andWhere(['year' => "2022"])->andWhere(['ais_id' => $doc->individual_achievement_id])->one();
+            $ia = DictIndividualAchievement::find()->andWhere(['year' => "2023"])->andWhere(['ais_id' => $doc->individual_achievement_id])->one();
 
             if (!$ia) {
                 return "Ошибка ИД не существует";

@@ -155,7 +155,7 @@ class Statement extends ActiveRecord
     }
 
     public function countFilesAndCountPagesTrue() {
-        return $this->count_pages &&  $this->countFiles() >= $this->count_pages;
+        return $this->count_pages &&  $this->countFiles() >= 1;
     }
 
     public function statementCgConsent() {

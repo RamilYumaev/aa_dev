@@ -21,7 +21,7 @@ class DictIncomingIndividualAchievement extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '2022_dict_incoming_individual_achievement';
+        return '2023_dict_incoming_individual_achievement';
     }
 
     /**

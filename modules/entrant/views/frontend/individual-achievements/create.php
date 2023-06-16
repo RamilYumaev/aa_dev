@@ -19,7 +19,6 @@ use yii\helpers\Html; ?>
     <div class="row">
         <div class="col-md-12 mt-30">
             <h1><?= Html::encode($this->title) ?></h1>
-            <?= \modules\superservice\widgets\ButtonChangeVersionDocumentsWidgets::widget(['category'=> json_encode([7,3,5,6,4]),'document' => '', 'version' =>  ''])?>
             <?= $this->render('@modules/entrant/views/frontend/other-document/_form', ['model'=> $model] )?>
         </div>
     </div>

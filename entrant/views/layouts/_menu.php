@@ -464,6 +464,7 @@ if(!Yii::$app->user->isGuest ) {
                     ]],
 
             ['label' => 'Экспресс (Новые ЗУК)', 'url' => ['/data-entrant/statement/new']],
+                ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
                 ['label' => 'Заявления (ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/index']],
             ['label' => 'Экспресс (Новые ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/new']],
                 [

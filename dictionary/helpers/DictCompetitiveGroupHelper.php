@@ -149,7 +149,7 @@ class DictCompetitiveGroupHelper
 
     public static function getEduLevelsArrayIA(): array
     {
-        return [self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_GRADUATE_SCHOOL];
+        return [self::EDUCATION_LEVEL_SPO, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_GRADUATE_SCHOOL];
     }
 
 
