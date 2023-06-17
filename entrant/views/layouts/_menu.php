@@ -47,7 +47,7 @@ if(!Yii::$app->user->isGuest ) {
                             "icon" => "table",
                         ] : [],
                     ]] : [],
-          ]
+            ]
 
         );
     }  elseif($jobEntrant && !$jobEntrant->isStatusDraft() && $jobEntrant->isAgreement()) {
@@ -177,8 +177,6 @@ if(!Yii::$app->user->isGuest ) {
                             "icon" => "list-ul",
                         ],
                     ]],
-                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ)', 'url' => ['/data-entrant/statement-rejection-record/index']] :[] ,
-                \Yii::$app->user->can('moderation') ? ['label' => 'Заявления (ИПЗ) ВР', 'url' => ['/data-entrant/statement-rejection-record/index', 'status'=> StatementHelper::STATUS_VIEW]] :[] ,
                 \Yii::$app->user->can('proctor') ? ['label' => 'Заявки на экзамен',
                     "items" => [
                         [
@@ -233,9 +231,11 @@ if(!Yii::$app->user->isGuest ) {
             [
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
+
                 $jobEntrant->isCategoryMPGU()  && \Yii::$app->user->can('volunteering-admin') ? ['label' => 'Справончик ГР', 'url' => ['/dictionary-module/dict-schedule/index']] : [],
                 $jobEntrant->isCategoryMPGU()  && \Yii::$app->user->can('call-center') ? ['label' => 'Графики работ', 'url' => ['/dictionary-module/dict-schedule/select-index']] : [],
                 $jobEntrant->isCategoryMPGU()  && \Yii::$app->user->can('call-center') ? ['label' => 'Ваши графики работ', 'url' => ['/dictionary-module/schedule-volunteering/index']] : [],
+                ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
                 ['label' => 'Заявления (ЗУК)',
                     "items" => [
                         [
@@ -394,8 +394,7 @@ if(!Yii::$app->user->isGuest ) {
                 \Yii::$app->user->can('call-center') ? ['label'=>'Очный прием','url'=>['/data-entrant/queue']] : [],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
                 $jobEntrant->isCategoryMPGU() ? [] : ['label' => 'Квитанции', 'url' => ['/data-entrant/receipt-contract/index']],
-                ],
-            ['label' => 'Целевые договоры', 'url' => ['/data-entrant/agreement/index']],
+            ]
 
         );
     }
@@ -406,7 +405,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index'],
-                 ]
+                ]
             ]
 
         );
@@ -421,52 +420,51 @@ if(!Yii::$app->user->isGuest ) {
                     ['label' => 'Пот. абитуриенты', 'url' => ['/data-entrant/entrant-potential/index']]:
 
                     ['label' => 'Пот. абитуруенты', 'items'=> [
-                    [
-                        "label" => 'ЗУК',
-                        'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT],
-                        "icon" => "user-plus",
-                    ],
-                    [
-                        "label" => 'без ЗУК',
-                        'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT],
-                        "icon" => "user-plus",
-                    ],
+                        [
+                            "label" => 'ЗУК',
+                            'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_STATEMENT_DRAFT],
+                            "icon" => "user-plus",
+                        ],
+                        [
+                            "label" => 'без ЗУК',
+                            'url' => ['/data-entrant/entrant-potential/index', 'is_id'=> JobEntrantHelper::ENTRANT_POTENTIAL_NO_STATEMENT],
+                            "icon" => "user-plus",
+                        ],
 
-                ]],
-
-                ['label' => 'Заявления (ЗУК)',
-                "items" => [
-            [
-                "label" => 'Просмотр',
-                "url" => ['/data-entrant/statement/index'],
-                "icon" => "table",
-            ],
-            [
-            "label" => "Принятые ЗУК",
-                    "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
-                    "icon" => "list",
-                ],
-                    [
-                        "label" => "Взято в работу",
-                        "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW],
-                        "icon" => "list-ul",
-                    ],
-                    [
-                        "label" => "Непринятые ЗУК",
-                        "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],
-                        "icon" => "list-ul",
-                    ],
-                    [
-                        "label" => "Отозванные ЗУК",
-                        "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
-                        "icon" => "list-ol",
-                    ]
                     ]],
 
-            ['label' => 'Экспресс (Новые ЗУК)', 'url' => ['/data-entrant/statement/new']],
-                ['label' => 'Заявления (ЗИД)', 'url' => ['/data-entrant/statement-individual-achievements/index']],
+                ['label' => 'Заявления (ЗУК)',
+                    "items" => [
+                        [
+                            "label" => 'Просмотр',
+                            "url" => ['/data-entrant/statement/index'],
+                            "icon" => "table",
+                        ],
+                        [
+                            "label" => "Принятые ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_ACCEPTED],
+                            "icon" => "list",
+                        ],
+                        [
+                            "label" => "Взято в работу",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_VIEW],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Непринятые ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_NO_ACCEPTED],
+                            "icon" => "list-ul",
+                        ],
+                        [
+                            "label" => "Отозванные ЗУК",
+                            "url" => ['/data-entrant/statement/index', 'status'=> StatementHelper::STATUS_RECALL],
+                            "icon" => "list-ol",
+                        ]
+                    ]],
+
+                ['label' => 'Экспресс (Новые ЗУК)', 'url' => ['/data-entrant/statement/new']],
                 ['label' => 'Заявления (ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/index']],
-            ['label' => 'Экспресс (Новые ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/new']],
+                ['label' => 'Экспресс (Новые ЗОС)', 'url' => ['/data-entrant/statement-consent-cg/new']],
                 [
                     "label" => "Ход подачи",
                     "url" => '/data-entrant/charts',
@@ -493,7 +491,7 @@ if(!Yii::$app->user->isGuest ) {
                         "icon" => "table",
                     ] : [],
                 ]] : [],
-                ]
+            ]
 
         );
     } else {return array_merge(
