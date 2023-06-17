@@ -104,7 +104,7 @@ class CurrentEducationInfoController extends Controller
 
     public function getCurrentFinanceArray() {
         return $this->isFinanceContract() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,] :
-            [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+            !$this->getStartBudget() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT] : [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
             DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
     }
 
@@ -113,7 +113,11 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2024-04-05 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2023-08-20 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
+    }
+
+    public function getStartBudget() {
+        return strtotime("2023-06-18 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2023-07-15 15:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
     }
 
     public function getStartGraduate() {
