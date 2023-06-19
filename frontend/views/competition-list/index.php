@@ -19,10 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php foreach (array_slice(\modules\dictionary\models\CompetitionList::listTitle(),0,1) as $value): ?>
         <h3 style="text-size: 25px; font-weight: 100" ><?= Html::a($value['name'], [$value['url']]) ?></h3>
         <?php endforeach; ?>
-        <?php foreach (\modules\dictionary\models\CompetitionList::listTitle(true)  as $key => $value): ?>
-            <?php if($key != \dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR) continue ?>
-            <h3><?= Html::a($value['name'], [$value['url']]) ?></h3>
-        <?php endforeach; ?>
     </div>
     </div>
     </div>
