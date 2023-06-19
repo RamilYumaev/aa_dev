@@ -12,7 +12,7 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 Прошу восстановить меня в <?= $data['faculty'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
 форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____ .
     <br />Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
-<?= $docRemove->note ?> (причина отчисления)</p>
+<?= $docRemove->listCauses()[$docRemove->cause_id] . ($docRemove->cause_id == 5 ? '. ' . $docRemove->note : '') ?> (причина отчисления)</p>
 <table width="100%" class="mt-10 fs-11">
     <tr>
         <td width="5px">«</td>

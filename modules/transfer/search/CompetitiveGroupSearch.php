@@ -59,6 +59,7 @@ class CompetitiveGroupSearch extends Model
         $query = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['not in', 'year', "2015-2016"])
+            ->andWhere(['not in', 'year', "2016-2017"])
             ->andWhere(['not in', 'year', "2022-2023"])
             ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
@@ -96,8 +97,8 @@ class CompetitiveGroupSearch extends Model
         $years = [];
         $m = date("n") > 10  && date("n") <= 12  ? 0 : 1;
         $currentYear = Date("Y")-$m;
-        $m = date("n") >5  && date("n")  < 10  ? 1 : 0;
-        $c = date("n") >5  && date("n")  < 10  ? 6 : 5;
+        $m = date("n") > 5  && date("n")  < 10  ? 0 : 0;
+        $c = date("n") > 5  && date("n")  < 10  ? 5 : 5;
         for ($i = $m; $i < $c;  $i++) {
             $year = $currentYear - $i;
             $old = $year-1;
@@ -105,6 +106,7 @@ class CompetitiveGroupSearch extends Model
         }
         return $years;
     }
+
 
     public function attributeLabels(): array
     {

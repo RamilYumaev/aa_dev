@@ -18,7 +18,7 @@ $cg = $statement->cg;
     форма обучения <?= mb_strtolower($cg->formEdu) ?>,
     <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>. <br/>
 Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
-    <?= $docRemove->note ?> (причина отчисления)</p>
+    <?= $docRemove->listCauses()[$docRemove->cause_id].($docRemove->cause_id == 5 ? '. '.$docRemove->note:'') ?> (причина отчисления)</p>
 <table width="100%" class="mt-10 fs-11">
     <tr>
         <td width="5px">«</td>

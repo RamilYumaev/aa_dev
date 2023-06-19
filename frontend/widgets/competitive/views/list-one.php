@@ -175,7 +175,6 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
 
                     <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
-                    <th style="font-size: 12px; text-align: center">Сумма баллов за все ИД</th>
                     <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
                     <?php if(!$cg->isSpo()) :?>
                         <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
@@ -218,10 +217,9 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <td style="font-size: 14px; text-align: center">
                         <?php if(key_exists('individual_achievements', $entrant)) :?>
                             <?php echo implode(', ', array_map(function($individual_achievement)
-                            { return $individual_achievement['individual_achievement_name'].' - '. $individual_achievement['ball'];}, $entrant['individual_achievements'])); ?>
+                            { return $individual_achievement['individual_achievement_name'];}, $entrant['individual_achievements'])); ?>
                         <?php endif; ?>
                     </td>
-                    <td style="font-size: 14px; text-align: center"><?= $entrant['sum_of_individual']?></td>
                     <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
                     <?php if(!$cg->isSpo()) :?>
                         <td style="font-size: 14px; text-align: center">
