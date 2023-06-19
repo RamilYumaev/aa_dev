@@ -115,25 +115,25 @@ class CompetitionListController extends Controller
             return $query->groupBy('faculty_id')->orderBy(['full_name'=>SORT_ASC])->all();
     }
 
-    public function actionDepartment($faculty = null)
-    {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, true, $faculty);
-    }
-
-    public function actionBachelor($faculty = null)
-    {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, false, $faculty);
-    }
-
-    public function actionMagistracy($faculty = null)
-    {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, false, $faculty);
-    }
-
-    public function actionGraduate($faculty = null)
-    {
-        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, false, $faculty);
-    }
+//    public function actionDepartment($faculty = null)
+//    {
+//        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, true, $faculty);
+//    }
+//
+//    public function actionBachelor($faculty = null)
+//    {
+//        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR, false, $faculty);
+//    }
+//
+//    public function actionMagistracy($faculty = null)
+//    {
+//        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER, false, $faculty);
+//    }
+//
+//    public function actionGraduate($faculty = null)
+//    {
+//        return $this->renderCompetitionList(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL, false, $faculty);
+//    }
 
     protected function faculty($faculty) {
         return Faculty::findOne($faculty);
