@@ -28,7 +28,7 @@ $docUrl = Html::a("Ознакомиться", '/instructions/instruction.pdf',['
                 <?php $form = ActiveForm::begin(['id' => 'anketa-form', 'options' => ['autocomplete' => 'off']]); ?>
                 <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList(),
                     ['prompt' => 'Выберите страну']) ?>
-                <?= $form->field($model, 'current_edu_level')->dropDownList(array_slice(AnketaHelper::currentEducationLevel(), 0, 2)) ?>
+                <?= $form->field($model, 'current_edu_level')->dropDownList(AnketaHelper::currentEducationLevel()) ?>
                 <?= $form->field($model, 'is_foreigner_edu_organization')->checkbox() ?>
                 <?= $form->field($model, 'is_agree')->checkbox([
                     'template' => "{beginWrapper}\n<div class=\"checkbox\">\n{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n</div>
