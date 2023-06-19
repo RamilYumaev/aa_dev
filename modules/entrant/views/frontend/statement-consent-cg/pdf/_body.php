@@ -19,7 +19,7 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profil
 
 ?>
 <div class="fs-15" style="margin-top: 80px">
-    <p align="center"><strong>Заявление</strong></p>
+    <p align="center"><strong>заявление</strong>.</p>
 
 
     <p align="justify" class="lh-1-5">
@@ -56,11 +56,6 @@ $nameFull = $profile['last_name'] . " " . $profile['first_name'] . " " . $profil
         $is086 = $cg['financing_type_id'] == "Бюджет" || $cg['foreigner_status'] ? " и медицинскую справку по форме 086/у" : " и предоставления медицинской
 справки по форме 086/у";
     } ?>
-    <?php if ($cg['financing_type_id'] == "Бюджет"): ?>
-    Подтверждаю, что у меня отсутствуют действительные (неотозванные) заявления о согласии на зачисление на обучение по
-    программам <?= ($cg['education_level'] == \dictionary\helpers\DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO  ? 'среднего профессионального' :'высшего ') ?> образования данного уровня на места в рамках контрольных цифр приема, в том числе, поданные в
-    другие организации.
-    <?php endif; ?>
 
     <p align="justify" class="lh-1-5">
         <?php if($isDlnr && $cg['financing_type_id'] == "Бюджет"): ?>

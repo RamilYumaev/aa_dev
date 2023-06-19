@@ -25,7 +25,7 @@ $nameFull = $name->genitive ?? $profile['last_name'] . " " . $profile['first_nam
             комиссии МПГУ,<br/>
             ректору МПГУ<br/>
             А.В. Лубкову<br/>
-            От: <?= $nameFull?>
+            <?= $nameFull?>
             <br/>
             тел.: <?= $profile['phone'] ?>
         </td>

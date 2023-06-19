@@ -11,7 +11,7 @@ class ItemsForSignatureApp
     const GENERAL_MAGISTRACY_SIGNATURE = [1,3,6,7,8,9,10,11,12];
     const GENERAL_MAGISTRACY_SIGNATURE_CONTRACT = [1,6,7,8,10,11,12];
     const GENERAL_GRADUATE_SIGNATURE = [1,3,6,7,8,9,10,11,12];
-    const GENERAL_SPO = [1,20,6,19,17,11,12];
+    const GENERAL_SPO = [1,20,6,19,17,12];
     const SPECIAL_CONDITIONS = 6;
 
     public static function getItemsText()
