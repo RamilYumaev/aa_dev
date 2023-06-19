@@ -33,14 +33,14 @@ $snils = \modules\entrant\models\InsuranceCertificateUser::findOne(['user_id' =>
     <tr>
         <td width="50%">Фамилия: <?= $profile['last_name'] ?><br/><br/>Имя: <?= $profile['first_name'] ?></td>
         <td><?= $profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
-                ? "Зарегистрированного" : "Зарегистрированной" ?> по адресу: <?= $reg['full'] ?></td>
+                ? "Зарегистрированный" : "Зарегистрированная" ?> по адресу: <?= $reg['full'] ?></td>
     </tr>
     <tr>
         <td><br/><?= $profile['patronymic'] ? "Отчество: " . $profile['patronymic'] : ""; ?><br/><br/>
             Дата рождения: <?= $passport['date_of_birth'] ?>
         </td>
         <td><?= $profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
-                ? "Проживающего" : "Проживающей" ?> по адресу: <?= $actual['full'] ?></td>
+                ? "Проживающий" : "Проживающая" ?> по адресу: <?= $actual['full'] ?></td>
     </tr>
     <tr>
         <td>
@@ -64,7 +64,7 @@ $snils = \modules\entrant\models\InsuranceCertificateUser::findOne(['user_id' =>
         <td colspan="2">
             <br/><br/>
             <?= $profile["gender"] == ProfileHelper::genderName(ProfileHelper::MALE)
-                ? "окончившего в " : "окончившей в " ?> <?= $education['year'] . " году " . $education['school_id'] . " <strong>"
+                ? "окончивший в " : "окончившая в " ?> <?= $education['year'] . " году " . $education['school_id'] . " <strong>"
             . $education['series'] . " " . $education['number'] . "</strong>" . " (" . $education['schoolCountyRegion'] . ")" ?>
         </td>
     </tr>

@@ -12,7 +12,7 @@ use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
-
+$anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
 $cse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
     $statement->faculty_id, $statement->speciality_id, $statement->columnIdCg(), true);
 $noCse = DictCompetitiveGroupHelper::groupByExamsCseFacultyEduLevelSpecialization($statement->user_id,
@@ -69,7 +69,7 @@ $och = false;
     <tr>
         <th>Направление подготовки</th>
         <th>Форма обучения</th>
-        
+
     </tr>
     <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
         $och = true;
@@ -91,7 +91,7 @@ $och = false;
                     <td width="23%" class="text-center">На места по договорам об оказании платных образовательных услуг
                 </td>
                 <?php endif; ?>
-                
+
             <?php endif; ?>
         </tr>
     <?php endforeach; ?>
@@ -104,20 +104,32 @@ $och = false;
     </p>
 <?php endif; ?>
 <p align="center"><strong>О себе сообщаю следующее:</strong></p>
-
 <table width="100%">
     <tr>
-        <td width="80%"> <?php if ($och): ?>
-                В общежитии: <?= $information['hostel'] ? 'Нуждаюсь' : 'Не нуждаюсь' ?><br/>
-            <?php endif; ?>
+        <td width="80%">
+
             Изучил(а) иностранные языки: <?= $language ?><br/>
+            Имею преимущественное право при зачислении:<br/>
         </td>
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<?php if($prRight) :?>
-    <p class="underline-text"> на основании: <?= $prRight ?></p>
+<?php if ($anketaOne->isRussia()): ?>
+    <table width="100%">
+        <tr>
+            <td></td>
+            <td class="box-30-15 bordered-cell text-center"><?= $prRight ? "X" : "" ?></td>
+            <td width="100px">Имею</td>
+            <td class="box-30-15 bordered-cell text-center"><?= !$prRight ? "X" : "" ?></td>
+            <td>Не имею</td>
+        </tr>
+    </table>
+    <?php if ($prRight) : ?>
+        <p class="underline-text"> на основании: <?= $prRight ?></p>
+    <?php endif; ?>
+
 <?php endif; ?>
+
 <?php
 $signaturePoint = ItemsForSignatureApp::GENERAL_SPO;
 if(!$och) {
