@@ -116,9 +116,6 @@ $userId =  Yii::$app->user->identity->getId();
 
             <p class="label label-warning fs-15">Каждая страница заявления об участии в конкурсе
                 загружается отдельно</p>
-            <?php if (\modules\entrant\helpers\UserCgHelper::isExamPsychology($userId)): ?>
-            <a class="btn btn-warning" href="<?= \yii\helpers\Url::to('/instructions/psy_test.docx')?>" download>Психологическое тестирование</a>
-            <?php endif;?>
 
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);  ?>
@@ -128,6 +125,9 @@ $userId =  Yii::$app->user->identity->getId();
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_1, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);  ?>
             <?= \modules\entrant\widgets\submitted\SubmittedDocumentGenerateStatementWidget::widget(['userId' => $userId,
                 'formCategory' => DictCompetitiveGroupHelper::FORM_EDU_CATEGORY_2, 'finance' => DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT]);  ?>
+
+            <?= \modules\entrant\widgets\discipline\PsychoTestSpoWidget::widget(['userId' => $userId]); ?>
+
             <?= \modules\entrant\widgets\statement\StatementCgConsentWidget::widget(['userId' => $userId]); ?>
 
             <?= \modules\entrant\widgets\statement\StatementIaWidget::widget(['userId' => $userId]); ?>

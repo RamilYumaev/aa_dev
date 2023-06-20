@@ -66,5 +66,6 @@ $userId = $profile->user_id;
         <?php endif; ?>
         <?= \modules\entrant\widgets\insurance\InsuranceWidget::widget(['view' => 'file-backend', 'userId' => $userId]); ?>
         <?= \modules\entrant\widgets\statement\StatementPersonalDataWidget::widget(['view' => 'index-pd-backend', 'userId' => $userId]); ?>
+        <?= \modules\entrant\widgets\discipline\PsychoTestSpoWidget::widget([ 'view' => 'psycho-test-spo-backend', 'userId' => $userId]); ?>
     </div>
 </div>

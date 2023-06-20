@@ -13,6 +13,7 @@ use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\PsychoTestSpo;
 use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
@@ -172,6 +173,7 @@ class FileHelper
             LegalEntityTransfer::class=>3,
             StatementAgreementContractTransferCg::class=>4,
             ReceiptContractTransfer::class=>1,
+            PsychoTestSpo::class => 1,
         ];
     }
 
@@ -206,6 +208,7 @@ class FileHelper
             LegalEntityTransfer::class=>'legal_t',
             StatementAgreementContractTransferCg::class=> 'st-agreement-t',
             ReceiptContractTransfer::class=> 'st-transfer_t',
+            PsychoTestSpo::class => 'psycho-test-spo'
         ];
     }
 
@@ -240,6 +243,7 @@ class FileHelper
             PersonalEntityTransfer::class=>"Данные заказчика (Ф)",
             LegalEntityTransfer::class=>"Данные заказчика (Ю)",
             ReceiptContractTransfer::class=> 'Квитанция',
+            PsychoTestSpo::class => "Психологическое тестирование"
         ];
     }
 
