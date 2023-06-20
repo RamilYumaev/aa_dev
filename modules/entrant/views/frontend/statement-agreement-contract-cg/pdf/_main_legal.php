@@ -442,7 +442,7 @@ if ($eduDurationMonth >= 1 / 12) {
             <td class="text-center" width="30%" colspan="2"><strong>Заказчик</strong></td>
         </tr>
         <tr>
-            <td rowspan="9" class="br" align="left">
+            <td rowspan="10" class="br" align="left">
                 <?= $agreementData['accidence'] ?>
             </td>
             <td class="bb pl-10" align="left" width="15%">Ф.И.О</td>
@@ -491,6 +491,12 @@ if ($eduDurationMonth >= 1 / 12) {
         <tr>
             <td class="bb h-50 pl-10" align="left">телефон:</td>
             <td class="bb" align="left"><?= $legal->phone ?></td>
+        </tr>
+        <tr>
+            <td  class="bb h-50 pl-10" align="left">адрес электронной почты:</td>
+            <td  class="bb br" align="left"><?= $profile['email'] ?></td>
+            <td class="bb h-50 pl-10" align="left">адрес электронной почты:</td>
+            <td class="bb" align="left"><?= $legal->email ?></td>
         </tr>
         <tr>
             <td rowspan="2" class="h-30 v-align-top pl-10" align="left"></td>

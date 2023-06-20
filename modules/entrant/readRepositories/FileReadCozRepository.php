@@ -48,10 +48,9 @@ class FileReadCozRepository
         $query->innerJoin(Anketa::tableName(), 'anketa.user_id=files.user_id');
         $query->andWhere(['>', 'statement.status', StatementHelper::STATUS_DRAFT]);
         $query->andWhere(['files.status' => FileHelper::STATUS_WALT]);
-        if($this->jobEntrant->isCategoryFOK()) {
-            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->faculty_id,
-                'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
-                    DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER]])
+        if(in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
+            $query->andWhere(['statement.faculty_id' => $this->jobEntrant->category_id,
+                'statement.edu_level' => [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO]])
                 ->andWhere(['not in', 'anketa.category_id', [CategoryStruct::GOV_LINE_COMPETITION,
                     CategoryStruct::FOREIGNER_CONTRACT_COMPETITION, CategoryStruct::TPGU_PROJECT]]);
             $query->andWhere('files.user_id NOT IN (SELECT user_id FROM statement WHERE special_right IN (1,2,4))');
@@ -97,7 +96,6 @@ class FileReadCozRepository
                 CategoryStruct::WITHOUT_COMPETITION]]);
             $query->andWhere(['citizenship_id' => DictCountryHelper::RUSSIA]);
             $query->andWhere(['files.model'=> FileHelper::listModelsFok()]);
-            $query->andWhere('files.user_id NOT IN '.  $pre);
         }
         $query->distinct();
         return $query;
