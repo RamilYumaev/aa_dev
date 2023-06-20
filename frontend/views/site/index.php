@@ -188,9 +188,8 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <h4 align="center">
         <a href="/instructions/instruction.pdf" download>
             Как подать документы онлайн (читать инструкцию)>></a></h4>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/aINJrrhLXZY" frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <p align="center">С помощью Личного кабинета Вы можете подать документы в МПГУ.
+    <p></p>
+    <p align="center">С помощью Личного кабинета Вы можете подать документы в МПГУ на программы <b>среднего профессионального образования</b>.
         Для начала пользования сервисами поступающего необходимо создать Личный кабинет.</p>
 
     <a class="btn btn-primary btn-lg mpgu-btn" href="/sign-up/request" role="button">Создать Личный
