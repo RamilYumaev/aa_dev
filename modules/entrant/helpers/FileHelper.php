@@ -102,7 +102,8 @@ class FileHelper
             PersonalEntityTransfer::class,
             LegalEntityTransfer::class,
             StatementAgreementContractTransferCg::class,
-            ReceiptContractTransfer::class
+            ReceiptContractTransfer::class,
+            PsychoTestSpo::class
         ];
     }
 

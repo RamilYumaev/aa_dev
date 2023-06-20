@@ -9,6 +9,7 @@ use modules\entrant\forms\OtherDocumentForm;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\FileHelper;
 use modules\entrant\helpers\StatementHelper;
+use modules\entrant\helpers\UserCgHelper;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
@@ -18,6 +19,7 @@ use modules\entrant\models\LegalEntity;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use modules\entrant\models\PersonalEntity;
+use modules\entrant\models\PsychoTestSpo;
 use modules\entrant\models\ReceiptContract;
 use modules\entrant\models\Statement;
 use modules\entrant\models\StatementAgreementContractCg;
@@ -125,6 +127,7 @@ class SubmittedDocumentsService
             $this->statementConsentRejection($user_id);
             $this->statementAgreement($user_id);
             $this->receiptAgreement($user_id);
+            $this->psychoTestSpo($user_id);
             $this->files($user_id);
         });
     }
@@ -407,5 +410,13 @@ class SubmittedDocumentsService
         }
     }
 
-
+    private function psychoTestSpo($userId)
+    {
+        $other = PsychoTestSpo::find()->where(['user_id' => $userId])->one();
+        if(UserCgHelper::isExamPsychology($userId)) {
+            if (!$other->files) {
+                throw new \DomainException(' Не загружен файл(-ы) раздела "Психологическое тестирование"');
+            }
+        }
+    }
 }
