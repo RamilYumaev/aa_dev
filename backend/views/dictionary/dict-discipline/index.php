@@ -25,16 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
+                    ['format' => 'raw', 'value' => function ($model) {
+                        return Html::a("xml для moodle",
+                            ['/exam-admin/exam/xml', 'discipline_id' => $model->id]);
+                    }],
                     ['class' => SerialColumn::class],
                     'name',
-                    ['attribute'=> 'cse_subject_id', 'value'=> 'cse.name'],
-                    ['attribute'=> 'ct_subject_id', 'value'=> 'ct.name'],
+                    ['attribute' => 'cse_subject_id', 'value' => 'cse.name'],
+                    ['attribute' => 'ct_subject_id', 'value' => 'ct.name'],
                     'composite_discipline:boolean',
                     'is_olympic:boolean',
-                    ['attribute'=> 'is_och', 'filter'=>DictDefaultHelper::nameList(),
-                        'value'=> 'nameIsOch'],
+                    ['attribute' => 'is_och', 'filter' => DictDefaultHelper::nameList(),
+                        'value' => 'nameIsOch'],
                     ['class' => ActionColumn::class,
-                        'template'=>'{update} {delete}'],
+                        'template' => '{update} {delete}'],
                 ]
             ]); ?>
         </div>
