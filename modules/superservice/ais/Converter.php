@@ -20,7 +20,6 @@ class Converter
         'IdOlympic' => 'epgu_olympic_id',
         'IdOlympicDiplomaTypes' => 'epgu_olympic_diploma_type_id',
         'IdProfile' => 'epgu_olympic_profile_id',
-        'IdRegion' => 'epgu_region_id',
         'IdSubject' => 'epgu_subject_id',
         'Mark' => 'epgu_mark',
         'NameDoc' => 'epgu_name_doc',

@@ -4,6 +4,7 @@ namespace modules\entrant\helpers;
 
 
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\helpers\DictCountryHelper;
 use dictionary\models\DictCompetitiveGroup;
 use modules\dictionary\helpers\DictCseSubjectHelper;
 use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
@@ -438,11 +439,40 @@ class DataExportHelper
                     'patronymic' => $profile->patronymic,
                     'amount' => 1,
                     'main_status' => $currentDocument->main_status ?? 0,
+                    'epgu_region_id' => '',
                 ] + Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data);
         }
         $result['documents'] = [];
+        $region = "";
+        foreach (DocumentEducation::find()
+                     ->andWhere(['user_id' => $userId])
+                     ->all() as $currentDocument) {
+            $region = $currentDocument->school->country_id == DictCountryHelper::RUSSIA  ? $currentDocument->school->region->ss_id : "";
+            $result['documents'][] = [
+                    'sdo_id' => $currentDocument->id,
+                    'model_type' => 3,
+                    'document_type_id' => $currentDocument->type,
+                    'document_series' => $currentDocument->series,
+                    'document_number' => $currentDocument->number,
+                    'document_issue' => $currentDocument->date,
+                    'document_authority' => $currentDocument->schoolName,
+                    'document_authority_code' => "",
+                    'document_authority_country_id' => $currentDocument->school->country_id,
+                    'diploma_authority' => $currentDocument->schoolName,
+                    'diploma_specialty_id' => '',
+                    'diploma_end_year' => $currentDocument->year,
+                    'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
+                    'surname' => $currentDocument->surname ?? $profile->last_name,
+                    'name' => $currentDocument->name ?? $profile->first_name,
+                    'amount' => 1,
+                    'main_status' => 1,
+                    'epgu_region_id' => $currentDocument->school->country_id == DictCountryHelper::RUSSIA  ? $currentDocument->school->region->ss_id : "",
+                ] + Converter::generate($currentDocument->type_document,
+                    $currentDocument->version_document,
+                    $currentDocument->other_data, true);
+        }
 
         foreach (OtherDocument::find()->where(['user_id' => $userId, 'type_note' => null])
                      ->andWhere(['not in', 'id', UserIndividualAchievements::find()->user($userId)->select('document_id')->column()])
@@ -474,36 +504,12 @@ class DataExportHelper
                     'patronymic' => $patronymic,
                     'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
                     'main_status' => 0,
+                    'epgu_region_id' => $region,
                 ] + Converter::generate($currentDocument->type_document,
                     $currentDocument->version_document,
                     $currentDocument->other_data, true);
         }
 
-        foreach (DocumentEducation::find()
-                     ->andWhere(['user_id' => $userId])
-                     ->all() as $currentDocument) {
-            $result['documents'][] = [
-                    'sdo_id' => $currentDocument->id,
-                    'model_type' => 3,
-                    'document_type_id' => $currentDocument->type,
-                    'document_series' => $currentDocument->series,
-                    'document_number' => $currentDocument->number,
-                    'document_issue' => $currentDocument->date,
-                    'document_authority' => $currentDocument->schoolName,
-                    'document_authority_code' => "",
-                    'document_authority_country_id' => $currentDocument->school->country_id,
-                    'diploma_authority' => $currentDocument->schoolName,
-                    'diploma_specialty_id' => '',
-                    'diploma_end_year' => $currentDocument->year,
-                    'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
-                    'surname' => $currentDocument->surname ?? $profile->last_name,
-                    'name' => $currentDocument->name ?? $profile->first_name,
-                    'amount' => 1,
-                    'main_status' => 1,
-                ] + Converter::generate($currentDocument->type_document,
-                    $currentDocument->version_document,
-                    $currentDocument->other_data, true);
-        }
         return $result;
     }
 
