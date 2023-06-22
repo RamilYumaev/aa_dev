@@ -294,7 +294,7 @@ class AgreementHelper
             AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
             AnketaHelper::ANAPA_BRANCH => '№ 12 от 18 февр. 2023 г.',
             AnketaHelper::POKROV_BRANCH => '№ 13 от 18 февр. 2022 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 18 от 18 февр. 2023 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 14 от 18 февр. 2023 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февр. 2022 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июл. 2020 г.',
             DictFacultyHelper::CHERNOHOVSK_BRANCH => ' №52 от 26 июля. 2022 г.',
