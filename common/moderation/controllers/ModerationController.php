@@ -176,6 +176,8 @@ class ModerationController extends Controller
             case DocumentEducation::class :
                 $model = DocumentEducation::findOne($moderation->record_id);
                 return $model->user_id ?? null;
+            case DictSchools::class :
+                return $moderation->created_by ?? null;
             default:
                 return null;
         }

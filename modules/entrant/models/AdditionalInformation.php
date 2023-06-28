@@ -169,11 +169,11 @@ class AdditionalInformation extends YiiActiveRecordAndModeration
             'hostel_id' => DictDefaultHelper::name($value),
             'is_military' => DictDefaultHelper::name($value),
             'resource_id'=> DictDefaultHelper::infoName($value),
-            'chernobyl_status_id' => DictDefaultHelper::infoName($value),
-            'mpgu_training_status_id' => DictDefaultHelper::infoName($value),
-            'is_epgu' =>  DictDefaultHelper::infoName($value),
-            'is_time' =>  DictDefaultHelper::infoName($value),
-            'in_transfer_mpgu' => DictDefaultHelper::infoName($value),
+            'chernobyl_status_id' =>  DictDefaultHelper::name($value),
+            'mpgu_training_status_id' =>  DictDefaultHelper::name($value),
+            'is_epgu' =>   DictDefaultHelper::name($value),
+            'is_time' =>   DictDefaultHelper::name($value),
+            'in_transfer_mpgu' =>  DictDefaultHelper::name($value),
             'mark_spo' => $value
         ];
     }
