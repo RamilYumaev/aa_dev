@@ -12,6 +12,7 @@ use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
 use modules\entrant\models\Agreement;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\AverageScopeSpo;
 use modules\entrant\models\CseSubjectResult;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\FIOLatin;
@@ -59,6 +60,13 @@ class DataExportHelper
         $addressActual = self::address(AddressHelper::TYPE_ACTUAL, $profile->user_id);
         $addressRegistration = self::address(AddressHelper::TYPE_REGISTRATION, $profile->user_id);
         $addressResidence = self::address(AddressHelper::TYPE_RESIDENCE, $profile->user_id);
+        $averageScopeSpo =AverageScopeSpo::findOne(['user_id' => $profile->user_id]);
+        $spoMark =  null;
+        if($averageScopeSpo) {
+           $spoMark = $averageScopeSpo->average;
+        } else {
+            $spoMark =  $info->mark_spo ?? null;
+        }
         $receptionMethodId = in_array($anketa->category_id, array_merge(CategoryStruct::UMSGroup(), [CategoryStruct::TPGU_PROJECT])) ? 2 : 1;
         if ($info->is_epgu && $info->is_time) {
             $type = 4;
@@ -119,7 +127,7 @@ class DataExportHelper
                 'school_type_id' => $anketa->current_edu_level,
                 'parallel_education_status' => 0,
                 'advertising_source_id' => $info->resource_id,
-                'overall_diploma_mark' => $info->mark_spo ?? null,
+                'overall_diploma_mark' => $spoMark,
                 'surname_genitive' => \Yii::$app->inflection->inflectName($profile->last_name, Inflector::GENITIVE, $profile->gender),
                 'name_genitive' => \Yii::$app->inflection->inflectName($profile->first_name, Inflector::GENITIVE, $profile->gender),
                 'patronymic_genitive' => \Yii::$app->inflection->inflectName($profile->patronymic, Inflector::GENITIVE, $profile->gender),
@@ -135,7 +143,7 @@ class DataExportHelper
                 'special_conditions_status' => $info->voz_id,
                 'priority_school_status' => $info->is_military_edu,
                 'snils' => $info->insuranceCertificate ? $info->insuranceCertificate->number : "",
-                'overall_diploma_mark_common' => $info->mark_spo ?? null,
+                'overall_diploma_mark_common' => $spoMark,
                 'incoming_type_id' => $type,
                 'epgu_status' => $info->transfer_in_epgu,
                 'photo' => $photo,

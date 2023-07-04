@@ -2,6 +2,8 @@
 namespace common\moderation\helpers;
 
 use common\auth\models\UserSchool;
+use common\moderation\interfaces\YiiActiveRecordAndModeration;
+use common\moderation\models\Moderation;
 use dictionary\models\DictSchools;
 use olympic\models\auth\Profiles;
 use yii\helpers\ArrayHelper;
@@ -26,15 +28,15 @@ class ModerationHelper
 
 
     public static function modelList() {
-        return  [
-            UserSchool::class => "Учебные оргнаизации (Ученики/студенты/педагоги)",
-            DictSchools::class => "Учебные организации",
-            Profiles::class=> "Профиль"];
+        $models = Moderation::find()->select('model')->groupBy('model')->all();
+        $data = [];
+
+        foreach ($models as $model) {
+            /** @var YiiActiveRecordAndModeration $object */
+            $object = (new $model->model);
+            $data[$model->model] = $object->titleModeration();
+
+        }
+        return $data;
     }
-
-    public static function modelOneName ($key) {
-        return ArrayHelper::getValue(self::modelList(), $key);
-    }
-
-
 }

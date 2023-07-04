@@ -35,7 +35,7 @@ $isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->updat
 <?= ($ais ?  Html::tag("span", "Загружен в АИС", ['class' => "label label-success"]) : Html::tag("span", "Не загружен в АИС", ['class' => "label label-danger"]))  ?>
 <div id="moderation-view">
     <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?= DetailView::widget(['model' => $moderation,
                 // 'formatter' => ['class' => 'yii\i18n\Formatter','timeZone' => 'Europe/Moscow'],
                 'attributes' => [

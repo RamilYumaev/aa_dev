@@ -9,11 +9,15 @@ use yii\data\ActiveDataProvider;
 class ModerationSearch extends Model
 {
     public $created_by;
+    public $isIncoming;
+    public $model;
+
 
     public function rules()
     {
         return [
-            [['created_by'], 'safe'],
+            [['created_by', 'isIncoming'], 'safe'],
+            ['model','string']
         ];
     }
     /**
@@ -46,6 +50,16 @@ class ModerationSearch extends Model
             if(key_exists(2, $data)) {
                 $query->andWhere(['like', 'patronymic', $data[2]]);
             }
+        }
+
+        if($this->isIncoming == 1) {
+           $query->andWhere('created_by IN (SELECT user_id FROM user_ais)');
+        }elseif(!is_null($this->isIncoming) && $this->isIncoming == 0) {
+            $query->andWhere('created_by NOT IN (SELECT user_id FROM user_ais)');
+        }
+
+        if($this->model) {
+            $query->andWhere(['like', 'model', $this->model]);
         }
 
         return $dataProvider;

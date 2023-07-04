@@ -55,6 +55,9 @@ $userId = $profile->user_id;
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>
+<div class="mt-20 table-responsive">
+    <?= \modules\entrant\widgets\education\AverageScopeSpoWidget::widget(['userId' => $userId, 'view' => "spo-index-backend"]); ?>
+</div>
 <?php if ($anketa->isAgreement()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>

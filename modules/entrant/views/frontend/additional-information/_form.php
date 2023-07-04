@@ -18,9 +18,6 @@ use yii\widgets\MaskedInput;
             <?php $form = ActiveForm::begin(['id'=> 'form-additional-information']); ?>
             <?= $form->field($model, 'resource_id')->dropDownList(DictDefaultHelper::listInfo()); ?>
             <?php /* $form->field($model, 'return_doc')->dropDownList(DictDefaultHelper::listReturnDoc()); */?>
-            <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($model->user_id)): ?>
-                <?= $form->field($model, 'mark_spo')->textInput(['placeholder'=>'4.44444']); ?>
-            <?php endif; ?>
             <?= $form->field($model, 'insuranceNumber')->widget(MaskedInput::class, [
                 'mask' => '999-999-999 99',
             ]) ?>

@@ -30,12 +30,10 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php if(DictCompetitiveGroupHelper::eduSpoExistsUser($additional_information->user_id)): ?>
-                    <?php if(!$additional_information->mark_spo): ?>
-                        <p class="bg-danger m-10">
-                            Необходимо ввести средний балл аттестата
-                        </p>
-                    <?php endif; ?>
+                    <?php if($additional_information->mark_spo): ?>
                         <?php array_push($columns, 'mark_spo') ?>
+                    <?php endif; ?>
+
                 <?php endif; ?>
                 <?= Html::a('Редактировать', ['additional-information/index'], ['class' => 'btn btn-warning']) ?>
                 <?= DetailView::widget([

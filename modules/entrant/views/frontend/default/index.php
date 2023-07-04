@@ -68,6 +68,11 @@ include 'navigation/index.html';
     <div class="mt-20 table-responsive" id="edu">
         <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId]); ?>
     </div>
+    <?php if (DictCompetitiveGroupHelper::eduSpoExistsUser($userId)):  ?>
+        <div class="mt-20 table-responsive" id="edu">
+            <?= \modules\entrant\widgets\education\AverageScopeSpoWidget::widget(['userId' => $userId]); ?>
+        </div>
+    <?php endif; ?>
     <?php if (AgreementHelper::isExits($anketa->user_id)): ?>
         <div class="mt-20 table-responsive">
             <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => 'index']); ?>
@@ -129,9 +134,11 @@ include 'navigation/index.html';
     </div>
         <?php endif; ?>
     <?php endif; ?>
+    <?php if(\modules\entrant\helpers\UserCgHelper::userMedicine($userId)):?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\MedicineOtherWidget::widget(['userId' => $userId]); ?>
     </div>
+    <?php endif; ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\DocumentOtherWidget::widget(['userId' => $userId]); ?>
     </div>

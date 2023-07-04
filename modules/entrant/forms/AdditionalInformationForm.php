@@ -39,7 +39,7 @@ class AdditionalInformationForm extends Model
     public function rules()
     {
         return [
-            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id', 'mark_spo',] : ['resource_id'], 'required'],
+            [DictCompetitiveGroupHelper::eduSpoExistsUser($this->user_id) ? ['resource_id'] : ['resource_id'], 'required'],
             [['voz_id', 'resource_id', 'hostel_id', 'transfer_in_epgu', 'is_military_edu', 'chernobyl_status_id', 'is_epgu', 'is_time', 'mpgu_training_status_id'], 'integer'],
             [['transfer_in_epgu', 'is_military_edu', 'chernobyl_status_id', 'is_epgu'], 'default', 'value' => 0],
             [['insuranceNumber'], 'string', 'max' => 14],

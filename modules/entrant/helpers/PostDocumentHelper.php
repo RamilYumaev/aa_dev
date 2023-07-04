@@ -5,6 +5,7 @@ use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DisciplineCompetitiveGroup;
 use frontend\widgets\competitive\ButtonWidget;
 use modules\entrant\models\Anketa;
+use modules\entrant\models\AverageScopeSpo;
 use modules\entrant\models\UserDiscipline;
 use olympic\helpers\auth\ProfileHelper;
 use yii\helpers\ArrayHelper;
@@ -64,7 +65,7 @@ class PostDocumentHelper
             DocumentEducationHelper::isDataNoEmpty($user_id) &&
             UserDisciplineHelper::isCorrect($user_id) &&
             AdditionalInformationHelper::isExits($user_id) &&
-            AdditionalInformationHelper::isSpoMark($user_id) &&
+            self::averageSpo($user_id )&&
             self::medicine($user_id) &&
             self::exemptionNoParent($user_id) &&
             self::name($user_id) &&
@@ -139,6 +140,11 @@ class PostDocumentHelper
     private static function userAnketa($userId): ?Anketa
     {
         return Anketa::findOne(['user_id'=> $userId]);
+    }
+
+    private static function averageSpo($userId): ?AverageScopeSpo
+    {
+        return AverageScopeSpo::findOne(['user_id'=> $userId]);
     }
 
     public static function isCorrectBlocks($userId) : bool
