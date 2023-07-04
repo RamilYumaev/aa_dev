@@ -57,6 +57,11 @@ $isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->updat
                 ],]) ?>
         </div>
     </div>
+    <?php if($ais) :?>
+    <div>
+        <?= \common\moderation\widgets\ExportDataWidget::widget(['model' => $moderation->model, 'sdoId' => $moderation->record_id, 'id' => $moderation->id]); ?>
+    </div>
+    <?php endif; ?>
     <div>
         <?= \common\moderation\widgets\ModerationWidget::widget(['moderation' => $moderation]); ?>
     </div>

@@ -4,7 +4,7 @@ namespace common\moderation\controllers;
 
 use common\auth\models\UserSchool;
 use common\moderation\forms\searches\ModerationSearch;
-use common\moderation\helpers\ModerationHelper;
+use common\moderation\helpers\DataExportHelper;
 use common\moderation\models\Moderation;
 use common\moderation\forms\ModerationMessageForm;
 use common\moderation\services\ModerationService;
@@ -17,7 +17,6 @@ use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
 use olympic\models\auth\Profiles;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -45,6 +44,7 @@ class ModerationController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'update-export-data' => ['POST'],
                 ],
             ],
             'access' => [
@@ -181,5 +181,64 @@ class ModerationController extends Controller
             default:
                 return null;
         }
+    }
+
+    /**
+     * @param $id
+     * @param null $did
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+
+    public function actionUpdateExportData($id, $did = null)
+    {
+        $model = $this->findModel($id);
+        $token = Yii::$app->user->identity->getAisToken();
+        if (!$token) {
+            Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
+                Чтобы получить, необходимо в вести логин и пароль АИС");
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            $ch = curl_init();
+            $data = Json::encode(DataExportHelper::dataDocumentOne($model, $did));
+            if(!$data) {
+                Yii::$app->session->setFlash("error", "Нет данных для передачи в АИС ВУЗ");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $headers = array("Content-Type" => "multipart/form-data");
+            curl_setopt($ch, CURLOPT_URL, \Yii::$app->params['ais_server'] . '/import-entrant-update-doc?access-token=' . $token);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+            if ($status_code !== 200) {
+                Yii::$app->session->setFlash("error", "Ошибка! $result");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            curl_close($ch);
+
+            $result = Json::decode($result);
+
+            if (array_key_exists('incoming_id', $result)) {
+                Yii::$app->session->setFlash('success', "Данные успешно обновлены");
+            } else if (array_key_exists('message', $result)) {
+                Yii::$app->session->setFlash('warning', $result['message']);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
+     * @param null $did
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionJson($id, $did = null) {
+        $model = $this->findModel($id);
+        return Json::encode(DataExportHelper::dataDocumentOne($model, $did));
     }
 }
