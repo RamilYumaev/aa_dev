@@ -190,9 +190,15 @@ class ModerationController extends Controller
      * @throws NotFoundHttpException
      */
 
-    public function actionUpdateExportData($id, $did = null)
+    public function actionUpdateExportData($id=null, $did = null, $user=null)
     {
-        $model = $this->findModel($id);
+        if($id) {
+            $model = $this->findModel($id);
+            $data = Json::encode(DataExportHelper::dataDocumentOne($model, $did));
+        }else {
+            $data = Json::encode(DataExportHelper::dataEduction($did, $user));
+        }
+
         $token = Yii::$app->user->identity->getAisToken();
         if (!$token) {
             Yii::$app->session->setFlash("error", "У вас отсутствует токен. 
@@ -200,7 +206,6 @@ class ModerationController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
         } else {
             $ch = curl_init();
-            $data = Json::encode(DataExportHelper::dataDocumentOne($model, $did));
             if(!$data) {
                 Yii::$app->session->setFlash("error", "Нет данных для передачи в АИС ВУЗ");
                 return $this->redirect(Yii::$app->request->referrer);
@@ -223,9 +228,10 @@ class ModerationController extends Controller
             $result = Json::decode($result);
 
             if (array_key_exists('status', $result)) {
-                $this->service->take($id);
+                if($id) {
+                    $this->service->take($id); return $this->redirect(['index']);
+                }
                 Yii::$app->session->setFlash('success', "Данные успешно обновлены");
-                return $this->redirect(['index']);
             } else if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
             }
@@ -236,11 +242,15 @@ class ModerationController extends Controller
     /**
      * @param $id
      * @param null $did
+     * @param null $user
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionJson($id, $did = null) {
-        $model = $this->findModel($id);
-        return Json::encode(DataExportHelper::dataDocumentOne($model, $did));
+    public function actionJson($id=null, $did = null, $user=null) {
+        if($id) {
+            $model = $this->findModel($id);
+            return Json::encode(DataExportHelper::dataDocumentOne($model, $did));
+        }
+        return Json::encode(DataExportHelper::dataEduction($did, $user));
     }
 }

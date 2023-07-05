@@ -253,4 +253,41 @@ class DataExportHelper
         }
     }
 
+    public static function dataEduction($id, $user_id)
+    {
+        $aisModel = AisReturnData::findOne(['record_id_sdo' => $id, 'model' => DocumentEducation::class]);
+        $profile = Profiles::findOne(['user_id' => $user_id]);
+        $result = [];
+        if($aisModel) {
+            switch ($aisModel->model) {
+                case DocumentEducation::class :
+                    $currentDocument = DocumentEducation::findOne(['id' => $aisModel->record_id_sdo]);
+                    $result['document'] = [
+                            'sdo_id' => $currentDocument->id,
+                            'id' => $aisModel->record_id_ais,
+                            'model_type' => 3,
+                            'document_type_id' => $currentDocument->type,
+                            'document_series' => $currentDocument->series,
+                            'document_number' => $currentDocument->number,
+                            'document_issue' => $currentDocument->date,
+                            'document_authority' => $currentDocument->schoolName,
+                            'document_authority_code' => "",
+                            'document_authority_country_id' => $currentDocument->school->country_id,
+                            'diploma_authority' => $currentDocument->schoolName,
+                            'diploma_specialty_id' => '',
+                            'diploma_end_year' => $currentDocument->year,
+                            'patronymic' => $currentDocument->patronymic ?? $profile->patronymic,
+                            'surname' => $currentDocument->surname ?? $profile->last_name,
+                            'name' => $currentDocument->name ?? $profile->first_name,
+                            'amount' => 1,
+                            'main_status' => 1,
+                            'epgu_region_id' => $currentDocument->school->country_id == DictCountryHelper::RUSSIA ? $currentDocument->school->region->ss_id : "",
+                        ] + Converter::generate($currentDocument->type_document,
+                            $currentDocument->version_document,
+                            $currentDocument->other_data, true);
+                    return $result;
+                    break;
+            }
+        }
+    }
 }
