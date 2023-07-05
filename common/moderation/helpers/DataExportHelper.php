@@ -96,6 +96,9 @@ class DataExportHelper
                     $currentDocument = DocumentEducation::findOne(['user_id' => $model->created_by]);
                     $region = $currentDocument->school->country_id == DictCountryHelper::RUSSIA ? $currentDocument->school->region->ss_id : "";
                     $currentDocument = OtherDocument::findOne(['id' => $aisModel->record_id_sdo]);
+                    $surname = "";
+                    $name = "";
+                    $patronymic = ""
                     if (in_array($currentDocument->type,
                         [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
                             DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT])) {
