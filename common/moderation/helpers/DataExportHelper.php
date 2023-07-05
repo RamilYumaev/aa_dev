@@ -93,7 +93,7 @@ class DataExportHelper
                     return $result;
                     break;
                 case OtherDocument::class :
-                    $currentDocument = DocumentEducation::findOne(['user_id' => $userId]);
+                    $currentDocument = DocumentEducation::findOne(['id' => $aisModel->record_id_sdo]);
                     $region = $currentDocument->school->country_id == DictCountryHelper::RUSSIA ? $currentDocument->school->region->ss_id : "";
                     $currentDocument = OtherDocument::findOne(['id' => $aisModel->record_id_sdo]);
                     if (in_array($currentDocument->type,
