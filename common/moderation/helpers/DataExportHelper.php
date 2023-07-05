@@ -98,7 +98,7 @@ class DataExportHelper
                     $currentDocument = OtherDocument::findOne(['id' => $aisModel->record_id_sdo]);
                     $surname = "";
                     $name = "";
-                    $patronymic = ""
+                    $patronymic = "";
                     if (in_array($currentDocument->type,
                         [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
                             DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT])) {
