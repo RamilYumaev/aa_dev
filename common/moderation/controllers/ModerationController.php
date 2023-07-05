@@ -222,8 +222,10 @@ class ModerationController extends Controller
 
             $result = Json::decode($result);
 
-            if (array_key_exists('incoming_id', $result)) {
+            if (array_key_exists('status', $result)) {
+                $this->service->take($id);
                 Yii::$app->session->setFlash('success', "Данные успешно обновлены");
+                return $this->redirect(['index']);
             } else if (array_key_exists('message', $result)) {
                 Yii::$app->session->setFlash('warning', $result['message']);
             }

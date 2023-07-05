@@ -1,10 +1,16 @@
 <?php
 namespace common\moderation\helpers;
 
-use common\auth\models\UserSchool;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use common\moderation\models\Moderation;
-use dictionary\models\DictSchools;
+use modules\entrant\models\AdditionalInformation;
+use modules\entrant\models\Address;
+use modules\entrant\models\AverageScopeSpo;
+use modules\entrant\models\DocumentEducation;
+use modules\entrant\models\FIOLatin;
+use modules\entrant\models\InsuranceCertificateUser;
+use modules\entrant\models\OtherDocument;
+use modules\entrant\models\PassportData;
 use olympic\models\auth\Profiles;
 use yii\helpers\ArrayHelper;
 
@@ -38,5 +44,19 @@ class ModerationHelper
 
         }
         return $data;
+    }
+
+    public static function modelListForExport() {
+        return [
+            Profiles::class,
+            PassportData::class,
+            OtherDocument::class,
+            DocumentEducation::class,
+            FIOLatin::class,
+            AdditionalInformation::class,
+            AverageScopeSpo::class,
+            Address::class,
+            InsuranceCertificateUser::class,
+        ];
     }
 }
