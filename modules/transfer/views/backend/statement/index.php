@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'faculty_id',
+                        'label' => 'Институт/Факультет',
                         'filter' =>  SelectDataHelper::dataSearchModel($searchModel,\dictionary\helpers\DictFacultyHelper::facultyList(), 'faculty_id', 'faculty_id'),
                         'value' => function($model) {
                             return $model->faculty_id ? \dictionary\helpers\DictFacultyHelper::facultyName( $model->faculty_id) : "";

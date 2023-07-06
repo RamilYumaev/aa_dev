@@ -37,7 +37,7 @@ class StatementSearch extends  Model
     public function rules()
     {
         return [
-            [['edu_count', 'user_id', 'type', 'success_exam', 'finance'], 'integer'],
+            [['edu_count', 'user_id', 'type', 'success_exam', 'finance', 'faculty_id'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
