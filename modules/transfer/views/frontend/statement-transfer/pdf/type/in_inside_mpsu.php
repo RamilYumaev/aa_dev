@@ -17,7 +17,7 @@ $cg = $statement->cg;
     и перевести в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
     форма обучения <?= mb_strtolower($cg->formEdu) ?>,
     <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>. <br/>
-Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
+Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
     <?= $docRemove->listCauses()[$docRemove->cause_id].($docRemove->cause_id == 5 ? '. '.$docRemove->note:'') ?> (причина отчисления)</p>
 <table width="100%" class="mt-10 fs-11">
     <tr>

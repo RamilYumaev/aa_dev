@@ -22,6 +22,7 @@ class StatementSearch extends  Model
     public $user_id, $date_from, $edu_count, $date_to;
     public $type;
     public $finance;
+    public $faculty_id;
     public $success_exam;
     private $status;
     private $exam;
@@ -86,6 +87,7 @@ class StatementSearch extends  Model
             'user_id' => $this->user_id,
             'finance'=>  $this->finance,
             'success_exam'=> $this->success_exam,
+            'faculty_id' => $this->faculty_id,
         ]);
 
         $query

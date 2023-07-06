@@ -47,6 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
                     [
+                        'attribute' => 'faculty_id',
+                        'filter' =>  SelectDataHelper::dataSearchModel($searchModel,\dictionary\helpers\DictFacultyHelper::facultyList(), 'faculty_id', 'faculty_id'),
+                        'value' => function($model) {
+                            return $model->faculty_id ? \dictionary\helpers\DictFacultyHelper::facultyName( $model->faculty_id) : "";
+                        }
+                    ],
+                    [
                         'attribute' => 'created_at',
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
