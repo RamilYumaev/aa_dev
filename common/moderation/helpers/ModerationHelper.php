@@ -19,12 +19,16 @@ class ModerationHelper
     const STATUS_NEW = 0;
     const STATUS_TAKE = 1;
     const STATUS_REJECT =2;
+    const STATUS_REJECT_CHANGE =3;
 
 
     public static function statusList() {
-        return  [self::STATUS_NEW => "Новый",
-                 self::STATUS_REJECT=> "Отклонен",
-                 self::STATUS_TAKE => "Принят"];
+        return  [
+            self::STATUS_NEW => "Новый",
+            self::STATUS_REJECT=> "Отклонен",
+            self::STATUS_REJECT_CHANGE => "Отклонен c заменой",
+            self::STATUS_TAKE => "Принят"
+            ,];
     }
 
 

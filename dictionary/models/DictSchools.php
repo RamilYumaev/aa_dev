@@ -7,6 +7,7 @@ use common\auth\models\UserSchool;
 use common\moderation\behaviors\ModerationBehavior;
 use common\moderation\interfaces\YiiActiveRecordAndModeration;
 use dictionary\helpers\DictCountryHelper;
+use dictionary\helpers\DictRegionHelper;
 use dictionary\helpers\DictSchoolsHelper;
 use dictionary\models\queries\DictSchoolsQuery;
 
@@ -17,7 +18,7 @@ class DictSchools extends YiiActiveRecordAndModeration
         return [
             'moderation' => [
                 'class' => ModerationBehavior::class,
-                'attributes' => ['name','email','status'],
+                'attributes' => ['name','email','status', 'country_id', 'region_id'],
             ],
         ];
     }
@@ -131,6 +132,12 @@ class DictSchools extends YiiActiveRecordAndModeration
 
     public function moderationAttributes($value): array
     {
-        return ['name' => $value, 'email' => $value, 'status' => DictSchoolsHelper::typeEmailName($value)];
+        return [
+            'name' => $value,
+            'email' => $value,
+            'status' => DictSchoolsHelper::typeEmailName($value),
+            'country_id' => DictCountryHelper::countryName($value),
+            'region_id' => DictRegionHelper::regionName($value)
+        ];
     }
 }

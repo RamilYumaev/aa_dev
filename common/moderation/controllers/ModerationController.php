@@ -45,6 +45,7 @@ class ModerationController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'update-export-data' => ['POST'],
+                    'reject-change' => ['POST'],
                 ],
             ],
             'access' => [
@@ -113,6 +114,23 @@ class ModerationController extends Controller
             'model' => $form,
         ]);
     }
+
+    /**
+     * @param integer $id
+     * @param integer|null $school
+     * @return mixed
+     */
+    public function actionRejectChange($id, $school = null)
+    {
+        try {
+            $this->service->rejectChange($id, $school);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['index']);
+    }
+
 
     /**
      * @param integer $id

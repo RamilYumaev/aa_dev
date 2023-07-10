@@ -69,5 +69,10 @@ $isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->updat
         <div>
             <?= \common\moderation\widgets\ExportEducationWidget::widget(['id' => $moderation->record_id]); ?>
         </div>
+        <?php if ($moderation->isStatusNew()) : ?>
+        <div>
+            <?= \common\moderation\widgets\SchoolModerationWidget::widget(['id'=> $moderation->id]); ?>
+        </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
