@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\components\redirect\actions\ErrorAction;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 
@@ -21,6 +22,23 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => ErrorAction::class,
+            ],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['clear-cache', 'log-view', 'app-log-clear'],
+                'rules' => [
+                    [
+                        'actions' => ['clear-cache', 'log-view', 'app-log-clear'],
+                        'allow' => true,
+                        'roles' => ['dev'],
+                    ],
+                ],
             ],
         ];
     }

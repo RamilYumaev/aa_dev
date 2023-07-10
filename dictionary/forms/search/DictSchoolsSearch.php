@@ -14,15 +14,14 @@ class DictSchoolsSearch extends Model
 {
     public $country_id;
     public $region_id;
-    public $dict_school_report_id;
     public $name;
     protected $query;
 
     public function rules(): array
     {
         return [
-            [['country_id', 'region_id', 'dict_school_report_id'], 'integer'],
-            [['name',], 'safe'],
+            [['country_id', 'region_id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -60,7 +59,6 @@ class DictSchoolsSearch extends Model
         $query->andFilterWhere([
             'country_id' => $this->country_id,
             'region_id' => $this->region_id,
-            'dict_school_report_id' => $this->dict_school_report_id
         ]);
 
         $query

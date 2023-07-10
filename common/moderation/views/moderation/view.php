@@ -69,8 +69,9 @@ $isEntrant = Yii::$app->authManager->getAssignment('entrant', $moderation->updat
         <div>
             <?= \common\moderation\widgets\ExportEducationWidget::widget(['id' => $moderation->record_id]); ?>
         </div>
-        <?php if ($moderation->isStatusNew()) : ?>
+        <?php if ($moderation->isStatusNew()) :  $school = \dictionary\models\DictSchools::findOne($moderation->record_id)?>
         <div>
+            <h4 class="ml-2"><?= $school->name. ", ". $school->countryRegion ?></h4>
             <?= \common\moderation\widgets\SchoolModerationWidget::widget(['id'=> $moderation->id]); ?>
         </div>
         <?php endif; ?>
