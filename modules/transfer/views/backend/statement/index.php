@@ -59,6 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
+                    [
+                        'attribute' => 'updated_at',
+                        'label' => 'Дата обновления',
+                        'format' => 'datetime',
+                    ],
                     [  'format' => 'raw',
                             'value' => function ($model) {
                      return ' <span class="label label-' .StatementHelper::colorName($model->status).'">'.$model->statusNameJob.'</span>';

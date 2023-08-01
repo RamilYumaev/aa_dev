@@ -37,6 +37,8 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
         <td><?= !$isCorrect ? Html::a("Отклонить", ["file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",
             'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Причина отклонения']) : "" ?></td>
         <td><span class="label label-<?= FileHelper::colorName($file->status)?>"><?=$file->statusName?></span></td>
+        <td>Дата создания <?= Yii::$app->formatter->asDatetime($file->created_at) ?> </td>
+        <td>Дата обновления <?= Yii::$app->formatter->asDatetime($file->updated_at) ?></td>
         <?php \yii\widgets\Pjax::end()?>
     </tr>
     <?php endforeach; ?>

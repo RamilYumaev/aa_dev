@@ -28,7 +28,7 @@ class AverageScopeSpoForm extends Model
     {
         return [
             [['user_id', 'number_of_threes', 'number_of_fours', 'number_of_fives'], 'required'],
-            [['number_of_threes', 'number_of_fours', 'number_of_fives'], 'integer', 'min' => 0, 'max' => 20],
+            [['number_of_threes', 'number_of_fours', 'number_of_fives'], 'integer', 'min' => 0, 'max' => 30],
         ];
     }
 

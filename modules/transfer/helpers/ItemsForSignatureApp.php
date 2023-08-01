@@ -46,7 +46,7 @@ class ItemsForSignatureApp
             case TransferMpgu::FROM_EDU:
                 return [1, $edu,13,14,16,6,7];
             default:
-                return [1, $edu,12,5,6,7];
+                return [1, $edu,12,15,6,7];
         }
     }
 }

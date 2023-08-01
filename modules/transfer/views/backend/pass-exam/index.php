@@ -38,6 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => DateFormatHelper::dateWidgetRangeSearch($searchModel, 'date_from', 'date_to'),
                         'format' => 'datetime',
                     ],
+                    [
+                        'attribute' => 'finance',
+                        'label' =>'Тип финансирования',
+                        'filter' => DictCompetitiveGroupHelper::listFinances(),
+                        'value' => function($model) {
+                            return $model->statement->finance ? $model->statement->typeFinance : "";
+                        }
+                    ],
                     [   'attribute' => 'is_pass',
                         'label' => 'Статус',
                         'format' => 'raw',

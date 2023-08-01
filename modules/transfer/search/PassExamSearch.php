@@ -14,7 +14,7 @@ use yii\data\ActiveDataProvider;
 
 class PassExamSearch extends  Model
 {
-    public $user_id, $date_from, $edu_count, $date_to, $is_pass, $agree, $success_exam;
+    public $user_id,  $finance, $date_from, $edu_count,  $date_to, $is_pass, $agree, $success_exam;
     protected $status;
     protected $protocol;
 
@@ -29,7 +29,7 @@ class PassExamSearch extends  Model
     public function rules()
     {
         return [
-            [['edu_count', 'user_id', 'is_pass', 'agree', 'success_exam'], 'integer'],
+            [['edu_count', 'user_id', 'is_pass', 'agree', 'finance', 'success_exam'], 'integer'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
@@ -62,6 +62,7 @@ class PassExamSearch extends  Model
             'success_exam' => $this->success_exam,
             'edu_count' => $this->edu_count,
             'is_pass' => $this->is_pass,
+            'finance' => $this->finance,
             'agree' => $this->agree,
             'user_id' => $this->user_id,
         ]);
