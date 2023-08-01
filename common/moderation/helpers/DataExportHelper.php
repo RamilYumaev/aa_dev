@@ -200,6 +200,7 @@ class DataExportHelper
                             'address_residence_house' => $addressResidence ? $addressResidence->house : "",
                             'address_residence_housing' => $addressResidence ? $addressResidence->housing : "",
                             'address_residence_building' => $addressResidence ? $addressResidence->building : "",
+                            'address_residence_flat' => $addressResidence ? $addressResidence->flat : "",
                         ];
                     }
                     return $result;

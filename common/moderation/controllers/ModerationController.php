@@ -242,16 +242,18 @@ class ModerationController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             curl_close($ch);
-
+            $str = $result;
             $result = Json::decode($result);
 
             if (array_key_exists('status', $result)) {
-                if($id) {
-                    $this->service->take($id); return $this->redirect(['index']);
-                }
                 Yii::$app->session->setFlash('success', "Данные успешно обновлены");
-            } else if (array_key_exists('message', $result)) {
-                Yii::$app->session->setFlash('warning', $result['message']);
+                if($id) {
+                    $this->service->take($id);
+
+                    return $this->redirect(['index']);
+                }
+            } else {
+                Yii::$app->session->setFlash('warning', $str);
             }
         }
         return $this->redirect(Yii::$app->request->referrer);

@@ -31,6 +31,10 @@
         <?php if ($moderation->isStatusNew()) : ?>
         <?= \yii\helpers\Html::a('Принять', ['take', 'id' => $moderation->id], ['class'=> 'btn btn-success'])?>
         <?= \yii\helpers\Html::a('Отклонить', ['reject', 'id' => $moderation->id], ['class'=> 'btn btn-danger', 'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' =>'Причина отклонения'  ])?>
+        <?= $moderation->model == \dictionary\models\DictSchools::class ? \yii\helpers\Html::a('Отклонить с заменой на новую запись', ['reject-change', 'id' =>  $moderation->id], ['class'=> 'btn btn-warning', 'data' => [
+                'confirm' => 'Вы уверены, что хотите сделать?',
+                'method' => 'post',
+            ]]) : "" ?>
         <?php endif;?>
     </div>
 </div>

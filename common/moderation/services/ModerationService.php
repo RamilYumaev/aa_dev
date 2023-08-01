@@ -4,6 +4,7 @@
 namespace common\moderation\services;
 
 use common\auth\models\UserSchool;
+use common\moderation\behaviors\ModerationUpdateBehavior;
 use common\moderation\helpers\ModerationHelper;
 use common\moderation\forms\ModerationMessageForm;
 use common\moderation\models\Moderation;
@@ -13,6 +14,7 @@ use common\transactions\TransactionManager;
 use dictionary\helpers\DictFacultyHelper;
 use dictionary\models\DictSchools;
 use modules\entrant\models\DocumentEducation;
+use modules\management\migrations\m191208_001261_add_primary_key_task_document;
 use yii\db\BaseActiveRecord;
 
 class ModerationService
@@ -59,7 +61,6 @@ class ModerationService
     {
         $this->transactionManager->wrap(function () use ($id, $school) {
             $moderation = $this->getModeration($id, ModerationHelper::STATUS_REJECT_CHANGE);
-            $this->handleChangeOrAddSchool($moderation, $school);
             if ($moderation->getBeforeData()) {
                 $model = $this->getBaseRecordData($moderation->record_id, $moderation->getModel(), $moderation->getBeforeData());
                 $this->baseRepository->save($model);
@@ -67,6 +68,7 @@ class ModerationService
                 $this->baseRepository->remove($this->getBaseRecord($moderation->record_id, $moderation->getModel()));
             }
             $this->repository->save($moderation);
+            $this->handleChangeOrAddSchool($moderation, $school);
         });
     }
 
@@ -92,9 +94,12 @@ class ModerationService
     }
 
     protected function handleChangeOrAddSchool(Moderation $moderation, $school) {
-        $newSchool  = DictSchools::findOne($moderation->record_id);
+        $oldSchool  = DictSchools::findOne($moderation->record_id);
         if(!$school) {
-            $model = DictSchools::create($newSchool->name, $newSchool->country_id, $newSchool->region_id);
+            $name = $moderation->getAfter('name');
+            $countryId = key_exists('country_id', $moderation->getAfterData()) ? $moderation->getAfter('country_id') : $oldSchool->country_id;
+            $regionId = key_exists('region_id', $moderation->getAfterData()) ? $moderation->getAfter('region_id') : $oldSchool->region_id;
+            $model = DictSchools::create($name, $countryId, $regionId);
             if($model->save()) {
                 $this->handleUpdate($moderation, $model->id);
             }
@@ -118,7 +123,16 @@ class ModerationService
             ->all();
         /* @var  DocumentEducation $document*/
         foreach ($documents as $document) {
+            $document->detachBehaviors();
             $document->school_id = $school;
+            $document->attachBehavior('moderation3', [
+                'class' => ModerationUpdateBehavior::class,
+                'attributes'=>['school_id','type', 'series', 'number', 'date', 'year',
+                    'patronymic', 'surname', 'name', 'other_data',
+                    'type_document',
+                    'version_document' ],
+                'attributesNoEncode' => ['series', 'number'],
+            ]);
             $document->save();
         }
     }
