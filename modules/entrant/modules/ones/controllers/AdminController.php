@@ -1,0 +1,58 @@
+<?php
+
+namespace modules\entrant\modules\ones\controllers;
+
+use modules\entrant\modules\ones\job\HandleList;
+use modules\entrant\modules\ones\job\HandleScopePassList;
+use modules\entrant\modules\ones\job\ImportCgJob;
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+
+class AdminController extends Controller
+{
+    const PATH   = '@modules/entrant/modules/ones/views/cg.xlsx';
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
+    public function actionCgHandle()
+    {
+        Yii::$app->queue->push(new ImportCgJob(['path'=> self::PATH]));
+        $message = 'Задание "Конкурсные группы" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionListHandle()
+    {
+        Yii::$app->queue->push(new HandleList());
+        $message = 'Задание "Провести конкурс" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionSemiHandle()
+    {
+        Yii::$app->queue->push(new HandleScopePassList());
+        $message = 'Задание "Найти поупрходные баллы" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+}

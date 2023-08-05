@@ -3,6 +3,7 @@
 namespace modules\entrant;
 
 use modules\entrant\components\UserNoJobEntrant;
+use modules\entrant\modules\ones\Ones;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
@@ -22,6 +23,13 @@ class BackendEntrant extends Module
                 ],
             ],
         ];
+    }
+
+    public function init()
+    {
+        parent::init();
+        $this->modules = ['ones' => ['class'=> Ones::class]];
+
     }
 
     public function beforeAction($action)
