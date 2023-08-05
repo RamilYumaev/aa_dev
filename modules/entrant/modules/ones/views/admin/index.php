@@ -5,6 +5,7 @@ use yii\helpers\Html; ?>
     <div class="box">
         <div class="box-header">
             <?= Html::a('Провести конкурс', ['list-handle'], ['class'=>'btn btn-danger', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
+            <?= Html::a('Провести конкурс (Альтернатива)', ['alternate-handle'], ['class'=>'btn btn-danger', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
             <?= Html::a('Найти полупроходные баллы', ['semi-handle'], ['class'=>'btn btn-warning', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
         </div>
         <div class="box-header">

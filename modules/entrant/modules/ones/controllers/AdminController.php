@@ -2,6 +2,7 @@
 
 namespace modules\entrant\modules\ones\controllers;
 
+use modules\entrant\modules\ones\job\AlternateHandle;
 use modules\entrant\modules\ones\job\HandleList;
 use modules\entrant\modules\ones\job\HandleScopePassList;
 use modules\entrant\modules\ones\job\ImportCgJob;
@@ -44,6 +45,14 @@ class AdminController extends Controller
     {
         Yii::$app->queue->push(new HandleList());
         $message = 'Задание "Провести конкурс" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionAlternateHandle()
+    {
+        Yii::$app->queue->push(new AlternateHandle());
+        $message = 'Задание "Провести конкурс (альтернатіва)" отправлено в очередь';
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');
     }

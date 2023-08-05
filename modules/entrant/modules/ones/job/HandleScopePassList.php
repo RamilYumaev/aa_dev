@@ -23,27 +23,26 @@ class HandleScopePassList extends BaseObject implements \yii\queue\JobInterface
             /** @var CompetitiveList $minimal */
             $minimal = CompetitiveList::find()
                 ->andWhere(['cg_id' => $item, 'status' => CompetitiveList::STATUS_SUCCESS])
-                ->orderBy(['sum_ball' => SORT_ASC])
-                ->one();
-
-            $list = CompetitiveList::find()
-                ->andWhere(['cg_id' => $item, 'priority'=> $minimal->priority, 'status' => CompetitiveList::STATUS_NO_SUCCESS, 'sum_ball' => $minimal->sum_ball])
-                ->all();
-            /** @var CompetitiveList $item1 */
-            $countChanged = 0;
-            foreach ($list as $item1) {
-                if (CompetitiveList::find()->andWhere(['and', ['snils_or_id' => $item1->snils_or_id, 'status' => CompetitiveList::STATUS_SUCCESS], ['not', ['id' => $item1->id]]])->exists()) {
-                    continue;
+                ->orderBy(['sum_ball' => SORT_ASC])->min('sum_ball');
+            if ($minimal) {
+                $list = CompetitiveList::find()
+                    ->andWhere(['cg_id' => $item,'status' => CompetitiveList::STATUS_NO_SUCCESS, 'sum_ball' => $minimal])
+                    ->all();
+                /** @var CompetitiveList $item1 */
+                $countChanged = 0;
+                foreach ($list as $item1) {
+                    if (CompetitiveList::find()->andWhere(['and', ['snils_or_id' => $item1->snils_or_id, 'status' => CompetitiveList::STATUS_SUCCESS], ['not', ['id' => $item1->id]]])->exists()) {
+                        continue;
+                    }
+                    $item1->status = $item1::STATUS_SEMI_PASS;
+                    $item1->save();
+                    $countChanged++;
                 }
-                $item1->status = $item1::STATUS_SEMI_PASS;
-                $item1->save();
-                $countChanged++;
-            }
-            if($countChanged) {
-                $minimal->status = $minimal::STATUS_SEMI_PASS;
-                $minimal->save();
+                if ($countChanged) {
+                    $minimal->status = $minimal::STATUS_SEMI_PASS;
+                    $minimal->save();
+                }
             }
         }
-
     }
 }

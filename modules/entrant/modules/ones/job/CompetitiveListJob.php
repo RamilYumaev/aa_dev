@@ -35,22 +35,25 @@ class CompetitiveListJob extends BaseObject implements \yii\queue\JobInterface
                     if ($k === 0) {
                         continue;
                     }
-                    $model = new CompetitiveList();
-                    $model->cg_id = $this->model->id;
-                    $model->fio = $r[2];
-                    $model->snils_or_id = $r[1];
-                    $model->priority = $r[5];
-                    $model->sum_ball = $r[6];
-                    $model->exam_1 = $r[7];
-                    $model->ball_exam_1 = $r[8];
-                    $model->exam_2 = $r[9];
-                    $model->ball_exam_2 = $r[10];
-                    $model->exam_3 = $r[11];
-                    $model->ball_exam_3 = $r[12];
-                    $model->mark_ai = $r[14];
-                    $model->status = CompetitiveList::STATUS_NEW;
-                    if (!$model->save()) {
-                        print_r($model->firstErrors);
+
+                    if ($r[3] == "Да" || $r[4] == "Да") {
+                        $model = new CompetitiveList();
+                        $model->cg_id = $this->model->id;
+                        $model->fio = $r[2];
+                        $model->snils_or_id = (string)$r[1];
+                        $model->priority = $r[5];
+                        $model->sum_ball = $r[6];
+                        $model->exam_1 = $r[7];
+                        $model->ball_exam_1 = $r[8];
+                        $model->exam_2 = $r[9];
+                        $model->ball_exam_2 = $r[10];
+                        $model->exam_3 = $r[11];
+                        $model->ball_exam_3 = $r[12];
+                        $model->mark_ai = $r[14];
+                        $model->status = CompetitiveList::STATUS_NEW;
+                        if (!$model->save()) {
+                            print_r($model->firstErrors);
+                        }
                     }
                 }
 
