@@ -6,10 +6,8 @@ namespace modules\entrant\modules\ones\job;
 
 use modules\entrant\modules\ones\model\CompetitiveGroupOnes;
 use modules\entrant\modules\ones\model\CompetitiveList;
-use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use yii\base\BaseObject;
-use yii\db\Exception;
 use yii\queue\Queue;
 
 class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
@@ -25,7 +23,6 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
             ->select("priority")
             ->groupBy("priority")
             ->orderBy(['priority'=>SORT_ASC])->column();
-        $snils = [];
         foreach ($allPriorities as $priority) {
             $competitiveLists = CompetitiveList::find()
                 ->andWhere(['priority'=> $priority])
@@ -34,15 +31,14 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
             /**
              * @var $competitiveList CompetitiveList
              */
-
+            $check = [];
             foreach ($competitiveLists as $competitiveList) {
                 $newStatus = $this->contest($competitiveList->competitiveGroup, $competitiveList->snils_or_id);
                 if($this->finishedContest($competitiveList->competitiveGroup)) {
+                    echo "dd";
                     continue;
                 }
-                if(in_array($competitiveList->snils_or_id, $snils)) {
-                    continue;
-                }
+
                 if ($newStatus == CompetitiveList::STATUS_SUCCESS) {
                     $competitiveList->status = $newStatus;
                     if(!$competitiveList->save()){
@@ -52,10 +48,8 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
                             ['status' => $competitiveList::STATUS_NO_SUCCESS],
                             ['and', ['snils_or_id' => $competitiveList->snils_or_id],
                                 ['not', ['id' => $competitiveList->id]]]);
+                    }
 
-                    }else {
-                    $snils[] = $competitiveList->snils_or_id;
-                 }
 
             }
         }
