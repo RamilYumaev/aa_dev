@@ -30,6 +30,9 @@ use yii\helpers\Html;
                     'data' => $model::allTypes(),
                     'options' => ['multiple' => true],
                 ]) ?>
+                <?= $form->field($model, 'education_form')->widget(Select2::class, [
+                    'data' => $model::allForms(),
+                ]) ?>
             </div>
         </div>
         <div class="form-group">

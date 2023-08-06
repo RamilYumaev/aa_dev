@@ -23,10 +23,11 @@ class HandleScopePassList extends BaseObject implements \yii\queue\JobInterface
             /** @var CompetitiveList $minimal */
             $minimal = CompetitiveList::find()
                 ->andWhere(['cg_id' => $item, 'status' => CompetitiveList::STATUS_SUCCESS])
-                ->orderBy(['sum_ball' => SORT_ASC])->min('sum_ball');
+                ->orderBy(['sum_ball' => SORT_ASC])
+                ->one();
             if ($minimal) {
                 $list = CompetitiveList::find()
-                    ->andWhere(['cg_id' => $item,'status' => CompetitiveList::STATUS_NO_SUCCESS, 'sum_ball' => $minimal])
+                    ->andWhere(['cg_id' => $item, 'status' => CompetitiveList::STATUS_NO_SUCCESS, 'sum_ball' => $minimal->sum_ball])
                     ->all();
                 /** @var CompetitiveList $item1 */
                 $countChanged = 0;

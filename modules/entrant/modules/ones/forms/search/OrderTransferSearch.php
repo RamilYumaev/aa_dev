@@ -12,7 +12,7 @@ class OrderTransferSearch extends OrderTransferOnes
     {
         return [
             [[ 'education_level',
-                'department',
+                'department', 'education_form',
                 'type_competitive',], 'safe'],
         ];
     }
@@ -36,6 +36,7 @@ class OrderTransferSearch extends OrderTransferOnes
         $query
             ->andFilterWhere(['like', 'education_level', $this->education_level])
             ->andFilterWhere(['like', 'department', $this->department])
+            ->andFilterWhere(['like', 'education_form', $this->education_form])
             ->andFilterWhere(['like', 'type_competitive', $this->type_competitive])
 
         ;
