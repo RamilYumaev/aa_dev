@@ -18,6 +18,7 @@ class CompetitiveListSearch extends CompetitiveList
                 'cg_id',
                 'snils_or_id',
                 'priority',
+                'number',
                 'status',
                 'sum_ball', 'mark_ai'], 'safe'],
         ];
@@ -42,7 +43,7 @@ class CompetitiveListSearch extends CompetitiveList
             $query->andWhere(['snils_or_id' => $this->idOrSnils]);
         }
 
-        $query->orderBy(['sum_ball' => SORT_DESC]);
+        $query->orderBy(['number' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,6 +61,7 @@ class CompetitiveListSearch extends CompetitiveList
             'priority' => $this->priority,
             'sum_ball' => $this->sum_ball,
             'mark_ai,' => $this->mark_ai,
+            'number,' => $this->number,
             'cg_id' => $this->cg_id,
         ]);
 

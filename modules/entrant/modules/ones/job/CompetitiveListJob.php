@@ -50,6 +50,7 @@ class CompetitiveListJob extends BaseObject implements \yii\queue\JobInterface
                         $model->exam_3 = $r[11];
                         $model->ball_exam_3 = $r[12];
                         $model->mark_ai = $r[14];
+                        $model->number = $r[0];
                         $model->status = CompetitiveList::STATUS_NEW;
                         if (!$model->save()) {
                             print_r($model->firstErrors);

@@ -19,6 +19,7 @@ use yii\helpers\Html;
         <?= $form->errorSummary($model) ?>
         <div class="row">
             <div class="col-md-6">
+                <?= $form->field($model, 'number')->textInput() ?>
                 <?= $form->field($model, 'fio')->textInput() ?>
                 <?= $form->field($model, 'snils_or_id')->textInput() ?>
                 <?= $form->field($model, 'cg_id')->widget(Select2::class, [

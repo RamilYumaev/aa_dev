@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
 
                      'fio',
+                     'number',
                      'snils_or_id',
                      'priority',
                      ['value' => 'subjectMarks', 'header' => 'Баллы за ВИ'],

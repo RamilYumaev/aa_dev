@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property integer|null $priority
  * @property integer $mark_ai
  * @property integer $status
- * @property string $is_recommend_transfer
+ * @property string $number
  * @property string $sum_ball
  *
  * @property-read  CompetitiveGroupOnes $competitiveGroup
@@ -52,6 +52,7 @@ class CompetitiveList extends ActiveRecord
                 'exam_3',], 'required'],
             [[
                 'status', 'cg_id',
+                'number',
                 'sum_ball',], 'integer'],
             [['fio',
                 'snils_or_id','exam_1',
@@ -93,7 +94,7 @@ class CompetitiveList extends ActiveRecord
             'priority' => "Приоритет",
             'status' => 'Статус',
             'fio' => 'ФИО',
-            'is_recommend_transfer' => "Рекомендован к зачислению",
+            'number' => "Порядковый номер",
             'statusName' => 'Статус'
         ];
     }

@@ -59,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
                      'fio',
+                    'number',
                      'snils_or_id',
                      'priority',
                      ['value' => 'subjectMarks', 'header' => 'Баллы за ВИ'],

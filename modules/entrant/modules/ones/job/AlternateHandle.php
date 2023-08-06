@@ -17,25 +17,28 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
      * @param Queue $queue which pushed and is handling the job
      * @return void|mixed result of the job execution
      */
+
+
     public function execute($queue)
     {
         $allPriorities = CompetitiveList::find()
             ->select("priority")
             ->groupBy("priority")
-            ->orderBy(['priority'=>SORT_ASC])->column();
+            ->orderBy(['priority'=>SORT_ASC])
+            ->column();
+
         foreach ($allPriorities as $priority) {
-            $competitiveLists = CompetitiveList::find()
+            $cgs = CompetitiveList::find()
+                ->select('cg_id')
                 ->andWhere(['priority'=> $priority])
-                ->andWhere('snils_or_id NOT IN (SELECT snils_or_id FROM competitive_list_ones WHERE status=1)')
-                ->all();
+                ->andWhere(['status' => CompetitiveList::STATUS_NEW])
+                ->column();
             /**
              * @var $competitiveList CompetitiveList
              */
-            $check = [];
-            foreach ($competitiveLists as $competitiveList) {
+            foreach ($cgs as $cg) {
                 $newStatus = $this->contest($competitiveList->competitiveGroup, $competitiveList->snils_or_id);
                 if($this->finishedContest($competitiveList->competitiveGroup)) {
-                    echo "dd";
                     continue;
                 }
 
@@ -47,6 +50,7 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
                         CompetitiveList::updateAll(
                             ['status' => $competitiveList::STATUS_NO_SUCCESS],
                             ['and', ['snils_or_id' => $competitiveList->snils_or_id],
+                                ['>', 'priority', $competitiveList->priority],
                                 ['not', ['id' => $competitiveList->id]]]);
                     }
 
@@ -82,7 +86,9 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
     }
     private function finishedContest(CompetitiveGroupOnes $competitiveGroup){
         $amountOfTransfer = $competitiveGroup->getCountStatuses(CompetitiveList::STATUS_SUCCESS);
-        $amountOfNewStatus = $competitiveGroup->getCountStatuses(CompetitiveList::STATUS_NEW);
+        $amountOfNewStatus = CompetitiveList::find()->andWhere(['status' => CompetitiveList::STATUS_NEW,
+            'cg_id'=> $competitiveGroup->id])->count();
+        echo $competitiveGroup->id .': '.$amountOfTransfer .' - '. $amountOfNewStatus. PHP_EOL;
         if($amountOfTransfer == $competitiveGroup->kcp && $amountOfNewStatus == 0) {
             $competitiveGroup->status = CompetitiveGroupOnes::STATUS_HANDLED;
             if(!$competitiveGroup->save()) {
@@ -101,7 +107,8 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
          * @var $cg CompetitiveGroupOnes
          */
         foreach ($cgs as $cg) {
-            if($cg->getCountStatuses(CompetitiveList::STATUS_SUCCESS) == $cg->kcp) {
+            $countSuccess = CompetitiveList::find()->andWhere(['status' => CompetitiveList::STATUS_SUCCESS, 'cg_id'=> $cg->id])->count();
+            if($countSuccess == $cg->kcp) {
                 $result[] = 0;
             }else {
                 $result[] = 1;
