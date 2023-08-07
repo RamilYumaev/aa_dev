@@ -28,15 +28,15 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
             ->column();
 
         foreach ($allPriorities as $priority) {
-            $cgs = CompetitiveList::find()
-                ->select('cg_id')
+            $competitiveLists = CompetitiveList::find()
                 ->andWhere(['priority'=> $priority])
                 ->andWhere(['status' => CompetitiveList::STATUS_NEW])
-                ->column();
+                ->orderBy(['number'=>SORT_ASC])
+                ->all();
             /**
              * @var $competitiveList CompetitiveList
              */
-            foreach ($cgs as $cg) {
+            foreach ($competitiveLists as $competitiveList) {
                 $newStatus = $this->contest($competitiveList->competitiveGroup, $competitiveList->snils_or_id);
                 if($this->finishedContest($competitiveList->competitiveGroup)) {
                     continue;
@@ -47,21 +47,21 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
                     if(!$competitiveList->save()){
                         print_r("Статус заявления не сохранен! " .$competitiveList->firstErrors);
                     }
-                        CompetitiveList::updateAll(
-                            ['status' => $competitiveList::STATUS_NO_SUCCESS],
+
+                    CompetitiveList::updateAll(
+                        ['status' => $competitiveList::STATUS_NO_SUCCESS],
                             ['and', ['snils_or_id' => $competitiveList->snils_or_id],
                                 ['>', 'priority', $competitiveList->priority],
                                 ['not', ['id' => $competitiveList->id]]]);
                     }
-
-
             }
         }
+
         $newStatusLists = CompetitiveList::find()->andWhere(['status'=>CompetitiveList::STATUS_NEW])->all();
         /**
          * @var $newStatusList CompetitiveList
          */
-            foreach ($newStatusLists as $newStatusList) {
+        foreach ($newStatusLists as $newStatusList) {
                 $this->noSuccessAllCg($newStatusList->snils_or_id);
             }
 
@@ -76,7 +76,7 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
             ->andWhere(['cg_id'=> $competitiveGroup->id])
             ->andWhere(['<>','status', CompetitiveList::STATUS_NO_SUCCESS])
             ->limit($competitiveGroup->kcp)
-            ->orderBy(['sum_ball'=> SORT_DESC])
+            ->orderBy(['number'=>SORT_ASC, 'sum_ball'=> SORT_DESC])
             ->column();
         if(in_array($snilsOrId, $contest)) {
             return CompetitiveList::STATUS_SUCCESS;
@@ -119,5 +119,10 @@ class AlternateHandle extends BaseObject implements \yii\queue\JobInterface
         }
 
 
+    }
+
+    private function rangeExam(CompetitiveList $competitiveList, $priority) {
+        CompetitiveList::find()
+            ->andWhere(['sum_ball' => $competitiveList->sum_ball, 'cg_id' => $competitiveList->cg_id]);
     }
 }

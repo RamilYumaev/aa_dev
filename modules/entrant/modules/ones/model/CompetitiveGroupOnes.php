@@ -30,6 +30,7 @@ class CompetitiveGroupOnes extends ActiveRecord
     const STATUS_NEW = 0;
     const STATUS_HANDLED = 1;
     const STATUS_ORDERED = 2;
+    const STATUS_DEFICIENCY = 3;
 
     public $check;
 
@@ -108,6 +109,7 @@ class CompetitiveGroupOnes extends ActiveRecord
             self::STATUS_NEW => "Необработно",
             self::STATUS_HANDLED => "Завершено",
             self::STATUS_ORDERED => "В приказе",
+            self::STATUS_DEFICIENCY => "недобор",
         ];
     }
 

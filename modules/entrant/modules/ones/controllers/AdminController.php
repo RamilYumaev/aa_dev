@@ -3,9 +3,11 @@
 namespace modules\entrant\modules\ones\controllers;
 
 use modules\entrant\modules\ones\job\AlternateHandle;
+use modules\entrant\modules\ones\job\FinalHandler;
 use modules\entrant\modules\ones\job\HandleList;
 use modules\entrant\modules\ones\job\HandleScopePassList;
 use modules\entrant\modules\ones\job\ImportCgJob;
+use modules\entrant\modules\ones\job\MarkHandler;
 use modules\entrant\modules\ones\model\CompetitiveGroupOnes;
 use modules\entrant\modules\ones\model\CompetitiveList;
 use Yii;
@@ -54,6 +56,22 @@ class AdminController extends Controller
     public function actionAlternateHandle()
     {
         Yii::$app->queue->push(new AlternateHandle());
+        $message = 'Задание "Провести конкурс (альтернатіва)" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionMarkHandle()
+    {
+        Yii::$app->queue->push(new MarkHandler());
+        $message = 'Задание "Провести конкурс (альтернатіва)" отправлено в очередь';
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionFinalHandle()
+    {
+        Yii::$app->queue->push(new FinalHandler());
         $message = 'Задание "Провести конкурс (альтернатіва)" отправлено в очередь';
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');
