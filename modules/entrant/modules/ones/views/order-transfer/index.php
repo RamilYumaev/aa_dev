@@ -9,7 +9,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Конкурсные группы'
 $this->params['breadcrumbs'][] = $this->title;
 
 use modules\entrant\helpers\SelectDataHelper;
-use yii\grid\GridView; ?>
+use yii\grid\GridView;
+use yii\helpers\Html; ?>
 <div>
     <div class="box">
         <div class="box-header">
@@ -28,16 +29,23 @@ use yii\grid\GridView; ?>
                     ],
                     ['attribute' => 'education_level',
                         'filter' => \modules\entrant\modules\ones\model\OrderTransferOnes::allEduLevels(),
-                        'value' =>'educationLevelName',
+                        'value' =>'education_level',
                     ],
                     ['attribute' => 'education_form',
                         'filter' => \modules\entrant\modules\ones\model\OrderTransferOnes::allForms(),
-                        'value' =>'formsName',
+                        'value' => 'education_form',
                     ],
                     ['attribute' => 'type_competitive',
                         'filter' => \modules\entrant\modules\ones\model\OrderTransferOnes::allTypes(),
-                        'value' =>'typeName',
+                        'value' =>'type_competitive',
                     ],
+                    ['label' => "#",
+                        'format' => 'raw',
+                        'value' => function($model) {
+                            return Html::a('Приказ', ['order',
+                                'id' => $model->id, 'st'=>'p']) ." || ". Html::a('Сведения', ['order',
+                                    'id' => $model->id, 'st'=>'s']);
+                        }],
                 ],
             ]) ?>
         </div>

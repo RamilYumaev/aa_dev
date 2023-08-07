@@ -4,7 +4,6 @@
 /* @var $model \modules\entrant\modules\ones\model\OrderTransferOnes */
 /* @var $form yii\bootstrap\ActiveForm */
 
-use kartik\file\FileInput;
 use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -21,14 +20,12 @@ use yii\helpers\Html;
             <div class="col-md-12">
                 <?= $form->field($model, 'education_level')->widget(Select2::class, [
                     'data' => $model::allEduLevels(),
-                    'options' => ['multiple' => true],
                 ]) ?>
                 <?= $form->field($model, 'department')->widget(Select2::class, [
                     'data' => $model::allDepartments(),
                 ]) ?>
                 <?= $form->field($model, 'type_competitive')->widget(Select2::class, [
                     'data' => $model::allTypes(),
-                    'options' => ['multiple' => true],
                 ]) ?>
                 <?= $form->field($model, 'education_form')->widget(Select2::class, [
                     'data' => $model::allForms(),

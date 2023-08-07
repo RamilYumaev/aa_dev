@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['label' => "#",
                         'format' => 'raw',
                         'value' => function($model) {
-                            return Html::a('Прсмотр', ['competitive-list/view',
+                            return Html::a('Просмотр', ['competitive-list/view',
                                 'id' => $model->id,]);
                         }],
 //                     ['label' => "",
