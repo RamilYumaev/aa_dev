@@ -21,7 +21,7 @@ use yii\helpers\Html; ?>
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => \yii\grid\ActionColumn::class, 'template' => '{view} {update}'],
+                    ['class' => \yii\grid\ActionColumn::class, 'template' => '{update}'],
                     ['class' => \yii\grid\SerialColumn::class],
                     ['attribute' => 'department',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel, \modules\entrant\modules\ones\model\OrderTransferOnes::allDepartments() , 'department', 'department'),
