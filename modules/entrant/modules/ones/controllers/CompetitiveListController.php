@@ -74,27 +74,27 @@ class CompetitiveListController extends Controller
         ]);
     }
 
-    /**
-     * @param $id
-     * @param $status
-     * @return string
-     * @throws NotFoundHttpException
-     */
-    public function actionStatus($id, $status)
-    {
-        $model = $this->findModel($id);
-        $count = CompetitiveList::find()
-            ->andWhere(['cg_id' => $model->cg_id, 'status' => $model::STATUS_SUCCESS])
-            ->count();
-        if($status == $model::STATUS_SUCCESS && $count == $model->competitiveGroup->kcp) {
-            $message = 'Нет вакантных мест';
-            Yii::$app->session->setFlash("danger", $message);
-        }else {
-            $model->status = $status;
-            $model->save();
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
+//    /**
+//     * @param $id
+//     * @param $status
+//     * @return string
+//     * @throws NotFoundHttpException
+//     */
+//    public function actionStatus($id, $status)
+//    {
+//        $model = $this->findModel($id);
+//        $count = CompetitiveList::find()
+//            ->andWhere(['cg_id' => $model->cg_id, 'status' => $model::STATUS_SUCCESS])
+//            ->count();
+//        if($status == $model::STATUS_SUCCESS && $count == $model->competitiveGroup->kcp) {
+//            $message = 'Нет вакантных мест';
+//            Yii::$app->session->setFlash("danger", $message);
+//        }else {
+//            $model->status = $status;
+//            $model->save();
+//        }
+//        return $this->redirect(Yii::$app->request->referrer);
+//    }
 
     /**
      * @param integer $id

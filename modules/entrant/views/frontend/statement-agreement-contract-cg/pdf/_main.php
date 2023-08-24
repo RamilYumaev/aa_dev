@@ -17,7 +17,7 @@ if ($agreement->typeLegal()) : ?>
 <?php endif; ?>
 <htmlpagefooter name="footer">
     <div>
-Исполнитель: _________________ / С.В. Мельник <br />
+Исполнитель: _________________ / Ж.И. Соболева<br />
 тел.: 8(495) 438-18-57
     </div>
 </htmlpagefooter>

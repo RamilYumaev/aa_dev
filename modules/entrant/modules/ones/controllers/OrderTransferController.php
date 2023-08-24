@@ -83,6 +83,7 @@ class OrderTransferController extends Controller
     {
         $group = $this->findModel($id);
         if($group) {
+            $p = $st;
             if($group->education_level == "Специалитет") {
                 $st = 'spec'.$st;
             }
@@ -105,7 +106,7 @@ class OrderTransferController extends Controller
                     }
                 }
                 $orderSection = $this->prepareOrderSection($group);
-                $blockData = $this->prepareBlock($applicationsCommon, $st == 's');
+                $blockData = $this->prepareBlock($applicationsCommon, $p == 's');
                 if (\count($blockData['applications'])) {
                     $orderSection['blockOrder'][0]['block_app_normal'] = 1;
                 }
@@ -146,9 +147,13 @@ class OrderTransferController extends Controller
         switch ($model->education_level) {
             case 'Бакалавриат':
                 $blockOrder[0]['education_level'] = 'бакалавриата';
+                $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
+                $blockOrder[0]['protocol_number'] = 2;
                 break;
             case 'Специалитет':
                 $blockOrder[0]['education_level'] = 'базового высшего образования';
+                $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
+                $blockOrder[0]['protocol_number'] = 2;
                 break;
         }
         switch ($model->education_form) {
@@ -163,8 +168,9 @@ class OrderTransferController extends Controller
                 break;
         }
 
-        $blockOrder[0]['protocol_date'] = "08.08.2023";
-        $blockOrder[0]['protocol_number'] = 8;
+        $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
+        $blockOrder[0]['protocol_number'] = 2;
+        $blockOrder[0]['transfer_date'] = Yii::$app->formatter->asDate("2023-09-01", 'long');
 
 
 //        $blockOrder[0]['if_magister'] =

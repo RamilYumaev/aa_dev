@@ -44,7 +44,11 @@ use modules\entrant\modules\ones\model\CompetitiveList; ?>
                     },
                         'label' => "Кол-во заявлений",
                     ],
-
+                    ['value' => function(\modules\entrant\modules\ones\model\CompetitiveGroupOnes $model) {
+                        return $model->getMinimal();
+                    },
+                        'label' => "Мин. проходной балл",
+                    ],
                 ]
             ]) ?>
         </div>

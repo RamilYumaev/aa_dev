@@ -3,7 +3,6 @@
 
 namespace modules\entrant\modules\ones\job;
 
-
 use modules\entrant\modules\ones\model\CompetitiveGroupOnes;
 use modules\entrant\modules\ones\model\CompetitiveList;
 use yii\base\BaseObject;
@@ -12,6 +11,7 @@ use yii\queue\Queue;
 class FinalHandler extends BaseObject implements \yii\queue\JobInterface
 {
     public $arr = [];
+    public $eduLevel = '';
     /**
      * @param Queue $queue which pushed and is handling the job
      * @return void|mixed result of the job execution
@@ -21,12 +21,14 @@ class FinalHandler extends BaseObject implements \yii\queue\JobInterface
         $priorities = CompetitiveList::find()
             ->select('priority')
             ->groupBy('priority')
+            ->andWhere(['cg_id' => $this->allGgByLevel()])
             ->orderBy(['priority'=>SORT_ASC])
             ->column();
 
         foreach ($priorities as $priority) {
             $allUnhandledApplications = CompetitiveList::find()
                 ->andWhere(['priority'=> $priority])
+                ->andWhere(['cg_id' => $this->allGgByLevel()])
                 ->andWhere(['status'=> CompetitiveList::STATUS_NEW])
                 ->orderBy(['sum_ball'=> SORT_DESC])
                 ->all();
@@ -51,27 +53,18 @@ class FinalHandler extends BaseObject implements \yii\queue\JobInterface
             }
         }
 
-        $count = CompetitiveList::find()->andWhere(['status'=> CompetitiveList::STATUS_NEW])->count();
+        $count = CompetitiveList::find()->andWhere(['status'=> CompetitiveList::STATUS_NEW])
+            ->andWhere(['cg_id' => $this->allGgByLevel()])
+            ->count();
         $this->arr[] = $count;
         $result = array_count_values($this->arr);
-        if(in_array($count, $this->arr) && $result[$count] > 4) {
+        if(in_array($count, $this->arr) && $result[$count] > 2) {
             CompetitiveList::updateAll(
                 ['status' => CompetitiveList::STATUS_NO_SUCCESS],
-                ['status' => CompetitiveList::STATUS_NEW]);
+                ['status' => CompetitiveList::STATUS_NEW, 'cg_id' => $this->allGgByLevel()]);
         }else {
             \Yii::$app->queue->push(new FinalHandler(['arr'=>$this->arr]));
         }
-    }
-
-    private function alReadySuccess(CompetitiveList $competitiveList) {
-        return CompetitiveList::find()
-            ->andWhere(['snils_or_id'=> $competitiveList->snils_or_id])
-            ->andWhere(['status'=> CompetitiveList::STATUS_SUCCESS])
-            ->exists();
-    }
-
-    private function allCompetitiveGroupsClosed() {
-        return !CompetitiveGroupOnes::find()->andWhere(['status'=> CompetitiveGroupOnes::STATUS_NEW])->exists();
     }
 
     private function contest(int $cgId, string $snilsOrId){
@@ -81,7 +74,7 @@ class FinalHandler extends BaseObject implements \yii\queue\JobInterface
             ->select('snils_or_id')
             ->andWhere(['cg_id'=>$cgId])
             ->andWhere(['<>', 'status', CompetitiveList::STATUS_NO_SUCCESS])
-            ->orderBy(['sum_ball'=> SORT_DESC])
+            ->orderBy(['number'=> SORT_ASC])
             ->limit($competitiveGroup->kcp)
             ->column();
         return in_array($snilsOrId, $applications);
@@ -111,5 +104,9 @@ class FinalHandler extends BaseObject implements \yii\queue\JobInterface
                 print_r($competitiveGroupOnes->firstErrors);
             }
         }
+    }
+
+    private function allGgByLevel() {
+        return CompetitiveGroupOnes::find()->andWhere(['education_level'=> $this->eduLevel])->select('id')->column();
     }
 }

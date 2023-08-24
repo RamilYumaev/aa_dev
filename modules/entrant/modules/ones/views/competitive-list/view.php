@@ -31,7 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'cg_id',
                         'label'=> 'КГ',
                         'filter' => SelectDataHelper::dataSearchModel($searchModel, \modules\entrant\modules\ones\model\CompetitiveGroupOnes::allCgName(), 'cg_id', 'cg_id'),
-                        'value' =>'competitiveGroup.name',
+                        'value' => function($model) {
+                                 return $model->competitiveGroup->name. "(".$model->competitiveGroup->minimal.")";
+                        },
                     ],
 
                      'fio',

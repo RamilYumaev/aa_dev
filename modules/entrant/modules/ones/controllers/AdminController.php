@@ -69,18 +69,22 @@ class AdminController extends Controller
         return  $this->redirect('index');
     }
 
-    public function actionFinalHandle()
+    public function actionFinalHandle($level)
     {
-        Yii::$app->queue->push(new FinalHandler());
-        $message = 'Задание "Провести конкурс (альтернатіва)" отправлено в очередь';
+        Yii::$app->queue->push(new FinalHandler(['eduLevel' => $level]));
+        $message = 'Задание "Провести конкурс (альтернатіва)" '.$level.' отправлено в очередь';
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');
     }
 
-    public function actionClear(){
-        CompetitiveGroupOnes::updateAll(['status'=> CompetitiveGroupOnes::STATUS_NEW]);
-        CompetitiveList::updateAll(['status'=> CompetitiveList::STATUS_NEW]);
-        $message = 'Конкурс обнулен.';
+    public function actionClear($level){
+        $cgs = CompetitiveGroupOnes::find()->andWhere(['education_level'=>$level])->select('id')->column();
+        $message = 'Не найдены кг.';
+        if($cgs) {
+            CompetitiveGroupOnes::updateAll(['status'=> CompetitiveGroupOnes::STATUS_NEW], ['id' => $cgs]);
+            CompetitiveList::updateAll(['status'=> CompetitiveList::STATUS_NEW], ['cg_id'=> $cgs]);
+            $message = 'Конкурс обнулен. '.$level;
+        }
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');
     }

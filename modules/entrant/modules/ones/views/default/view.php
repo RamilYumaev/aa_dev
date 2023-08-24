@@ -75,23 +75,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('Просмотр', ['competitive-list/view',
                                 'id' => $model->id,]);
                         }],
-                    ['label' => "#",
-                        'format' => 'raw',
-                        'value' => function(\modules\entrant\modules\ones\model\CompetitiveList $model) {
-                            if($model->status == $model::STATUS_SEMI_PASS) {
-                                return  Html::a('Прошел', ['competitive-list/status',
-                                    'id' => $model->id, 'status' => $model::STATUS_SUCCESS], ['data-confirm'=> "Вы уверенны, что хотичте это сделать?", 'class' => "btn btn-success"])  .'<br/>'.
-                                    Html::a('Не прошел', ['competitive-list/status',
-                                        'id' => $model->id, 'status' => $model::STATUS_NO_SUCCESS], ['data-confirm'=> "Вы уверенны, что хотичте это сделать?", 'class' => "btn btn-danger"]);
-                            }
-                            else if($model->status == $model::STATUS_SUCCESS) {
-                                return  Html::a('Забрал заявление', ['competitive-list/status',
-                                    'id' => $model->id, 'status' => $model::STATUS_RETURN], ['data-confirm'=> "Вы уверенны, что хотичте это сделать?", 'class' => "btn btn-info"]);
-                            }else {
-                                return $model::isOnOtherSuccess($model->snils_or_id, $model->id) ? "" :Html::a('Прошел', ['competitive-list/status',
-                                    'id' => $model->id, 'status' => $model::STATUS_SUCCESS], ['data-confirm'=> "Вы уверенны, что хотичте это сделать?"]);
-                            }
-                        }],
                 ],
                 'actionColumnTemplate' => '',
             ]) ?>

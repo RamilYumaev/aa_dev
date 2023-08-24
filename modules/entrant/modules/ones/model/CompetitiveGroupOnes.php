@@ -103,6 +103,11 @@ class CompetitiveGroupOnes extends ActiveRecord
         return $query->count();
     }
 
+    public function getMinimal() {
+        return $this->getCompetitiveList()
+            ->andWhere(['status' => CompetitiveList::STATUS_SUCCESS])->min('sum_ball');
+    }
+
     public static function listStatuses()
     {
         return [
