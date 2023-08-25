@@ -163,7 +163,7 @@ class OrderTransferController extends Controller
                 $blockOrder[0]['education_level'] = 'магистратуры';
                 $blockOrder[0]['if_magister'] = ' для продолжения обучения ';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-26", 'long');
-                $blockOrder[0]['protocol_number'] = 3;
+                $blockOrder[0]['protocol_number'] = 7;
                 break;
         }
         switch ($model->education_form) {
@@ -223,7 +223,7 @@ class OrderTransferController extends Controller
                 $currentBlock['table'][$numApplication]['snils_or_id'] = $currentApplication->snils_or_id;
             } else {
                 $currentBlock['table'][$numApplication]['full_name'] =
-                    $currentApplication->fio;
+                    $currentApplication->fio .PHP_EOL. $currentApplication->snils_or_id;
             }
 
             $currentBlock['table'][$numApplication]['mark'] = $currentApplication->sum_ball;
