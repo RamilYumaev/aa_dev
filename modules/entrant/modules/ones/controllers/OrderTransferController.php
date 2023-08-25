@@ -83,10 +83,6 @@ class OrderTransferController extends Controller
     {
         $group = $this->findModel($id);
         if($group) {
-            $p = $st;
-            if($group->education_level == "Специалитет") {
-                $st = 'spec'.$st;
-            }
             $pathTemplate = Yii::getAlias("@modules/entrant/modules/ones/views/order-transfer/templates/".$st.".docx");
             if(file_get_contents($pathTemplate)) {
                 $fileName =  ($st == "p" ? "Приказ" : "Сведения"). "(".$group->department." ".$group->education_form. " ".$group->education_level.").docx";
@@ -106,7 +102,7 @@ class OrderTransferController extends Controller
                     }
                 }
                 $orderSection = $this->prepareOrderSection($group);
-                $blockData = $this->prepareBlock($applicationsCommon, $p == 's');
+                $blockData = $this->prepareBlock($applicationsCommon, $st == 's');
                 if (\count($blockData['applications'])) {
                     $orderSection['blockOrder'][0]['block_app_normal'] = 1;
                 }
@@ -143,17 +139,31 @@ class OrderTransferController extends Controller
 //        } else {
 //            $blockOrder[0]['number_ia'] = 'Номер договора';
 //        }
-        $blockOrder[0]['number_results'] = 'Балл Единого государственного экзамена (ЕГЭ), балл вступительного испытания, проводимого МПГУ (ВИ), балл Централизованного тестирования (ЦТ)';
+
         switch ($model->education_level) {
             case 'Бакалавриат':
+                $blockOrder[0]['number_results'] = 'Балл Единого государственного экзамена (ЕГЭ), балл вступительного испытания, проводимого МПГУ (ВИ), балл Централизованного тестирования (ЦТ)';
+                $blockOrder[0]['name_special'] = 'Направленность (профиль)';
                 $blockOrder[0]['education_level'] = 'бакалавриата';
+                $blockOrder[0]['if_magister'] = '';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
                 $blockOrder[0]['protocol_number'] = 2;
                 break;
             case 'Специалитет':
+                $blockOrder[0]['number_results'] = 'Балл Единого государственного экзамена (ЕГЭ), балл вступительного испытания, проводимого МПГУ (ВИ), балл Централизованного тестирования (ЦТ)';
+                $blockOrder[0]['name_special'] = 'Специальность';
                 $blockOrder[0]['education_level'] = 'базового высшего образования';
+                $blockOrder[0]['if_magister'] = '';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
                 $blockOrder[0]['protocol_number'] = 2;
+                break;
+            case 'Магистратура':
+                $blockOrder[0]['number_results'] = 'Балл вступительного испытания, проводимого МПГУ';
+                $blockOrder[0]['name_special'] = 'Магистерская программа';
+                $blockOrder[0]['education_level'] = 'магистратуры';
+                $blockOrder[0]['if_magister'] = ' для продолжения обучения ';
+                $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-26", 'long');
+                $blockOrder[0]['protocol_number'] = 3;
                 break;
         }
         switch ($model->education_form) {
@@ -167,15 +177,7 @@ class OrderTransferController extends Controller
                 $blockOrder[0]['education_form'] = 'заочную';
                 break;
         }
-
-        $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
-        $blockOrder[0]['protocol_number'] = 2;
         $blockOrder[0]['transfer_date'] = Yii::$app->formatter->asDate("2023-09-01", 'long');
-
-
-//        $blockOrder[0]['if_magister'] =
-//            $model->education_level_id == StudentCompetitiveGroup::EDUCATION_LEVEL_MAGISTER ?
-//                ' для продолжения обучения ' : '';
         $blockOrder[0]['kcp'] = 'в рамках контрольных цифр приема';
 
         $blockOfficial = [];

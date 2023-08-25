@@ -99,9 +99,9 @@ class CompetitiveList extends ActiveRecord
     }
 
     public function getSubjectMarks() {
-        return $this->exam_1 ." - ". $this->ball_exam_1. PHP_EOL.
-            $this->exam_2 ." - ". $this->ball_exam_2. PHP_EOL.
-            $this->exam_3 ." - ". $this->ball_exam_3;
+        return $this->exam_1 ." - ". $this->ball_exam_1.
+            ($this->exam_2 ? PHP_EOL. $this->exam_2 ." - ". $this->ball_exam_2 : '').
+            ($this->exam_3 ? PHP_EOL. $this->exam_3 ." - ". $this->ball_exam_3 : '');
     }
 
     public function getCompetitiveGroup() {
