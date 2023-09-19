@@ -254,15 +254,15 @@ class DataExportHelper
         }
     }
 
-    public static function dataEduction($id, $user_id)
+    public static function dataEduction($id)
     {
-        $aisModel = AisReturnData::findOne(['record_id_sdo' => $id, 'model' => DocumentEducation::class]);
-        $profile = Profiles::findOne(['user_id' => $user_id]);
+        $aisModel = AisReturnData::findOne(['record_id_sdo' => $id]);
         $result = [];
         if($aisModel) {
             switch ($aisModel->model) {
                 case DocumentEducation::class :
                     $currentDocument = DocumentEducation::findOne(['id' => $aisModel->record_id_sdo]);
+                    $profile = Profiles::findOne(['user_id' => $currentDocument->user_id]);
                     $result['document'] = [
                             'sdo_id' => $currentDocument->id,
                             'id' => $aisModel->record_id_ais,
@@ -283,6 +283,48 @@ class DataExportHelper
                             'amount' => 1,
                             'main_status' => 1,
                             'epgu_region_id' => $currentDocument->school->country_id == DictCountryHelper::RUSSIA ? $currentDocument->school->region->ss_id : "",
+                        ] + Converter::generate($currentDocument->type_document,
+                            $currentDocument->version_document,
+                            $currentDocument->other_data, true);
+                    return $result;
+                    break;
+                case OtherDocument::class :
+                    $currentDocument = OtherDocument::findOne(['id' => $aisModel->record_id_sdo]);
+                    $profile = Profiles::findOne(['user_id' => $currentDocument->user_id]);
+                    $currentDocumentEduction = DocumentEducation::findOne(['user_id' => $currentDocument->user_id]);
+                    $userAnketa =  Anketa::findOne(['user_id' => $currentDocument->user_id]);
+                    $region = $currentDocumentEduction->school->country_id == DictCountryHelper::RUSSIA ? $currentDocumentEduction->school->region->ss_id : "";
+                    $surname = "";
+                    $name = "";
+                    $patronymic = "";
+                    if (in_array($currentDocument->type,
+                        [DictIncomingDocumentTypeHelper::ID_BIRTH_DOCUMENT,
+                            DictIncomingDocumentTypeHelper::ID_BIRTH_FOREIGNER_DOCUMENT])) {
+                        $documentCountryId = $userAnketa->citizenship_id;
+                        $surname = $profile->last_name;
+                        $name = $profile->first_name;
+                        $patronymic = $profile->patronymic;
+                    }
+                    $result['document'] = [
+                            'sdo_id' => $currentDocument->id,
+                            'model_type' => 2,
+                            'id' => $aisModel->record_id_ais,
+                            'document_type_id' => $currentDocument->type,
+                            'document_series' => $currentDocument->series,
+                            'document_number' => $currentDocument->number,
+                            'document_issue' => $currentDocument->date,
+                            'document_authority' => mb_strtoupper($currentDocument->authority, 'UTF-8'),
+                            'document_authority_code' => '',
+                            'document_authority_country_id' => $currentDocument->country_id ?? $documentCountryId,
+                            'diploma_authority' => '',
+                            'diploma_specialty_id' => '',
+                            'diploma_end_year' => '',
+                            'surname' => $surname,
+                            'name' => $name,
+                            'patronymic' => $patronymic,
+                            'amount' => $currentDocument->type == DictIncomingDocumentTypeHelper::ID_PHOTO ? $currentDocument->amount : 1,
+                            'main_status' => 0,
+                            'epgu_region_id' => $region,
                         ] + Converter::generate($currentDocument->type_document,
                             $currentDocument->version_document,
                             $currentDocument->other_data, true);

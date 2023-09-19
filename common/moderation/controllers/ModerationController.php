@@ -5,6 +5,7 @@ namespace common\moderation\controllers;
 use common\auth\models\UserSchool;
 use common\moderation\forms\searches\ModerationSearch;
 use common\moderation\helpers\DataExportHelper;
+use common\moderation\jobs\UpdateData;
 use common\moderation\models\Moderation;
 use common\moderation\forms\ModerationMessageForm;
 use common\moderation\services\ModerationService;
@@ -12,6 +13,7 @@ use dictionary\models\DictSchools;
 use kartik\form\ActiveForm;
 use modules\entrant\models\AdditionalInformation;
 use modules\entrant\models\Address;
+use modules\entrant\models\AisReturnData;
 use modules\entrant\models\DocumentEducation;
 use modules\entrant\models\OtherDocument;
 use modules\entrant\models\PassportData;
@@ -214,7 +216,7 @@ class ModerationController extends Controller
             $model = $this->findModel($id);
             $data = Json::encode(DataExportHelper::dataDocumentOne($model, $did));
         }else {
-            $data = Json::encode(DataExportHelper::dataEduction($did, $user));
+            $data = Json::encode(DataExportHelper::dataEduction($did));
         }
 
         $token = Yii::$app->user->identity->getAisToken();
@@ -257,6 +259,25 @@ class ModerationController extends Controller
             }
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param null $did
+     * @param null $user
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionAddUpdateExportData()
+    {
+        $aisModel = AisReturnData::find()->andWhere(['model' => [OtherDocument::class, DocumentEducation::class]])->all();
+        $i = 0;
+        foreach ($aisModel as $model) {
+            Yii::$app->queue->push(new UpdateData(['model'=>$model, 'token' => Yii::$app->user->identity->getAisToken()]));
+            $i++;
+        }
+        $message = 'Задание "Добавить утерянные документы отправлены" отправлено в очередь. Количество задач '.$i;
+        Yii::$app->session->setFlash("info", $message);
+        return $this->redirect('index');
     }
 
     /**
