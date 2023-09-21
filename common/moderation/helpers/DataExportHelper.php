@@ -254,16 +254,19 @@ class DataExportHelper
         }
     }
 
-    public static function dataEduction($id)
+    public static function dataEduction($id, $isSdoId = true)
     {
-        $aisModel = AisReturnData::findOne(['record_id_sdo' => $id]);
+        $aisModel = AisReturnData::findOne($isSdoId ? ['record_id_sdo' => $id] : $id);
         $result = [];
         if($aisModel) {
             switch ($aisModel->model) {
                 case DocumentEducation::class :
                     $currentDocument = DocumentEducation::findOne(['id' => $aisModel->record_id_sdo]);
                     $profile = Profiles::findOne(['user_id' => $currentDocument->user_id]);
+                    $incoming = UserAis::findOne(['user_id' => $currentDocument->user_id]);
+                    if($incoming) {
                     $result['document'] = [
+                            'incoming_id' => $incoming->incoming_id,
                             'sdo_id' => $currentDocument->id,
                             'id' => $aisModel->record_id_ais,
                             'model_type' => 3,
@@ -287,6 +290,9 @@ class DataExportHelper
                             $currentDocument->version_document,
                             $currentDocument->other_data, true);
                     return $result;
+                    }
+                    return null;
+
                     break;
                 case OtherDocument::class :
                     $currentDocument = OtherDocument::findOne(['id' => $aisModel->record_id_sdo]);
@@ -305,7 +311,10 @@ class DataExportHelper
                         $name = $profile->first_name;
                         $patronymic = $profile->patronymic;
                     }
-                    $result['document'] = [
+                    $incoming = UserAis::findOne(['user_id' => $currentDocument->user_id]);
+                    if($incoming) {
+                        $result['document'] = [
+                            'incoming_id' => $incoming->incoming_id,
                             'sdo_id' => $currentDocument->id,
                             'model_type' => 2,
                             'id' => $aisModel->record_id_ais,
@@ -329,8 +338,11 @@ class DataExportHelper
                             $currentDocument->version_document,
                             $currentDocument->other_data, true);
                     return $result;
+                    }
+                    return null;
                     break;
             }
         }
+        return null;
     }
 }
