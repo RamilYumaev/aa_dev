@@ -125,27 +125,13 @@ class OrderTransferController extends Controller
         $blockOrder = [];
         $blockOrder[0]['faculty'] = $model->department;
 
-//        if ($model->education_level_id == StudentCompetitiveGroup::EDUCATION_LEVEL_BACHELOR ||
-//            $model->education_level_id == StudentCompetitiveGroup::EDUCATION_LEVEL_BACHELOR_APPLIED
-//        ) {
-//
-//        } elseif ($model->education_level_id == StudentCompetitiveGroup::EDUCATION_LEVEL_SPO) {
-//            $blockOrder[0]['number_results'] = 'Средний балл аттестата, балл вступительного испытания, проводимого МПГУ';
-//        } else {
-//            $blockOrder[0]['number_results'] = 'Балл вступительного испытания, проводимого МПГУ';
-//        }
-//        if ($model->financing_type_id == StudentPersonal::FINANCING_TYPE_BUDGET) {
-//            $blockOrder[0]['number_ia'] = 'Баллы за индивидуальные достижения';
-//        } else {
-//            $blockOrder[0]['number_ia'] = 'Номер договора';
-//        }
-
         switch ($model->education_level) {
             case 'Бакалавриат':
                 $blockOrder[0]['number_results'] = 'Балл Единого государственного экзамена (ЕГЭ), балл вступительного испытания, проводимого МПГУ (ВИ), балл Централизованного тестирования (ЦТ)';
                 $blockOrder[0]['name_special'] = 'Направленность (профиль)';
                 $blockOrder[0]['education_level'] = 'бакалавриата';
                 $blockOrder[0]['if_magister'] = '';
+                $blockOrder[0]['if_show'] = '1';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
                 $blockOrder[0]['protocol_number'] = 2;
                 break;
@@ -154,6 +140,7 @@ class OrderTransferController extends Controller
                 $blockOrder[0]['name_special'] = 'Специальность';
                 $blockOrder[0]['education_level'] = 'базового высшего образования';
                 $blockOrder[0]['if_magister'] = '';
+                $blockOrder[0]['if_show'] = '1';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-08", 'long');
                 $blockOrder[0]['protocol_number'] = 2;
                 break;
@@ -162,8 +149,18 @@ class OrderTransferController extends Controller
                 $blockOrder[0]['name_special'] = 'Магистерская программа';
                 $blockOrder[0]['education_level'] = 'магистратуры';
                 $blockOrder[0]['if_magister'] = ' для продолжения обучения ';
+                $blockOrder[0]['if_show'] = '1';
                 $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-08-26", 'long');
                 $blockOrder[0]['protocol_number'] = 7;
+                break;
+            case 'Аспирантура':
+                $blockOrder[0]['number_results'] = 'Балл вступительного испытания, проводимого МПГУ';
+                $blockOrder[0]['name_special'] = 'Образовательная программа';
+                $blockOrder[0]['education_level'] = 'для подготовки научно-педагогических кадров в аспирантуре';
+                $blockOrder[0]['if_magister'] = 'для подготовки научно-педагогических кадров в аспирантуре ';
+                $blockOrder[0]['protocol_date'] = Yii::$app->formatter->asDate("2023-09-26", 'long');
+                $blockOrder[0]['if_show'] = '';
+                $blockOrder[0]['protocol_number'] = 11;
                 break;
         }
         switch ($model->education_form) {
@@ -177,7 +174,14 @@ class OrderTransferController extends Controller
                 $blockOrder[0]['education_form'] = 'заочную';
                 break;
         }
-        $blockOrder[0]['transfer_date'] = Yii::$app->formatter->asDate("2023-09-01", 'long');
+        switch ($model->education_level) {
+            case 'Аспирантура':
+                $blockOrder[0]['transfer_date'] = Yii::$app->formatter->asDate("2023-10-05", 'long');
+                break;
+            default:
+                $blockOrder[0]['transfer_date'] = Yii::$app->formatter->asDate("2023-09-01", 'long');
+
+        }
         $blockOrder[0]['kcp'] = 'в рамках контрольных цифр приема';
 
         $blockOfficial = [];

@@ -15,6 +15,10 @@ use yii\helpers\Html; ?>
             <?= Html::a('Обнулить конкурс МАГ', ['clear', 'level' => "Магистратура"], ['class'=>'btn btn-info', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
         </div>
         <div class="box-header">
+            <?= Html::a('Провести конкурс (Финал) АСП', ['final-handle', 'level' => "Аспирантура"], ['class'=>'btn btn-danger', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
+            <?= Html::a('Обнулить конкурс АСП', ['clear', 'level' => "Аспирантура"], ['class'=>'btn btn-info', 'data-confirm'=> "Вы уверенны, что хотичте это сделать?"]) ?>
+        </div>
+        <div class="box-header">
             <?= Html::a('Конкурсные группы', ['default/index'], ['class'=>'btn btn-info']) ?>
             <?= Html::a('Конкурсные списки', ['competitive-list/index'], ['class'=>'btn btn-info']) ?>
             <?= Html::a('Приказы', ['order-transfer/index'], ['class'=>'btn btn-info']) ?>

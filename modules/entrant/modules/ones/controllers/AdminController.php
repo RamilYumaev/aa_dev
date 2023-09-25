@@ -72,7 +72,7 @@ class AdminController extends Controller
     public function actionFinalHandle($level)
     {
         Yii::$app->queue->push(new FinalHandler(['eduLevel' => $level]));
-        $message = 'Задание "Провести конкурс (альтернатіва)" '.$level.' отправлено в очередь';
+        $message = 'Задание "Провести конкурс (альтернатива)" '.$level.' отправлено в очередь';
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');
     }

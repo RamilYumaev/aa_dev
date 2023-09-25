@@ -1,12 +1,13 @@
 <?php
 
+use entrant\assets\modal\ModalAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model \modules\entrant\modules\ones\model\CompetitiveGroupOnes */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel \modules\entrant\modules\ones\forms\search\CompetitiveListSearch */
-
+ModalAsset::register($this);
 $this->title = "Конкурсная группа. Просмотр. " .$model->name;
 $this->params['breadcrumbs'][] = ['label' => '"Конкурсные группы"', 'url' => ['default/index']];
 
@@ -17,6 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <?= $model->file_name ? Html::a('Файл', ['default/file', 'id' => $model->id],
                 ['class'=>'btn btn-info']) : "" ?>
+            <?= Html::a(
+                '<span class="glyphicon glyphicon-pencil"></span>',
+                ['update', 'id'=>$model->id],
+                ["class" => "btn btn-danger",
+                    'data-pjax' => 'w8', 'data-toggle' => 'modal', 'data-target' => '#modal',
+                    'data-modalTitle' => 'Обновление']
+            );?>
         </div>
         <div class="box-body">
             <?= \yii\widgets\DetailView::widget([
