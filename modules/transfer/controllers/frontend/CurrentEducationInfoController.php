@@ -59,7 +59,7 @@ class CurrentEducationInfoController extends Controller
         $model = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['id' => $id])
-            ->andWhere(['not in', 'year', "2022-2023"])
+            ->andWhere(['not in', 'year', "2023-2024"])
             ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
             ->eduLevel($this->getEduLevelArray())
@@ -113,11 +113,11 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2023-08-20 15:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2024-02-05 18:00:00") < strtotime(\date("Y-m-d G:i:s"));
     }
 
     public function getStartBudget() {
-        return strtotime("2023-06-18 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2023-07-15 15:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
+        return strtotime("2023-12-08 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2024-02-05 18:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
     }
 
     public function getStartGraduate() {
@@ -128,6 +128,7 @@ class CurrentEducationInfoController extends Controller
         $array = [DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_BVO,
         ];
         if($this->getStartGraduate()) {
             $array[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;

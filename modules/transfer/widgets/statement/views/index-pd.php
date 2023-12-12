@@ -10,7 +10,7 @@ use modules\transfer\widgets\file\FileListWidget;
 /* @var $isUserSchool bool */
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Заявление о согласии на обработку персональных данных</h4></div>
+    <div class="panel-heading"><h4>Заявление о согласии на обработку персональных данных, разрешенных для распространения</h4></div>
     <div class="panel-body">
         <table class="table table-bordered">
             <tr class="<?= BlockRedGreenHelper::colorTableBg($statement->countFiles(), $statement->count_pages) ?>">

@@ -41,7 +41,7 @@ class TestQuestionHelper
             'maxSize' => 10 * 1024 * 1024,
         ],
         self::FILE_TYPE_MEDIA => [
-            'extensions' => ['docx', 'ppt', 'pptx', 'pptm', 'mp3', 'wav', 'mpeg', 'avi'],
+            'extensions' => ['docx', 'ppt', 'pptx', 'pptm', 'mp3', 'wav', 'mpeg', 'avi', 'zip'],
             'maxSize' => 50 * 1024 * 1024,
         ],
     ];

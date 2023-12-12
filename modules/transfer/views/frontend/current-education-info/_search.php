@@ -21,12 +21,6 @@ use yii\helpers\Html; ?>
         'data' =>$model->specialityCodeList(),
         'options' => ['placeholder' => 'Выберите'],
         'pluginOptions' => ['allowClear' => true]]) ?>
-      <?= $form->field($model, 'specialization_id')->widget(\kartik\select2\Select2::class,[
-            'name' => 'filter-specialization_id',
-            'id' => 'filter-specialization_id',
-            'data' =>$model->specializationList(),
-            'options' => ['placeholder' => 'Выберите'],
-           'pluginOptions' => ['allowClear' => true]]) ?>
     <div class="form-group">
         <?= Html::submitButton('Найти', ['class' => 'btn btn-success']) ?>
     </div>

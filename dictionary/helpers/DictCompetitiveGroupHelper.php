@@ -29,6 +29,7 @@ class DictCompetitiveGroupHelper
     const EDUCATION_LEVEL_BACHELOR = 1;
     const EDUCATION_LEVEL_MAGISTER = 2;
     const EDUCATION_LEVEL_GRADUATE_SCHOOL = 3;
+    const EDUCATION_LEVEL_BVO = 4;
 
     // Формы обучения
     const EDU_FORM_OCH = 1;
@@ -74,6 +75,7 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_MAGISTER => "магистратура",
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "подготовка кадров высшей квалификации, 
             осуществляемая по результатам освоения программ подготовки научно-педагогических кадров в аспирантуре)",
+            self::EDUCATION_LEVEL_BVO => "базовое высшее образование",
         ];
     }
 
@@ -113,6 +115,7 @@ class DictCompetitiveGroupHelper
             self::EDUCATION_LEVEL_BACHELOR => "бакалавриата",
             self::EDUCATION_LEVEL_MAGISTER => "магистратуры",
             self::EDUCATION_LEVEL_GRADUATE_SCHOOL => "аспирантуры",
+            self::EDUCATION_LEVEL_BVO => "базового высшего образования",
         ];
     }
 
@@ -124,32 +127,34 @@ class DictCompetitiveGroupHelper
     public static function getEduLevels(): array
     {
         return [self::EDUCATION_LEVEL_SPO => 'Среднее профессиональное образование', self::EDUCATION_LEVEL_BACHELOR => 'Бакалавриат',
-            self::EDUCATION_LEVEL_MAGISTER => 'Магистратура', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'Аспирантура'];
+            self::EDUCATION_LEVEL_MAGISTER => 'Магистратура', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'Аспирантура',
+            self::EDUCATION_LEVEL_BVO => "Базовое высшее образование",];
     }
 
     public static function getEduLevelsGenitiveName(): array
     {
         return [self::EDUCATION_LEVEL_SPO => 'среднего профессионального образования',
             self::EDUCATION_LEVEL_BACHELOR => 'бакалавриата',
-            self::EDUCATION_LEVEL_MAGISTER => 'магистратуры', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'аспирантуры'];
+            self::EDUCATION_LEVEL_MAGISTER => 'магистратуры', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'аспирантуры',
+            self::EDUCATION_LEVEL_BVO => "базового высшего образования",];
     }
 
 
     public static function getEduLevelsAbbreviated(): array
     {
         return [self::EDUCATION_LEVEL_SPO => 'СПО', self::EDUCATION_LEVEL_BACHELOR => 'БАК',
-            self::EDUCATION_LEVEL_MAGISTER => 'МАГ', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'АСП'];
+            self::EDUCATION_LEVEL_MAGISTER => 'МАГ', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'АСП',   self::EDUCATION_LEVEL_BVO => "БВО",];
     }
 
     public static function getEduLevelsAbbreviatedShort(): array
     {
         return [self::EDUCATION_LEVEL_SPO => 'SPO', self::EDUCATION_LEVEL_BACHELOR => 'BAC',
-            self::EDUCATION_LEVEL_MAGISTER => 'MAG', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'GRA'];
+            self::EDUCATION_LEVEL_MAGISTER => 'MAG', self::EDUCATION_LEVEL_GRADUATE_SCHOOL => 'GRA',   self::EDUCATION_LEVEL_BVO => "BVO",];
     }
 
     public static function getEduLevelsArrayIA(): array
     {
-        return [self::EDUCATION_LEVEL_SPO, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_GRADUATE_SCHOOL];
+        return [self::EDUCATION_LEVEL_SPO, self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_BACHELOR, self::EDUCATION_LEVEL_GRADUATE_SCHOOL, self::EDUCATION_LEVEL_BVO];
     }
 
 
@@ -207,7 +212,7 @@ class DictCompetitiveGroupHelper
     public static function eduLevels(): array
     {
         return [self::EDUCATION_LEVEL_SPO, self::EDUCATION_LEVEL_BACHELOR,
-            self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL];
+            self::EDUCATION_LEVEL_MAGISTER, self::EDUCATION_LEVEL_GRADUATE_SCHOOL, self::EDUCATION_LEVEL_BVO];
     }
 
     public static function financingTypes(): array

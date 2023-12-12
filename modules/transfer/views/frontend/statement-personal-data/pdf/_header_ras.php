@@ -18,7 +18,7 @@ $cpkCountryArray = array_merge(DictCountryHelper::TASHKENT_AGREEMENT, [DictCount
 ?>
     <div class="bg-gray h-20"></div>
     <p align="center"><strong>СОГЛАСИЕ</strong></p>
-    <p align="center"><strong>на обработку персональных данных абитуриента/обучающегося разрешённых для распространения</strong></p>
+    <p align="center"><strong>на обработку персональных данных абитуриента/обучающегося, разрешённых для распространения</strong></p>
     
     <table width="100%">
         <tr>
