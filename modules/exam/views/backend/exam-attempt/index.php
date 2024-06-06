@@ -10,7 +10,7 @@ use \testing\helpers\TestAttemptHelper;
 /* @var $type integer */
 $d =ExamStatementHelper::listTypes();
 $this->title = "Попытки ". (key_exists($type, $d) ? $d[$type] : "");
-$this->params['breadcrumbs'][] = ['label' => "Экзамены", 'url' => ['exam/index']];
+$this->params['breadcrumbs'][] = ['label' => "Экзамен/Аттестация", 'url' => ['exam/index']];
 $this->params['breadcrumbs'][] = ['label' => "Экзамен. ".$test->exam->discipline->name, 'url' => ['exam/view',
     'id' => $test->exam_id]];
 $this->params['breadcrumbs'][] = ['label' => $test->name,

@@ -7,8 +7,8 @@ use yii\widgets\DetailView;
 /* @var $attempt \modules\exam\models\ExamAttempt */
 
 $this->title = "Просмотр попытки";
-$this->params['breadcrumbs'][] = ['label' => "Экзамены", 'url' => ['exam/index']];
-$this->params['breadcrumbs'][] = ['label' => "Экзамен. ".
+$this->params['breadcrumbs'][] = ['label' => "Экзамен/Аттестация", 'url' => ['exam/index']];
+$this->params['breadcrumbs'][] = ['label' => "Экзамен/Аттестация. ".
     $attempt->test->exam->discipline->name, 'url' => ['exam/view',
     'id' => $attempt->exam_id]];
 $this->params['breadcrumbs'][] = ['label' => $attempt->test->name,

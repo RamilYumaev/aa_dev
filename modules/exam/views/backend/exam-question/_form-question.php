@@ -17,7 +17,7 @@ use mihaildev\elfinder\ElFinder;
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'discipline_id')
             ->dropDownList($model->jobEntrant->isCategoryExam()
-                ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant->examiner->disciplineColumn)
+                ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant)
                 : DisciplineExaminerHelper::listDiscipline(),['prompt' => ""]); ?>
         <?= $form->field($model, 'question_group_id')->widget(Select2::class, [
             'options' => ['placeholder' => 'Выберите группу вопросов',],

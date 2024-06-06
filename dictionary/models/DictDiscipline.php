@@ -42,12 +42,14 @@ class DictDiscipline extends \yii\db\ActiveRecord
         $discipline->is_spec_for_spo = $form->is_spec_for_spo;
         $discipline->is_olympic = $form->is_olympic;
         $discipline->composite_discipline = $form->composite_discipline;
+        $discipline->faculty_id  = $form->faculty_id;
         return $discipline;
     }
 
     public function edit(DictDisciplineEditForm $form)
     {
         $this->name = $form->name;
+        $this->faculty_id  = $form->faculty_id;
         $this->links = $form->links;
         $this->is_och = $form->is_och;
         $this->cse_subject_id = $form->cse_subject_id;
@@ -80,7 +82,8 @@ class DictDiscipline extends \yii\db\ActiveRecord
             'composite_discipline' => "Составная дисциплина",
             'is_och' => "Очный экзамен?",
             'is_spec_for_spo' => 'Спец. ВИ для СПО',
-            'is_olympic' => 'Предмет для Олимпиады?'
+            'is_olympic' => 'Предмет для Олимпиады?',
+            'faculty_id' => 'Факультет'
         ];
     }
 

@@ -85,8 +85,4 @@ class ExamForm extends Model
     {
         return (new Exam())->attributeLabels();
     }
-
-
-
-
 }

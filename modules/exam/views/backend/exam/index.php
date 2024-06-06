@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $status integer */
 
-$this->title = "Экзамены";
+$this->title = "Экзамены/Аттестация";
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

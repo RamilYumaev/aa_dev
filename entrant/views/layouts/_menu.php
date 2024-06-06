@@ -206,7 +206,18 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'Студенты', 'url' => ['/transfer/profiles']],
                 ['label' => 'Заявления', 'url' => ['/transfer/statement']],
-                ['label' => 'Аттестация', 'url' => ['/transfer/pass-exam']]
+                ['label' => 'Данные аттестации', 'url' => ['/transfer/pass-exam']],
+                ['label' => 'Тестирование', 'items' => [
+                    ['label' => 'Дата аттестации', 'url' => ['/data-exam/exam/index']],
+                    ['label' => 'Группы вопросов', 'url' => ['/data-exam/exam-question-group/index']],
+                    ['label' => 'Вопросы', 'url' => ['/data-exam/exam-question/index']],
+                    [
+                        "label" => 'Допуск',
+                        "url" => ['/data-exam/exam-statement/index'],
+                        "icon" => "table",
+                    ],
+                    ]
+                ],
             ]
 
         );

@@ -3,17 +3,15 @@
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use modules\entrant\helpers\StatementHelper;
 use modules\entrant\models\Statement;
-use modules\entrant\models\StatementCg;
-use modules\exam\helpers\ExamCgUserHelper;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-/* @var $examList bool | array*/
+/* @var $examList bool | array */
 /* @var $exam modules\exam\models\Exam*/
 /* @var $examStatement modules\exam\models\ExamStatement*/
 /* @var $test modules\exam\models\ExamTest */
 /* @var $anketa modules\entrant\models\Anketa */
-$this->title = "Экзамены";
+$this->title = "Экзамены/Аттестация";
 $this->params['breadcrumbs'][] = $this->title;
 $userId = Yii::$app->user->identity->getId();
 $isStatementGraduate = Statement::find()->eduLevel(DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL)
@@ -36,11 +34,11 @@ $anketa = \Yii::$app->user->identity->anketa();
         <?php endif; ?>
         <div class="alert alert-warning" role="alert">
             <p>
-                Уважаемый абитуриент, точное время дистанционного доступа к сдаче вступительного испытания появится в этом разделе за сутки.
+                Уважаемый абитуриент/студент, точное время дистанционного доступа к сдаче вступительного испытания/аттестации появится в этом разделе за сутки.
             </p>
         </div>
         <p></p>
-        <?php if ($anketa->is_dlnr_ua) : ?>
+        <?php if ($anketa && $anketa->is_dlnr_ua) : ?>
             <div class="alert alert-warning" role="alert">
                 <p>
                     Информация для граждан РФ, которые до прибытия на территорию Российской Федерации проживали на территории ДНР, ЛНР или Украины.
@@ -75,8 +73,8 @@ $anketa = \Yii::$app->user->identity->anketa();
                     <td colspan="4">
                         <table class="table table-bordered">
                             <tr>
-                                <th>Дата и время экзамена</th>
-                                <th>Тип завки на экзамен</th>
+                                <th>Дата и время экзамена/аттестации</th>
+                                <th>Тип завки на экзамен/аттестацию</th>
                                 <th>Статус</th>
                                 <th></th>
                             </tr>

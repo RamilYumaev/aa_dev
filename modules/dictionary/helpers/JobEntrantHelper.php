@@ -170,6 +170,7 @@ class JobEntrantHelper
             self::COZ,
             self::VOLUNTEERING,
             self::TARGET,
+            self::TRANSFER,
             self::FOK
         ];
         return $array;

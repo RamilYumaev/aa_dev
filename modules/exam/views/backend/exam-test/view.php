@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 
 $this->title = "Просмотр теста";
-$this->params['breadcrumbs'][] = ['label' => "Экзамены", 'url' => ['exam/index']];
+$this->params['breadcrumbs'][] = ['label' => "Экзамен/Аттестация", 'url' => ['exam/index']];
 $this->params['breadcrumbs'][] = ['label' => "Экзамен. ".$test->exam->discipline->name, 'url' => ['exam/view',
     'id' => $test->exam_id]];
 $this->params['breadcrumbs'][] = $this->title;

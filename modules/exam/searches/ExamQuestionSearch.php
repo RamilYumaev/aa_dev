@@ -1,7 +1,9 @@
 <?php
 namespace modules\exam\searches;
 
+use dictionary\models\DictDiscipline;
 use modules\dictionary\helpers\DisciplineExaminerHelper;
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\exam\helpers\ExamQuestionGroupHelper;
 use modules\exam\models\ExamQuestion;
@@ -38,7 +40,13 @@ class ExamQuestionSearch extends Model
         ]);
 
         if($this->jobEntrant->isCategoryExam()) {
-            $query->andWhere(['discipline_id'=> $this->jobEntrant->examiner->disciplineColumn]);
+            if($this->jobEntrant->category_id == JobEntrantHelper::EXAM) {
+                $query->andWhere(['discipline_id'=> $this->jobEntrant->examiner->disciplineColumn]);
+            }
+            if($this->jobEntrant->category_id == JobEntrantHelper::TRANSFER) {
+                $query->andWhere(['discipline_id'=> DictDiscipline::find()->select('id')
+                    ->andWhere(['faculty_id' => $this->jobEntrant->faculty_id])->column()]);
+            }
         }
 
         $this->load($params);
@@ -62,7 +70,7 @@ class ExamQuestionSearch extends Model
 
     public function filterDiscipline() {
         return $this->jobEntrant->isCategoryExam()
-            ? DisciplineExaminerHelper::listDisciplineReserve($this->jobEntrant->examiner->disciplineColumn)
+            ? DisciplineExaminerHelper::listDisciplineReserve($this->jobEntrant)
             : DisciplineExaminerHelper::listDiscipline();
     }
 

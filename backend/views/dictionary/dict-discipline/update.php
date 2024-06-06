@@ -1,5 +1,6 @@
 <?php
 
+use dictionary\helpers\DictFacultyHelper;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -35,6 +36,11 @@ $this->params['breadcrumbs'][] = 'Обновить';
                 'pluginOptions' => ['allowClear' => true],
                 'data' => \dictionary\models\DictDiscipline::find()->columnAll()
             ])->label("Составные дисциплины") ?>
+            <?= $form->field($model, 'faculty_id')->widget(Select2::class, [
+                'options' => ['placeholder' => 'Выберите...'],
+                'pluginOptions' => ['allowClear' => true],
+                'data' => DictFacultyHelper::facultyList()
+            ])->label("Факультет") ?>
         </div>
     </div>
 

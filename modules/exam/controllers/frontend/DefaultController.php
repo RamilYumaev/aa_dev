@@ -9,6 +9,7 @@ use modules\entrant\models\AdditionalInformation;
 use modules\entrant\services\AdditionalInformationService;
 use modules\exam\behaviors\ExamRedirectBehavior;
 use modules\exam\helpers\ExamCgUserHelper;
+use modules\exam\models\Exam;
 use Yii;
 use yii\web\Controller;
 
@@ -37,12 +38,14 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $model = $this->findModel();
-        if($model && !$model->exam_check) {
+        if ($model && !$model->exam_check) {
             return $this->redirect(['consent']);
         }
-            return $this->render('index', [
-                'examList' => ExamCgUserHelper::examList($this->getUserId())]);
-
+        $examList = ExamCgUserHelper::examList($this->getUserId());
+        if (!$examList) {
+            $examList = Exam::find()->joinWith('examStatement')->andWhere(['entrant_user_id' =>  $this->getUserId()])->all();
+        }
+        return $this->render('index', ['examList' => $examList]);
     }
 
     /**

@@ -39,6 +39,7 @@ use yii\helpers\Html;
                     <td colspan="2">Данные по аттестации:
                         <?php if($model->passExam): ?>
                             <?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?> <br />
+                            <?= $model->passExam->examStatement ? Html::a("Аттестация", "/exam", ['class' => 'pull-right btn btn-danger']) : ""?>
                             <?= is_null($model->passExam->agree) ? "":'<span class="label label-' .($model->passExam->agree == 1 ? 'success' : 'danger').'">'.
                                 ($model->passExam->agree == 1  ? 'Согласен с результатами проведения аттестационной комиссии' : 'Не согласен с результатами проведения аттестационной комиссии').'</span>'; ?>
                             <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?></p>

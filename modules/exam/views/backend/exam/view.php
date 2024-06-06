@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $this->title = "Экзамен. ".$exam->discipline->name;
-$this->params['breadcrumbs'][] = ['label' => 'Экзамены', 'url' => ['exam/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Экзамен/Аттестация', 'url' => ['exam/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ModalAsset::register($this);

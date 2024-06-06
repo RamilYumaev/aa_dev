@@ -3,6 +3,7 @@
 namespace modules\exam\behaviors;
 
 use modules\exam\helpers\ExamCgUserHelper;
+use modules\exam\models\Exam;
 use yii\base\Behavior;
 use yii\base\ExitException;
 use yii\web\Controller;
@@ -19,13 +20,13 @@ class ExamRedirectBehavior  extends Behavior
     public function events()
     {
         return [
-           Controller::EVENT_BEFORE_ACTION=> 'beforeAction',
+           Controller::EVENT_BEFORE_ACTION => 'beforeAction',
         ];
     }
 
     public function beforeAction($event)
     {
-        if(!$this->examExits()) {
+        if(!$this->isRuleStatement()) {
             Yii::$app->session->setFlash("warning", 'Нет доступа к перечню экзаменов');
             Yii::$app->getResponse()->redirect(['/']);
             try {
@@ -35,12 +36,22 @@ class ExamRedirectBehavior  extends Behavior
         }
     }
 
-
     private function examExits()
     {
         return ExamCgUserHelper::examExists( Yii::$app->user->identity->getId());
     }
 
+    private function statementExam()  {
+       return Exam::find()->joinWith('examStatement')->andWhere(['entrant_user_id' => Yii::$app->user->identity->getId()])->exists();
+    }
 
-
+    private function isRuleStatement() {
+        if($this->examExits()) {
+            return true;
+        }
+        if($this->statementExam()) {
+            return  true;
+        }
+        return false;
+    }
 }

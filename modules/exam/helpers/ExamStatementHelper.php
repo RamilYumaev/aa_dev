@@ -1,7 +1,11 @@
 <?php
 namespace modules\exam\helpers;
 use dictionary\helpers\DictCompetitiveGroupHelper;
+use dictionary\models\DictDiscipline;
+use modules\dictionary\helpers\JobEntrantHelper;
+use modules\exam\models\Exam;
 use modules\exam\models\ExamStatement;
+use Yii;
 
 class ExamStatementHelper
 {
@@ -30,8 +34,10 @@ class ExamStatementHelper
     {
         return [
             "10:00"  => "10:00" ,
-            "11:30"  => "11:30" ,
+            "12:00"  => "12:00" ,
             "14:00"  => "14:00" ,
+            "16:00"  => "16:00" ,
+            "18:00"  => "18:00" ,
         ];
     }
 
@@ -125,9 +131,19 @@ class ExamStatementHelper
     }
 
     public static function entrantList() {
-        return ExamStatement::find()->joinWith('profileEntrant')
-            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)', 'entrant_user_id'])
-            ->indexBy('entrant_user_id')->column();
+        $jobEntrant = Yii::$app->user->identity->jobEntrant();
+
+        $examStatement = ExamStatement::find()->joinWith('profileEntrant')
+            ->select(['CONCAT(last_name, \' \', first_name, \' \', patronymic)', 'entrant_user_id']);
+        if ($jobEntrant && $jobEntrant->category_id == JobEntrantHelper::TRANSFER) {
+            $exam = Exam::find()->joinWith('discipline')
+                ->select(['exam.id']);
+            $exam->andWhere(['faculty_id' => $jobEntrant->faculty_id]);
+            $data =   $exam->indexBy('exam.id')->column();
+            $examStatement  ->andWhere(['exam_id' => $data]);
+        }
+
+        return $examStatement->indexBy('entrant_user_id')->column();
     }
 
     public static function proctorList() {

@@ -284,8 +284,6 @@ class ExamStatementController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-
-
     public function actionReserveDate($id)
     {
         $model = $this->findModel($id);
@@ -297,6 +295,28 @@ class ExamStatementController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->addReserveDate($model->id, $form, $this->jobEntrant);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        return $this->renderAjax('date', [
+            'model' => $form,
+        ]);
+    }
+
+    public function actionTransferDate($user_id)
+    {
+        $form = new ExamDateReserveForm();
+        $form->scenario = ExamDateReserveForm::PUBLIC_TRANSFER;
+        if (Yii::$app->request->isAjax && $form->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($form);
+        }
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->addTransferDate($user_id, $form);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

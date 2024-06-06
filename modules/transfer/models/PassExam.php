@@ -3,6 +3,7 @@ namespace modules\transfer\models;
 
 
 use modules\entrant\helpers\FileHelper;
+use modules\exam\models\ExamStatement;
 use modules\transfer\behaviors\FileBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -72,6 +73,12 @@ class PassExam extends ActiveRecord
 
     public function getStatement() {
         return $this->hasOne(StatementTransfer::class, ['id' => 'statement_id']);
+    }
+
+    public function getExamStatement()
+    {
+        return $this->hasOne(ExamStatement::class, ['entrant_user_id' => 'user_id'])
+            ->via('statement');
     }
 
     public function getPassExamStatement() {

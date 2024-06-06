@@ -1,16 +1,9 @@
 <?php
 namespace modules\exam\searches\admin;
 
-use dictionary\helpers\DictCompetitiveGroupHelper;
+
 use modules\dictionary\helpers\DisciplineExaminerHelper;
-use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
-use modules\entrant\models\Anketa;
-use modules\entrant\models\StatementIndividualAchievements;
-use modules\entrant\models\UserAis;
-use modules\entrant\readRepositories\StatementIAReadRepository;
-use modules\exam\forms\ExamForm;
-use modules\exam\models\Exam;
 use modules\exam\models\ExamQuestionGroup;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -67,9 +60,7 @@ class ExamQuestionGroupSearch extends Model
 
     public function filterDiscipline() {
         return $this->jobEntrant->isCategoryExam()
-            ? DisciplineExaminerHelper::listDisciplineReserve($this->jobEntrant->examiner->disciplineColumn)
+            ? DisciplineExaminerHelper::listDisciplineReserve($this->jobEntrant)
             : DisciplineExaminerHelper::listDiscipline();
     }
-
-
 }

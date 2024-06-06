@@ -6,6 +6,7 @@ namespace modules\dictionary\helpers;
 use dictionary\models\DictDiscipline;
 use modules\dictionary\models\DictExaminer;
 use modules\dictionary\models\ExaminerDiscipline;
+use modules\dictionary\models\JobEntrant;
 
 class DisciplineExaminerHelper
 {
@@ -24,12 +25,17 @@ class DisciplineExaminerHelper
             ->indexBy('id')->column();
     }
 
-    public static function listDisciplineReserve($ids)
+    public static function listDisciplineReserve(JobEntrant $jobEntrant)
     {
-        return DictDiscipline::find()->select(['name', 'id'])
-            ->andWhere(['id' => $ids])
-            ->andWhere(['is_och' => 0])
-            ->indexBy('id')->column();
+        $discipline = DictDiscipline::find()->select(['name', 'id']);
+        if($jobEntrant->category_id == JobEntrantHelper::EXAM) {
+            $discipline->andWhere(['id' => $jobEntrant->examiner->disciplineColumn]);
+        }
+        if ($jobEntrant->category_id == JobEntrantHelper::TRANSFER) {
+            $discipline->andWhere(['faculty_id' => $jobEntrant->faculty_id]);
+        }
+
+        return $discipline->andWhere(['is_och' => 0])->indexBy('id')->column();
     }
 
     public static function listDisciplineExaminer($examinerId)

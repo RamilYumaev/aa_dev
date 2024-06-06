@@ -15,7 +15,7 @@ use yii\helpers\Html;
         'format' => 'yyyy-mm-dd',
     ]]); ?>
 <?= $form->field($model, 'discipline')->widget(Select2::class, [
-    'options' => ['placeholder' => 'Выберите группу вопросов',],
+    'options' => ['placeholder' => 'Выберите дисциплину',],
     'data' => ExamHelper::examList(),
     'pluginOptions' => [
         'allowClear' => true,

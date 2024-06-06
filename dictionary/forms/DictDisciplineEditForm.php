@@ -9,13 +9,14 @@ use yii\base\Model;
 
 class DictDisciplineEditForm extends Model
 {
-    public $name, $links, $_discipline, $cse_subject_id,  $ct_subject_id, $ais_id, $dvi, $is_och, $composite_discipline, $composite_disciplines, $is_spec_for_spo, $is_olympic;
+    public $name, $links, $_discipline, $cse_subject_id,  $ct_subject_id, $ais_id, $dvi, $is_och, $composite_discipline, $composite_disciplines, $is_spec_for_spo, $is_olympic, $faculty_id;
 
     public function __construct(DictDiscipline $discipline, $config = [])
     {
         $this->name = $discipline->name;
-        $this->links = $discipline->links;
+        $this->faculty_id = $discipline->faculty_id;
         $this->is_och = $discipline->is_och;
+        $this->links = $discipline->links;
         $this->cse_subject_id =$discipline->cse_subject_id;
         $this->ct_subject_id =$discipline->ct_subject_id;
         $this->ais_id =$discipline->ais_id;
@@ -38,7 +39,7 @@ class DictDisciplineEditForm extends Model
             [['name'], 'required'],
             ['name', 'unique', 'targetClass' => DictDiscipline::class, 'filter' => ['<>', 'id', $this->_discipline->id], 'message' => 'Такая дисциплина уже есть в справочнике'],
             [['name', 'links'], 'string', 'max' => 255],
-            [['cse_subject_id','ais_id', 'dvi', 'ct_subject_id', 'is_och', 'composite_discipline', 'is_spec_for_spo', 'is_olympic'], 'integer'],
+            [['cse_subject_id','ais_id', 'dvi', 'ct_subject_id', 'is_och', 'composite_discipline', 'is_spec_for_spo', 'is_olympic', 'faculty_id'], 'integer'],
             [['composite_disciplines'], 'safe'],
             [['composite_disciplines'], 'required', 'when' => function($model) {
                 return $model->composite_discipline;

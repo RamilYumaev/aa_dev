@@ -12,7 +12,7 @@ use yii\helpers\Html;
         <?php $form = ActiveForm::begin(['id'=> 'form-exam']); ?>
         <?= $form->field($model, 'discipline_id')
             ->dropDownList($model->jobEntrant->isCategoryExam()
-                ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant->examiner->disciplineColumn)
+                ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant)
                 : DisciplineExaminerHelper::listDiscipline()); ?>
         <?= $form->field($model, 'time_exam')->textInput(); ?>
         <?= $form->field($model, 'date_range')->widget(DateRangePicker::class, [

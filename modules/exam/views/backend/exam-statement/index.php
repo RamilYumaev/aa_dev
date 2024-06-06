@@ -18,7 +18,7 @@ ModalAsset::register($this);
 /* @var $searchModel modules\exam\searches\ExamStatementSearch*/
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::$app->controller->action->id == 'my-list' ? "Ваши заявки на экзамен" : "Новые заявки на экзамен";
+$this->title = "Допуски";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'afterRow' =>function (ExamStatement $model, $key, $index, $grid)
                     {
-                        if($model->proctor_user_id) {
                         return '<tr><td colspan="3">'.PhotoOtherWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td colspan="2">'.
                             PassportMainWidget::widget(['view'=> 'file-backend', 'userId'=> $model->entrant_user_id]).'</td><td>'.
                             $model->profileEntrant->phone.'<br/>'.
@@ -56,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td></tr><tr>
                                             <td colspan="6">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type]).'</td>
                                             </tr>';
-                        }
+
                     },
                 'columns' => [
                         ['class' =>SerialColumn::class],
@@ -85,11 +84,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => ExamStatementHelper::listTypes(),
                         'value'=> 'typeName'
                     ],
-                    ['value' => function (ExamStatement $model) {
-                           return !$model->proctor_user_id ?
-                               Html::a('Взять в работу', ['exam-statement/src', 'id' => $model->id],
-                                   [  'data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle' => 'Добавление ссылки', 'class' => 'btn btn-info']) : '';
-                    }, 'format'=> 'raw' ],
                 ],
             ]); ?>
         </div>

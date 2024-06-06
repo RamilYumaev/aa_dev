@@ -132,7 +132,7 @@ class JobEntrant extends ActiveRecord
     }
 
     public function isCategoryExam() {
-        return $this->category_id == JobEntrantHelper::EXAM;
+        return $this->category_id == JobEntrantHelper::EXAM || $this->isTransferFok();
     }
 
     public function getStatusName() {

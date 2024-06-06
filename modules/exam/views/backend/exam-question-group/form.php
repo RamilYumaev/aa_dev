@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'discipline_id')
         ->dropDownList($model->jobEntrant->isCategoryExam()
-            ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant->examiner->disciplineColumn)
+            ? DisciplineExaminerHelper::listDisciplineReserve($model->jobEntrant)
             : DisciplineExaminerHelper::listDiscipline()); ?>
 
     <div class="form-group">

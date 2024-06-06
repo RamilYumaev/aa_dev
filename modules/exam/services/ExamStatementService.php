@@ -144,7 +144,14 @@ class ExamStatementService
         }
         $this->aisService->examSend($jobEntrant->email_id, $modelNew->entrant_user_id,
             $modelNew->textEmailReserve, $modelNew->urlExam, null);
+    }
 
+    public function addTransferDate($student_id, ExamDateReserveForm $form)
+    {
+        $modelNew = ExamStatement::create($student_id, $form->exam_id,
+            $form->date, ExamStatementHelper::USUAL_TYPE_OCH);
+        $modelNew->time = $form->time;
+        $this->repository->save($modelNew);
     }
 
     public function resetAttempt($id)

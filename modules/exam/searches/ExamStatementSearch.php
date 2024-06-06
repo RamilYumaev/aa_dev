@@ -1,8 +1,10 @@
 <?php
 namespace modules\exam\searches;
 
+use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\JobEntrant;
 use modules\exam\helpers\ExamStatementHelper;
+use modules\exam\models\Exam;
 use modules\exam\models\ExamStatement;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -38,12 +40,19 @@ class ExamStatementSearch extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        if($this->isOpen) {
-            if($this->jobEntrant && ($this->jobEntrant->category_id == 0  ||
+        if ($this->isOpen) {
+            if ($this->jobEntrant && ($this->jobEntrant->category_id == 0  ||
                     $this->jobEntrant->isCategoryFOK() || $this->jobEntrant->isCategoryCOZ()
                     || $this->jobEntrant->isCategoryTarget())) {
                 $query->andWhere(['proctor_user_id'=> $this->jobEntrant->user_id]);
-            }else{
+            } else {
+                $jobEntrant = $this->jobEntrant;
+                if ($jobEntrant && $jobEntrant->category_id == JobEntrantHelper::TRANSFER) {
+                    $exam = Exam::find()->joinWith('discipline')->select(['exam.id']);
+                    $exam->andWhere(['faculty_id' => $jobEntrant->faculty_id]);
+                    $data =  $exam->indexBy('exam.id')->column();
+                    $query->andWhere(['exam_id'=> $data]);
+                }
                 $query->andWhere(['proctor_user_id'=> null]);
             }
         }else {
@@ -70,7 +79,4 @@ class ExamStatementSearch extends Model
 
         return $dataProvider;
     }
-
-
-
 }
