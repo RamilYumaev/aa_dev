@@ -18,14 +18,14 @@ ModalAsset::register($this);
 /* @var $searchModel modules\exam\searches\ExamStatementSearch*/
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "Допуски";
+$this->title = "Допуски к аттестации";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <div class="box">
         <div class="box-header">
             <?php if(Yii::$app->controller->action->id == 'index' && Yii::$app->user->can('dev')): ?>
-                <?= $this->render('_buttons') ?>
+
             <?php endif;?>
         </div>
         <div class="box-body">
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         '<br/> <center><span class="'.ExamStatementHelper::listStatusColor()[$model->status].'">'.$model->statusName.'</span></center>
                                            <br/> <center><span class="label label-danger">Нарушения '.$model->getViolation()->count().'</span></center>
                                             </td></tr><tr>
-                                            <td colspan="6">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type]).'</td>
+                                            <td colspan="6">'.TestAttemptStatementWidget::widget(['userId'=> $model->entrant_user_id, 'examId' => $model->exam_id, 'type' => $model->type, 'markShow' => true]).'</td>
                                             </tr>';
 
                     },

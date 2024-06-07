@@ -3,11 +3,9 @@
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use entrant\assets\modal\ModalAsset;
 use modules\transfer\models\PassExam;
-use yii\grid\ActionColumn;
 use modules\entrant\helpers\DateFormatHelper;
 use backend\widgets\adminlte\grid\GridView;
 use modules\entrant\helpers\SelectDataHelper;
-use modules\entrant\helpers\StatementHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -15,7 +13,7 @@ use yii\helpers\Html;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $list = (new PassExam)->listType();
 ModalAsset::register($this);
-$this->title = "Аттестация";
+$this->title = "Данные аттестации";
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -50,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     [   'attribute' => 'is_pass',
                         'label' => 'Статус',
                         'format' => 'raw',
-                        'filter' => [PassExam::SUCCESS => 'Допущен', PassExam::DANGER => 'Недопущен'],
+                        'filter' => [PassExam::SUCCESS => 'Допущен', PassExam::DANGER => 'Не допущен'],
                         'value' => function (PassExam $model) {
-                            return ' <span class="label label-' .($model->isPassYes() ? 'success' : 'danger').'">'.($model->isPassYes() ? 'Допущен' : 'Недопущен').'</span>';
+                            return ' <span class="label label-' .($model->isPassYes() ? 'success' : 'danger').'">'.($model->isPassYes() ? 'Допущен' : 'Не допущен').'</span>';
                         }],
                     ['attribute'=> 'success_exam',
                         'label' =>'Аттест. испытания',

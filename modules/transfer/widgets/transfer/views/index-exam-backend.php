@@ -33,7 +33,7 @@ Box::begin(
     <?= !$model->passExam->isPassYes() ? Html::a('Допустить', ['pass-exam/fix', 'id' => $model->passExam->id],
             ['class' => 'btn btn-success','data' =>["confirm" => "Вы уверены, что хотите допустить к аттестации?"]]) : ""?>
 <?php endif; ?>
-  <h4><?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Недопущен').'</span>'; ?></h4>
+  <h4><?= '<span class="label label-' .($model->passExam->isPassYes() ? 'success' : 'danger').'">'.($model->passExam->isPassYes() ? 'Допущен' : 'Не допущен').'</span>'; ?></h4>
    <p> <?= $model->passExam->isPassNo() ? $model->passExam->message : ""?></p>
    <?php if ($model->passExam->isPassYes()) :?>
     <p> Статус: <?= $list[$model->passExam->success_exam] ?> <br/>
