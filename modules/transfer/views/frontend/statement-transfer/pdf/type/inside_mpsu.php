@@ -11,9 +11,9 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p class="fs-15" align="justify">
-Прошу перевести меня из <?= $data['faculty_genitive'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
+    Прошу <strong>перевести</strong> меня из института/с факультета/из колледжа <?= $data['faculty_genitive'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
     форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____, обучаюсь на <?= $data['finance'] == 1 ? 'бюджетной': 'платной' ?> основе,
-в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
+в институт/на факультет/в колледж <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
 форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>.
 </p>
     <table width="100%" class="mt-10  fs-11">
@@ -46,6 +46,6 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block', ['message' => "Претендент может быть переведен(а)", 'about' => ' возможности перевода']) ?>
+<?= $this->render('_block', ['message' => "Претендент может быть переведен(а)", 'about' => 'возможности перевода']) ?>
 <p class="mt-30 fs-15">В Приемную комиссию представлены документы: <br />
     Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>

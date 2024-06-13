@@ -34,7 +34,7 @@ class DictFacultyHelper
 
     public static function facultyList(): array
     {
-        return Faculty::find()->select(['full_name','id'])->indexBy('id')->column();
+        return Faculty::find()->select(['full_name','id'])->indexBy('id')->orderBy(['full_name' => SORT_ASC])->column();
     }
 
     public static function facultyIncomingList(): array

@@ -205,7 +205,7 @@ class AgreementHelper
                                                     Место нахождения: 119435, г. Москва, ул. Малая Пироговская, д. 1, стр.1 <br />
                                                     Адрес (место нахождения) филиала: 238158, Калининградская область,
                                                      г. Черняховск, пер. Суворова, д. 2  <br >
-                                                    тел./факс:  <br />
+                                                    тел./факс: 8 (40141) 3-37-20<br />
                                                     e-mail: f_chernyakhovsk@mpgu.su  <br />
                                                     ОГРН 1027700215344  <br />
                                                     ИНН 7704077771  <br />
@@ -218,7 +218,7 @@ class AgreementHelper
                                                     БИК банка: 012748051  <br />
                                                     р/с 03214643000000013500 <br />
                                                     кор/с 40102810545370000028 <br />
-                                                    ОКТМО <br />
+                                                    ОКТМО 27539000<br />
                                                     КБК 00000000000000000130 – за оказание платных услуг",
         ];
     }
@@ -232,7 +232,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'директора Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'директора Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'директора Сергиево-Посадского филиала',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'директора филиала МПГУ в г. Черняховске',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'и.о. директора филиала МПГУ в г. Черняховске',
         ];
     }
 
@@ -245,7 +245,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Директор Ставропольского филиала',
             AnketaHelper::DERBENT_BRANCH => 'Директор Дербентского филиала',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Директор Сергиево-Посадского филиала',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'Директор филиала МПГУ в г. Черняховске',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'Исполняющий обязанности директора филиала МПГУ в г. Черняховске',
         ];
     }
 
@@ -258,7 +258,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Н.Н. Сотникова',
             AnketaHelper::DERBENT_BRANCH => 'Р.Д. Гусейнов',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'В.С. Морозова',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'Н.Ю. Тараненко',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => 'В.В. Мищенко',
         ];
     }
 
@@ -271,7 +271,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотниковой Натальи Николаевны',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнова Руслана Джангировича',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозовой Валентины Сергеевны',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Тараненко Натальи Юрьевны',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Мищенко Виктора Васильевича',
         ];
     }
 
@@ -284,7 +284,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => 'Сотникова Наталья Николаевна',
             AnketaHelper::DERBENT_BRANCH => 'Гусейнов Руслан Джангирович',
             AnketaHelper::SERGIEV_POSAD_BRANCH => 'Морозова Валентина Сергеевна',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Тараненко Наталья Юрьевна',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH =>  'Мищенко Виктор Васильевич',
         ];
     }
 
@@ -292,12 +292,12 @@ class AgreementHelper
     {
         return [
             AnketaHelper::HEAD_UNIVERSITY => self::collegeVuzSwitcher($collegeStatus, self::PROCURATION),
-            AnketaHelper::ANAPA_BRANCH => '№ 12 от 18 февр. 2023 г.',
+            AnketaHelper::ANAPA_BRANCH => '№ 14 от 18 февр. 2024 г.',
             AnketaHelper::POKROV_BRANCH => '№ 13 от 18 февр. 2022 г.',
-            AnketaHelper::STAVROPOL_BRANCH => '№ 14 от 18 февр. 2023 г.',
+            AnketaHelper::STAVROPOL_BRANCH => '№ 11 от 18 февр. 2024 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февр. 2022 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июл. 2020 г.',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => ' №52 от 26 июля. 2022 г.',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => '№28 от 20 июня. 2023 г.',
         ];
     }
 
@@ -372,7 +372,7 @@ class AgreementHelper
                     return self::cameOnJuly18vCollage() ? "Е.А. Балабаева" : "Т.Н. Владимирова";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18vCollage() ? "№26 от 5 июня 2023 года" : "№ 7 от 01 фев. 2023 г.";
+                    return self::cameOnJuly18vCollage() ? "№26 от 5 июня 2023 года" : "№ 4 от 01 фев. 2024 г.";
             }
         } else {
             switch ($type) {

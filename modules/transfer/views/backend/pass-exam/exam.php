@@ -40,6 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => 'statement.transferMpgu.typeNameShort',
                     ],
                     [
+                        'attribute' => 'faculty_id',
+                        'label' =>'Факультет',
+                        'filter' => \dictionary\helpers\DictFacultyHelper::facultyList(),
+                        'value' => function($model) {
+                            return $model->statement->faculty ? $model->statement->faculty->full_name : "";
+                        }
+                    ],
+                    [
                         'attribute' => 'finance',
                         'label' =>'Тип финансирования',
                         'filter' => DictCompetitiveGroupHelper::listFinances(),

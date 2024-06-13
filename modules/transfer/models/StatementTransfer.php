@@ -5,6 +5,7 @@ namespace modules\transfer\models;
 use dictionary\helpers\DictCompetitiveGroupHelper;
 use dictionary\models\DictClass;
 use dictionary\models\DictCompetitiveGroup;
+use dictionary\models\Faculty;
 use modules\exam\models\Exam;
 use modules\transfer\behaviors\FileBehavior;
 use modules\entrant\helpers\FileHelper;
@@ -106,6 +107,10 @@ class StatementTransfer extends ActiveRecord
 
     public function getProfileUser() {
         return $this->hasOne(Profiles::class, ['user_id' => 'user_id']);
+    }
+
+    public function getFaculty() {
+        return $this->hasOne(Faculty::class, ['id' => 'faculty_id']);
     }
 
     public function getCg() {

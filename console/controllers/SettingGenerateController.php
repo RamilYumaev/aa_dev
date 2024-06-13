@@ -110,8 +110,8 @@ class SettingGenerateController extends Controller
                                             $model->note = "Настройка № $key";
                                             $model->faculty_id = $depart;
                                             $model->form_edu = $form;
-                                            $model->datetime_start = '2023-06-20 00:00:01';
-                                            $model->datetime_end = '2023-08-15 18:00:00';
+                                            $model->datetime_start = '2024-06-20 00:00:01';
+                                            $model->datetime_end = '2024-08-15 18:00:00';
                                             $model->cse_as_vi = $cVi;
                                             $model->is_vi = $dopVi;
                                             $model->type = $typeApp;
@@ -147,11 +147,11 @@ class SettingGenerateController extends Controller
             $model = new $this->competitionListForm;
             $model->date_start = $st->getDateStart();
             $model->date_end = $st->getDateEnd();
-            $model->time_start = "10:00:00";
-            $model->time_end = "18:00:00";
+            $model->time_start = "09:45:00";
+            $model->time_end = "18:15:00";
             $model->se_id =  $st->id;
-            $model->time_start_week = "10:00:00";
-            $model->time_end_week = "15:00:00";
+            $model->time_start_week = "09:45:00";
+            $model->time_end_week = "15:15:00";
             $model->interval = 5;
             $model->date_ignore =[];
             $model->is_auto = 1;

@@ -113,11 +113,11 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2024-02-05 18:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2024-08-22 18:00:00") < strtotime(\date("Y-m-d G:i:s"));
     }
 
     public function getStartBudget() {
-        return strtotime("2023-12-08 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2024-02-05 18:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
+        return strtotime("2024-06-18 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2024-07-15 18:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
     }
 
     public function getStartGraduate() {

@@ -46,7 +46,7 @@ class FrontendTransfer extends Module
     }
 
     public function getStart() {
-        return strtotime("2023-06-18 00:00:01") < $this->currentDate() &&  strtotime("2023-08-20 15:00:00") > $this->currentDate();
+        return strtotime("2024-06-18 00:00:01") < $this->currentDate() &&  strtotime("2024-08-22 18:00:00") > $this->currentDate();
     }
 
     private function currentDate()

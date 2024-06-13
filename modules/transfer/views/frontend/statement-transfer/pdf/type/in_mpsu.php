@@ -9,7 +9,7 @@ $data = $transfer->getJsonData();
 $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
 ?>
 <p class="fs-15" align="justify">
-Прошу восстановить меня в <?= $data['faculty'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
+    Прошу <strong>восстановить</strong> меня в институт/на факультет/в колледж<?= $data['faculty'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
 форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____ .
     <br />Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
 <?= $docRemove->listCauses()[$docRemove->cause_id] . ($docRemove->cause_id == 5 ? '. ' . $docRemove->note : '') ?> (причина отчисления)</p>
