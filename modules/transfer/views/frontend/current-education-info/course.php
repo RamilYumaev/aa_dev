@@ -20,10 +20,31 @@ $arraySliceClass =array_slice($classFlip, 0, $result+1);
             return array_intersect_key($array, array_fill_keys($keys, '1'));
         }
     }
-$data = array_slice_keys( $class, $arraySliceClass);
+
+    $data = array_slice_keys($class, $arraySliceClass);
+    $numberMonth  = (int) date("n");
+    $isSummer = $numberMonth > 5 && $numberMonth < 9;
+    $countSemester = 0;
+
+if ($isSummer)  {
+    array_shift($data);
+    $countSemester = (count($data)+1)*2;
+
+} else {
+    $countSemester =  (count($data)*2);
+}
     $semester = [];
-    for ($i = 1; $i <= (count($data)*2); $i++) {
-        $semester[$i] = $i;
+    for ($i = 1; $i <= $countSemester; $i++) {
+        if($i == 1 && $isSummer) {
+            continue;
+        }
+
+        if($isSummer && ($i % 2 == 1)) {
+            $semester[$i] = $i;
+        }
+        if(!$isSummer && ($i % 2 == 0)) {
+            $semester[$i] = $i;
+        }
     }
     ?>
 <div>
