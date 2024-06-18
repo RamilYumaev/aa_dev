@@ -58,6 +58,9 @@ $userId = $profile->user_id;
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\education\AverageScopeSpoWidget::widget(['userId' => $userId, 'view' => "spo-index-backend"]); ?>
 </div>
+<div class="mt-20 table-responsive">
+    <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'view' => 'first-queue-right-backend',  'type' => 'first_queue_right', 'exemption' => [5]]); ?>
+</div>
 <?php if ($anketa->isAgreement()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\agreement\AgreementWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>

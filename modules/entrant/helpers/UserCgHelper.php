@@ -100,6 +100,17 @@ class UserCgHelper
         return $bool ?? false;
     }
 
+    public static function userIsBudgetSpo($user_id) {
+        foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
+        {   /* @var $cg UserCg */
+            if ($cg->isBudgetAndBachelor([DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO])) {
+                $bool = true;
+                break;
+            }
+        }
+        return $bool ?? false;
+    }
+
     public static function userIsBudgetBachMagGrad($user_id) {
         foreach (UserCg::find()->where(['user_id'=>$user_id])->all() as $cg)
         {   /* @var $cg UserCg */
@@ -138,7 +149,7 @@ class UserCgHelper
 
     }
 
-    public static function specialColor(Int $cgId): String
+    public static function specialColor($cgId): string
     {
         if (UserCg::find()->findUserAndCg($cgId)->exists()) {
             return " class=\"success\" ";

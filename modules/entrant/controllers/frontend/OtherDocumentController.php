@@ -94,18 +94,18 @@ class OtherDocumentController extends Controller
         return $this->render("exemption", ["model" => $form]);
     }
 
-    public function actionSpecialQuota()
+    public function actionFirstQueueRight()
     {
-        $model = $this->findOne(['user_id' => $this->getUserId(), 'exemption_id'=> 4]) ?? null;
+        $model = $this->findOne(['user_id' => $this->getUserId(), 'exemption_id'=> 5]) ?? null;
         $form = new OtherDocumentForm(
             $this->getUserId(),
             false,
             $model,
             true,
             ['series', 'number','authority','date'],
-             [], null, ['type'=> DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, 'exemption_id' => 4]);
-        $this->formCreateUpdate($form, ['anketa/step2'], $model);
-        return $this->render("special-quota", ["model" => $form]);
+             [], null, ['type'=> DictIncomingDocumentTypeHelper::ID_NAME_REFERENCE, 'exemption_id' => 5]);
+        $this->formCreateUpdate($form, ['default/index'], $model);
+        return $this->render("first-queue-right", ["model" => $form]);
     }
 
     public function actionWithout()

@@ -27,7 +27,10 @@ $arraySliceClass =array_slice($classFlip, 0, $result+1);
     $countSemester = 0;
 
 if ($isSummer)  {
-    array_shift($data);
+    foreach ($data as $key  => $datum) {
+        unset($data[$key]);
+        break;
+    }
     $countSemester = (count($data)+1)*2;
 
 } else {

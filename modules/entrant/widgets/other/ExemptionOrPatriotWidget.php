@@ -28,7 +28,4 @@ class ExemptionOrPatriotWidget extends Widget
         }
         return  OtherDocument::find()->where(['user_id' =>  $this->userId])->andWhere(['exemption_id'=> $this->exemption])->one();
     }
-
-
-
 }

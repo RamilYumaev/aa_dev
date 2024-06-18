@@ -10,6 +10,7 @@ use modules\entrant\helpers\AdditionalInformationHelper;
 use modules\entrant\helpers\ItemsForSignatureApp;
 use modules\entrant\helpers\LanguageHelper;
 use modules\entrant\helpers\PreemptiveRightHelper;
+use modules\entrant\models\OtherDocument;
 
 $userCg = FileCgHelper::cgUser($statement->user_id, $statement->faculty_id, $statement->speciality_id, $statement->special_right,  $statement->columnIdCg());
 $anketaOne= \modules\entrant\models\Anketa::findOne(['user_id'=>$statement->user_id]);
@@ -21,8 +22,10 @@ $language = LanguageHelper::all($statement->user_id);
 $information = AdditionalInformationHelper::dataArray($statement->user_id);
 $prRight = PreemptiveRightHelper::allOtherDoc($statement->user_id);
 $data= explode(', ', $noCse);
-
+$otherDocumentRight = OtherDocument::find()
+    ->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 5])->one();
 $och = false;
+$isFinanceContract =  false;
 ?>
 
 <!-- <table class="table table-bordered app-table">
@@ -73,7 +76,11 @@ $och = false;
     </tr>
     <?php foreach ($userCg as $key => $value): if ($value['form'] == "очная") {
         $och = true;
-    } ?>
+    }
+     if ($value['budget'] == "") {
+         $isFinanceContract = true;
+     }
+    ?>
         <tr>
             <td width="4%"><?= ++$key ?>.</td>
             <td width="30%"><?= $value["speciality"] ?></td>
@@ -127,14 +134,33 @@ $och = false;
     <?php if ($prRight) : ?>
         <p class="underline-text"> на основании: <?= $prRight ?></p>
     <?php endif; ?>
-
+    <table width="100%">
+        <tr>
+            <td width="100%">
+                Имею право первоочередного приема в соответствии с частью 4 статьи 68 Федерального закона «Об образовании в Российской Федерации»:<br/>
+            </td>
+        </tr>
+    </table>
+    <table width="100%">
+        <tr>
+            <td></td>
+            <td class="box-30-15 bordered-cell text-center"><?= $otherDocumentRight ? "X" : "" ?></td>
+            <td width="100px">Имею</td>
+            <td class="box-30-15 bordered-cell text-center"><?= !$otherDocumentRight ? "X" : "" ?></td>
+            <td>Не имею</td>
+        </tr>
+    </table>
+    <?php if ($otherDocumentRight) : ?>
+        <p class="underline-text"> на основании: <?=  $otherDocumentRight->typeName." ".($otherDocumentRight->series ?? "" ). " №".$otherDocumentRight->number.", "; ?></p>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php
-$signaturePoint = ItemsForSignatureApp::GENERAL_SPO;
+$signaturePoint = $isFinanceContract ? ItemsForSignatureApp::GENERAL_SPO_CONTRACT : ItemsForSignatureApp::GENERAL_SPO;
 if(!$och) {
     unset($signaturePoint[9]);
 }
+
 if (count($data) == 1) {
     unset($signaturePoint[2]);
 }
