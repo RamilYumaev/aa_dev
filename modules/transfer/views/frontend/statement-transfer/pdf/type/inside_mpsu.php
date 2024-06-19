@@ -11,9 +11,9 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p class="fs-15" align="justify">
-    Прошу <strong>перевести</strong> меня из института/с факультета/из колледжа <?= $data['faculty_genitive'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
+    Прошу <strong>перевести</strong> меня из  <?= $data['faculty_genitive'] ?>, образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
     форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____, обучаюсь на <?= $data['finance'] == 1 ? 'бюджетной': 'платной' ?> основе,
-в институт/на факультет/в колледж <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
+в  <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
 форма обучения <?= mb_strtolower($cg->formEdu) ?>, <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>.
 </p>
     <table width="100%" class="mt-10  fs-11">

@@ -11,7 +11,7 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p align="justify" class="fs-15">
-    Прошу <strong>восстановить</strong> меня в институт/на факультет/в колледж <?= $data['faculty'] ?>,
+    Прошу <strong>восстановить</strong> меня в <?= $data['faculty'] ?>,
     образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
     форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____
     и <strong>перевести</strong> в институт/на факультет/в колледж <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,

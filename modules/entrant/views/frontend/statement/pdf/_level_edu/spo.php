@@ -116,12 +116,14 @@ $isFinanceContract =  false;
         <td width="80%">
 
             Изучил(а) иностранные языки: <?= $language ?><br/>
-            Имею преимущественное право при зачислении:<br/>
+            <?php if(!$isFinanceContract) { ?>
+                Имею преимущественное право при зачислении:<br/>
+            <?php } ?>
         </td>
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<?php if ($anketaOne->isRussia()): ?>
+<?php if ($anketaOne->isRussia() && !$isFinanceContract): ?>
     <table width="100%">
         <tr>
             <td></td>

@@ -11,12 +11,12 @@ use yii\widgets\DetailView;
 ?>
 
 <?php
-if ($other) :
     Box::begin(
     [
         "header" => "Документ, подтверждающий право первоочередного приема в соответствии с частью 4 статьи 68 Федерального закона «Об образовании в Российской Федерации»",
         "type" => Box::TYPE_DANGER,
         "filled" => true,]);
+if ($other) :
     $column = [
         ['label' => $other->getAttributeLabel('type'),
             'value' => $other->typeName,],
@@ -32,5 +32,5 @@ if ($other) :
     'attributes' => $column
 ]) ?>
 
-<?php Box::end(); endif; ?>
+<?php endif; Box::end();  ?>
 

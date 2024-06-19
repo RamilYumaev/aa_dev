@@ -53,13 +53,13 @@ $userId = $profile->user_id;
     <?= \modules\entrant\widgets\passport\PassportDataWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>
 <div class="mt-20 table-responsive">
+    <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'view' => 'first-queue-right-backend',  'type' => 'first_queue_right', 'exemption' => [5]]); ?>
+</div>
+<div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\education\DocumentEducationWidget::widget(['userId' => $userId, 'view' => "index-backend"]); ?>
 </div>
 <div class="mt-20 table-responsive">
     <?= \modules\entrant\widgets\education\AverageScopeSpoWidget::widget(['userId' => $userId, 'view' => "spo-index-backend"]); ?>
-</div>
-<div class="mt-20 table-responsive">
-    <?= \modules\entrant\widgets\other\ExemptionOrPatriotWidget::widget(['userId' => $userId, 'view' => 'first-queue-right-backend',  'type' => 'first_queue_right', 'exemption' => [5]]); ?>
 </div>
 <?php if ($anketa->isAgreement()): ?>
     <div class="mt-20 table-responsive">

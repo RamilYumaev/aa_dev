@@ -134,7 +134,7 @@ include 'navigation/index.html';
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\individual\IndividualAchievementsWidget::widget(['userId' => $userId]) ?>
     </div>
-    <?php if($anketa->isRussia()):?>
+    <?php if(UserCgHelper::userIsBudgetSpo($anketa->user_id)):?>
     <div class="mt-20 table-responsive">
         <?= \modules\entrant\widgets\other\PreemptiveRightIndexWidget::widget(['userId' => $userId]); ?>
     </div>

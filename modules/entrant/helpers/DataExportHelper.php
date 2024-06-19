@@ -171,6 +171,17 @@ class DataExportHelper
         && $organization->ais_id ? $organization->ais_id : null;
         $specialQuotaUsual = is_null($statement->special_right) && !$anketa->onlySpo() && $anketa->isExemptionDocument(4) && !$anketa->isExemptionDocument(1);
         $firstEducationStatus = $statement->finance == 1 && $statement->edu_level == DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR ? true : false;
+        /**
+         * @var OtherDocument $otherDocumentRight;
+         */
+        $first= false;
+        $otherDocumentRight = OtherDocument::find()->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 5])->one();
+        if($otherDocumentRight) {
+            $files = $otherDocumentRight->getFiles();
+            if($files) {
+                $first = $otherDocumentRight->countFiles() == $files->andWhere(['status' => FileHelper::STATUS_ACCEPTED])->count();
+            }
+        }
         foreach ($statement->statementCg as $currentApplication) {
             if ($anketa->category_id == CategoryStruct::TPGU_PROJECT ||
                 $anketa->category_id == CategoryStruct::FOREIGNER_CONTRACT_COMPETITION ||
@@ -205,6 +216,7 @@ class DataExportHelper
                 'first_higher_education_status' => $firstEducationStatus,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,
+                'first_priority_status' => $currentApplication->cg->isBudget ? $first : false
             ];
         }
         return $result;
