@@ -100,7 +100,7 @@ class AgreementHelper
                                            высшего образования «Московский педагогический государственный университет» <br/> 
                                                 Место нахождения: 119991, г. Москва, ул. Малая Пироговская, д. 1, стр.1<br/>
                                                 Адрес (место нахождения) филиала: 353410, Краснодарский край, г. Анапа, ул. Астраханская, д.88<br/>
-                                                тел./факс: 8 (86133) 5-62-87,  8 (86133) 4-26-76
+                                                тел.: 8 (86133) 5-62-87,  8 (86133) 4-26-76
                                                 e-mail: f.anapa@mpgu.su<br/>
                                                 ОГРН 1027700215344 ИНН 7704077771<br/>
                                                 КПП 230143001<br/>
@@ -112,11 +112,7 @@ class AgreementHelper
                                                 Единый казначейский счет- 40102810945370000010<br/>
                                                 БИК – 010349101<br/>
                                                 КБК 00000000000000000130 – за оказание платных услуг<br/>
-                                                Лицевой счет № 20186В01260 (В= заглавная русская буква)<br/>
-                                                В отдел № 2 УФК по Краснодарскому краю (Анапский филиал МПГУ)<br/>
-                                                ОКТМО 03703000<br/>
-                                                КБК 00000000000000000130 – за оказание платных услуг
-                                                ",
+                                                ОКТМО 03703000",
             AnketaHelper::POKROV_BRANCH => "Федеральное государственное бюджетное образовательное учреждение высшего 
                                                 образования «Московский педагогический государственный университет»<br/>  
                                                 Место нахождения: 119991, г. Москва, ул. Малая Пироговская, д. 1, стр.1<br/>
@@ -315,12 +311,12 @@ class AgreementHelper
             if ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL) {
                 return '03.10';
             } elseif ($educationLevel == DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO) {
-                return self::cameOnAugust31() ? '25.11' : '29.08';
+                return self::cameOnAugust31() ? '25.11' : '28.08';
             } else {
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
                     return '28.09';
                 } else {
-                    return '29.08';
+                    return '28.08';
                 }
             }
         } else {
@@ -328,17 +324,17 @@ class AgreementHelper
                 if ($educationForm == DictCompetitiveGroupHelper::EDU_FORM_ZAOCH) {
                     return '28.10';
                 } else {
-                    return '29.08';
+                    return '28.08';
                 }
             } else {
-                return self::cameOnAugust31() ? '25.11' : '29.08';
+                return self::cameOnAugust31() ? '25.11' : '28.08';
             }
         }
     }
 
     private static function cameOnAugust31()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2023-08-30 18:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2024-08-30 18:00:00');
     }
 
     private static function cameOnJuly18()

@@ -123,7 +123,7 @@ $isFinanceContract =  false;
         <td width="20%">Пол: <?= $gender ?></td>
     </tr>
 </table>
-<?php if ($anketaOne->isRussia() && !$isFinanceContract): ?>
+<?php if (!$isFinanceContract): ?>
     <table width="100%">
         <tr>
             <td></td>

@@ -14,7 +14,7 @@ $cg = $statement->cg;
     Прошу <strong>восстановить</strong> меня в <?= $data['faculty'] ?>,
     образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
     форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____
-    и <strong>перевести</strong> в институт/на факультет/в колледж <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
+    и <strong>перевести</strong> в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
     форма обучения <?= mb_strtolower($cg->formEdu) ?>,
     <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>. <br/>
 Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.

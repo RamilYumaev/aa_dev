@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [ 'format' => 'raw',
                             'value'  => function (PassExam $model) {
                         return  Html::a('Просмотр', ['statement/view', 'id' => $model->statement_id]).'<br/>'.
-                            ($model->isPassYes() && !$model->examStatement && $model->success_exam == $model::NO_DATA ? Html::a("Допуск к тестированию",
+                            ($model->isPassYes() && !$model->examStatement && $model->success_exam == 5 ? Html::a("Допуск к тестированию",
                                 ['/data-exam/exam-statement/transfer-date', 'user_id'=> $model->statement->user_id],['data-pjax' => 'w15', 'data-toggle' => 'modal', 'data-target' => '#modal',
                                     'data-modalTitle' =>'Допуск к тестированию', 'class' => 'btn btn-sm btn-danger']) : "");
                     },],

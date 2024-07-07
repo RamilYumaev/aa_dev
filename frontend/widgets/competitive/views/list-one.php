@@ -31,7 +31,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
         <span style="display: block; text-align: center">
             ФГБОУ ВО
             "Московский педагогический государственный университет" <br/>
-            Учебный год 2022/2023<br/><br/><br/>
+            Учебный год 2024/2025<br/><br/><br/>
             </span>
         <?php if($cg->isSpecQuota()): ?>
         <span style="font-weight: bold"> «Специальная квота в соответствии с Указом Президента РФ №268 от 09.05.2022г.».</span>
@@ -173,8 +173,6 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         <th style="font-size: 12px; text-align: center"><?= $value ?></th>
                     <?php endforeach; ?>
                     <th style="font-size: 12px; text-align: center">Сумма баллов за все предметы ВИ</th>
-
-                    <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Подача документа об образовании</th>
                     <?php if(!$cg->isSpo()) :?>
                         <th style="font-size: 12px; text-align: center">Согласие на зачисление подано (+) / отсутствует (-)</th>
@@ -189,6 +187,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <?php if($cg->isContractCg()) : ?>
                         <th style="font-size: 12px; text-align: center">Оплатил да/нет</th>
                     <?php endif; ?>
+                    <th style="font-size: 12px; text-align: center">Индивидуальные достижения</th>
                     <th style="font-size: 12px; text-align: center">Сумма баллов</th>
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
                         <th style="font-size: 12px; text-align: center">Примечание</th>
@@ -214,12 +213,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                         </td>
                     <?php endforeach; ?>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['subject_sum']?></td>
-                    <td style="font-size: 14px; text-align: center">
-                        <?php if(key_exists('individual_achievements', $entrant)) :?>
-                            <?php echo implode(', ', array_map(function($individual_achievement)
-                            { return $individual_achievement['individual_achievement_name'];}, $entrant['individual_achievements'])); ?>
-                        <?php endif; ?>
-                    </td>
+
                     <td style="font-size: 14px; text-align: center"><?=  $entrant['original_status_id'] ? 'оригинал': 'копия'  ?></td>
                     <?php if(!$cg->isSpo()) :?>
                         <td style="font-size: 14px; text-align: center">
@@ -242,9 +236,17 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                     <?php if($cg->isContractCg()) : ?>
                         <td><?= $entrant['payment_status'] ? 'Да': 'Нет'?></td>
                     <?php endif; ?>
+                    <td style="font-size: 14px; text-align: center">
+                        <?php if(key_exists('individual_achievements', $entrant)) :?>
+                            <?php echo implode(', ', array_map(function($individual_achievement)
+                            { return $individual_achievement['individual_achievement_name'];}, $entrant['individual_achievements'])); ?>
+                        <?php endif; ?>
+                    </td>
                     <td style="font-size: 14px; text-align: center"><?= $entrant['total_sum']?></td>
                     <?php if($model->registerCompetitionList->settingEntrant->edu_level != DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER) :?>
-                        <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?></td>
+                        <td style="font-size: 14px; text-align: center"><?= key_exists('pp_status_id',$entrant) && $entrant['pp_status_id'] ? "ПП" : ''?>
+                            <?= key_exists('fp_status_id',$entrant) && $entrant['fp_status_id'] ? "1-приём" : ''?>
+                        </td>
                     <?php endif; ?>
                     <td style="font-size: 14px; text-align: center"><?= DateFormatHelper::format($entrant['incoming_date'] , 'd.m.Y') ?></td>
                     <?php endforeach; ?>

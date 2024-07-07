@@ -174,12 +174,12 @@ class DataExportHelper
         /**
          * @var OtherDocument $otherDocumentRight;
          */
-        $first= false;
+        $first= 0;
         $otherDocumentRight = OtherDocument::find()->where(['user_id' => $statement->user_id])->andWhere(['exemption_id'=> 5])->one();
         if($otherDocumentRight) {
             $files = $otherDocumentRight->getFiles();
             if($files) {
-                $first = $otherDocumentRight->countFiles() == $files->andWhere(['status' => FileHelper::STATUS_ACCEPTED])->count();
+                $first = $otherDocumentRight->countFiles() == $files->andWhere(['status' => FileHelper::STATUS_ACCEPTED])->count() ? 1 : 0;
             }
         }
         foreach ($statement->statementCg as $currentApplication) {
@@ -204,19 +204,19 @@ class DataExportHelper
                 'vi_status' => $noCse ? 1 : 0,
                 'composite_discipline_id' => $composite,
                 'composite_disciplines' => $composite,
-                'preemptive_right_status' => $prRight ? 1 : 0,
+                'preemptive_right_status' => $prRight && $statement->finance == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET ? 1 : 0,
                 'cse_ct_vi' => $specialQuotaUsual ? [] : ConverterBasicExam::converter($currentApplication->cg, DictCompetitiveGroupHelper::groupByDisciplineVi($statement->user_id,
                     $statement->faculty_id,
                     $statement->speciality_id,
                     $currentApplication->cg->id)),
-                'preemptive_right_level' => $prRight ? $prRight : 0,
+                'preemptive_right_level' => $prRight && $statement->finance == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET? $prRight : 0,
                 'benefit_BVI_status' => 0,
                 'benefit_BVI_reason' => '',
                 'application_code' => $statement->numberStatement,
                 'first_higher_education_status' => $firstEducationStatus,
                 'cathedra_id' => $currentApplication->cathedra_id ?? null,
                 'target_organization_id' => $target_organization_id,
-                'first_priority_status' => $currentApplication->cg->isBudget ? $first : false
+                'first_priority_status' => $statement->finance == DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET ? $first : 0
             ];
         }
         return $result;

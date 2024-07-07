@@ -134,7 +134,7 @@ class DefaultController extends Controller
         $statement = $this->statement();
         /** @var PassExam $pass */
         $pass = $statement->passExam;
-        if($pass && $pass->countFilesSend()&& !$pass->agree) {
+        if($pass && $pass->passExamProtocol  && !$pass->agree) {
             $pass->agree = 2;
             $pass->save();
         }
@@ -146,7 +146,7 @@ class DefaultController extends Controller
         $statement = $this->statement();
         /** @var PassExam $pass */
         $pass = $statement->passExam;
-        if($pass && $pass->countFilesSend()&& !$pass->agree) {
+        if($pass && $pass->passExamProtocol && !$pass->agree) {
             $pass->agree = 1;
             $pass->save();
         }
