@@ -90,7 +90,8 @@ class CgSS extends ActiveRecord
     }
 
     public function getEntrantsApp() {
-        return $this->hasMany(EntrantCgAppSS::class,['quid_cg_competitive' => 'quid']);
+        return $this->hasMany(EntrantCgAppSS::class,['quid_cg_competitive' => 'quid'])
+            ->select('quid_profile')->groupBy('quid_profile');
     }
 
     public function getFaculty() {

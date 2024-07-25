@@ -13,8 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => '"Конкурсные группы
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div>
-    <div class="box">
+    <div class="box table-responsive">
         <div class="box-header">
             <?= Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span>',
@@ -24,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-modalTitle' => 'Обновление']
             );?>
         </div>
-        <div class="box-body">
+        <div class="box-body ">
             <?= \yii\widgets\DetailView::widget([
                 'model' => $model,
                 'attributes' => [
@@ -42,9 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         </div>
     </div>
-</div>
 <div>
-    <div class="box">
+    <div class="box table-responsive">
         <div class="box-header">
             <h5>Конкрусные списки epk24.mpgu.su</h5>
             <?=  $model->url ? Html::a(

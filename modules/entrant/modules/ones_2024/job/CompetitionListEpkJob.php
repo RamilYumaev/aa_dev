@@ -5,6 +5,7 @@ use modules\entrant\modules\ones_2024\model\CgSS;
 use modules\entrant\modules\ones_2024\model\EntrantCgAppSS;
 use modules\entrant\modules\ones_2024\model\EntrantSS;
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
 
@@ -103,7 +104,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
         if(!file_exists($this->model->getPathFullEpk() . '/' . $this->model->getFileFok())) {
             $this->createFile($data, $this->model->getFileFok());
         } else {
-           // $this->change($data);
+            $this->change($data);
         }
     }
 
@@ -176,27 +177,30 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
         $newData = $data;
         $json = file_get_contents($this->model->getPathFullEpk() . '/' . $this->model->getFileFok());
         if($json) {
-            $data = json_decode($json, true);
-        }
+            $old = json_decode($json, true);
 
         foreach ($newData as $key => $value) {
-            $number = array_column($data, 'snils_number');
-            $k = array_search(trim($value[$key]['snils_number']), $number);
-            if (is_int($k) && $data[$k]['is_change']) {
-                $newData[$key] = $data[$k];
+            $number = array_column($old, 'snils_number');
+            $k = array_search(trim($value['snils_number']), $number);
+            if (is_int($k) && $old[$k]['is_change']) {
+                $newData[$key] = $old[$k];
             }
         }
 
-        foreach ($data as $key => $value) {
-            if(!$value[$key]['is_change']) {
+        foreach ($old as $key => $value) {
+            if(!$value['is_change']) {
                 $number = array_column($newData, 'snils_number');
-                $k = array_search(trim($value[$key]['snils_number']), $number);
+                $k = array_search(trim($value['snils_number']), $number);
                 if (is_int($k)) {
-                    $data[$key] = $newData[$k];
+                    $old[$key] = $newData[$k];
                 }
             }
         }
+
+        ArrayHelper::multisort($newData, ['sum_ball', 'is_first_status'], [SORT_DESC, SORT_DESC]);
         $this->createFile($newData, $this->model->getFile());
-        $this->createFile($data, $this->model->getFileFok());
+        ArrayHelper::multisort($old, ['sum_ball', 'is_first_status'], [SORT_DESC, SORT_DESC]);
+        $this->createFile($old,$this->model->getFileFok());
+        }
     }
 }
