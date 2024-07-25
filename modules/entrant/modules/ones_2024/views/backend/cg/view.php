@@ -56,13 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ["class" => "btn btn-success"]
             );?>
 
-            <?=  Html::a(
-                'Ручные изменения',
-                ['update-fok', 'id'=> $model->id],
-                ["class" => "btn btn-danger",
-                    'data-pjax' => 'w9', 'data-toggle' => 'modal', 'data-target' => '#modal',
-                    'data-modalTitle' => 'Обновление']
-            );?>
+            <?php
+//            Html::a(
+//                'Ручные изменения',
+//                ['update-fok', 'id'=> $model->id],
+//                ["class" => "btn btn-danger",
+//                    'data-pjax' => 'w9', 'data-toggle' => 'modal', 'data-target' => '#modal',
+//                    'data-modalTitle' => 'Обновление']
+//            );
+            ?>
 
             <?= $model->file ? Html::a(
                 'Скачать ручные изменения',

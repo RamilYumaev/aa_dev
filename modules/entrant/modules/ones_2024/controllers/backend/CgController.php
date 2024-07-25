@@ -1,7 +1,9 @@
 <?php
 namespace modules\entrant\modules\ones_2024\controllers\backend;
 
+use common\components\TbsWrapper;
 use modules\dictionary\helpers\JobEntrantHelper;
+use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\modules\ones_2024\forms\search\CgSSSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
@@ -163,43 +165,18 @@ class CgController extends Controller
      */
     public function actionTableFile($id, $fok = null)
     {
-        $searchModel = new EpkSearch([]);
         $model = $this->findModel($id);
-        \moonland\phpexcel\Excel::widget([
-            'asAttachment'=> true,
-            'fileName' => $model->name.'_'.$model->kcp.'_'.date('d-m-Y H-i-s'),
-            'models' => $fok == 1 ? $model->getListFok() : $model->getList(),
-            'mode' => 'export',
-            'columns' => [
-                'number',
-                'fio',
-                'phone',
-                'snils_number',
-                'exam_1',
-                'exam_2',
-                'exam_3',
-                'sum_exams',
-                'sum_individual',
-                'sum_ball',
-                'name_exams',
-                'is_first_status',
-                'status_ss',
-                'priority',
-                'priority_ss',
-                'is_ss',
-                'is_epk',
-                'original',
-                'document',
-                'is_paper_original_ss',
-                'is_el_original_ss',
-                'is_hostel',
-                'quid_profile',
-                'right',
-                'is_pay',
-                'document_target',
-                'organization'],
-            'headers' => $searchModel->attributeLabels(),
-        ]);
+        $list = $fok == 1 ? $model->getListFok() : $model->getList();
+        $fileName = $model->id.".xlsx";
+        $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss.xlsx';
+        $this->openFile($filePath, $list, $fileName);
+    }
+
+    public function openFile($filePath,  $dataApp, $fileName) {
+        $tbs = new TbsWrapper();
+        $tbs->openTemplate($filePath);
+        $tbs->merge('application', $dataApp);
+        $tbs->download($fileName);
     }
     /**
      * @param integer $id
