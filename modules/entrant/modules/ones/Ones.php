@@ -1,10 +1,10 @@
 <?php
 
-namespace modules\transfer\modules\test;
+namespace modules\entrant\modules\ones;
 
 use yii\base\Module;
 
-class Test extends Module
+class Ones extends Module
 {
-    public $controllerNamespace = 'modules\transfer\modules\test';
+    public $controllerNamespace = 'modules\entrant\modules\ones\controllers';
 }

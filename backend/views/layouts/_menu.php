@@ -37,6 +37,8 @@ array_merge(
             'items' => array_merge([
                 ['label' => 'Справочники СС', 'url' => ['/super-service/']],
                 ['label' => 'Регионы', 'url' => ['/dictionary-module/dict-region']],
+                ['label' => 'Файлы', 'url' => ['/data-entrant/ss/default']],
+                ['label' => 'Конкурсные группы', 'url' => ['/data-entrant/ss/cg']],
             ])]] : []),
 
 

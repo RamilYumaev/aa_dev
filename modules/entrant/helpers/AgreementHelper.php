@@ -293,7 +293,7 @@ class AgreementHelper
             AnketaHelper::STAVROPOL_BRANCH => '№ 11 от 18 февр. 2024 г.',
             AnketaHelper::DERBENT_BRANCH => '№ 14 от 18 февр. 2022 г.',
             AnketaHelper::SERGIEV_POSAD_BRANCH => '№ 43 от 06 июл. 2020 г.',
-            DictFacultyHelper::CHERNOHOVSK_BRANCH => '№28 от 20 июня. 2023 г.',
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => '№ 31 от 21 июня. 2024 г.',
         ];
     }
 

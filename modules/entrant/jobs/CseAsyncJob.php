@@ -1,12 +1,9 @@
 <?php
 
-
 namespace modules\entrant\jobs;
 use api\client\Client;
 use GuzzleHttp\Exception\ClientException;
 use modules\entrant\helpers\DataExportHelper;
-use modules\entrant\helpers\DateFormatHelper;
-use modules\entrant\services\UserDisciplineService;
 use yii\base\BaseObject;
 use yii\helpers\FileHelper;
 
