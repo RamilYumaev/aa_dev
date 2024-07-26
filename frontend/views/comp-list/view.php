@@ -6,6 +6,7 @@
  * @var $types array
  */
 
+use frontend\widgets\competitive\ButtonEpkWidget;
 use yii\web\View;
 $this->title = $faculty->full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Конкурсные списки', 'url' => ['comp-list/index']];
@@ -32,6 +33,7 @@ $levels = array_unique(array_column($data, 'education_level'));
             <tr>
                 <th style="width: 760px">Код и наименование направления подготовки</th>
                 <th>Форма обучения</th>
+                <th>Конкурсные списки</th>
             </tr>
             <?php foreach ($cgCroup as $cg):
                 $typesFilter = array_filter($types, function ($type) use($cg) {
@@ -44,13 +46,7 @@ $levels = array_unique(array_column($data, 'education_level'));
                 <tr>
                     <td style="font-weight: 100"><?= $cg['code_spec']?> - <?= $cg['speciality']?>, <?= $cg['profile'] ?></td>
                     <td style="font-weight: 100"><?= $cg['education_form'] ?></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <?php foreach ($typesFilter as $type) { ?>
-                            <?= \yii\helpers\Html::a($type['type'], ['list', 'id' => $type['id']]) ?> |
-                        <?php } ?>
-                    </td>
+                    <td style="font-weight: 100"><?= ButtonEpkWidget::widget(['types' => $typesFilter]) ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
