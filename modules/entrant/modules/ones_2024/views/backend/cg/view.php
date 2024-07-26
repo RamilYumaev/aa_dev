@@ -72,11 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ["class" => "btn btn-success"]
             ) : '' ?>
 
-            <?= Html::a(
-                'Итоговый список',
-                ['table-file', 'id'=> $model->id, 'fok' => 1],
-                ["class" => "btn btn-success"]
-            );?>
+<!--            --><?php //= Html::a(
+//                'Итоговый список',
+//                ['table-file', 'id'=> $model->id, 'fok' => 1],
+//                ["class" => "btn btn-success"]
+//            );?>
 
         </div>
         <div class="box-body">

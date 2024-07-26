@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title; ?>
     <div class="box">
         <div class="box-header">
             <?= \yii\helpers\Html::a("Получить все списки из epk", ['get-all'], ['class' => 'btn btn-warning']) ?>
+            <?= \yii\helpers\Html::a("Скачать epk + сс", ['all-list'], ['class' => 'btn btn-success']) ?>
         </div>
         <div class="box-body table-responsive">
             <?= \himiklab\yii2\ajaxedgrid\GridView::widget([

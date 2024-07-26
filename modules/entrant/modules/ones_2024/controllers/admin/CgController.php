@@ -145,6 +145,30 @@ class CgController extends Controller
         $tbs->download($fileName);
     }
 
+    public function actionAllList()
+    {
+        $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_all.xlsx';
+
+        $data  = [];
+        $fileName = "Все списки.xlsx";
+        /**
+         * @var $item CgSS
+         */
+
+        foreach (CgSS::find()->all() as $key => $item) {
+            if($item->getListCount()) {
+                $data[$key]['name'] = $item->name ." - ".$item->faculty->full_name;
+                $data[$key]['table'] = $item->getList();
+            }
+        }
+
+        $tbs = new TbsWrapper();
+        $tbs->openTemplate($filePath);
+        $tbs->merge('list', $data);
+        $tbs->download($fileName);
+    }
+
+
 
     /**
      * @param integer $id
