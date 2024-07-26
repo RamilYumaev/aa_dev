@@ -5,6 +5,7 @@ use common\components\TbsWrapper;
 use modules\entrant\modules\ones_2024\forms\search\CgSSSearch;
 use modules\entrant\modules\ones_2024\forms\search\EntrantAppSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
+use modules\entrant\modules\ones_2024\job\CreateBigFileJob;
 use modules\entrant\modules\ones_2024\model\CgSS;
 use Yii;
 use yii\filters\AccessControl;
@@ -147,28 +148,25 @@ class CgController extends Controller
 
     public function actionAllList()
     {
-        $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_all.xlsx';
+        $queue = Yii::$app->queue;
+        $queue->ttr(20000);
+        $message = 'Задание отправлено в очередь';
+        $queue->push(new CreateBigFileJob());
 
-        $data  = [];
-        $fileName = "Все списки.xlsx";
-        /**
-         * @var $item CgSS
-         */
-
-        foreach (CgSS::find()->all() as $key => $item) {
-            if($item->getListCount()) {
-                $data[$key]['name'] = $item->name ." - ".$item->faculty->full_name;
-                $data[$key]['table'] = $item->getList();
-            }
-        }
-
-        $tbs = new TbsWrapper();
-        $tbs->openTemplate($filePath);
-        $tbs->merge('list', $data);
-        $tbs->download($fileName);
+        Yii::$app->session->setFlash("info", $message);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionGetAllList()
+    {
+        $fileName = "all-list.xlsx";
 
+        $file = \Yii::getAlias('@modules').'/entrant/files/ss/'.$fileName;
+
+        if(file_exists($file)) {
+            return Yii::$app->response->sendFile($file);
+        }
+    }
 
     /**
      * @param integer $id

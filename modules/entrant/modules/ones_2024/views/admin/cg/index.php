@@ -9,12 +9,17 @@ use modules\entrant\helpers\SelectDataHelper;
 use yii\helpers\Html;
 
 $this->title = 'Конкурсные группы';
-$this->params['breadcrumbs'][] = $this->title; ?>
+$this->params['breadcrumbs'][] = $this->title;
+
+$fileName = "all-list.xlsx";
+$file = \Yii::getAlias('@modules').'/entrant/files/ss/'.$fileName;
+?>
 <div>
     <div class="box">
         <div class="box-header">
             <?= \yii\helpers\Html::a("Получить все списки из epk", ['get-all'], ['class' => 'btn btn-warning']) ?>
-            <?= \yii\helpers\Html::a("Скачать epk + сс", ['all-list'], ['class' => 'btn btn-success']) ?>
+            <?= \yii\helpers\Html::a("Сгенерирвать все списки в один файл", ['all-list'], ['class' => 'btn btn-success']) ?>
+            <?= file_exists($file) ? \yii\helpers\Html::a("Скачать файл", ['get-all-list'], ['class' => 'btn btn-success']) : ""?>
         </div>
         <div class="box-body table-responsive">
             <?= \himiklab\yii2\ajaxedgrid\GridView::widget([
