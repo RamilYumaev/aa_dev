@@ -60,11 +60,26 @@ class CompListController extends Controller
          return $this->render('view', ['faculty' => $faculty,  'data' => $data, 'types' => $dataType ]);
      }
 
+    /**
+     * @throws HttpException
+     */
     public function actionList($id)
     {
         if(($model = CgSS::findOne($id)) == null) {
             throw new HttpException('404', 'Такой страницы не существует');
         }
-        return $this->render('list', ['model' => $model]);
+
+        $kcp= CgSS::find()->select(['id', 'type', 'kcp'])
+            ->groupBy([ 'id', 'type', 'education_level','code_spec', 'education_form', 'speciality', 'profile'])
+            ->andWhere(['faculty_id' => $model->faculty_id])
+            ->andWhere(['education_level'=> $model->education_level,
+                'code_spec'=> $model->code_spec,
+                 'education_form' => $model->education_form,
+                 'profile' => $model->profile,
+                 'speciality' => $model->speciality])
+            ->andWhere(['not in', 'type', ['Основные места в рамках КЦП', 'По договору об оказании платных образовательных услуг']])
+            ->orderBy(['type' => SORT_ASC])
+            ->asArray()->all();
+        return $this->render('list', ['model' => $model, 'kcp' => $kcp]);
     }
 }

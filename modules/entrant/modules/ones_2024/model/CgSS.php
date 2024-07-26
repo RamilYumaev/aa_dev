@@ -44,6 +44,7 @@ class CgSS extends ActiveRecord
             [['kcp'], 'integer', 'max' => 999, 'min' => 0],
             [['url', 'datetime_url','datetime_update_fok', 'datetime_view' ], 'safe' ],
             [['name'], 'unique'],
+            [['url'],'url', 'defaultScheme' => ''],
             [['faculty_id'], 'integer'],
             ['file', 'file', 'extensions' => 'xlsx'],
         ];
@@ -148,6 +149,26 @@ class CgSS extends ActiveRecord
 
     public function getListCount() {
         return count($this->getList());
+    }
+
+    public function getListNotRank() {
+        $list = $this->getList();
+        if($list) {
+            $list = array_filter($list, function ($b) {
+                return empty($b['number']);
+            });
+        }
+        return $list;
+    }
+
+    public function getListWithRank() {
+        $list = $this->getList();
+        if($list) {
+            $list = array_filter($list, function ($b) {
+                return !empty($b['number']);
+            });
+        }
+        return $list;
     }
 
     public function getListFokCount() {

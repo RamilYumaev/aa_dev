@@ -35,6 +35,8 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
                 $response = Json::decode($json);
                 if ($response['success']) {
                     $this->saveCompetitionList($response);
+                    $this->model->datetime_url = date("Y-m-d H:i:s");
+                    $this->model->save();
                 }
             }
         }
@@ -64,10 +66,15 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             /**  @var EntrantCgAppSS $entrantApp
              */
             $snils[$key] = $data[$key]['snils_number'];
-            $entrantApp = $this->getEntrantApp($data[$key]['snils_number']);
+            $entrantApp = $this->getEntrantApp($data[$key]['snils_number'],  $data[$key]['fio']);
             /**  @var EntrantSS $entrant
              */
-            $entrant = $this->getEntrant($data[$key]['snils_number']);
+            if($entrantApp) {
+                $entrant = $entrantApp->entrant;
+                $snils[$key] = $entrant->snils;
+            }else {
+                $entrant = $this->getEntrant($data[$key]['snils_number']);
+            }
             $data[$key]['phone'] = $entrant ? $entrant->phone : "";
             $data[$key]['exam_1'] = $item["Предмет1"];
             $data[$key]['exam_2'] = $item["Предмет2"];
@@ -104,7 +111,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
         if(!file_exists($this->model->getPathFullEpk() . '/' . $this->model->getFileFok())) {
             $this->createFile($data, $this->model->getFileFok());
         } else {
-            $this->change($data);
+       //     $this->change($data);
         }
     }
 
@@ -119,9 +126,17 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
      * @param $snils
      * @return array | null
      */
-    public function getEntrantApp($snils) {
+    
+    public function getEntrantApp($snils, $fio) {
+        if($this->isSpec()) {
+            var_dump('e');
+            $rule = ['quid_cg_competitive' => $this->model->quid, 'snils' => $snils];
+        } else {
+            $rule = ['quid_cg_competitive' => $this->model->quid, 'fio' => $fio];
+        }
+        
        return EntrantCgAppSS::find()->joinWith(['entrant'])
-            ->andWhere(['quid_cg_competitive' => $this->model->quid, 'snils' => $snils ])->orderBy(['datetime' => SORT_DESC ])->one();
+            ->andWhere($rule)->orderBy(['datetime' => SORT_DESC ])->one();
     }
 
     public function getEntrant($snils) {
@@ -202,5 +217,9 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
         ArrayHelper::multisort($old, ['sum_ball', 'is_first_status'], [SORT_DESC, SORT_DESC]);
         $this->createFile($old,$this->model->getFileFok());
         }
+    }
+
+    public function isSpec() {
+        return $this->model == "Отдельная квота";
     }
 }

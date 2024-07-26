@@ -6,7 +6,6 @@ use modules\entrant\modules\ones_2024\forms\search\CgSSSearch;
 use modules\entrant\modules\ones_2024\forms\search\EntrantAppSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
 use modules\entrant\modules\ones_2024\model\CgSS;
-use modules\entrant\modules\ones_2024\model\EpkSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -71,7 +70,7 @@ class CgController extends Controller
         $data = Yii::$app->request->post();
         if($model->load($data) && $model->validate()) {
             $model->save();
-            return $this->redirect(['view', 'id'=> $model->id]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
         return $this->renderAjax('update', [
             'model' => $model,
@@ -95,6 +94,23 @@ class CgController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionGetAll()
+    {
+        $queue = Yii::$app->queue;
+        $queue->ttr(20000);
+        $message = 'Задание отправлено в очередь';
+        /**
+         * @var $item CgSS
+         */
+        foreach (CgSS::find()->all() as $item) {
+            if($item->url) {
+                $queue->push(new CompetitionListEpkJob(['model'=>$item]));
+            }
+        }
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
     }
 
     public function actionGetListEpk($id)

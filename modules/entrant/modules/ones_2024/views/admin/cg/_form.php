@@ -28,7 +28,7 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'kcp')->textInput() ?>
-                <?= $form->field($model, 'url')->textInput() ?>
+                <?= $form->field($model, 'url')->textarea() ?>
             </div>
         </div>
         <div class="form-group">

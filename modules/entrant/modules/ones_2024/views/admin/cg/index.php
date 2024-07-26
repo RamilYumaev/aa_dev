@@ -12,6 +12,9 @@ $this->title = 'Конкурсные группы';
 $this->params['breadcrumbs'][] = $this->title; ?>
 <div>
     <div class="box">
+        <div class="box-header">
+            <?= \yii\helpers\Html::a("Получить все списки из epk", ['get-all'], ['class' => 'btn btn-warning']) ?>
+        </div>
         <div class="box-body table-responsive">
             <?= \himiklab\yii2\ajaxedgrid\GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -19,13 +22,13 @@ $this->params['breadcrumbs'][] = $this->title; ?>
                 'afterRow' =>function (\modules\entrant\modules\ones_2024\model\CgSS $model, $key, $index, $grid) {
                     return '<tr><td colspan="3">
                                            Абитуриенты СС: '.$model->getEntrantsApp()->count().'<br />
-                                           Абитуриенты EPK: '.$model->getListCount().'<br />
-                                           Абитуриенты CДО: '.$model->getListFokCount().'</td>
+                                             Абитуриенты EPK: '.count($model->getListWithRank()).'<br />
+                                           Абитуриенты без позиции: '.count($model->getListNotRank()).'<br />
                                            <td colspan="3">'.
                         ($model->url ?
                             Html::a(
                 'Получить конкурсные списки из epk24.mpgu.su', ['get-list-epk', 'id' => $model->id],
-                ["class" => "btn btn-danger"])
+                ["class" => "btn btn-danger", 'target'=>'_blank'])
                             . Html::a('Скачать',
                 ['table-file', 'id'=> $model->id],
                 ["class" => "btn btn-success"]

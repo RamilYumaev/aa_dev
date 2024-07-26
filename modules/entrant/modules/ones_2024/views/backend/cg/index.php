@@ -16,8 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'afterRow' =>function (\modules\entrant\modules\ones_2024\model\CgSS $model, $key, $index, $grid) {
                     return '<tr><td colspan="3">
                                            Абитуриенты СС: '.$model->getEntrantsApp()->count().'<br />
-                                           Абитуриенты EPK: '.$model->getListCount().'<br />
-                                           Абитуриенты CДО: '.$model->getListFokCount().'</td>'.
+                                           Абитуриенты EPK: '.count($model->getListWithRank()).'<br />
+                                           Абитуриенты без позиции: '.count($model->getListNotRank()).'<br />
+                                           </td>'.
                             '</tr>';
                 },
                  'addButtons' => [],
