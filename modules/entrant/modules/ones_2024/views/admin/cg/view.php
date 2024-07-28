@@ -19,9 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span>',
                 ['update', 'id'=>$model->id],
-                ["class" => "btn btn-danger",
-                    'data-pjax' => 'w8', 'data-toggle' => 'modal', 'data-target' => '#modal',
-                    'data-modalTitle' => 'Обновление']
+                ["class" => "btn btn-danger",]
             );?>
         </div>
         <div class="box-body">

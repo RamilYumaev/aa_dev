@@ -50,6 +50,8 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
                 $list = $data['list_applicants'];
                 if(count($list)) {
                     $this->parsing($list);
+                } else {
+                    $this->parsing([]);
                 }
             }
         }
@@ -97,7 +99,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['is_pay'] = $item["Оплачено"];
             $data[$key]['is_first_status'] = 0;
             $data[$key]['document'] = $item["ВидДокумента"];
-            $data[$key]['document_target']  = $item['ПодтверждающийДокументЦелевогоНаправленияНомерДокумента'];
+            $data[$key]['document_target']  = key_exists('ПодтверждающийДокументЦелевогоНаправленияНомерДокумента', $item) ? $item['ПодтверждающийДокументЦелевогоНаправленияНомерДокумента'] : '';
             $data[$key]['organization'] = $item['НаправляющаяОрганизация'];
             $data[$key]['is_change'] = 0;
         }
@@ -107,11 +109,14 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
         if(count($notEpkData)) {
            $data =  array_merge($data, $notEpkData);
         }
-        $this->createFile($data, $this->model->getFile());
-        if(!file_exists($this->model->getPathFullEpk() . '/' . $this->model->getFileFok())) {
-            $this->createFile($data, $this->model->getFileFok());
-        } else {
-       //     $this->change($data);
+
+        if(count($data)) {
+            $this->createFile($data, $this->model->getFile());
+            if (!file_exists($this->model->getPathFullEpk() . '/' . $this->model->getFileFok())) {
+                $this->createFile($data, $this->model->getFileFok());
+            } else {
+                //     $this->change($data);
+            }
         }
     }
 
@@ -164,6 +169,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['exam_3'] = '';
             $data[$key]['sum_exams'] = '';
             $data[$key]['sum_individual'] = '';
+            $data[$key]['sum_ball'] = '';
             $data[$key]['name_exams'] = '';
             $data[$key]['priority'] = '';
             $data[$key]['status_ss'] = $val->status;

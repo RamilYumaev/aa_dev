@@ -5,6 +5,9 @@ use common\components\TbsWrapper;
 use modules\entrant\modules\ones_2024\model\CgSS;
 use yii\base\BaseObject;
 use yii\queue\Queue;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
 {
@@ -33,21 +36,107 @@ class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
         if(file_exists($file)) {
             unlink($file);
         }
-
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Hello World !');
         /**
          * @var $item CgSS
          */
-
+        $start = microtime(true);
         foreach (CgSS::find()->all() as $key => $item) {
-            if ($item->getListCount()) {
-                $data[$key]['name'] = $item->name . " - " . $item->faculty->full_name;
-                $data[$key]['table'] = $item->getList();
+
+            if (file_exists($item->getPathFullEpk().'/'.$item->getFile())) {
+                $statemnts = $item->getList();
+                $new = array_map(function($x) use($item) {
+                    $x['name'] = $item->name;
+                    $x['faculty'] = $item->faculty->full_name;
+                    return $x;
+                }, $statemnts);
+
+                $data = array_merge($data, $new);
+
+                $end = microtime(true);
+                $time = $end - $start;
+
+                echo  $item->id." Did fopen test in $time seconds \n";
             }
         }
+        $sheet->setCellValue('A1', 'Наименование');
+        $sheet->setCellValue('B1', 'Факультет');
+        $sheet->setCellValue('C1', 'Номер');
+        $sheet->setCellValue('D1', 'ФИО');
+        $sheet->setCellValue('E1', 'Телефон');
+        $sheet->setCellValue('F1', 'СНИЛС / ID');
 
-        $tbs = new TbsWrapper();
-        $tbs->openTemplate($filePath);
-        $tbs->merge('list', $data);
-        $tbs->saveAsFile($file);
+        $sheet->setCellValue('G1', 'Вступительное испытание 1');
+        $sheet->setCellValue('H1', 'Вступительное испытание 2');
+        $sheet->setCellValue('I1', 'Вступительное испытание 3');
+
+        $sheet->setCellValue('J1', 'Сумма баллов по предметам');
+        $sheet->setCellValue('K1', 'Сумма баллов по ИД для конкурса');
+        $sheet->setCellValue('L1', 'Сумма баллов');
+
+        $sheet->setCellValue('M1', 'Набор вступительных испытаний');
+        $sheet->setCellValue('N1', 'Выводить первым');
+        $sheet->setCellValue('O1', 'Статус СС');
+        $sheet->setCellValue('P1', 'Приоритет EPK');
+
+        $sheet->setCellValue('Q1', 'Прирориет СС');
+        $sheet->setCellValue('S1', 'Наличия заявления СС');
+        $sheet->setCellValue('R1', 'Наличия заявления EPK');
+        $sheet->setCellValue('T1', 'Оригинал');
+
+        $sheet->setCellValue('U1', 'Вид документа');
+        $sheet->setCellValue('V1', 'Бумажный оригинал CC');
+        $sheet->setCellValue('W1', 'Электронный оригинал CC');
+        $sheet->setCellValue('X1', 'Нуждается в общежитии');
+        $sheet->setCellValue('Y1',  'ID профиля');
+        $sheet->setCellValue('Z1', 'Преимущественное право');
+        $sheet->setCellValue('AA1', 'Оплачено');
+        $sheet->setCellValue('AB1', 'Подтверждающий документ целевого направления номер документа');
+        $sheet->setCellValue('AC1', 'Направляющая организация');
+        $start = 2;
+        foreach ($data as $key => $v) {
+            $row = ($key+$start);
+            $sheet->setCellValue('A'.($row), $v['name']);
+            $sheet->setCellValue('B'.($row), $v['faculty']);
+            $sheet->setCellValue('C'.($row), $v['number']);
+            $sheet->setCellValue('D'.($row), $v['fio']);
+            $sheet->setCellValue('E'.($row), $v['phone']);
+            $sheet->setCellValue('F'.($row), $v['snils_number']);
+
+            $sheet->setCellValue('G'.($row), $v['exam_1']);
+            $sheet->setCellValue('H'.($row), $v['exam_2']);
+            $sheet->setCellValue('I'.($row), $v['exam_3']);
+            $sheet->setCellValue('J'.($row), $v['sum_exams']);
+            $sheet->setCellValue('K'.($row), $v['sum_individual']);
+            $sheet->setCellValue('L'.($row), key_exists('sum_ball', $v) ? $v['sum_ball'] : "");
+
+            $sheet->setCellValue('M'.($row), $v['name_exams']);
+            $sheet->setCellValue('N'.($row), $v['is_first_status']);
+            $sheet->setCellValue('O'.($row), $v['status_ss']);
+            $sheet->setCellValue('P'.($row), $v['priority']);
+            $sheet->setCellValue('Q'.($row), $v['priority_ss']);
+            $sheet->setCellValue('R'.($row), $v['is_ss']);
+            $sheet->setCellValue('S'.($row), $v['is_epk']);
+            $sheet->setCellValue('T'.($row), $v['original']);
+            $sheet->setCellValue('U'.($row), $v['document']);
+
+            $sheet->setCellValue('V'.($row), $v['is_paper_original_ss']);
+            $sheet->setCellValue('W'.($row), $v['is_el_original_ss']);
+            $sheet->setCellValue('X'.($row), $v['is_hostel']);
+            $sheet->setCellValue('Y'.($row),  $v['quid_profile']);
+            $sheet->setCellValue('Z'.($row), $v['right']);
+            $sheet->setCellValue('AA'.($row), $v['is_pay']);
+            $sheet->setCellValue('AB'.($row), $v['document_target']);
+            $sheet->setCellValue('AC'.($row), $v['organization']);
+          }
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file);
+
+//        $tbs = new TbsWrapper();
+//        $tbs->openTemplate($filePath);
+//        $tbs->merge('list', $data);
+//        $tbs->saveAsFile($file);
     }
 }

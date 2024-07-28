@@ -39,6 +39,10 @@ class CgSSSearch extends CgSS
             if (in_array($this->jobEntrant->category_id, JobEntrantHelper::listCategoriesFilial())) {
                 $query->andWhere(['faculty_id' => $this->jobEntrant->category_id]);
             }
+
+            if($this->jobEntrant->isCategoryMPGU()) {
+                $query->andWhere(['type' => ['Отдельная квота', 'Особая квота', 'Целевая квота']]);
+            }
         }
 
         $dataProvider = new ActiveDataProvider([

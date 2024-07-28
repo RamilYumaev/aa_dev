@@ -71,9 +71,9 @@ class CgController extends Controller
         $data = Yii::$app->request->post();
         if($model->load($data) && $model->validate()) {
             $model->save();
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect('index');
         }
-        return $this->renderAjax('update', [
+        return $this->render('update', [
             'model' => $model,
         ]);
     }
@@ -134,7 +134,7 @@ class CgController extends Controller
     {
         $model = $this->findModel($id);
         $list = $fok == 1 ? $model->getListFok() : $model->getList();
-        $fileName = $model->id.".xlsx";
+        $fileName = $model->name.".xlsx";
         $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss.xlsx';
         $this->openFile($filePath, $list, $fileName);
     }

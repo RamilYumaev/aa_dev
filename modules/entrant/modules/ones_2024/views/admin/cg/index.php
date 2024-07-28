@@ -6,6 +6,7 @@
 
 use dictionary\helpers\DictFacultyHelper;
 use modules\entrant\helpers\SelectDataHelper;
+use yii\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = 'Конкурсные группы';
@@ -22,7 +23,7 @@ $file = \Yii::getAlias('@modules').'/entrant/files/ss/'.$fileName;
             <?= file_exists($file) ? \yii\helpers\Html::a("Скачать файл", ['get-all-list'], ['class' => 'btn btn-success']) : ""?>
         </div>
         <div class="box-body table-responsive">
-            <?= \himiklab\yii2\ajaxedgrid\GridView::widget([
+            <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'afterRow' =>function (\modules\entrant\modules\ones_2024\model\CgSS $model, $key, $index, $grid) {
@@ -34,16 +35,15 @@ $file = \Yii::getAlias('@modules').'/entrant/files/ss/'.$fileName;
                         ($model->url ?
                             Html::a(
                 'Получить конкурсные списки из epk24.mpgu.su', ['get-list-epk', 'id' => $model->id],
-                ["class" => "btn btn-danger", 'target'=>'_blank'])
+                ["class" => "btn btn-danger"])
                             . Html::a('Скачать',
                 ['table-file', 'id'=> $model->id],
                 ["class" => "btn btn-success"]
             ) : '').
                         '</td></tr>';
                      },
-                'actionColumnTemplate' => '{update}',
                 'columns' => [
-                    ['class' => \yii\grid\ActionColumn::class, 'template' => '{view}'],
+                    ['class' => \yii\grid\ActionColumn::class, 'template' => '{view} {update}'],
                     ['class' => \yii\grid\SerialColumn::class],
                     'name',
                     'education_level',
@@ -61,7 +61,8 @@ $file = \Yii::getAlias('@modules').'/entrant/files/ss/'.$fileName;
                         'value' => function($model) {
                             return $model->url ? 'Да' : 'Нет';
                         }],
-                    'datetime_url'
+                    'datetime_url',
+                      ['class' => \yii\grid\ActionColumn::class, 'template' => '{update}'],
                 ]
             ]) ?>
         </div>
