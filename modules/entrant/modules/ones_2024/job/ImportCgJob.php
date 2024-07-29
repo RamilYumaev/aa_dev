@@ -34,22 +34,24 @@ class ImportCgJob extends BaseObject implements \yii\queue\JobInterface
                     if ($k === 0) {
                         continue;
                     }
-                    if (!CgSS::findOne(['quid' => $r[2]])) {
-                        $model = new CgSS();
-                        $model->quid = $r[2];
+                    $model = CgSS::findOne(['quid' => $r[2]]) ?? new CgSS();
+                    $model->quid = $r[2];
+
+                    if(!$model->faculty_id) {
                         $model->faculty_id = key_exists($r[3], $this->converterFilial()) ? $this->converterFilial()[$r[3]] : null;
-                        $model->profile = $r[11];
-                        $model->name = $r[3]." ".$r[5]." ".$r[19]." ".$r[20]." ".$r[21];
-                        $model->code_spec = $r[6];
-                        $model->speciality = $r[7];
-                        $model->type = $r[21];
-                        $model->education_level = $r[19];
-                        $model->education_form = $r[20];
-                        $model->kcp = intval($r[22]);
-                        if (!$model->save()) {
-                            var_dump($model->errors);
-                        };
                     }
+                    $model->profile = $r[11];
+                    $model->name = $r[3]." ".$r[5]." ".$r[19]." ".$r[20]." ".$r[21];
+                    $model->code_spec = $r[6];
+                    $model->speciality = $r[7];
+                    $model->comment = $r[5];
+                    $model->type = $r[21];
+                    $model->education_level = $r[19];
+                    $model->education_form = $r[20];
+                    $model->kcp = intval($r[22]);
+                    if (!$model->save()) {
+                        var_dump($model->errors);
+                    };
                 }
             } else {
                 echo 'xlsx error: ' . $xlsx->error();

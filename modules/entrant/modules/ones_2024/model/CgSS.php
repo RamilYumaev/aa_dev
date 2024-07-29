@@ -24,6 +24,8 @@ use yii\web\UploadedFile;
  * @property integer $datetime_update_fok
  * @property integer $datetime_view
  * @property string  $file
+ * @property string $comment
+ * @property string $id_ones
  *
  */
 class CgSS extends ActiveRecord
@@ -42,7 +44,7 @@ class CgSS extends ActiveRecord
             [['name', 'education_level', 'education_form', 'code_spec', 'speciality', 'profile', 'type', 'quid'], 'string'],
             [['name', 'education_level', 'education_form', 'code_spec', 'speciality', 'profile', 'type'], 'trim'],
             [['kcp'], 'integer', 'max' => 999, 'min' => 0],
-            [['url', 'datetime_url','datetime_update_fok', 'datetime_view' ], 'safe' ],
+            [['url', 'datetime_url','datetime_update_fok', 'datetime_view', 'id_ones', 'comment', 'id_ones'], 'safe' ],
             [['name'], 'unique'],
             [['url'],'url', 'defaultScheme' => ''],
             [['faculty_id'], 'integer'],
