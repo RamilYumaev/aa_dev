@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property string $date_of_birth
  * @property string $place_of_birth
  * @property string $email
+ * @property boolean $is_original
  * @property string $phone
  * @property boolean $is_hostel
  */
@@ -43,6 +44,7 @@ class EntrantSS extends ActiveRecord
             "snils",
             "id_ss",
             "sex",
+                'is_original',
             'nationality',
             'type_doc',
             'series',

@@ -5,6 +5,7 @@ use modules\entrant\modules\ones\job\CompetitiveListJob;
 use modules\entrant\modules\ones\model\CompetitiveList;
 use modules\entrant\modules\ones_2024\job\ImportCgJob;
 use modules\entrant\modules\ones_2024\job\ImportEntrantAppJob;
+use modules\entrant\modules\ones_2024\job\ImportOriginalJob;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
 use Yii;
 use yii\db\ActiveRecord;
@@ -23,6 +24,8 @@ class FileSS extends ActiveRecord
     const FILE_CG = 2;
 
     const FILE_UPDATE_PRIORITY = 3;
+
+    const FILE_UPDATE_ORIGINAL = 4;
 
     public $check;
 
@@ -52,6 +55,10 @@ class FileSS extends ActiveRecord
 
             if($this->type == self::FILE_STATEMENT) {
                 $queue->push(new ImportEntrantAppJob(['model'=>$this]));
+            }
+
+            if($this->type == self::FILE_UPDATE_ORIGINAL) {
+                $queue->push(new ImportOriginalJob(['model'=>$this]));
             }
 
 //            if($this->type == self::FILE_UPDATE_PRIORITY) {
@@ -84,6 +91,7 @@ class FileSS extends ActiveRecord
         return [
             self::FILE_CG => "Конкурсные группы",
             self::FILE_STATEMENT => " Абитуриенты и заявления",
+            self::FILE_UPDATE_ORIGINAL => "Оригиналы",
             self::FILE_UPDATE_PRIORITY => " Абитуриенты, заявления, обновления приоритетов",
         ];
     }

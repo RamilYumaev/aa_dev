@@ -1,7 +1,6 @@
 <?php
 namespace modules\entrant\modules\ones_2024\job;
 
-use common\components\TbsWrapper;
 use modules\entrant\modules\ones_2024\model\CgSS;
 use yii\base\BaseObject;
 use yii\queue\Queue;
@@ -85,16 +84,17 @@ class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
         $sheet->setCellValue('S1', 'Наличия заявления СС');
         $sheet->setCellValue('R1', 'Наличия заявления EPK');
         $sheet->setCellValue('T1', 'Оригинал');
+        $sheet->setCellValue('U1', 'Оригинал  МПГУ');
 
-        $sheet->setCellValue('U1', 'Вид документа');
-        $sheet->setCellValue('V1', 'Бумажный оригинал CC');
-        $sheet->setCellValue('W1', 'Электронный оригинал CC');
-        $sheet->setCellValue('X1', 'Нуждается в общежитии');
-        $sheet->setCellValue('Y1',  'ID профиля');
-        $sheet->setCellValue('Z1', 'Преимущественное право');
-        $sheet->setCellValue('AA1', 'Оплачено');
-        $sheet->setCellValue('AB1', 'Подтверждающий документ целевого направления номер документа');
-        $sheet->setCellValue('AC1', 'Направляющая организация');
+        $sheet->setCellValue('V1', 'Вид документа');
+        $sheet->setCellValue('W1', 'Бумажный оригинал CC');
+        $sheet->setCellValue('X1', 'Электронный оригинал CC');
+        $sheet->setCellValue('Y1', 'Нуждается в общежитии');
+        $sheet->setCellValue('Z1',  'ID профиля');
+        $sheet->setCellValue('AA1', 'Преимущественное право');
+        $sheet->setCellValue('AB1', 'Оплачено');
+        $sheet->setCellValue('AC1', 'Подтверждающий документ целевого направления номер документа');
+        $sheet->setCellValue('AD1', 'Направляющая организация');
         $start = 2;
         foreach ($data as $key => $v) {
             $row = ($key+$start);
@@ -120,16 +120,17 @@ class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
             $sheet->setCellValue('R'.($row), $v['is_ss']);
             $sheet->setCellValue('S'.($row), $v['is_epk']);
             $sheet->setCellValue('T'.($row), $v['original']);
-            $sheet->setCellValue('U'.($row), $v['document']);
+            $sheet->setCellValue('U'.($row), $v['is_original']);
+            $sheet->setCellValue('V'.($row), $v['document']);
 
-            $sheet->setCellValue('V'.($row), $v['is_paper_original_ss']);
-            $sheet->setCellValue('W'.($row), $v['is_el_original_ss']);
-            $sheet->setCellValue('X'.($row), $v['is_hostel']);
-            $sheet->setCellValue('Y'.($row),  $v['quid_profile']);
-            $sheet->setCellValue('Z'.($row), $v['right']);
-            $sheet->setCellValue('AA'.($row), $v['is_pay']);
-            $sheet->setCellValue('AB'.($row), $v['document_target']);
-            $sheet->setCellValue('AC'.($row), $v['organization']);
+            $sheet->setCellValue('W'.($row), $v['is_paper_original_ss']);
+            $sheet->setCellValue('X'.($row), $v['is_el_original_ss']);
+            $sheet->setCellValue('Y'.($row), $v['is_hostel']);
+            $sheet->setCellValue('Z'.($row),  $v['quid_profile']);
+            $sheet->setCellValue('AA'.($row), $v['right']);
+            $sheet->setCellValue('AB'.($row), $v['is_pay']);
+            $sheet->setCellValue('AC'.($row), $v['document_target']);
+            $sheet->setCellValue('AD'.($row), $v['organization']);
           }
         $writer = new Xlsx($spreadsheet);
         $writer->save($file);
