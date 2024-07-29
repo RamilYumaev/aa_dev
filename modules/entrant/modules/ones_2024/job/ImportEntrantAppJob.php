@@ -82,6 +82,7 @@ class ImportEntrantAppJob extends BaseObject implements \yii\queue\JobInterface
             $model->status =  $r[30];
             $model->is_el_original = $r[33] == "ИСТИНА";
             $model->is_paper_original = $r[32] == "ИСТИНА";
+            $model->vuz_original = $r[34];
             if(!$model->save()) {
                 var_dump($model->errors);
             }
@@ -94,6 +95,7 @@ class ImportEntrantAppJob extends BaseObject implements \yii\queue\JobInterface
             $model->status = $r[30];
             $model->is_el_original = $r[33] == "ИСТИНА";
             $model->is_paper_original = $r[32] == "ИСТИНА";
+            $model->vuz_original = $r[34];
             $model->datetime = date('Y-m-d H:i:s', strtotime($r[17]));
             $model->quid_statement = $r[13];
             $model->quid_cg = $r[25];

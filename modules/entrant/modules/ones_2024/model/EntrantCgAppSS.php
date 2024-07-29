@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property string $status
  * @property boolean $is_el_original
  * @property boolean $is_paper_original
+ * @property string $vuz_original
  *
  * @property-read EntrantSS $entrant
  */

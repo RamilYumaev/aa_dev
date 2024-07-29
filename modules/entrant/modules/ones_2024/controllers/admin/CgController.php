@@ -169,6 +169,10 @@ class CgController extends Controller
             return $v;
         }, $list);
 
+        $list = array_filter($list, function ($v) {
+            return !empty($v['number']);
+        });
+
         $fileName = "Конкурсный список " .$model->name.".xlsx";
         $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_1.xlsx';
         $this->openFile($filePath, $list, $fileName);

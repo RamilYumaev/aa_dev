@@ -90,6 +90,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['priority_ss'] = $entrantApp ? $entrantApp->priority_ss : "";
             $data[$key]['is_paper_original_ss'] = $entrantApp ? $entrantApp->is_paper_original: "";
             $data[$key]['is_el_original_ss'] = $entrantApp ? $entrantApp->is_el_original: "";
+            $data[$key]['vuz_original'] = $entrantApp ? $entrantApp->vuz_original: "";
             $data[$key]['is_ss'] = $entrantApp ? "Да" : "Нет";
             $data[$key]['is_epk'] =  "Да";
             $data[$key]['is_original'] = $entrant ? ($entrant->is_original ? "Да" : "Нет")  : "";
@@ -182,6 +183,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['is_epk'] =  "Нет";
             $data[$key]['is_hostel'] = $val->entrant->is_hostel;
             $data[$key]['quid_profile'] = $val->quid_profile;
+            $data[$key]['vuz_original'] = $val->vuz_original;
             $data[$key]['original'] = '';
             $data[$key]['right'] = '';
             $data[$key]['is_pay'] = '';

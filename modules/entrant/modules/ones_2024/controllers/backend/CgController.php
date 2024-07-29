@@ -1,10 +1,8 @@
 <?php
 namespace modules\entrant\modules\ones_2024\controllers\backend;
 
-use common\auth\forms\SettingEmailEditForm;
 use common\components\TbsWrapper;
 use modules\dictionary\helpers\JobEntrantHelper;
-use modules\dictionary\models\CompetitionList;
 use modules\dictionary\models\JobEntrant;
 use modules\entrant\modules\ones_2024\forms\search\CgSSSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
@@ -202,6 +200,10 @@ class CgController extends Controller
             }
             return $v;
         }, $list);
+
+        $list = array_filter($list, function ($v) {
+            return !empty($v['number']);
+        });
 
         $fileName = "Конкурсный список " .$model->name.".xlsx";
         $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_1.xlsx';
