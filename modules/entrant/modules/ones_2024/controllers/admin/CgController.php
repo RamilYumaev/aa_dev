@@ -7,8 +7,10 @@ use modules\entrant\modules\ones_2024\forms\search\EntrantAppSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
 use modules\entrant\modules\ones_2024\job\CreateBigFileJob;
 use modules\entrant\modules\ones_2024\model\CgSS;
+use modules\entrant\modules\ones_2024\model\EntrantSS;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -136,6 +138,39 @@ class CgController extends Controller
         $list = $fok == 1 ? $model->getListFok() : $model->getList();
         $fileName = $model->name.".xlsx";
         $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss.xlsx';
+        $this->openFile($filePath, $list, $fileName);
+    }
+
+    /**
+     * @param $id
+     * @throws NotFoundHttpException
+     */
+    public function actionTableList($id, $fok = null)
+    {
+        $model = $this->findModel($id);
+        $list = $fok == 1 ? $model->getListFok() : $model->getList();
+
+        $list = array_map(function ($v) use ($model) {
+            $v['quid_cg'] = $model->quid;
+            $entrant = EntrantSS::findOne(['quid' => $v['quid_profile']]);
+            if ($entrant) {
+                $v['snils'] = str_replace([' ', '-'], '', $entrant->snils);
+            }
+
+            if($v['name_exams']) {
+                $data =  explode(')', $v['name_exams']);
+                foreach ($data as $key => $exam) {
+                    if($exam == '') {
+                        continue;
+                    }
+                    $v['name_exam_'.($key+1)] = $exam.')';
+                }
+            }
+            return $v;
+        }, $list);
+
+        $fileName = "Конкурсный список " .$model->name.".xlsx";
+        $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_1.xlsx';
         $this->openFile($filePath, $list, $fileName);
     }
 

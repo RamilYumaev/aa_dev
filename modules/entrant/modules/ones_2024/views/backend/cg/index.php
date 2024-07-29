@@ -58,6 +58,9 @@ if(!$role->isCategoryMPGU()) {
                             . Html::a('Скачать',
                                 ['table-file', 'id'=> $model->id],
                                 ["class" => "btn btn-success"]
+                            ). Html::a('Скачать КС СС',
+                                ['table-list', 'id'=> $model->id],
+                                ["class" => "btn btn-success"]
                             ) : '').
                         '</td></tr>';
                 },

@@ -1,6 +1,7 @@
 <?php
 namespace modules\entrant\modules\ones_2024\controllers\backend;
 
+use common\auth\forms\SettingEmailEditForm;
 use common\components\TbsWrapper;
 use modules\dictionary\helpers\JobEntrantHelper;
 use modules\dictionary\models\CompetitionList;
@@ -9,6 +10,7 @@ use modules\entrant\modules\ones_2024\forms\search\CgSSSearch;
 use modules\entrant\modules\ones_2024\job\CompetitionListEpkJob;
 use modules\entrant\modules\ones_2024\job\UpdateListEpkJob;
 use modules\entrant\modules\ones_2024\model\CgSS;
+use modules\entrant\modules\ones_2024\model\EntrantSS;
 use modules\entrant\modules\ones_2024\model\EpkSearch;
 use Yii;
 use yii\base\ExitException;
@@ -171,6 +173,41 @@ class CgController extends Controller
         $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss.xlsx';
         $this->openFile($filePath, $list, $fileName);
     }
+
+
+    /**
+     * @param $id
+     * @throws NotFoundHttpException
+     */
+    public function actionTableList($id, $fok = null)
+    {
+        $model = $this->findModel($id);
+        $list = $fok == 1 ? $model->getListFok() : $model->getList();
+
+        $list = array_map(function ($v) use ($model) {
+            $v['quid_cg'] = $model->quid;
+            $entrant = EntrantSS::findOne(['quid' => $v['quid_profile']]);
+            if ($entrant) {
+                $v['snils'] = str_replace([' ', '-'], '', $entrant->snils);
+            }
+
+            if($v['name_exams']) {
+                $data =  explode(')', $v['name_exams']);
+                foreach ($data as $key => $exam) {
+                    if($exam == '') {
+                        continue;
+                    }
+                    $v['name_exam_'.($key+1)] = $exam.')';
+                }
+            }
+            return $v;
+        }, $list);
+
+        $fileName = "Конкурсный список " .$model->name.".xlsx";
+        $filePath =  \Yii::getAlias('@common').'/file_templates/list_ss_1.xlsx';
+        $this->openFile($filePath, $list, $fileName);
+    }
+
 
     public function openFile($filePath,  $dataApp, $fileName) {
         $tbs = new TbsWrapper();

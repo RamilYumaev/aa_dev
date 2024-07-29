@@ -26,13 +26,13 @@ class ImportOriginalJob extends BaseObject implements \yii\queue\JobInterface
         set_time_limit(6000);
         $filePath = $this->model->getUploadedFilePath('file_name');
         if(file_exists($filePath)) {
+            EntrantSS::updateAll(['is_original'=> 0]);
             $xlsx = SimpleXLSX::parse($filePath);
             if ($xlsx->success()) {
                 foreach ($xlsx->rows() as $k => $r) {
                     if ($k === 0) {
                         continue;
                     }
-                    EntrantSS::updateAll(['is_original'=>0]);
                     if ($model = EntrantSS::findOne(['quid' => $r[0]])) {
                         $model->is_original = true;
                         if (!$model->save()) {
