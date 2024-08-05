@@ -104,6 +104,8 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['document_target']  = key_exists('ПодтверждающийДокументЦелевогоНаправленияНомерДокумента', $item) ? $item['ПодтверждающийДокументЦелевогоНаправленияНомерДокумента'] : '';
             $data[$key]['organization'] = $item['НаправляющаяОрганизация'];
             $data[$key]['is_change'] = 0;
+            $data[$key]['snils_ss'] = $entrant ? $entrant->snils: "";
+            $data[$key]['is_el_original_epk'] = $entrant ? ($entrant->is_remote_original ? "Да" : "Нет")  : "";
         }
 
         $notEpkData = $this->getNotAppEpk($snils);
@@ -135,15 +137,11 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
      */
     
     public function getEntrantApp($snils, $fio) {
-        if($this->isSpec()) {
-            var_dump('e');
-            $rule = ['quid_cg_competitive' => $this->model->quid, 'snils' => $snils];
-        } else {
-            $rule = ['quid_cg_competitive' => $this->model->quid, 'fio' => $fio];
-        }
+        $rule1 = ['quid_cg_competitive' => $this->model->quid, 'fio' => $fio];
+        $rule = ['quid_cg_competitive' => $this->model->quid, 'snils' => $snils];
         
        return EntrantCgAppSS::find()->joinWith(['entrant'])
-            ->andWhere($rule)->orderBy(['datetime' => SORT_DESC ])->one();
+            ->andWhere($rule)->orWhere($rule1)->orderBy(['datetime' => SORT_DESC ])->one();
     }
 
     public function getEntrant($snils) {
@@ -192,6 +190,8 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['document_target']  = '';
             $data[$key]['organization'] = '';
             $data[$key]['is_change'] = 0;
+            $data[$key]['snils_ss'] = $val->entrant->snils;
+            $data[$key]['is_el_original_epk'] = $val->entrant->is_remote_original ? "Да" : "Нет";
             $snd[] = $val->entrant->snils;
         };
 

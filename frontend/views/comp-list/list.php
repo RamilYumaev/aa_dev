@@ -43,12 +43,15 @@ if($list) {
                 <span style="font-weight: bold">Вид финансирования: </span><?= $isContract ? 'Договор': 'Бюджет'?><br/>
                 <?php if (!$isContract) : ?>
                     <span style="font-weight: bold">Контрольные цифры приема:</span>
-                        <?= $model->kcp ?>
-                        <?php if($isMain && $kcp) : ?>
+                    <?php if($isMain && $kcp) : ?>
+                        <?= ($model->kcp + (array_sum(array_column($kcp, 'kcp'))))?>
                         из них: <?php foreach ($kcp as $key => $item) : ?>
                         <?= Html::a(mb_strtolower($item['type']), ['list', 'id' => $item['id']],
                             ['target' => '_blank']) ?> - <?= $item['kcp'] ?><?= $key +1 == count($kcp) ? '.': ', ' ?>
-                <?php endforeach; endif; endif; ?>
+                    <?php endforeach; else :  ?>
+                        <?= $model->kcp ?>
+                    <?php endif; ?>
+                <?php endif; ?>
             </p>
         </div>
     </div>

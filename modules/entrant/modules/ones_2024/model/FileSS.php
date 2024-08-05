@@ -27,6 +27,9 @@ class FileSS extends ActiveRecord
 
     const FILE_UPDATE_ORIGINAL = 4;
 
+    const FILE_UPDATE_REMOTE_ORIGINAL = 5;
+
+
     public $check;
 
     public static function tableName(): string
@@ -57,10 +60,9 @@ class FileSS extends ActiveRecord
                 $queue->push(new ImportEntrantAppJob(['model'=>$this]));
             }
 
-            if($this->type == self::FILE_UPDATE_ORIGINAL) {
-                $queue->push(new ImportOriginalJob(['model'=>$this]));
+            if ($this->type == self::FILE_UPDATE_ORIGINAL || $this->type == self::FILE_UPDATE_REMOTE_ORIGINAL) {
+                $queue->push(new ImportOriginalJob(['model'=> $this]));
             }
-
 //            if($this->type == self::FILE_UPDATE_PRIORITY) {
 //                $queue->push(new ImportEntrantAppJob(['model'=>$this]));
 //            }
@@ -92,6 +94,7 @@ class FileSS extends ActiveRecord
             self::FILE_CG => "Конкурсные группы",
             self::FILE_STATEMENT => " Абитуриенты и заявления",
             self::FILE_UPDATE_ORIGINAL => "Оригиналы",
+            self::FILE_UPDATE_REMOTE_ORIGINAL => "Электронные оригиналы",
             self::FILE_UPDATE_PRIORITY => " Абитуриенты, заявления, обновления приоритетов",
         ];
     }

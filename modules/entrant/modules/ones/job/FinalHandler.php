@@ -64,7 +64,7 @@ class FinalHandler extends BaseObject implements \yii\queue\JobInterface
                 ['status' => CompetitiveList::STATUS_NO_SUCCESS],
                 ['status' => CompetitiveList::STATUS_NEW, 'cg_id' => $this->allGgByLevel()]);
         }else {
-            \Yii::$app->queue->push(new FinalHandler(['arr'=>$this->arr, 'eduLevel'=> $this->eduLevel]));
+            \Yii::$app->queue->push(new FinalHandler(['arr' => $this->arr, 'eduLevel'=> $this->eduLevel]));
         }
     }
 
