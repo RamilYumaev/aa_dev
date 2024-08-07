@@ -298,7 +298,7 @@ class SubmittedDocumentsService
 
     private function other($userId)
     {
-        $others = OtherDocument::find()->where(['user_id' => $userId])->all();
+        $others = OtherDocument::find()->where(['user_id' => $userId])->andWhere(['exemption_id' => null])->all();
         /* @var $other \modules\entrant\models\OtherDocument */
         foreach ($others as $other) {
             if (!$other->files) {

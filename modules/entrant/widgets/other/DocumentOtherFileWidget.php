@@ -13,7 +13,7 @@ class DocumentOtherFileWidget extends Widget
     public function run()
     {
         if(!$this->ia) {
-            $model = OtherDocument::find()->where(['user_id'=>$this->userId])
+            $model = OtherDocument::find()->where(['user_id'=>$this->userId])->andWhere(['exemption_id' => null])
                 ->andWhere(['not in','id', UserIndividualAchievements::find()->user($this->userId)->select('document_id')->column()])
                 ->all();
         } else {
