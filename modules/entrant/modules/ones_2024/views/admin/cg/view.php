@@ -42,51 +42,34 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <div class="box">
         <div class="box-header">
-            <h3>Заявления</h3>
-            <?= Html::a(
-                'Все приоритеты',
-                ['view', 'id'=>$model->id],
-                 ["class" => "btn btn-success"]
-            );?>
-            <?= Html::a(
-                'Разные приоритеты',
-                ['view', 'id'=>$model->id, 'different' => 1],
-                ["class" => "btn btn-warning"]
-            );?>
-            <?= Html::a(
-                'Нет приоритета вуза',
-                ['view', 'id'=>$model->id, 'different' => 2],
-                ["class" => "btn btn-danger"]
-            );?>
+            <h3>Конкурсные списки</h3>
         </div>
         <div class="box-body">
-            <?=  GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
+            <?= \himiklab\yii2\ajaxedgrid\GridView::widget([
+                'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getCompetitiveList()]),
+                'addButtons' => [],
+                'rowOptions' => function(\modules\entrant\modules\ones_2024\model\CompetitiveList $model){
+                    if ($model::isOnOtherSuccess($model->snils_or_id, $model->id)) {
+                        return ['class' => 'info'];
+                    }
+                    else {
+                        return ['class' => 'default'];
+                    }
+                },
                 'columns' => [
                     ['class' => \yii\grid\SerialColumn::class],
-                     ['header' => 'ФИО',
-                        'attribute' => 'fio',
-                        'value' => 'entrant.fio'
+                    'fio',
+                    'number',
+                    'snils_or_id',
+                    'priority',
+                    ['value' => 'subjectMarks', 'header' => 'Баллы за ВИ'],
+                    'mark_ai',
+                    'sum_ball',
+                    ['value' => 'statusName',
+                        'attribute' => 'status'
                     ],
-                    ['header' => 'СНИЛС',
-                        'attribute' => 'snils',
-                        'value' => 'entrant.snils'
-                    ],
-                     'actual',
-                     'priority_vuz',
-                     'priority_ss',
-                     'status',
-                     'source',
-                     'is_el_original:boolean',
-                     'is_paper_original:boolean',
-                      ['label' => "#",
-                        'format' => 'raw',
-                        'value' => function(\modules\entrant\modules\ones_2024\model\EntrantCgAppSS  $model) {
-                            return Html::a('Просмотр', ['entrant/view',
-                                'id' => $model->entrant->id,]);
-                        }],
                 ],
+                'actionColumnTemplate' => '',
             ]) ?>
         </div>
     </div>

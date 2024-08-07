@@ -58,6 +58,7 @@ class CgSSSearch extends CgSS
 
         $query->andFilterWhere([
             'kcp' => $this->kcp,
+            'status' => $this->status,
             'faculty_id' => $this->faculty_id
         ]);
 

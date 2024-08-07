@@ -4,6 +4,7 @@ namespace modules\entrant\modules\ones_2024\controllers\admin;
 use modules\entrant\modules\ones_2024\job\ImportEntrantAppJob;
 use modules\entrant\modules\ones_2024\job\ImportEntrantOneSJob;
 use modules\entrant\modules\ones_2024\job\ImportEntrantPriorityAppJob;
+use modules\entrant\modules\ones_2024\job\ImportOriginalSsJob;
 use modules\entrant\modules\ones_2024\model\FileSS;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -15,6 +16,7 @@ class DefaultController extends Controller
     const PATH   = '@modules/entrant/modules/ones_2024/views/en.xlsx';
     const PATH_   = '@modules/entrant/modules/ones_2024/views/update.xlsx';
     const PATH__   = '@modules/entrant/modules/ones_2024/views/1s.xlsx';
+    const PATH___   = '@modules/entrant/modules/ones_2024/views/orig.xlsx';
     public function behaviors(): array
     {
         return [
@@ -61,6 +63,17 @@ class DefaultController extends Controller
         $queue->ttr(20000);
         $message = 'Задание отправлено в очередь';
         $queue->push(new ImportEntrantAppJob(['model'=>null, 'path'=> self::PATH]));
+
+        Yii::$app->session->setFlash("info", $message);
+        return  $this->redirect('index');
+    }
+
+    public function actionOrigHandle()
+    {
+        $queue = Yii::$app->queue;
+        $queue->ttr(20000);
+        $message = 'Задание отправлено в очередь';
+        $queue->push(new ImportOriginalSsJob(['model'=>null, 'path'=> self::PATH___]));
 
         Yii::$app->session->setFlash("info", $message);
         return  $this->redirect('index');

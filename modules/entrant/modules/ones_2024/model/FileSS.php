@@ -6,6 +6,7 @@ use modules\entrant\modules\ones\model\CompetitiveList;
 use modules\entrant\modules\ones_2024\job\ImportCgJob;
 use modules\entrant\modules\ones_2024\job\ImportEntrantAppJob;
 use modules\entrant\modules\ones_2024\job\ImportOriginalJob;
+use modules\entrant\modules\ones_2024\job\ImportOriginalSsJob;
 use modules\usecase\ImageUploadBehaviorYiiPhp;
 use Yii;
 use yii\db\ActiveRecord;
@@ -28,6 +29,9 @@ class FileSS extends ActiveRecord
     const FILE_UPDATE_ORIGINAL = 4;
 
     const FILE_UPDATE_REMOTE_ORIGINAL = 5;
+
+    const FILE_UPDATE_ALL_ORIGINAL = 6;
+
 
 
     public $check;
@@ -52,16 +56,20 @@ class FileSS extends ActiveRecord
             $queue = Yii::$app->queue;
             $queue->ttr(20000);
             $message = 'Задание отправлено в очередь';
-            if($this->type == self::FILE_CG) {
-                $queue->push(new ImportCgJob(['model'=>$this]));
+            if ($this->type == self::FILE_CG) {
+                $queue->push(new ImportCgJob(['model' => $this]));
             }
 
-            if($this->type == self::FILE_STATEMENT) {
-                $queue->push(new ImportEntrantAppJob(['model'=>$this]));
+            if ($this->type == self::FILE_STATEMENT) {
+                $queue->push(new ImportEntrantAppJob(['model' => $this]));
             }
 
             if ($this->type == self::FILE_UPDATE_ORIGINAL || $this->type == self::FILE_UPDATE_REMOTE_ORIGINAL) {
-                $queue->push(new ImportOriginalJob(['model'=> $this]));
+                $queue->push(new ImportOriginalJob(['model' => $this]));
+            }
+
+            if ($this->type == self::FILE_UPDATE_ALL_ORIGINAL) {
+                $queue->push(new ImportOriginalSsJob(['model'=> $this]));
             }
 //            if($this->type == self::FILE_UPDATE_PRIORITY) {
 //                $queue->push(new ImportEntrantAppJob(['model'=>$this]));
@@ -95,6 +103,7 @@ class FileSS extends ActiveRecord
             self::FILE_STATEMENT => " Абитуриенты и заявления",
             self::FILE_UPDATE_ORIGINAL => "Оригиналы",
             self::FILE_UPDATE_REMOTE_ORIGINAL => "Электронные оригиналы",
+            self::FILE_UPDATE_ALL_ORIGINAL => "Все виды оригиналы из СС",
             self::FILE_UPDATE_PRIORITY => " Абитуриенты, заявления, обновления приоритетов",
         ];
     }

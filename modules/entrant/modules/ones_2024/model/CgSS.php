@@ -32,6 +32,11 @@ class CgSS extends ActiveRecord
 {
     public $check;
 
+    const STATUS_NEW = 0;
+    const STATUS_HANDLED = 1;
+    const STATUS_ORDERED = 2;
+    const STATUS_DEFICIENCY = 3;
+
     public static function tableName(): string
     {
         return '{{%cg_2024_ss}}';
@@ -99,6 +104,10 @@ class CgSS extends ActiveRecord
 
     public function getFaculty() {
         return $this->hasOne(Faculty::class,['id' => 'faculty_id']);
+    }
+
+    public function getCompetitveList() {
+        return $this->hasMany(CompetitiveList::class,['cg_id' => 'id']);
     }
 
     public function getAppDifferentPriorities() {
@@ -173,9 +182,34 @@ class CgSS extends ActiveRecord
         return $list;
     }
 
+    public function  getListForCompetitive() {
+        $list = $this->getListWithRank();
+        if ($list) {
+            $list = array_filter($list, function ($b) {
+                return  $b['status_ss'] == "Участвует в конкурсе" &&
+                        $b['vuz_original'] == "ФГБОУ ВО МПГУ" &&
+                    ($b['is_original']  == 'Да' || $b['is_el_original_ss'] ||
+                           $b['is_paper_original_ss'] ||
+                    $b['is_el_original_epk'] == "Да");
+            });
+        }
+        return $list;
+    }
+
     public function getListFokCount() {
         return count($this->getListFok());
     }
+
+    public static function listStatuses()
+    {
+        return [
+            self::STATUS_NEW => "Необработно",
+            self::STATUS_HANDLED => "Завершено",
+            self::STATUS_ORDERED => "В приказе",
+            self::STATUS_DEFICIENCY => "недобор",
+        ];
+    }
+
 
     public function behaviors()
     {
@@ -186,5 +220,27 @@ class CgSS extends ActiveRecord
                 'filePath' => '@modules/entrant/files/ss_n/[[attribute_id]]/[[attribute_file]]',
             ],
         ];
+    }
+
+    public function getStatusName() {
+        return self::listStatuses()[$this->status];
+    }
+
+    public function getCompetitiveList() {
+        return $this->hasMany(CompetitiveList::class, ['cg_id' => 'id']);
+    }
+
+    public function getCountStatuses($status = null) {
+        $query = $this->getCompetitiveList();
+        if($status){
+            $query->andWhere(['status' => $status]);
+        }
+
+        return $query->count();
+    }
+
+    public function getMinimal() {
+        return $this->getCompetitiveList()
+            ->andWhere(['status' => CompetitiveList::STATUS_SUCCESS])->min('sum_ball');
     }
 }
