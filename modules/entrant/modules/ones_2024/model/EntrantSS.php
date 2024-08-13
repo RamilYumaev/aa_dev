@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property string $email
  * @property boolean $is_original
  * @property boolean $is_remote_original
+ * @property boolean $is_return_original
  * @property string $phone
  * @property boolean $is_hostel
  */
@@ -47,6 +48,7 @@ class EntrantSS extends ActiveRecord
             "sex",
             'is_original',
             'is_remote_original',
+            'is_return_original',
             'nationality',
             'type_doc',
             'series',

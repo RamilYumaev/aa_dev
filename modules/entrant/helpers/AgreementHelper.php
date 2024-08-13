@@ -345,7 +345,7 @@ class AgreementHelper
 
     private static function cameOnJuly18vCollage()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2023-08-03 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2023-08-28 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2024-08-12 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2024-08-26 00:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)
@@ -353,22 +353,22 @@ class AgreementHelper
         if ($collegeStatus) {
             switch ($type) {
                 case self::FIO_NOMINATIVE :
-                    return self::cameOnJuly18vCollage() ?  "Балабаева Екатерина Александровна" : "Владимирова Татьяна Николаевна";
+                    return self::cameOnJuly18vCollage() ?  "Чистилин Алексей Иванович" : "Владимирова Татьяна Николаевна";
                     break;
                 case self::FIO_GENITIVE :
-                    return  self::cameOnJuly18vCollage() ? "Балабаевой Екатерины Александровны" :  "Владимировой Татьяны Николаевны";
+                    return  self::cameOnJuly18vCollage() ? "Чистилина Алексея Ивановича" :  "Владимировой Татьяны Николаевны";
                     break;
                 case self::POSITION_NOMINATIVE :
-                    return self::cameOnJuly18vCollage() ? "Проректор по учебно-методической работе" : "Проректор по связям с общественностью";
+                    return self::cameOnJuly18vCollage() ? "Проректор по административно-хозяйственной работе" : "Проректор по связям с общественностью";
                     break;
                 case self::POSITION_GENITIVE :
-                    return  self::cameOnJuly18vCollage() ? "проректора по учебно-методической работе": "проректора по связям с общественностью";
+                    return  self::cameOnJuly18vCollage() ? "проректора по административно-хозяйственной работе": "проректора по связям с общественностью";
                     break;
                 case self::FIO_SHORT :
-                    return self::cameOnJuly18vCollage() ? "Е.А. Балабаева" : "Т.Н. Владимирова";
+                    return self::cameOnJuly18vCollage() ? "А.И. Чистилин" : "Т.Н. Владимирова";
                     break;
                 case self::PROCURATION :
-                    return self::cameOnJuly18vCollage() ? "№26 от 5 июня 2023 года" : "№ 4 от 01 фев. 2024 г.";
+                    return self::cameOnJuly18vCollage() ? "№ 38 от 12 авг. 2024 г." : "№ 4 от 01 фев. 2024 г.";
             }
         } else {
             switch ($type) {

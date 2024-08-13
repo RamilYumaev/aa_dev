@@ -106,6 +106,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['is_change'] = 0;
             $data[$key]['snils_ss'] = $entrant ? $entrant->snils: "";
             $data[$key]['is_el_original_epk'] = $entrant ? ($entrant->is_remote_original ? "Да" : "Нет")  : "";
+            $data[$key]['is_return_original_epk'] = $entrant ? ($entrant->is_return_original ? "Да" : "Нет")  : "";
         }
 
         $notEpkData = $this->getNotAppEpk($snils);
@@ -192,6 +193,7 @@ class CompetitionListEpkJob extends BaseObject implements \yii\queue\JobInterfac
             $data[$key]['is_change'] = 0;
             $data[$key]['snils_ss'] = $val->entrant->snils;
             $data[$key]['is_el_original_epk'] = $val->entrant->is_remote_original ? "Да" : "Нет";
+            $data[$key]['is_return_original_epk'] = $val->entrant->is_return_original ? "Да" : "Нет";
             $snd[] = $val->entrant->snils;
         };
 

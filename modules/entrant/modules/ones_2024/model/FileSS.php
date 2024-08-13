@@ -32,6 +32,7 @@ class FileSS extends ActiveRecord
 
     const FILE_UPDATE_ALL_ORIGINAL = 6;
 
+    const FILE_RETURN_ALL_ORIGINAL = 7;
 
 
     public $check;
@@ -64,7 +65,9 @@ class FileSS extends ActiveRecord
                 $queue->push(new ImportEntrantAppJob(['model' => $this]));
             }
 
-            if ($this->type == self::FILE_UPDATE_ORIGINAL || $this->type == self::FILE_UPDATE_REMOTE_ORIGINAL) {
+            if ($this->type == self::FILE_UPDATE_ORIGINAL
+                || $this->type == self::FILE_UPDATE_REMOTE_ORIGINAL
+                || $this->type == self::FILE_RETURN_ALL_ORIGINAL) {
                 $queue->push(new ImportOriginalJob(['model' => $this]));
             }
 
@@ -104,6 +107,7 @@ class FileSS extends ActiveRecord
             self::FILE_UPDATE_ORIGINAL => "Оригиналы",
             self::FILE_UPDATE_REMOTE_ORIGINAL => "Электронные оригиналы",
             self::FILE_UPDATE_ALL_ORIGINAL => "Все виды оригиналы из СС",
+            self::FILE_RETURN_ALL_ORIGINAL => "Забравшие оригиналы",
             self::FILE_UPDATE_PRIORITY => " Абитуриенты, заявления, обновления приоритетов",
         ];
     }

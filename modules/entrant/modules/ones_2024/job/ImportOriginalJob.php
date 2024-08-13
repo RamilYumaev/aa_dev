@@ -26,7 +26,17 @@ class ImportOriginalJob extends BaseObject implements \yii\queue\JobInterface
         set_time_limit(6000);
         $filePath = $this->model->getUploadedFilePath('file_name');
         if(file_exists($filePath)) {
-            EntrantSS::updateAll($this->model->type == $this->model::FILE_UPDATE_ORIGINAL ? ['is_original'=> 0] : ['is_remote_original'=> 0]);
+            switch ($this->model->type) {
+                case $this->model::FILE_UPDATE_ORIGINAL:
+                    $attribute = ['is_original' => 0];
+                    break;
+                case $this->model::FILE_UPDATE_REMOTE_ORIGINAL:
+                    $attribute =  ['is_remote_original' => 0];
+                    break;
+                default:
+                    $attribute =  ['is_return_original' => 0];
+            }
+            EntrantSS::updateAll($attribute);
             $xlsx = SimpleXLSX::parse($filePath);
             if ($xlsx->success()) {
                 foreach ($xlsx->rows() as $k => $r) {
@@ -34,18 +44,22 @@ class ImportOriginalJob extends BaseObject implements \yii\queue\JobInterface
                         continue;
                     }
                     $snils = $this->getSnils($r[0]);
+                    /**
+                     * @var $model EntrantSS
+                     */
                     if ($model = EntrantSS::find()->andWhere(['quid' => $r[0]])
                         ->orWhere(['snils' => $snils])->one()) {
                         if ($this->model->type == $this->model::FILE_UPDATE_ORIGINAL) {
                             $model->is_original = true;
-                        } else {
+                        } elseif ($this->model->type == $this->model::FILE_UPDATE_REMOTE_ORIGINAL) {
                             $model->is_remote_original = true;
+                        } else {
+                            $model->is_return_original = true;
                         }
-
                         if (!$model->save()) {
                             var_dump($model->errors);
                         };
-                    }else {
+                    } else {
                         echo  'Нет в базе - '.$snils;
                     }
                 }

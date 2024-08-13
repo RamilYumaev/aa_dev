@@ -106,6 +106,7 @@ class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
         $sheet->setCellValue('AI1', 'Направляющая организация');
         $sheet->setCellValue('AJ1', 'СНИЛС / ID CC');
         $sheet->setCellValue('AK1', 'Электронный оригинал 1C');
+        $sheet->setCellValue('AL1', 'Забрал оригинал');
         $start = 2;
         foreach ($data as $key => $v) {
             $row = ($key+$start);
@@ -150,6 +151,7 @@ class CreateBigFileJob extends BaseObject implements \yii\queue\JobInterface
             $sheet->setCellValue('AI'.($row), $v['organization']);
             $sheet->setCellValue('AJ'.($row), $v['snils_ss']);
             $sheet->setCellValue('AK'.($row), $v['is_el_original_epk']);
+            $sheet->setCellValue('AL'.($row), $v['is_return_original_epk']);
           }
         $writer = new Xlsx($spreadsheet);
         $writer->save($file);
