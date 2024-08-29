@@ -160,6 +160,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
             'data' => $result(1),
         ])?>
         <?php else : ?>
+        <?php if(!$cg->isBudget()) : ?>
         <div class="table-responsive">
             <table class="table" >
                 <tr>
@@ -253,6 +254,7 @@ $isEntrant = !Yii::$app->user->getIsGuest() && Yii::$app->user->can('entrant');
                 </tr>
             </table>
         </div>
+        <?php endif; ?>
         <?php endif; ?>
     <?php else: ?>
         <h4 style="color: red">В списке нет ни одного абитуриента</h4>

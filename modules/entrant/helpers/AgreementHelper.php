@@ -345,7 +345,7 @@ class AgreementHelper
 
     private static function cameOnJuly18vCollage()
     {
-        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2024-08-12 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2024-08-26 00:00:00');
+        return strtotime(\date('Y-m-d h:i:s')) >= strtotime('2024-08-12 00:00:00') && strtotime(\date('Y-m-d h:i:s')) <= strtotime('2024-08-30 00:00:00');
     }
 
     private static function collegeVuzSwitcher($collegeStatus, $type)

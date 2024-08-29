@@ -3,6 +3,8 @@
 
 namespace modules\entrant\helpers;
 
+use dictionary\helpers\DictFacultyHelper;
+
 class ReceiptHelper
 {
     const PERIOD_YEAR = 3;
@@ -41,6 +43,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "УФК по Ставропольскому краю (2133 Ставропольский филиал МПГУ л/с 20216Э35050)",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "УФК по Московской области (СПФ МПГУ л/с 20486Э39110)",
             AnketaHelper::DERBENT_BRANCH => "УФК по Республике Дагестан (Дербентский филиал МПГУ л/с 20036Э36740)",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => ' УФК по Калининградской области (филиал МПГУ в г. Черняховске, л/с 20356Ы94310)',
         ];
     }
 
@@ -53,6 +56,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "7704077771",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "770407777",
             AnketaHelper::DERBENT_BRANCH => "7704077771",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "7704077771"
         ];
     }
 
@@ -65,6 +69,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "263543001",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "504243001",
             AnketaHelper::DERBENT_BRANCH => "054243001",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "391443001"
         ];
     }
 
@@ -78,6 +83,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "03214643000000012100/40102810345370000013",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "40501810545252000104",
             AnketaHelper::DERBENT_BRANCH => "03214643000000010300/40102810945370000069",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "03214643000000013500/40102810545370000028"
         ];
     }
 
@@ -90,6 +96,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "ОТДЕЛЕНИЕ СТАВРОПОЛЬ БАНКА РОССИИ//УФК по Ставропольскому краю г. Ставрополь",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "ГУ Банка России по ЦФО г.Москва 35",
             AnketaHelper::DERBENT_BRANCH => "ОТДЕЛЕНИЕ-НБ РЕСПУБЛИКА ДАГЕСТАН БАНКА РОССИИ//УФК по Республике Дагестан г Махачкала",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => "ОТДЕЛЕНИЕ КАЛИНИНГРАД БАНКА РОССИИ//УФК по Калининградской области, г. Калининград"
         ];
     }
 
@@ -102,6 +109,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "010702101",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "044525000",
             AnketaHelper::DERBENT_BRANCH => "018209001",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => '012748051',
         ];
     }
 
@@ -113,6 +121,7 @@ class ReceiptHelper
             AnketaHelper::STAVROPOL_BRANCH => "07701000",
             AnketaHelper::SERGIEV_POSAD_BRANCH => "46728000",
             AnketaHelper::DERBENT_BRANCH => "82710000",
+            DictFacultyHelper::CHERNOHOVSK_BRANCH => '    public function actionExport()27539000',
         ];
     }
 
