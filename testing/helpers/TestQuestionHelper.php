@@ -20,6 +20,7 @@ class TestQuestionHelper
     const TYPE_SELECT_ONE = 6;
     const TYPE_CLOZE = 7;
     const TYPE_MATCHING_SAME = 8;
+    const TYPE_URL = 9;
 
     const FILE_TYPE_IMAGE = 1;
     const FILE_TYPE_TEXT = 2;
@@ -37,7 +38,7 @@ class TestQuestionHelper
             'maxSize' => 50 * 1024 * 1024,
         ],
         self::FILE_TYPE_TEXT => [
-            'extensions' => ['doc', 'docx', 'pdf', 'txt', 'rtf'],
+            'extensions' => ['doc', 'docx', 'pdf', 'txt', 'rtf', 'ppt', 'pptx', 'pptm',],
             'maxSize' => 10 * 1024 * 1024,
         ],
         self::FILE_TYPE_MEDIA => [
@@ -57,6 +58,7 @@ class TestQuestionHelper
             self::TYPE_FILE => 'Загрузка файла',
             self::TYPE_CLOZE => 'Вложенные ответы',
             self::TYPE_MATCHING_SAME => 'Сопоставить (ЕВ)',
+            self::TYPE_URL => 'Внешняя ссылка',
         ];
     }
 
@@ -100,7 +102,8 @@ class TestQuestionHelper
             self::TYPE_ANSWER_SHORT,
             self::TYPE_ANSWER_DETAILED,
             self::TYPE_FILE,
-            self::TYPE_CLOZE
+            self::TYPE_CLOZE,
+            self::TYPE_URL
         ];
     }
 

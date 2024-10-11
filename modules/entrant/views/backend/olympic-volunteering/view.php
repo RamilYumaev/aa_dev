@@ -54,6 +54,9 @@ $url = Url::to(['olympic-volunteering/end', 'test_id' => $test->id]);
                             <?php case TestQuestionHelper::TYPE_ANSWER_DETAILED: ?>
                                 <?= $this->render('@frontend/views/test/type/detailed', ['quent' => $quent]) ?>
                                 <?php break; ?>
+                            <?php case TestQuestionHelper::TYPE_URL: ?>
+                                <?= $this->render('@frontend/views/test/type/url', ['quent' => $quent]) ?>
+                                <?php break; ?>
                             <?php case TestQuestionHelper::TYPE_ANSWER_SHORT: ?>
                                 <?= $this->render('@frontend/views/test/type/short', ['quent' => $quent]) ?>
                                 <?php break; ?>

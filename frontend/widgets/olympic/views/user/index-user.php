@@ -1,5 +1,6 @@
 <?php
 
+use olympic\models\UserOlimpiads;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
@@ -8,11 +9,21 @@ use yii\helpers\Html;
 \frontend\assets\modal\ModalAsset::register($this);
 ?>
 <?php if(!$userOlympic): ?>
+    <?php if(!$olympic->olympicSpecialityOlimpicList) : ?>
     <?= Html::a('Записаться', ['user-olympic/registration', 'id' => $olympic->id],
         ['class' => 'btn btn-primary btn-lg']) ?>
+    <?php else : ?>
+    <?= Html::a('Записаться', ['user-olympic/olympic-profile', 'id' => $olympic->id],
+        ['class' => 'btn btn-primary btn-lg',
+            'data-pjax' => 'w01',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'data-modalTitle' => "Выберите направление олимпиады"]) ?>
+    <?php endif; ?>
 <?php else: ?>
     <?php  $class= \common\auth\helpers\UserSchoolHelper::userClassId(\Yii::$app->user->identity->getId(), \common\helpers\EduYearHelper::eduYear());
-    $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($userOlympic->olympiads_id, $class);  ?>
+    $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => \Yii::$app->user->identity->getId()]);
+    $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($userOlympic->olympiads_id, $class, $userOlympic ? $userOlympic->olympic_profile_id : null);  ?>
     <?= $test ? Html::a('Начать заочный тур', ['/test/start','id' => $test],
         ['data-pjax' => 'w0', 'data-toggle' => 'modal', 'data-target' => '#modal', 'data-modalTitle'
         =>'Заочный тур', 'class'=>'btn btn-primary btn-lg']): "" ?>

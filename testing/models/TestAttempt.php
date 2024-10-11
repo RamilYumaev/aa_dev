@@ -131,4 +131,7 @@ class TestAttempt extends ActiveRecord
         return $this->nomination_id === null;
     }
 
+    public function getTest() {
+        return $this->hasOne(Test::class, ['id' => 'test_id']);
+    }
 }

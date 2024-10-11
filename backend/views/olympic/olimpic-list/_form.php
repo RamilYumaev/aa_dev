@@ -114,12 +114,20 @@ use yii\helpers\Html;
     'editorOptions' => ElFinder::ckeditorOptions('elfinder', ['filter' => 'flash'])
 ]); ?>
 
-
 <?= $form->field($model, 'showing_works_and_appeal')->dropDownList($model->showingWork()); ?>
 
+<?= $form->field($model, 'olympicSpecialityList')->widget(Select2::class, [
+    'data'=> \olympic\models\OlympicSpeciality::all(),
+    'options' => ['placeholder' => 'Выберите направления олимпиады', 'multiple' => true],
+    'pluginOptions' => [
+        'allowClear' => true,
+    ],
+]) ?>
+
+
 <?= $form->field($model, 'certificate_id')->checkbox(); ?>
-        
-        <?= $form->field($model, 'percent_to_calculate')->textInput() ?>
+
+<?= $form->field($model, 'percent_to_calculate')->textInput() ?>
 
 <div class="form-group">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

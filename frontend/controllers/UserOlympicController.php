@@ -6,6 +6,7 @@ use common\helpers\FlashMessages;
 use frontend\components\UserNoEmail;
 use Mpdf\Tag\U;
 use olympic\forms\OlympicUserInformationForm;
+use olympic\forms\OlympicUserProfileForm;
 use olympic\models\UserOlimpiads;
 use olympic\readRepositories\OlimpicReadRepository;
 use olympic\repositories\UserOlimpiadsRepository;
@@ -123,6 +124,44 @@ class UserOlympicController extends Controller
             'model' => $form
         ]);
     }
+
+    public function actionOlympicProfile($id)
+    {
+        $this->isGuest();
+        $this->layout = "@frontend/views/layouts/olimpic.php";
+        $olympic = $this->olimpicListRepository->get($id);
+
+        if(!$olympic->getOlympicSpecialityOlimpicList()) {
+            return $this->redirect(['olympiads/index']);
+        }
+
+        $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => Yii::$app->user->id]);
+        if($userOlympic) {
+            Yii::$app->session->setFlash('warning', 'Вы не можете редактировать данные.');
+            return $this->redirect(['olympiads/registration-on-olympiads', 'id' => $olympic->olimpic_id]);
+        }
+        $form = new OlympicUserProfileForm($userOlympic);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->add($id, Yii::$app->user->id);
+                $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => Yii::$app->user->id]);
+                $userOlympic->olympic_profile_id = $form->olympic_profile_id;
+                if ($form->file) {
+                    $userOlympic->setFile($form->file);
+                }
+                $userOlympic->save();
+                Yii::$app->session->setFlash('success', 'Спасибо за регистрацию');
+                return $this->goHome();
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+        return $this->renderAjax('olympic_profile', [
+            'olympicId' => $olympic->id,
+            'model' => $form
+        ]);
+    }
     /*
     * @param $id
     * @return mixed
@@ -170,7 +209,7 @@ class UserOlympicController extends Controller
     private function isAttempt($id){
         $userOlympic = $this->repository->get($id);
         $class= \common\auth\helpers\UserSchoolHelper::userClassId($userOlympic->user_id, \common\helpers\EduYearHelper::eduYear());
-        $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($userOlympic->olympiads_id, $class);
+        $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($userOlympic->olympiads_id, $class, $userOlympic->olympic_profile_id);
         return \testing\helpers\TestAttemptHelper::isAttempt($test, $userOlympic->user_id);
 
     }

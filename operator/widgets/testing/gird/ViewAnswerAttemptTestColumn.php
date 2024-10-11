@@ -43,6 +43,12 @@ class ViewAnswerAttemptTestColumn extends DataColumn
                 $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
                     ($answer ?  Html::tag('h4','Ответ: '.$answer) : '');
                 break;
+            case TestQuestionHelper::TYPE_URL:
+                $data = $this->data($model->result);
+                $answer = $data ? $data['url'] : "";
+                $text = TestQuestionHelper::questionTextName($model->question_id).'</br>'.
+                    ($answer ?  Html::a('Внешняя ссылка', $answer, ['target' => '_blank']) : '');
+                break;
             case TestQuestionHelper::TYPE_MATCHING:
                 $data = $this->data($model->result);
                 $answer = $data ? $data['matching'] : "";

@@ -23,12 +23,13 @@ class TestRepository
         return $model;
     }
 
-    public function isTestClass($olympic_id, $class_id): void
+    public function isTestClass($olympic_id, $class_id, $profile): void
     {
         $model = Test::find()
             ->alias('t')
             ->innerJoin(TestClass::tableName() . ' tc', 'tc.test_id = t.id')
             ->andWhere(['t.olimpic_id' => $olympic_id])
+            ->andWhere(['t.olympic_profile_id' => $profile ?? null ])
             ->andWhere(['tc.class_id' => $class_id])
             ->one();
 

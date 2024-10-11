@@ -1,12 +1,16 @@
 <?php
 namespace backend\widgets\testing;
+use olympic\models\OlimpicList;
 use testing\models\Test;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
 
 class TestWidget extends Widget
 {
-    public $olympic_id;
+    /**
+     * @var OlimpicList
+     */
+    public $olympic;
     /**
      * @var string
      */
@@ -15,11 +19,11 @@ class TestWidget extends Widget
 
     public function run()
     {
-        $query = Test::find()->where(['olimpic_id'=> $this->olympic_id ]);
+        $query = Test::find()->where(['olimpic_id'=> $this->olympic->id]);
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         return $this->render($this->view, [
             'dataProvider' => $dataProvider,
-            'olympic_id'=> $this->olympic_id
+            'olympic'=> $this->olympic
         ]);
     }
 }

@@ -40,7 +40,7 @@ use olympic\helpers\auth\ProfileHelper; ?>
         <?=\yii\helpers\Html::a("Выгрузить список в Word", ["get-report-olympic", "olympicId"=>$olympic->id], ["class"=>"btn btn-primary"]);?>
         <?=\yii\helpers\Html::a("Статистика", ["get-statistic", "olympicId"=>$olympic->id], ["class"=>"btn btn-info"]);?>
     </div>
-
+    <div class="box table-responsive">
     <div class="box-body">
         <?= \backend\widgets\adminlte\grid\GridView::widget([
             'dataProvider' => $dataProvider,
@@ -83,9 +83,21 @@ use olympic\helpers\auth\ProfileHelper; ?>
                       if($model->information) {
                           $information = json_decode($model->information, true);
                           return  implode(', ', \dictionary\models\DictDiscipline::find()->select('name')->where(['id' => $information])->column());
+                      }elseif($model->olympic_profile_id) {
+                        return  $model->olympicProfile->name ." (".$model->olympicProfile->olympicSpeciality->name.")";
                       } else {
                           return 'Отсутствует';
                       }
+                    }
+                ],
+                ['header' => "Персональные данные",
+                    'format' => 'raw',
+                    'value' => function ($model)  {
+                        $filePath = $model->getUploadedFilePath('file_pd');
+                        if (file_exists($filePath)) {
+                            return Html::a('Скачать', ['get-file', 'id'=> $model->id]);
+                        }
+                        return '-';
                     }
                 ],
                 'created_at:datetime',
@@ -97,5 +109,6 @@ use olympic\helpers\auth\ProfileHelper; ?>
                }]
  ],
         ]); ?>
+    </div>
     </div>
 </div>

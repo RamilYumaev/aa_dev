@@ -75,6 +75,7 @@ class OlimpicListCreateForm extends Model
             return $("#olimpiclistcreateform-form_of_passage").val() == 1; 
             }'],
             [['content', 'required_documents'], 'string'],
+            ['olympicSpecialityList', 'safe'],
             [['name', 'year'], 'unique', 'targetClass' => OlimpicList::class, 'message' => 'Такое название олимпиады и учебный год уже есть',  'targetAttribute' => ['name', 'year']],
             [['chairman_id', 'number_of_tours', 'cg_no_visible', 'is_remote', 'is_volunteering', 'form_of_passage', 'edu_level_olymp', 'showing_works_and_appeal',
                 'time_of_distants_tour', 'time_of_tour', 'time_of_distants_tour_type', 'prefilling', 'faculty_id',

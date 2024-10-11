@@ -207,6 +207,7 @@ class OlimpicList extends  YiiActiveRecordAndModeration
             'criteria_for_evaluating' => 'Критерии оценивания работ очного тура',
             'showing_works_and_appeal' => 'Показ работ и апелляция',
             'competitiveGroupsList' => 'Выберите конкурсные группы',
+            'olympicSpecialityList' => 'Направления олимпиады',
             'classesList' => 'Выберите классы и курсы',
             'genitive_name' => 'Название олимпиады/конкурса в родительном падеже',
             'time_of_distants_tour_type' => 'Тип установки времени для прохождения теста дистанционного тура',
@@ -489,5 +490,9 @@ class OlimpicList extends  YiiActiveRecordAndModeration
 
     public function getOlympic() {
         return $this->hasOne(Olympic::class, ['id' => 'olimpic_id']);
+    }
+
+    public function getOlympicSpecialityOlimpicList() {
+        return $this->hasMany(OlympicSpecialityOlimpicList::class, ['olimpic_list_id' => 'id']);
     }
 }

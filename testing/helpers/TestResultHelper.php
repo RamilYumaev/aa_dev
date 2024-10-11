@@ -27,7 +27,7 @@ class TestResultHelper
         return TestResult::find()->alias('result')
             ->innerJoin(TestQuestion::tableName(). ' question', 'question.id = result.question_id')
             ->andWhere(['result.attempt_id'=>$testAttempt])
-            ->andWhere(['in', 'question.type_id',[TestQuestionHelper::TYPE_FILE, TestQuestionHelper::TYPE_ANSWER_DETAILED]])
+            ->andWhere(['in', 'question.type_id',[TestQuestionHelper::TYPE_FILE, TestQuestionHelper::TYPE_ANSWER_DETAILED, TestQuestionHelper::TYPE_URL]])
             ->count();
     }
 
@@ -35,7 +35,7 @@ class TestResultHelper
         return TestResult::find()->alias('result')
             ->innerJoin(TestQuestion::tableName(). ' question', 'question.id = result.question_id')
             ->andWhere(['result.attempt_id'=>$testAttempt])
-            ->andWhere(['in', 'question.type_id',[TestQuestionHelper::TYPE_FILE, TestQuestionHelper::TYPE_ANSWER_DETAILED]])
+            ->andWhere(['in', 'question.type_id',[TestQuestionHelper::TYPE_FILE, TestQuestionHelper::TYPE_ANSWER_DETAILED, TestQuestionHelper::TYPE_URL]])
             ->andWhere(['is not', 'result.mark', null])
             ->count();
     }

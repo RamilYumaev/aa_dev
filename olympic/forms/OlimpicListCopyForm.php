@@ -109,6 +109,7 @@ class OlimpicListCopyForm extends Model
             [['chairman_id'], 'exist', 'skipOnError' => true, 'targetClass' => DictChairmans::class, 'targetAttribute' => ['chairman_id' => 'id']],
             [['promotion_text', 'link'], 'string', 'max' => 255],
             [['name'], 'required'],
+            ['olympicSpecialityList', 'safe'],
             ['prefilling', 'in', 'range' => OlympicHelper::prefillingValid(), 'allowArray' => true],
             ['edu_level_olymp', 'in', 'range' => OlympicHelper::levelOlimpValid(), 'allowArray' => true],
             ['list_position', 'in', 'range' => OlympicHelper::listPositionValid(), 'allowArray' => true],

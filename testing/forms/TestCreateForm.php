@@ -5,8 +5,6 @@ namespace testing\forms;
 use olympic\helpers\ClassAndOlympicHelper;
 use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
-use testing\helpers\TestHelper;
-use testing\helpers\TestQuestionGroupHelper;
 use testing\models\Test;
 use yii\base\Model;
 
@@ -15,7 +13,7 @@ class TestCreateForm extends Model
     public $olimpic_id,
         $introduction,
         $final_review,
-        $classesList, $random_order;
+        $classesList, $random_order, $olympic_profile_id;
     private $_olympicList;
 
 
@@ -30,7 +28,7 @@ class TestCreateForm extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id', 'random_order'], 'integer'],
+            [['olimpic_id', 'random_order', 'olympic_profile_id'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
             [['classesList'], 'safe'],

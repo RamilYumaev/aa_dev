@@ -52,7 +52,7 @@ class TestService
             $this->repository->save($model);
             if ($form->classesList) {
                 foreach($form->classesList as $class) {
-                    $this->repository->isTestClass($olympic->id, $class);
+                    $this->repository->isTestClass($olympic->id, $class, $form->olympic_profile_id);
                     $classTest = TestClass::create($model->id, $class);
                     $this->classRepository->save($classTest);
                 }
@@ -71,7 +71,7 @@ class TestService
             TestClass::deleteAll(['test_id' => $model->id]);
             if ($form->classesList) {
                 foreach($form->classesList as $class) {
-                    $this->repository->isTestClass($olympic->id, $class);
+                    $this->repository->isTestClass($olympic->id, $class, $form->olympic_profile_id);
                     $classTest = TestClass::create($model->id, $class);
                     $this->classRepository->save($classTest);
                 }

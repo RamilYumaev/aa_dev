@@ -45,6 +45,7 @@ class Diploma extends ActiveRecord
             'user_id' => 'Пользователь',
             'olimpic_id' => 'Олимпиада',
             'reward_status_id' => 'Награда',
+            'olympic_profile_id' => 'Награда',
         ];
     }
 
@@ -59,4 +60,8 @@ class Diploma extends ActiveRecord
         return new DiplomaQuery(static::class);
     }
 
+    public function getOlympicSpecialityProfile()
+    {
+        return $this->hasOne(OlympicSpecialityProfile::class, ['id'=> 'olympic_profile_id']);
+    }
 }

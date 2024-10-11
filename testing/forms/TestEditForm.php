@@ -18,6 +18,7 @@ class TestEditForm  extends Model
         $introduction,
         $final_review,
         $random_order,
+        $olympic_profile_id,
         $classesList;
 
 
@@ -29,6 +30,7 @@ class TestEditForm  extends Model
         $this->introduction = $test->introduction;
         $this->final_review = $test->final_review;
         $this->random_order = $test->random_order;
+        $this->olympic_profile_id = $test->olympic_profile_id;
         $this->test = $test;
         parent::__construct($config);
     }
@@ -37,7 +39,7 @@ class TestEditForm  extends Model
     {
         return [
             [['olimpic_id'], 'required'],
-            [['olimpic_id', 'random_order'], 'integer'],
+            [['olimpic_id', 'random_order', 'olympic_profile_id'], 'integer'],
             [['introduction', 'final_review'], 'string'],
             [['classesList'], 'required'],
         ];

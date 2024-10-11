@@ -117,6 +117,13 @@ class AttemptAnswerService
                 $mark = null;
                 \Yii::$app->session->addFlash('success','Файл успешно загружен!');
                 break;
+            case TestQuestionHelper::TYPE_URL:
+                if(!$data['url']) {
+                    throw new \DomainException( 'Добавьте внешнюю ссылку.');
+                }
+                $mark = null;
+                \Yii::$app->session->addFlash('success','Ваш ответ сохранен!');
+                break;
         default:
             $dataAnswerCloze = array_key_exists('answer-cloze', $data) ? $data['answer-cloze'] :[];
             $dataSelectCloze  = array_key_exists('select-cloze', $data) ? $data['select-cloze'] :[];

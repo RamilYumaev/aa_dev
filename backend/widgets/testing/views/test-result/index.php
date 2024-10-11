@@ -16,6 +16,7 @@ use yii\helpers\Html;
             'dataProvider' => $dataProvider,
             'rowOptions' => function( \testing\models\TestResult $model){
                 if (($model->question->type_id == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
+                    $model->question->type_id == TestQuestionHelper::TYPE_URL ||
                         $model->question->type_id == TestQuestionHelper::TYPE_FILE)  &&  is_null($model->mark)) {
                     return ['class' => 'warning'];
                 }
@@ -48,6 +49,7 @@ use yii\helpers\Html;
                         },
                         'update' => function ($url,$model) {
                             return $model->question->type_id  == TestQuestionHelper::TYPE_ANSWER_DETAILED ||
+                            $model->question->type_id  == TestQuestionHelper::TYPE_URL ||
                             $model->question->type_id  == TestQuestionHelper::TYPE_FILE ?
                                 Html::a(
                                 '<span class="glyphicon glyphicon-edit"></span>',

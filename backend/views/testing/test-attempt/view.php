@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 /* @var $attempt testing\models\TestAttempt */
 
 $this->title = "Просмотр попытки";
-$this->params['breadcrumbs'][] = ['label' => "Tecт",
+$this->params['breadcrumbs'][] = ['label' => "Tecт ".($attempt->test->olympicSpecialityProfile ? $attempt->test->olympicSpecialityProfile->getFullName() : "") ,
     'url' => ['/testing/test/view', 'id' => $attempt->test_id]];
 $this->params['breadcrumbs'][] = ['label' => "Попытки",
     'url' => ['index', 'test_id' => $attempt->test_id]];

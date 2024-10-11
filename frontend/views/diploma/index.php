@@ -12,6 +12,8 @@ use dictionary\helpers\DictSchoolsHelper;
 /** @var \yii\web\View $this */
 /** @var $olympic \olympic\models\OlimpicList */
 
+/** @var $model \olympic\models\Diploma */
+
 $profile = ProfileHelper::profileFullName($model->user_id);
 $this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Сертификат.') .$profile;
 ?>
@@ -100,6 +102,7 @@ $this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Серти
                         </p>
                         <p class="nomination">
                             <?= $model->nomination_id ? '«' . \olympic\helpers\OlympicNominationHelper::olympicName($model->nomination_id) . '»' : ''  ?>
+                            <?= $model->olympic_profile_id ? '«' .$model->olympicSpecialityProfile->fullName. '»' : ''  ?>
                         </p>
                         <p class="olimpic">
                             <?= $olympic->genitive_name . ' ' .  $olympic->year ?>

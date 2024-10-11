@@ -11,6 +11,7 @@ use olympic\helpers\OlympicHelper;
 use olympic\helpers\OlympicNominationHelper;
 use olympic\helpers\PersonalPresenceAttemptHelper;
 use olympic\models\Diploma;
+use olympic\models\OlimpicList;
 use olympic\models\PersonalPresenceAttempt;
 use olympic\repositories\DiplomaRepository;
 use olympic\repositories\OlimpicListRepository;
@@ -159,43 +160,34 @@ class TestAttemptService
         $this->testAttemptRepository->save($testAttempt);
     }
 
-    public function finish($test_id, $olympic_id) {
+    public function finish($test_id, $olympic_id, $isRule = true) {
         $olympic= $this->olimpicListRepository->isFinishDateRegister($olympic_id);
         $test= $this->testRepository->get($test_id);
-        if ($this->countAttempt($test->id) < OlympicHelper::COUNT_USER_ZAOCH) {
-            throw  new \DomainException('Количество  участников заочного тура меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так,
+        if ($isRule) {
+            if ($this->countAttempt($test->id) < OlympicHelper::COUNT_USER_ZAOCH) {
+                throw  new \DomainException('Количество  участников заочного тура меньше '.OlympicHelper::COUNT_USER_ZAOCH.'. Если это действительно так,
             то сообщите, о несостоявшейся олимпиаде аднимистраторам портала');
-        }
+            }
 //        elseif(!$this->isRewardStatus($test->id)) {
 //            throw new \DomainException("Поставьте все призовые места участникам");
 //        }
-        elseif($this->countRewardStatus($test->id)  > $this->countDefaultRewards($test->id)) {
-            throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать 40%(".$this->countDefaultRewards($test->id).") от общего числа участников");
-        }
-        elseif(!$this->isCorrectCountNomination($test->id, $olympic->id)) {
-            throw new \DomainException("Отметьте номминации");
-        }
-        elseif(!$this->isMaxMarkOnFirstPlace($test->id)) {
-            throw new \DomainException("Участник, который получил максимальный балл, не является победителем/призером");
-        }
-        elseif($this->countRewardFirstStatus($test->id)  > $this->countDefaultRewardsFirst($test->id)) {
-            throw new \DomainException("Количество победителей Мероприятия не должно превышать 10% (".$this->countDefaultRewardsFirst($test->id).") от общего количества участников");
-        }
-        else {
-            if($olympic->isCertificate()) {
-                $rewardUser =  TestAttempt::find()->test($test->id)->isNotNullMark()->all();
+            elseif($this->countRewardStatus($test->id)  > $this->countDefaultRewards($test->id)) {
+                throw new \DomainException("Число победителей и призеров (в сумме) не должно превышать 40%(".$this->countDefaultRewards($test->id).") от общего числа участников");
+            }
+            elseif(!$this->isCorrectCountNomination($test->id, $olympic->id)) {
+                throw new \DomainException("Отметьте номминации");
+            }
+            elseif(!$this->isMaxMarkOnFirstPlace($test->id)) {
+                throw new \DomainException("Участник, который получил максимальный балл, не является победителем/призером");
+            }
+            elseif($this->countRewardFirstStatus($test->id)  > $this->countDefaultRewardsFirst($test->id)) {
+                throw new \DomainException("Количество победителей Мероприятия не должно превышать 10% (".$this->countDefaultRewardsFirst($test->id).") от общего количества участников");
             }
             else {
-                $rewardUser =TestAttempt::find()->test($test->id)->isNotNullRewards()->andWhere(['<>', 'reward_status', TestAttemptHelper::MEMBER])->all();
+               $this->finished($test, $olympic);
             }
-            if (!Diploma::find()->olympic($olympic->id)->exists()) {
-                foreach ($rewardUser as $eachUser) {
-                    $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
-                    $this->diplomaRepository->save($diploma);
-                }
-            }
-            $olympic->current_status = $olympic->isNumberOfTourOne() ? OlympicHelper::OCH_FINISH : OlympicHelper::ZAOCH_FINISH;
-            $this->olimpicListRepository->save($olympic);
+        } else {
+            $this->finished($test, $olympic);
         }
     }
 
@@ -227,6 +219,33 @@ class TestAttemptService
     private function countRewardFirstStatus($test_id) {
         return TestAttempt::find()->test($test_id)
             ->andWhere(['reward_status'=> TestAttemptHelper::GOLD])->count();
+    }
+
+    public function finishAll($olympic_id)
+    {
+        foreach (Test::find()->andWhere(['olimpic_id' => $olympic_id])->all() as $test) {
+            $this->finish($test->id, $olympic_id, false);
+        }
+    }
+
+    public function finished(Test  $test, OlimpicList  $olympic) {
+        if ($olympic->isCertificate()) {
+            $rewardUser =  TestAttempt::find()->test($test->id)->isNotNullMark()->all();
+        }
+        else {
+            $rewardUser =TestAttempt::find()->test($test->id)->isNotNullRewards()->andWhere(['<>', 'reward_status', TestAttemptHelper::MEMBER])->all();
+        }
+
+        foreach ($rewardUser as $eachUser) {
+            if (!Diploma::find()->olympic($olympic->id)->user($eachUser->user_id)->exists()) {
+                $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
+                $diploma->olympic_profile_id = $test->olympic_profile_id;
+                $this->diplomaRepository->save($diploma);
+            }
+        }
+
+        $olympic->current_status = $olympic->isNumberOfTourOne() ? OlympicHelper::OCH_FINISH : OlympicHelper::ZAOCH_FINISH;
+        $this->olimpicListRepository->save($olympic);
     }
 
     private function inRewardStatus($test_id, $status) {

@@ -44,11 +44,11 @@ class TestHelper
             });
     }
 
-    public static function testAndClassActiveOlympicList($olympic_id, $class)
+    public static function testAndClassActiveOlympicList($olympic_id, $class, $profile = null)
     {
         $find = TestClass::find()->alias('tc')->innerJoin(Test::tableName() .' t','t.id=tc.test_id')
             ->where(['tc.class_id'=> $class])
-            ->andwhere(['t.olimpic_id'=> $olympic_id, 't.status' => self::ACTIVE])->one();
+            ->andwhere(['t.olimpic_id'=> $olympic_id, 't.status' => self::ACTIVE, 'olympic_profile_id' => $profile])->one();
         return $find->test_id ?? null;
     }
 

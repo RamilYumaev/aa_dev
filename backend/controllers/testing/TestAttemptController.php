@@ -4,7 +4,6 @@
 namespace backend\controllers\testing;
 
 use olympic\models\OlimpicList;
-use olympic\models\UserOlimpiads;
 use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
 use testing\helpers\TestAttemptHelper;
@@ -12,7 +11,6 @@ use testing\models\Test;
 use testing\models\TestAttempt;
 use testing\models\TestResult;
 use testing\repositories\TestRepository;
-use testing\services\TestAndQuestionsService;
 use testing\services\TestAttemptService;
 use yii\base\ExitException;
 use yii\filters\VerbFilter;
@@ -71,6 +69,17 @@ class TestAttemptController extends Controller
     {
         try {
             $this->service->finish($test_id, $olympic_id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionEndDistTourAll($olympic_id)
+    {
+        try {
+            $this->service->finishAll($olympic_id);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

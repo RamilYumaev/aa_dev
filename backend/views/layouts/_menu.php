@@ -72,6 +72,8 @@ array_merge(
         [['label' => 'Олимпиады/конкурсы', 'url' => '#',
             'items' => array_merge([
                 ['label' => 'Перечень ', 'url' => '/olympic/olympic'],
+                ['label' => 'Номинации', 'url' => '/olympic/olympic-speciality'],
+                ['label' => 'Направления', 'url' => '/olympic/olympic-speciality-profile'],
       //          ['label' => 'Группы вопросов', 'url' => '/testing/test-group'],
             ])]] : []),
     [['label' => 'Рассылки', 'url' => '#',

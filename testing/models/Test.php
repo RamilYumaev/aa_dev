@@ -2,6 +2,7 @@
 
 namespace testing\models;
 
+use olympic\models\OlympicSpecialityProfile;
 use testing\forms\TestCreateForm;
 use testing\forms\TestEditForm;
 use testing\helpers\TestHelper;
@@ -22,6 +23,7 @@ class Test extends ActiveRecord
         $test->random_order = $form->random_order;
         $test->introduction = $form->introduction;
         $test->final_review = $form->final_review;
+        $test->olympic_profile_id = $form->olympic_profile_id ?? null;
         return $test;
     }
 
@@ -31,6 +33,7 @@ class Test extends ActiveRecord
         $this->random_order = $form->random_order;
         $this->introduction = $form->introduction;
         $this->final_review = $form->final_review;
+        $this->olympic_profile_id = $form->olympic_profile_id ?? null;
     }
 
     public function attributeLabels()
@@ -44,6 +47,7 @@ class Test extends ActiveRecord
             'random_order'=> 'Случайный порядок вопросов',
             'type_calculate_id' => 'Критерий расчета прохода в следующий тур',
             'calculate_value' => 'Значение для расчета',
+            'olympic_profile_id' => 'Профиль олимпиады'
         ];
     }
 
@@ -66,4 +70,8 @@ class Test extends ActiveRecord
         return $this->hasOne(TestAttempt::class, ['test_id'=> 'id'])->andWhere(['user_id'=> $userId])->one();
     }
 
+    public function getOlympicSpecialityProfile()
+    {
+        return $this->hasOne(OlympicSpecialityProfile::class, ['id'=> 'olympic_profile_id']);
+    }
 }

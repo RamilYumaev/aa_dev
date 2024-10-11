@@ -7,6 +7,7 @@ use common\helpers\DateTimeCpuHelper;
 use olympic\helpers\DiplomaHelper;
 use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
+use olympic\models\UserOlimpiads;
 use testing\helpers\TestAttemptHelper;
 use testing\helpers\TestHelper;
 use common\helpers\EduYearHelper;
@@ -54,7 +55,8 @@ class PersonalUserOlympicColumn extends DataColumn
 
     private function getTest(OlimpicList $olympic)
     {
-        return TestHelper::testAndClassActiveOlympicList($olympic->id, $this->getClassUser());
+        $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => $this->getUser()]);
+        return TestHelper::testAndClassActiveOlympicList($olympic->id, $this->getClassUser(), $userOlympic ? $userOlympic->olympic_profile_id : null);
     }
 
     private function getAttempt(OlimpicList $olympic)

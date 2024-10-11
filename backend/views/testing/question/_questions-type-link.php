@@ -10,5 +10,6 @@ use yii\helpers\Html;
         <?= Html::a('Развернутый ответ', ['/testing/question/types/type-answer-detailed', 'olympic_id' => $olympic], [ 'class'=>'btn btn-success']); ?>
         <?= Html::a('Загрузка файла', ['/testing/question/types/type-file','olympic_id' => $olympic], [ 'class'=>'btn btn-success']); ?>
         <?= Html::a('Вложенные ответы', ['/testing/question/types/type-cloze', 'olympic_id' => $olympic], [ 'class'=>'btn btn-success']); ?>
+        <?= Html::a('Внешняя ссылка', ['/testing/question/types/type-answer-url', 'olympic_id' => $olympic], [ 'class'=>'btn btn-success']); ?>
     </div>
 </div>

@@ -56,6 +56,9 @@ $url = Url::to(['trail-attempt/end', 'test_id' => $test->id]);
                             <?php case TestQuestionHelper::TYPE_FILE: ?>
                                 <?= $this->render('@testing/trail/views/test/type/file', ['quent' => $quent]) ?>
                                 <?php break; ?>
+                            <?php case TestQuestionHelper::TYPE_URL: ?>
+                                <?= $this->render('@testing/trail/views/test/type/url', ['quent' => $quent]) ?>
+                                <?php break; ?>
                             <?php default: ?>
                                 <?= $this->render('@testing/trail/views/test/type/cloze', ['quent' => $quent]) ?>
                             <?php endswitch; ?>

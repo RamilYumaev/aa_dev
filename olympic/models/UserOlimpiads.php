@@ -8,11 +8,13 @@ use common\auth\helpers\UserSchoolHelper;
 use common\auth\models\User;
 use dictionary\helpers\DictClassHelper;
 use dictionary\helpers\DictSchoolsHelper;
+use modules\usecase\ImageUploadBehaviorYiiPhp;
 use olympic\helpers\auth\ProfileHelper;
 use olympic\helpers\DiplomaHelper;
 use olympic\helpers\OlympicListHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 class UserOlimpiads extends \yii\db\ActiveRecord
 {
@@ -33,12 +35,24 @@ class UserOlimpiads extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        return [TimestampBehavior::class];
+        return [
+            TimestampBehavior::class,
+            [
+                'class' => ImageUploadBehaviorYiiPhp::class,
+                'attribute' => 'file_pd',
+                'filePath' => '@modules/entrant/files/olympic/[[attribute_id]]/[[attribute_file_pd]].[[extension]]',
+            ],
+            ];
     }
 
     public static function statusName($key): string
     {
         return ArrayHelper::getValue(self::statusList(), $key);
+    }
+
+    public function setFile(UploadedFile $file): void
+    {
+        $this->file_pd = $file;
     }
 
     public function __construct($config = [])
@@ -125,6 +139,10 @@ class UserOlimpiads extends \yii\db\ActiveRecord
 
     public function getUser() {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getOlympicProfile() {
+        return $this->hasOne(OlympicSpecialityProfile::class, ['id' => 'olympic_profile_id']);
     }
 
     /**

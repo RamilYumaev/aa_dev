@@ -10,9 +10,13 @@ use olympic\models\PersonalPresenceAttempt;
 
 class DiplomaQuery  extends  \yii\db\ActiveQuery
 {
-
     public function olympic($olympicId)
     {
         return $this->andWhere([Diploma::tableName().'.olimpic_id' => $olympicId]);
+    }
+
+    public function user($userId)
+    {
+        return $this->andWhere([Diploma::tableName().'.user_id' => $userId]);
     }
 }

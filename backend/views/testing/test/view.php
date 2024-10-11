@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $test testing\models\Test */
 
 
-$this->title = "Просмотр теста";
+$this->title = "Просмотр теста ". ($test->olympicSpecialityProfile ? $test->olympicSpecialityProfile->getFullName() : "");
 $this->params['breadcrumbs'][] = ['label' => \olympic\helpers\OlympicListHelper::olympicAndYearName($test->olimpic_id),
     'url' => ['/olympic/olimpic-list/view', 'id' => $test->olimpic_id]];
 $this->params['breadcrumbs'][] = $this->title;

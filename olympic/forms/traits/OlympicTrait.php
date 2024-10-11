@@ -15,6 +15,7 @@ trait OlympicTrait
         $genitive_name,
         $faculty_id,
         $competitiveGroupsList,
+        $olympicSpecialityList,
         $classesList,
         $time_of_distants_tour_type,
         $form_of_passage,

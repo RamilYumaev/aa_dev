@@ -23,7 +23,7 @@ $this->registerJs($js);
             'buttons' =>[
                 'delete' => function ($url, $model) {
                     $class = \common\auth\helpers\UserSchoolHelper::userClassId(\Yii::$app->user->identity->getId(), \common\helpers\EduYearHelper::eduYear());
-                    $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($model->olympicOne->id, $class);
+                    $test = \testing\helpers\TestHelper::testAndClassActiveOlympicList($model->olympicOne->id, $class, $model->olympic_profile_id);
                     return $model->olympicOne->year == \common\helpers\EduYearHelper::eduYear() &&
                        $model->olympicOne->isOnRegisterOlympic  && !\testing\helpers\TestAttemptHelper::isAttempt($test, \Yii::$app->user->identity->getId()) ?
                        \yii\helpers\Html::a("Отменить запись", $url,  ['data' => ['confirm' => 'Вы действительно хотите отменить запись ?', 'method' => 'POST']]) : "";

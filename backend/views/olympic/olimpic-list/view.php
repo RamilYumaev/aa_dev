@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= \backend\widgets\olimpic\OlympicNominationWidget::widget(['olympic_id' => $olympic->id]) ?>
         <?php endif;
         if ($olympic->isDistanceTour) : ?>
-            <?= \backend\widgets\testing\TestWidget::widget(['olympic_id' => $olympic->id]) ?>
+            <?= \backend\widgets\testing\TestWidget::widget(['olympic' => $olympic]) ?>
         <?php endif; ?>
     </div>
 </div>

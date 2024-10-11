@@ -74,6 +74,16 @@ class TestAttemptController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionEndDistTourAll($olympic_id)
+    {
+        try {
+            $this->service->finishAll($olympic_id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
 
     public function actionDelete($id)

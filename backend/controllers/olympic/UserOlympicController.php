@@ -44,6 +44,16 @@ class UserOlympicController extends Controller
         ]);
     }
 
+    public function actionGetFile($id)
+    {
+        $model = $this->findModelUser($id);
+        $filePath = $model->getUploadedFilePath('file_pd');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+
     /**
      * @param $id
      * @return mixed
@@ -109,12 +119,20 @@ class UserOlympicController extends Controller
         $tbs->openTemplate($path);
         $common = [];
         $common[0]['block_subject'] = key_exists('subjects', $data) ? 1:0;
+        $common[0]['block_speciality'] = key_exists('speciality', $data) ? 1:0;
+        $common[0]['block_profile'] = key_exists('profile', $data) ? 1:0;
         $tbs->merge('common', $common);
         if(key_exists('regions', $data)) {
             $tbs->merge('regions', $data['regions']);
         }
         if(key_exists('subjects', $data)) {
             $tbs->merge('subjects', $data['subjects']);
+        }
+        if(key_exists('speciality', $data)) {
+            $tbs->merge('speciality', $data['speciality']);
+        }
+        if(key_exists('profile', $data)) {
+            $tbs->merge('profile', $data['profile']);
         }
         $tbs->download($fileName);
     }
@@ -193,6 +211,8 @@ class UserOlympicController extends Controller
         $regions = [];
         $array = [];
         $subjects = [];
+        $specialites = [];
+        $profiles = [];
         foreach ($model->all() as  $data) {
             $region =  DictSchoolsHelper::regionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year)) ??
                 DictSchoolsHelper::preRegionName(UserSchoolHelper::userSchoolId($data->user_id, $olympic->year));
@@ -203,6 +223,11 @@ class UserOlympicController extends Controller
                 $information = json_decode($data->information, true);
                 $subjects[] = $disciplines[$information[0]];
                 $subjects[] = $disciplines[$information[1]];
+            }
+
+            if($data->olympic_profile_id) {
+                $specialites[] = $data->olympicProfile->olympicSpeciality->name;
+                $profiles[] = $data->olympicProfile->name;
             }
         }
         $a  = 0;
@@ -218,6 +243,22 @@ class UserOlympicController extends Controller
             $array['subjects'][$b]['name'] = $index;
             $array['subjects'][$b]['count'] = $subject;
             $b++;
+        }
+
+        $c = 0;
+        asort($specialites);
+        foreach (array_count_values($specialites) as $index => $speciality) {
+            $array['speciality'][$c]['name'] = $index;
+            $array['speciality'][$c]['count'] = $speciality;
+            $c++;
+        }
+
+        $d = 0;
+        asort($profiles);
+        foreach (array_count_values($profiles) as $index => $profile) {
+            $array['profile'][$d]['name'] = $index;
+            $array['profile'][$d]['count'] = $profile;
+            $d++;
         }
         return $array;
     }

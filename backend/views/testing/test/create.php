@@ -29,6 +29,11 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'random_order')->checkbox() ?>
 
+    <?= $form->field($model, 'olympic_profile_id')->widget(Select2::class, [
+        'data' => \olympic\helpers\OlympicSpecialityProfileHelper::allProfilesByOlympic($model->olimpic_id),
+        'options' => ['placeholder' => 'Выберите профиль',],
+    ])->label('Профиль') ?>
+
 
     <div class="form-group">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>

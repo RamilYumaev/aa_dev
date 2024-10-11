@@ -16,6 +16,8 @@ use olympic\models\ClassAndOlympic;
 use olympic\models\OlimpicCg;
 use olympic\models\OlimpicList;
 use olympic\models\Olympic;
+use olympic\models\OlympicSpeciality;
+use olympic\models\OlympicSpecialityOlimpicList;
 use olympic\models\UserOlimpiads;
 use olympic\repositories\OlimpicListRepository;
 use olympic\repositories\OlympicRepository;
@@ -69,6 +71,13 @@ class OlimpicListService
                     $cgOlympic->save(false);
                 }
             }
+            if ($form->olympicSpecialityList) {
+                foreach ($form->olympicSpecialityList as $speciality) {
+                    $olympicSpeciality = $this->getOlympicSpeciality($speciality);
+                    $olympicSpecialityList = OlympicSpecialityOlimpicList::create($model->id, $olympicSpeciality->id);
+                    $olympicSpecialityList->save(false);
+                }
+            }
             if ($form->classesList) {
                 foreach ($form->classesList as $class) {
                     $dictClass = $this->classRepository->get($class);
@@ -97,6 +106,13 @@ class OlimpicListService
                     $competitiveGroup = $this->competitiveGroupRepository->get($cg);
                     $cgOlympic = OlimpicCg::create($model->id, $competitiveGroup->id);
                     $cgOlympic->save(false);
+                }
+            }
+            if ($form->olympicSpecialityList) {
+                foreach ($form->olympicSpecialityList as $speciality) {
+                    $olympicSpeciality = $this->getOlympicSpeciality($speciality);
+                    $olympicSpecialityList = OlympicSpecialityOlimpicList::create($model->id, $olympicSpeciality->id);
+                    $olympicSpecialityList->save(false);
                 }
             }
             if ($form->classesList) {
@@ -129,11 +145,20 @@ class OlimpicListService
                         $cgOlympic->save(false); //@TODO плохо отключать валидацию, надо исправить
                     }
                 }
+
                 if ($form->classesList) {
                     foreach ($form->classesList as $class) {
                         $dictClass = $this->classRepository->get($class);
                         $classOlympic = ClassAndOlympic::create($dictClass->id, $model->id);
                         $classOlympic->save(false);
+                    }
+                }
+
+                if ($form->olympicSpecialityList) {
+                    foreach ($form->olympicSpecialityList as $speciality) {
+                        $olympicSpeciality = $this->getOlympicSpeciality($speciality);
+                        $olympicSpecialityList = OlympicSpecialityOlimpicList::create($model->id, $olympicSpeciality->id);
+                        $olympicSpecialityList->save(false);
                     }
                 }
 
@@ -155,7 +180,16 @@ class OlimpicListService
     {
         OlimpicCg::deleteAll(['olimpic_id' => $id]);
         ClassAndOlympic::deleteAll(['olympic_id' => $id]);
+        OlympicSpecialityOlimpicList::deleteAll(['olimpic_list_id'=> $id]);
     }
+
+    private function getOlympicSpeciality($id) {
+        if (!$model = OlympicSpeciality::findOne($id)) {
+            throw new  \DomainException('Направление олимпиады не найдено.');
+        }
+        return $model;
+    }
+
 
     public function allOlympicsAjax($year)
     {

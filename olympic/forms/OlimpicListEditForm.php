@@ -12,6 +12,7 @@ use olympic\helpers\ClassAndOlympicHelper;
 use olympic\helpers\OlimpicCgHelper;
 use olympic\helpers\OlympicHelper;
 use olympic\models\OlimpicList;
+use olympic\models\OlympicSpecialityOlimpicList;
 use yii\base\Model;
 
 class OlimpicListEditForm extends Model
@@ -22,6 +23,7 @@ class OlimpicListEditForm extends Model
     {
         $this->competitiveGroupsList= OlimpicCgHelper::cgOlympicList($olympic->id);
         $this->classesList= ClassAndOlympicHelper::olympicClassList($olympic->id);
+        $this->olympicSpecialityList = OlympicSpecialityOlimpicList::allOlympicSpecialityByOlympicList($olympic->id);
         $this->name = $olympic->name;
         $this->chairman_id = $olympic->chairman_id;
         $this->number_of_tours = $olympic->number_of_tours;
@@ -105,6 +107,7 @@ class OlimpicListEditForm extends Model
             }, 'whenClient' => 'function(attribute, value){
                 return $("#olimpiclisteditform-time_of_distants_tour_type").val() == 1;
             }'],
+            [['olympicSpecialityList'], 'safe'],
             ['time_of_tour', 'required', 'when' => function ($model) {
                 return $model->form_of_passage == OlympicHelper::OCHNAYA_FORMA;
             }, 'whenClient' => 'function(attribute, value){
