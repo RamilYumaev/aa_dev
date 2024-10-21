@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\auth\repositories\UserSchoolRepository;
 use common\helpers\FlashMessages;
+use dictionary\helpers\DictClassHelper;
 use frontend\components\UserNoEmail;
 use Mpdf\Tag\U;
 use olympic\forms\OlympicUserInformationForm;
@@ -24,15 +26,19 @@ class UserOlympicController extends Controller
     private $repository;
     private $olimpicListRepository;
     private $olimpicReadRepository;
+    private $userSchoolRepository;
+
 
     public function __construct($id, $module, UserOlimpiadsService $service,
                                 UserOlimpiadsRepository $repository,
                                 OlimpicListRepository $olimpicListRepository,
                                 OlimpicReadRepository $olimpicReadRepository,
+                                UserSchoolRepository $userSchoolRepository,
                                 $config = [])
     {
         $this->service = $service;
         $this->repository = $repository;
+        $this->userSchoolRepository = $userSchoolRepository;
         $this->olimpicListRepository = $olimpicListRepository;
         $this->olimpicReadRepository = $olimpicReadRepository;
         parent::__construct($id, $module, $config);
@@ -136,11 +142,22 @@ class UserOlympicController extends Controller
         }
 
         $userOlympic = UserOlimpiads::findOne(['olympiads_id' => $olympic->id, 'user_id' => Yii::$app->user->id]);
-        if($userOlympic) {
+        if ($userOlympic) {
             Yii::$app->session->setFlash('warning', 'Вы не можете редактировать данные.');
             return $this->redirect(['olympiads/registration-on-olympiads', 'id' => $olympic->olimpic_id]);
         }
         $form = new OlympicUserProfileForm($userOlympic);
+        try {
+            $userSchool = $this->userSchoolRepository->getSchooLUser(Yii::$app->user->id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect('index');
+        }
+        $form->scenario = $form::DEFAULT;
+        if ($userSchool->className->type == DictClassHelper::SCHOOL) {
+            $form->scenario = $form::REQUIRED_FILE;
+        }
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->add($id, Yii::$app->user->id);

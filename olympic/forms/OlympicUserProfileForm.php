@@ -8,6 +8,8 @@ use yii\web\UploadedFile;
 class OlympicUserProfileForm extends Model
 {
     public $olympic_profile_id, $file;
+    public const DEFAULT = 'default';
+    public const REQUIRED_FILE = 'required_file';
 
     public function __construct(UserOlimpiads $userOlimpiads = null, $config = [])
     {
@@ -23,11 +25,13 @@ class OlympicUserProfileForm extends Model
     public function rules()
     {
         return [
-            [['olympic_profile_id'], 'required'],
-            [['file'], 'file'],
-            [['olympic_profile_id'], 'integer'],
+            [['olympic_profile_id'], 'required', 'on' => [self::DEFAULT, self::REQUIRED_FILE]],
+            [['file'], 'required', 'on' => self::REQUIRED_FILE],
+            [['file'], 'file', 'on' => [self::DEFAULT, self::REQUIRED_FILE]],
+            [['olympic_profile_id'], 'integer', 'on' => [self::DEFAULT, self::REQUIRED_FILE]],
         ];
     }
+
     /**
      * {@inheritdoc}
      */
