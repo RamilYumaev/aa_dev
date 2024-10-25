@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                 'header' => 'в магистратуру',
                 'content' => $this->render('_menu',[ 'menu'=>
-                    OlympicListHelper::olympicMenu(OlympicHelper::FOR_STUDENT, DictFacultyHelper::NO_FILIAL),
+                    OlympicListHelper::olympicMenu([OlympicHelper::FOR_STUDENT, OlympicHelper::FOR_STUDENT_PUPLE], DictFacultyHelper::NO_FILIAL),
                     'url'=>'olympiads/magistracy'])
                 ],
                     [

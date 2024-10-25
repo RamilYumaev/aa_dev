@@ -11,6 +11,7 @@ class OlympicHelper
 {
     const FOR_PUPLE = 1;
     const FOR_STUDENT = 2;
+    const FOR_STUDENT_PUPLE = 4;
     const INTERUNIVERSITY = 3;
 
     const OCHNAYA_FORMA = 1;
@@ -157,18 +158,19 @@ class OlympicHelper
             '' => '',
             self::FOR_PUPLE => 'Для школьников',
             self::FOR_STUDENT => 'Для студентов',
+            self::FOR_STUDENT_PUPLE => 'Для школьников и студентов',
             self::INTERUNIVERSITY => 'Межрегиональная',
         ];
     }
 
     public static function levelOlimpValid()
     {
-        return ['', self::FOR_PUPLE, self::FOR_STUDENT, self::INTERUNIVERSITY];
+        return ['', self::FOR_PUPLE, self::FOR_STUDENT, self::FOR_STUDENT_PUPLE, self::INTERUNIVERSITY];
     }
 
     public static function levelOlympicAll()
     {
-        return [self::FOR_PUPLE, self::FOR_STUDENT, self::INTERUNIVERSITY];
+        return [self::FOR_PUPLE, self::FOR_STUDENT, self::FOR_STUDENT_PUPLE, self::INTERUNIVERSITY];
     }
     public static function levelOlympicBaccalaureateAll()
     {

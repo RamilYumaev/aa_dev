@@ -56,6 +56,24 @@ class DictClassService
                 DictClassHelper::GRADUATED_SCHOOL,
                 DictClassHelper::COLLEDGE, DictClassHelper::COLLEDGE_LAST,
                 DictClassHelper::GRADUATED_COLLEGE]);
+        } elseif ($onlyHs == OlympicHelper::FOR_STUDENT_PUPLE) {
+            $model = $model->typeClassAndOrderById([
+                DictClassHelper::SCHOOL,
+                DictClassHelper::SCHOOL_LAST,
+                DictClassHelper::GRADUATED_SCHOOL,
+                DictClassHelper::COLLEDGE,
+                DictClassHelper::COLLEDGE_LAST,
+                DictClassHelper::GRADUATED_COLLEGE,
+                DictClassHelper::BACALAVR_LAST,
+                DictClassHelper::BACALAVR,
+                DictClassHelper::GRADUATED_BACALAVR,
+                DictClassHelper::MAGISTR,
+                DictClassHelper::MAGISTR_LAST,
+                DictClassHelper::GRADUATED_SPECIALIST,
+                DictClassHelper::GRADUATED_MAGISTR,
+                DictClassHelper::GRADUATED_ASPIRANTURA,
+                DictClassHelper::GRADUATED_DOCTORANTURA]);
+
         } else {
             $model = $model->typeClassAndOrderById([DictClassHelper::MAGISTR, DictClassHelper::MAGISTR_LAST, DictClassHelper::GRADUATED_MAGISTR]);
         }

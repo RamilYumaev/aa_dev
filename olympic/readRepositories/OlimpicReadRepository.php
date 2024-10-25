@@ -54,7 +54,7 @@ class OlimpicReadRepository
 
     public function getAllMagistracy($faculty)
     {
-        $query = $this->getSort($faculty, OlympicHelper::FOR_STUDENT, DictFacultyHelper::NO_FILIAL);
+        $query = $this->getSort($faculty, [OlympicHelper::FOR_STUDENT, OlympicHelper::FOR_STUDENT_PUPLE], DictFacultyHelper::NO_FILIAL);
         return $this->getProvider($query);
     }
 

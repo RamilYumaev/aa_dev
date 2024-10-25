@@ -62,13 +62,15 @@ class OlimpicListCopyForm extends Model
                     return $("#olimpiclistcopyform-prefilling").val == 0}'],
             [['classesList'], 'required', 'when' => function ($model) {
                 return $model->edu_level_olymp == OlympicHelper::FOR_STUDENT
-                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE;
+                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE
+                   || $model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcopyform-edu_level_olymp").val() == 1 
             || $("#olimpiclistcopyform-edu_level_olymp").val() == 2}'],
             [['competitiveGroupsList'], 'required', 'when' => function ($model) {
                 return ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT && !$model->cg_no_visible)
-                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible);
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible)
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE && !$model->cg_no_visible);
             }, 'whenClient' => 'function(attribute, value){
             return  ($("#olimpiclistcopyform-edu_level_olymp").val() == 1 && !$("#olimpiclistcopyform-cg_no_visible").prop("checked")) 
             || ($("#olimpiclistcopyform-edu_level_olymp").val() == 2  && !$("#olimpiclistcopyform-cg_no_visible").prop("checked")) }'],

@@ -75,13 +75,16 @@ class OlimpicListEditForm extends Model
                     return $("#olimpiclisteditform-prefilling").val == 0}'],
             [[ 'classesList'], 'required', 'when' => function ($model) {
                 return $model->edu_level_olymp == OlympicHelper::FOR_STUDENT
-                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE;
+                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE
+                    || $model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclisteditform-edu_level_olymp").val() == 1 
             || $("#olimpiclisteditform-edu_level_olymp").val() == 2}'],
             [['competitiveGroupsList'], 'required', 'when' => function ($model) {
                 return ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT && !$model->cg_no_visible)
-                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible);
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible)
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE && !$model->cg_no_visible)
+                    ;
             }, 'whenClient' => 'function(attribute, value){
             return 
                ($("#olimpiclisteditform-edu_level_olymp").val() == 1 && !$("#olimpiclisteditform-cg_no_visible").prop("checked")) 

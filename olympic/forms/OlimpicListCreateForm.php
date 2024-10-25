@@ -38,14 +38,16 @@ class OlimpicListCreateForm extends Model
 
             [[ 'classesList'], 'required', 'when' => function ($model) {
                 return $model->edu_level_olymp == OlympicHelper::FOR_STUDENT
-                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE;
+                    || $model->edu_level_olymp == OlympicHelper::FOR_PUPLE
+                    || $model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE;
             }, 'whenClient' => 'function(attribute, value){
             return $("#olimpiclistcreateform-edu_level_olymp").val() == 1 
             || $("#olimpiclistcreateform-edu_level_olymp").val() == 2}'],
 
             [['competitiveGroupsList'], 'required', 'when' => function ($model) {
                 return ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT && !$model->cg_no_visible)
-                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible);
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_PUPLE && !$model->cg_no_visible)
+                    || ($model->edu_level_olymp == OlympicHelper::FOR_STUDENT_PUPLE && !$model->cg_no_visible);
             }, 'whenClient' => 'function(attribute, value){
             return ($("#olimpiclistcreateform-edu_level_olymp").val() == 1 && !$("#olimpiclistcreateform-cg_no_visible").prop("checked")) 
             || ($("#olimpiclistcreateform-edu_level_olymp").val() == 2  && !$("#olimpiclistcreateform-cg_no_visible").prop("checked")) }'],
