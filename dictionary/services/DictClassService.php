@@ -47,6 +47,8 @@ class DictClassService
                 DictClassHelper::MAGISTR,
                 DictClassHelper::MAGISTR_LAST,
                 DictClassHelper::GRADUATED_SPECIALIST,
+                DictClassHelper::SPECIALIST,
+                DictClassHelper::SPECIALIST_LAST,
                 DictClassHelper::GRADUATED_MAGISTR,
                 DictClassHelper::GRADUATED_ASPIRANTURA,
                 DictClassHelper::GRADUATED_DOCTORANTURA]);
@@ -69,6 +71,8 @@ class DictClassService
                 DictClassHelper::GRADUATED_BACALAVR,
                 DictClassHelper::MAGISTR,
                 DictClassHelper::MAGISTR_LAST,
+                DictClassHelper::SPECIALIST,
+                DictClassHelper::SPECIALIST_LAST,
                 DictClassHelper::GRADUATED_SPECIALIST,
                 DictClassHelper::GRADUATED_MAGISTR,
                 DictClassHelper::GRADUATED_ASPIRANTURA,
