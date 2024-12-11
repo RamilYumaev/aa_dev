@@ -27,6 +27,8 @@ class DictClassHelper
     const GRADUATED_ASPIRANTURA = 60;
     const GRADUATED_DOCTORANTURA = 70;
     const GRADUATE = 55;
+    const SPECIALIST = 9;
+    const SPECIALIST_LAST = 57;
 
     public static function typeOfClass()
     {
@@ -36,10 +38,12 @@ class DictClassHelper
             self::BACALAVR => 'курс бакалавриата',
             self::MAGISTR => 'курс магистратуры',
             self::GRADUATE => 'курс аспирантуры',
+            self::SPECIALIST=> 'курс специалитета',
             self::SCHOOL_LAST => 'выпускной класс школы',
             self::COLLEDGE_LAST => 'выпускной курс колледжа/техникума',
             self::BACALAVR_LAST=> 'выпускной курс бакалавриата',
             self::MAGISTR_LAST => 'выпускной курс магистратуры',
+            self::SPECIALIST_LAST => 'выпускной курс специалитета',
             self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
             self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
             self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
@@ -47,7 +51,6 @@ class DictClassHelper
             self::GRADUATED_MAGISTR => 'закончил(а) магистратуру',
             self::GRADUATED_ASPIRANTURA => 'закончил(а) аспирантуру',
             self::GRADUATED_DOCTORANTURA => 'закончил(а) докторантуру',
-
         ];
     }
 
@@ -58,10 +61,12 @@ class DictClassHelper
             self::COLLEDGE => 'курс(ы) колледжа/техникума',
             self::BACALAVR => 'курс(ы) бакалавриата',
             self::MAGISTR => 'курс(ы) магистратуры',
+            self::SPECIALIST => 'курс(ы) специалитета',
             self::SCHOOL_LAST => 'выпускной(ые) класс(ы) школы',
             self::COLLEDGE_LAST => 'выпускной(ые) курс(ы) колледжа/техникума',
             self::BACALAVR_LAST=> 'выпускной(ые) курс(ы) бакалавриата',
             self::MAGISTR_LAST => 'выпускной(ые) курс(ы) магистратуры',
+            self::SPECIALIST_LAST => 'выпускной(ые) курс(ы) специалитета',
             self::GRADUATED_SCHOOL => 'закончил(а) школу или лицей',
             self::GRADUATED_COLLEGE => 'закончил(а) колледж или техникум',
             self::GRADUATED_BACALAVR => 'закончил(а) бакалавриат',
@@ -79,10 +84,12 @@ class DictClassHelper
             self::COLLEDGE => 'курса(ов) колледжа/техникума',
             self::BACALAVR => 'курса(ов) бакалавриата',
             self::MAGISTR => 'курса(ов) магистратуры',
+            self::SPECIALIST => 'курса(ов) специалитета',
             self::SCHOOL_LAST => 'выпускного(ых) класса(ов) школы',
             self::COLLEDGE_LAST => 'выпускного(ых) курса(ов) колледжа/техникума',
             self::BACALAVR_LAST=> 'выпускного(ых) курса(ов) бакалавриата',
             self::MAGISTR_LAST => 'выпускного(ых) курса(ов) магистратуры',
+            self::SPECIALIST_LAST => 'выпускного(ых) курса(ов) специалитета',
             self::GRADUATED_SCHOOL => 'выпускники школ',
             self::GRADUATED_COLLEGE => 'выпускники колледжей и техникумов',
             self::GRADUATED_BACALAVR => 'выпускники бакалавриата',
@@ -101,10 +108,12 @@ class DictClassHelper
             self::COLLEDGE,
             self::BACALAVR,
             self::MAGISTR,
+            self::SPECIALIST,
             self::SCHOOL_LAST,
             self::COLLEDGE_LAST,
             self::BACALAVR_LAST,
             self::MAGISTR_LAST,
+            self::SPECIALIST_LAST,
             self::GRADUATED_SCHOOL,
             self::GRADUATED_COLLEGE,
             self::GRADUATED_BACALAVR,
@@ -174,7 +183,7 @@ class DictClassHelper
 
     public static function getListMPSU()
     {
-        $classes = \dictionary\models\DictClass::find()->andWhere(['type' =>[self::BACALAVR,  self::MAGISTR ]])->orderBy("id")->all();
+        $classes = \dictionary\models\DictClass::find()->andWhere(['type' =>[self::BACALAVR,  self::MAGISTR, self::SPECIALIST ]])->orderBy("id")->all();
         $result = [];
         foreach ($classes as $class) {
             $result[$class->id] = $class->getClassFullName();

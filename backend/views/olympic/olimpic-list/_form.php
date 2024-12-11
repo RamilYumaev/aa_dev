@@ -20,7 +20,8 @@ use yii\helpers\Html;
 
 <?= $form->field($model, 'prefilling')->dropDownList($model->prefilling()) ?>
 
-<?= $form->field($model, 'chairman_id')->dropDownList($model->chairmansFullNameList(), ['prompt' => 'Выберите председателя оргкоммитета'
+<?= $form->field($model, 'chairman_id')->widget(Select2::class, ['data' => $model->chairmansFullNameList(),
+    'options' => ['placeholder' => 'Выберите председателя оргкомитета', ],
 ]) ?>
 
 <?= $form->field($model, 'faculty_id')->dropDownList($model->facultyList(), ['prompt'=> 'Учредитель мероприятия']) ?>
