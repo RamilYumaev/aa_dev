@@ -303,21 +303,16 @@ class DictCompetitiveGroup extends ActiveRecord
         switch ($key) {
             case 1 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR;
-                break;
             case 4 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER;
-                break;
             case 5 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPO;
-                break;
             case 6 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
-                break;
             case 7 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_BVO;
-                break;
-
-
+            case 8 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_SVO;
         }
     }
 

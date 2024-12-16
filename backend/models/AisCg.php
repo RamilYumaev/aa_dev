@@ -10,7 +10,7 @@ class AisCg extends ActiveRecord
 
     public static function tableName()
     {
-        return "2023_dict_incoming_competitive_group";
+        return date('Y')."_dict_incoming_competitive_group";
     }
 
     public static function findCg($facultyId, $specialtyId, $specializationId, $educationFormId, $financingTypeId, $year)

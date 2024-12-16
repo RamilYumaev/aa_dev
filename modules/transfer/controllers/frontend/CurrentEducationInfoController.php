@@ -59,7 +59,7 @@ class CurrentEducationInfoController extends Controller
         $model = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['id' => $id])
-            ->andWhere(['not in', 'year', "2023-2024"])
+            ->andWhere(['not in', 'year', "2024-2025"])
             ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
             ->eduLevel($this->getEduLevelArray())
@@ -104,8 +104,9 @@ class CurrentEducationInfoController extends Controller
 
     public function getCurrentFinanceArray() {
         return $this->isFinanceContract() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,] :
-            !$this->getStartBudget() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT] : [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
-            DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET];
+            (!$this->getStartBudget() ? [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT] :
+            [DictCompetitiveGroupHelper::FINANCING_TYPE_CONTRACT,
+                DictCompetitiveGroupHelper::FINANCING_TYPE_BUDGET]);
     }
 
     public function getCurrentEduLevelGraduateArray() {
@@ -113,11 +114,11 @@ class CurrentEducationInfoController extends Controller
     }
 
     public function getEnd() {
-        return strtotime("2024-08-22 18:00:00") < strtotime(\date("Y-m-d G:i:s"));
+        return strtotime("2025-02-07 18:00:00") < strtotime(\date("Y-m-d G:i:s"));
     }
 
     public function getStartBudget() {
-        return strtotime("2024-06-18 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2024-07-15 18:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
+        return strtotime("2024-12-18 00:00:01") < strtotime(\date("Y-m-d G:i:s")) &&  strtotime("2025-02-17 18:00:00") >  strtotime(\date("Y-m-d G:i:s")) ;
     }
 
     public function getStartGraduate() {
@@ -129,6 +130,7 @@ class CurrentEducationInfoController extends Controller
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BACHELOR,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BVO,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_SVO,
         ];
         if($this->getStartGraduate()) {
             $array[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
