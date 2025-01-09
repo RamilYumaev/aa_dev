@@ -313,6 +313,10 @@ class DictCompetitiveGroup extends ActiveRecord
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_BVO;
             case 8 :
                 return DictCompetitiveGroupHelper::EDUCATION_LEVEL_SVO;
+            case 3 :
+                return DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPECIAL;
+
+
         }
     }
 

@@ -131,6 +131,7 @@ class CurrentEducationInfoController extends Controller
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_MAGISTER,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_BVO,
             DictCompetitiveGroupHelper::EDUCATION_LEVEL_SVO,
+            DictCompetitiveGroupHelper::EDUCATION_LEVEL_SPECIAL,
         ];
         if($this->getStartGraduate()) {
             $array[] = DictCompetitiveGroupHelper::EDUCATION_LEVEL_GRADUATE_SCHOOL;
