@@ -23,7 +23,7 @@ use kartik\datetime\DateTimePicker;
     <?= $form->field($model, 'managerId')->widget(Select2::class, [
         'data' => \olympic\helpers\auth\ProfileHelper::getAllUserFullNameWithEmail(),
         'options' => ['placeholder' => 'Выберите пользователя'],
-        'pluginOptions' => ['allowClear' => true],
+        'pluginOptions' => ['allowClear' => true,  'dropdownParent' => '#modal'],
     ]) ?>
 
     <div class="form-group">

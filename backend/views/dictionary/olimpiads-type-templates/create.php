@@ -1,5 +1,6 @@
 <?php
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -22,7 +23,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'special_type')->dropDownList($model->specialTypeOlimpicList(),
         ['prompt' => "Выберите специальный тип"]); ?>
 
-    <?= $form->field($model, 'template_id')->dropDownList($model->templatesList()) ?>
+    <?= $form->field($model, 'template_id')->widget(
+        Select2::class, [
+            'data'=>$model->templatesList(),
+            'options'=> ['placeholder'=>''],
+            'pluginOptions' => ['allowClear' => true,
+                'dropdownParent' => '#modal'
+            ],
+        ]) ?>
 
     <?= $form->field($model, 'range')->dropDownList($model->range()) ?>
 
