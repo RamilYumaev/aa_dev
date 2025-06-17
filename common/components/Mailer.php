@@ -32,6 +32,7 @@ class Mailer extends Component
                 'password' => $this->getPassword(),
                 'port' => $this->getPort(),
                 'encryption' => $this->getEncryption(),
+
             ],
         ]);
     }

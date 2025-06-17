@@ -1,6 +1,7 @@
 <?php
+
 namespace common\auth\actions;
-use common\auth\forms\PasswordResetRequestForm;
+
 use common\auth\services\PasswordResetService;
 use Yii;
 use yii\web\BadRequestHttpException;

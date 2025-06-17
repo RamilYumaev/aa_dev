@@ -20,7 +20,7 @@ $userId = $transfer->user_id;
     <div class="row min-scr">
         <div class="button-left">
             <?= Html::a(Html::tag("span", "", ["class" => "glyphicon glyphicon-arrow-left"]). " Карточка",
-                "/abiturient", ["class" => "btn btn-warning btn-lg"]) ?>
+                "/transfer", ["class" => "btn btn-warning btn-lg"]) ?>
         </div>
     </div>
     <h1 align="center"><?= $this->title ?></h1>
