@@ -32,6 +32,13 @@ class Mailer extends Component
                 'password' => $this->getPassword(),
                 'port' => $this->getPort(),
                 'encryption' => $this->getEncryption(),
+                'streamOptions' => [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true,
+                    ],
+                ],
 
             ],
         ]);
