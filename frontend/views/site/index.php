@@ -110,7 +110,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
 <?php else : ?>
 
     <div class="row mt-30">
-        <div class="col-md-2 col-md-offset-2" align="center">
+        <div class="col-md-3 col-md-offset-2" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/profile.png') . '<br/>Ваш профиль', '/profile/edit');
             } ?>
@@ -118,7 +118,7 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         </div>
 
 
-        <div class="col-md-2" align="center">
+        <div class="col-md-3" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/school.png')
                     . '<br/>Ваша учебная организация', '/schools');
@@ -143,15 +143,9 @@ $this->title = 'Личный кабинет поступающего в МПГУ
         <!---->
         <!--        </div>-->
 
-        <div class="col-md-2" align="center">
-            <?php if (!Yii::$app->user->isGuest) {
-                echo Html::a(Html::img('@web/img/cabinet/online.png')
-                    . '<br/>Подача документов', '/abiturient/anketa/step1');
-            } ?>
+    
 
-        </div>
-
-        <div class="col-md-2" align="center">
+        <div class="col-md-3" align="center">
             <?php if (!Yii::$app->user->isGuest) {
                 echo Html::a(Html::img('@web/img/cabinet/university.png')
                     . '<br/>Перевод и восстановление', '/transfer/default/fix');
@@ -184,12 +178,9 @@ $this->title = 'Личный кабинет поступающего в МПГУ
     <?php if (\Yii::$app->request->get('time')):; ?>
         <p>Серверное время: <?= \date("Y-m-d G:i:s") ?></p>
     <?php endif; ?>
-    <h1>Добро пожаловать в Личный кабинет<br/> поступающего в МПГУ!</h1>
-    <h4 align="center">
-        <a href="/instructions/instruction.pdf" download>
-            Как подать документы онлайн (читать инструкцию)>></a></h4>
+    <h1>Добро пожаловать в Личный кабинет<br/> МПГУ!</h1>
     <p></p>
-    <p align="center">С помощью Личного кабинета Вы можете подать документы в МПГУ для поступления на программы <b>среднего профессионального образования</b>, а также для <b>перевода и/или восстановления</b> на программы среднего профессионального образования и высшего образования (программам бакалавриата и программам магистратуры).
+    <p align="center">С помощью Личного кабинета Вы можете подать документы в МПГУ для <b>перевода и/или восстановления</b>.
         Для начала пользования сервисами поступающего необходимо создать Личный кабинет.</p>
 
     <a class="btn btn-primary btn-lg mpgu-btn" href="/olympiads" role="button" style="margin-left: 4px">Олимпиады МПГУ</a>
