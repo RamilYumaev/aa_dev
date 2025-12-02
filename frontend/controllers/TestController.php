@@ -54,11 +54,12 @@ class TestController extends Controller
         try {
             $attempt = $this->repository->isAttempt($id);
             $pages = $this->repository->pageCount($id);
+            $models = $this->repository->pageOffset($id);
             return $this->render('view', [
                 'time' => $attempt->end,
                 'test' => $this->find($id),
                 'pages' => $pages,
-                'models' => $this->repository->pageOffset($id),
+                'models' => $models
             ]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

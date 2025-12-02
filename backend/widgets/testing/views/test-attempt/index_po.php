@@ -1,6 +1,7 @@
 <?php
 
 use testing\helpers\TestResultHelper;
+use testing\models\TestResult;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -40,7 +41,15 @@ use yii\helpers\Html;
                 ['attribute' => "Оценка",
                     'value' => 'mark',
                 ],
-
+                ['attribute' => "Попытка завершена",
+                    'value' => 'status',
+                    'format' => 'boolean'
+                ],
+                ['attribute' => "Кол-во заданий",
+                    'value' => function ($model) {
+                        return TestResult::find()->where(['attempt_id' => $model['id']])->count();
+                    },
+                ],
                 ['class' => \yii\grid\ActionColumn::class,
                     'template' => !\common\auth\helpers\UserHelper::isManagerOlympic()  ?'{view} {delete}' : '{view}' ,
                     'controller' => 'testing/test-attempt',

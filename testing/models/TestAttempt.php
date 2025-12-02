@@ -134,4 +134,8 @@ class TestAttempt extends ActiveRecord
     public function getTest() {
         return $this->hasOne(Test::class, ['id' => 'test_id']);
     }
+
+    public function getResultCount() {
+        return $this->hasMany(TestResult::class, ['attempt_id' => 'id']);
+    }
 }

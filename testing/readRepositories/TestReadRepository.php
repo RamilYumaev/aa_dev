@@ -24,7 +24,7 @@ class TestReadRepository
             throw new \DomainException('Ваша попытка прохождения теста закончена');
         }
 
-        return TestResult::find()->where(['attempt_id'=>$testAttempt->id])->orderBy(['priority'=> SORT_ASC]);
+        return TestResult::find()->where(['attempt_id'=> $testAttempt->id])->orderBy(['priority'=> SORT_ASC]);
     }
 
     public function quentTestsCount($id) {

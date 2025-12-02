@@ -41,8 +41,7 @@ class TestAttemptController extends Controller
         $this->isGuest();
         try {
             $testAttempt = $this->service->create($test_id);
-
-            return $this->redirect(['test/view', 'id' => $testAttempt->test_id]);
+            return $this->redirect(['test/view', 'id' => $testAttempt->test_id, 'page' => 1]);
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

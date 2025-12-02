@@ -8,11 +8,13 @@ use olympic\repositories\OlimpicListRepository;
 use testing\actions\traits\TestAttemptActionsTrait;
 use testing\helpers\TestAttemptHelper;
 use testing\models\Test;
+use testing\models\TestAndQuestions;
 use testing\models\TestAttempt;
 use testing\models\TestResult;
 use testing\repositories\TestRepository;
 use testing\services\TestAttemptService;
 use yii\base\ExitException;
+use yii\db\Expression;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -150,7 +152,33 @@ class TestAttemptController extends Controller
         \Yii::$app->session
             ->setFlash('success', "Результаты незавершенных попыток подсчитаны и сохраннены. Все попытки завершены");
         return $this->redirect(\Yii::$app->request->referrer);
+    }
 
+    public function actionAddQuestion($testId) {
+//        foreach (TestAttempt::find()->where(['test_id' => $testId])->all() as $attempt) {
+//            $attemptId = $attempt->id;
+//
+//        $testAndQuestions = TestAndQuestions::find()->where(['test_id' => $attempt->test_id])
+//            ->orderBy($attempt->test->random_order ? new Expression('rand()') : ['id'=>SORT_ASC])->all();
+//        $maxPriority = TestResult::find()->where(['attempt_id'=> $attemptId])->max('priority');
+//        $startPriority = 0;
+//        $isAdd = false;
+//
+//        foreach ($testAndQuestions as $value) {
+//            $que = $value->question_id;
+//            if (TestResult::find()->where(['attempt_id'=> $attemptId, 'question_id' => $que])->exists()) {continue;}
+//            $startPriority++;
+//            $testResult = TestResult::create($attemptId, $que, $maxPriority+$startPriority, $value->id);
+//            $testResult->save(false);
+//            $isAdd = true;
+//        }
+//
+//        if ($isAdd) {
+//            $attempt->status = 0;
+//            $attempt->save(false);
+//        }
+//        echo 'Успех';
+//        }
 
     }
 
@@ -159,7 +187,7 @@ class TestAttemptController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    protected function findModel($id): TestAttempt
+    protected function findModel($id): ?TestAttempt
     {
         if (($model = TestAttempt::findOne($id)) !== null) {
             return $model;

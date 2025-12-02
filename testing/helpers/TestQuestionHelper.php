@@ -136,35 +136,34 @@ class TestQuestionHelper
         return ArrayHelper::map(TestQuestion::find()->where(['group_id' => $id])->all(), 'id', 'title');
     }
 
-    public static function questionTypeList()
+    public static function questionTypeList($id)
     {
-        return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'type_id');
+        return ArrayHelper::map(TestQuestion::find()->where(['id' => $id])->select(['id', 'type_id'])->all(), 'id', 'type_id');
     }
 
-    public static function questionTypeFileList()
+    public static function questionTypeFileList($id)
     {
-        return ArrayHelper::map(TestQuestion::find()->all(), 'id', 'file_type_id');
+        return ArrayHelper::map(TestQuestion::find()->where(['id' => $id])->select(['id', 'file_type_id'])->all(), 'id', 'file_type_id');
     }
 
     public static function questionType($id)
     {
-        return ArrayHelper::getValue(self::questionTypeList(), $id);
+        return ArrayHelper::getValue(self::questionTypeList($id), $id);
     }
 
     public static function questionTypeFile($id)
     {
-        return ArrayHelper::getValue(self::questionTypeFileList(), $id);
+        return ArrayHelper::getValue(self::questionTypeFileList($id), $id);
     }
 
-    public static function questionTextList()
+    public static function questionTextList($id)
     {
-        return ArrayHelper::map(TestQuestion::find()->asArray()->all(), 'id', 'text');
+        return ArrayHelper::map(TestQuestion::find()->where(['id' => $id])->select(['id', 'text'])->asArray()->all(), 'id', 'text');
     }
-
 
     public static function questionTextName($id): ?string
     {
-        return ArrayHelper::getValue(self::questionTextList(), $id);
+        return ArrayHelper::getValue(self::questionTextList($id), $id);
     }
 
 

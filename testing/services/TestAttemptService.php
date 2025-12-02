@@ -58,7 +58,7 @@ class TestAttemptService
 
     }
 
-    public  function createDefault($test_id) {
+    public function createDefault($test_id) {
         $test  = $this->testRepository->get($test_id);
         if (!TestAndQuestionsHelper::countQuestions($test->id)) {
             throw new \DomainException(FlashMessages::get()["countQuestions"]);
