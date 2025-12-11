@@ -1,13 +1,10 @@
 <?php
 
 use backend\widgets\adminlte\Box;
-use modules\entrant\helpers\BlockRedGreenHelper;
-use modules\entrant\helpers\StatementHelper;
 use modules\transfer\models\PassExam;
 use modules\transfer\widgets\file\FileListWidget;
 use modules\transfer\widgets\file\FileWidget;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model modules\transfer\models\StatementTransfer */
@@ -62,7 +59,7 @@ Box::begin(
     <?= FileWidget::widget(['record_id' => $model->passExam->passExamStatement->id, 'model' => \modules\transfer\models\PassExamStatement::class ]) ?>
     <?= $model->passExam->passExamStatement->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
         ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
-    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamStatement->id, 'model' => \modules\transfer\models\PassExamStatement::class, 'userId' => $model->user_id ]) ?>
+    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamStatement->id, 'model' => \modules\transfer\models\PassExamStatement::class, 'userId' => $model->user_id, 'view' => 'list-protocol']) ?>
         <?php Box::end() ?>
     <?php endif; ?>
 
@@ -78,7 +75,7 @@ Box::begin(
     <?= FileWidget::widget(['record_id' => $model->passExam->passExamProtocol->id, 'model' => \modules\transfer\models\PassExamProtocol::class ]) ?>
     <?= $model->passExam->passExamProtocol->countFiles() ? Html::a('Отправить', ['file/send', 'userId' => $model->user_id],
         ['class' => 'btn btn-warning','data' =>["confirm" => "Вы уверены, что хотите отправить файлы?"]]) : '' ?>
-    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamProtocol->id, 'model' => \modules\transfer\models\PassExamProtocol::class, 'userId' => $model->user_id ]) ?>
+    <?= FileListWidget::widget(['record_id' => $model->passExam->passExamProtocol->id, 'model' => \modules\transfer\models\PassExamProtocol::class, 'userId' => $model->user_id, 'view' => 'list-protocol']) ?>
     <?php Box::end() ?>
     <?php endif; ?>
 <?php endif; ?>

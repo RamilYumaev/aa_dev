@@ -37,7 +37,7 @@ $types = (new TransferMpgu())->listTypeShort();
 <div class="box">
     <div class="box-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <?= InfoUserFullWidget::widget([
                     'colorBox' => AdminLTE::BG_TEAL,
                     'icon'=> 'user',
@@ -47,7 +47,7 @@ $types = (new TransferMpgu())->listTypeShort();
                     ])
                 ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <?= InfoUserFullWidget::widget([
                     'colorBox' => AdminLTE::BG_ORANGE,
                     'icon'=> 'user',
@@ -57,7 +57,19 @@ $types = (new TransferMpgu())->listTypeShort();
                 ])
                 ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <?= InfoUserFullWidget::widget([
+                    'colorBox' => AdminLTE::BG_GREEN,
+                    'icon'=> 'user',
+                    'type' => TransferMpgu::IN_MPGU_GIA,
+                    'str' => $types[TransferMpgu::IN_MPGU_GIA],
+                    'link' => ['/transfer/profiles/index', 'type' => TransferMpgu::IN_MPGU_GIA]
+                ])
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <?= InfoUserFullWidget::widget([
                     'colorBox' => AdminLTE::BG_FUCHSIA,
                     'icon'=> 'user',
@@ -67,7 +79,7 @@ $types = (new TransferMpgu())->listTypeShort();
                 ])
                 ?>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <?= InfoUserFullWidget::widget([
                     'colorBox' => AdminLTE::BG_LIGHT_BLUE_ACTIVE,
                     'icon'=> 'user',

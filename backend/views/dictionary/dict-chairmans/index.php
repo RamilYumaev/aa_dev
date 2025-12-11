@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'position',
                 [
                     'value' => function (\dictionary\models\DictChairmans $model) {
-                        return $model->photo ? Html::img($model->getThumbFileUrl('photo', 'admin')) : "Нет подписи";
+                        return $model->photo ? Html::a('Подпись', $model->getThumbFileUrl('photo', 'admin'), ['target' => '_blank']) : "Нет подписи";
                     },
                     'format' => 'raw',
                     'contentOptions' => ['style' => 'width: 100px'],

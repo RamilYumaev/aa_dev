@@ -4,4 +4,5 @@ return [
     'ais_agreement' => 'https://dbstest.mpgu.su/incoming_2024/fok/agreement-contract',
     'ais_competitive' => 'https://dbstest.mpgu.su',
     'competition_list_cache_duration' => 60 * 60 * 2, // 2 часа
+    'keyAisCompetitiveList' => 'jfNffju8473%%FlorlFjgjjfr334pk'
 ];

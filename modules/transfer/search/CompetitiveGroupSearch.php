@@ -61,6 +61,7 @@ class CompetitiveGroupSearch extends Model
             ->andWhere(['not in', 'year', "2015-2016"])
             ->andWhere(['not in', 'year', "2016-2017"])
             ->andWhere(['not in', 'year', "2017-2018"])
+            ->andWhere(['not in', 'year', "2018-2019"])
             ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
             ->eduLevel($this->eduLevel)

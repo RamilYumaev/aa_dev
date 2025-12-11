@@ -59,7 +59,7 @@ class CurrentEducationInfoController extends Controller
         $model = DictCompetitiveGroup::find()
             ->specialRight(null)
             ->andWhere(['id' => $id])
-            ->andWhere(['not in', 'year', "2024-2025"])
+            ->andWhere(['not in', 'year', "2025-2026"])
             ->andWhere(['is_unavailable_transfer' => false])
             ->foreignerStatus(0)
             ->eduLevel($this->getEduLevelArray())

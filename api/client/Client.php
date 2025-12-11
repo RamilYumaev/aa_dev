@@ -6,7 +6,7 @@ use Yii;
 class Client extends ClientBase
 {
     public function __construct($urlBase = '')
-    {   $url = $urlBase ? $urlBase : Yii::$app->params['ais_server'];
+    {   $url = $urlBase ?: Yii::$app->params['ais_server'];
         parent::__construct($url);
     }
 

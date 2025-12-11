@@ -50,7 +50,7 @@ class CopyCgController  extends Controller
                 DictSpecialization::aisToSdoConverter($aisCg->specialization_id),
                 DictCompetitiveGroup::aisToSdoEduFormConverter($aisCg->education_form_id),
                 $aisCg->financing_type_id,
-                "2023-2024",
+                "2024-2025",
                 $aisCg->special_right_id, $aisCg->foreigner_status, $aisCg->spo_class);
 
             if ($sdoCg !== null) {
@@ -77,7 +77,7 @@ class CopyCgController  extends Controller
             $model->spo_class = $aisCg->spo_class;
             $model->ais_id = $aisCg->id;
             $model->link = $aisCg->site_url;
-            $model->year = "2023-2024";
+            $model->year = "2024-2025";
             $model->foreigner_status = $aisCg->foreigner_status;
             $model->save();
             $key++;

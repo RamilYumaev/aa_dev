@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'number',
                     'year',
+                    'data_order',
                     ['class' => ActionColumn::class, 'controller' => 'profiles', 'template' => '{view}']
                 ],
             ]); ?>

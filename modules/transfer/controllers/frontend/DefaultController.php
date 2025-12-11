@@ -45,9 +45,10 @@ class DefaultController extends Controller
         $model = $this->findModel() ?? new TransferMpgu(['user_id' => $this->getUser()]);
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if($model->isMpgu() && $model->number && $model->year) {
-               $data = $this->getJson($model->number);
+               $data = $this->getJson($model->number, $model->type);
                 if(key_exists('current_status_id', $data)) {
                     $model->current_status = $data['current_status_id'];
+                    $model->data_order = $data['order'];
                     try {
                         $model->isStatusMpsuCorrectType();
                          // $this->isNoGraduate($data['education_level_id']);
@@ -95,9 +96,10 @@ class DefaultController extends Controller
         return  $this->render('form-number',['model' => $model ]);
     }
 
-    public function getJson ($number) {
+    public function getJson ($number, $type) {
         $url =  'external/incoming-abiturient/get-student-info';
         $array['student_record_id'] = $number;
+        $array['type'] = $type;
         $array['token'] = \md5($number . \date('Y.m.d').Yii::$app->params['keyAisCompetitiveList']);
         $result =  (new Client(Yii::$app->params['ais_competitive']))->getData($url, $array);
         return $result;

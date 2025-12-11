@@ -20,6 +20,8 @@ use yii\db\ActiveRecord;
  * @property string $date
  * @property integer $type
  * @property string $note
+ *
+ * @property-read TransferMpgu $transferMpgu;
 **/
 
 class PacketDocumentUser extends ActiveRecord
@@ -51,7 +53,7 @@ class PacketDocumentUser extends ActiveRecord
     public function listType() {
         return [
             self::PACKET_DOCUMENT_EDU => 'скан-копия справки об обучении',
-            self::PACKET_DOCUMENT_BOOK => 'скан-копия зачетной книжки',
+            self::PACKET_DOCUMENT_BOOK => 'cкан-копия выписки из зачетной книжки',
             self::PACKET_DOCUMENT_REMOVE => 'скан-копия приказа об отчислении',
             self::PACKET_DOCUMENT_PERIOD => 'скан-копия справки о периоде обучения ( с указанием количества зачетных единиц и часов по всем дисциплинам)',
             self::PACKET_DOCUMENT_BOOK_FROM_EDU =>'скан-копия зачетной книжки (с подписью руководителя структурного подразделения за каждый семестр и печатями за каждый курс) либо иной документ, содержащий информацию о количестве сданных полностью без задолженностей сессий',
@@ -60,15 +62,27 @@ class PacketDocumentUser extends ActiveRecord
     }
 
     public function listCauses() {
-        return [
-            1 => "как не выполнившего обязанностей по  добросовестному освоению образовательной программы и выполнению учебного плана",
+        $list = [
+            1 => "как невыполнившего обязанностей по добросовестному освоению образовательной программы и выполнению учебного плана",
             2 => "за нарушение (или неисполнение) условий договора об оказании платных образовательных услуг",
-            3 => "как не возвратившегося в устанвленный срок из академического отпуска",
-            4 => "как не возвратившегося в установленный срок после отпуска по уходу за ребенком",
+            3 => "как невозвратившегося в устанвленный срок из академического отпуска",
+            4 => "как невозвратившегося в установленный срок после отпуска по уходу за ребенком",
             5 => "другое",
-            6 =>  "по собственному желанию",
-
+            6 => "по собственному желанию",
         ];
+
+        if($transfer = $this->transferMpgu) {
+            if ($transfer->type == TransferMpgu::IN_MPGU_GIA) {
+                unset($list[2]);
+                unset($list[3]);
+                unset($list[4]);
+                unset($list[5]);
+                unset($list[6]);
+                $list[7] = "как восстановленного для повторного прохождения государственной итоговой аттестации, но не прошедшего государственную итоговую аттестацию";
+            }
+        }
+
+        return $list;
     }
 
     public function listTypeName() {
@@ -85,7 +99,11 @@ class PacketDocumentUser extends ActiveRecord
     public static function generatePacketDocument($type) {
         if ($type == TransferMpgu::IN_MPGU || $type == TransferMpgu::IN_INSIDE_MPGU) {
             return [self::PACKET_DOCUMENT_EDU, self::PACKET_DOCUMENT_BOOK, self::PACKET_DOCUMENT_REMOVE];
-        }elseif ($type == TransferMpgu::FROM_EDU) {
+        }
+        elseif ($type == TransferMpgu::IN_MPGU_GIA) {
+            return [self::PACKET_DOCUMENT_EDU, self::PACKET_DOCUMENT_REMOVE];
+        }
+        elseif ($type == TransferMpgu::FROM_EDU) {
             return [self::PACKET_DOCUMENT_PERIOD, self::PACKET_DOCUMENT_BOOK_FROM_EDU,
                 self::PACKET_DOCUMENT_STATUS];
         }else {
@@ -134,6 +152,10 @@ class PacketDocumentUser extends ActiveRecord
 
     public function getFiles() {
         return $this->hasMany(File::class, ['record_id'=> 'id'])->where(['model'=> self::class]);
+    }
+
+    public function getTransferMpgu() {
+        return $this->hasOne(TransferMpgu::class, ['user_id'=> 'user_id']);
     }
 
     public function countFiles() {

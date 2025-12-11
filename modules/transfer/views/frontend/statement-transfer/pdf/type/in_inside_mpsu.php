@@ -11,10 +11,7 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 $cg = $statement->cg;
 ?>
 <p align="justify" class="fs-15">
-    Прошу <strong>восстановить</strong> меня в <?= $data['faculty'] ?>,
-    образовательная программа <?= $data['speciality'] ?><?= $data['specialization'] ? ', '.$data['specialization']:''?>,
-    форма обучения <?= mb_strtolower($data['form']) ?>, <?= $data['course'] ?> курс, семестр ____
-    и <strong>перевести</strong> в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
+    Прошу <strong>восстановить меня с изменением образовательной программы</strong>  в <?=$cg->faculty->full_name ?>, образовательная программа <?= $cg->specialty->codeWithName ?><?= $cg->specialization ? ', '.$cg->specialization->name:''?>,
     форма обучения <?= mb_strtolower($cg->formEdu) ?>,
     <?= $statement->dictClass->name?> курс, семестр <?= $statement->semester ?>. <br/>
 Приказ об отчислении  № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.
@@ -49,7 +46,7 @@ $cg = $statement->cg;
         <td></td>
     </tr>
 </table>
-<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а) и переведен(а)", 'about' => 'возможности восстановления и перевода']) ?>
+<?= $this->render('_block', ['message' => "Претендент может быть восстановлен(а) с изменением образовательной программы", 'about' => 'возможности восстановления с изменением образовательной программы ']) ?>
 <p align="justify" class="fs-15">В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г. <br />
 Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.

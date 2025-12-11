@@ -27,6 +27,7 @@ use yii\db\Exception;
  * @property integer $type
  * @property integer $year
  * @property string $number
+ * @property string $data_order
 **/
 
 class TransferMpgu extends ActiveRecord
@@ -35,6 +36,7 @@ class TransferMpgu extends ActiveRecord
     const IN_INSIDE_MPGU = 2;
     const INSIDE_MPGU = 3;
     const FROM_EDU = 4;
+    const IN_MPGU_GIA = 5;
     /* mphu */
     const STATUS_ACTIVE = 1;
     const STATUS_EXPELLED = 7;
@@ -65,30 +67,33 @@ class TransferMpgu extends ActiveRecord
     {
         return [
             [['type', 'user_id'],'required'],
+            [['data_order'], 'safe'],
             [['number'],'string',  'min'=> 4,'max' => 10],
             [['year'],'integer',  'min'=> 2005,'max' => date('Y')],
             [['number','year'], 'required', 'when'=> function($model) {
                 return $model->type != self::FROM_EDU;
             }, 'enableClientValidation' => false],
-            ['type','in','range'=> [self::FROM_EDU, self::IN_INSIDE_MPGU, self::IN_MPGU, self::INSIDE_MPGU]]
+            ['type','in','range'=> [self::FROM_EDU, self::IN_INSIDE_MPGU, self::IN_MPGU, self::INSIDE_MPGU, self::IN_MPGU_GIA]]
         ];
     }
 
     public function listType() {
         return [
-            self::IN_MPGU => 'Восстановление внутри МПГУ',
-            self::IN_INSIDE_MPGU => 'Восстановление с переводом внутри МПГУ',
             self::INSIDE_MPGU => 'Перевод внутри МПГУ',
             self::FROM_EDU => 'Перевод из другой образовательной организации',
+            self::IN_MPGU => 'Восстановление',
+            self::IN_INSIDE_MPGU => 'Восстановление  с изменением образовательной программы',
+            self::IN_MPGU_GIA => 'Восстановление для прохождения государственной итоговой аттестации (ГИА)',
         ];
     }
 
     public function listTypeShort() {
         return [
-            self::IN_MPGU => 'Восстановление',
-            self::IN_INSIDE_MPGU => 'В. с переводом',
             self::INSIDE_MPGU => 'Перевод',
             self::FROM_EDU => 'Из другой',
+            self::IN_MPGU => 'Восстановление',
+            self::IN_INSIDE_MPGU => 'В. с изм. обр. пр.',
+            self::IN_MPGU_GIA => 'В. ГИА',
         ];
     }
 
@@ -118,7 +123,8 @@ class TransferMpgu extends ActiveRecord
     public function isMpgu()  {
         return $this->type == TransferMpgu::IN_MPGU ||
             $this->type == TransferMpgu::IN_INSIDE_MPGU  ||
-            $this->type == TransferMpgu::INSIDE_MPGU;
+            $this->type == TransferMpgu::INSIDE_MPGU ||
+            $this->type == TransferMpgu::IN_MPGU_GIA;
     }
 
     public function inMpgu()  {
@@ -179,14 +185,15 @@ class TransferMpgu extends ActiveRecord
     }
 
     public function isStatusMpsuCorrectType() {
-        if($this->current_status  == self::STATUS_ACTIVE) {
-            if(!in_array($this->type,[self::INSIDE_MPGU])){
+        if ($this->current_status  == self::STATUS_ACTIVE) {
+            if(!in_array($this->type,[self::INSIDE_MPGU])) {
                 throw new Exception('Вы можете выбрать только "Перевод внутри МПГУ"');
             }
-        }elseif($this->current_status  == self::STATUS_EXPELLED) {
-            if(!in_array($this->type,[self::IN_INSIDE_MPGU, self::IN_MPGU])){
+        } elseif($this->current_status  == self::STATUS_EXPELLED) {
+            if(!in_array($this->type,[self::IN_INSIDE_MPGU, self::IN_MPGU, self::IN_MPGU_GIA])){
                 throw new Exception('Вы можете выбрать только "Восстановление внутри МПГУ" или 
-                "Восстановление с переводом внутри МПГУ');
+                "Восстановление  с изменением образовательной программы" или
+                "Восстановление для прохождения государственной итоговой аттестации (ГИА)"');
             }
         }
 
@@ -200,6 +207,7 @@ class TransferMpgu extends ActiveRecord
             'user_id' => 'Студент',
             'number' => '№ студенческой зачетки',
             'year' => 'Год выдачи студенческой зачетки',
+            'data_order' => 'Данные кадрового/ГИА приказа'
         ];
     }
 }

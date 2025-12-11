@@ -6,6 +6,7 @@ namespace dictionary\models;
 
 use dictionary\forms\DictChairmansCreateForm;
 use dictionary\forms\DictChairmansEditForm;
+use modules\usecase\ImageUploadBehaviorYiiPhp;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -80,7 +81,7 @@ class DictChairmans extends ActiveRecord
     {
         return [
             [
-                'class' => ImageUploadBehavior::class,
+                'class' =>  ImageUploadBehaviorYiiPhp::class,
                 'attribute' => 'photo',
                 'createThumbsOnRequest' => true,
                 'filePath' => '@frontendRoot/signature/[[id]].[[extension]]',

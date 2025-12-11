@@ -18,7 +18,7 @@ use yii\data\ActiveDataProvider;
 
 class TransferSearch  extends  Model
 {
-    public $user_id, $type, $number, $year;
+    public $user_id, $type, $number, $year, $data_order;
 
     public function __construct($type = null, $config = [])
     {
@@ -30,7 +30,7 @@ class TransferSearch  extends  Model
     {
         return [
             [['type', 'user_id'], 'integer'],
-            [['year', 'number'], 'safe'],
+            [['year', 'number', 'data_order'], 'safe'],
         ];
     }
 
@@ -59,6 +59,12 @@ class TransferSearch  extends  Model
 
         $query->andFilterWhere([
             'transfer_mpgu.user_id' => $this->user_id,
+        ]);
+
+        $query->andFilterWhere([
+            'like',
+            'data_order',
+            $this->data_order,
         ]);
 
         $query

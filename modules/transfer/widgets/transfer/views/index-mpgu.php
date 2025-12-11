@@ -46,6 +46,10 @@ use yii\widgets\DetailView;
            <th>№ студенческой зачетки</th>
            <td><?= $model->number ?>, год выдачи - <?= $model->year ?></td>
        </tr>
+       <tr>
+           <th>Данные кадрового/ГИА приказа</th>
+           <td><?= $model->data_order ?></td>
+       </tr>
    </table>
     <?php Box::end() ?>
 <?php endif; ?>

@@ -57,7 +57,7 @@ class SubmittedDocumentsService
 
     public function examSend($userId)
     {
-        $files = File::find()->model([PassExamProtocol::class, PassExamStatement::class])->user($userId)->status(FileHelper::STATUS_DRAFT)->all();
+        $files = File::find()->model([PassExamProtocol::class, PassExamStatement::class])->user($userId)->status([FileHelper::STATUS_ACCEPTED])->all();
             /* @var $statement \modules\entrant\models\File */
         foreach ($files as $file) {
             $file->setStatus(FileHelper::STATUS_SEND);

@@ -2,8 +2,11 @@
 /**
  * @var $statement modules\transfer\models\StatementTransfer
  * @var $transfer modules\transfer\models\TransferMpgu
- *  * @var $docRemove modules\transfer\models\PacketDocumentUser
+ * @var $docRemove modules\transfer\models\PacketDocumentUser
  */
+
+use modules\transfer\models\TransferMpgu;
+
 $transfer = $statement->transferMpgu;
 $data = $transfer->getJsonData();
 $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocumentUser::PACKET_DOCUMENT_REMOVE);
@@ -47,4 +50,7 @@ $docRemove = $statement->getDocumentPacket(\modules\transfer\models\PacketDocume
 <p class="fs-15">
     В Приемную комиссию представлены документы:<br/>
 Копия приказа об отчислении № <?= $docRemove->number ?> от <?= $docRemove->dateRu ?> г.<br/>
-    Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.</p>
+    <?php if($transfer->type == TransferMpgu::IN_MPGU): ?>
+   Копия зачетной книжки № <?= $transfer->number?>, выданной в <?= $transfer->year?> г.
+    <?php endif; ?>
+</p>
