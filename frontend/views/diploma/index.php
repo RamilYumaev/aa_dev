@@ -52,12 +52,12 @@ $this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Серти
             <div class="row">
                 <div class="col-md-3 col-xs-3">
                     <p align="center" class="pt-60">
-                        <?= Html::img('@web/img/old_logo.png', ['width' => '175px', 'height' => '175px']); ?>
+                        <?= Html::img('@web/img/logo_mpgu.svg', ['width' => '175px', 'height' => '175px']); ?>
                     </p>
                 </div>
                 <div class="col-md-6 col-xs-6 mt-30">
                     <h5 align="center">
-                        Министерство науки и высшего образования Российской Федерации
+                        Министерство просвещения Российской Федерации
                     </h5>
                     <h5 align="center">
                         Федеральное государственное бюджетное образовательное учреждение высшего образования
