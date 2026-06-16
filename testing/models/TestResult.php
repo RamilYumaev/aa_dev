@@ -68,6 +68,11 @@ class TestResult extends ActiveRecord
         return $this->hasOne(TestQuestion::class, ['id' => "question_id"]);
     }
 
+    public function getQuestionInTest()
+    {
+        return $this->hasOne(TestAndQuestions::class, ['id' => "tq_id"]);
+    }
+
     public function behaviors()
     {
         return [

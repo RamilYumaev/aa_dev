@@ -20,6 +20,7 @@ class PersonalPresenceAttemptHelper
     const FIRST_PLACE = 1;
     const SECOND_PLACE = 2;
     const THIRD_PLACE = 3;
+    const FREE_PLACE = 5;
 
     const USER_NEXT_TOUR = 4;
 
@@ -34,6 +35,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE => 'Победитель',
             self::SECOND_PLACE => 'Призер II степени',
             self::THIRD_PLACE => 'Призер III степени',
+            self::FREE_PLACE => 'Призер',
         ];
     }
 
@@ -44,6 +46,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE,
             self::SECOND_PLACE,
             self::THIRD_PLACE,
+            self::FREE_PLACE
         ];
     }
 
@@ -53,6 +56,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE,
             self::SECOND_PLACE,
             self::THIRD_PLACE,
+            self::FREE_PLACE
         ];
     }
 
@@ -63,6 +67,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE => "1-е место",
             self::SECOND_PLACE => "2-е место",
             self::THIRD_PLACE => "3-е место",
+            self::FREE_PLACE => "Призер",
         ];
     }
 
@@ -84,6 +89,7 @@ class PersonalPresenceAttemptHelper
             self::FIRST_PLACE => 'победителем',
             self::SECOND_PLACE => 'призером II степени',
             self::THIRD_PLACE => 'призером III степени',
+            self::FREE_PLACE => 'призером',
             null => 'участником',
         ];
     }

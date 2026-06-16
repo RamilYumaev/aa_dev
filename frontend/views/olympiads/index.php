@@ -16,13 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= \yii\jui\Accordion::widget([
                 'items' => [
                 [
-                'header' => 'в бакалавриат',
+                'header' => 'на базовые уровни высшего образования',
                 'content' => $this->render('_menu',[ 'menu' =>
                     OlympicListHelper::olympicMenu(OlympicHelper::levelOlympicBaccalaureateAll(), DictFacultyHelper::NO_FILIAL),
                         'url'=>'olympiads/baccalaureate']),
                 ],
                 [
-                'header' => 'в магистратуру',
+                'header' => 'на специализированные уровни высшего образования',
                 'content' => $this->render('_menu',[ 'menu'=>
                     OlympicListHelper::olympicMenu([OlympicHelper::FOR_STUDENT, OlympicHelper::FOR_STUDENT_PUPLE], DictFacultyHelper::NO_FILIAL),
                     'url'=>'olympiads/magistracy'])

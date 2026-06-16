@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="box box-default">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php ini_set('memory_limit', '756M'); $form = ActiveForm::begin(); ?>
     <div class="box box-header">
         <?php if($test->draft()) :?>
         <?= Html::a('Добавить вопрос', ['/testing/test-and-questions/add-question',
@@ -59,12 +59,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-body">
     <table class="table">
         <tr><th>#</th><th>Группа вопросов</th><th>Балл</th><th>Вопрос</th> <th></th></tr>
-        <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): //@TODO неизвестная переменная?>
+        <?php $a=1; foreach($testAndQuestion->arrayMark as $i=>$item): $andQuestion =  $item->andQuestions; //@TODO неизвестная переменная?>
             <tr>
                 <td><?= $a++; ?></td>
-                <td><?= $item->andQuestions->testGroup->name ?? null ?></td>
+                <td><?= $andQuestion->testGroup->name ?? null ?></td>
                 <td><?= $test->draft() ? $form->field($item,"[$i]mark")->label(false) : $item->mark; ?></td>
-                <td><?=  $item->andQuestions->question->text ?? null  ?></td>
+                <td><?=  $andQuestion->question->text ?? null  ?></td>
                 <td><?= $test->draft() ?   Html::a('Удалить', ['/testing/test-and-questions/delete', 'id' => $item->id], ['class' => 'btn btn-danger', 'data' => ['confirm' => 'Вы уверены, что хотите удалить?',
                 'method' => 'post']]) : ''?></td>
             </tr>

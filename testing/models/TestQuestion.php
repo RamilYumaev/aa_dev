@@ -5,6 +5,7 @@ namespace testing\models;
 
 use testing\forms\question\TestQuestionForm;
 use testing\forms\question\TestQuestionEditForm;
+use testing\helpers\TestQuestionHelper;
 use yii\db\ActiveRecord;
 
 class TestQuestion extends ActiveRecord
@@ -65,6 +66,40 @@ class TestQuestion extends ActiveRecord
 
     public function getAnswerCorrect () {
         return $this->getAnswer()->andWhere( ['is_correct' => true]);
+    }
+
+    public function isNestedType() {
+        return $this->type_id == TestQuestionHelper::TYPE_CLOZE;
+    }
+
+    public function getCorrectAnswer(){
+        switch ($this->type_id):
+            case TestQuestionHelper::TYPE_SELECT:
+                $answer = ['select'=> $this->getAnswerCorrect()->select('id')->column()];
+                break;
+            case TestQuestionHelper::TYPE_SELECT_ONE:
+                $answer = ['select-one'=> $this->getAnswerCorrect()->select('id')->one() ? $this->getAnswerCorrect()->select('id')->one()->id : "" ];
+                break;
+            case TestQuestionHelper::TYPE_MATCHING:
+                $answer = ['matching' => $this->getAnswerCorrect()->select( ['answer_match','id'])->indexBy('id')->column()];
+                break;
+            case TestQuestionHelper::TYPE_ANSWER_SHORT:
+                $answer = ['short'=> $this->getAnswerCorrect()->select('id')->one() ? $this->getAnswerCorrect()->select('name')->one()->name : "" ];
+                break;
+            case TestQuestionHelper::TYPE_ANSWER_DETAILED:
+                $answer = "";
+                break;
+            case TestQuestionHelper::TYPE_URL:
+            case TestQuestionHelper::TYPE_FILE:
+                $answer = null;
+                break;
+            default:
+                $ids = $this->getQuestionNested()->andWhere(['type'=>1])->select('id')->column();
+                $anw = AnswerCloze::find()->select(['name','quest_prop_id'])->andWhere(['is_correct'=> true, 'quest_prop_id'=> $ids  ])->indexBy('quest_prop_id')->column();
+                $data=['select-cloze'=>$anw];
+                $answer = $data['select-cloze'] ? $data : null;
+        endswitch;
+        return $answer;
     }
 
     public function getAnswerUser ($ids) {

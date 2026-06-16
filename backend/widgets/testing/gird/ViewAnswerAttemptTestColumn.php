@@ -81,7 +81,8 @@ class ViewAnswerAttemptTestColumn extends DataColumn
             case TestQuestionHelper::TYPE_FILE:
                 $text =  $model->question->text.'</br> '.
                     ($model->getUploadedFileUrl('result') ?
-                     Html::tag('h4','Ответ: '.Html::a("Ссылка", Url::to( $model->getUploadedFileUrl('result')))) : "");
+                     Html::tag('h4','Ответ: '.Html::a("Ссылка", ['/testing/test-result/get-file', 'attempt_id' => $model->attempt_id,
+                             'question_id' => $model->question_id, 'tq_id' =>$model->tq_id], )) : "");
                 break;
             default:
                 $data = $this->data($model->result);

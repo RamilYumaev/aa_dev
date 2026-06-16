@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use backend\widgets\adminlte\grid\GridView;
 use yii\grid\ActionColumn;
 
+ini_set('memory_limit', '756M');
 ?>
 <div class="row">
     <div class="col-md-12">

@@ -27,13 +27,13 @@ use testing\repositories\TestAttemptRepository;
 use testing\repositories\TestRepository;
 use testing\repositories\TestResultRepository;
 use yii\db\Expression;
+use yii\helpers\Json;
 
 class TestAttemptService
 {
     private $testAttemptRepository;
     private $testRepository;
     private $testResultRepository;
-    private $userRepository;
     private $transactionManager;
     private $olimpicListRepository;
     private $olimpicNominationRepository;
@@ -42,7 +42,7 @@ class TestAttemptService
     function __construct(TestRepository $testRepository,
                          TestAttemptRepository $testAttemptRepository,
                          TestResultRepository $testResultRepository,
-                         UserRepository $userRepository, TransactionManager $transactionManager,
+                         TransactionManager $transactionManager,
                          OlimpicListRepository $olimpicListRepository,
                          OlimpicNominationRepository $olimpicNominationRepository,
                          DiplomaRepository $diplomaRepository)
@@ -50,12 +50,10 @@ class TestAttemptService
         $this->testRepository = $testRepository;
         $this->testAttemptRepository = $testAttemptRepository;
         $this->testResultRepository = $testResultRepository;
-        $this->userRepository = $userRepository;
         $this->transactionManager = $transactionManager;
         $this->olimpicListRepository = $olimpicListRepository;
         $this->olimpicNominationRepository = $olimpicNominationRepository;
         $this->diplomaRepository = $diplomaRepository;
-
     }
 
     public function createDefault($test_id) {
@@ -76,7 +74,6 @@ class TestAttemptService
     private function addAttempt($test_id, $olympicId)
     {
         $olympic = $this->olimpicListRepository->get($olympicId);
-        $olympic->time_of_distants_tour_type;
         $testAttempt = $this->testAttemptRepository->isAttempt($test_id);
         if (!$testAttempt) {
             $testAttempt = TestAttempt::create($test_id, $olympic);
@@ -112,7 +109,7 @@ class TestAttemptService
 
     private function randQuestionsFromGroup($group_id) {
 
-       return $testAndQuestions = TestQuestion::find()->where(['group_id' => $group_id])
+       return TestQuestion::find()->where(['group_id' => $group_id])
             ->orderBy( new Expression('rand()'))->one();
     }
 
@@ -246,6 +243,33 @@ class TestAttemptService
 
         $olympic->current_status = $olympic->isNumberOfTourOne() ? OlympicHelper::OCH_FINISH : OlympicHelper::ZAOCH_FINISH;
         $this->olimpicListRepository->save($olympic);
+    }
+
+    public function correctMark($id, $mark)
+    {
+        $model = $this->testAttemptRepository->get($id);
+        $results = $model->getResultCount();
+        if($results->count()) {
+            foreach ($results->andWhere(['mark'=>[0, null]])->all() as $result) {
+                /* @var $result TestResult */
+                $markResult = TestResult::find()->where(['attempt_id'=> $model->id])->sum('mark');
+                if($mark <= $markResult) {
+                    break;
+                }
+
+                if(!$result->question->getCorrectAnswer()) {
+                    continue;
+                }
+
+                $json = Json::encode($result->question->getCorrectAnswer());
+                $result->result = $json;
+                $result->mark = $result->questionInTest->mark;
+                $this->testResultRepository->save($result);
+            }
+
+                $model->mark = $mark;
+                $this->testAttemptRepository->save($model);
+        }
     }
 
     private function inRewardStatus($test_id, $status) {

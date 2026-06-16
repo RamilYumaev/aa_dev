@@ -128,7 +128,7 @@ class TransferMpgu extends ActiveRecord
     }
 
     public function inMpgu()  {
-        return $this->type == TransferMpgu::IN_MPGU;
+        return in_array($this->type, [TransferMpgu::IN_MPGU, TransferMpgu::IN_MPGU_GIA]);
     }
 
     public function insideMpgu()  {

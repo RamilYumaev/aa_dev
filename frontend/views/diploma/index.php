@@ -33,6 +33,10 @@ $this->title = (isset($model->reward_status_id) ? 'Диплом. ' : 'Серти
             echo 'second-place';
             $label = '@web/img/certificate/second-place-label.png';
             break;
+        case  PersonalPresenceAttemptHelper::FREE_PLACE :
+            echo 'third-place';
+            $label = '@web/img/certificate/free-place-label.png';
+            break;
         case  PersonalPresenceAttemptHelper::THIRD_PLACE :
             echo 'third-place';
             $label = '@web/img/certificate/third-place-label.png';

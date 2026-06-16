@@ -13,15 +13,17 @@ use yii\base\Model;
 class TestAndQuestionsTableMarkForm extends Model
 {
     public $arrayMark;
+
     public function __construct($andQuestions, $config = [])
     {
-        if ($andQuestions) {
-            $this->arrayMark =  array_map(function ($quest) {
-            return new TestAndQuestionsMarkForm($quest); }, $andQuestions);
-        } else {
-            $this->arrayMark = [];
+        $this->arrayMark = [];
+        if (!empty($andQuestions)) {
+            foreach ($andQuestions as $quest) {
+                // Предположим, что $quest — это массив или объект, который нужно преобразовать в другой объект.
+                // Если нужен другой класс, укажите его явно.
+                $this->arrayMark[] = new TestAndQuestionsMarkForm($quest);
+            }
         }
-
         parent::__construct($config);
     }
 

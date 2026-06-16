@@ -80,8 +80,18 @@ class TestResultController extends Controller
         $model->setStatus();
         $model->save();
         return $this->redirect(['testing/test-attempt/view', 'id' => $model->attempt_id]);
-
     }
+
+    public function actionGetFile($attempt_id, $question_id,  $tq_id)
+    {
+        $model = $this->findModel($attempt_id, $question_id,  $tq_id);
+        $filePath = $model->getUploadedFilePath('result');
+        if (!file_exists($filePath)) {
+            throw new NotFoundHttpException('Запрошенный файл не найден.');
+        }
+        return Yii::$app->response->sendFile($filePath);
+    }
+    /**
     /**
      * @param integer $id
      * @return mixed

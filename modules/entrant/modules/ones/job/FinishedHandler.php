@@ -48,18 +48,6 @@ class FinishedHandler extends BaseObject implements \yii\queue\JobInterface
             }
 
     }
-    private function contest(int $cgId, int $applicationId){
-
-        $competitiveGroup = CompetitiveGroupOnes::findOne($cgId);
-        $applications = CompetitiveList::find()
-            ->select('id')
-            ->andWhere(['cg_id'=>$cgId])
-            ->andWhere(['<>', 'status', CompetitiveList::STATUS_NO_SUCCESS])
-            ->orderBy(['number'=> SORT_ASC])
-            ->limit($competitiveGroup->kcp)
-            ->column();
-        return in_array($applicationId, $applications);
-    }
 
     private function setStatusDeficiency(CompetitiveGroupOnes $competitiveGroupOnes) {
         $amountOfAppWithNoSuccessStatus = CompetitiveList::find()

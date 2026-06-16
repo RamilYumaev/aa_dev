@@ -154,6 +154,18 @@ class TestAttemptController extends Controller
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
+    public function actionCorrectMark($id, $mark)
+    {
+        try {
+            $this->service->correctMark($id, $mark);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
     public function actionAddQuestion($testId) {
 //        foreach (TestAttempt::find()->where(['test_id' => $testId])->all() as $attempt) {
 //            $attemptId = $attempt->id;

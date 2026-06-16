@@ -77,8 +77,8 @@ class PersonalPresenceAttemptService
                 else {
                     $rewardUser =  PersonalPresenceAttempt::find()->olympic($olympic->id)->isNotNullRewards();
                 }
-                if (!Diploma::find()->olympic($olympic->id)->exists()) {
-                    foreach ($rewardUser->all() as $eachUser) {
+                foreach ($rewardUser->all() as $eachUser) {
+                    if (!Diploma::find()->olympic($olympic->id)->user($eachUser->user_id)->exists()) {
                         $diploma= Diploma::create($eachUser->user_id, $olympic->id, $eachUser->reward_status, $eachUser->nomination_id);
                         $this->diplomaRepository->save($diploma);
                     }
@@ -222,7 +222,8 @@ class PersonalPresenceAttemptService
         return PersonalPresenceAttempt::find()->olympic($olympic_id)->presence()
             ->andWhere(['reward_status'=> [PersonalPresenceAttemptHelper::FIRST_PLACE,
                 PersonalPresenceAttemptHelper::THIRD_PLACE,
-                PersonalPresenceAttemptHelper::SECOND_PLACE]])->count();
+                PersonalPresenceAttemptHelper::SECOND_PLACE,
+                PersonalPresenceAttemptHelper::FREE_PLACE, ]])->count();
     }
 
     private function countRewardFirstStatus($olympic_id) {

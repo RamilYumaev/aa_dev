@@ -71,30 +71,4 @@ class MarkHandler extends BaseObject implements \yii\queue\JobInterface
             ->column();
         return in_array($applicationId, $applications);
     }
-
-    private function setStatusDeficiency(CompetitiveGroupOnes $competitiveGroupOnes) {
-        $amountOfAppWithNoSuccessStatus = CompetitiveList::find()
-            ->andWhere(['<>','status', CompetitiveList::STATUS_NO_SUCCESS])
-            ->andWhere(['cg_id'=> $competitiveGroupOnes->id])
-            ->count();
-        if($competitiveGroupOnes->kcp > $amountOfAppWithNoSuccessStatus) {
-            $competitiveGroupOnes->status = CompetitiveGroupOnes::STATUS_DEFICIENCY;
-            if(!$competitiveGroupOnes->save()) {
-                print_r($competitiveGroupOnes->firstErrors);
-            }
-        }
-    }
-
-    private function setStatusHandled(CompetitiveGroupOnes $competitiveGroupOnes) {
-        $amountSuccessStatus = CompetitiveList::find()
-            ->andWhere(['status'=> CompetitiveList::STATUS_SUCCESS])
-            ->andWhere(['cg_id'=> $competitiveGroupOnes->id])
-            ->count();
-        if($competitiveGroupOnes->kcp == $amountSuccessStatus) {
-            $competitiveGroupOnes->status = CompetitiveGroupOnes::STATUS_HANDLED;
-            if(!$competitiveGroupOnes->save()) {
-                print_r($competitiveGroupOnes->firstErrors);
-            }
-        }
-    }
 }

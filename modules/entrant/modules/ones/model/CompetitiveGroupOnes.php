@@ -19,7 +19,8 @@ use yii\web\UploadedFile;
  * @property string $quid
  * @property integer $kcp_transfer
  * @property integer $status
- * @property integer $kcp
+ * @property integer $kc
+ * p
  * @property string $file_name
  *
  * @property-read CompetitiveList[] $competitiveList
