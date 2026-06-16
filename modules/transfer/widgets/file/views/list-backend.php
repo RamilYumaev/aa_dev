@@ -32,7 +32,7 @@ $jobEntrant = Yii::$app->user->identity->jobEntrant();
         <td><?=  Html::a("Возврат", ["/transfer/file/return",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-warning",
                 'data-method' => 'post']) ?></td>
         <?php if(Yii::$app->user->can('deleteTransferFile')): ?>
-        <td><?=  Html::a("Удаление", ["/transfer/file/delete",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-warning",
+        <td><?=  Html::a("Удаление", ["/transfer/file/delete",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info",
                 'data-method' => 'post', 'data-confirm' => 'Подтвердите Ваше дейстивие']) ?></td>
         <?php endif; ?>
         <td><?= Html::a("Отклонить", ["/transfer/file/message", "hash" => $file->modelHash, 'id' => $file->id], ["class" => "btn btn-danger",

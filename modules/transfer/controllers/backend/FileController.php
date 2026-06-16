@@ -279,6 +279,21 @@ class FileController extends Controller
         }
     }
 
+    public function actionDelete($id, $hash)
+    {
+        $modelName = FileHelper::validateModel($hash);
+        $model = $this->findModel($id, $modelName);
+        try {
+            $link = $model ? $model->hashId : "";
+            $this->service->remove($id);
+            return $this->redirect(Yii::$app->request->referrer.$link);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
     /**
      * @param integer $id
      * @param $model

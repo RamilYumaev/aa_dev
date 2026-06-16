@@ -6,6 +6,7 @@ namespace modules\transfer\services;
 use modules\entrant\forms\FileMessageForm;
 use modules\entrant\helpers\FileHelper;
 use modules\transfer\models\File;
+use yii\db\StaleObjectException;
 
 class FileService
 {
@@ -33,6 +34,14 @@ class FileService
         $model->save();
     }
 
+    /**
+     * @throws StaleObjectException
+     */
+    public function remove($id)
+    {
+        $model = $this->get($id);
+        $model->delete();
+    }
 
     public function get($id): File
     {
