@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
 
-<?= Yii::$app->user->can('deleteTransferStatement') ? Html::a("Удаление заявления", ['delete', 'id' =>  $statement->id], [
+<?= Yii::$app->user->can('deleteTransferStatement') ? Html::a("Удалить заявление", ['delete', 'id' =>  $statement->id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Подтвердите Ваше действие"]]) : '' ?>
 
