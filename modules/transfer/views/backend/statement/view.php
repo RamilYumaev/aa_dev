@@ -16,6 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= Html::a("Сообщить об ошибке", ['profiles/send-error', 'user' =>  $statement->transferMpgu->id], [
     'class' => 'btn btn-danger',
     'data' => ['method'=>'post', 'confirm'=> "Вы уверены что хотите отправить письмо?"]]) ?>
+
+<?= Yii::$app->user->can('deleteTransferStatement') ? Html::a("Удаление заявления", ['delete', 'id' =>  $statement->id], [
+    'class' => 'btn btn-danger',
+    'data' => ['method'=>'post', 'confirm'=> "Подтвердите Ваше действие"]]) : '' ?>
+
 <?php if(!$statement->transferMpgu->isMpgu()): ?>
     <div class="mt-20 table-responsive">
         <?= \modules\transfer\widgets\education\DocumentEducationWidget::widget(['userId' =>  $statement->user_id,  'view' => "index-backend"]); ?>

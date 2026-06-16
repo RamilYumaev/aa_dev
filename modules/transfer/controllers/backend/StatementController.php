@@ -219,6 +219,19 @@ class StatementController extends Controller
         return Yii::$app->user->identity->jobEntrant();
     }
 
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+
+        if($model->files) {
+            foreach ($model->files as $item) {
+                $item->delete();
+            }
+        }
+        $model->delete();
+
+        return $this->redirect('index');
+    }
 
     /**
      * @param integer $id
