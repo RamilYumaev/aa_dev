@@ -3,8 +3,11 @@
 namespace modules\transfer\behaviors;
 
 use modules\transfer\models\TransferMpgu;
+use modules\transfer\models\TransferSetting;
+use Mpdf\Tag\Tr;
 use yii\base\Behavior;
 use yii\base\ExitException;
+use yii\db\Expression;
 use yii\web\Controller;
 use Yii;
 
@@ -27,7 +30,7 @@ class TransferRedirectBehavior  extends Behavior
     public function beforeAction($event)
     {
         $model = $this->transfer();
-        if((!$model || ($model && !in_array($model->current_status, $model::ACTIVE)))
+        if ((!$model)
             && in_array($this->owner->action->id, $this->ids)) {
             Yii::$app->session->setFlash("warning", 'Страница недоступна');
             Yii::$app->getResponse()->redirect(['transfer/default/fix']);
@@ -38,11 +41,14 @@ class TransferRedirectBehavior  extends Behavior
         }
     }
 
-
-
     private function transfer()
     {
         return TransferMpgu::findOne($this->userWhere());
+    }
+
+    public function isRule(TransferMpgu $transferMpgu) {
+        return TransferSetting::find()->andWhere(['>=', 'date_start', new Expression('CURDATE()')])
+        ->andWhere(['<', 'date_end', date('Y-m-d H:i:s')])->andWhere(['like', 'citizenship', $transferMpgu->citizenship_id])->exists();
     }
 
 
