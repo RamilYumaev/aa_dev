@@ -23,7 +23,7 @@ class TransferSetting extends ActiveRecord
     {
         return [
             [['finances', 'citizenship', 'semesters'], 'safe'],
-            [['date_start', 'date_end'], 'datetime'],
+            [['date_start', 'date_end'], 'safe'],
         ];
     }
 
