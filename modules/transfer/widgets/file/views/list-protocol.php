@@ -26,6 +26,10 @@ $job = Yii::$app->user->identity->jobEntrant();
         <?= Html::a("Обновить", ["file/update", "hash" => $file->modelHash, 'id' => $file->id ], ["class" => "btn btn-primary",
                 'data-pjax' => 'w0', 'data-toggle' => 'modal',
                 'data-target' => '#modal', 'data-modalTitle' => 'Обновить']) ?></td>
+        <?php if (Yii::$app->user->can('deleteTransferFile')): ?>
+            <td><?=  Html::a("Удалить", ["/transfer/file/delete",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-info",
+                    'data-method' => 'post', 'data-confirm' => 'Подтвердите Ваше дейстивие']) ?></td>
+        <?php endif; ?>
         <?php if ($job->isAgreement()) :?>
         <td><?= Html::a("Принять", ["/transfer/file/accepted",'id' => $file->id, "hash" => $file->modelHash ], ["class" => "btn btn-success",
                 'data-method' => 'post']) ?></td>

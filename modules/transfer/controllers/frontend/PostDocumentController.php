@@ -3,6 +3,7 @@
 
 namespace modules\transfer\controllers\frontend;
 use dictionary\models\DictCompetitiveGroup;
+use modules\dictionary\helpers\DictIncomingDocumentTypeHelper;
 use modules\entrant\helpers\AddressHelper;
 use modules\entrant\helpers\DateFormatHelper;
 use modules\entrant\helpers\PassportDataHelper;
@@ -44,16 +45,23 @@ class PostDocumentController extends Controller
         $model =  TransferMpgu::findOne(['user_id'=> $this->getUserId()]);
         $edu = CurrentEducation::findOne(['user_id'=> $this->getUserId()]);
         $statement = StatementTransfer::findOne(['user_id'=> $this->getUserId()]);
-        $passport = PassportDataHelper::isExits($this->getUserId());
+        $passport = PassportDataHelper::model($this->getUserId());
         $address = AddressHelper::isExits($this->getUserId());
         $snils = InsuranceCertificateUser::findOne(['user_id'=> $this->getUserId()]);
         if(!$model) {
             return $this->redirect(['default/index']);
         }
-        if(!$passport || !$address || !$snils) {
+
+        if(!$passport || !$address) {
             Yii::$app->session->setFlash("error", "Заполните, пожалуйста, блоки, отмеченные красным цветом");
             return $this->redirect(['default/index']);
         }
+
+        if ($passport && $passport->type == DictIncomingDocumentTypeHelper::ID_PASSPORT_RUSSIA && !$snils) {
+            Yii::$app->session->setFlash("error", "Заполните, пожалуйста, СНИЛС");
+            return $this->redirect(['default/index']);
+        }
+
 
         if(!$model->isMpgu() && !$edu) {
             return $this->redirect(['current-education/index']);

@@ -41,8 +41,7 @@ $userId = $transfer->user_id;
 
             <?= \modules\transfer\widgets\address\AddressFileWidget::widget(['userId' => $userId]); ?>
 
-            <h4>Требования к документу СНИЛС:</h4>
-            <p align="justify"> необходимо загрузить подтверждающий скан (скан карточки или скриншот из личного кабинета)</p>
+
             <?= \modules\transfer\widgets\insurance\InsuranceWidget::widget(['view' => 'file', 'userId' => $userId]); ?>
 
             <?= \modules\transfer\widgets\generate\GeneratePacketWidget::widget(['userId' => $userId, 'type' => $transfer->type]);  ?>
