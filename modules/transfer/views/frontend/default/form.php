@@ -3,6 +3,7 @@
 /* @var $model modules\transfer\models\TransferMpgu
 /* @var $form yii\bootstrap\ActiveForm */
 
+use dictionary\helpers\DictCountryHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 $this->title = "Перевод и восстановление. Заполнение формы";
@@ -13,6 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row min-scr">
         <div class="mt-20 table-responsive">
             <?php $form = ActiveForm::begin(['id'=> 'form-transfer']); ?>
+            <?= $form->field($model, 'citizenship_id')->dropDownList(DictCountryHelper::countryList(),
+                ['prompt' => 'Выберите страну']) ?>
             <?= $form->field($model, 'type')->dropDownList($model->listType());?>
             <?= $form->field($model, 'number')->textInput();?>
             <?= $form->field($model, 'year')->textInput();?>

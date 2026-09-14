@@ -14,8 +14,10 @@ use modules\transfer\models\PacketDocumentUser;
 use modules\transfer\models\PassExam;
 use modules\transfer\models\StatementTransfer;
 use modules\transfer\models\TransferMpgu;
+use modules\transfer\models\TransferSetting;
 use Yii;
 use yii\db\Exception;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -43,15 +45,19 @@ class DefaultController extends Controller
 
     public function actionFix() {
         $model = $this->findModel() ?? new TransferMpgu(['user_id' => $this->getUser()]);
-        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
-            if($model->isMpgu() && $model->number && $model->year) {
+        if ($model->load(\Yii::$app->request->post()) && $model->validate())  {
+            if (!$this->isRule($model)) {
+                \Yii::$app->session->setFlash('warning',  $this->getMessage());
+                return $this->redirect(['fix']);
+            }
+
+            if ($model->isMpgu() && $model->number && $model->year) {
                $data = $this->getJson($model->number, $model->type);
                 if(key_exists('current_status_id', $data)) {
                     $model->current_status = $data['current_status_id'];
                     $model->data_order = $data['order'];
                     try {
                         $model->isStatusMpsuCorrectType();
-                         // $this->isNoGraduate($data['education_level_id']);
                     } catch (Exception $e) {
                         \Yii::$app->session->setFlash('error',  $e->getMessage());
                         return $this->redirect(['fix']);
@@ -62,20 +68,21 @@ class DefaultController extends Controller
                     \Yii::$app->session->setFlash('warning',  $data['error']);
                     return $this->redirect(['fix']);
                 }
-            }else {
+            } else {
                 $model->number = '';
                 $model->year = null;
                 $model->current_status = $model::STATUS_ACTIVE;
                 $model->data_mpgsu =null;
             }
-            if($model->save()) {
+            if ($model->save()) {
                 if(!in_array($model->current_status, $model::ACTIVE)) {
                     \Yii::$app->session->setFlash('danger',
                         key_exists($model->current_status, $model->listMessage()) ?
                             $model->listMessage()[$model->current_status] : 'Попробуйте в другой раз');
                     return $this->redirect(['fix']);
                 }
-                if(PacketDocumentUser::findOne(['user_id' => $this->getUser()])) {
+
+                if (PacketDocumentUser::findOne(['user_id' => $this->getUser()])) {
                 PacketDocumentUser::deleteAll(['user_id' => $this->getUser()]);
                 }
 
@@ -159,16 +166,6 @@ class DefaultController extends Controller
         return StatementTransfer::findOne(['user_id' => $this->getUser()]);
     }
 
-    protected function isNoGraduate($eduLevel) {
-        if($eduLevel != 6) {
-            throw new Exception('Прием заявок на переводы и восстановления в летний период приема документов завершен. 
-            Прием документов осуществлялся с 18 июня по 15 июля (на вакантные бюджетные места), 
-            по 20 августа (на места по договору об оказании платны образовательных услуг). 
-            Следующий прием документов для переводов и восстановлений будут осуществляться в зимний период приема документов (с 18 декабря по 5 февраля).
-                Контакты для связи с отделом переводов и восстановлений: 8(499)233-41-81 и otdel_vp@mpgu.su');
-        }
-    }
-
     protected function findModel() {
         return TransferMpgu::findOne(['user_id'=> $this->getUser()]);
     }
@@ -179,5 +176,20 @@ class DefaultController extends Controller
 
     protected function getUser() {
         return  \Yii::$app->user->identity->getId();
+    }
+
+    public function isRule(TransferMpgu $transferMpgu) {
+        return TransferSetting::find()->andWhere(['>=', 'date_start', new Expression('CURDATE()')])
+            ->andWhere(['<', 'date_end', date('Y-m-d H:i:s')])->andWhere(['like', 'citizenship', $transferMpgu->citizenship_id])->exists();
+    }
+
+    private function getMessage() {
+        return date("n") > 6  && date("n") <= 12  ?  'Уважаемые студенты, приём документов в летний период переводов и восстановлений завершен! 
+            Вы можете подать документы в зимний период с 18 декабря по 5 февраля.':
+            'Прием заявок на переводы и восстановления в зимний период приема документов завершен.
+        Прием документов осуществлялся с 18 декабря по 5 февраля.
+        Следующий прием документов для переводов и восстановлений будут осуществляться в летний период приема документов 
+             с 18 июня по 15 июля (на вакантные бюджетные места), по 20 августа (на места по договору об оказании платны образовательных услуг). 
+             Контакты для связи с отделом переводов и восстановлений: 8(499)233-41-81 и otdel_vp@mpgu.su';
     }
 }

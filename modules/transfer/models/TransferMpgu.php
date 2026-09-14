@@ -3,16 +3,9 @@
 
 namespace modules\transfer\models;
 
-use common\moderation\behaviors\ModerationBehavior;
-use common\moderation\interfaces\YiiActiveRecordAndModeration;
-use dictionary\helpers\DictCompetitiveGroupHelper;
-use dictionary\helpers\DictCountryHelper;
 use dictionary\models\DictSpeciality;
 use dictionary\models\DictSpecialization;
 use dictionary\models\Faculty;
-use modules\entrant\behaviors\FileBehavior;
-use modules\entrant\forms\AddressForm;
-use modules\entrant\helpers\AddressHelper;
 use olympic\models\auth\Profiles;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -28,6 +21,7 @@ use yii\db\Exception;
  * @property integer $year
  * @property string $number
  * @property string $data_order
+ * @property string $citizenship_id
 **/
 
 class TransferMpgu extends ActiveRecord
@@ -66,7 +60,7 @@ class TransferMpgu extends ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'user_id'],'required'],
+            [['type', 'user_id', 'citizenship_id'],'required'],
             [['data_order'], 'safe'],
             [['number'],'string',  'min'=> 4,'max' => 10],
             [['year'],'integer',  'min'=> 2005,'max' => date('Y')],
@@ -207,7 +201,8 @@ class TransferMpgu extends ActiveRecord
             'user_id' => 'Студент',
             'number' => '№ студенческой зачетки',
             'year' => 'Год выдачи студенческой зачетки',
-            'data_order' => 'Данные кадрового/ГИА приказа'
+            'data_order' => 'Данные кадрового/ГИА приказа',
+            'citizenship_id' => 'Гражданство'
         ];
     }
 }

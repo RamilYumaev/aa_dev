@@ -56,6 +56,7 @@ if(!Yii::$app->user->isGuest ) {
                 ['label' => 'Профиль', 'url' => ['/profile/edit']],
                 ['label' => 'Настройки', 'url' => ['/sign-up/user-edit']],
                 ['label' => 'ПиВ', 'url' => ['/transfer/default/index']],
+                ['label' => 'Настройки ПиВ', 'url' => ['/transfer/setting/index']],
                 ['label' => 'Договоры ПиВ', 'url' => ['/transfer/default/contract']],
                 ['label' => 'Абитуриенты', 'url' => ['/data-entrant/default/index']],
                 ['label' => 'Договоры', 'url' => ['/data-entrant/agreement-contract/index']],
